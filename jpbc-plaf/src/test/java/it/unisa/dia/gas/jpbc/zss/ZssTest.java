@@ -26,25 +26,6 @@ public class ZssTest extends TestCase {
 
             Element P, Ppub, x, S, H, t1, t2, t3, t4;
 
-/*
-            element_init_Zr(x, pairing);
-            element_init_Zr(H, pairing);
-            element_init_Zr(t1, pairing);
-
-            element_init_G1(S, pairing);
-            element_init_G1(P, pairing);
-            element_init_G1(Ppub, pairing);
-            element_init_G1(t2, pairing);
-
-            element_init_GT(t3, pairing);
-            element_init_GT(t4, pairing);
-
-            if (!pairing_is_symmetric(pairing)) {
-                fprintf(stderr, "only works with symmetric pairing\n");
-                exit(1);
-            }
-*/
-
             System.out.printf("ZSS short signature schema\n");
             System.out.printf("KEYGEN\n");
 
@@ -77,7 +58,6 @@ public class ZssTest extends TestCase {
             System.out.println("e(P, P) = " + t4);
 
             assertEquals(0, t3.compareTo(t4));
-
 
             System.out.printf("All time = %d\n", time2 - time1);
         } catch (IOException e) {

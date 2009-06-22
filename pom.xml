@@ -36,6 +36,8 @@
         <module>jpbc-api</module>
         <module>jpbc-plaf</module>
         <module>jpbc-site-skin</module>
+
+        <module>jpbc-hve</module>
     </modules>
 
     <repositories>
@@ -61,6 +63,12 @@
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.9</version>
+        </dependency>
+
+        <dependency>
+            <groupId>bouncycastle</groupId>
+            <artifactId>bcprov-jdk16</artifactId>
+            <version>140</version>
         </dependency>
     </dependencies>
 

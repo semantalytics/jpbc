@@ -8,10 +8,10 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>jpbc-plaf</artifactId>
+    <artifactId>jpbc-hve</artifactId>
     <packaging>jar</packaging>
     <version>1.0.0</version>
-    <name>jPBC - PLAF</name>
+    <name>jPBC - HVE</name>
     <url>http://gas.dia.unisa.it/</url>
     <description>
     </description>
@@ -21,6 +21,12 @@
         <dependency>
             <groupId>it.unisa.dia.gas</groupId>
             <artifactId>jpbc-api</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>it.unisa.dia.gas</groupId>
+            <artifactId>jpbc-plaf</artifactId>
             <version>1.0.0</version>
         </dependency>
 
