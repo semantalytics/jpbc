@@ -1,0 +1,130 @@
+package it.unisa.dia.gas.plaf.jpbc.field.polymod;
+
+import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericFieldOver;
+import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyElement;
+
+import java.math.BigInteger;
+import java.util.List;
+
+/**
+ * @author Angelo De Caro (angelo.decaro@gmail.com)
+ */
+public class PolyModField<F extends Field> extends GenericFieldOver<F, PolyModElement> {
+    protected PolyElement irred;
+    protected PolyModElement nqr;
+    protected BigInteger order;
+    protected int n;
+    protected int fixedLengthInBytes;
+
+    protected PolyModElement[] xpwr;
+
+
+    public PolyModField(PolyElement irred, BigInteger nqr) {
+        super((F) irred.getField().getTargetField());
+        this.irred = irred;
+        this.n = irred.getDegree();
+
+        this.order = targetField.getOrder().pow(irred.getDegree());
+        this.nqr = newElement();
+        this.nqr.getCoeffAt(0).set(nqr);
+
+        computeXPowers();
+
+        if (targetField.getFixedLengthInBytes() < 0) {
+            //f->length_in_bytes = fq_length_in_bytes;
+            fixedLengthInBytes = -1;
+        } else {
+            fixedLengthInBytes = targetField.getFixedLengthInBytes() * n;
+        }
+    }
+
+
+    public PolyModElement newElement() {
+        return new PolyModElement(this);
+    }
+
+    public BigInteger getOrder() {
+        return order;
+    }
+
+    public PolyModElement getNqr() {
+        return nqr;
+    }
+
+    public int getFixedLengthInBytes() {
+        return fixedLengthInBytes;
+    }
+
+    public int getN() {
+        return n;
+    }
+
+
+    /**
+     * compute x^n,...,x^{2n-2} mod poly
+     */
+    protected void computeXPowers() {
+        xpwr = new PolyModElement[n];
+
+        for (int i = 0; i < n; i++) {
+            xpwr[i] = newElement();
+        }
+
+        xpwr[0].setFromPolyTruncate(irred).negate();
+        PolyModElement p0 = newElement();
+
+        for (int i = 1; i < n; i++) {
+            List<Element> coeff = xpwr[i - 1].getCoeff();
+            List<Element> coeff1 = xpwr[i].getCoeff();
+
+            coeff1.get(0).setToZero();
+
+            for (int j = 1; j < n; j++) {
+                coeff1.get(j).set(coeff.get(j - 1));
+            }
+            p0.set(xpwr[0]).polymodConstMul(coeff.get(n - 1));
+
+            xpwr[i].add(p0);
+        }
+
+//        for (PolyModElement polyModElement : xpwr) {
+//            System.out.println("xprw = " + polyModElement);
+//        }
+
+        /*
+        polymod_field_data_ptr p = field - > data;
+        element_t p0;
+        element_ptr pwrn;
+        element_t * coeff,*coeff1;
+        int i, j;
+        int n = p - > n;
+        element_t * xpwr;
+
+        xpwr = p - > xpwr;
+
+        element_init(p0, field);
+        for (i = 0; i < n; i++) {
+            element_init(xpwr[i], field);
+        }
+        pwrn = xpwr[0];
+        element_poly_to_polymod_truncate(pwrn, poly);
+        element_neg(pwrn, pwrn);
+
+        for (i = 1; i < n; i++) {
+            coeff = xpwr[i - 1] - > data;
+            coeff1 = xpwr[i] - > data;
+
+            element_set0(coeff1[0]);
+            for (j = 1; j < n; j++) {
+                element_set(coeff1[j], coeff[j - 1]);
+            }
+            polymod_const_mul(p0, coeff[n - 1], pwrn);
+            element_add(xpwr[i], xpwr[i], p0);
+        }
+        element_clear(p0);
+        */
+    }
+
+}

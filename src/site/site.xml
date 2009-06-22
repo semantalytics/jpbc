@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="jPBC">
+
+    <skin>
+        <groupId>it.unisa.dia.gas</groupId>
+        <artifactId>jpbc-site-skin</artifactId>
+        <version>1.0.0</version>
+    </skin>
+
+    <body>
+        <links>
+            <item name="Maven" href="http://maven.apache.org/"/>
+            <item name="SourceForge" href="http://sourceforge.net/"/>
+            <item name="Project page" href="http://sourceforge.net/projects/jpbc/"/>
+        </links>
+
+        <menu name="jPBC">
+            <item name="Introduction" href="index.html"/>
+            <item name="Download" href="download.html"/>
+            <item name="Build Howto" href="buildHowto.html"/>
+            <item name="Contact" href="contact.html"/>
+            <item img="/images/new.png" name="Tutorial" href="/tutorial/tutorial.html"/>
+            <item img="/images/new.png" name="Statistics" href="statistics.html"/>
+        </menu>
+
+        ${reports}
+    </body>
+
+</project>
