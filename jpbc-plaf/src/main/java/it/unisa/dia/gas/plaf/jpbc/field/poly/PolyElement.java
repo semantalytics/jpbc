@@ -30,7 +30,7 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
             duplicated.coeff.add(e.duplicate());
         }
 
-        return duplicated;        
+        return duplicated;
     }
 
     public PolyElement set(Element e) {
@@ -38,7 +38,7 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
 
         ensureCoeffSize(element.coeff.size());
 
-        for (int i=0; i < coeff.size(); i++) {
+        for (int i = 0; i < coeff.size(); i++) {
             coeff.get(i).set(element.coeff.get(i));
         }
 
@@ -46,11 +46,19 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
     }
 
     public PolyElement set(int value) {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        ensureCoeffSize(1);
+        coeff.get(0).set(value);
+        removeLeadingZeroes();
+
+        return this;
     }
 
     public PolyElement set(BigInteger value) {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        ensureCoeffSize(1);
+        coeff.get(0).set(value);
+        removeLeadingZeroes();
+
+        return this;
     }
 
     public PolyElement setToRandom() {
@@ -96,27 +104,77 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
     }
 
     public PolyElement twice() {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
+        for (int i = 0, size = coeff.size(); i < size; i++) {
+            coeff.get(i).twice();
+        }
 
-    public PolyElement square() {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        return this;
     }
 
     public PolyElement invert() {
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
-    public PolyElement halve() {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
     public PolyElement negate() {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        for (int i = 0, size = coeff.size(); i < size; i++) {
+            coeff.get(i).negate();
+        }
+
+        return this;
     }
 
     public PolyElement add(Element e) {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        PolyElement<E> element = (PolyElement<E>) e;
+
+
+        int i, n, n1;
+        PolyElement<E> big;
+
+        n = coeff.size();
+        n1 = element.coeff.size();
+        if (n > n1) {
+            big = this;
+            n = n1;
+            n1 = coeff.size();
+        } else {
+            big = element;
+        }
+
+        ensureCoeffSize(n1);
+        for (i = 0; i < n; i++) {
+            coeff.get(i).add(element.coeff.get(i));
+        }
+
+        for (; i < n1; i++) {
+            coeff.get(i).set(big.coeff.get(i));
+        }
+
+        removeLeadingZeroes();
+
+        return this;
+        /*
+        int i, n, n1;
+        element_ptr big;
+
+        n = poly_coeff_count(f);
+        n1 = poly_coeff_count(g);
+        if (n > n1) {
+            big = f;
+            n = n1;
+            n1 = poly_coeff_count(f);
+        } else {
+            big = g;
+        }
+
+        poly_alloc(sum, n1);
+        for (i = 0; i < n; i++) {
+            element_add(poly_coeff(sum, i), poly_coeff(f, i), poly_coeff(g, i));
+        }
+        for (; i < n1; i++) {
+            element_set(poly_coeff(sum, i), poly_coeff(big, i));
+        }
+        poly_remove_leading_zeroes(sum);
+        */
     }
 
     public PolyElement sub(Element e) {
@@ -140,15 +198,19 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
             big = element;
         }
 
+        ensureCoeffSize(n1);
+
         for (i = 0; i < n; i++) {
             coeff.get(i).sub(element.coeff.get(i));
         }
 
         for (; i < n1; i++) {
             if (big == this) {
-                coeff.add((E) big.coeff.get(i).duplicate());
+                coeff.get(i).set(big.coeff.get(i));
+//                coeff.add((E) big.coeff.get(i).duplicate());
             } else {
-                coeff.add((E) big.coeff.get(i).duplicate().negate());
+                coeff.get(i).set(big.coeff.get(i)).negate();
+//                coeff.add((E) big.coeff.get(i).duplicate().negate());
             }
         }
         removeLeadingZeroes();
@@ -165,7 +227,7 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
 
         int fcount = coeff.size();
         int gcount = element.coeff.size();
-        int i,j,n;
+        int i, j, n;
         PolyElement prod;
         Element e0;
 
@@ -183,8 +245,8 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
             Element x = prod.getCoefficient(i);
             x.setToZero();
             for (j = 0; j <= i; j++) {
-                if (j < fcount && i-j < gcount) {
-                    e0.set(coeff.get(j)).mul(element.coeff.get(i-j));
+                if (j < fcount && i - j < gcount) {
+                    e0.set(coeff.get(j)).mul(element.coeff.get(i - j));
                     x.add(e0);
                 }
             }
@@ -193,7 +255,7 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
         set(prod);
 
         return this;
-        
+
         /*
         static void poly_mul(element_ptr r, element_ptr f, element_ptr g)
         poly_element_ptr pprod;
@@ -233,23 +295,19 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
     }
 
     public PolyElement mul(int value) {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        for (int i = 0, size = coeff.size(); i < size; i++) {
+            coeff.get(i).mul(value);
+        }
+
+        return this;
     }
 
     public PolyElement mul(BigInteger value) {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
+        for (int i = 0, size = coeff.size(); i < size; i++) {
+            coeff.get(i).mul(value);
+        }
 
-    public PolyElement mulZn(Element e) {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
-    public PolyElement pow(BigInteger value) {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
-    public PolyElement powZn(Element e) {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        return this;
     }
 
     public PolyElement sqrt() {
@@ -261,11 +319,28 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
     }
 
     public int sign() {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        int res = 0;
+        for (int i = 0, size = coeff.size(); i < size; i++) {
+            res = coeff.get(i).sign();
+            if (res != 0)
+                break;
+        }
+        return res;
     }
 
     public int compareTo(Element e) {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        PolyElement<E> element = (PolyElement<E>) e;
+
+        int n = this.coeff.size();
+        int n1 = element.coeff.size();
+        if (n != n1)
+            return 1;
+
+        for (int i = 0; i < n; i++) {
+            if (coeff.get(i).compareTo(element.coeff.get(i)) != 0)
+                return 1;
+        }
+        return 0;
     }
 
     public BigInteger toBigInteger() {
@@ -273,14 +348,14 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
     }
 
     public String toString() {
-         StringBuffer buffer = new StringBuffer("[");
+        StringBuffer buffer = new StringBuffer("[");
 
         for (Element e : coeff) {
-             buffer.append(e).append(", ");
-         }
-         buffer.append("]");
-         return buffer.toString();
-     }
+            buffer.append(e).append(", ");
+        }
+        buffer.append("]");
+        return buffer.toString();
+    }
 
     public int getDegree() {
         return coeff.size() - 1;
@@ -315,7 +390,7 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
         int i, n = polyModElement.getField().getN();
 
         ensureCoeffSize(n);
-        for (i=0; i<n; i++) {
+        for (i = 0; i < n; i++) {
             coeff.get(i).set(polyModElement.getCoefficient(i));
         }
         removeLeadingZeroes();

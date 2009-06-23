@@ -38,6 +38,10 @@ public abstract class GenericElement implements Element {
         return this;
     }
 
+    public Element powZn(Element element) {
+        return pow(element.toBigInteger());
+    }
+
     public Element halve() {
         return mul(field.newElement().set(2).invert());
     }

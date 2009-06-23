@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.field.polymod;
 
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericPolyElement;
 import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyElement;
 import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyField;
@@ -51,7 +52,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
 
     public PolyModElement set(Element e) {
         PolyModElement<E> element = (PolyModElement<E>) e;
-        
+
         for (int i = 0; i < coeff.size(); i++) {
             coeff.get(i).set(element.coeff.get(i));
         }
@@ -79,7 +80,13 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
     }
 
     public PolyModElement set(BigInteger value) {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        coeff.get(0).set(value);
+
+        for (int i = 1; i < field.n; i++) {
+            coeff.get(i).setToZero();
+        }
+
+        return this;
     }
 
     public PolyModElement setToRandom() {
@@ -175,7 +182,11 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
     }
 
     public PolyModElement twice() {
-        return add(this);
+        for (int i = 0; i < field.n; i++) {
+            coeff.get(i).twice();
+        }
+
+        return this;
     }
 
     public PolyModElement square() {
@@ -335,27 +346,27 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
 //                System.out.println("mul = " + this);
 
                 return this;
-            /*
-            polymod_field_data_ptr p = res->field->data;
-            element_t *dst = res->data, *s1 = e->data, *s2 = f->data;
-            element_t c3, c4;
-            element_t p0;
+                /*
+                polymod_field_data_ptr p = res->field->data;
+                element_t *dst = res->data, *s1 = e->data, *s2 = f->data;
+                element_t c3, c4;
+                element_t p0;
 
-            element_init(p0, res->field);
-            element_init(c3, p->field);
-            element_init(c4, p->field);
+                element_init(p0, res->field);
+                element_init(c3, p->field);
+                element_init(c4, p->field);
 
-            kar_poly_2(dst, c3, c4, s1, s2, p0->data);
+                kar_poly_2(dst, c3, c4, s1, s2, p0->data);
 
-            polymod_const_mul(p0, c3, p->xpwr[0]);
-            element_add(res, res, p0);
-            polymod_const_mul(p0, c4, p->xpwr[1]);
-            element_add(res, res, p0);
+                polymod_const_mul(p0, c3, p->xpwr[0]);
+                element_add(res, res, p0);
+                polymod_const_mul(p0, c4, p->xpwr[1]);
+                element_add(res, res, p0);
 
-            element_clear(p0);
-            element_clear(c3);
-            element_clear(c4);
-            */
+                element_clear(p0);
+                element_clear(c3);
+                element_clear(c4);
+                */
             case 6:
                 throw new IllegalStateException("Not Implemented yet!!!");
 //                f->mul = polymod_mul_degree6;
@@ -438,7 +449,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
         for (int i = 0; i < field.n; i++) {
             coeff.get(i).mul(value);
         }
-        
+
         return this;
         /*
         static void poly_mul_si(element_ptr f, element_ptr g, signed long int z)
@@ -455,11 +466,11 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
     }
 
     public PolyModElement mul(BigInteger value) {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
+        for (int i = 0; i < field.n; i++) {
+            coeff.get(i).mul(value);
+        }
 
-    public PolyModElement mulZn(Element e) {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        return this;
     }
 
     public PolyModElement powZn(Element e) {
@@ -506,7 +517,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
             s.setToOne();
             for (i = z.bitLength() - 1; i >= 0; i--) {
                 s.mul(s);
-                
+
                 if (s.getDegree() == 2) {
                     e1 = s.getCoefficient(0);
                     e2 = s.getCoefficient(2);
@@ -651,7 +662,13 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
     }
 
     public int sign() {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        int res = 0;
+        for (int i = 0, size = coeff.size(); i < size; i++) {
+            res = coeff.get(i).sign();
+            if (res != 0)
+                break;
+        }
+        return res;
     }
 
     public int compareTo(Element e) {
@@ -666,7 +683,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
     }
 
     public BigInteger toBigInteger() {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        return coeff.get(0).toBigInteger();
     }
 
     public String toString() {
@@ -948,13 +965,12 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
     }
 
     protected PolyElement polyInvert(PolyElement f) {
-        PolyField polyField = f.getField();
+        PolyField<Field> polyField = f.getField();
 
         PolyElement q = polyField.newElement();
 
-        // TODO: why do we need the cast???
-        PolyElement b0 = (PolyElement) polyField.newZeroElement();
-        PolyElement b1 = (PolyElement) polyField.newOneElement();
+        PolyElement b0 = polyField.newZeroElement();
+        PolyElement b1 = polyField.newOneElement();
         PolyElement b2 = polyField.newElement();
 
         PolyElement r0 = field.irred.duplicate();
