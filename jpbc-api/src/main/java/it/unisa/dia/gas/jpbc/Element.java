@@ -77,4 +77,6 @@ public interface Element extends Comparable<Element> {
 
     BigInteger toBigInteger();
 
+    byte[] toBytes();
+
 }

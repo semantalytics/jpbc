@@ -51,11 +51,17 @@ public class QuadraticEvenElement extends GenericPointElement {
     }
 
     public QuadraticEvenElement set(int value) {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        x.set(value);
+        y.setToZero();
+
+        return this;
     }
 
     public QuadraticEvenElement set(BigInteger value) {
-        throw new IllegalStateException("Not implemented yet!!!");
+        x.set(value);
+        y.setToZero();
+
+        return this;
     }
 
     public boolean isZero() {
@@ -64,14 +70,6 @@ public class QuadraticEvenElement extends GenericPointElement {
 
     public boolean isOne() {
         return x.isOne() && y.isZero();
-    }
-
-    public QuadraticEvenElement twice() {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
-    public QuadraticEvenElement mul(int value) {
-        throw new IllegalStateException("Not Implemented yet!!!");
     }
 
     public QuadraticEvenElement setToZero() {
@@ -111,6 +109,20 @@ public class QuadraticEvenElement extends GenericPointElement {
         y.setToRandom();
 
         return len;
+    }
+
+    public QuadraticEvenElement twice() {
+        x.twice();
+        y.twice();
+
+        return this;
+    }
+
+    public QuadraticEvenElement mul(int value) {
+        x.mul(value);
+        y.mul(value);
+
+        return this;
     }
 
     public byte[] getDecoding() {
@@ -186,12 +198,11 @@ public class QuadraticEvenElement extends GenericPointElement {
         */
     }
 
-    public QuadraticEvenElement halve() {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
     public QuadraticEvenElement negate() {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        x.negate();
+        y.negate();
+
+        return this;
     }
 
     public QuadraticEvenElement add(Element e) {
@@ -204,11 +215,12 @@ public class QuadraticEvenElement extends GenericPointElement {
     }
 
     public QuadraticEvenElement sub(Element e) {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
+        QuadraticEvenElement element = (QuadraticEvenElement) e;
 
-    public QuadraticEvenElement div(Element e) {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        x.sub(element.x);
+        y.sub(element.y);
+
+        return this;
     }
 
     public QuadraticEvenElement mul(Element e) {
@@ -268,22 +280,110 @@ public class QuadraticEvenElement extends GenericPointElement {
     }
 
     public QuadraticEvenElement mul(BigInteger value) {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        x.mul(value);
+        y.mul(value);
+
+        return this;
     }
 
-    public QuadraticEvenElement mulZn(Element element) {
-        throw new IllegalStateException("Not Implemented yet!!!");
+    public QuadraticEvenElement mulZn(Element e) {
+        x.mulZn(e);
+        y.mulZn(e);
+
+        return this;
     }
 
     public boolean isSqr() {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        Element e0 = x.duplicate().square();
+        Element e1 = y.duplicate().square();
+        e1.mul(field.getNqr());
+        e0.sub(e1);
+
+        return e0.isSqr();
+
+/*
+        //x + y sqrt(nqr) is a square iff x^2 - nqr y^2 is (in the base field)
+        fq_data_ptr p = e->data;
+        element_t e0, e1;
+        element_ptr nqr = fq_nqr(e->field);
+        int result;
+        element_init(e0, p->x->field);
+        element_init(e1, e0->field);
+        element_square(e0, p->x);
+        element_square(e1, p->y);
+        element_mul(e1, e1, nqr);
+        element_sub(e0, e0, e1);
+        result = element_is_sqr(e0);
+        element_clear(e0);
+        element_clear(e1);
+        return result;
+*/
     }
 
     public QuadraticEvenElement sqrt() {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        Element e0 = x.duplicate().square();
+        Element e1 = y.duplicate().square();
+        e1.mul(field.getNqr());
+        e0.sub(e1);
+        e0.sqrt();
+        e1.set(x).add(e0);
+
+        Element e2 = x.getField().newElement().set(2).invert();
+        e1.mul(e2);
+
+        if (!e1.isSqr())
+            e1.sub(e0);
+
+        e0.set(e1).sqrt();
+        e1.set(e0).add(e0);
+        e1.invert();
+        y.mul(e1);
+        x.set(e0);
+
+        return this;
+        /*
+        fq_data_ptr p = e->data;
+        fq_data_ptr r = n->data;
+        element_ptr nqr = fq_nqr(n->field);
+        element_t e0, e1, e2;
+
+        //if (a+b sqrt(nqr))^2 = x+y sqrt(nqr) then
+        //2a^2 = x +- sqrt(x^2 - nqr y^2)
+        //(take the sign which allows a to exist)
+        //and 2ab = y
+        element_init(e0, p->x->field);
+        element_init(e1, e0->field);
+        element_init(e2, e0->field);
+        element_square(e0, p->x);
+        element_square(e1, p->y);
+        element_mul(e1, e1, nqr);
+        element_sub(e0, e0, e1);
+        element_sqrt(e0, e0);
+        //e0 = sqrt(x^2 - nqr y^2)
+        element_add(e1, p->x, e0);
+        element_set_si(e2, 2);
+        element_invert(e2, e2);
+        element_mul(e1, e1, e2);
+        //e1 = (x + sqrt(x^2 - nqr y^2))/2
+        if (!element_is_sqr(e1)) {
+        element_sub(e1, e1, e0);
+        //e1 should be a square
+        }
+        element_sqrt(e0, e1);
+        element_add(e1, e0, e0);
+        element_invert(e1, e1);
+        element_mul(r->y, p->y, e1);
+        element_set(r->x, e0);
+        element_clear(e0);
+        element_clear(e1);
+        element_clear(e2);
+        */
     }
 
     public int compareTo(Element e) {
+        if (e == this)
+            return 0;
+        
         QuadraticEvenElement element = (QuadraticEvenElement) e;
 
         return x.compareTo(element.x) ==0 && y.compareTo(element.y) == 0 ? 0 : 1;
@@ -296,7 +396,7 @@ public class QuadraticEvenElement extends GenericPointElement {
     }
 
     public BigInteger toBigInteger() {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        return x.toBigInteger();
     }
 
     public QuadraticEvenElement setFromHash(byte[] hash) {
@@ -308,7 +408,18 @@ public class QuadraticEvenElement extends GenericPointElement {
     }
 
     public int sign() {
-        throw new IllegalStateException("Not implemented yet!!!");
+        int res = x.sign();
+        if (res == 0)
+            return y.sign();
+        return res;
+
+        /*
+        int res;
+        fq_data_ptr r = n->data;
+        res = element_sign(r->x);
+        if (!res) return element_sign(r->y);
+        return res;
+        */
     }
 
     public String toString() {

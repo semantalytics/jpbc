@@ -42,9 +42,63 @@ public abstract class GenericElement implements Element {
         return mul(field.newElement().set(2).invert());
     }
 
+    public Element sub(Element element) {
+        add(element.duplicate().negate());
+        return this;
+        
+        /*
+        if (c != a) {
+            element_neg(c, b);
+            element_add(c, c, a);
+        } else {
+            element_t tmp;
+            element_init(tmp, a - > field);
+            element_neg(tmp, b);
+            element_add(c, tmp, a);
+            element_clear(tmp);
+        }
+        */
+    }
+
     public Element div(Element element) {
         return mul(element.duplicate().invert());
     }
+
+    public Element mul(int value) {
+        mul(field.newElement().set(value));
+
+        return this;
+
+        /*
+        element_t e0;
+        element_init(e0, r->field);
+        element_set_si(e0, n);
+        element_mul(r, a, e0);
+        element_clear(e0);
+        */
+    }
+
+    public Element sqrt() {
+        throw new IllegalStateException("Not Implemented yet!!!");
+    }
+
+    public byte[] toBytes() {
+        throw new IllegalStateException("Not Implemented yet!!!");
+    }
+
+    public Element mulZn(Element element) {
+        return mul(element.toBigInteger());
+    }
+
+    public Element square() {
+        return mul(this);
+    }
+
+    public Element twice() {
+        return add(this);
+    }
+
+
 
     protected int optimalPowWindowSize(BigInteger n) {
         int expBits;
@@ -139,6 +193,5 @@ public abstract class GenericElement implements Element {
 
         set(result);
     }
-
 
 }

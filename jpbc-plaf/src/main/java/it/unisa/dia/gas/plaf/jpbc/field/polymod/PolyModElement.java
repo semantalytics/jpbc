@@ -475,12 +475,12 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
         Element e0 = field.newElement();
 
         f.ensureCoeffSize(3);
-        f.getCoeffAt(2).setToOne();
-        f.getCoeffAt(0).set(this).negate();
+        f.getCoefficient(2).setToOne();
+        f.getCoefficient(0).set(this).negate();
 
 //        System.out.println("a = " + this);
-//        System.out.println("f.getCoeffAt(2) = " + f.getCoeffAt(2));
-//        System.out.println("f.getCoeffAt(0) = " + f.getCoeffAt(0));
+//        System.out.println("f.getCoefficient(2) = " + f.getCoefficient(2));
+//        System.out.println("f.getCoefficient(0) = " + f.getCoefficient(0));
 
         BigInteger z = field.getOrder().subtract(BigInteger.ONE).divide(BigIntegerUtils.TWO);
 
@@ -492,8 +492,8 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
             Element e1, e2;
 
             r.ensureCoeffSize(2);
-            r.getCoeffAt(1).setToOne();
-            x = r.getCoeffAt(0);
+            r.getCoefficient(1).setToOne();
+            x = r.getCoefficient(0);
             x.setToRandom();
             e0.set(x).mul(x);
 
@@ -508,8 +508,8 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
                 s.mul(s);
                 
                 if (s.getDegree() == 2) {
-                    e1 = s.getCoeffAt(0);
-                    e2 = s.getCoeffAt(2);
+                    e1 = s.getCoefficient(0);
+                    e2 = s.getCoefficient(2);
                     e0.set(e2).mul(this);
                     e1.add(e0);
                     s.ensureCoeffSize(2);
@@ -519,8 +519,8 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
                 if (z.testBit(i)) {
                     s.mul(r);
                     if (s.getDegree() == 2) {
-                        e1 = s.getCoeffAt(0);
-                        e2 = s.getCoeffAt(2);
+                        e1 = s.getCoefficient(0);
+                        e2 = s.getCoefficient(2);
                         e0.set(e2).mul(this);
                         e1.add(e0);
                         s.ensureCoeffSize(2);
@@ -533,8 +533,8 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
                 continue;
 
             e0.setToOne();
-            e1 = s.getCoeffAt(0);
-            e2 = s.getCoeffAt(1);
+            e1 = s.getCoefficient(0);
+            e2 = s.getCoefficient(1);
             e1.add(e0);
 //            System.out.println("e2 = " + e2);
             e0.set(e2).invert();
@@ -680,13 +680,13 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
 
 
     public PolyModElement setFromPolyTruncate(PolyElement<E> element) {
-        int n = element.getCoeff().size();
+        int n = element.getCoefficients().size();
         if (n > field.n)
             n = field.n;
 
         int i = 0;
         for (; i < n; i++) {
-            coeff.get(i).set(element.getCoeff().get(i));
+            coeff.get(i).set(element.getCoefficients().get(i));
         }
 
         for (; i < field.n; i++) {
@@ -978,7 +978,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
             r1.set(r2);
         }
 
-        inv.set(r1.getCoeffAt(0)).invert();
+        inv.set(r1.getCoefficient(0)).invert();
         return PolyUtils.constMul(inv, b1);
 
         /*

@@ -8,13 +8,13 @@ import it.unisa.dia.gas.jpbc.Element;
 public class PolyUtils {
 
     public static PolyElement constMul(Element a, PolyElement poly) {
-        int n = poly.getCoeff().size();
+        int n = poly.getCoefficients().size();
 
         PolyElement res = poly.getField().newElement();
         res.ensureCoeffSize(n);
 
         for (int i = 0; i < n; i++) {
-            res.getCoeffAt(i).set(a).mul(poly.getCoeffAt(i));
+            res.getCoefficient(i).set(a).mul(poly.getCoefficient(i));
         }
         res.removeLeadingZeroes();
 
@@ -51,13 +51,13 @@ public class PolyUtils {
         r.set(a);
         int k = m - n;
         q.ensureCoeffSize(k + 1);
-        binv.set(b.getCoeffAt(n)).invert();
+        binv.set(b.getCoefficient(n)).invert();
         while (k >= 0)  {
-            Element qe = q.getCoeffAt(k);
-            qe.set(binv).mul(r.getCoeffAt(m));
+            Element qe = q.getCoefficient(k);
+            qe.set(binv).mul(r.getCoefficient(m));
             for (int i = 0; i <= n; i++) {
-                e0.set(qe).mul(b.getCoeffAt(i));
-                r.getCoeffAt(i + k).sub(e0);
+                e0.set(qe).mul(b.getCoefficient(i));
+                r.getCoefficient(i + k).sub(e0);
             }
             k--;
             m--;

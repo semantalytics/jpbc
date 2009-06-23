@@ -24,11 +24,11 @@ public abstract class GenericPolyElement<E extends Element> extends GenericEleme
     }
 
 
-    public List<E> getCoeff() {
+    public List<E> getCoefficients() {
         return coeff;
     }
 
-    public E getCoeffAt(int index) {
+    public E getCoefficient(int index) {
         return coeff.get(index);
     }
 

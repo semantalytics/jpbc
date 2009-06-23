@@ -72,20 +72,14 @@ public class CurveElement extends GenericPointElement {
         return infFlag == 1;
     }
 
-    public CurveElement map(Element e) {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
     public CurveElement twice() {
         return mul(this);
     }
 
-    public CurveElement mul(int value) {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
     public CurveElement setToZero() {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        infFlag = 1;
+
+        return this;
     }
 
     public CurveElement setToOne() {
@@ -100,7 +94,7 @@ public class CurveElement extends GenericPointElement {
 
         BigInteger order = field.getTargetField().getOrder();
         set(getField().gen).mul(new BigInteger(order.bitLength(), random).mod(order));
-        
+
         return this;
     }
 
@@ -127,35 +121,43 @@ public class CurveElement extends GenericPointElement {
             return this;
         }
 
-        doubleNoCheck();
+        twiceInternal();
 
         return this;
     }
 
     public CurveElement invert() {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
+        if (infFlag != 0) {
+            infFlag = 1;
+            return this;
+        }
 
-    public CurveElement halve() {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        infFlag = 0;
+        y.negate();
+
+        return this;
+
+        /*
+        point_ptr r = c->data, p = a->data;
+
+        if (p->inf_flag) {
+        r->inf_flag = 1;
+        return;
+        }
+        r->inf_flag = 0;
+        element_set(r->x, p->x);
+        element_neg(r->y, p->y);
+        */
     }
 
     public CurveElement negate() {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        return invert();
     }
 
     public CurveElement add(Element e) {
         mul(e);
 
         return this;
-    }
-
-    public CurveElement sub(Element e) {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
-    public CurveElement div(Element e) {
-        throw new IllegalStateException("Not Implemented yet!!!");
     }
 
     public CurveElement mul(Element e) {
@@ -176,7 +178,7 @@ public class CurveElement extends GenericPointElement {
                     infFlag = 1;
                     return this;
                 } else {
-                    doubleNoCheck();
+                    twiceInternal();
                     return this;
                 }
             }
@@ -269,12 +271,32 @@ public class CurveElement extends GenericPointElement {
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
-    public CurveElement sqrt() {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
 
     public int compareTo(Element e) {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        if (this == e)
+            return 0;
+
+        CurveElement element = (CurveElement) e;
+
+        if (infFlag != 0) {
+            return element.infFlag;
+        }
+
+        return x.compareTo(element.x) == 0 && y.compareTo(element.y) == 0 ? 0 : 1;
+
+        /*
+        if (a == b) {
+            return 0;
+        } else {
+            point_ptr p = a - > data;
+            point_ptr q = b - > data;
+            if (p - > inf_flag) {
+                return q - > inf_flag;
+            }
+            return element_cmp(p - > x, q - > x) || element_cmp(p - > y, q - > y);
+        }
+        */
+
     }
 
     public CurveElement powZn(Element e) {
@@ -313,7 +335,15 @@ public class CurveElement extends GenericPointElement {
     }
 
     public int sign() {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        if (infFlag != 0)
+            return 0;
+
+        return y.sign();
+        /*
+        point_ptr p = e->data;
+        if (p->inf_flag) return 0;
+        return element_sign(p->y);
+        */
     }
 
     public String toString() {
@@ -321,7 +351,7 @@ public class CurveElement extends GenericPointElement {
     }
 
 
-    protected void doubleNoCheck() {
+    protected void twiceInternal() {
         //lambda = (3x^2 + a) / 2y
         Element lambda = x.duplicate().square().mul(3).add(getField().a).mul(y.duplicate().twice().invert());
 

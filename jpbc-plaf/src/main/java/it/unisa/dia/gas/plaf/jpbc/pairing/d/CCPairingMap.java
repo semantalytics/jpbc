@@ -46,12 +46,12 @@ public class CCPairingMap implements PairingMap {
             Polynomial e0re = e0.getX();
             Polynomial e0im = e0.getY();
 
-            Element e0re0 = e0re.getCoeffAt(0);
-            Element e0im0 = e0im.getCoeffAt(0);
+            Element e0re0 = e0re.getCoefficient(0);
+            Element e0im0 = e0im.getCoefficient(0);
 
             Point<Polynomial> in = (Point<Polynomial>) element;
-            List<Element> inre = in.getX().getCoeff();
-            List<Element> inmi = in.getY().getCoeff();
+            List<Element> inre = in.getX().getCoefficients();
+            List<Element> inmi = in.getY().getCoefficients();
 
             qpower(1, e2, e0re, e0im, e0re0, e0im0, inre, inmi);
             e3.set(e0);
@@ -213,12 +213,12 @@ public class CCPairingMap implements PairingMap {
         int i;
         int d = re_out.getField().getN();
         for (i = 0; i < d; i++) {
-            re_out.getCoeffAt(i).set(((PolyModElement) Qx).getCoeffAt(i)).mul(a);
-            im_out.getCoeffAt(i).set(((PolyModElement) Qy).getCoeffAt(i)).mul(b);
+            re_out.getCoefficient(i).set(((PolyModElement) Qx).getCoefficient(i)).mul(a);
+            im_out.getCoefficient(i).set(((PolyModElement) Qy).getCoefficient(i)).mul(b);
 
         }
 
-        re_out.getCoeffAt(0).add(c);
+        re_out.getCoefficient(0).add(c);
 
         /*
         //a, b, c are in Fq

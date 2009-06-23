@@ -180,7 +180,7 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
 
         e0 = field.getTargetField().newElement();
         for (i = 0; i < n; i++) {
-            Element x = prod.getCoeffAt(i);
+            Element x = prod.getCoefficient(i);
             x.setToZero();
             for (j = 0; j <= i; j++) {
                 if (j < fcount && i-j < gcount) {
@@ -316,7 +316,7 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
 
         ensureCoeffSize(n);
         for (i=0; i<n; i++) {
-            coeff.get(i).set(polyModElement.getCoeffAt(i));
+            coeff.get(i).set(polyModElement.getCoefficient(i));
         }
         removeLeadingZeroes();
 

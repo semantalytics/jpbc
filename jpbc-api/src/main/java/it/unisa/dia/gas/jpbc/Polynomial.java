@@ -7,10 +7,10 @@ import java.util.List;
  */
 public interface Polynomial<E extends Element> extends Element {
 
-    List<E> getCoeff();
-
-    E getCoeffAt(int index);
-
     int getDegree();
+
+    List<E> getCoefficients();
+
+    E getCoefficient(int index);
 
 }

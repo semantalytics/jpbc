@@ -1,15 +1,13 @@
 package it.unisa.dia.gas.plaf.jpbc.field.quadratic;
 
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericPointElement;
 
 import java.math.BigInteger;
-import java.util.Arrays;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class QuadraticTwoElement extends GenericPointElement {
+public class QuadraticTwoElement extends QuadraticEvenElement {
 
     protected QuadraticTwoField field;
     protected Element e0, e1, e2;
@@ -43,84 +41,6 @@ public class QuadraticTwoElement extends GenericPointElement {
 
     public QuadraticTwoElement duplicate() {
         return new QuadraticTwoElement(this);
-    }
-
-    public QuadraticTwoElement set(Element e) {
-        QuadraticTwoElement element = (QuadraticTwoElement) e;
-
-//        this.field = element.field;
-
-        this.x.set(element.x);
-        this.y.set(element.y);
-
-        return this;
-    }
-
-    public QuadraticTwoElement set(int value) {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
-    public QuadraticTwoElement set(BigInteger value) {
-        throw new IllegalStateException("Not implemented yet!!!");
-    }
-
-    public boolean isZero() {
-        return x.isZero() && y.isZero();
-    }
-
-    public boolean isOne() {
-        return x.isOne() && y.isZero();
-    }
-
-    public QuadraticTwoElement twice() {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
-    public QuadraticTwoElement mul(int value) {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
-    public QuadraticTwoElement setToZero() {
-        x.setToZero();
-        y.setToZero();
-
-        return this;
-    }
-
-    public QuadraticTwoElement setToOne() {
-        x.setToOne();
-        y.setToZero();
-
-        return this;
-    }
-
-    public QuadraticTwoElement setToRandom() {
-        x.setToRandom();
-        y.setToRandom();
-        
-        return this;
-    }
-
-    public int setFromBytes(byte[] bytes) {
-        int len;
-
-        len = x.setFromBytes(bytes);
-        len += y.setFromBytes(Arrays.copyOfRange(bytes, len, bytes.length - len));
-
-        return len;
-    }
-
-    public int setEncoding(byte[] bytes) {
-        int len;
-
-        len = x.setEncoding(bytes);
-        y.setToRandom();
-
-        return len;
-    }
-
-    public byte[] getDecoding() {
-        return x.getDecoding();
     }
 
     public QuadraticTwoElement square() {
@@ -181,31 +101,6 @@ public class QuadraticTwoElement extends GenericPointElement {
         */
     }
 
-    public QuadraticTwoElement halve() {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
-    public QuadraticTwoElement negate() {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
-    public QuadraticTwoElement add(Element e) {
-        QuadraticTwoElement element = (QuadraticTwoElement) e;
-
-        x.add(element.x);
-        y.add(element.y);
-
-        return this;
-    }
-
-    public QuadraticTwoElement sub(Element e) {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
-    public QuadraticTwoElement div(Element e) {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
     public QuadraticTwoElement mul(Element e) {
         QuadraticTwoElement element = (QuadraticTwoElement) e;
 
@@ -256,48 +151,91 @@ public class QuadraticTwoElement extends GenericPointElement {
         return this;
     }
 
-    public QuadraticTwoElement mul(BigInteger value) {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
-    public QuadraticTwoElement mulZn(Element element) {
-        throw new IllegalStateException("Not Implemented yet!!!");        
-    }
-
     public boolean isSqr() {
+
+        /*
+        //x + yi is a square <=> x^2 + y^2 is (in the base field)
+
+        // Proof: (=>) if x+yi = (a+bi)^2,
+        // then a^2 - b^2 = x, 2ab = y,
+        // thus (a^2 + b^2)^2 = (a^2 - b^2)^2 + (2ab)^2 =  x^2 + y^2
+        // (<=) Suppose A^2 = x^2 + y^2
+        // then if there exist a, b satisfying:
+        //   a^2 = (+-A + x)/2, b^2 = (+-A - x)/2
+        // then (a + bi)^2 = x + yi.
+        // We show that exactly one of (A + x)/2, (-A + x)/2
+        // is a quadratic residue (thus a, b do exist).
+        // Suppose not. Then the product
+        // (x^2 - A^2) / 4 is some quadratic residue, a contradiction
+        // since this would imply x^2 - A^2 = -y^2 is also a quadratic residue,
+        // but we know -1 is not a quadratic residue.
+        fq_data_ptr p = e->data;
+        element_t e0, e1;
+        int result;
+        element_init(e0, p->x->field);
+        element_init(e1, e0->field);
+        element_square(e0, p->x);
+        element_square(e1, p->y);
+        element_add(e0, e0, e1);
+        result = element_is_sqr(e0);
+        element_clear(e0);
+        element_clear(e1);
+        return result;
+        */
+        
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
     public QuadraticTwoElement sqrt() {
+        /*
+        fq_data_ptr p = e->data;
+        fq_data_ptr r = n->data;
+        element_t e0, e1, e2;
+
+        //if (a+bi)^2 = x+yi then
+        //2a^2 = x +- sqrt(x^2 + y^2)
+        //(take the sign such that a exists) and 2ab = y
+        //[thus 2b^2 = - (x -+ sqrt(x^2 + y^2))]
+        element_init(e0, p->x->field);
+        element_init(e1, e0->field);
+        element_init(e2, e0->field);
+        element_square(e0, p->x);
+        element_square(e1, p->y);
+        element_add(e0, e0, e1);
+        element_sqrt(e0, e0);
+        //e0 = sqrt(x^2 + y^2)
+        element_add(e1, p->x, e0);
+        element_set_si(e2, 2);
+        element_invert(e2, e2);
+        element_mul(e1, e1, e2);
+        //e1 = (x + sqrt(x^2 + y^2))/2
+        if (!element_is_sqr(e1)) {
+        element_sub(e1, e1, e0);
+        //e1 should be a square
+        }
+        element_sqrt(e0, e1);
+        element_add(e1, e0, e0);
+        element_invert(e1, e1);
+        element_mul(r->y, p->y, e1);
+        element_set(r->x, e0);
+        element_clear(e0);
+        element_clear(e1);
+        element_clear(e2);
+        */
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
     public int compareTo(Element e) {
+        if (e == this)
+            return 0;
+
         QuadraticTwoElement element = (QuadraticTwoElement) e;
 
         return x.compareTo(element.x) ==0 && y.compareTo(element.y) == 0 ? 0 : 1;
     }
 
-    public QuadraticTwoElement powZn(Element element) {
-        pow(element.toBigInteger());
-
-        return this;
-    }
-
     public BigInteger toBigInteger() {
         throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
-    public QuadraticTwoElement setFromHash(byte[] hash) {
-        int k = hash.length / 2;
-        x.setFromHash(Arrays.copyOf(hash, k));
-        y.setFromHash(Arrays.copyOfRange(hash, k, hash.length - k));
-
-        return this;
-    }
-
-    public int sign() {
-        throw new IllegalStateException("Not implemented yet!!!");
     }
 
     public String toString() {

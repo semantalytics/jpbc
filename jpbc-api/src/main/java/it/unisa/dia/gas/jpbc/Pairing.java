@@ -9,6 +9,9 @@ public interface Pairing {
 
     boolean isSymmetric();
 
+    BigInteger getPhikonr();
+
+    
     Field getG1();
 
     Field getG2();
@@ -17,8 +20,6 @@ public interface Pairing {
 
     Field getZr();
 
-    BigInteger getPhikonr();
-    
     
     Element pairing(Element g1, Element g2);
 

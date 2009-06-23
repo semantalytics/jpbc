@@ -136,7 +136,7 @@ public class TypeDPairing implements Pairing {
         int d = k / 2;
 
         PolyElement irred = polyField.newElement();
-        List<Element> coeff = irred.getCoeff();
+        List<Element> coeff = irred.getCoefficients();
 
         for (int i = 0; i < d; i++) {
             coeff.add(
@@ -157,7 +157,7 @@ public class TypeDPairing implements Pairing {
 //            System.out.println("phikonr = " + phikonr);
 
             PolyModElement polyModElement = Fqd.newElement();
-            polyModElement.getCoeffAt(1).setToOne();
+            polyModElement.getCoefficient(1).setToOne();
 
             polyModElement.pow(q);
 

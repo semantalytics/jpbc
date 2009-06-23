@@ -28,7 +28,7 @@ public class PolyModField<F extends Field> extends GenericFieldOver<F, PolyModEl
 
         this.order = targetField.getOrder().pow(irred.getDegree());
         this.nqr = newElement();
-        this.nqr.getCoeffAt(0).set(nqr);
+        this.nqr.getCoefficient(0).set(nqr);
 
         computeXPowers();
 
@@ -76,8 +76,8 @@ public class PolyModField<F extends Field> extends GenericFieldOver<F, PolyModEl
         PolyModElement p0 = newElement();
 
         for (int i = 1; i < n; i++) {
-            List<Element> coeff = xpwr[i - 1].getCoeff();
-            List<Element> coeff1 = xpwr[i].getCoeff();
+            List<Element> coeff = xpwr[i - 1].getCoefficients();
+            List<Element> coeff1 = xpwr[i].getCoefficients();
 
             coeff1.get(0).setToZero();
 

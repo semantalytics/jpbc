@@ -30,66 +30,54 @@ public class GTFiniteElement extends GenericElement {
     }
 
 
-    public Element duplicate() {
+    public GTFiniteElement duplicate() {
         return new GTFiniteElement(pairing, (GTFiniteField) field, value);
     }
 
-    public Element set(Element element) {
+    public GTFiniteElement set(Element element) {
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
-    public Element set(int value) {
+    public GTFiniteElement set(int value) {
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
-    public Element set(BigInteger value) {
+    public GTFiniteElement set(BigInteger value) {
         throw new IllegalStateException("Not implemented yet!!!");
     }
 
     public boolean isZero() {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        return isOne();
     }
 
     public boolean isOne() {
         return value.isOne();
     }
 
-    public Element map(Element e) {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
-    public Element twice() {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
-    public Element mul(int value) {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
     public GTFiniteField getField() {
         return (GTFiniteField) field;
     }
 
-    public Element setToZero() {
+    public GTFiniteElement setToZero() {
         value.setToOne();
         
         return this;
     }
 
-    public Element setToOne() {
+    public GTFiniteElement setToOne() {
         value.setToOne();
 
         return this;
     }
 
-    public Element setToRandom() {
+    public GTFiniteElement setToRandom() {
         value.setToRandom();
         pairing.finalPow(value);
 
         return this;
     }
 
-    public Element setFromHash(byte[] hash) {
+    public GTFiniteElement setFromHash(byte[] hash) {
         value.setFromHash(hash);
         pairing.finalPow(value);
 
@@ -108,72 +96,71 @@ public class GTFiniteElement extends GenericElement {
         return value.getDecoding();
     }
 
-    public Element square() {
-        throw new IllegalStateException("Not Implemented yet!!!");
+    public GTFiniteElement invert() {
+        value.invert();
+        
+        return this;
     }
 
-    public Element invert() {
-        throw new IllegalStateException("Not Implemented yet!!!");
+    public GTFiniteElement negate() {
+        return invert();
     }
 
-    public Element halve() {
-        throw new IllegalStateException("Not Implemented yet!!!");
+    public GTFiniteElement add(Element element) {
+        return mul(element);
     }
 
-    public Element negate() {
-        throw new IllegalStateException("Not Implemented yet!!!");
+    public GTFiniteElement sub(Element element) {
+        return div(element);
     }
 
-    public Element add(Element element) {
-        throw new IllegalStateException("Not Implemented yet!!!");
+    public GTFiniteElement div(Element element) {
+        value.div(((GTFiniteElement) element).value);
+
+        return this;
     }
 
-    public Element sub(Element element) {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
-    public Element div(Element element) {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
-    public Element mul(Element element) {
+    public GTFiniteElement mul(Element element) {
         value.mul(((GTFiniteElement) element).value);
 
         return this;
     }
 
-    public Element mul(BigInteger value) {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
-    public Element mulZn(Element element) {
-        throw new IllegalStateException("Not Implemented yet!!!");
+    public GTFiniteElement mul(BigInteger value) {
+        return pow(value);
     }
 
     public boolean isSqr() {
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
-    public Element sqrt() {
+    public GTFiniteElement sqrt() {
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
-    public Element pow(BigInteger value) {
-        throw new IllegalStateException("Not Implemented yet!!!");
+    public GTFiniteElement pow(BigInteger value) {
+        this.value.pow(value);
+
+        return this;
     }
 
     public int compareTo(Element element) {
         return value.compareTo(((GTFiniteElement) element).value);
     }
 
-    public Element powZn(Element element) {
+    public GTFiniteElement powZn(Element element) {
         this.value.powZn(element);
 
         return this;
     }
 
     public BigInteger toBigInteger() {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        return value.toBigInteger();
+    }
+
+    @Override
+    public byte[] toBytes() {
+        return value.toBytes();
     }
 
     public int sign() {

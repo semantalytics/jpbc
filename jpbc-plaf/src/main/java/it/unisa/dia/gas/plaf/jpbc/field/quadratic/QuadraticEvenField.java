@@ -8,7 +8,7 @@ import java.math.BigInteger;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class QuadraticEvenField<F extends Field> extends GenericFieldOver<F, QuadraticEvenElement> {
+public class QuadraticEvenField<F extends Field, E extends QuadraticEvenElement> extends GenericFieldOver<F, E> {
     protected BigInteger order;
     protected int fixedLengthInBytes;
 
@@ -26,15 +26,15 @@ public class QuadraticEvenField<F extends Field> extends GenericFieldOver<F, Qua
     }
 
 
-    public QuadraticEvenElement newElement() {
-        return new QuadraticEvenElement(this);
+    public E newElement() {
+        return (E) new QuadraticEvenElement(this);
     }
 
     public BigInteger getOrder() {
         return order;
     }
 
-    public QuadraticEvenElement getNqr() {
+    public E getNqr() {
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
