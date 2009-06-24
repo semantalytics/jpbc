@@ -23,7 +23,8 @@ public class TypeAPairingTest extends PairingTest {
     protected Properties typeProperties() {
         Properties properties = new Properties();
         try {
-            properties.load(this.getClass().getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pairing/a/a_311_289.properties"));
+//            properties.load(this.getClass().getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pairing/a/a_311_289.properties"));
+            properties.load(this.getClass().getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pairing/a/a_603_181.properties"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
