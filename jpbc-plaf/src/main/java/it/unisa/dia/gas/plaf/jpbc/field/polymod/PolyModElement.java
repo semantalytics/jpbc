@@ -40,7 +40,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
         return field;
     }
 
-    public PolyModElement duplicate() {
+    public PolyModElement<E> duplicate() {
         List<Element> duplicatedCoeff = new ArrayList<Element>(coeff.size());
 
         for (Element element : coeff) {
@@ -50,7 +50,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
         return new PolyModElement(field, duplicatedCoeff);
     }
 
-    public PolyModElement set(Element e) {
+    public PolyModElement<E> set(Element e) {
         PolyModElement<E> element = (PolyModElement<E>) e;
 
         for (int i = 0; i < coeff.size(); i++) {
@@ -60,7 +60,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
         return this;
     }
 
-    public PolyModElement set(int value) {
+    public PolyModElement<E> set(int value) {
         coeff.get(0).set(value);
 
         for (int i = 1; i < field.n; i++) {
@@ -79,7 +79,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
         */
     }
 
-    public PolyModElement set(BigInteger value) {
+    public PolyModElement<E> set(BigInteger value) {
         coeff.get(0).set(value);
 
         for (int i = 1; i < field.n; i++) {
@@ -89,7 +89,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
         return this;
     }
 
-    public PolyModElement setToRandom() {
+    public PolyModElement<E> setToRandom() {
         for (int i = 0; i < field.n; i++) {
             coeff.get(i).setToRandom();
         }
@@ -97,7 +97,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
         return this;
     }
 
-    public PolyModElement setFromHash(byte[] hash) {
+    public PolyModElement<E> setFromHash(byte[] hash) {
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
@@ -113,7 +113,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
-    public PolyModElement setToZero() {
+    public PolyModElement<E> setToZero() {
         for (int i = 0; i < field.n; i++) {
             coeff.get(i).setToZero();
         }
@@ -129,7 +129,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
         return true;
     }
 
-    public PolyModElement setToOne() {
+    public PolyModElement<E> setToOne() {
         coeff.get(0).setToOne();
 
         for (int i = 1; i < field.n; i++) {
@@ -163,7 +163,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
         */
     }
 
-    public PolyModElement map(Element e) {
+    public PolyModElement<E> map(Element e) {
         coeff.get(0).set(e);
         for (int i = 1; i < field.n; i++) {
             coeff.get(i).setToZero();
@@ -181,7 +181,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
         */
     }
 
-    public PolyModElement twice() {
+    public PolyModElement<E> twice() {
         for (int i = 0; i < field.n; i++) {
             coeff.get(i).twice();
         }
@@ -189,7 +189,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
         return this;
     }
 
-    public PolyModElement square() {
+    public PolyModElement<E> square() {
         switch (field.n) {
             case 3:
                 PolyModElement<E> p0 = field.newElement();
@@ -271,7 +271,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
         return this;
     }
 
-    public PolyModElement invert() {
+    public PolyModElement<E> invert() {
         setFromPolyTruncate(polyInvert(field.irred.getField().newElement().setFromPolyMod(this)));
         return this;
 
@@ -293,7 +293,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
         */
     }
 
-    public PolyModElement negate() {
+    public PolyModElement<E> negate() {
         for (Element e : coeff) {
             e.negate();
         }
@@ -301,7 +301,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
         return this;
     }
 
-    public PolyModElement add(Element e) {
+    public PolyModElement<E> add(Element e) {
         PolyModElement<E> element = (PolyModElement<E>) e;
 
         for (int i = 0; i < field.n; i++) {
@@ -311,7 +311,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
         return this;
     }
 
-    public PolyModElement sub(Element e) {
+    public PolyModElement<E> sub(Element e) {
         PolyModElement<E> element = (PolyModElement<E>) e;
 
         for (int i = 0; i < field.n; i++) {
@@ -321,7 +321,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
         return this;
     }
 
-    public PolyModElement mul(Element e) {
+    public PolyModElement<E> mul(Element e) {
         PolyModElement<E> element = (PolyModElement<E>) e;
 
         switch (field.n) {
@@ -445,7 +445,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
         }
     }
 
-    public PolyModElement mul(int value) {
+    public PolyModElement<E> mul(int value) {
         for (int i = 0; i < field.n; i++) {
             coeff.get(i).mul(value);
         }
@@ -465,7 +465,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
         */
     }
 
-    public PolyModElement mul(BigInteger value) {
+    public PolyModElement<E> mul(BigInteger value) {
         for (int i = 0; i < field.n; i++) {
             coeff.get(i).mul(value);
         }
@@ -473,11 +473,11 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
         return this;
     }
 
-    public PolyModElement powZn(Element e) {
+    public PolyModElement<E> powZn(Element e) {
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
-    public PolyModElement sqrt() {
+    public PolyModElement<E> sqrt() {
         PolyField polyField = new PolyField(field);
 
         PolyElement f = polyField.newElement();
@@ -696,7 +696,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
     }
 
 
-    public PolyModElement setFromPolyTruncate(PolyElement<E> element) {
+    public PolyModElement<E> setFromPolyTruncate(PolyElement<E> element) {
         int n = element.getCoefficients().size();
         if (n > field.n)
             n = field.n;
@@ -729,7 +729,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
         return this;
     }
 
-    public PolyModElement polymodConstMul(Element e) {
+    public PolyModElement<E> polymodConstMul(Element e) {
         //a lies in R, e in R[x]
         for (int i = 0, n = coeff.size(); i < n; i++) {
             coeff.get(i).mul(e);

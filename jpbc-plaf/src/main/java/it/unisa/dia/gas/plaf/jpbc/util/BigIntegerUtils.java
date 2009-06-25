@@ -2,6 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.util;
 
 import java.math.BigInteger;
 import static java.math.BigInteger.ONE;
+import static java.math.BigInteger.ZERO;
 import java.security.SecureRandom;
 
 /**
@@ -20,8 +21,53 @@ public class BigIntegerUtils {
     public static final BigInteger ITERBETTER = ONE.shiftLeft(1024);
 
 
+    public static BigInteger factorial(int n) {
+        return factorial(BigInteger.valueOf(n));
+    }
+
+    public static BigInteger factorial(BigInteger n) {
+        if (n.equals(ZERO))
+            return ONE;
+
+        BigInteger i = n.subtract(ONE);
+        while (i.compareTo(ZERO) > 0) {
+            n = n.multiply(i);
+            i = i.subtract(ONE);
+        }
+        return n;
+    }
+
+    /**
+     * Compute trace of Frobenius at q^n given trace at q
+     * see p.105 of Blake, Seroussi and Smart
+     *
+     * @param q
+     * @param trace
+     * @param n
+     * @return
+     */
+    public static BigInteger compute_trace_n(BigInteger q, BigInteger trace, int n) {
+        int i;
+        BigInteger c0, c1, c2;
+        BigInteger t0;
+
+        c2 = TWO;
+        c1 = trace;
+
+        for (i = 2; i <= n; i++) {
+
+            c0 = trace.multiply(c1);
+            t0 = q.multiply(c2);
+            c0 = c0.subtract(t0);
+            c2 = c1;
+            c1 = c0;
+        }
+
+        return c1;
+    }
+
     public static boolean isDivisible(BigInteger a, BigInteger b) {
-        return a.remainder(b).compareTo(BigInteger.ZERO) == 0;
+        return a.remainder(b).compareTo(ZERO) == 0;
     }
 
     public static boolean isPerfectSquare(BigInteger n) {
@@ -73,7 +119,7 @@ public class BigIntegerUtils {
         /* Precondition: a, n >= 0; n is odd */
         int ans = 0;
 
-        if (BigInteger.ZERO.equals(a))
+        if (ZERO.equals(a))
             ans = (ONE.equals(n)) ? 1 : 0;
         else if (TWO.equals(a)) {
             BigInteger mod = n.mod(EIGHT);
@@ -83,7 +129,7 @@ public class BigIntegerUtils {
                 ans = -1;
         } else if (a.compareTo(n) >= 0)
             ans = jacobi(a.mod(n), n);
-        else if (BigInteger.ZERO.equals(a.mod(TWO)))
+        else if (ZERO.equals(a.mod(TWO)))
             ans = jacobi(TWO, n) * jacobi(a.divide(TWO), n);
         else
             ans = (THREE.equals(a.mod(FOUR)) && THREE.equals(n.mod(FOUR))) ? -jacobi(n, a) : jacobi(n, a);

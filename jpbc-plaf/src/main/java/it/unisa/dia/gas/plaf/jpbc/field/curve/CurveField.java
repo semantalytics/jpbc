@@ -10,6 +10,26 @@ import java.math.BigInteger;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElement> {
+
+    public static <F extends Field> CurveField<F> newCurveFieldJ(Element j, BigInteger order, BigInteger cofac) {
+        // Assumes j != 0, 1728
+
+        Element a, b;
+
+        a = j.getField().newElement();
+        b = j.getField().newElement();
+
+        a.set(1728).sub(j).invert().mul(j);
+
+        //b = 2 j / (1728 - j)
+        b.set(a).add(a);
+        //a = 3 j / (1728 - j)
+        a.add(b);
+
+        return new CurveField<F>(a, b, order, cofac);
+    }
+
+
     protected Element a, b;
     protected CurveElement gen, genNoCofac;
     protected BigInteger order, cofac;

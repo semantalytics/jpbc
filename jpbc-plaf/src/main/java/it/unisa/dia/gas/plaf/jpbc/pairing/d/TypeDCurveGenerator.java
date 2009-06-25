@@ -2,6 +2,12 @@ package it.unisa.dia.gas.plaf.jpbc.pairing.d;
 
 import it.unisa.dia.gas.jpbc.CurveGenerator;
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.plaf.jpbc.field.naive.NaiveField;
+import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyElement;
+import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyField;
+import it.unisa.dia.gas.plaf.jpbc.field.polymod.PolyModElement;
+import it.unisa.dia.gas.plaf.jpbc.field.polymod.PolyModField;
 import it.unisa.dia.gas.plaf.jpbc.util.BigIntegerUtils;
 
 import java.math.BigInteger;
@@ -49,8 +55,8 @@ public class TypeDCurveGenerator implements CurveGenerator {
         n = pellEquation.count;
         if (n != 0) {
             boolean found = false;
+            
             while (!found) {
-
                 for (int i = 0; i < n; i++) {
                     //element_printf("%Zd, %Zd\n", ps->x[i], ps->y[i]);
 
@@ -147,46 +153,144 @@ public class TypeDCurveGenerator implements CurveGenerator {
             }
         }
 
-        params.put("k", "6");
-        params.put("D", "" + discriminant);
-        params.put("q", q.toString());
-        params.put("r", r.toString());
-        params.put("h", cofac.toString());
-        params.put("n", "" + n);
+        params.put("k", 6);
+        params.put("D", discriminant);
+        params.put("q", q);
+        params.put("r", r);
+        params.put("h", cofac);
+        params.put("n", n);
 
         return 0;
     }
 
     protected void d_param_from_cm(Map param) {
-        field_t Fq, Fqx, Fqd;
-        Element irred, nqr;
-        int d = cm - > k / 2;
+        Field<? extends Element> Fq;
+        PolyModField Fqd;
+        PolyField Fqx;
+        PolyElement irred;
+        PolyModElement nqr;
+        int d = 3;
         int i;
 
-        compute_cm_curve(param, cm);
+//        compute_cm_curve(param, cm);
 
-        field_init_fp(Fq, param - > q);
-        field_init_poly(Fqx, Fq);
-        element_init(irred, Fqx);
+        Fq = new NaiveField((BigInteger) param.get("q"));
+        Fqx = new PolyField<Field>(Fq);
+
+        irred = Fqx.newElement();
         do {
-            poly_random_monic(irred, d);
-        } while (!poly_is_irred(irred));
-        field_init_polymod(Fqd, irred);
+            irred.setToRandomMonic(3);
+        } while (!irred.isIrriducible());
 
-        // find a quadratic nonresidue of Fqd lying in Fq
-        element_init(nqr, Fqd);
+        Fqd = new PolyModField<Field>(irred, null);
+
+        //find a quadratic nonresidue of Fqd lying in Fq
+        nqr = Fqd.newElement();
         do {
-            element_random(((element_t *)nqr - > data)[0]);
-        } while (element_is_sqr(nqr));
-
-        param - > coeff = pbc_realloc(param - > coeff, sizeof(mpz_t) * d);
+            nqr.getCoefficient(0).setToRandom();
+        } while (nqr.isSqr());
 
         for (i = 0; i < d; i++) {
-            mpz_init(param - > coeff[i]);
-            element_to_mpz(param - > coeff[i], poly_coeff(irred, i));
+            param.put("coeff" + i, irred.getCoefficient(i).toBigInteger().toString());
         }
-        element_to_mpz(param - > nqr, ((element_t *)nqr - > data)[0]);
+        param.put("nqr", nqr.getCoefficient(0).toBigInteger());
     }
+
+    /**
+     * computes a curve and sets fp to the field it is defined over
+     * using the complex multiplication method, where cm holds
+     * the appropriate information (e.g. discriminant, field order)
+     *
+     * @param param
+     */
+    protected void compute_cm_curve(Map param) {
+/*        List coefflist;
+        Element root;
+        PolyElement hp;
+        Field<? extends Element> fp;
+        PolyField fpx;
+        int i, n;
+        Field<? extends Element> cc;
+
+        fp = new NaiveField((BigInteger) param.get("q"));
+        fpx = new PolyField(fp);
+
+
+        hp = fpx.newElement();
+
+        darray_init(coefflist);
+
+        hilbert_poly(coefflist, cm - > D);
+
+        n = coefflist - > count;
+        poly_alloc(hp, n);
+        for (i = 0; i < n; i++) {
+            element_set_mpz(poly_coeff(hp, i), coefflist - > item[i]);
+        }
+
+        hilbert_poly_clear(coefflist);
+
+        darray_clear(coefflist);
+        //TODO: remove x = 0, 1728 roots
+        //TODO: what if there's no roots?
+        //printf("hp ");
+        //element_out_str(stdout, 0, hp);
+        //printf("\n");
+
+        element_init(root, fp);
+        findroot(root, hp);
+        //printf("root = ");
+        //element_out_str(stdout, 0, root);
+        //printf("\n");
+        element_clear(hp);
+        field_clear(fpx);
+
+        //the root is the j-invariant of our desired curve
+        field_init_curve_j(cc, root, cm - > n, NULL);
+        element_clear(root);
+
+        //we may need to twist it however
+        {
+            element_t P;
+
+            //pick a random point P and see if it has the right order
+            element_init(P, cc);
+            element_random(P);
+            element_mul_mpz(P, P, cm - > n);
+            //element_printf("P = %B", P);
+            //if not, we twist the curve
+            if (!element_is0(P)) {
+                twist_curve(cc);
+            }
+            element_clear(P);
+        }
+
+        mpz_set(param - > q, cm - > q);
+        mpz_set(param - > n, cm - > n);
+        mpz_set(param - > h, cm - > h);
+        mpz_set(param - > r, cm - > r);
+        element_to_mpz(param - > a, curve_field_a_coeff(cc));
+        element_to_mpz(param - > b, curve_field_b_coeff(cc));
+        param - > k = cm - > k;
+        {
+            mpz_t z;
+            mpz_init(z);
+            //compute order of curve in F_q^k
+            //n = q - t + 1 hence t = q - n + 1
+            mpz_sub(z, param - > q, param - > n);
+            mpz_add_ui(z, z, 1);
+            compute_trace_n(z, param - > q, z, param - > k);
+            mpz_pow_ui(param - > nk, param - > q, param - > k);
+            mpz_sub_ui(z, z, 1);
+            mpz_sub(param - > nk, param - > nk, z);
+            mpz_mul(z, param - > r, param - > r);
+            mpz_divexact(param - > hk, param - > nk, z);
+            mpz_clear(z);
+        }
+        field_clear(cc);
+        field_clear(fp);*/
+    }
+
 
     /**
      * solves x^2 - d y^2 = n
@@ -260,7 +364,7 @@ public class TypeDCurveGenerator implements CurveGenerator {
 
             p0 = a0;
             q0 = BigInteger.ONE;
-            p1 = a0.multiply(a1):
+            p1 = a0.multiply(a1);
             p1 = p1.add(BigInteger.ONE);
             q1 = a1;
 
@@ -284,7 +388,6 @@ public class TypeDCurveGenerator implements CurveGenerator {
 
                 if (twice_a0.compareTo(a1) == 0 && d == 1)
                     break;
-
 
                 //compute more of the continued fraction expansion
                 P0 = P1;

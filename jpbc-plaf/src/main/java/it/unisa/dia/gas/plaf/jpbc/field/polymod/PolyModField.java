@@ -27,8 +27,10 @@ public class PolyModField<F extends Field> extends GenericFieldOver<F, PolyModEl
         this.n = irred.getDegree();
 
         this.order = targetField.getOrder().pow(irred.getDegree());
-        this.nqr = newElement();
-        this.nqr.getCoefficient(0).set(nqr);
+        if (nqr != null) {
+            this.nqr = newElement();
+            this.nqr.getCoefficient(0).set(nqr);
+        }
 
         computeXPowers();
 

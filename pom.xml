@@ -35,6 +35,7 @@
     <modules>
         <module>jpbc-api</module>
         <module>jpbc-plaf</module>
+        <module>jpbc-pbc</module>
         <module>jpbc-site-skin</module>
 
         <module>jpbc-hve</module>
