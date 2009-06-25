@@ -3,6 +3,7 @@ package it.unisa.dia.gas.plaf.jpbc.pbc;
 import com.sun.jna.Library;
 import com.sun.jna.Native;
 import com.sun.jna.Platform;
+import com.sun.jna.Pointer;
 import com.sun.jna.ptr.PointerByReference;
 
 /**
@@ -24,13 +25,13 @@ public class Caller {
     public interface PBCLibrary extends Library {
         PBCLibrary INSTANCE = (PBCLibrary) Native.loadLibrary("jpbc-pbc", PBCLibrary.class);
 
-        void pairingInit(PointerByReference pairing, String bug, int len);
+        void pairingInit(Pointer pairing, String bug, int len);
 
-        void pairingClear(PointerByReference pairing);
+        void pairingClear(Pointer pairing);
 
-        void elementInitG1(PointerByReference element, PointerByReference pairing);
+        void elementInitG1(Pointer element, Pointer pairing);
 
-        void elementClear(PointerByReference element); 
+        void elementClear(Pointer element);
     }
 
 
@@ -54,12 +55,12 @@ public class Caller {
 
         PBCLibrary pbcLibrary = PBCLibrary.INSTANCE;
 
-        pbcLibrary.pairingInit(pairing, params, length);
+        pbcLibrary.pairingInit(pairing.getPointer(), params, length);
 
         PointerByReference g1 = new PointerByReference();
-        pbcLibrary.elementInitG1(g1, pairing);
-        pbcLibrary.elementClear(g1);
+        pbcLibrary.elementInitG1(g1.getValue(), pairing.getPointer());
+        pbcLibrary.elementClear(g1.getValue());
 
-        pbcLibrary.pairingClear(pairing);
+        pbcLibrary.pairingClear(pairing.getPointer());
     }
 }
