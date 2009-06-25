@@ -3,6 +3,7 @@ package it.unisa.dia.gas.plaf.jpbc.pbc;
 import com.sun.jna.Library;
 import com.sun.jna.Native;
 import com.sun.jna.Platform;
+import com.sun.jna.Pointer;
 import com.sun.jna.ptr.PointerByReference;
 
 /**
@@ -30,7 +31,7 @@ public class Caller {
 
         double get_time();
 
-        void print_pairing_info(PointerByReference pairing);
+        void print_pairing_info(Pointer pairing);
     }
 
 
@@ -58,7 +59,7 @@ public class Caller {
 
         System.out.println("pairing = " + pairing);
 
-        PBCLibrary.INSTANCE.print_pairing_info(pairing);
+        PBCLibrary.INSTANCE.print_pairing_info(pairing.getPointer());
         PBCLibrary.INSTANCE.pairing_clear(pairing);
 
         System.out.println(PBCLibrary.INSTANCE.get_time());
