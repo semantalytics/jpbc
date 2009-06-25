@@ -57,8 +57,8 @@ public class Caller {
         PBCLibrary.INSTANCE.pairing_init_inp_buf(pairing, params, length);
 
         System.out.println("pairing = " + pairing);
-        PBCLibrary.INSTANCE.print_pairing_info(pairing);
 
+        PBCLibrary.INSTANCE.print_pairing_info(pairing);
         PBCLibrary.INSTANCE.pairing_clear(pairing);
 
         System.out.println(PBCLibrary.INSTANCE.get_time());
