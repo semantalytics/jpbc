@@ -3,7 +3,6 @@ package it.unisa.dia.gas.plaf.jpbc.pbc;
 import com.sun.jna.Library;
 import com.sun.jna.Native;
 import com.sun.jna.Platform;
-import com.sun.jna.Pointer;
 import com.sun.jna.ptr.PointerByReference;
 
 /**
@@ -23,15 +22,15 @@ public class Caller {
     // This is the standard, stable way of mapping, which supports extensive
     // customization and mapping of Java to native types.
     public interface PBCLibrary extends Library {
-        PBCLibrary INSTANCE = (PBCLibrary) Native.loadLibrary("pbc", PBCLibrary.class);
+        PBCLibrary INSTANCE = (PBCLibrary) Native.loadLibrary("jpbc-pbc", PBCLibrary.class);
 
-        void pairing_init_inp_buf(PointerByReference pairing, String bug, int len);
+        void pairingInit(PointerByReference pairing, String bug, int len);
 
-        void pairing_clear(PointerByReference pairing);
+        void pairingClear(PointerByReference pairing);
 
-        double get_time();
+        void elementInitG1(PointerByReference element, PointerByReference pairing);
 
-        void print_pairing_info(Pointer pairing);
+        void elementClear(PointerByReference element); 
     }
 
 
@@ -41,9 +40,7 @@ public class Caller {
             CLibrary.INSTANCE.printf("Argument %d: %s\n", i, args[i]);
         }
 
-
         PointerByReference pairing = new PointerByReference();
-
         String params =
                 "type a\n" +
                 "q 389517483806764372162075727451538192950200087543273118390202621592813077775963376258032864387\n" +
@@ -55,14 +52,14 @@ public class Caller {
                 "sign0 -1";
         int length = params.length();
 
-        PBCLibrary.INSTANCE.pairing_init_inp_buf(pairing, params, length);
+        PBCLibrary pbcLibrary = PBCLibrary.INSTANCE;
 
-        System.out.println("pairing = " + pairing);
+        pbcLibrary.pairingInit(pairing, params, length);
 
-        PBCLibrary.INSTANCE.print_pairing_info(pairing.getPointer());
-        PBCLibrary.INSTANCE.pairing_clear(pairing);
+        PointerByReference g1 = new PointerByReference();
+        pbcLibrary.elementInitG1(g1, pairing);
+        pbcLibrary.elementClear(g1);
 
-        System.out.println(PBCLibrary.INSTANCE.get_time());
-
+        pbcLibrary.pairingClear(pairing);
     }
 }
