@@ -89,7 +89,7 @@ help: .help-post
 # install
 
 install:
-		cp dist/Debug/GNU-Linux-x86/libjpbc-pbc.so /usr/local/lib
+		cp dist/Debug/GNU-Linux-x86/libjpbc-pbc.so /usr/lib
 
 
 # include project implementation makefile
