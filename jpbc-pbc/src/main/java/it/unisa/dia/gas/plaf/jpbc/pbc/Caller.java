@@ -17,6 +17,7 @@ public class Caller {
 
         void printf(String format, Object... args);
     }
+    
 
     // This is the standard, stable way of mapping, which supports extensive
     // customization and mapping of Java to native types.
@@ -27,6 +28,9 @@ public class Caller {
 
         void pairing_clear(PointerByReference pairing);
 
+        double get_time();
+
+        void print_pairing_info(PointerByReference pairing);
     }
 
 
@@ -53,7 +57,11 @@ public class Caller {
         PBCLibrary.INSTANCE.pairing_init_inp_buf(pairing, params, length);
 
         System.out.println("pairing = " + pairing);
+        PBCLibrary.INSTANCE.print_pairing_info(pairing);
 
         PBCLibrary.INSTANCE.pairing_clear(pairing);
+
+        System.out.println(PBCLibrary.INSTANCE.get_time());
+
     }
 }
