@@ -20,5 +20,5 @@ void elementInitG1(element_t element, pairing_t *pairing) {
 }
 
 void elementClear(element_t element) {
-    element_clear(element[0]);
+    element_clear(element);
 }
