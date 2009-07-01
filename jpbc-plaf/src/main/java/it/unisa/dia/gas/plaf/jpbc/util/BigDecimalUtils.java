@@ -61,9 +61,12 @@ public class BigDecimalUtils {
         );
         q.reduceThis();
 
-        BigDecimal pi = new BigDecimal(q.getNominator(), mathContext).divide(new BigDecimal(q.getDenominator(), mathContext));
+        BigDecimal pi = new BigDecimal(q.getNominator(), mathContext).divide(new BigDecimal(q.getDenominator(), mathContext), mathContext);
         BigDecimal f1 = new BigDecimal(Math.sqrt(k3), mathContext);
         pi = pi.multiply(f1);
+
+        return pi;
+
 /*        // Chudnovsky brothers' Ramanujan formula
         // http://www.cs.uwaterloo.ca/~alopez-o/math-faq/mathtext/node12.html
 
@@ -132,12 +135,12 @@ public class BigDecimalUtils {
 
         //mpf_out_str(stdout, 0, 14 * nlimit, pi);
         //printf("\n");*/
-        throw new IllegalStateException("Not Implemented yet!!!");
+        //throw new IllegalStateException("Not Implemented yet!!!");
     }
 
 
     public static void main(String[] args) {
-        System.out.println(compute_pi(100));
+        System.out.println(compute_pi(10));
     }
     
 }

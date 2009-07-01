@@ -73,7 +73,8 @@ public class TypeDCurveGenerator implements CurveGenerator {
 
     /**
      * Finds all the feasible curve for the current discriminant.
-     * @return
+     *
+     * @return all the feasible curve for the current discriminant.
      */
     public Map[] findCurves() {
         List<Map> curves = new ArrayList<Map>();
