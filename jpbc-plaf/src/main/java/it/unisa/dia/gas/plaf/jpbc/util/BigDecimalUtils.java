@@ -41,7 +41,7 @@ public class BigDecimalUtils {
             z2 = z2.pow(3);
             z1 = z1.multiply(z2);
             z2 = d.pow(n);
-            z1 = z2.multiply(z2);
+            z1 = z1.multiply(z2);
 
             q = new BigFraction(z0, z1);
             q.reduceThis();

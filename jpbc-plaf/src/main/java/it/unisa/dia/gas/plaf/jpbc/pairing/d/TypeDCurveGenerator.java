@@ -28,21 +28,57 @@ public class TypeDCurveGenerator implements CurveGenerator {
 
 
     public TypeDCurveGenerator(int discriminant) {
+        this();
+        setDiscriminant(discriminant);
+    }
+
+    public TypeDCurveGenerator() {
         this.bitlimit = 500;
-        this.discriminant = discriminant;
-
-        D3 = BigInteger.valueOf(discriminant * 3);
-        if (BigIntegerUtils.isPerfectSquare(D3)) {
-            //(the only squares that differ by 8 are 1 and 9,
-            //which we get if U=V=1, D=3, but then l is not an integer)
-            throw new IllegalArgumentException("Invalid discriminant.");
-        }
-
-        this.pellEquation = new PellEquation(D3, -8);
     }
 
 
+
     public Map generate() {
+        Map[] curves = findCurves();
+        if (curves == null || curves.length == 0)
+            throw new IllegalStateException("Cannot find valid curves. Try another discriminant.");
+
+        return curves[0];
+    }
+
+
+    public int getDiscriminant() {
+        return discriminant;
+    }
+
+    public void setDiscriminant(int discriminant) {
+        BigInteger D3 = BigInteger.valueOf(discriminant * 3);
+        if (BigIntegerUtils.isPerfectSquare(D3)) {
+            //(the only squares that differ by 8 are 1 and 9,
+            //which we get if U=V=1, D=3, but then l is not an integer)
+            throw new IllegalArgumentException("Invalid discriminant. 3*D is a perfect square.");
+        }
+
+        this.discriminant = discriminant;
+        this.D3 = D3;
+        this.pellEquation = new PellEquation(D3, -8);
+   }
+
+    /**
+     * Finds the next valid discriminant starting from the previous discriminant value.
+     */
+    public void nextDiscriminant() {
+        throw new IllegalStateException("Not Implemented yet!!!");
+    }
+
+    /**
+     * Finds all the feasible curve for the current discriminant.
+     * @return
+     */
+    public Map[] findCurves() {
+        List<Map> curves = new ArrayList<Map>();
+
+
         Map params = new LinkedHashMap();
 
         BigInteger t0, t1, t2;
@@ -55,12 +91,16 @@ public class TypeDCurveGenerator implements CurveGenerator {
         n = pellEquation.count;
         if (n != 0) {
             boolean found = false;
-            
+
+            // Copy pell equation solution
+            BigInteger[] x = pellEquation.x.clone();
+            BigInteger[] y = pellEquation.y.clone();
+
             while (!found) {
                 for (int i = 0; i < n; i++) {
                     //element_printf("%Zd, %Zd\n", ps->x[i], ps->y[i]);
 
-                    if (mnt_step2(params, pellEquation.x[i]) == 0)
+                    if (mnt_step2(params, x[i]) == 0)
                         found_count++;
 
                     // compute next solution as follows
@@ -69,8 +109,8 @@ public class TypeDCurveGenerator implements CurveGenerator {
                     // (p + q sqrt{3D})(t + u sqrt{3D}) = p' + q' sqrt(3D)
                     // where t, u is min. solution to Pell equation
 
-                    t0 = pellEquation.minx.multiply(pellEquation.y[i]);
-                    t1 = pellEquation.miny.multiply(pellEquation.x[i]);
+                    t0 = pellEquation.minx.multiply(y[i]);
+                    t1 = pellEquation.miny.multiply(x[i]);
                     t1 = t1.multiply(D3);
                     t0 = t0.add(t1);
 
@@ -79,18 +119,19 @@ public class TypeDCurveGenerator implements CurveGenerator {
                         break;
                     }
 
-                    t2 = pellEquation.minx.multiply(pellEquation.y[i]);
-                    t1 = pellEquation.miny.multiply(pellEquation.x[i]);
+                    t2 = pellEquation.minx.multiply(y[i]);
+                    t1 = pellEquation.miny.multiply(x[i]);
                     t2 = t2.add(t1);
 
-                    pellEquation.x[i] = t0;
-                    pellEquation.y[i] = t2;
+                    x[i] = t0;
+                    y[i] = t2;
                 }
             }
         }
 
-        return params;
+        return curves.toArray(new Map[curves.size()]);
     }
+
 
 
     protected int mnt_step2(Map params, BigInteger U) {
@@ -305,10 +346,12 @@ public class TypeDCurveGenerator implements CurveGenerator {
         protected BigInteger minx, miny;
         protected BigInteger[] x, y;
 
+
         public PellEquation(BigInteger D, int n) {
             this.D = D;
             this.N = n;
         }
+
 
         public void solve() {
             //TODO: brute force for small D
