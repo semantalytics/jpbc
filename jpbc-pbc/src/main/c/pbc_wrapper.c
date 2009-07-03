@@ -7,15 +7,24 @@
 #include <pbc/pbc_field.h>
 #include <pbc/pbc_pairing.h>
 
-void pairingInit(pairing_t *pairing, const char *buf, size_t len) {
+
+int sizeOfPairing() {
+    return sizeof(pairing_t);
+}
+
+int sizeOfElement() {
+    return sizeof(element_t);
+}
+
+void pairingInit(pairing_t pairing, const char *buf, size_t len) {
     pairing_init_inp_buf (pairing[0], buf, len);
 }
 
-void pairingClear(pairing_t *pairing) {
+void pairingClear(pairing_t pairing) {
     pairing_clear(pairing[0]);
 }
 
-void elementInitG1(element_t element, pairing_t *pairing) {
+void elementInitG1(element_t element, pairing_t pairing) {
     element_init_G1(element, pairing[0]);
 }
 

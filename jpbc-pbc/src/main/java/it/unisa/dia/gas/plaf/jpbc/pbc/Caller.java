@@ -1,10 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.pbc;
 
-import com.sun.jna.Library;
-import com.sun.jna.Native;
-import com.sun.jna.Platform;
-import com.sun.jna.Pointer;
-import com.sun.jna.ptr.PointerByReference;
+import com.sun.jna.*;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -23,15 +19,20 @@ public class Caller {
     // This is the standard, stable way of mapping, which supports extensive
     // customization and mapping of Java to native types.
     public interface PBCLibrary extends Library {
-        PBCLibrary INSTANCE = (PBCLibrary) Native.loadLibrary("jpbc-pbc", PBCLibrary.class);
+//        PBCLibrary INSTANCE = (PBCLibrary) Native.loadLibrary("jpbc-pbc", PBCLibrary.class);
+        PBCLibrary INSTANCE = (PBCLibrary) Native.loadLibrary("pbc", PBCLibrary.class);
 
-        void pairingInit(Pointer pairing, String bug, int len);
+        int sizeOfPairing();
 
-        void pairingClear(Pointer pairing);
+        int sizeOfElement();
 
-        void elementInitG1(Pointer element, Pointer pairing);
+        void pairing_init_inp_buf(Pointer pairing, String bug, int len);
 
-        void elementClear(Pointer element);
+        void pairing_clear(Pointer pointer);
+
+        void _element_init_G1(Pointer element, Pointer pairing);
+
+        void _element_clear(Pointer element);
     }
 
 
@@ -41,7 +42,12 @@ public class Caller {
             CLibrary.INSTANCE.printf("Argument %d: %s\n", i, args[i]);
         }
 
-        PointerByReference pairing = new PointerByReference();
+        PBCLibrary pbcLibrary = PBCLibrary.INSTANCE;
+        System.out.println(pbcLibrary.sizeOfPairing());
+        System.out.println(pbcLibrary.sizeOfElement());
+
+        Pointer pairing = new Memory(pbcLibrary.sizeOfPairing());
+
         String params =
                 "type a\n" +
                 "q 389517483806764372162075727451538192950200087543273118390202621592813077775963376258032864387\n" +
@@ -51,16 +57,14 @@ public class Caller {
                 "exp1 144\n" +
                 "sign1 1\n" +
                 "sign0 -1";
+
         int length = params.length();
+        pbcLibrary.pairing_init_inp_buf(pairing, params, length);
 
-        PBCLibrary pbcLibrary = PBCLibrary.INSTANCE;
+        Pointer g1 = new Memory(pbcLibrary.sizeOfElement());
+        pbcLibrary._element_init_G1(g1, pairing);
+        pbcLibrary._element_clear(g1);
 
-        pbcLibrary.pairingInit(pairing.getPointer(), params, length);
-
-        PointerByReference g1 = new PointerByReference();
-        pbcLibrary.elementInitG1(g1.getValue(), pairing.getPointer());
-        pbcLibrary.elementClear(g1.getValue());
-
-        pbcLibrary.pairingClear(pairing.getPointer());
+        pbcLibrary.pairing_clear(pairing);
     }
 }

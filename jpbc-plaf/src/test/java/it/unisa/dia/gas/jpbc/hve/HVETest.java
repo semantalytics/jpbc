@@ -22,7 +22,7 @@ public class HVETest extends TestCase {
             Pairing pairing = new TypeAPairing(properties);
 
             // load public information
-            Pub pub = new Pub(this, pairing, 5);
+            Pub pub = new Pub(pairing, 5);
             pub.setup();
 
             Key key = pub.keyGen(new byte[]{0, 0, 0, 0, -1});

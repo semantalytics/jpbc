@@ -66,7 +66,6 @@ public class BigDecimalUtils {
         pi = pi.multiply(f1);
 
         return pi;
-
 /*        // Chudnovsky brothers' Ramanujan formula
         // http://www.cs.uwaterloo.ca/~alopez-o/math-faq/mathtext/node12.html
 
@@ -140,7 +139,7 @@ public class BigDecimalUtils {
 
 
     public static void main(String[] args) {
-        System.out.println(compute_pi(10));
+        System.out.println(compute_pi(100));
     }
     
 }

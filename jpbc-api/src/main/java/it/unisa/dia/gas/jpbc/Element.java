@@ -1,11 +1,12 @@
 package it.unisa.dia.gas.jpbc;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public interface Element extends Comparable<Element> {
+public interface Element extends Comparable<Element>, Serializable {
 
     Field getField();
 

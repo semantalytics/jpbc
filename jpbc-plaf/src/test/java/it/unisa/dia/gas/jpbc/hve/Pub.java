@@ -16,16 +16,15 @@ public class Pub {
 
     protected Pk pk;
     protected Msk msk;
-    private HVETest hveTest;
 
 
-    public Pub(HVETest hveTest, Pairing pairing, int n) {
-        this.hveTest = hveTest;
+    public Pub(Pairing pairing, int n) {
         this.pairing = pairing;
         this.n = n;
 
         setup();
     }
+
 
     public void setup() {
         this.g = pairing.getG1().newElement().setToRandom();
