@@ -28,7 +28,7 @@ OBJECTDIR=build/Release/${PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/src/main/c/pbc_wrapper.o
+	${OBJECTDIR}/src/main/c/pbc_export.o
 
 # C Compiler Flags
 CFLAGS=
@@ -51,10 +51,10 @@ dist/Release/${PLATFORM}/libjpbc-pbc.so: ${OBJECTFILES}
 	${MKDIR} -p dist/Release/${PLATFORM}
 	${LINK.c} -shared -o dist/Release/${PLATFORM}/libjpbc-pbc.so -fPIC ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
-${OBJECTDIR}/src/main/c/pbc_wrapper.o: src/main/c/pbc_wrapper.c 
+${OBJECTDIR}/src/main/c/pbc_export.o: src/main/c/pbc_export.c 
 	${MKDIR} -p ${OBJECTDIR}/src/main/c
 	${RM} $@.d
-	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/main/c/pbc_wrapper.o src/main/c/pbc_wrapper.c
+	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/main/c/pbc_export.o src/main/c/pbc_export.c
 
 # Subprojects
 .build-subprojects:
