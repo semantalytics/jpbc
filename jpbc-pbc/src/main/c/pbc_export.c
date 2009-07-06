@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <time.h>
@@ -6,6 +5,7 @@
 #include <pbc/pbc.h>
 #include <pbc/pbc_field.h>
 #include <pbc/pbc_pairing.h>
+#include <stdio.h>
 
 
 int pbc_pairing_sizeof() {
