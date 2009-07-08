@@ -93,11 +93,11 @@ public class QuadraticEvenElement extends GenericPointElement {
         return this;
     }
 
-    public int setFromBytes(byte[] bytes) {
+    public int setFromBytes(byte[] bytes, int offset) {
         int len;
 
-        len = x.setFromBytes(bytes);
-        len += y.setFromBytes(Arrays.copyOfRange(bytes, len, bytes.length - len));
+        len = x.setFromBytes(bytes, offset);
+        len += y.setFromBytes(bytes, offset + len);
 
         return len;
     }
@@ -397,6 +397,17 @@ public class QuadraticEvenElement extends GenericPointElement {
 
     public BigInteger toBigInteger() {
         return x.toBigInteger();
+    }
+
+    public byte[] toBytes() {
+        byte[] xBytes = x.toBytes();
+        byte[] yBytes = y.toBytes();
+
+        byte[] result = new byte[xBytes.length + yBytes.length];
+        System.arraycopy(xBytes, 0, result, 0, xBytes.length);
+        System.arraycopy(yBytes, 0, result, xBytes.length, yBytes.length);
+
+        return result;
     }
 
     public QuadraticEvenElement setFromHash(byte[] hash) {

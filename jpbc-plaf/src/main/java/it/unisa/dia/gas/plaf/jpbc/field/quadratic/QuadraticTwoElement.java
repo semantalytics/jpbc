@@ -2,8 +2,6 @@ package it.unisa.dia.gas.plaf.jpbc.field.quadratic;
 
 import it.unisa.dia.gas.jpbc.Element;
 
-import java.math.BigInteger;
-
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
@@ -232,10 +230,6 @@ public class QuadraticTwoElement extends QuadraticEvenElement {
         QuadraticTwoElement element = (QuadraticTwoElement) e;
 
         return x.compareTo(element.x) ==0 && y.compareTo(element.y) == 0 ? 0 : 1;
-    }
-
-    public BigInteger toBigInteger() {
-        throw new IllegalStateException("Not Implemented yet!!!");
     }
 
     public String toString() {

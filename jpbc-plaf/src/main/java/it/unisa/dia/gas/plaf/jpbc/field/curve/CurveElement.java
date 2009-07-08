@@ -98,8 +98,18 @@ public class CurveElement extends GenericPointElement {
         return this;
     }
 
-    public int setFromBytes(byte[] bytes) {
-        throw new IllegalStateException("Not implemented yet!!!");
+    public int setFromBytes(byte[] bytes, int offset) {
+        int len;
+
+        infFlag = 0;
+        len = x.setFromBytes(bytes, offset);
+        len += y.setFromBytes(bytes, offset + len);
+
+        //if point does not lie on curve, set it to O
+        if (!isValid()) 
+            setToZero();
+
+        return len;
     }
 
     public int setEncoding(byte[] bytes) {
@@ -271,7 +281,6 @@ public class CurveElement extends GenericPointElement {
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
-
     public int compareTo(Element e) {
         if (this == e)
             return 0;
@@ -306,6 +315,17 @@ public class CurveElement extends GenericPointElement {
 
     public BigInteger toBigInteger() {
         throw new IllegalStateException("Not Implemented yet!!!");
+    }
+
+    public byte[] toBytes() {
+        byte[] xBytes = x.toBytes();
+        byte[] yBytes = y.toBytes();
+
+        byte[] result = new byte[xBytes.length + yBytes.length];
+        System.arraycopy(xBytes, 0, result, 0, xBytes.length);
+        System.arraycopy(yBytes, 0, result, xBytes.length, yBytes.length);
+
+        return result;
     }
 
     public CurveElement setFromHash(byte[] hash) {
@@ -348,6 +368,22 @@ public class CurveElement extends GenericPointElement {
 
     public String toString() {
         return String.format("{x=%s,y=%s,infFlag=%d}", x, y, infFlag);
+    }
+
+
+    public boolean isValid() {
+        Element t0, t1;
+        int result;
+
+        if (infFlag != 0)
+            return true;
+
+        t0 = field.getTargetField().newElement();
+        t1 = field.getTargetField().newElement();
+        t0.set(x).square().add(getField().getA()).mul(x).add(getField().getB());
+        t1.set(y).square();
+
+        return t0.compareTo(t1) == 0;
     }
 
 
@@ -402,5 +438,6 @@ public class CurveElement extends GenericPointElement {
         element_clear(e1);
         */
     }
+
 
 }

@@ -88,6 +88,10 @@ public class GTFiniteElement extends GenericElement {
         return value.setFromBytes(bytes);
     }
 
+    public int setFromBytes(byte[] bytes, int offset) {
+        return value.setFromBytes(bytes, offset);
+    }
+
     public int setEncoding(byte[] bytes) {
         return value.setEncoding(bytes);
     }

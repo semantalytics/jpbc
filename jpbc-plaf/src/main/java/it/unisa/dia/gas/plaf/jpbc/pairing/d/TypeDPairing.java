@@ -10,18 +10,17 @@ import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyField;
 import it.unisa.dia.gas.plaf.jpbc.field.polymod.PolyModElement;
 import it.unisa.dia.gas.plaf.jpbc.field.polymod.PolyModField;
 import it.unisa.dia.gas.plaf.jpbc.field.quadratic.QuadraticEvenField;
+import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingMap;
-import it.unisa.dia.gas.plaf.jpbc.util.Utils;
 
 import java.math.BigInteger;
 import java.util.List;
-import java.util.Properties;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class TypeDPairing implements Pairing {
-    protected Properties properties;
+    protected CurveParams curveParams;
 
     protected int k;
 
@@ -46,8 +45,8 @@ public class TypeDPairing implements Pairing {
 
     protected PairingMap pairingMap;
 
-    public TypeDPairing(Properties properties) {
-        this.properties = properties;
+    public TypeDPairing(CurveParams curveParams) {
+        this.curveParams = curveParams;
 
         initParams();
         initFields();
@@ -98,22 +97,22 @@ public class TypeDPairing implements Pairing {
 
     protected void initParams() {
         // validate the type
-        String type = properties.getProperty("type");
+        String type = curveParams.getType();
         if (type == null || !"d".equalsIgnoreCase(type))
             throw new IllegalArgumentException("Type not valid. Found '" + type + "'. Expected 'd'.");
 
         // load params
-        k = Integer.parseInt(Utils.getProperty(properties, "k"));
+        k = curveParams.getInt("k");
         if (k % 2 != 0)
             throw new IllegalArgumentException("odd k not implemented anymore");
 
 
-        r = new BigInteger(Utils.getProperty(properties, "r"));
-        q = new BigInteger(Utils.getProperty(properties, "q"));
-        h = new BigInteger(Utils.getProperty(properties, "h"));
+        r = curveParams.getBigInteger("r");
+        q = curveParams.getBigInteger("q");
+        h = curveParams.getBigInteger("h");
 
-        a = new BigInteger(Utils.getProperty(properties, "a"));
-        b = new BigInteger(Utils.getProperty(properties, "b"));
+        a = curveParams.getBigInteger("a");
+        b = curveParams.getBigInteger("b");
     }
 
 
@@ -140,7 +139,7 @@ public class TypeDPairing implements Pairing {
 
         for (int i = 0; i < d; i++) {
             coeff.add(
-                    polyField.getTargetField().newElement().set(new BigInteger(Utils.getProperty(properties, "coeff" + i)))
+                    polyField.getTargetField().newElement().set(curveParams.getBigInteger("coeff" + i))
             );
         }
         coeff.add(polyField.getTargetField().newElement().setToOne());
@@ -236,7 +235,7 @@ public class TypeDPairing implements Pairing {
     }
 
     protected PolyModField initPolyMod(PolyElement irred) {
-        return new PolyModField(irred, new BigInteger(Utils.getProperty(properties, "nqr")));
+        return new PolyModField(irred, curveParams.getBigInteger("nqr"));
     }
 
     protected QuadraticEvenField initQuadratic() {

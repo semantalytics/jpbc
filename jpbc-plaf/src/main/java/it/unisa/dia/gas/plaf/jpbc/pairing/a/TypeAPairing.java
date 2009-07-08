@@ -8,11 +8,10 @@ import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveField;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteField;
 import it.unisa.dia.gas.plaf.jpbc.field.naive.NaiveField;
 import it.unisa.dia.gas.plaf.jpbc.field.quadratic.QuadraticTwoField;
+import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingMap;
-import it.unisa.dia.gas.plaf.jpbc.util.Utils;
 
 import java.math.BigInteger;
-import java.util.Properties;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -38,7 +37,7 @@ public class TypeAPairing implements Pairing {
     protected PairingMap pairingMap;
 
 
-    public TypeAPairing(Properties properties) {
+    public TypeAPairing(CurveParams properties) {
         initParams(properties);
         initFields();
         initMap();
@@ -86,21 +85,21 @@ public class TypeAPairing implements Pairing {
     }
 
 
-    protected void initParams(Properties properties) {
+    protected void initParams(CurveParams curveParams) {
         // validate the type
-        String type = properties.getProperty("type");
+        String type = curveParams.get("type");
         if (type == null || !"a".equalsIgnoreCase(type))
             throw new IllegalArgumentException("Type not valid. Found '" + type + "'. Expected 'a'.");
 
         // load params
-        exp2 = Integer.parseInt(Utils.getProperty(properties, "exp2"));
-        exp1 = Integer.parseInt(Utils.getProperty(properties, "exp1"));
-        sign1 = Integer.parseInt(Utils.getProperty(properties, "sign1"));
-        sign0 = Integer.parseInt(Utils.getProperty(properties, "sign0"));
+        exp2 = curveParams.getInt("exp2");
+        exp1 = curveParams.getInt("exp1");
+        sign1 = curveParams.getInt("sign1");
+        sign0 = curveParams.getInt("sign0");
 
-        r = new BigInteger(Utils.getProperty(properties, "r"));
-        q = new BigInteger(Utils.getProperty(properties, "q"));
-        h = new BigInteger(Utils.getProperty(properties, "h"));
+        r = curveParams.getBigInteger("r");
+        q = curveParams.getBigInteger("q");
+        h = curveParams.getBigInteger("h");
     }
 
 

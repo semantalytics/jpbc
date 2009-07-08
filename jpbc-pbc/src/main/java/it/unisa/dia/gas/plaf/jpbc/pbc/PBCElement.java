@@ -69,6 +69,10 @@ public class PBCElement implements Element {
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
+    public int setFromBytes(byte[] bytes, int offset) {
+        throw new IllegalStateException("Not Implemented yet!!!");
+    }
+
     public int setEncoding(byte[] bytes) {
         throw new IllegalStateException("Not Implemented yet!!!");
     }

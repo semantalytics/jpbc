@@ -143,7 +143,11 @@ public class NaiveElement extends GenericElement {
     }
 
     public int setFromBytes(byte[] bytes) {
-        value = new BigInteger(Utils.copyOf(bytes, field.getFixedLengthInBytes())).mod(order);
+        return setFromBytes(bytes, 0);
+    }
+
+    public int setFromBytes(byte[] bytes, int offset) {
+        value = new BigInteger(Utils.copyOf(bytes, offset, field.getFixedLengthInBytes())).mod(order);
 
         return field.getFixedLengthInBytes();
     }
@@ -296,6 +300,19 @@ public class NaiveElement extends GenericElement {
         return value;
     }
 
+    @Override
+    public byte[] toBytes() {
+        byte[] bytes = value.toByteArray();
+        if (bytes.length > field.getFixedLengthInBytes())
+            throw new IllegalStateException("result has more than FixedLengthInBytes.");
+        else if (bytes.length < field.getFixedLengthInBytes()) {
+            byte[] result = new byte[field.getFixedLengthInBytes()];
+            System.arraycopy(bytes, 0, result, field.getFixedLengthInBytes() - bytes.length, bytes.length);
+            return result;
+        }
+        return bytes;
+    }
+
     public int sign() {
         return value.signum();
     }
@@ -304,6 +321,11 @@ public class NaiveElement extends GenericElement {
     public String toString() {
         return (value != null) ? value.toString() : "<null>";
     }
+
+    public boolean equals(Object o) {
+        return compareTo((NaiveElement) o) == 0;
+    }
+
 
     public byte[] getBytes() {
         return value.toByteArray();

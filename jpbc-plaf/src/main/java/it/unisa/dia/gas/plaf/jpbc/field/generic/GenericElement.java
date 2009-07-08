@@ -23,6 +23,14 @@ public abstract class GenericElement implements Element {
         return field;
     }
 
+    public int setFromBytes(byte[] bytes) {
+        return setFromBytes(bytes, 0);
+    }
+
+    public int setFromBytes(byte[] bytes, int offset) {
+        throw new IllegalStateException("Not Implemented yet!!!");
+    }
+
     public Element map(Element Element) {
         throw new IllegalStateException("Not Implemented yet!!!");
     }

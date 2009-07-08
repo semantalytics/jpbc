@@ -26,6 +26,8 @@ public interface Element extends Comparable<Element>, Serializable {
 
     int setFromBytes(byte[] bytes);
 
+    int setFromBytes(byte[] bytes, int offset);
+
     int setEncoding(byte[] bytes);
 
     byte[] getDecoding();

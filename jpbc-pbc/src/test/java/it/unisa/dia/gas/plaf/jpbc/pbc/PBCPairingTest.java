@@ -10,7 +10,6 @@ public class PBCPairingTest extends PairingTest {
     protected Pairing pairing;
     
 
-    @Override
     protected void setUp() throws Exception {
         pairing = new PBCPairing(PBCPairingTest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pbc/pairing/a_311_289.param"));
 //        pairing = new PBCPairing(PBCPairingTest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pbc/pairing/d_9563.param"));

@@ -101,10 +101,6 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
-    public int setFromBytes(byte[] bytes) {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
     public int setEncoding(byte[] bytes) {
         throw new IllegalStateException("Not Implemented yet!!!");
     }

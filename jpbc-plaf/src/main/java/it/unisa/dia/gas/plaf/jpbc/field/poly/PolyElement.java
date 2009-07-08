@@ -72,16 +72,12 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
-    public int setFromBytes(byte[] bytes) {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
     public int setEncoding(byte[] bytes) {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        throw new IllegalStateException("Not Implemented yet!!!");
     }
 
     public byte[] getDecoding() {
-        return new byte[0];  //To change body of implemented methods use File | Settings | File Templates.
+        throw new IllegalStateException("Not Implemented yet!!!");
     }
 
     public PolyElement<E> setToZero() {
