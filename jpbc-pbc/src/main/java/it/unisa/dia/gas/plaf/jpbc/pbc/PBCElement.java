@@ -6,6 +6,7 @@ import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.MPZElementType;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCElementType;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCLibrary;
+import it.unisa.dia.gas.plaf.jpbc.util.Utils;
 
 import java.math.BigInteger;
 
@@ -66,11 +67,15 @@ public class PBCElement implements Element {
     }
 
     public int setFromBytes(byte[] bytes) {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        return setFromBytes(bytes, 0);
     }
 
     public int setFromBytes(byte[] bytes, int offset) {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        int lengthInBytes = PBCLibrary.INSTANCE.pbc_element_length_in_bytes(value);
+
+        PBCLibrary.INSTANCE.pbc_element_from_bytes(value, Utils.copyOf(bytes, offset, lengthInBytes));
+
+        return lengthInBytes;
     }
 
     public int setEncoding(byte[] bytes) {
@@ -210,7 +215,12 @@ public class PBCElement implements Element {
     }
 
     public byte[] toBytes() {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        int numBytes = PBCLibrary.INSTANCE.pbc_element_length_in_bytes(value);
+
+        byte[] bytes = new byte[numBytes];
+        PBCLibrary.INSTANCE.pbc_element_to_bytes(bytes, value);
+
+        return bytes;
     }
 
     public int compareTo(Element o) {

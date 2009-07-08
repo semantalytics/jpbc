@@ -7,7 +7,6 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCLibrary;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCPairingType;
 
-import java.io.IOException;
 import java.math.BigInteger;
 
 /**
@@ -22,7 +21,7 @@ public class PBCPairing implements Pairing {
     protected PBCZrField zRField;
 
 
-    public PBCPairing(CurveParams curveParams) throws IOException {
+    public PBCPairing(CurveParams curveParams) {
         // Init pairing...
 
         String buf = curveParams.toString(" ");

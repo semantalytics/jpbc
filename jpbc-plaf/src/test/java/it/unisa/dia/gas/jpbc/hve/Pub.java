@@ -27,6 +27,7 @@ public class Pub {
 
 
     public void setup() {
+        // Peek the generator
         this.g = pairing.getG1().newElement().setToRandom();
 
         // Init Y
@@ -132,7 +133,7 @@ public class Pub {
                 case 1:
                     Y.add(
                             g.duplicate().powZn(
-                                    a.get(ai).div(msk.t.get(yi))
+                                    a.get(ai).duplicate().div(msk.t.get(yi))
                             )
                     );
                     L.add(
