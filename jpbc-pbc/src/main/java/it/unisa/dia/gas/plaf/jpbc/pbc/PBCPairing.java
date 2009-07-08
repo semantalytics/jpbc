@@ -3,12 +3,11 @@ package it.unisa.dia.gas.plaf.jpbc.pbc;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Pairing;
+import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCLibrary;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCPairingType;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigInteger;
 
 /**
@@ -23,19 +22,10 @@ public class PBCPairing implements Pairing {
     protected PBCZrField zRField;
 
 
-    public PBCPairing(InputStream param) throws IOException {
+    public PBCPairing(CurveParams curveParams) throws IOException {
         // Init pairing...
 
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024];
-        while (true) {
-            int length = param.read(buffer);
-            if (length == -1)
-                break;
-
-            output.write(buffer, 0, length);
-        }
-        String buf = output.toString();
+        String buf = curveParams.toString(" ");
 
         pairing = new PBCPairingType();
         PBCLibrary.INSTANCE.pbc_pairing_init_inp_buf(pairing, buf, buf.length());

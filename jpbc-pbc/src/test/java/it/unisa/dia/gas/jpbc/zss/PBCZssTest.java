@@ -2,6 +2,7 @@ package it.unisa.dia.gas.jpbc.zss;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
+import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pbc.PBCPairing;
 import junit.framework.TestCase;
 
@@ -16,7 +17,10 @@ public class PBCZssTest extends TestCase {
         // Load pairing
 
         try {
-            Pairing pairing = new PBCPairing(PBCZssTest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pbc/pairing/a_311_289.param"));
+            CurveParams curveParams = new CurveParams();
+            curveParams.load(PBCZssTest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pbc/pairing/a_311_289.param"));
+
+            Pairing pairing = new PBCPairing(curveParams);
 
             long time1, time2;
 

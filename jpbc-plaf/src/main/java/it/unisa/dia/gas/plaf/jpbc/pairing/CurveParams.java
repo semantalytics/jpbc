@@ -13,6 +13,7 @@ import java.util.StringTokenizer;
  */
 public class CurveParams extends LinkedHashMap<String, String> {
 
+
     public CurveParams() {
     }
 
@@ -58,4 +59,21 @@ public class CurveParams extends LinkedHashMap<String, String> {
 
         return this;
     }
+
+    public String toString(String separator) {
+        StringBuffer buffer = new StringBuffer();
+
+        for (String key : keySet()) {
+            buffer.append(key).append(separator).append(get(key)).append("\n");
+        }
+
+        return buffer.toString();
+    }
+
+    
+    public String toString() {
+        return toString("=");
+    }
+
+
 }
