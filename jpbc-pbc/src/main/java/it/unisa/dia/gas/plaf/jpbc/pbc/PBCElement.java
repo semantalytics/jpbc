@@ -229,10 +229,9 @@ public class PBCElement implements Element {
 
     @Override
     public String toString() {
-        Memory memory = new Memory(2048);
-        PBCLibrary.INSTANCE.pbc_element_snprint(memory, 2048, value);
-
-        return new String(memory.getByteArray(0, 256));
+        Memory memory = new Memory(getField().getFixedLengthInBytes()*3);
+        PBCLibrary.INSTANCE.pbc_element_snprint(memory, getField().getFixedLengthInBytes()*3, value);
+        return memory.getString(0);
     }
 
     @Override
