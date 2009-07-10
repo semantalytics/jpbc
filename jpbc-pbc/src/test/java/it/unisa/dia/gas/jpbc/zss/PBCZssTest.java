@@ -16,7 +16,7 @@ public class PBCZssTest extends TestCase {
         // Load pairing
 
         CurveParams curveParams = new CurveParams();
-        curveParams.load(PBCZssTest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pbc/pairing/a_311_289.param"));
+        curveParams.load(PBCZssTest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pbc/pairing/a_311_289.properties"));
 
         Pairing pairing = new PBCPairing(curveParams);
 
