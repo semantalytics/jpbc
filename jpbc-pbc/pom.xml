@@ -28,7 +28,6 @@
             <groupId>it.unisa.dia.gas</groupId>
             <artifactId>jpbc-plaf</artifactId>
             <version>1.0.0</version>
-            <scope>test</scope>
         </dependency>
 
         <dependency>
