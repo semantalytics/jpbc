@@ -13,11 +13,7 @@ public class PBCElementType extends Memory {
 
     @Override
     protected void finalize() {
-        System.out.println("PBCElementType S: finalize!!");
-
         PBCLibrary.INSTANCE.pbc_element_clear(this);
         super.finalize();
-
-        System.out.println("PBCElementType E: finalize!!");
     }
 }

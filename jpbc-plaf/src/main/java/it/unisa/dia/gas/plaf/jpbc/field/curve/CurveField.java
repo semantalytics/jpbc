@@ -60,7 +60,7 @@ public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElemen
     }
 
     public int getFixedLengthInBytes() {
-        throw new IllegalStateException("Not implemented yet!!!");
+        return getTargetField().getFixedLengthInBytes() * 2;
     }
 
 

@@ -75,5 +75,4 @@ public class CurveParams extends LinkedHashMap<String, String> {
         return toString("=");
     }
 
-
 }

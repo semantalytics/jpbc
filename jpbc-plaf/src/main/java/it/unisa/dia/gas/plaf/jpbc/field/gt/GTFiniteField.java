@@ -32,6 +32,6 @@ public class GTFiniteField<F extends Field> extends GenericFieldOver<F, GTFinite
     }
 
     public int getFixedLengthInBytes() {
-        throw new IllegalStateException("Not implemented yet!!!");
+        return getTargetField().getFixedLengthInBytes();
     }
 }

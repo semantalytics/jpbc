@@ -235,6 +235,13 @@ public class PBCElement implements Element {
         return new String(memory.getByteArray(0, 256));
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Element))
+            return false;
+
+        return compareTo((Element) obj) == 0;
+    }
 
     public PBCElementType getValue() {
         return value;
