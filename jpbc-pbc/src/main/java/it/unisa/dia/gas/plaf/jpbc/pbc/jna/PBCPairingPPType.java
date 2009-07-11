@@ -8,7 +8,7 @@ import com.sun.jna.Memory;
 public class PBCPairingPPType extends Memory {
 
     public PBCPairingPPType() {
-        super(PBCLibrary.INSTANCE.pbc_pairing_pp_sizeof());
+        super(PBCLibraryProvider.getPbcLibrary().pbc_pairing_pp_sizeof());
     }
 
 }

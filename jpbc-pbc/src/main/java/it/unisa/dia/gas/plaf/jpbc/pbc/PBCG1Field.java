@@ -2,7 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.pbc;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCElementType;
-import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCLibrary;
+import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCLibraryProvider;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCPairingType;
 
 /**
@@ -18,7 +18,7 @@ public class PBCG1Field extends PBCField {
 
     public Element newElement() {
         PBCElementType element = new PBCElementType();
-        PBCLibrary.INSTANCE.pbc_element_init_G1(element, pairing);
+        PBCLibraryProvider.getPbcLibrary().pbc_element_init_G1(element, pairing);
 
         return new PBCElement(element, this);
     }

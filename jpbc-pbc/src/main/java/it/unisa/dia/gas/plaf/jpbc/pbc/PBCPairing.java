@@ -4,7 +4,7 @@ import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
-import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCLibrary;
+import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCLibraryProvider;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCPairingType;
 
 import java.math.BigInteger;
@@ -13,6 +13,7 @@ import java.math.BigInteger;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class PBCPairing implements Pairing {
+
     protected PBCPairingType pairing;
 
     protected PBCG1Field g1Field;
@@ -22,12 +23,14 @@ public class PBCPairing implements Pairing {
 
 
     public PBCPairing(CurveParams curveParams) {
+        if (!PBCLibraryProvider.isAvailable())
+            throw new IllegalStateException("PBC support not available.");
+        
         // Init pairing...
-
         String buf = curveParams.toString(" ");
 
         pairing = new PBCPairingType();
-        PBCLibrary.INSTANCE.pbc_pairing_init_inp_buf(pairing, buf, buf.length());
+        PBCLibraryProvider.getPbcLibrary().pbc_pairing_init_inp_buf(pairing, buf, buf.length());
 
         // Init fields
 
@@ -36,7 +39,7 @@ public class PBCPairing implements Pairing {
 
 
     public boolean isSymmetric() {
-        return PBCLibrary.INSTANCE.pbc_pairing_is_symmetric(pairing) == 0;
+        return PBCLibraryProvider.getPbcLibrary().pbc_pairing_is_symmetric(pairing) == 0;
     }
 
     public BigInteger getPhikonr() {
@@ -62,7 +65,7 @@ public class PBCPairing implements Pairing {
     public Element pairing(Element g1, Element g2) {
         PBCElement out = (PBCElement) gTField.newElement();
 
-        PBCLibrary.INSTANCE.pbc_pairing_apply(out.getValue(), ((PBCElement) g1).getValue(), ((PBCElement) g2).getValue(), pairing);
+        PBCLibraryProvider.getPbcLibrary().pbc_pairing_apply(out.getValue(), ((PBCElement) g1).getValue(), ((PBCElement) g2).getValue(), pairing);
 
         return out;
     }
@@ -79,7 +82,7 @@ public class PBCPairing implements Pairing {
         gTField = null;
         zRField = null;
         
-        PBCLibrary.INSTANCE.pbc_pairing_clear(pairing);
+        PBCLibraryProvider.getPbcLibrary().pbc_pairing_clear(pairing);
     }
 
     protected void initPairing() {

@@ -8,12 +8,12 @@ import com.sun.jna.Memory;
 public class PBCElementType extends Memory {
 
     public PBCElementType() {
-        super(PBCLibrary.INSTANCE.pbc_element_sizeof());
+        super(PBCLibraryProvider.getPbcLibrary().pbc_element_sizeof());
     }
 
     @Override
     protected void finalize() {
-        PBCLibrary.INSTANCE.pbc_element_clear(this);
+        PBCLibraryProvider.getPbcLibrary().pbc_element_clear(this);
         super.finalize();
     }
 }

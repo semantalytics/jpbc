@@ -8,7 +8,13 @@ import com.sun.jna.Memory;
 public class PBCPairingType extends Memory {
 
     public PBCPairingType() {
-        super(PBCLibrary.INSTANCE.pbc_pairing_sizeof());
+        super(PBCLibraryProvider.getPbcLibrary().pbc_pairing_sizeof());
     }
 
+
+    @Override
+    protected void finalize() {
+        PBCLibraryProvider.getPbcLibrary().pbc_pairing_clear(this);
+        super.finalize();
+    }
 }

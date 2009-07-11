@@ -1,14 +1,12 @@
 package it.unisa.dia.gas.plaf.jpbc.pbc.jna;
 
 import com.sun.jna.Library;
-import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public interface PBCLibrary extends Library {
-    public static PBCLibrary INSTANCE = (PBCLibrary) Native.loadLibrary("jpbc-pbc", PBCLibrary.class);
 
     int pbc_pairing_sizeof();
 

@@ -8,7 +8,7 @@ import junit.framework.TestCase;
 public class PBCLibraryTest extends TestCase {
 
     public void testSize() {
-        assertNotSame(0, PBCLibrary.INSTANCE.pbc_pairing_sizeof());
-        assertNotSame(0, PBCLibrary.INSTANCE.pbc_element_sizeof());
+        assertNotSame(0, PBCLibraryProvider.getPbcLibrary().pbc_pairing_sizeof());
+        assertNotSame(0, PBCLibraryProvider.getPbcLibrary().pbc_element_sizeof());
     }
 }

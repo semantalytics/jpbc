@@ -19,7 +19,7 @@ public class MPZElementType extends Memory {
 
 
     public MPZElementType() {
-        super(PBCLibrary.INSTANCE.pbc_mpz_sizeof());
+        super(PBCLibraryProvider.getPbcLibrary().pbc_mpz_sizeof());
     }
 
     @Override

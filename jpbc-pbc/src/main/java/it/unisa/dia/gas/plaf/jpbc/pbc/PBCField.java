@@ -2,7 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.pbc;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCLibrary;
+import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCLibraryProvider;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCPairingType;
 
 import java.math.BigInteger;
@@ -19,7 +19,7 @@ public abstract class PBCField implements Field {
         this.pairing = pairing;
 
         PBCElement element = (PBCElement) newElement();
-        fixedLengthInBytes = PBCLibrary.INSTANCE.pbc_element_length_in_bytes(element.value);
+        fixedLengthInBytes = PBCLibraryProvider.getPbcLibrary().pbc_element_length_in_bytes(element.value);
     }
     
 
