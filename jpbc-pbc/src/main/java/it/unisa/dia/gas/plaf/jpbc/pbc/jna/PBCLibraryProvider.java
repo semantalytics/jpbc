@@ -12,7 +12,7 @@ public class PBCLibraryProvider {
     static {
         try {
             pbcLibrary = (PBCLibrary) Native.loadLibrary("jpbc-pbc", PBCLibrary.class);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         }
     }
