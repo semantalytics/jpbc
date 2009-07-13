@@ -1,11 +1,11 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing.a;
 
 import it.unisa.dia.gas.jpbc.CurveGenerator;
+import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.util.BigIntegerUtils;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -20,8 +20,9 @@ public class TypeACurveGenerator implements CurveGenerator {
         this.qbits = qbits;
     }
 
+
     public Map generate() {
-        Map params = new LinkedHashMap();
+        CurveParams params = new CurveParams();
 
         boolean found = false;
 
@@ -104,15 +105,4 @@ public class TypeACurveGenerator implements CurveGenerator {
         return params;
     }
 
-    public static void main(String[] args) {
-        int rbits = 181, qbits = 603;
-
-        Map params = new TypeACurveGenerator(rbits, qbits).generate();
-        for (Object key : params.keySet()) {
-            System.out.println(key + "=" + params.get(key));
-        }
-
-
-
-    }
 }
