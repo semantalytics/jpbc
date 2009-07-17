@@ -19,5 +19,4 @@ public interface Field<E extends Element> {
 
     int getFixedLengthInBytes();
 
-    E sub(E e1, E e2);
 }

@@ -43,7 +43,4 @@ public abstract class PBCField implements Field {
         return fixedLengthInBytes;
     }
 
-    public Element sub(Element e1, Element e2) {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
 }

@@ -899,7 +899,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
 //        System.out.println("==================================");
 
         c3.set(dst.get(1)).add(c4);
-        c3.set(c3.getField().sub(c12, c3));
+        c3.set(c12.duplicate().sub(c3));
 
 
 //        element_add(c3, dst[1], c4);
@@ -913,7 +913,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
 
         //coefficient of x
         c01.sub(dst.get(0));
-        dst.set(1, (E) dst.get(1).getField().sub(c01, dst.get(1)));
+        dst.set(1, (E) c01.duplicate().sub(dst.get(1)));
 
 
 //        System.out.println("dst.get(0) = " + dst.get(0));
@@ -981,7 +981,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
                 break;
 
             b2.set(b1).mul(q);
-            b2.set(polyField.sub(b0, b2));
+            b2.set(b0.duplicate().sub(b2));
 
             b0.set(b1);
             b1.set(b2);

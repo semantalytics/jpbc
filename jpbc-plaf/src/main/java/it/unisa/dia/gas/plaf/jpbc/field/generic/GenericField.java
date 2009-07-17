@@ -22,7 +22,4 @@ public abstract class GenericField<E extends Element> implements Field<E> {
         return e;
     }
 
-    public E sub(E e1, E e2) {
-        return (E) newElement().set(e1).sub(e2);
-    }
 }
