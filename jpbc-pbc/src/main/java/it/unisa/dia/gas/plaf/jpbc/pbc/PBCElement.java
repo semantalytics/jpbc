@@ -3,6 +3,7 @@ package it.unisa.dia.gas.plaf.jpbc.pbc;
 import com.sun.jna.Memory;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.plaf.jpbc.pbc.jna.GMPLibrary;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.MPZElementType;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCElementType;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCLibraryProvider;
@@ -211,7 +212,11 @@ public class PBCElement implements Element {
     }
 
     public BigInteger toBigInteger() {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        MPZElementType mpzElement = new MPZElementType();
+        GMPLibrary.INSTANCE.__gmpz_init(mpzElement);
+
+        PBCLibraryProvider.getPbcLibrary().pbc_element_to_mpz(mpzElement, value);
+        return new BigInteger(GMPLibrary.INSTANCE.__gmpz_get_str(null, 10, mpzElement));
     }
 
     public byte[] toBytes() {

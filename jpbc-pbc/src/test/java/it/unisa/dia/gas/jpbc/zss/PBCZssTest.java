@@ -28,6 +28,7 @@ public class PBCZssTest extends TestCase {
         System.out.printf("KEYGEN\n");
 
         x = pairing.getZr().newElement().setToRandom();
+
         P = pairing.getG1().newElement().setToRandom();
         Ppub = P.duplicate().mulZn(x);
 

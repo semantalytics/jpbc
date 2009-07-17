@@ -10,9 +10,12 @@ import com.sun.jna.Pointer;
 public interface GMPLibrary extends Library {
     public static GMPLibrary INSTANCE = (GMPLibrary) Native.loadLibrary("gmp", GMPLibrary.class);
 
-    void __gmpz_init(Pointer pointer);
+    void __gmpz_init(Pointer op);
 
-    void __gmpz_set_str(Pointer pointer, String str, int base);
+    void __gmpz_set_str(Pointer op, String str, int base);
 
-    void __gmpz_clear(Pointer pointer);
+    String __gmpz_get_str(String str, int base, Pointer op);
+
+    void __gmpz_clear(Pointer op);
+    
 }

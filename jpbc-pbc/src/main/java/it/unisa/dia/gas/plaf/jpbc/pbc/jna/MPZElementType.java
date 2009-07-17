@@ -17,7 +17,6 @@ public class MPZElementType extends Memory {
         return element;
     }
 
-
     public MPZElementType() {
         super(PBCLibraryProvider.getPbcLibrary().pbc_mpz_sizeof());
     }
