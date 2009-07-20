@@ -27,4 +27,37 @@ public abstract class GenericPointElement extends GenericElement implements Poin
     public Element getY() {
         return y;
     }
+
+
+    public int getLengthInBytesCompressed() {
+        throw new IllegalStateException("Not Implemented yet!!!");
+    }
+
+    public byte[] toBytesCompressed() {
+        throw new IllegalStateException("Not Implemented yet!!!");
+    }
+
+    public int setFromBytesCompressed(byte[] source) {
+        throw new IllegalStateException("Not Implemented yet!!!");
+    }
+
+    public int setFromBytesCompressed(byte[] source, int offset) {
+        throw new IllegalStateException("Not Implemented yet!!!");
+    }
+
+    public int getLengthInBytesX() {
+        throw new IllegalStateException("Not Implemented yet!!!");
+    }
+
+    public byte[] toBytesX() {
+        throw new IllegalStateException("Not Implemented yet!!!");
+    }
+
+    public int setFromBytesX(byte[] source) {
+        throw new IllegalStateException("Not Implemented yet!!!");
+    }
+
+    public int setFromBytesX(byte[] source, int offset) {
+        throw new IllegalStateException("Not Implemented yet!!!");
+    }
 }

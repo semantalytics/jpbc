@@ -1,11 +1,11 @@
 package it.unisa.dia.gas.plaf.jpbc.pbc;
 
 import com.sun.jna.Memory;
+import com.sun.jna.Pointer;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.GMPLibrary;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.MPZElementType;
-import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCElementType;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCLibraryProvider;
 import it.unisa.dia.gas.plaf.jpbc.util.Utils;
 
@@ -15,11 +15,11 @@ import java.math.BigInteger;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class PBCElement implements Element {
-    protected PBCElementType value;
+    protected Pointer value;
     protected PBCField field;
 
 
-    public PBCElement(PBCElementType value, PBCField field) {
+    public PBCElement(Pointer value, PBCField field) {
         this.value = value;
         this.field = field;
     }
@@ -225,8 +225,8 @@ public class PBCElement implements Element {
 
     public byte[] toBytes() {
         int numBytes = PBCLibraryProvider.getPbcLibrary().pbc_element_length_in_bytes(value);
-
         byte[] bytes = new byte[numBytes];
+
         PBCLibraryProvider.getPbcLibrary().pbc_element_to_bytes(bytes, value);
 
         return bytes;
@@ -251,7 +251,7 @@ public class PBCElement implements Element {
         return compareTo((Element) obj) == 0;
     }
 
-    public PBCElementType getValue() {
+    public Pointer getValue() {
         return value;
     }
 }

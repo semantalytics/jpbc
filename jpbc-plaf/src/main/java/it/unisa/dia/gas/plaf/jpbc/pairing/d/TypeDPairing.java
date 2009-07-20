@@ -58,11 +58,11 @@ public class TypeDPairing implements Pairing {
         return false;
     }
 
-    public Field getG1() {
+    public Field<? extends Point> getG1() {
         return G1;
     }
 
-    public Field getG2() {
+    public Field<? extends Point> getG2() {
         return G2;
     }
 

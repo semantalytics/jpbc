@@ -20,7 +20,7 @@ public class PBCG1Field extends PBCField {
         PBCElementType element = new PBCElementType();
         PBCLibraryProvider.getPbcLibrary().pbc_element_init_G1(element, pairing);
 
-        return new PBCElement(element, this);
+        return new PBCCurvePointElement(element, this);
     }
 
 }

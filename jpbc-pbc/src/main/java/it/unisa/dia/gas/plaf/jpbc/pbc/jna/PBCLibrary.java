@@ -16,117 +16,137 @@ public interface PBCLibrary extends Library {
 
     int pbc_mpz_sizeof();
 
-    void pbc_pairing_init_inp_buf(PBCPairingType pairing, String buf, int len);
+    void pbc_pairing_init_inp_buf(Pointer pairing, String buf, int len);
 
-    void pbc_pairing_pp_init(PBCPairingPPType p, PBCElementType in1, PBCPairingType pairing);
+    void pbc_pairing_pp_init(Pointer p, Pointer in1, Pointer pairing);
 
-    void pbc_pairing_pp_clear(PBCPairingPPType p);
+    void pbc_pairing_pp_clear(Pointer p);
 
-    void pbc_pairing_pp_apply(PBCElementType out, PBCElementType in2, PBCPairingPPType p);
+    void pbc_pairing_pp_apply(Pointer out, Pointer in2, Pointer p);
 
-    void pbc_pairing_apply(PBCElementType out, PBCElementType in1, PBCElementType in2, PBCPairingType pairing);
+    void pbc_pairing_apply(Pointer out, Pointer in1, Pointer in2, Pointer pairing);
 
-    int pbc_pairing_is_symmetric(PBCPairingType pairing);
+    int pbc_pairing_is_symmetric(Pointer pairing);
 
-    int pbc_pairing_length_in_bytes_G1(PBCPairingType pairing);
+    int pbc_pairing_length_in_bytes_G1(Pointer pairing);
 
-    int pbc_pairing_length_in_bytes_x_only_G1(PBCPairingType pairing);
+    int pbc_pairing_length_in_bytes_x_only_G1(Pointer pairing);
 
-    int pbc_pairing_length_in_bytes_compressed_G1(PBCPairingType pairing);
+    int pbc_pairing_length_in_bytes_compressed_G1(Pointer pairing);
 
-    int pbc_pairing_length_in_bytes_G2(PBCPairingType pairing);
+    int pbc_pairing_length_in_bytes_G2(Pointer pairing);
 
-    int pbc_pairing_length_in_bytes_compressed_G2(PBCPairingType pairing);
+    int pbc_pairing_length_in_bytes_compressed_G2(Pointer pairing);
 
-    int pbc_pairing_length_in_bytes_x_only_G2(PBCPairingType pairing);
+    int pbc_pairing_length_in_bytes_x_only_G2(Pointer pairing);
 
-    int pbc_pairing_length_in_bytes_GT(PBCPairingType pairing);
+    int pbc_pairing_length_in_bytes_GT(Pointer pairing);
 
-    int pbc_pairing_length_in_bytes_Zr(PBCPairingType pairing);
+    int pbc_pairing_length_in_bytes_Zr(Pointer pairing);
 
-    void pbc_pairing_clear(PBCPairingType pairing);
+    void pbc_pairing_clear(Pointer pairing);
 
 
-    void pbc_element_init_G1(PBCElementType element, PBCPairingType pairing);
+    void pbc_element_init_G1(Pointer element, Pointer pairing);
 
-    void pbc_element_init_G2(PBCElementType element, PBCPairingType pairing);
+    void pbc_element_init_G2(Pointer element, Pointer pairing);
 
-    void pbc_element_init_GT(PBCElementType element, PBCPairingType pairing);
+    void pbc_element_init_GT(Pointer element, Pointer pairing);
 
-    void pbc_element_init_Zr(PBCElementType element, PBCPairingType pairing);
+    void pbc_element_init_Zr(Pointer element, Pointer pairing);
 
-    void pbc_element_init_same_as(PBCElementType e, PBCElementType e2);
+    void pbc_element_init_same_as(Pointer e, Pointer e2);
 
-    int pbc_element_snprint(Pointer s, int n, PBCElementType e);
+    int pbc_element_snprint(Pointer s, int n, Pointer e);
 
-    int pbc_element_set_str(PBCElementType e, String s, int base);
+    int pbc_element_set_str(Pointer e, String s, int base);
 
-    void pbc_element_set0(PBCElementType e);
+    void pbc_element_set0(Pointer e);
 
-    void pbc_element_set1(PBCElementType e);
+    void pbc_element_set1(Pointer e);
 
-    void pbc_element_set_si(PBCElementType e, long i);
+    void pbc_element_set_si(Pointer e, long i);
 
-    void pbc_element_set_mpz(PBCElementType e, MPZElementType z);
+    void pbc_element_set_mpz(Pointer e, MPZElementType z);
 
-    void pbc_element_set(PBCElementType e, PBCElementType a);
+    void pbc_element_set(Pointer e, Pointer a);
 
-    void pbc_element_add_ui(PBCElementType n, PBCElementType a, long b);
+    void pbc_element_add_ui(Pointer n, Pointer a, long b);
 
-    void pbc_element_to_mpz(MPZElementType z, PBCElementType e);
+    void pbc_element_to_mpz(MPZElementType z, Pointer e);
 
-    void pbc_element_from_hash(PBCElementType e, Pointer data, int len);
+    void pbc_element_from_hash(Pointer e, Pointer data, int len);
 
-    void pbc_element_add(PBCElementType n, PBCElementType a, PBCElementType b);
+    void pbc_element_add(Pointer n, Pointer a, Pointer b);
 
-    void pbc_element_sub(PBCElementType n, PBCElementType a, PBCElementType b);
+    void pbc_element_sub(Pointer n, Pointer a, Pointer b);
 
-    void pbc_element_mul(PBCElementType n, PBCElementType a, PBCElementType b);
+    void pbc_element_mul(Pointer n, Pointer a, Pointer b);
 
-    void pbc_element_mul_mpz(PBCElementType n, PBCElementType a, MPZElementType z);
+    void pbc_element_mul_mpz(Pointer n, Pointer a, MPZElementType z);
 
-    void pbc_element_mul_si(PBCElementType n, PBCElementType a, long z);
+    void pbc_element_mul_si(Pointer n, Pointer a, long z);
 
-    void pbc_element_mul_zn(PBCElementType c, PBCElementType a, PBCElementType z);
+    void pbc_element_mul_zn(Pointer c, Pointer a, Pointer z);
 
-    void pbc_element_div(PBCElementType n, PBCElementType a, PBCElementType b);
+    void pbc_element_div(Pointer n, Pointer a, Pointer b);
 
-    void pbc_element_double(PBCElementType n, PBCElementType a);
+    void pbc_element_double(Pointer n, Pointer a);
 
-    void pbc_element_halve(PBCElementType n, PBCElementType a);
+    void pbc_element_halve(Pointer n, Pointer a);
 
-    void pbc_element_square(PBCElementType n, PBCElementType a);
+    void pbc_element_square(Pointer n, Pointer a);
 
-    void pbc_element_pow_mpz(PBCElementType x, PBCElementType a, MPZElementType n);
+    void pbc_element_pow_mpz(Pointer x, Pointer a, MPZElementType n);
 
-    void pbc_element_pow_zn(PBCElementType x, PBCElementType a, PBCElementType n);
+    void pbc_element_pow_zn(Pointer x, Pointer a, Pointer n);
 
-    void pbc_element_neg(PBCElementType n, PBCElementType a);
+    void pbc_element_neg(Pointer n, Pointer a);
 
-    void pbc_element_invert(PBCElementType n, PBCElementType a);
+    void pbc_element_invert(Pointer n, Pointer a);
 
-    void pbc_element_random(PBCElementType e);
+    void pbc_element_random(Pointer e);
 
-    int pbc_element_is1(PBCElementType n);
+    int pbc_element_is1(Pointer n);
 
-    int pbc_element_is0(PBCElementType n);
+    int pbc_element_is0(Pointer n);
 
-    int pbc_element_cmp(PBCElementType a, PBCElementType b);
+    int pbc_element_cmp(Pointer a, Pointer b);
 
-    int pbc_element_is_sqr(PBCElementType a);
+    int pbc_element_is_sqr(Pointer a);
 
-    int pbc_element_sgn(PBCElementType a);
+    int pbc_element_sgn(Pointer a);
 
-    int pbc_element_sign(PBCElementType a);
+    int pbc_element_sign(Pointer a);
 
-    void pbc_element_sqrt(PBCElementType a, PBCElementType b);
+    void pbc_element_sqrt(Pointer a, Pointer b);
 
-    int pbc_element_length_in_bytes(PBCElementType e);
+    int pbc_element_length_in_bytes(Pointer e);
 
-    int pbc_element_to_bytes(byte[] data, PBCElementType e);
+    int pbc_element_to_bytes(byte[] data, Pointer e);
 
-    int pbc_element_from_bytes(PBCElementType e, byte[] data);
+    int pbc_element_from_bytes(Pointer e, byte[] data);
 
-    void pbc_element_clear(PBCElementType element);
+    void pbc_element_clear(Pointer element);
+
+    void pbc_curve_x_coord(Pointer out, Pointer element);
+
+    void pbc_curve_y_coord(Pointer out, Pointer element);
+
+    int pbc_curve_y_coord_sign(Pointer element);
+
+    int element_length_in_bytes_x_only(Pointer element);
+
+    int element_to_bytes_x_only(byte[] data, Pointer element);
+
+    int element_from_bytes_x_only(Pointer element, byte[] data);
+
+
+    int element_length_in_bytes_compressed(Pointer element);
     
+    int element_to_bytes_compressed(byte[] data, Pointer element);
+
+    int element_from_bytes_compressed(Pointer element, byte[] data);
+
+
 }

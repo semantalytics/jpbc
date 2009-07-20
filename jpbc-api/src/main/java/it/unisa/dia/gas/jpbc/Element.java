@@ -87,7 +87,7 @@ public interface Element extends Comparable<Element>, Serializable {
     int setFromBytes(byte[] source);
 
     /**
-     * Reads this element from the buffer bytes staring from the passed offset.
+     * Reads this element from the buffer source. staring from the passed offset.
      *
      * @param source the source of bytes.
      * @param offset the starting offset.
@@ -98,7 +98,7 @@ public interface Element extends Comparable<Element>, Serializable {
     /**
      * Converts this element to bytes. The number of bytes it will write can be determined calling getLengthInBytes().
      *
-     * @return the number of bytes written.
+     * @return the bytes written.
      */
     byte[] toBytes();
 

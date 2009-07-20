@@ -11,8 +11,7 @@ import java.math.BigInteger;
  */
 public class GTFiniteElement extends GenericElement {
     protected PairingMap pairing;
-
-    public Element value;
+    protected Element value;
 
 
     public GTFiniteElement(PairingMap pairing, GTFiniteField field) {

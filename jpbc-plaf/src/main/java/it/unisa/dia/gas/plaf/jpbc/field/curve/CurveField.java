@@ -29,7 +29,6 @@ public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElemen
         return new CurveField<F>(a, b, order, cofac);
     }
 
-
     protected Element a, b;
     protected CurveElement gen, genNoCofac;
     protected BigInteger order, cofac;
@@ -64,7 +63,6 @@ public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElemen
     }
 
 
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof CurveField)) return false;
@@ -79,7 +77,6 @@ public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElemen
         return true;
     }
 
-    @Override
     public int hashCode() {
         int result = a.hashCode();
         result = 31 * result + b.hashCode();
@@ -87,6 +84,7 @@ public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElemen
         result = 31 * result + (cofac != null ? cofac.hashCode() : 0);
         return result;
     }
+
 
     public Element getA() {
         return a;

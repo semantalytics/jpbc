@@ -14,17 +14,17 @@ import java.security.SecureRandom;
  */
 public class NaiveElement extends GenericElement {
 
-    public BigInteger value;
+    protected BigInteger value;
     protected BigInteger order;
-
+    protected boolean oddOrder;
     protected SecureRandom secureRandom;
-
 
     public NaiveElement(Field field) {
         super(field);
 
         this.value = BigInteger.ZERO;
         this.order = field.getOrder();
+        this.oddOrder = BigIntegerUtils.isOdd(order);
     }
 
     public NaiveElement(Field field, BigInteger value) {
@@ -32,6 +32,7 @@ public class NaiveElement extends GenericElement {
 
         this.value = value;
         this.order = field.getOrder();
+        this.oddOrder = BigIntegerUtils.isOdd(order);
     }
 
 
@@ -40,8 +41,10 @@ public class NaiveElement extends GenericElement {
     }
 
     public NaiveElement set(Element value) {
-        // TODO: we should import also the field...
+        if (this.field != value.getField()) {
+            // TODO: we should import also the field...
 //        this.field = element.field;
+        }
         this.value = ((NaiveElement) value).value;
 
         return this;
@@ -313,7 +316,14 @@ public class NaiveElement extends GenericElement {
     }
 
     public int sign() {
-        return value.signum();
+        if (isZero())
+            return 0;
+
+        if (oddOrder) {
+            return BigIntegerUtils.isOdd(value) ? 1 : -1;
+        } else {
+            return value.add(value).compareTo(order);
+        }
     }
 
 

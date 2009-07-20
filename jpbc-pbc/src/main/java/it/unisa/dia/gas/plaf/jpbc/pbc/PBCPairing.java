@@ -3,6 +3,7 @@ package it.unisa.dia.gas.plaf.jpbc.pbc;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Pairing;
+import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCLibraryProvider;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCPairingType;
@@ -40,11 +41,11 @@ public class PBCPairing implements Pairing {
         return PBCLibraryProvider.getPbcLibrary().pbc_pairing_is_symmetric(pairing) == 0;
     }
 
-    public Field getG1() {
+    public Field<? extends Point> getG1() {
         return g1Field;
     }
 
-    public Field getG2() {
+    public Field<? extends Point> getG2() {
         return g2Field;
     }
 
@@ -64,10 +65,6 @@ public class PBCPairing implements Pairing {
         return out;
     }
 
-    public Element finalPow(Element element) {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
 
     @Override
     protected void finalize() throws Throwable {
@@ -77,10 +74,6 @@ public class PBCPairing implements Pairing {
         zRField = null;
         
         PBCLibraryProvider.getPbcLibrary().pbc_pairing_clear(pairing);
-    }
-
-    protected void initPairing() {
-
     }
 
     protected void initFields() {

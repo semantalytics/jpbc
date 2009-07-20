@@ -2,13 +2,10 @@ package it.unisa.dia.gas.jpbc.zss;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveElement;
-import it.unisa.dia.gas.plaf.jpbc.field.naive.NaiveElement;
+import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pairing.a.TypeAPairing;
 import junit.framework.TestCase;
-
-import java.math.BigInteger;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -30,15 +27,14 @@ public class ZssTest extends TestCase {
         System.out.printf("KEYGEN\n");
 
         x = pairing.getZr().newElement().setToRandom();
-        ((NaiveElement)x).value = new BigInteger("379850840316334798112444727706357745778217816861834343782344398094338823495967640289923");
-
         P = pairing.getG1().newElement().setToRandom();
 
-        ((NaiveElement) ((CurveElement) P).getX()).value = new BigInteger("303500428932663691323012735733501477205793869615402660183333223958598394978897709140988098806");
-        ((NaiveElement) ((CurveElement) P).getY()).value = new BigInteger("190179408830835895570908180983109617227173492199119594781686384038239099581335744171547333167");
+        System.out.println("P = " + P);
+//        ((Point)P).setFromBytesX(((Point)P).toBytesX());
+        ((Point)P).setFromBytesCompressed(((Point)P).toBytesCompressed());
+        System.out.println("P = " + P);
 
-
-                Ppub = P.duplicate().mulZn(x);
+        Ppub = P.duplicate().mulZn(x);
 
         System.out.println("P = " + P);
         System.out.println("x = " + x);

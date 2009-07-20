@@ -11,13 +11,14 @@ import java.security.SecureRandom;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class CurveElement extends GenericPointElement {
-    public int infFlag;
-
+    protected int infFlag;
     protected SecureRandom random;
+    protected CurveField curveField;
 
 
     public CurveElement(FieldOver field) {
         super(field);
+        this.curveField = (CurveField) field;
 
         this.x = field.getTargetField().newElement();
         this.y = field.getTargetField().newElement();
@@ -26,6 +27,7 @@ public class CurveElement extends GenericPointElement {
 
     public CurveElement(CurveElement curveElement) {
         super(curveElement.field);
+        this.curveField = curveElement.getField();
 
         this.x = curveElement.x.duplicate();
         this.y = curveElement.y.duplicate();
@@ -363,9 +365,60 @@ public class CurveElement extends GenericPointElement {
     }
 
 
+    public int getLengthInBytesCompressed() {
+        return x.getLengthInBytes() + 1;
+    }
+
+    public byte[] toBytesCompressed() {
+        byte[] xBytes = x.toBytes();
+        byte[] result = new byte[getLengthInBytesCompressed()];
+        System.arraycopy(xBytes, 0, result, 0, xBytes.length);
+
+        if (y.sign() > 0)
+            result[xBytes.length] = 1;
+        else
+            result[xBytes.length] = 0;
+
+        return result;
+    }
+
+    public int setFromBytesCompressed(byte[] source) {
+        return setFromBytesCompressed(source, 0);
+    }
+
+    public int setFromBytesCompressed(byte[] source, int offset) {
+        int len = x.setFromBytes(source, offset);
+        setPointFromX();
+
+        if (source[offset + len] == 1) {
+            if (y.sign() < 0)
+                y.negate();
+        } else if (y.sign() > 0)
+            y.negate();
+        return len + 1;
+    }
+
+    public int getLengthInBytesX() {
+        return x.getLengthInBytes();
+    }
+
+    public byte[] toBytesX() {
+        return x.toBytes();
+    }
+
+    public int setFromBytesX(byte[] source) {
+        return setFromBytesX(source, 0);
+    }
+
+    public int setFromBytesX(byte[] source, int offset) {
+        int len = x.setFromBytes(source, offset);
+        setPointFromX();
+        return len;
+    }
+
+
     public boolean isValid() {
         Element t0, t1;
-        int result;
 
         if (infFlag != 0)
             return true;
@@ -431,5 +484,9 @@ public class CurveElement extends GenericPointElement {
         */
     }
 
+    protected void setPointFromX() {
+        infFlag = 0;
+        y.set(x.duplicate().square().add(curveField.getA()).mul(x).add(curveField.getB()).sqrt());
+    }
 
 }

@@ -2,7 +2,9 @@ package it.unisa.dia.gas.jpbc.zss;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
+import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
+import it.unisa.dia.gas.plaf.jpbc.pbc.PBCCurvePointElement;
 import it.unisa.dia.gas.plaf.jpbc.pbc.PBCPairing;
 import junit.framework.TestCase;
 
@@ -30,6 +32,13 @@ public class PBCZssTest extends TestCase {
         x = pairing.getZr().newElement().setToRandom();
 
         P = pairing.getG1().newElement().setToRandom();
+
+        System.out.println("P = " + P);
+        System.out.println("((Point)P).getY().sign() = " + ((PBCCurvePointElement)P).ySign());
+
+        ((Point)P).setFromBytesCompressed(((Point)P).toBytesCompressed());
+        System.out.println("P = " + P);
+
         Ppub = P.duplicate().mulZn(x);
 
         System.out.println("P = " + P);

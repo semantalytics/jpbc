@@ -23,14 +23,14 @@ public interface Pairing {
      *
       * @return the G1 field.
      */
-    Field getG1();
+    Field<? extends Point> getG1();
 
     /**
      * Return the G2 field.
      *
       * @return the G2 field.
      */
-    Field getG2();
+    Field<? extends Point> getG2();
 
     /**
      * Return the GT field which is the group of rth roots of unity.

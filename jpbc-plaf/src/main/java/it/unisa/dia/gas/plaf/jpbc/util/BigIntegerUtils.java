@@ -21,6 +21,10 @@ public class BigIntegerUtils {
     public static final BigInteger ITERBETTER = ONE.shiftLeft(1024);
 
 
+    public static boolean isOdd(BigInteger bigInteger) {
+        return bigInteger.testBit(0);
+    }
+
     public static BigInteger factorial(int n) {
         return factorial(BigInteger.valueOf(n));
     }

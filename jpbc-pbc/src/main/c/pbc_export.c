@@ -248,3 +248,15 @@ int pbc_element_from_bytes(element_t e, unsigned char *data) {
 void pbc_element_clear(element_t element) {
     element_clear(element);
 }
+
+void pbc_curve_x_coord(element_t out, element_t element) {
+    out = &*curve_x_coord(element);
+}
+
+void pbc_curve_y_coord(element_t out, element_t element) {
+    out = &*curve_y_coord(element);
+}
+
+int pbc_curve_y_coord_sign(element_t element) {
+    return element_sign(curve_y_coord(element));
+}
