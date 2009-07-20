@@ -37,7 +37,9 @@ public class PBCZssTest extends TestCase {
         System.out.println("Ppub = " + Ppub);
 
         System.out.printf("SIGN\n");
-        H = pairing.getZr().newElement().setFromHash("Message".getBytes());
+        byte[] source = "Message".getBytes();
+
+        H = pairing.getZr().newElement().setFromHash(source, 0, source.length);
 //            H = pairing.getZr().newElement().setToRandom();
         t1 = pairing.getZr().newElement().set(H).add(x).invert();
         S = pairing.getG1().newElement().set(P).mulZn(t1);

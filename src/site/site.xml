@@ -9,9 +9,8 @@
 
     <body>
         <links>
-            <item name="Maven" href="http://maven.apache.org/"/>
-            <item name="SourceForge" href="http://sourceforge.net/"/>
-            <item name="Project page" href="http://sourceforge.net/projects/jpbc/"/>
+            <item name="PBC" href="http://crypto.stanford.edu/pbc/"/>
+            <item name="SF Project page" href="http://sourceforge.net/projects/jpbc/"/>
         </links>
 
         <menu name="jPBC">
@@ -19,8 +18,8 @@
             <item name="Download" href="download.html"/>
             <item name="Build Howto" href="buildHowto.html"/>
             <item name="Contact" href="contact.html"/>
-            <item img="/images/new.png" name="Tutorial" href="/tutorial/tutorial.html"/>
-            <item img="/images/new.png" name="Statistics" href="statistics.html"/>
+            <item name="Tutorial" href="/tutorial/tutorial.html"/>
+            <item name="Statistics" href="statistics.html"/>
         </menu>
 
         ${reports}

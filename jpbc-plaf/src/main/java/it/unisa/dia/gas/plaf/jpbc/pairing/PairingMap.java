@@ -10,6 +10,6 @@ public interface PairingMap {
 
     Element pairing(Point in1, Point in2);
 
-    Element tatePow(Element element);
-    
+    void finalPow(Element element);
+
 }

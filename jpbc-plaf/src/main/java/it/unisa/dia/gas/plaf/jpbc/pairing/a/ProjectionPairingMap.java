@@ -147,7 +147,17 @@ public class ProjectionPairingMap implements PairingMap {
 
         tatePow(out, f, f0, pairing.phikonr);
 
-        return new GTFiniteElement(pairing, (GTFiniteField) pairing.getGT(), out);
+        return new GTFiniteElement(this, (GTFiniteField) pairing.getGT(), out);
+    }
+
+    public void finalPow(Element element) {
+        Element t0, t1;
+        t0 = element.getField().newElement();
+        t1 = element.getField().newElement();
+
+        tatePow((QuadraticTwoElement) t0, (QuadraticTwoElement) element, (QuadraticTwoElement) t1, pairing.phikonr);
+
+        element.set(t0);
     }
 
     public Element tatePow(Element element) {

@@ -68,15 +68,7 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
-    public PolyElement<E> setFromHash(byte[] hash) {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
-    public int setEncoding(byte[] bytes) {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
-    public byte[] getDecoding() {
+    public PolyElement<E> setFromHash(byte[] source, int offset, int length) {
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
@@ -293,17 +285,17 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
         */
     }
 
-    public PolyElement<E> mul(int value) {
+    public PolyElement<E> mul(int z) {
         for (int i = 0, size = coeff.size(); i < size; i++) {
-            coeff.get(i).mul(value);
+            coeff.get(i).mul(z);
         }
 
         return this;
     }
 
-    public PolyElement<E> mul(BigInteger value) {
+    public PolyElement<E> mul(BigInteger n) {
         for (int i = 0, size = coeff.size(); i < size; i++) {
-            coeff.get(i).mul(value);
+            coeff.get(i).mul(n);
         }
 
         return this;

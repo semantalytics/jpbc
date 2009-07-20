@@ -34,6 +34,10 @@ public class CCPairingMap implements PairingMap {
         return tatePow(cc_miller_no_denom_fn(pairing.r, in1, Qx, Qy));
     }
 
+    public void finalPow(Element element) {
+        element.set(tatePow(element));
+    }
+
     public Element tatePow(Element element) {
         if (pairing.k == 6) {
             Point<Polynomial> e0, e3;

@@ -49,8 +49,8 @@ public class TypeDPairing implements Pairing {
         this.curveParams = curveParams;
 
         initParams();
-        initFields();
         initMap();
+        initFields();
     }
 
 
@@ -74,10 +74,6 @@ public class TypeDPairing implements Pairing {
         return GT;
     }
 
-    public BigInteger getPhikonr() {
-        return phikonr;
-    }
-
     public Element pairing(Element g1, Element g2) {
         if (!G1.equals(g1.getField()))
             throw new IllegalArgumentException("pairing 1st input mismatch");
@@ -88,10 +84,6 @@ public class TypeDPairing implements Pairing {
             return GT.newElement().setToZero();
 
         return pairingMap.pairing((CurveElement) g1, (CurveElement) g2);
-    }
-
-    public Element finalPow(Element element) {
-        return pairingMap.tatePow(element);
     }
 
 
@@ -243,7 +235,7 @@ public class TypeDPairing implements Pairing {
     }
 
     protected Field initGT() {
-        return new GTFiniteField(this, Fqk);
+        return new GTFiniteField(pairingMap, Fqk);
     }
 
     protected void initMap() {

@@ -7,8 +7,6 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCLibraryProvider;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCPairingType;
 
-import java.math.BigInteger;
-
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
@@ -40,10 +38,6 @@ public class PBCPairing implements Pairing {
 
     public boolean isSymmetric() {
         return PBCLibraryProvider.getPbcLibrary().pbc_pairing_is_symmetric(pairing) == 0;
-    }
-
-    public BigInteger getPhikonr() {
-        throw new IllegalStateException("Not Implemented yet!!!");
     }
 
     public Field getG1() {

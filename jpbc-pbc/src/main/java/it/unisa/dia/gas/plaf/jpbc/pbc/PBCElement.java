@@ -29,12 +29,16 @@ public class PBCElement implements Element {
         return field;
     }
 
+    public int getLengthInBytes() {
+        return PBCLibraryProvider.getPbcLibrary().pbc_element_length_in_bytes(this.value);
+    }
+
     public Element duplicate() {
         return field.newElement().set(this);
     }
 
-    public Element set(Element element) {
-        PBCLibraryProvider.getPbcLibrary().pbc_element_set(value, ((PBCElement) element).value);
+    public Element set(Element value) {
+        PBCLibraryProvider.getPbcLibrary().pbc_element_set(this.value, ((PBCElement) value).value);
 
         return this;
     }
@@ -58,23 +62,23 @@ public class PBCElement implements Element {
         return this;
     }
 
-    public Element setFromHash(byte[] hash) {
-        Memory memory = new Memory(hash.length);
-        memory.write(0, hash, 0, hash.length);
+    public Element setFromHash(byte[] source, int offset, int length) {
+        Memory memory = new Memory(length);
+        memory.write(0, source, offset, length);
 
-        PBCLibraryProvider.getPbcLibrary().pbc_element_from_hash(value, memory, hash.length);
+        PBCLibraryProvider.getPbcLibrary().pbc_element_from_hash(value, memory, source.length);
 
         return this;
     }
 
-    public int setFromBytes(byte[] bytes) {
-        return setFromBytes(bytes, 0);
+    public int setFromBytes(byte[] source) {
+        return setFromBytes(source, 0);
     }
 
-    public int setFromBytes(byte[] bytes, int offset) {
+    public int setFromBytes(byte[] source, int offset) {
         int lengthInBytes = PBCLibraryProvider.getPbcLibrary().pbc_element_length_in_bytes(value);
 
-        PBCLibraryProvider.getPbcLibrary().pbc_element_from_bytes(value, Utils.copyOf(bytes, offset, lengthInBytes));
+        PBCLibraryProvider.getPbcLibrary().pbc_element_from_bytes(value, Utils.copyOf(source, offset, lengthInBytes));
 
         return lengthInBytes;
     }
@@ -165,34 +169,34 @@ public class PBCElement implements Element {
         return this;
     }
 
-    public Element mul(int value) {
-        PBCLibraryProvider.getPbcLibrary().pbc_element_mul_si(this.value, this.value, value);
+    public Element mul(int z) {
+        PBCLibraryProvider.getPbcLibrary().pbc_element_mul_si(this.value, this.value, z);
 
         return this;
     }
 
-    public Element mul(BigInteger value) {
-        MPZElementType z = MPZElementType.fromBigInteger(value);
+    public Element mul(BigInteger n) {
+        MPZElementType z = MPZElementType.fromBigInteger(n);
         PBCLibraryProvider.getPbcLibrary().pbc_element_mul_mpz(this.value, this.value, z);
 
         return this;
     }
 
-    public Element mulZn(Element element) {
-        PBCLibraryProvider.getPbcLibrary().pbc_element_mul_zn(value, value, ((PBCElement) element).value);
+    public Element mulZn(Element z) {
+        PBCLibraryProvider.getPbcLibrary().pbc_element_mul_zn(value, value, ((PBCElement) z).value);
                 
         return this;
     }
 
-    public Element pow(BigInteger value) {
-        MPZElementType z = MPZElementType.fromBigInteger(value);
+    public Element pow(BigInteger n) {
+        MPZElementType z = MPZElementType.fromBigInteger(n);
         PBCLibraryProvider.getPbcLibrary().pbc_element_pow_mpz(this.value, this.value, z);
 
         return this;
     }
 
-    public Element powZn(Element element) {
-        PBCLibraryProvider.getPbcLibrary().pbc_element_pow_zn(value, value, ((PBCElement) element).value);
+    public Element powZn(Element n) {
+        PBCLibraryProvider.getPbcLibrary().pbc_element_pow_zn(value, value, ((PBCElement) n).value);
 
         return this;
     }

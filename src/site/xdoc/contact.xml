@@ -3,13 +3,13 @@
         "http://maven.apache.org/dtd/xdoc_1_0.dtd">
 <document>
     <properties>
-        <title>MyDoggy - My Java Docking Framework : Contact</title>
+        <title>jPBC : Contact</title>
         <author email="adecaro@users.sourceforge.net">Angelo De Caro</author>
     </properties>
 
     <body>
         <section name="Contact">
-            MyDoggy is mainly developed by
+            jPBC is mainly developed by
             <a href="team-list.html#adecaro">Angelo De Caro</a>.
             <br/>
             Feel free to contact me at
@@ -44,8 +44,8 @@
         </section>
 
         <section name="Contribute">
-            You can contribute to MyDoggy in a number of ways. The most obvious way is to report bugs
-            or request new features that would make MyDoggy a better application.
+            You can contribute to jPBC in a number of ways. The most obvious way is to report bugs
+            or request new features that would make jPBC a better application.
             <ul>
                 <li>
                     <a href="https://sourceforge.net/tracker/?atid=883495&amp;group_id=178005&amp;func=browse">Bug tracker

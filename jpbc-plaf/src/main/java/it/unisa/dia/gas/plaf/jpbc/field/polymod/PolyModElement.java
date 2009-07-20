@@ -97,15 +97,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
         return this;
     }
 
-    public PolyModElement<E> setFromHash(byte[] hash) {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
-    public int setEncoding(byte[] bytes) {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
-    public byte[] getDecoding() {
+    public PolyModElement<E> setFromHash(byte[] source, int offset, int length) {
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
@@ -441,9 +433,9 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
         }
     }
 
-    public PolyModElement<E> mul(int value) {
+    public PolyModElement<E> mul(int z) {
         for (int i = 0; i < field.n; i++) {
-            coeff.get(i).mul(value);
+            coeff.get(i).mul(z);
         }
 
         return this;
@@ -461,9 +453,9 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
         */
     }
 
-    public PolyModElement<E> mul(BigInteger value) {
+    public PolyModElement<E> mul(BigInteger n) {
         for (int i = 0; i < field.n; i++) {
-            coeff.get(i).mul(value);
+            coeff.get(i).mul(n);
         }
 
         return this;

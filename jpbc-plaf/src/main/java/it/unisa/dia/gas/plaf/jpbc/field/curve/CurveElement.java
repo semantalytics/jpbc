@@ -98,26 +98,18 @@ public class CurveElement extends GenericPointElement {
         return this;
     }
 
-    public int setFromBytes(byte[] bytes, int offset) {
+    public int setFromBytes(byte[] source, int offset) {
         int len;
 
         infFlag = 0;
-        len = x.setFromBytes(bytes, offset);
-        len += y.setFromBytes(bytes, offset + len);
+        len = x.setFromBytes(source, offset);
+        len += y.setFromBytes(source, offset + len);
 
         //if point does not lie on curve, set it to O
         if (!isValid()) 
             setToZero();
 
         return len;
-    }
-
-    public int setEncoding(byte[] bytes) {
-        throw new IllegalStateException("Not implemented yet!!!");
-    }
-
-    public byte[] getDecoding() {
-        throw new IllegalStateException("Not implemented yet!!!");
     }
 
     public CurveElement square() {
@@ -269,8 +261,8 @@ public class CurveElement extends GenericPointElement {
 
     }
 
-    public CurveElement mul(BigInteger value) {
-        return (CurveElement) pow(value);
+    public CurveElement mul(BigInteger n) {
+        return (CurveElement) pow(n);
     }
 
     public CurveElement mulZn(Element e) {
@@ -328,7 +320,7 @@ public class CurveElement extends GenericPointElement {
         return result;
     }
 
-    public CurveElement setFromHash(byte[] hash) {
+    public CurveElement setFromHash(byte[] source, int offset, int length) {
 /*        //TODO: don't find a hash by the 255th try = freeze!
 
         char[] datacopy = hash.toCharArray();

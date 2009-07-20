@@ -23,11 +23,15 @@ public abstract class GenericElement implements Element {
         return field;
     }
 
-    public int setFromBytes(byte[] bytes) {
-        return setFromBytes(bytes, 0);
+    public int getLengthInBytes() {
+        return field.getFixedLengthInBytes();
     }
 
-    public int setFromBytes(byte[] bytes, int offset) {
+    public int setFromBytes(byte[] source) {
+        return setFromBytes(source, 0);
+    }
+
+    public int setFromBytes(byte[] source, int offset) {
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
@@ -46,8 +50,8 @@ public abstract class GenericElement implements Element {
         return this;
     }
 
-    public Element powZn(Element element) {
-        return pow(element.toBigInteger());
+    public Element powZn(Element n) {
+        return pow(n.toBigInteger());
     }
 
     public Element halve() {
@@ -76,8 +80,8 @@ public abstract class GenericElement implements Element {
         return mul(element.duplicate().invert());
     }
 
-    public Element mul(int value) {
-        mul(field.newElement().set(value));
+    public Element mul(int z) {
+        mul(field.newElement().set(z));
 
         return this;
 
@@ -98,8 +102,8 @@ public abstract class GenericElement implements Element {
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
-    public Element mulZn(Element element) {
-        return mul(element.toBigInteger());
+    public Element mulZn(Element z) {
+        return mul(z.toBigInteger());
     }
 
     public Element square() {
@@ -108,6 +112,14 @@ public abstract class GenericElement implements Element {
 
     public Element twice() {
         return add(this);
+    }
+
+    public int setEncoding(byte[] bytes) {
+        throw new IllegalStateException("Not implemented yet!!!");
+    }
+
+    public byte[] getDecoding() {
+        throw new IllegalStateException("Not implemented yet!!!");
     }
 
 

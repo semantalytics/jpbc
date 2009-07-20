@@ -8,78 +8,262 @@ import java.math.BigInteger;
  */
 public interface Element extends Comparable<Element>, Serializable {
 
+    /**
+     * Returns the field to which this element lie.
+     *
+     * @return the field to which this element lie.
+     */
     Field getField();
 
+    /**
+     * Returns the length in bytes necessary to represent this element.
+     *
+     * @return the length in bytes necessary to represent this element.
+     * @see it.unisa.dia.gas.jpbc.Field#getFixedLengthInBytes()
+     */
+    int getLengthInBytes();
 
+    /**
+     * Returns a copy of this element.
+     *
+     * @return a copy of this element.
+     */
     Element duplicate();
 
+    /**
+     * Sets this element to value.
+     *
+     * @param value the new value of this element.
+     * @return this element set to value.
+     */
+    Element set(Element value);
 
-    Element set(Element element);
-
+    /**
+     * Sets this element to value.
+     *
+     * @param value the new value of this element.
+     * @return this element set to value.
+     */
     Element set(int value);
 
+    /**
+     * Sets this element to value.
+     *
+     * @param value the new value of this element.
+     * @return this element set to value.
+     */
     Element set(BigInteger value);
 
+    /**
+     * Converts this to a BigInteger if such operation makes sense.
+     *
+     * @return a BigInteger which represents this element.
+     */
+    BigInteger toBigInteger();
+
+    /**
+     * If the this element lies in a finite algebraic structure, assigns a uniformly random element to it.
+     *
+     * @return this.
+     */
     Element setToRandom();
 
-    Element setFromHash(byte[] hash);
+    /**
+     * Sets this element deterministically from the length bytes stored in the source parameter starting from the passed offset.
+     *
+     * @param source the buffer data.
+     * @param offset the starting offset.
+     * @param length the number of bytes to be used.
+     * @return this element modified.
+     */
+    Element setFromHash(byte[] source, int offset, int length);
 
-    int setFromBytes(byte[] bytes);
+    /**
+     * Reads this element from the buffer source.
+     *
+     * @param source the source of bytes.
+     * @return the number of bytes read.
+     */
+    int setFromBytes(byte[] source);
 
-    int setFromBytes(byte[] bytes, int offset);
+    /**
+     * Reads this element from the buffer bytes staring from the passed offset.
+     *
+     * @param source the source of bytes.
+     * @param offset the starting offset.
+     * @return the number of bytes read.
+     */
+    int setFromBytes(byte[] source, int offset);
 
+    /**
+     * Converts this element to bytes. The number of bytes it will write can be determined calling getLengthInBytes().
+     *
+     * @return the number of bytes written.
+     */
+    byte[] toBytes();
+
+    /**
+     * TODO
+     * @param bytes
+     * @return
+     */
     int setEncoding(byte[] bytes);
 
     byte[] getDecoding();
 
+    /**
+     * Sets this element to zero.
+     *
+     * @return this element set to zero.
+     */
     Element setToZero();
 
+    /**
+     * Returns true if n is zero, false otherwise.
+     *
+     * @return true if n is zero, false otherwise.
+     */
     boolean isZero();
 
+    /**
+     * Sets this element to one.
+     *
+     * @return this element set to one.
+     */
     Element setToOne();
 
+    /**
+     * Returns true if n is one, false otherwise.
+     *
+     * @return true if n is one, false otherwise.
+     */
     boolean isOne();
 
     Element map(Element Element);
 
-    
+    /**
+     * Sets this = this + this.
+     *
+     * @return this + this.
+     */
     Element twice();
 
+    /**
+     * Se this = this^2.
+     *
+     * @return this^2.
+     */
     Element square();
 
+    /**
+     * Sets this to the inverse of itself.
+     * @return the inverse of itself.
+     */
     Element invert();
 
+    /**
+     * Sets this = this / 2.
+     * @return this / 2.
+     */
     Element halve();
 
+    /**
+     * Set this = -this.
+     * @return -this.
+     */
     Element negate();
 
+    /**
+     * Sets this = this + element.
+     *
+     * @param element the value to be added.
+     * @return this + element.
+     */
     Element add(Element element);
 
+    /**
+     * Sets this = this - element.
+     *
+     * @param element the value to be subtracted.
+     * @return this - element.
+     */
     Element sub(Element element);
 
-    Element div(Element element);
-
+    /**
+     * Sets this = this * element.
+     *
+     * @param element the value to be multiplied
+     * @return this * element.
+     */
     Element mul(Element element);
 
-    Element mul(int value);
+    /**
+     * Sets this = this * z, that is this + this + ... + this where there are z this's.
+     *
+     * @param z the value to be multiplied
+     * @return this * z
+     */
+    Element mul(int z);
 
-    Element mul(BigInteger value);
+    /**
+     * Sets this = this * n, that is this + this + ... + this where there are n this's.
+     * @param n the value to be multiplied
+     * @return this * n
+     */
+    Element mul(BigInteger n);
 
-    Element mulZn(Element element);
+    /**
+     * Sets this = this * z, that is this + this + … + this where there are z this's and
+     * z is an element of a ring Z_N for some N.
+     *
+     * @param z the value to be multiplied
+     * @return this * z
+     */
+    Element mulZn(Element z);
 
-    Element pow(BigInteger value);
+    /**
+     * Sets this = this / element
+     *
+     * @param element is the divisor.
+     * @return this / element
+     */
+    Element div(Element element);
 
-    Element powZn(Element element);
+    /**
+     * Sets this = this^n.
+     *
+     * @param n the exponent of the power.
+     * @return this^n.
+     */
+    Element pow(BigInteger n);
 
+    /**
+     * Sets this = this^n, where n is an element of a ring Z_N  for some N  (typically the order of the algebraic structure x lies in).
+     *
+     * @param n the exponent of the power.
+     * @return this^n
+     */
+    Element powZn(Element n);
+
+    /**
+     * Sets this = sqrt(this).
+     *
+     * @return the square radix of this element.
+     */
     Element sqrt();
 
+    /**
+     * Returns true if this element is a perfect square (quadratic residue), false otherwise.
+     *
+     * @return true if this element is a perfect square (quadratic residue), false otherwise.
+     */
     boolean isSqr();
 
+    /**
+     * If this element is zero, returns 0. For a non zero value the behaviour depends on the algebraic structure.
+     *
+     * @return 0 is this element is zero, otherwise the behaviour depends on the algebraic structure. 
+     */
     int sign();
-
-
-    BigInteger toBigInteger();
-
-    byte[] toBytes();
 
 }

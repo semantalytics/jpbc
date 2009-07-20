@@ -39,10 +39,10 @@ public class NaiveElement extends GenericElement {
         return new NaiveElement(field, value);
     }
 
-    public NaiveElement set(Element element) {
+    public NaiveElement set(Element value) {
         // TODO: we should import also the field...
 //        this.field = element.field;
-        this.value = ((NaiveElement)element).value;
+        this.value = ((NaiveElement) value).value;
 
         return this;
     }
@@ -74,8 +74,8 @@ public class NaiveElement extends GenericElement {
         return this;
     }
 
-    public NaiveElement mul(int value) {
-        this.value = this.value.multiply(BigInteger.valueOf(value)).mod(order);
+    public NaiveElement mul(int z) {
+        this.value = this.value.multiply(BigInteger.valueOf(z)).mod(order);
 
         return this;
     }
@@ -101,9 +101,8 @@ public class NaiveElement extends GenericElement {
         return this;
     }
 
-    public NaiveElement setFromHash(byte[] hash) {
+    public NaiveElement setFromHash(byte[] source, int offset, int length) {
         int i = 0, n, count = (order.bitLength() + 7) / 8;
-        int len = hash.length;
 
         byte[] buf = new byte[count];
         byte counter = 0;
@@ -111,12 +110,12 @@ public class NaiveElement extends GenericElement {
 
         for (; ;) {
 
-            if (len >= count - i) {
+            if (length >= count - i) {
                 n = count - i;
                 done = true;
-            } else n = len;
+            } else n = length;
 
-            System.arraycopy(hash, 0, buf, i, n);
+            System.arraycopy(source, offset, buf, i, n);
             i += n;
 
             if (done)
@@ -142,12 +141,12 @@ public class NaiveElement extends GenericElement {
         return this;
     }
 
-    public int setFromBytes(byte[] bytes) {
-        return setFromBytes(bytes, 0);
+    public int setFromBytes(byte[] source) {
+        return setFromBytes(source, 0);
     }
 
-    public int setFromBytes(byte[] bytes, int offset) {
-        value = new BigInteger(Utils.copyOf(bytes, offset, field.getFixedLengthInBytes())).mod(order);
+    public int setFromBytes(byte[] source, int offset) {
+        value = new BigInteger(Utils.copyOf(source, offset, field.getFixedLengthInBytes())).mod(order);
 
         return field.getFixedLengthInBytes();
     }
@@ -217,14 +216,14 @@ public class NaiveElement extends GenericElement {
         return this;
     }
 
-    public NaiveElement mul(BigInteger value) {
-        this.value = this.value.multiply(value).mod(order);
+    public NaiveElement mul(BigInteger n) {
+        this.value = this.value.multiply(n).mod(order);
 
         return this;
     }
 
-    public NaiveElement mulZn(Element element) {
-        this.value = this.value.multiply(element.toBigInteger()).mod(order);
+    public NaiveElement mulZn(Element z) {
+        this.value = this.value.multiply(z.toBigInteger()).mod(order);
 
         return this;
     }
@@ -282,13 +281,13 @@ public class NaiveElement extends GenericElement {
     }
 
 
-    public NaiveElement pow(BigInteger value) {
-        this.value = this.value.modPow(value, order);
+    public NaiveElement pow(BigInteger n) {
+        this.value = this.value.modPow(n, order);
 
         return this;
     }
 
-    public NaiveElement powZn(Element element) {
+    public NaiveElement powZn(Element n) {
         return null;
     }
 

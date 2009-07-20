@@ -4,7 +4,6 @@ import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericPointElement;
 
 import java.math.BigInteger;
-import java.util.Arrays;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -93,11 +92,11 @@ public class QuadraticEvenElement extends GenericPointElement {
         return this;
     }
 
-    public int setFromBytes(byte[] bytes, int offset) {
+    public int setFromBytes(byte[] source, int offset) {
         int len;
 
-        len = x.setFromBytes(bytes, offset);
-        len += y.setFromBytes(bytes, offset + len);
+        len = x.setFromBytes(source, offset);
+        len += y.setFromBytes(source, offset + len);
 
         return len;
     }
@@ -118,9 +117,9 @@ public class QuadraticEvenElement extends GenericPointElement {
         return this;
     }
 
-    public QuadraticEvenElement mul(int value) {
-        x.mul(value);
-        y.mul(value);
+    public QuadraticEvenElement mul(int z) {
+        x.mul(z);
+        y.mul(z);
 
         return this;
     }
@@ -279,9 +278,9 @@ public class QuadraticEvenElement extends GenericPointElement {
         */
     }
 
-    public QuadraticEvenElement mul(BigInteger value) {
-        x.mul(value);
-        y.mul(value);
+    public QuadraticEvenElement mul(BigInteger n) {
+        x.mul(n);
+        y.mul(n);
 
         return this;
     }
@@ -389,8 +388,8 @@ public class QuadraticEvenElement extends GenericPointElement {
         return x.compareTo(element.x) ==0 && y.compareTo(element.y) == 0 ? 0 : 1;
     }
 
-    public QuadraticEvenElement powZn(Element element) {
-        pow(element.toBigInteger());
+    public QuadraticEvenElement powZn(Element n) {
+        pow(n.toBigInteger());
 
         return this;
     }
@@ -410,10 +409,10 @@ public class QuadraticEvenElement extends GenericPointElement {
         return result;
     }
 
-    public QuadraticEvenElement setFromHash(byte[] hash) {
-        int k = hash.length / 2;
-        x.setFromHash(Arrays.copyOf(hash, k));
-        y.setFromHash(Arrays.copyOfRange(hash, k, hash.length - k));
+    public QuadraticEvenElement setFromHash(byte[] source, int offset, int length) {
+        int k = length / 2;
+        x.setFromHash(source, offset, k);
+        y.setFromHash(source, offset + k, k);
 
         return this;
     }

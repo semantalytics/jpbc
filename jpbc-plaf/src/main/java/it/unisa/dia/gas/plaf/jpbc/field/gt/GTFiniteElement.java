@@ -1,8 +1,8 @@
 package it.unisa.dia.gas.plaf.jpbc.field.gt;
 
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericElement;
+import it.unisa.dia.gas.plaf.jpbc.pairing.PairingMap;
 
 import java.math.BigInteger;
 
@@ -10,19 +10,19 @@ import java.math.BigInteger;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class GTFiniteElement extends GenericElement {
-    protected Pairing pairing;
+    protected PairingMap pairing;
 
     public Element value;
 
 
-    public GTFiniteElement(Pairing pairing, GTFiniteField field) {
+    public GTFiniteElement(PairingMap pairing, GTFiniteField field) {
         super(field);
 
         this.pairing = pairing;
         this.value = field.getTargetField().newElement().setToOne();
     }
 
-    public GTFiniteElement(Pairing pairing, GTFiniteField field, Element value) {
+    public GTFiniteElement(PairingMap pairing, GTFiniteField field, Element value) {
         super(field);
 
         this.pairing = pairing;
@@ -34,7 +34,7 @@ public class GTFiniteElement extends GenericElement {
         return new GTFiniteElement(pairing, (GTFiniteField) field, value);
     }
 
-    public GTFiniteElement set(Element element) {
+    public GTFiniteElement set(Element value) {
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
@@ -77,19 +77,19 @@ public class GTFiniteElement extends GenericElement {
         return this;
     }
 
-    public GTFiniteElement setFromHash(byte[] hash) {
-        value.setFromHash(hash);
+    public GTFiniteElement setFromHash(byte[] source, int offset, int length) {
+        value.setFromHash(source, offset, length);
         pairing.finalPow(value);
 
         return this;
     }
 
-    public int setFromBytes(byte[] bytes) {
-        return value.setFromBytes(bytes);
+    public int setFromBytes(byte[] source) {
+        return value.setFromBytes(source);
     }
 
-    public int setFromBytes(byte[] bytes, int offset) {
-        return value.setFromBytes(bytes, offset);
+    public int setFromBytes(byte[] source, int offset) {
+        return value.setFromBytes(source, offset);
     }
 
     public int setEncoding(byte[] bytes) {
@@ -130,8 +130,8 @@ public class GTFiniteElement extends GenericElement {
         return this;
     }
 
-    public GTFiniteElement mul(BigInteger value) {
-        return pow(value);
+    public GTFiniteElement mul(BigInteger n) {
+        return pow(n);
     }
 
     public boolean isSqr() {
@@ -142,8 +142,8 @@ public class GTFiniteElement extends GenericElement {
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
-    public GTFiniteElement pow(BigInteger value) {
-        this.value.pow(value);
+    public GTFiniteElement pow(BigInteger n) {
+        this.value.pow(n);
 
         return this;
     }
@@ -152,8 +152,8 @@ public class GTFiniteElement extends GenericElement {
         return value.compareTo(((GTFiniteElement) element).value);
     }
 
-    public GTFiniteElement powZn(Element element) {
-        this.value.powZn(element);
+    public GTFiniteElement powZn(Element n) {
+        this.value.powZn(n);
 
         return this;
     }

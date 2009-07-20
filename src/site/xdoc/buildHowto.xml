@@ -3,21 +3,21 @@
         "http://maven.apache.org/dtd/xdoc_1_0.dtd">
 <document>
     <properties>
-        <title>MyDoggy - My Java Docking Framework : Build Howto</title>
+        <title>jPBC : Build Howto</title>
         <author email="adecaro@users.sourceforge.net">Angelo De Caro</author>
     </properties>
 
     <body>
         <section name="Build Howto">
             <p>
-                MyDoggy is build using Maven-2. So first you have to download Maven-2 from
+                jPBC is build using Maven-2. So first you have to download Maven-2 from
                 <a href="http://maven.apache.org">http://maven.apache.org</a>.
                 <br/>
                 The POM declares a few dependencies which are hosted on any publicly available Maven Repository.
                 <br/>
-                You then should be ready to build MyDoggy.
+                You then should be ready to build jPBC.
                 <br/>
-                To build MyDoggy for JDK5 simply call :
+                To build jPBC for JDK5 simply call :
             </p>
             <source>mvn clean package install</source>
             <p>

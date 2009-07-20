@@ -1,8 +1,8 @@
 package it.unisa.dia.gas.plaf.jpbc.field.gt;
 
 import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericFieldOver;
+import it.unisa.dia.gas.plaf.jpbc.pairing.PairingMap;
 
 import java.math.BigInteger;
 
@@ -10,10 +10,10 @@ import java.math.BigInteger;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class GTFiniteField<F extends Field> extends GenericFieldOver<F, GTFiniteElement> {
-    protected Pairing pairing;
+    protected PairingMap pairing;
 
 
-    public GTFiniteField(Pairing pairing, Field targetField) {
+    public GTFiniteField(PairingMap pairing, Field targetField) {
         super((F) targetField);
         this.pairing = pairing;
     }
