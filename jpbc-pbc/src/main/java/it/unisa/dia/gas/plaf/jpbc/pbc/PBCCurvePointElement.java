@@ -17,12 +17,15 @@ public class PBCCurvePointElement extends PBCElement implements Point {
 
 
     public Element getX() {
-        throw new IllegalStateException("Not implemented yet!!!");
+        PBCElementType dest = new PBCElementType();
+        PBCLibraryProvider.getPbcLibrary().pbc_curve_x_coord(dest, this.value);
+
+        return new PBCElement(dest, null);
     }
 
     public Element getY() {
         PBCElementType dest = new PBCElementType();
-        PBCLibraryProvider.getPbcLibrary().pbc_curve_x_coord(dest, this.value);
+        PBCLibraryProvider.getPbcLibrary().pbc_curve_y_coord(dest, this.value);
 
         return new PBCElement(dest, null);
     }
@@ -67,8 +70,4 @@ public class PBCCurvePointElement extends PBCElement implements Point {
         return lengthInBytes;
     }
 
-
-    public int ySign() {
-        return PBCLibraryProvider.getPbcLibrary().pbc_curve_y_coord_sign(this.value);
-    }
 }

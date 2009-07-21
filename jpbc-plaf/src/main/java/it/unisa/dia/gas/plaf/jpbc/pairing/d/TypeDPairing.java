@@ -31,7 +31,7 @@ public class TypeDPairing implements Pairing {
     protected BigInteger b;
 
     protected PolyModElement xpowq, xpowq2;
-    protected Element nqrinv, nqrinv2;
+    protected Element nqrInverse, nqrInverseSquare;
     protected BigInteger tateexp;
 
     protected BigInteger phikonr;
@@ -113,39 +113,35 @@ public class TypeDPairing implements Pairing {
         Zr = initFp(r);
 
         // Init Fq
-
         Fq = initFp(q);
 
         // Init Eq
-        Eq = initEq(Fq.newElement().set(a), Fq.newElement().set(b), r, h);
+        Eq = initEq(Fq.newElement().set(a),
+                    Fq.newElement().set(b),
+                    r, h);
 
         // Init Fqx
         PolyField polyField = initPoly();
         Fqx = polyField;
 
-        // Init the irreducible polinomial
+        // Init the irreducible polynomial
         int d = k / 2;
 
-        PolyElement irred = polyField.newElement();
-        List<Element> coeff = irred.getCoefficients();
-
+        PolyElement irreduciblePoly = polyField.newElement();
+        List<Element> irreduciblePolyCoeff = irreduciblePoly.getCoefficients();
         for (int i = 0; i < d; i++) {
-            coeff.add(
-                    polyField.getTargetField().newElement().set(curveParams.getBigInteger("coeff" + i))
-            );
+            irreduciblePolyCoeff.add(polyField.getTargetField().newElement().set(curveParams.getBigInteger("coeff" + i)));
         }
-        coeff.add(polyField.getTargetField().newElement().setToOne());
+        irreduciblePolyCoeff.add(polyField.getTargetField().newElement().setToOne());
 
         // init Fqd
-        Fqd  = initPolyMod(irred);
+        Fqd  = initPolyMod(irreduciblePoly);
 
         // init Fqk
         Fqk = initQuadratic();
 
         if (k == 6) {
             phikonr = q.multiply(q).subtract(q).add(BigInteger.ONE).divide(r);
-
-//            System.out.println("phikonr = " + phikonr);
 
             PolyModElement polyModElement = Fqd.newElement();
             polyModElement.getCoefficient(1).setToOne();
@@ -154,9 +150,6 @@ public class TypeDPairing implements Pairing {
 
             xpowq = polyModElement;
             xpowq2 = polyModElement.duplicate().square();
-
-//            System.out.println("xpowq = " + xpowq);
-//            System.out.println("xpowq2 = " + xpowq2);
 
             /*
             mpz_ptr q = param->q;
@@ -184,11 +177,11 @@ public class TypeDPairing implements Pairing {
             */
         }
 
-        // init Etwist                          
+        // init Etwist
         Etwist = initEqMap().twist();
 
-        nqrinv = Fqd.getNqr().duplicate().invert();
-        nqrinv2 = nqrinv.duplicate().square();
+        nqrInverse = Fqd.getNqr().duplicate().invert();
+        nqrInverseSquare = nqrInverse.duplicate().square();
 
         // Init G1, G2, GT
         G1 = Eq;

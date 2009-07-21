@@ -6,6 +6,7 @@ import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.GMPLibrary;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.MPZElementType;
+import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCElementPPType;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCLibraryProvider;
 import it.unisa.dia.gas.plaf.jpbc.util.Utils;
 
@@ -17,6 +18,7 @@ import java.math.BigInteger;
 public class PBCElement implements Element {
     protected Pointer value;
     protected PBCField field;
+    protected PBCElementPPType elementPPType;
 
 
     public PBCElement(Pointer value, PBCField field) {
@@ -38,7 +40,10 @@ public class PBCElement implements Element {
     }
 
     public Element set(Element value) {
-        PBCLibraryProvider.getPbcLibrary().pbc_element_set(this.value, ((PBCElement) value).value);
+        PBCElement pbcElement = (PBCElement) value;
+
+        PBCLibraryProvider.getPbcLibrary().pbc_element_set(this.value, pbcElement.value);
+        this.elementPPType = pbcElement.elementPPType; 
 
         return this;
     }
@@ -109,10 +114,6 @@ public class PBCElement implements Element {
 
     public boolean isOne() {
         return PBCLibraryProvider.getPbcLibrary().pbc_element_is1(this.value) == 0;
-    }
-
-    public Element map(Element Element) {
-        throw new IllegalStateException("Not Implemented yet!!!");
     }
 
     public Element twice() {
@@ -234,6 +235,17 @@ public class PBCElement implements Element {
 
     public int compareTo(Element o) {
         return PBCLibraryProvider.getPbcLibrary().pbc_element_cmp(value, ((PBCElement) o).value);
+    }
+
+    public void initPowPreProcessing() {
+        elementPPType = new PBCElementPPType();
+        PBCLibraryProvider.getPbcLibrary().pbc_element_pp_init(elementPPType, value);
+    }
+
+    public Element powPreProcessing(BigInteger n) {
+        PBCLibraryProvider.getPbcLibrary().pbc_element_pp_pow(value, MPZElementType.fromBigInteger(n), value);
+
+        return this;
     }
 
     @Override

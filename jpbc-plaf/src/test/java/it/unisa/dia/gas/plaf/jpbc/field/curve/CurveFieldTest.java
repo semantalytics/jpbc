@@ -9,7 +9,7 @@ import junit.framework.TestCase;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class TestCurveField extends TestCase {
+public class CurveFieldTest extends TestCase {
 
     protected Pairing pairing;
 
@@ -24,19 +24,9 @@ public class TestCurveField extends TestCase {
     }
 
     protected CurveParams getCurveParams() {
-        CurveParams properties = new CurveParams();
-
-        properties.put("type", "a");
-
-        properties.put("q", "389517483806764372162075727451538192950200087543273118390202621592813077775963376258032864387");
-        properties.put("h", "783228");
-        properties.put("r", "497323236409786642155382248146820840100456173098092915971087118428877769660894881513471");
-        properties.put("exp2", "288");
-        properties.put("exp1", "144");
-        properties.put("sign1", "1");
-        properties.put("sign0", "-1");
-
-        return properties;
+        CurveParams curveParams = new CurveParams();
+        curveParams.load(this.getClass().getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pairing/a/a_603_181.properties"));
+        return curveParams;
     }
 
 

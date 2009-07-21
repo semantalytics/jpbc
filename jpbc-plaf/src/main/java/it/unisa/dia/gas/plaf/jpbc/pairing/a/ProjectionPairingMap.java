@@ -41,14 +41,6 @@ public class ProjectionPairingMap implements PairingMap {
         Element Qx = in2.getX();
         Element Qy = in2.getY();
 
-        /*System.out.println("Vx = " + Vx);
-        System.out.println("Vy = " + Vy);
-        System.out.println("V1x = " + V1x);
-        System.out.println("V1y = " + V1y);
-        System.out.println("Qx = " + Qx);
-        System.out.println("Qy = " + Qy);*/
-
-
         Element a = pairing.Fq.newElement();
         Element b = pairing.Fq.newElement();
         Element c = pairing.Fq.newElement();
@@ -67,7 +59,6 @@ public class ProjectionPairingMap implements PairingMap {
             // f = f^2 g_V,V(Q)
             // where g_V,V = tangent at V
             f.square();
-//            System.out.println("(1) f = " + f);
 
             do_tangent(f0, a, b, c, Vx, Vy, z, z2, e0, Qx, Qy, f);
             proj_double(e0, a, b, c, Vx, Vy, z, z2);
@@ -84,66 +75,22 @@ public class ProjectionPairingMap implements PairingMap {
             f1 = f.duplicate();
         }
 
-//        System.out.println("V1 = " + V1);
-//        System.out.println("f1 = " + f1);
-
         n = pairing.exp2;
         for (; i < n; i++) {
             f.square();
-//            System.out.println("(2) f = " + f);
 
             do_tangent(f0, a, b, c, Vx, Vy, z, z2, e0, Qx, Qy, f);
             proj_double(e0, a, b, c, Vx, Vy, z, z2);
         }
 
-//        System.out.println("f1 = " + f1);
-
         f.mul(f1);
-
-//        System.out.println("f = " + f);
-//        System.out.println("f0 = " + f0);
-
-/*
-        System.out.println("z = " + z);
-        System.out.println("e0 = " + e0);
-        System.out.println("Vx = " + Vx);
-        System.out.println("Vy = " + Vy);
-        System.out.println("z2 = " + z2);
-*/
 
         point_to_affine(z, e0, Vx, Vy, z2);
 
-/*
-        System.out.println("==================");
-
-        System.out.println("z = " + z);
-        System.out.println("e0 = " + e0);
-        System.out.println("Vx = " + Vx);
-        System.out.println("Vy = " + Vy);
-        System.out.println("z2 = " + z2);
-*/
         V1x = V1.getX();
         V1y = V1.getY();
 
-        /*System.out.println("f0 = " + f0);
-        System.out.println("a = " + a);
-        System.out.println("b = " + b);
-        System.out.println("c = " + c);
-        System.out.println("Vx = " + Vx);
-        System.out.println("Vy = " + Vy);
-        System.out.println("z = " + z);
-        System.out.println("z2 = " + z2);
-        System.out.println("e0 = " + e0);
-        System.out.println("V1x = " + V1x);
-        System.out.println("V1y = " + V1y);
-        System.out.println("Qx = " + Qx);
-        System.out.println("Qy = " + Qy);
-        */
-
         do_line(f0, a, b, c, Vx, Vy, e0, V1x, V1y, Qx, Qy, f);
-
-//        System.out.println("f = " + f);
-//        System.out.println("f0 = " + f0);
 
         tatePow(out, f, f0, pairing.phikonr);
 
@@ -155,7 +102,7 @@ public class ProjectionPairingMap implements PairingMap {
         t0 = element.getField().newElement();
         t1 = element.getField().newElement();
 
-        tatePow((QuadraticTwoElement) t0, (QuadraticTwoElement) element, (QuadraticTwoElement) t1, pairing.phikonr);
+        tatePow((Point) t0, (Point) element, (Point) t1, pairing.phikonr);
 
         element.set(t0);
     }
@@ -415,7 +362,6 @@ public class ProjectionPairingMap implements PairingMap {
 
         Element t0 = temp.getX();
         Element t1 = temp.getY();
-        int j;
 
         t0.set(2);
         t1.set(in0).twice();
@@ -423,8 +369,7 @@ public class ProjectionPairingMap implements PairingMap {
         v0.set(t0);
         v1.set(t1);
 
-        j = cofactor.bitLength() - 1;
-
+        int j = cofactor.bitLength() - 1;
         for (; ;) {
             if (j == 0) {
                 v1.mul(v0).sub(t1);
@@ -440,7 +385,6 @@ public class ProjectionPairingMap implements PairingMap {
             } else {
                 v1.mul(v0).sub(t1);
                 v0.square().sub(t0);
-
             }
             j--;
         }

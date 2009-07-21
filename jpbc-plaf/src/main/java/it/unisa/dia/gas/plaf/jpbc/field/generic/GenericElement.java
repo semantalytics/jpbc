@@ -12,6 +12,7 @@ import java.util.List;
  */
 public abstract class GenericElement implements Element {
     protected Field field;
+    protected GenericPowPreProcessing powPreProcessing;
 
 
     public GenericElement(Field field) {
@@ -32,10 +33,6 @@ public abstract class GenericElement implements Element {
     }
 
     public int setFromBytes(byte[] source, int offset) {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
-    public Element map(Element Element) {
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
@@ -61,7 +58,7 @@ public abstract class GenericElement implements Element {
     public Element sub(Element element) {
         add(element.duplicate().negate());
         return this;
-        
+
         /*
         if (c != a) {
             element_neg(c, b);
@@ -123,6 +120,45 @@ public abstract class GenericElement implements Element {
     }
 
 
+    public void initPowPreProcessing() {
+        powPreProcessing = getPowPreProcessing(field.getOrder().bitLength(), 5);
+    }
+
+    public Element powPreProcessing(BigInteger n) {
+        if (powPreProcessing == null)
+            throw new IllegalStateException("You must call setPowPreProcessing before this.");
+
+        element_pow_base_table(n, powPreProcessing);
+
+        return this;
+    }
+
+
+    public void element_pow_base_table(BigInteger n, GenericPowPreProcessing base_table) {
+        /* early abort if raising to power 0 */
+        if (n.signum() == 0) {
+            setToOne();
+            return;
+        }
+
+        Element result = field.newOneElement();
+        int numLookups = n.bitLength() / base_table.k + 1;
+
+        for (int row = 0; row < numLookups; row++) {
+            int word = 0;
+            for (int s = 0; s < base_table.k; s++) {
+                word |= (n.testBit(base_table.k * row + s) ? 1 : 0) << s;
+            }
+
+            if (word > 0) {
+                result.mul(base_table.table[row][word]);
+            }
+
+        }
+
+        set(result);
+    }
+
 
     protected int optimalPowWindowSize(BigInteger n) {
         int expBits;
@@ -149,6 +185,7 @@ public abstract class GenericElement implements Element {
      * Builds k-bit lookup window for base a
      *
      * @param k
+     * @return
      */
     protected List<Element> buildPowWindow(int k) {
         int s;
@@ -216,6 +253,45 @@ public abstract class GenericElement implements Element {
         }
 
         set(result);
+    }
+
+    /**
+     * build k-bit base table for n-bit exponentiation w/ base a
+     *
+     * @param bits
+     * @param k
+     * @return
+     */
+    protected GenericPowPreProcessing getPowPreProcessing(int bits, int k) {
+        int lookup_size = 1 << k;
+
+        GenericPowPreProcessing base_table = new GenericPowPreProcessing();
+        base_table.numLookups = bits / k + 1;
+        base_table.k = k;
+        base_table.bits = bits;
+        base_table.table = new Element[base_table.numLookups][lookup_size];
+
+        Element multiplier = duplicate();
+
+        for (int i = 0; i < base_table.numLookups; i++) {
+
+            base_table.table[i][0] = field.newOneElement();
+
+            for (int j = 1; j < lookup_size; j++) {
+                base_table.table[i][j] = multiplier.duplicate().mul(base_table.table[i][j - 1]);
+            }
+            multiplier.mul(base_table.table[i][lookup_size - 1]);
+        }
+
+        return base_table;
+    }
+
+
+    public class GenericPowPreProcessing implements PreProcessing {
+        int k;
+        int bits;
+        int numLookups;
+        Element table[][];
     }
 
 }

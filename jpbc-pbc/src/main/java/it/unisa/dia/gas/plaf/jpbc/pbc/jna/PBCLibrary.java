@@ -16,6 +16,9 @@ public interface PBCLibrary extends Library {
 
     int pbc_mpz_sizeof();
 
+    int pbc_element_pp_sizeof();
+
+
     void pbc_pairing_init_inp_buf(Pointer pairing, String buf, int len);
 
     void pbc_pairing_pp_init(Pointer p, Pointer in1, Pointer pairing);
@@ -129,11 +132,18 @@ public interface PBCLibrary extends Library {
 
     void pbc_element_clear(Pointer element);
 
+
     void pbc_curve_x_coord(Pointer out, Pointer element);
 
     void pbc_curve_y_coord(Pointer out, Pointer element);
 
-    int pbc_curve_y_coord_sign(Pointer element);
+
+    void pbc_element_pp_init(Pointer p, Pointer element);
+
+    void pbc_element_pp_clear(Pointer p);
+
+    void pbc_element_pp_pow(Pointer out, Pointer power, Pointer p);
+
 
     int element_length_in_bytes_x_only(Pointer element);
 
@@ -147,6 +157,5 @@ public interface PBCLibrary extends Library {
     int element_to_bytes_compressed(byte[] data, Pointer element);
 
     int element_from_bytes_compressed(Pointer element, byte[] data);
-
 
 }

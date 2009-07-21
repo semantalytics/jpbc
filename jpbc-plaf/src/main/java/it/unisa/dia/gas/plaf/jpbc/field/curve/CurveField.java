@@ -51,7 +51,7 @@ public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElemen
     }
 
     public BigInteger getOrder() {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        return order;
     }
 
     public CurveElement getNqr() {

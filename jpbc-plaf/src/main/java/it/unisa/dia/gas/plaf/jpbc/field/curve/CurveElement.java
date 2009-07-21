@@ -3,6 +3,7 @@ package it.unisa.dia.gas.plaf.jpbc.field.curve;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.FieldOver;
 import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericPointElement;
+import it.unisa.dia.gas.plaf.jpbc.util.BigIntegerUtils;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -272,7 +273,7 @@ public class CurveElement extends GenericPointElement {
     }
 
     public boolean isSqr() {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        return BigIntegerUtils.isOdd(field.getOrder()) || duplicate().pow(field.getOrder().subtract(BigInteger.ONE).divide(BigIntegerUtils.TWO)).isOne();
     }
 
     public int compareTo(Element e) {

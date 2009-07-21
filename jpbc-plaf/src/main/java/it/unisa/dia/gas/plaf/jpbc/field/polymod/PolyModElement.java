@@ -260,7 +260,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
     }
 
     public PolyModElement<E> invert() {
-        setFromPolyTruncate(polyInvert(field.irred.getField().newElement().setFromPolyMod(this)));
+        setFromPolyTruncate(polyInvert(field.irreduciblePoly.getField().newElement().setFromPolyMod(this)));
         return this;
 
         /*
@@ -961,7 +961,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
         PolyElement b1 = polyField.newOneElement();
         PolyElement b2 = polyField.newElement();
 
-        PolyElement r0 = field.irred.duplicate();
+        PolyElement r0 = field.irreduciblePoly.duplicate();
         PolyElement r1 = f.duplicate();
         PolyElement r2 = polyField.newElement();
 

@@ -139,8 +139,6 @@ public interface Element extends Comparable<Element>, Serializable {
      */
     boolean isOne();
 
-    Element map(Element Element);
-
     /**
      * Sets this = this + this.
      *
@@ -236,6 +234,10 @@ public interface Element extends Comparable<Element>, Serializable {
      * @return this^n.
      */
     Element pow(BigInteger n);
+
+    void initPowPreProcessing();
+
+    Element powPreProcessing(BigInteger n);
 
     /**
      * Sets this = this^n, where n is an element of a ring Z_N  for some N  (typically the order of the algebraic structure x lies in).

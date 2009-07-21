@@ -33,7 +33,7 @@ public interface Field<E extends Element> {
     /**
      * Returns the order of this field.
      *
-     * @return the order of this field.
+     * @return the order of this field. Returns 0 for infinite order.
      */
 
     BigInteger getOrder();

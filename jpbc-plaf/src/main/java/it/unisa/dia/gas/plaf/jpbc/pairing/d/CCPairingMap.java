@@ -5,7 +5,6 @@ import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.jpbc.Polynomial;
 import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveField;
 import it.unisa.dia.gas.plaf.jpbc.field.polymod.PolyModElement;
-import it.unisa.dia.gas.plaf.jpbc.field.quadratic.QuadraticEvenElement;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingMap;
 
 import java.math.BigInteger;
@@ -25,11 +24,12 @@ public class CCPairingMap implements PairingMap {
 
     public Element pairing(Point in1, Point in2) {
         // map from twist: (x, y) --> (v^-1 x, v^-(3/2) y)
-        // where v is the quadratic nonresidue used to construct the twist
-        Element Qx = in2.getX().duplicate().mul(pairing.nqrinv);
+        // where v is the quadratic non-residue used to construct the twist
 
-        //v^-3/2 = v^-2 * v^1/2
-        Element Qy = in2.getY().duplicate().mul(pairing.nqrinv2);
+        Element Qx = in2.getX().duplicate().mul(pairing.nqrInverse);
+
+        // v^-3/2 = v^-2 * v^1/2
+        Element Qy = in2.getY().duplicate().mul(pairing.nqrInverseSquare);
 
         return tatePow(cc_miller_no_denom_fn(pairing.r, in1, Qx, Qy));
     }
@@ -120,7 +120,7 @@ public class CCPairingMap implements PairingMap {
         Element b = a.duplicate();
         Element c = a.duplicate();
         Element t0 = a.duplicate();
-        Element e0 = pairing.Fqk.newElement();
+        Point<Polynomial> e0 = pairing.Fqk.newElement();
         Element v = pairing.Fqk.newElement();
 
         Point Z = (Point) P.duplicate();
@@ -148,13 +148,10 @@ public class CCPairingMap implements PairingMap {
         return v.duplicate();
     }
 
-    final void do_tangent(Element a, Element b, Element c, Element Zx, Element Zy, Element cca, Element t0, Element e0, Element v, Element Qx, Element Qy) {
+    final void do_tangent(Element a, Element b, Element c, Element Zx, Element Zy, Element cca, Element t0, Point<Polynomial> e0, Element v, Element Qx, Element Qy) {
         a.set(Zx).square().mul(3).add(cca).negate();
-
         b.set(Zy).add(Zy);
-
         t0.set(b).mul(Zy);
-
         c.set(a).mul(Zx).add(t0).negate();
 
         d_miller_evalfn(e0, a, b, c, Qx, Qy);
@@ -182,7 +179,7 @@ public class CCPairingMap implements PairingMap {
         */
     }
 
-    final void do_line(Element a, Element b, Element c, Element Zx, Element Zy, Element cca, Element t0, Element e0, Element v, Element Qx, Element Qy, Element Px, Element Py) {
+    final void do_line(Element a, Element b, Element c, Element Zx, Element Zy, Element cca, Element t0, Point<Polynomial> e0, Element v, Element Qx, Element Qy, Element Px, Element Py) {
         b.set(Px).sub(Zx);
         a.set(Zy).sub(Py);
         t0.set(b).mul(Zy);
@@ -210,16 +207,15 @@ public class CCPairingMap implements PairingMap {
         */
     }
 
-    final void d_miller_evalfn(Element e0, Element a, Element b, Element c, Element Qx, Element Qy) {
-        PolyModElement re_out = (PolyModElement) ((QuadraticEvenElement) e0).getX();
-        PolyModElement im_out = (PolyModElement) ((QuadraticEvenElement) e0).getY();
+    final void d_miller_evalfn(Point<Polynomial> e0, Element a, Element b, Element c, Element Qx, Element Qy) {
+        PolyModElement re_out = (PolyModElement) e0.getX();
+        PolyModElement im_out = (PolyModElement) e0.getY();
 
         int i;
         int d = re_out.getField().getN();
         for (i = 0; i < d; i++) {
             re_out.getCoefficient(i).set(((PolyModElement) Qx).getCoefficient(i)).mul(a);
             im_out.getCoefficient(i).set(((PolyModElement) Qy).getCoefficient(i)).mul(b);
-
         }
 
         re_out.getCoefficient(0).add(c);
@@ -296,18 +292,19 @@ public class CCPairingMap implements PairingMap {
 
         Element in0 = in.getX();
         Element in1 = in.getY();
+
         Element v0 = out.getX();
         Element v1 = out.getY();
+
         Element t0 = temp.getX();
         Element t1 = temp.getY();
-
-        int j;
 
         t0.set(2);
         t1.set(in0).twice();
         v0.set(t0);
         v1.set(t1);
-        j = cofactor.bitLength() - 1;
+
+        int j = cofactor.bitLength() - 1;
         while (true) {
             if (j == 0) {
                 v1.mul(v0).sub(t1);
@@ -322,6 +319,7 @@ public class CCPairingMap implements PairingMap {
                 v1.mul(v0).sub(t1);
                 v0.square().sub(t0);
             }
+
             j--;
         }
 

@@ -12,7 +12,7 @@ import java.util.List;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class PolyModField<F extends Field> extends GenericFieldOver<F, PolyModElement> {
-    protected PolyElement irred;
+    protected PolyElement irreduciblePoly;
     protected PolyModElement nqr;
     protected BigInteger order;
     protected int n;
@@ -21,12 +21,13 @@ public class PolyModField<F extends Field> extends GenericFieldOver<F, PolyModEl
     protected PolyModElement[] xpwr;
 
 
-    public PolyModField(PolyElement irred, BigInteger nqr) {
-        super((F) irred.getField().getTargetField());
-        this.irred = irred;
-        this.n = irred.getDegree();
+    public PolyModField(PolyElement irreduciblePoly, BigInteger nqr) {
+        super((F) irreduciblePoly.getField().getTargetField());
 
-        this.order = targetField.getOrder().pow(irred.getDegree());
+        this.irreduciblePoly = irreduciblePoly;
+        this.n = irreduciblePoly.getDegree();
+
+        this.order = targetField.getOrder().pow(irreduciblePoly.getDegree());
         if (nqr != null) {
             this.nqr = newElement();
             this.nqr.getCoefficient(0).set(nqr);
@@ -74,7 +75,7 @@ public class PolyModField<F extends Field> extends GenericFieldOver<F, PolyModEl
             xpwr[i] = newElement();
         }
 
-        xpwr[0].setFromPolyTruncate(irred).negate();
+        xpwr[0].setFromPolyTruncate(irreduciblePoly).negate();
         PolyModElement p0 = newElement();
 
         for (int i = 1; i < n; i++) {

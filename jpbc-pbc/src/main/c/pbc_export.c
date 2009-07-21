@@ -24,6 +24,10 @@ int pbc_mpz_sizeof() {
     return sizeof(mpz_t);
 }
 
+int pbc_element_pp_sizeof() {
+    return sizeof(element_pp_t);
+}
+
 void pbc_pairing_init_inp_buf(pairing_t pairing, const char *buf, size_t len) {
     pairing_init_inp_buf (pairing, buf, len);
 }
@@ -249,6 +253,10 @@ void pbc_element_clear(element_t element) {
     element_clear(element);
 }
 
+void pbc_field_order(element_t element) {
+
+}
+
 void pbc_curve_x_coord(element_t out, element_t element) {
     out = &*curve_x_coord(element);
 }
@@ -257,6 +265,17 @@ void pbc_curve_y_coord(element_t out, element_t element) {
     out = &*curve_y_coord(element);
 }
 
-int pbc_curve_y_coord_sign(element_t element) {
-    return element_sign(curve_y_coord(element));
+
+void pbc_element_pp_init(element_pp_t p, element_t in) {
+    element_pp_init(p, in);
 }
+
+void pbc_element_pp_clear(element_pp_t p) {
+    pbc_element_pp_clear(p);
+}
+
+void pbc_element_pp_pow(element_t out, mpz_ptr power, element_pp_t p) {
+    element_pp_init(out, power, p);
+}
+
+

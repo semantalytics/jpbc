@@ -33,7 +33,7 @@ public class PolyUtils {
 
     public static void div(Element quot, Element rem, PolyElement a, PolyElement b) {
         if (b.isZero())
-            throw new IllegalArgumentException("BUG! division by zero!");
+            throw new IllegalArgumentException("Division by zero!");
 
         int n = b.getDegree();
         int m = a.getDegree();
@@ -45,25 +45,27 @@ public class PolyUtils {
             return;
         }
 
-        PolyElement r = a.getField().newElement();
-        PolyElement q = a.getField().newElement();
-        Element binv = a.getField().getTargetField().newElement();
-        Element e0 = a.getField().getTargetField().newElement();
-        r.set(a);
         int k = m - n;
+
+        PolyElement r = a.duplicate();
+        PolyElement q = a.getField().newElement();
         q.ensureCoeffSize(k + 1);
-        binv.set(b.getCoefficient(n)).invert();
+
+        Element temp = a.getField().getTargetField().newElement();
+        Element bn = b.getCoefficient(n).duplicate().invert();
+
         while (k >= 0) {
-            Element qe = q.getCoefficient(k);
-            qe.set(binv).mul(r.getCoefficient(m));
+            Element qk = q.getCoefficient(k);
+            qk.set(bn).mul(r.getCoefficient(m));
+
             for (int i = 0; i <= n; i++) {
-                e0.set(qe).mul(b.getCoefficient(i));
-                r.getCoefficient(i + k).sub(e0);
+                temp.set(qk).mul(b.getCoefficient(i));
+                r.getCoefficient(i + k).sub(temp);
             }
-            k--;
-            m--;
+            k--; m--;
         }
         r.removeLeadingZeroes();
+        
         quot.set(q);
         rem.set(r);
 
@@ -72,7 +74,7 @@ public class PolyUtils {
        poly_element_ptr pq, pr;
        poly_field_data_ptr pdp = a - > field - > data;
        element_t q, r;
-       element_t binv, e0;
+       element_t bn, temp;
        element_ptr qe;
        int m, n;
        int i, k;
@@ -90,20 +92,20 @@ public class PolyUtils {
        }
        element_init(r, a - > field);
        element_init(q, a - > field);
-       element_init(binv, pdp - > field);
-       element_init(e0, pdp - > field);
+       element_init(bn, pdp - > field);
+       element_init(temp, pdp - > field);
        pq = q - > data;
        pr = r - > data;
        element_set(r, a);
        k = m - n;
        poly_alloc(q, k + 1);
-       element_invert(binv, poly_coeff(b, n));
+       element_invert(bn, poly_coeff(b, n));
        while (k >= 0) {
            qe = pq - > coeff - > item[k];
-           element_mul(qe, binv, pr - > coeff - > item[m]);
+           element_mul(qe, bn, pr - > coeff - > item[m]);
            for (i = 0; i <= n; i++) {
-               element_mul(e0, qe, poly_coeff(b, i));
-               element_sub(pr - > coeff - > item[i + k], pr - > coeff - > item[i + k], e0);
+               element_mul(temp, qe, poly_coeff(b, i));
+               element_sub(pr - > coeff - > item[i + k], pr - > coeff - > item[i + k], temp);
            }
            k--;
            m--;
@@ -114,8 +116,8 @@ public class PolyUtils {
 
        element_clear(q);
        element_clear(r);
-       element_clear(e0);
-       element_clear(binv);
+       element_clear(temp);
+       element_clear(bn);
         */
     }
 
