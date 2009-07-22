@@ -29,10 +29,10 @@ public class CCPairingMap implements PairingMap {
     public Element pairing(Point in1, Point in2) {
         // map from twist: (x, y) --> (v^-1 x, v^-(3/2) y)
         // where v is the quadratic non-residue used to construct the twist
-        Element Qx = in2.getX().duplicate().mul(pairing.nqrInverse);
+        Polynomial Qx = (Polynomial) in2.getX().duplicate().mul(pairing.nqrInverse);
 
         // v^-3/2 = v^-2 * v^1/2
-        Element Qy = in2.getY().duplicate().mul(pairing.nqrInverseSquare);
+        Polynomial Qy = (Polynomial) in2.getY().duplicate().mul(pairing.nqrInverseSquare);
 
         return new GTFiniteElement(this, (GTFiniteField) pairing.getGT(), tatePow(cc_miller_no_denom_fn(pairing.r, in1, Qx, Qy)));
     }
@@ -88,10 +88,10 @@ public class CCPairingMap implements PairingMap {
 
         // map from twist: (x, y) --> (v^-1 x, v^-(3/2) y)
         // where v is the quadratic non-residue used to construct the twist
-        Element Qx = in2.getX().duplicate().mul(pairing.nqrInverse);
+        Polynomial Qx = (Polynomial) in2.getX().duplicate().mul(pairing.nqrInverse);
 
         // v^-3/2 = v^-2 * v^1/2
-        Element Qy = in2.getY().duplicate().mul(pairing.nqrInverseSquare);
+        Polynomial Qy = (Polynomial) in2.getY().duplicate().mul(pairing.nqrInverseSquare);
 
         Element out = pairing.Fqk.newOneElement();
         int i = 0;
@@ -270,7 +270,7 @@ public class CCPairingMap implements PairingMap {
 
 
 
-    final Element cc_miller_no_denom_fn(BigInteger q, Point P, Element Qx, Element Qy) {
+    final Element cc_miller_no_denom_fn(BigInteger q, Point P, Polynomial Qx, Polynomial Qy) {
         Element cca = ((CurveField) P.getField()).getA();
 
         Element Px = P.getX();
@@ -308,7 +308,7 @@ public class CCPairingMap implements PairingMap {
         return v.duplicate();
     }
 
-    final void do_tangent(Element a, Element b, Element c, Element Zx, Element Zy, Element cca, Element t0, Point<Polynomial> e0, Element v, Element Qx, Element Qy) {
+    final void do_tangent(Element a, Element b, Element c, Element Zx, Element Zy, Element cca, Element t0, Point<Polynomial> e0, Element v, Polynomial Qx, Polynomial Qy) {
         a.set(Zx).square().mul(3).add(cca).negate();
         b.set(Zy).add(Zy);
         t0.set(b).mul(Zy);
@@ -339,7 +339,7 @@ public class CCPairingMap implements PairingMap {
         */
     }
 
-    final void do_line(Element a, Element b, Element c, Element Zx, Element Zy, Element cca, Element t0, Point<Polynomial> e0, Element v, Element Qx, Element Qy, Element Px, Element Py) {
+    final void do_line(Element a, Element b, Element c, Element Zx, Element Zy, Element cca, Element t0, Point<Polynomial> e0, Element v, Polynomial Qx, Polynomial Qy, Element Px, Element Py) {
         b.set(Px).sub(Zx);
         a.set(Zy).sub(Py);
         t0.set(b).mul(Zy);
@@ -367,15 +367,15 @@ public class CCPairingMap implements PairingMap {
         */
     }
 
-    final void d_miller_evalfn(Point<Polynomial> e0, Element a, Element b, Element c, Element Qx, Element Qy) {
+    final void d_miller_evalfn(Point<Polynomial> e0, Element a, Element b, Element c, Polynomial Qx, Polynomial Qy) {
         PolyModElement re_out = (PolyModElement) e0.getX();
         PolyModElement im_out = (PolyModElement) e0.getY();
 
         int i;
         int d = re_out.getField().getN();
         for (i = 0; i < d; i++) {
-            re_out.getCoefficient(i).set(((PolyModElement) Qx).getCoefficient(i)).mul(a);
-            im_out.getCoefficient(i).set(((PolyModElement) Qy).getCoefficient(i)).mul(b);
+            re_out.getCoefficient(i).set(Qx.getCoefficient(i)).mul(a);
+            im_out.getCoefficient(i).set(Qy.getCoefficient(i)).mul(b);
         }
 
         re_out.getCoefficient(0).add(c);

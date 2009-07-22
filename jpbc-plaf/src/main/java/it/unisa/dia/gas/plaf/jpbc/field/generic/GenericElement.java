@@ -12,7 +12,7 @@ import java.util.List;
  */
 public abstract class GenericElement implements Element {
     protected Field field;
-    protected GenericPowPreProcessing powPreProcessing;
+    protected GenericPowPreProcessing powPreProcessing; // TODO: complete importing when duplicating...plus GT specific preprocessing
 
 
     public GenericElement(Field field) {
