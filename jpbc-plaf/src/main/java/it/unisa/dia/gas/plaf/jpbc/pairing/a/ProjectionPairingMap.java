@@ -601,19 +601,4 @@ public class ProjectionPairingMap implements PairingMap {
     }
 
 
-
-
-    public class PairingPreProcessingInfo {
-        int numRow = 0;
-        Element[][] coeff;
-
-        public void addRow(Element a, Element b, Element c) {
-            coeff[numRow][0] = a.duplicate();
-            coeff[numRow][1] = b.duplicate();
-            coeff[numRow][2] = c.duplicate();
-            numRow++;
-        }
-
-    }
-
 }

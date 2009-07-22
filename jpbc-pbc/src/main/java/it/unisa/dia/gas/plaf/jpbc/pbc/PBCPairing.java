@@ -44,7 +44,7 @@ public class PBCPairing implements Pairing {
 
 
     public boolean isSymmetric() {
-        return PBCLibraryProvider.getPbcLibrary().pbc_pairing_is_symmetric(pairing) == 0;
+        return PBCLibraryProvider.getPbcLibrary().pbc_pairing_is_symmetric(pairing) == 1;
     }
 
     public Field<? extends Point> getG1() {

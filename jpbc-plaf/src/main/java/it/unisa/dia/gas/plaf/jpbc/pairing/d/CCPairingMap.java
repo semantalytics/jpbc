@@ -4,8 +4,11 @@ import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.jpbc.Polynomial;
 import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveField;
+import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteElement;
+import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteField;
 import it.unisa.dia.gas.plaf.jpbc.field.polymod.PolyModElement;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingMap;
+import it.unisa.dia.gas.plaf.jpbc.pairing.a.PairingPreProcessingInfo;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -15,6 +18,7 @@ import java.util.List;
  */
 public class CCPairingMap implements PairingMap {
     protected TypeDPairing pairing;
+    protected PairingPreProcessingInfo processingInfo;
 
 
     public CCPairingMap(TypeDPairing pairing) {
@@ -25,25 +29,158 @@ public class CCPairingMap implements PairingMap {
     public Element pairing(Point in1, Point in2) {
         // map from twist: (x, y) --> (v^-1 x, v^-(3/2) y)
         // where v is the quadratic non-residue used to construct the twist
-
         Element Qx = in2.getX().duplicate().mul(pairing.nqrInverse);
 
         // v^-3/2 = v^-2 * v^1/2
         Element Qy = in2.getY().duplicate().mul(pairing.nqrInverseSquare);
 
-        return tatePow(cc_miller_no_denom_fn(pairing.r, in1, Qx, Qy));
+        return new GTFiniteElement(this, (GTFiniteField) pairing.getGT(), tatePow(cc_miller_no_denom_fn(pairing.r, in1, Qx, Qy)));
     }
 
     public void finalPow(Element element) {
         element.set(tatePow(element));
     }
 
+
+
     public void initPairingPreProcessing(Element in1) {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        Point P = (Point) in1;
+        Element Px = P.getX();
+        Element Py = P.getY();
+        int m;
+
+        BigInteger q = pairing.r;
+        Element cca = ((CurveField) P.getField()).getA();
+
+        Point Z = (Point) P.duplicate();
+        Element Zx = Z.getX();
+        Element Zy = Z.getY();
+
+        Element a = pairing.Fq.newElement();
+        Element b = pairing.Fq.newElement();
+        Element c = pairing.Fq.newElement();
+        Element t0 = pairing.Fq.newElement();
+
+        m = q.bitLength() - 2;
+        processingInfo = new PairingPreProcessingInfo();
+        processingInfo.coeff = new Element[2 * m][3];
+
+        for(;;) {
+            pp_do_tangent(processingInfo, a, b,c, Zx, Zy, cca,t0);
+
+            if (m == 0)
+                break;
+
+                Z.twice();
+                if (q.testBit(m)) {
+                    pp_do_line(processingInfo, a, b, c, Zx, Zy, Px, Py, t0);
+                    Z.add(P);
+                }
+                m--;
+        }
     }
 
     public Element pairing(Point in2) {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        BigInteger q = pairing.r;
+        int m = q.bitLength() - 2;
+
+        Point<Polynomial> e0 = pairing.Fqk.newElement();
+
+        // map from twist: (x, y) --> (v^-1 x, v^-(3/2) y)
+        // where v is the quadratic non-residue used to construct the twist
+        Element Qx = in2.getX().duplicate().mul(pairing.nqrInverse);
+
+        // v^-3/2 = v^-2 * v^1/2
+        Element Qy = in2.getY().duplicate().mul(pairing.nqrInverseSquare);
+
+        Element out = pairing.Fqk.newOneElement();
+        int i = 0;
+        for(;;) {
+            d_miller_evalfn(e0, processingInfo.coeff[i][0], processingInfo.coeff[i][1], processingInfo.coeff[i][2], Qx, Qy);
+            out.mul(e0);
+            i++;
+
+            if (m==0)
+                break;
+
+            if (q.testBit(m)) {
+                d_miller_evalfn(e0, processingInfo.coeff[i][0], processingInfo.coeff[i][1], processingInfo.coeff[i][2], Qx, Qy);
+                out.mul(e0);
+                i++;
+            }
+            m--;
+            out.square();
+        }
+
+        return new GTFiniteElement(this, (GTFiniteField) pairing.getGT(), tatePow(out));
+    }
+
+
+    void pp_do_tangent(PairingPreProcessingInfo info, Element a, Element b, Element c, Element Zx, Element Zy, Element cca, Element t0) {
+    //a = -slope_tangent(Z.x, Z.y);
+    //b = 1;
+    //c = -(Z.y + a * Z.x);
+    //but we multiply by 2*Z.y to avoid division
+
+    //a = -Zx * (3 Zx + twicea_2) - a_4;
+    //Common curves: a2 = 0 (and cc->a is a_4), so
+    //a = -(3 Zx^2 + cc->a)
+    //b = 2 * Zy
+    //c = -(2 Zy^2 + a Zx);
+
+
+        a.set(Zx).square();
+        t0.set(a).twice();
+        a.add(t0).add(cca).negate();
+
+        b.set(Zy).add(Zy);
+
+        t0.set(b).mul(Zy);
+        c.set(a).mul(Zx);
+        c.add(t0).negate();
+
+        info.addRow(a, b, c);
+
+
+    /*element_square(a, Zx);
+    element_double(t0, a);
+    element_add(a, a, t0);
+    element_add(a, a, cca);
+    element_neg(a, a);
+
+    element_add(b, Zy, Zy);
+
+    element_mul(t0, b, Zy);
+    element_mul(c, a, Zx);
+    element_add(c, c, t0);
+    element_neg(c, c);
+
+	store_abc();
+    */
+    }
+
+    void pp_do_line(PairingPreProcessingInfo info, Element a, Element b, Element c, Element Zx, Element Zy, Element Px, Element Py, Element t0) {
+	//a = -(B.y - A.y) / (B.x - A.x);
+	//b = 1;
+	//c = -(A.y + a * A.x);
+	//but we'll multiply by B.x - A.x to avoid division
+
+        b.set(Px).sub(Zx);
+        a.set(Zy).sub(Py);
+        t0.set(b).mul(Zy);
+        c.set(a).mul(Zx);
+        c.add(t0).negate();
+
+        info.addRow(a,b,c);
+	/*element_sub(b, Px, Zx);
+	element_sub(a, Zy, Py);
+	element_mul(t0, b, Zy);
+	element_mul(c, a, Zx);
+	element_add(c, c, t0);
+	element_neg(c, c);
+
+	store_abc();
+	*/
     }
 
     public Element tatePow(Element element) {
@@ -116,6 +253,21 @@ public class CCPairingMap implements PairingMap {
         }
         */
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     final Element cc_miller_no_denom_fn(BigInteger q, Point P, Element Qx, Element Qy) {

@@ -46,6 +46,8 @@ public class CurveParams extends LinkedHashMap<String, String> {
                 String line = reader.readLine();
                 if (line == null)
                     break;
+                if (line.isEmpty())
+                    continue;
 
                 StringTokenizer tokenizer = new StringTokenizer(line, "= :", false);
                 String key = tokenizer.nextToken();

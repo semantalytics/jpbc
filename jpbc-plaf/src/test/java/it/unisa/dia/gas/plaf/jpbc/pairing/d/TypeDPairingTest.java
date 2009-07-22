@@ -20,7 +20,7 @@ public class TypeDPairingTest extends PairingTest {
 
     protected CurveParams getCurveParams() {
         CurveParams curveParams = new CurveParams();
-        curveParams.load(this.getClass().getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pairing/d/d_159.properties"));
+        curveParams.load(this.getClass().getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pairing/d/d_9563.properties"));
         return curveParams;
     }
 

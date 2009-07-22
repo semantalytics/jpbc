@@ -12,7 +12,8 @@ public class PBCPairingTest extends PairingTest {
     protected void setUp() throws Exception {
         if (PBCLibraryProvider.isAvailable()) {
             CurveParams curveParams = new CurveParams();
-            curveParams.load(PBCPairingTest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pbc/pairing/a_603_181.properties"));
+//            curveParams.load(PBCPairingTest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pbc/pairing/a_603_181.properties"));
+            curveParams.load(PBCPairingTest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pbc/pairing/d_9563.properties"));
 
             pairing = new PBCPairing(curveParams);
 
