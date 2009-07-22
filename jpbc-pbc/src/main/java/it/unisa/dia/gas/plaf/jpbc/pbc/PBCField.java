@@ -2,6 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.pbc;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.plaf.jpbc.pbc.jna.MPZElementType;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCLibraryProvider;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCPairingType;
 
@@ -12,14 +13,22 @@ import java.math.BigInteger;
  */
 public abstract class PBCField implements Field {
     protected PBCPairingType pairing;
+
     protected int fixedLengthInBytes;
+    protected BigInteger order;
 
 
     protected PBCField(PBCPairingType pairing) {
         this.pairing = pairing;
 
-        PBCElement element = (PBCElement) newElement();
-        fixedLengthInBytes = PBCLibraryProvider.getPbcLibrary().pbc_element_length_in_bytes(element.value);
+        PBCElement temp = (PBCElement) newElement();
+
+        this.fixedLengthInBytes = PBCLibraryProvider.getPbcLibrary().pbc_element_length_in_bytes(temp.value);
+
+        MPZElementType mpzOrder = new MPZElementType();
+        mpzOrder.init();
+        PBCLibraryProvider.getPbcLibrary().pbc_field_order(temp.value, mpzOrder);
+        this.order = new BigInteger(mpzOrder.toString(10));
     }
     
 
@@ -32,7 +41,7 @@ public abstract class PBCField implements Field {
     }
 
     public BigInteger getOrder() {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        return order;
     }
 
     public Element getNqr() {

@@ -4,7 +4,6 @@ import com.sun.jna.Memory;
 import com.sun.jna.Pointer;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.plaf.jpbc.pbc.jna.GMPLibrary;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.MPZElementType;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCElementPPType;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCLibraryProvider;
@@ -218,10 +217,11 @@ public class PBCElement implements Element {
 
     public BigInteger toBigInteger() {
         MPZElementType mpzElement = new MPZElementType();
-        GMPLibrary.INSTANCE.__gmpz_init(mpzElement);
+        mpzElement.init();
 
         PBCLibraryProvider.getPbcLibrary().pbc_element_to_mpz(mpzElement, value);
-        return new BigInteger(GMPLibrary.INSTANCE.__gmpz_get_str(null, 10, mpzElement));
+
+        return new BigInteger(mpzElement.toString(10));
     }
 
     public byte[] toBytes() {
@@ -243,7 +243,7 @@ public class PBCElement implements Element {
     }
 
     public Element powPreProcessing(BigInteger n) {
-        PBCLibraryProvider.getPbcLibrary().pbc_element_pp_pow(value, MPZElementType.fromBigInteger(n), value);
+        PBCLibraryProvider.getPbcLibrary().pbc_element_pp_pow(value, MPZElementType.fromBigInteger(n), elementPPType);
 
         return this;
     }

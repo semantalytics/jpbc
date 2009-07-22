@@ -145,6 +145,9 @@ public interface PBCLibrary extends Library {
     void pbc_element_pp_pow(Pointer out, Pointer power, Pointer p);
 
 
+    void pbc_field_order(Pointer e, Pointer order);
+
+
     int element_length_in_bytes_x_only(Pointer element);
 
     int element_to_bytes_x_only(byte[] data, Pointer element);

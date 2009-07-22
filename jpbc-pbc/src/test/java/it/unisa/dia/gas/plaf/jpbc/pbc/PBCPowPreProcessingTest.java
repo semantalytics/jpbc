@@ -1,9 +1,8 @@
-package it.unisa.dia.gas.plaf.jpbc.field;
+package it.unisa.dia.gas.plaf.jpbc.pbc;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
-import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import junit.framework.TestCase;
 
 import java.math.BigInteger;
@@ -12,7 +11,7 @@ import java.security.SecureRandom;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class PowPreProcessingTest extends TestCase {
+public class PBCPowPreProcessingTest extends TestCase {
 
     protected Pairing pairing;
 
@@ -54,12 +53,12 @@ public class PowPreProcessingTest extends TestCase {
 
     @Override
     protected void setUp() throws Exception {
-        pairing = PairingFactory.getPairing(getCurveParams());
+        pairing = new PBCPairing(getCurveParams());
     }
 
     protected CurveParams getCurveParams() {
         CurveParams curveParams = new CurveParams();
-        curveParams.load(this.getClass().getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pairing/a/a.properties"));
+        curveParams.load(PBCPairingTest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pbc/pairing/a_603_181.properties"));
         return curveParams;
     }
 

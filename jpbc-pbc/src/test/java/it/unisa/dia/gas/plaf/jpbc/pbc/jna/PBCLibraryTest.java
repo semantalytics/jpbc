@@ -11,11 +11,15 @@ public class PBCLibraryTest extends TestCase {
         assertTrue(PBCLibraryProvider.isAvailable());
 
         System.out.println("pbc_pairing_sizeof() = " + PBCLibraryProvider.getPbcLibrary().pbc_pairing_sizeof());
-        System.out.println("pbc_element_sizeof() = " + PBCLibraryProvider.getPbcLibrary().pbc_element_sizeof());
+        System.out.println("pbc_pairing_pp_sizeof() = " + PBCLibraryProvider.getPbcLibrary().pbc_pairing_pp_sizeof());
         System.out.println("pbc_mpz_sizeof() = " + PBCLibraryProvider.getPbcLibrary().pbc_mpz_sizeof());
+        System.out.println("pbc_element_sizeof() = " + PBCLibraryProvider.getPbcLibrary().pbc_element_sizeof());
+        System.out.println("pbc_element_pp_sizeof() = " + PBCLibraryProvider.getPbcLibrary().pbc_element_pp_sizeof());
 
         assertNotSame(0, PBCLibraryProvider.getPbcLibrary().pbc_pairing_sizeof());
         assertNotSame(0, PBCLibraryProvider.getPbcLibrary().pbc_element_sizeof());
         assertNotSame(0, PBCLibraryProvider.getPbcLibrary().pbc_mpz_sizeof());
+        assertNotSame(0, PBCLibraryProvider.getPbcLibrary().pbc_element_pp_sizeof());
+        assertNotSame(0, PBCLibraryProvider.getPbcLibrary().pbc_pairing_pp_sizeof());
     }
 }
