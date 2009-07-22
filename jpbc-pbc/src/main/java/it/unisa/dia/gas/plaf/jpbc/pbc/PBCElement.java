@@ -243,6 +243,9 @@ public class PBCElement implements Element {
     }
 
     public Element powPreProcessing(BigInteger n) {
+        if (elementPPType == null)
+            throw new IllegalStateException("Call initPowPreProcessing before this.");
+
         PBCLibraryProvider.getPbcLibrary().pbc_element_pp_pow(value, MPZElementType.fromBigInteger(n), elementPPType);
 
         return this;

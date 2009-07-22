@@ -11,7 +11,7 @@ public class PairingTest extends TestCase {
     protected Pairing pairing;
 
 
-    public void testPairing1() {
+    public void testPairing() {
         if (pairing == null)
             return;
 
@@ -53,7 +53,7 @@ public class PairingTest extends TestCase {
         assertEquals(0, x1.compareTo(x2));
     }
 
-    public void testPairing2() {
+    public void testPairingSymmetric() {
         if (pairing == null)
             return;
 
@@ -95,6 +95,41 @@ public class PairingTest extends TestCase {
         }
     }
 
+    public void testPairingPreProcessing() {
+        if (pairing == null)
+            return;
+
+        Element g, h;
+
+        g = pairing.getG1().newElement().setToRandom();
+
+        pairing.initPairingPreProcessing(g);
+
+        long t1 = 0;
+        long t2 = 0;
+
+        for (int i = 0; i < 100; i++) {
+            h = pairing.getG2().newElement().setToRandom();
+
+            long start = System.currentTimeMillis();
+            Element r1 = pairing.pairing(h);
+            long end = System.currentTimeMillis();
+            t1+=(end-start);
+
+            start = System.currentTimeMillis();
+            Element r2 = pairing.pairing(g, h);
+            end = System.currentTimeMillis();
+            t2+=(end-start);
+
+            assertEquals(0, r1.compareTo(r2));
+        }
+
+        System.out.println("t1 = " + t1);
+        System.out.println("t2 = " + t2);
+
+    }
+
+    
     public void pairingBenchmark() {
         Element g1, g2, x1, z;
 

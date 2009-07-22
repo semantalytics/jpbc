@@ -10,6 +10,7 @@ import it.unisa.dia.gas.plaf.jpbc.pbc.field.PBCG2Field;
 import it.unisa.dia.gas.plaf.jpbc.pbc.field.PBCGTField;
 import it.unisa.dia.gas.plaf.jpbc.pbc.field.PBCZrField;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCLibraryProvider;
+import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCPairingPPType;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCPairingType;
 
 /**
@@ -18,6 +19,7 @@ import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCPairingType;
 public class PBCPairing implements Pairing {
 
     protected PBCPairingType pairing;
+    protected PBCPairingPPType pairingPPType;
 
     protected PBCG1Field g1Field;
     protected PBCG2Field g2Field;
@@ -28,7 +30,7 @@ public class PBCPairing implements Pairing {
     public PBCPairing(CurveParams curveParams) {
         if (!PBCLibraryProvider.isAvailable())
             throw new IllegalStateException("PBC support not available.");
-        
+
         // Init pairing...
         String buf = curveParams.toString(" ");
 
@@ -69,6 +71,22 @@ public class PBCPairing implements Pairing {
         return out;
     }
 
+    public void initPairingPreProcessing(Element g1) {
+        if (pairingPPType == null)
+            pairingPPType = new PBCPairingPPType();
+
+        PBCLibraryProvider.getPbcLibrary().pbc_pairing_pp_init(pairingPPType, ((PBCElement) g1).value, pairing);
+    }
+
+    public Element pairing(Element g2) {
+        if (pairingPPType == null)
+            throw new IllegalStateException("Call initPairingPreProcessing before this.");
+
+        PBCElement out = (PBCElement) gTField.newElement();
+        PBCLibraryProvider.getPbcLibrary().pbc_pairing_pp_apply(out.value, ((PBCElement) g2).value, pairingPPType);
+        return out;
+    }
+
 
     @Override
     protected void finalize() throws Throwable {
@@ -76,7 +94,7 @@ public class PBCPairing implements Pairing {
         g2Field = null;
         gTField = null;
         zRField = null;
-        
+
         PBCLibraryProvider.getPbcLibrary().pbc_pairing_clear(pairing);
     }
 

@@ -2,6 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.pbc;
 
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingTest;
+import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCLibraryProvider;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -9,15 +10,18 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.PairingTest;
 public class PBCPairingTest extends PairingTest {
 
     protected void setUp() throws Exception {
-        CurveParams curveParams = new CurveParams();
-        curveParams.load(PBCPairingTest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pbc/pairing/a_603_181.properties"));
+        if (PBCLibraryProvider.isAvailable()) {
+            CurveParams curveParams = new CurveParams();
+            curveParams.load(PBCPairingTest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pbc/pairing/a_603_181.properties"));
 
-        pairing = new PBCPairing(curveParams);
+            pairing = new PBCPairing(curveParams);
 
-        assertNotNull(pairing.getG1());
-        assertNotNull(pairing.getG2());
-        assertNotNull(pairing.getGT());
-        assertNotNull(pairing.getZr());
+            assertNotNull(pairing.getG1());
+            assertNotNull(pairing.getG2());
+            assertNotNull(pairing.getGT());
+            assertNotNull(pairing.getZr());
+        } else
+            pairing = null;
     }
 
     public static void main(String[] args) {

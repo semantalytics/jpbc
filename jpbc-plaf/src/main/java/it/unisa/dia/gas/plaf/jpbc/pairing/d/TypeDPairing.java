@@ -86,7 +86,21 @@ public class TypeDPairing implements Pairing {
         return pairingMap.pairing((CurveElement) g1, (CurveElement) g2);
     }
 
+    public void initPairingPreProcessing(Element g1) {
+        if (!G1.equals(g1.getField()))
+            throw new IllegalArgumentException("pairing 1st input mismatch");
 
+        pairingMap.initPairingPreProcessing(g1);
+    }
+
+    public Element pairing(Element g2) {
+        if (!G2.equals(g2.getField()))
+            throw new IllegalArgumentException("pairing 2nd input mismatch");
+
+        return pairingMap.pairing((Point) g2);
+    }
+
+    
     protected void initParams() {
         // validate the type
         String type = curveParams.getType();

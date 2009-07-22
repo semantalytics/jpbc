@@ -55,4 +55,7 @@ public interface Pairing {
      */
     Element pairing(Element g1, Element g2);
 
+    void initPairingPreProcessing(Element g1);
+
+    Element pairing(Element g2);
 }

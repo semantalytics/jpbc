@@ -14,6 +14,7 @@ import java.math.BigInteger;
  */
 public class ProjectionPairingMap implements PairingMap {
     protected TypeAPairing pairing;
+    protected PairingPreProcessingInfo processingInfo;
 
 
     public ProjectionPairingMap(TypeAPairing pairing) {
@@ -107,6 +108,147 @@ public class ProjectionPairingMap implements PairingMap {
         element.set(t0);
     }
 
+
+    public void initPairingPreProcessing(Element in1) {
+        int i, n;
+
+        processingInfo = new PairingPreProcessingInfo();
+        processingInfo.coeff = new Element[pairing.exp2 + 1][3];
+
+        Point V = (Point) in1.duplicate();
+        Point V1 = pairing.Eq.newElement();
+
+        Element Vx = V.getX();
+        Element Vy = V.getY();
+        Element V1x = V1.getX();
+        Element V1y = V1.getY();
+
+        Element a = pairing.Fq.newElement();
+        Element b = pairing.Fq.newElement();
+        Element c = pairing.Fq.newElement();
+        Element e0 = pairing.Fq.newElement();
+
+        n = pairing.exp1;
+        for (i=0; i<n; i++) {
+            initPPPDoTangent(processingInfo, a, b, c, Vx, Vy, e0);
+            V.twice();
+        }
+
+        if (pairing.sign1 < 0) {
+            V1.set(V).negate();
+        } else {
+            V1.set(V);
+        }
+
+        n = pairing.exp2;
+        for (; i<n; i++) {
+            initPPPDoTangent(processingInfo, a, b, c, Vx, Vy, e0);
+            V.twice();
+        }
+
+        initPPPDoLine(processingInfo, a, b, c, Vx, Vy, V1x, V1y, e0);
+    }
+
+    public Element pairing(Point in2) {
+        //TODO: use proj coords here too to shave off a little time
+        Element Qx = in2.getX();
+        Element Qy = in2.getY();
+        int i, n;
+        Point f0 = pairing.Fq2.newElement();
+        Point f = pairing.Fq2.newOneElement();
+        Point out = pairing.Fq2.newElement();
+
+        n = pairing.exp1;
+        for (i=0; i<n; i++) {
+            f.square();
+            a_miller_evalfn(f0, processingInfo.coeff[i][0], processingInfo.coeff[i][1], processingInfo.coeff[i][2], Qx, Qy);
+            f.mul(f0);
+        }
+        if (pairing.sign1 < 0) {
+            out.set(f).invert();
+        } else {
+            out.set(f);
+        }
+        n = pairing.exp2;
+        for (; i<n; i++) {
+            f.square();
+
+            a_miller_evalfn(f0, processingInfo.coeff[i][0], processingInfo.coeff[i][1], processingInfo.coeff[i][2], Qx, Qy);
+
+            f.mul(f0);
+        }
+
+        f.mul(out);
+        {
+            a_miller_evalfn(f0, processingInfo.coeff[i][0], processingInfo.coeff[i][1], processingInfo.coeff[i][2], Qx, Qy);
+            f.mul(f0);
+        }
+
+        tatePow(out, f, f0, pairing.phikonr);
+
+        return new GTFiniteElement(this, (GTFiniteField) pairing.getGT(), out);
+    }
+
+
+    
+
+    final void initPPPDoLine(PairingPreProcessingInfo info, Element a, Element b, Element c, Element Vx, Element Vy, Element V1x, Element V1y, Element e0) {
+        compute_abc_line(a, b, c, Vx, Vy, V1x, V1y, e0);
+        info.addRow(a,b,c);
+    }
+
+    void initPPPDoTangent(PairingPreProcessingInfo info, Element a, Element b, Element c, Element Vx, Element Vy, Element e0) {
+	    compute_abc_tangent(a, b, c, Vx, Vy, e0);
+        info.addRow(a,b,c);
+    }
+
+    void compute_abc_tangent(Element a, Element b, Element c, Element Vx, Element Vy, Element e0) {
+        //a = -slope_tangent(V.x, V.y);
+        //b = 1;
+        //c = -(V.y + aV.x);
+        //but we multiply by -2*V.y to avoid division so:
+        //a = -(3 Vx^2 + cc->a)
+        //b = 2 * Vy
+        //c = -(2 Vy^2 + a Vx);
+
+        a.set(Vx).square();
+//        a.add(a).add(a);
+        a.mul(3);
+        a.add(b.setToOne());
+        a.negate();
+
+        b.set(Vy).twice();
+
+        e0.set(b).mul(Vy);
+        c.set(a).mul(Vx);
+        c.add(e0).negate();
+
+        /*
+        element_square(a, Vx);
+        //element_mul_si(a, a, 3);
+        element_add(e0, a, a);
+        element_add(a, e0, a);
+        element_set1(b);
+        element_add(a, a, b);
+        element_neg(a, a);
+
+        element_double(b, Vy);
+
+        element_mul(e0, b, Vy);
+        element_mul(c, a, Vx);
+        element_add(c, c, e0);
+        element_neg(c, c);
+        */
+    }
+
+
+
+
+
+
+
+
+
     public Element tatePow(Element element) {
         Element t0, t1;
         t0 = element.getField().newElement();
@@ -118,8 +260,6 @@ public class ProjectionPairingMap implements PairingMap {
 
         return element;
     }
-
-
 
     final void tatePow(Point out, Point in, Point temp, BigInteger cofactor) {
         Element in1 = in.getY();
@@ -458,6 +598,22 @@ public class ProjectionPairingMap implements PairingMap {
         element_halve(v0, v0);
         element_mul(v1, v1, in1);
         */
+    }
+
+
+
+
+    public class PairingPreProcessingInfo {
+        int numRow = 0;
+        Element[][] coeff;
+
+        public void addRow(Element a, Element b, Element c) {
+            coeff[numRow][0] = a.duplicate();
+            coeff[numRow][1] = b.duplicate();
+            coeff[numRow][2] = c.duplicate();
+            numRow++;
+        }
+
     }
 
 }

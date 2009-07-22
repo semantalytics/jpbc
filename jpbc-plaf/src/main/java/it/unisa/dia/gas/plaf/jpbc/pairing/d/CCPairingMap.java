@@ -38,6 +38,14 @@ public class CCPairingMap implements PairingMap {
         element.set(tatePow(element));
     }
 
+    public void initPairingPreProcessing(Element in1) {
+        throw new IllegalStateException("Not Implemented yet!!!");
+    }
+
+    public Element pairing(Point in2) {
+        throw new IllegalStateException("Not Implemented yet!!!");
+    }
+
     public Element tatePow(Element element) {
         if (pairing.k == 6) {
             Point<Polynomial> e0, e3;

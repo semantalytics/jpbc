@@ -12,4 +12,8 @@ public interface PairingMap {
 
     void finalPow(Element element);
 
+    void initPairingPreProcessing(Element in1);
+
+    Element pairing(Point in2);
+
 }

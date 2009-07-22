@@ -18,6 +18,9 @@ public class PowPreProcessingTest extends TestCase {
 
 
     public void testPowPreProcessing() {
+        if (pairing == null)
+            return;
+        
         Element e1 = pairing.getZr().newElement().setToRandom();
         Element e2 = e1.duplicate();
 
