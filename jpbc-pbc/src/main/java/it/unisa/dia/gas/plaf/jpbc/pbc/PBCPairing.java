@@ -5,6 +5,10 @@ import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
+import it.unisa.dia.gas.plaf.jpbc.pbc.field.PBCG1Field;
+import it.unisa.dia.gas.plaf.jpbc.pbc.field.PBCG2Field;
+import it.unisa.dia.gas.plaf.jpbc.pbc.field.PBCGTField;
+import it.unisa.dia.gas.plaf.jpbc.pbc.field.PBCZrField;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCLibraryProvider;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCPairingType;
 

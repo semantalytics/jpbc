@@ -34,6 +34,9 @@ public class PBCZssTest extends TestCase {
 
         System.out.println("P = " + P);
         System.out.println("((Point)P).getY().sign() = " + ((Point)P).getY().sign());
+        ((Point)P).getY().invert();
+        System.out.println("P = " + P);
+        
 
         ((Point)P).setFromBytesCompressed(((Point)P).toBytesCompressed());
         System.out.println("P = " + P);

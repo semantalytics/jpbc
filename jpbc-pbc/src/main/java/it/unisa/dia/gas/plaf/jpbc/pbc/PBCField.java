@@ -21,14 +21,16 @@ public abstract class PBCField implements Field {
     protected PBCField(PBCPairingType pairing) {
         this.pairing = pairing;
 
-        PBCElement temp = (PBCElement) newElement();
+        if (pairing != null) {
+            PBCElement temp = (PBCElement) newElement();
 
-        this.fixedLengthInBytes = PBCLibraryProvider.getPbcLibrary().pbc_element_length_in_bytes(temp.value);
+            this.fixedLengthInBytes = PBCLibraryProvider.getPbcLibrary().pbc_element_length_in_bytes(temp.value);
 
-        MPZElementType mpzOrder = new MPZElementType();
-        mpzOrder.init();
-        PBCLibraryProvider.getPbcLibrary().pbc_field_order(temp.value, mpzOrder);
-        this.order = new BigInteger(mpzOrder.toString(10));
+            MPZElementType mpzOrder = new MPZElementType();
+            mpzOrder.init();
+            PBCLibraryProvider.getPbcLibrary().pbc_field_order(temp.value, mpzOrder);
+            this.order = new BigInteger(mpzOrder.toString(10));
+        }
     }
     
 

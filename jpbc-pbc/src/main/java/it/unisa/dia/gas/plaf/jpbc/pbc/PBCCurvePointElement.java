@@ -2,6 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.pbc;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Point;
+import it.unisa.dia.gas.plaf.jpbc.pbc.field.PBCFieldFromElement;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCElementType;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCLibraryProvider;
 import it.unisa.dia.gas.plaf.jpbc.util.Utils;
@@ -20,14 +21,14 @@ public class PBCCurvePointElement extends PBCElement implements Point {
         PBCElementType dest = new PBCElementType();
         PBCLibraryProvider.getPbcLibrary().pbc_curve_x_coord(dest, this.value);
 
-        return new PBCElement(dest, null);
+        return new PBCElement(dest, new PBCFieldFromElement(dest));
     }
 
     public Element getY() {
         PBCElementType dest = new PBCElementType();
         PBCLibraryProvider.getPbcLibrary().pbc_curve_y_coord(dest, this.value);
 
-        return new PBCElement(dest, null);
+        return new PBCElement(dest, new PBCFieldFromElement(dest));
     }
 
     public int getLengthInBytesCompressed() {

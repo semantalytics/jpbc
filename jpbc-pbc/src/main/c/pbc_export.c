@@ -166,7 +166,7 @@ void pbc_element_mul_mpz(element_t n, element_t a, mpz_t z) {
 }
 
 void pbc_element_mul_si(element_t n, element_t a, signed long int z) {
-    pbc_element_mul_si(n, a, z);
+    element_mul_si(n, a, z);
 }
 
 void pbc_element_mul_zn(element_t c, element_t a, element_t z) {
@@ -222,15 +222,15 @@ int pbc_element_cmp(element_t a, element_t b) {
 }
 
 int pbc_element_is_sqr(element_t a) {
-    return pbc_element_is_sqr(a);
+    return element_is_sqr(a);
 }
 
 int pbc_element_sgn(element_t a) {
-    return pbc_element_sgn(a);
+    return element_sgn(a);
 }
 
 int pbc_element_sign(element_t a) {
-    return pbc_element_sign(a);
+    return element_sign(a);
 }
 
 void pbc_element_sqrt(element_t a, element_t b) {
@@ -255,11 +255,19 @@ void pbc_element_clear(element_t element) {
 
 
 void pbc_curve_x_coord(element_t out, element_t element) {
-    out = &*curve_x_coord(element);
+    element_ptr x = curve_x_coord(element);
+
+    element_init_same_as(out, x);
+    element_set(out, x);
+    out[0] = *x;
 }
 
 void pbc_curve_y_coord(element_t out, element_t element) {
-    out = &*curve_y_coord(element);
+    element_ptr y = curve_y_coord(element);
+
+    element_init_same_as(out, y);
+    element_set(out, y);
+    out[0] = *y;
 }
 
 
