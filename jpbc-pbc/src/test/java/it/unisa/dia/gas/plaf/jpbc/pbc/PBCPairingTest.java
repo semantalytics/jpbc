@@ -25,14 +25,4 @@ public class PBCPairingTest extends PairingTest {
             pairing = null;
     }
 
-    public static void main(String[] args) {
-        try {
-            PBCPairingTest test = new PBCPairingTest();
-            test.setUp();
-            test.pairingBenchmark();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
 }

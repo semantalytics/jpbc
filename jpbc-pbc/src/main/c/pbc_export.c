@@ -283,6 +283,10 @@ void pbc_element_pp_pow(element_t out, mpz_ptr power, element_pp_t p) {
     element_pp_pow(out, power, p);
 }
 
+void pbc_element_pp_pow_zn(element_t out, element_t power, element_pp_t p) {
+    element_pp_pow_zn(out, power, p);
+}
+
 
 void pbc_field_order(element_t element, mpz_t order) {
     //gmp_fprintf(stderr, "element->field->order = %Zd\n", element->field->order);

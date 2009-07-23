@@ -251,6 +251,15 @@ public class PBCElement implements Element {
         return this;
     }
 
+    public Element powZnPreProcessing(Element n) {
+        if (elementPPType == null)
+            throw new IllegalStateException("Call initPowPreProcessing before this.");
+
+        PBCLibraryProvider.getPbcLibrary().pbc_element_pp_pow_zn(value, ((PBCElement) n).value, elementPPType);
+
+        return this;
+    }
+
     @Override
     public String toString() {
         Memory memory = new Memory(getField().getFixedLengthInBytes()*3);

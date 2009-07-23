@@ -133,6 +133,10 @@ public abstract class GenericElement implements Element {
         return this;
     }
 
+    public Element powZnPreProcessing(Element n) {
+        return powPreProcessing(n.toBigInteger());
+    }
+
 
     public void element_pow_base_table(BigInteger n, GenericPowPreProcessing base_table) {
         /* early abort if raising to power 0 */

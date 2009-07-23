@@ -300,7 +300,7 @@ public class NaiveElement extends GenericElement {
     }
 
     public NaiveElement powZn(Element n) {
-        return null;
+        return pow(n.toBigInteger());
     }
 
     public int compareTo(Element element) {

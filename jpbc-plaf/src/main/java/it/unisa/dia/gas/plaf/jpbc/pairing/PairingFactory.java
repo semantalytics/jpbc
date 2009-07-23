@@ -2,6 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.pairing;
 
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.a.TypeAPairing;
+import it.unisa.dia.gas.plaf.jpbc.pairing.a1.TypeA1Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.d.TypeDPairing;
 
 /**
@@ -17,6 +18,8 @@ public class PairingFactory {
 
         if ("a".equalsIgnoreCase(type))
             return new TypeAPairing(curveParams);
+        else if ("a1".equalsIgnoreCase(type))
+            return new TypeA1Pairing(curveParams);
         else if ("d".equalsIgnoreCase(type))
             return new TypeDPairing(curveParams);
         else

@@ -144,6 +144,8 @@ public interface PBCLibrary extends Library {
 
     void pbc_element_pp_pow(Pointer out, Pointer power, Pointer p);
 
+    void pbc_element_pp_pow_zn(Pointer out, Pointer power, Pointer p);
+
 
     void pbc_field_order(Pointer e, Pointer order);
 

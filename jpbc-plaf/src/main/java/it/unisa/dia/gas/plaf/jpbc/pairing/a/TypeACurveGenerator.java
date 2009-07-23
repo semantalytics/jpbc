@@ -105,4 +105,10 @@ public class TypeACurveGenerator implements CurveGenerator {
         return params;
     }
 
+    public static void main(String[] args) {
+        TypeACurveGenerator generator = new TypeACurveGenerator(181, 1024);
+        CurveParams curveParams = (CurveParams) generator.generate();
+        System.out.println(curveParams.toString(" "));
+    }
+
 }

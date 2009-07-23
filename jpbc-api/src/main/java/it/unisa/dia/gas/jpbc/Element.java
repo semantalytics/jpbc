@@ -239,6 +239,8 @@ public interface Element extends Comparable<Element>, Serializable {
 
     Element powPreProcessing(BigInteger n);
 
+    Element powZnPreProcessing(Element n);
+
     /**
      * Sets this = this^n, where n is an element of a ring Z_N  for some N  (typically the order of the algebraic structure x lies in).
      *

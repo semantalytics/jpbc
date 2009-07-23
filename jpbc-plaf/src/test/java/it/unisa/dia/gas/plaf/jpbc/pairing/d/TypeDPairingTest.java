@@ -24,15 +24,4 @@ public class TypeDPairingTest extends PairingTest {
         return curveParams;
     }
 
-
-    public static void main(String[] args) {
-        try {
-            TypeDPairingTest test = new TypeDPairingTest();
-            test.setUp();
-            test.pairingBenchmark();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
 }

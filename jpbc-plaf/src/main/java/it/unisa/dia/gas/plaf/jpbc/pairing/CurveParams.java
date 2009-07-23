@@ -22,6 +22,14 @@ public class CurveParams extends LinkedHashMap<String, String> {
         return get("type");
     }
 
+    public long getLong(String key) {
+        String value = get(key);
+        if (value == null)
+            throw new IllegalArgumentException("Cannot find value for the following key : " + key);
+
+        return Long.parseLong(value);
+    }
+
     public int getInt(String key) {
         String value = get(key);
         if (value == null)
