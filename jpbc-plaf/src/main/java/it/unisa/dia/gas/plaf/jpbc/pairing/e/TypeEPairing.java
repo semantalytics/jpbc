@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.plaf.jpbc.pairing.a1;
+package it.unisa.dia.gas.plaf.jpbc.pairing.e;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
@@ -7,7 +7,6 @@ import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveField;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteField;
 import it.unisa.dia.gas.plaf.jpbc.field.naive.NaiveField;
-import it.unisa.dia.gas.plaf.jpbc.field.quadratic.DegreeTwoQuadraticField;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pairing.map.PairingMap;
 
@@ -16,15 +15,21 @@ import java.math.BigInteger;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class TypeA1Pairing implements Pairing {
-    protected BigInteger p;
+public class TypeEPairing implements Pairing {
+    protected int exp2;
+    protected int exp1;
+    protected int sign1;
+    protected int sign0;
     protected BigInteger r;
-    protected long l;
+    protected BigInteger q;
+    protected BigInteger h;
+    protected BigInteger a;
+    protected BigInteger b;
 
     protected BigInteger phikonr;
+    protected Point R;
 
-    protected Field Fp;
-    protected Field<? extends Point> Fq2;
+    protected Field Fq;
     protected Field<? extends Point> Eq;
 
     protected Field<? extends Point> G1, G2;
@@ -33,7 +38,7 @@ public class TypeA1Pairing implements Pairing {
     protected PairingMap pairingMap;
 
 
-    public TypeA1Pairing(CurveParams properties) {
+    public TypeEPairing(CurveParams properties) {
         initParams(properties);
         initMap();
         initFields();
@@ -89,13 +94,21 @@ public class TypeA1Pairing implements Pairing {
     protected void initParams(CurveParams curveParams) {
         // validate the type
         String type = curveParams.get("type");
-        if (type == null || !"a1".equalsIgnoreCase(type))
-            throw new IllegalArgumentException("Type not valid. Found '" + type + "'. Expected 'a1'.");
+        if (type == null || !"e".equalsIgnoreCase(type))
+            throw new IllegalArgumentException("Type not valid. Found '" + type + "'. Expected 'e'.");
 
         // load params
-        p = curveParams.getBigInteger("p");
-        r = curveParams.getBigInteger("n");
-        l = curveParams.getLong("l");
+        exp2 = curveParams.getInt("exp2");
+        exp1 = curveParams.getInt("exp1");
+        sign1 = curveParams.getInt("sign1");
+        sign0 = curveParams.getInt("sign0");
+
+        r = curveParams.getBigInteger("r");
+        q = curveParams.getBigInteger("q");
+        h = curveParams.getBigInteger("h");
+
+        a = curveParams.getBigInteger("a");
+        b = curveParams.getBigInteger("b");
     }
 
 
@@ -103,25 +116,25 @@ public class TypeA1Pairing implements Pairing {
         // Init Zr
         Zr = initFp(r);
 
-        //k=2, hence phi_k(q) = q + 1, phikonr = (q+1)/r
-        phikonr = BigInteger.valueOf(l);
+        // Init Fq
 
-        // Init Fp
-
-        Fp = initFp(p);
+        Fq = initFp(q);
 
         // Init Eq
-        Eq = initEq(Fp.newOneElement(),
-                    Fp.newZeroElement(),
-                    r, phikonr);
+        CurveField<Field> Eq = initEq(Fq.newElement().set(a),
+                                      Fq.newElement().set(b),
+                                      r, h);
+        this.Eq = Eq;
 
-        // Init Fq2
-        Fq2 = initFi();
+        // k=1, hence phikonr = (p-1)/r
+        phikonr = Fq.getOrder().subtract(BigInteger.ONE).divide(r);
 
         // Init G1, G2, GT
         G1 = Eq;
         G2 = G1;
-        GT = initGT(Fq2);
+        GT = initGT(Fq);
+
+        R = Eq.getGenNoCofac().duplicate();
     }
 
 
@@ -129,24 +142,16 @@ public class TypeA1Pairing implements Pairing {
         return new NaiveField(order);
     }
 
-    protected Field<? extends Point> initEq(Element a, Element b, BigInteger order, BigInteger cofac) {
+    protected CurveField<Field> initEq(Element a, Element b, BigInteger order, BigInteger cofac) {
         return new CurveField<Field>(a, b, order, cofac);
-    }
-
-    protected Field<? extends Point> initFi() {
-        return new DegreeTwoQuadraticField<Field>(Fp);
     }
 
     protected Field initGT(Field field) {
         return new GTFiniteField(pairingMap, field);
     }
 
+
     protected void initMap() {
-        pairingMap = new A1PairingMap(this);
+        pairingMap = new EPairingMap(this);
     }
-
-    public static void main(String[] args) {
-        System.out.println(new BigInteger("98826429041171753291515535532523512299028170537954154869719707264887274916552228805607584116490046284509883309001532457986879277885241872021906840932513241346999389365188296460009947").bitLength());
-    }
-
 }

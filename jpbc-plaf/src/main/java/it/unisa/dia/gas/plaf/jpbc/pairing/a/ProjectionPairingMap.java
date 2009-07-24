@@ -5,7 +5,7 @@ import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteElement;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteField;
 import it.unisa.dia.gas.plaf.jpbc.field.quadratic.DegreeTwoQuadraticElement;
-import it.unisa.dia.gas.plaf.jpbc.pairing.PairingMap;
+import it.unisa.dia.gas.plaf.jpbc.pairing.map.PairingMap;
 
 import java.math.BigInteger;
 
@@ -109,7 +109,7 @@ public class ProjectionPairingMap implements PairingMap {
     }
 
 
-    public void initPairingPreProcessing(Element in1) {
+    public void initPairingPreProcessing(Point in1) {
         int i, n;
 
         processingInfo = new PairingPreProcessingInfo();

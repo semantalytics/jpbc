@@ -7,8 +7,8 @@ import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveField;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteElement;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteField;
 import it.unisa.dia.gas.plaf.jpbc.field.polymod.PolyModElement;
-import it.unisa.dia.gas.plaf.jpbc.pairing.PairingMap;
 import it.unisa.dia.gas.plaf.jpbc.pairing.a.PairingPreProcessingInfo;
+import it.unisa.dia.gas.plaf.jpbc.pairing.map.PairingMap;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -43,8 +43,8 @@ public class CCPairingMap implements PairingMap {
 
 
 
-    public void initPairingPreProcessing(Element in1) {
-        Point P = (Point) in1;
+    public void initPairingPreProcessing(Point in1) {
+        Point P = in1;
         Element Px = P.getX();
         Element Py = P.getY();
         int m;

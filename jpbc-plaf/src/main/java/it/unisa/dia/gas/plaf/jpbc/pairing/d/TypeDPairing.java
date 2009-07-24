@@ -1,7 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing.d;
 
 import it.unisa.dia.gas.jpbc.*;
-import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveElement;
 import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveField;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteField;
 import it.unisa.dia.gas.plaf.jpbc.field.naive.NaiveField;
@@ -11,7 +10,7 @@ import it.unisa.dia.gas.plaf.jpbc.field.polymod.PolyModElement;
 import it.unisa.dia.gas.plaf.jpbc.field.polymod.PolyModField;
 import it.unisa.dia.gas.plaf.jpbc.field.quadratic.QuadraticField;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
-import it.unisa.dia.gas.plaf.jpbc.pairing.PairingMap;
+import it.unisa.dia.gas.plaf.jpbc.pairing.map.PairingMap;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -83,14 +82,14 @@ public class TypeDPairing implements Pairing {
         if (g1.isZero() || g2.isZero())
             return GT.newElement().setToZero();
 
-        return pairingMap.pairing((CurveElement) g1, (CurveElement) g2);
+        return pairingMap.pairing((Point) g1, (Point) g2);
     }
 
     public void initPairingPreProcessing(Element g1) {
         if (!G1.equals(g1.getField()))
             throw new IllegalArgumentException("pairing 1st input mismatch");
 
-        pairingMap.initPairingPreProcessing(g1);
+        pairingMap.initPairingPreProcessing((Point) g1);
     }
 
     public Element pairing(Element g2) {

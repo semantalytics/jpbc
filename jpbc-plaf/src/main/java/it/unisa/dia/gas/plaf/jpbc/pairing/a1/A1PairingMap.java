@@ -4,12 +4,12 @@ import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteElement;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteField;
-import it.unisa.dia.gas.plaf.jpbc.pairing.PairingMap;
+import it.unisa.dia.gas.plaf.jpbc.pairing.map.DefaultPairingMap;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class A1PairingMap implements PairingMap {
+public class A1PairingMap extends DefaultPairingMap {
     protected TypeA1Pairing pairing;
 
 
@@ -79,30 +79,6 @@ public class A1PairingMap implements PairingMap {
     public void finalPow(Element element) {
         throw new IllegalStateException("Not Implemented yet!!!");
     }
-
-    public void initPairingPreProcessing(Element in1) {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
-    public Element pairing(Point in2) {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

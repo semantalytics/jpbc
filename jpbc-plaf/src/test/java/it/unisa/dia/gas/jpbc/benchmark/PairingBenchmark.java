@@ -25,13 +25,6 @@ public class PairingBenchmark {
 
     public void setUp() {
         pairing = PairingFactory.getPairing(getCurveParams());
-        System.out.println("G1 FixedLengthInBytes = " + pairing.getG1().getFixedLengthInBytes());
-        System.out.println("G1 order bigLength = " + pairing.getG1().getOrder().bitLength());
-
-/*
-        System.out.println("GT FixedLengthInBytes = " + pairing.getGT().getFixedLengthInBytes());
-        System.out.println("GT order bigLength = " + pairing.getGT().getOrder().bitLength());
-*/
     }
 
 
@@ -44,17 +37,17 @@ public class PairingBenchmark {
 
         for (int i = 0; i < times; i++) {
             Element g = pairing.getG1().newElement().setToRandom();
-//            pairing.initPairingPreProcessing(g);
+            pairing.initPairingPreProcessing(g);
             Element h = pairing.getG2().newElement().setToRandom();
 
-//            long start = System.currentTimeMillis();
-//            Element r1 = pairing.pairing(h);
-//            long end = System.currentTimeMillis();
-//            t1 += (end - start);
-
             long start = System.currentTimeMillis();
-            Element r2 = pairing.pairing(g, h);
+            Element r1 = pairing.pairing(h);
             long end = System.currentTimeMillis();
+            t1 += (end - start);
+
+            start = System.currentTimeMillis();
+            Element r2 = pairing.pairing(g, h);
+            end = System.currentTimeMillis();
             t2 += (end - start);
         }
 

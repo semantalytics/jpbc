@@ -106,7 +106,11 @@ public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElemen
         return this;
     }
 
+    public CurveElement getGenNoCofac() {
+        return genNoCofac;
+    }
 
+    
     protected void initGen() {
         genNoCofac = getCurveRandomNoCofacSolvefory();
         if (cofac != null) {

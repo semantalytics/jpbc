@@ -7,7 +7,7 @@ import junit.framework.TestCase;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class PairingTest extends TestCase {
+public abstract class PairingTest extends TestCase {
     protected Pairing pairing;
 
 
@@ -94,5 +94,18 @@ public class PairingTest extends TestCase {
             assertEquals(0, x1.compareTo(x2));
         }
     }
+
+
+    @Override
+    protected void setUp() throws Exception {
+        pairing = PairingFactory.getPairing(getCurveParams());
+
+        assertNotNull(pairing.getG1());
+        assertNotNull(pairing.getG2());
+        assertNotNull(pairing.getGT());
+        assertNotNull(pairing.getZr());
+    }
+
+    protected abstract CurveParams getCurveParams();
 
 }

@@ -11,11 +11,7 @@ public class PBCPairingTest extends PairingTest {
 
     protected void setUp() throws Exception {
         if (PBCLibraryProvider.isAvailable()) {
-            CurveParams curveParams = new CurveParams();
-//            curveParams.load(PBCPairingTest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pbc/pairing/a_603_181.properties"));
-            curveParams.load(PBCPairingTest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pbc/pairing/d_9563.properties"));
-
-            pairing = new PBCPairing(curveParams);
+            pairing = new PBCPairing(getCurveParams());
 
             assertNotNull(pairing.getG1());
             assertNotNull(pairing.getG2());
@@ -25,4 +21,11 @@ public class PBCPairingTest extends PairingTest {
             pairing = null;
     }
 
+    @Override
+    protected CurveParams getCurveParams() {
+        CurveParams curveParams = new CurveParams();
+//            curveParams.load(PBCPairingTest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pbc/pairing/a_603_181.properties"));
+        curveParams.load(PBCPairingTest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pbc/pairing/d_9563.properties"));
+        return curveParams;
+    }
 }
