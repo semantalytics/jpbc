@@ -8,12 +8,12 @@ import java.math.BigInteger;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class QuadraticEvenElement extends GenericPointElement {
+public class QuadraticElement extends GenericPointElement {
 
-    protected QuadraticEvenField field;
+    protected QuadraticField field;
 
     
-    public QuadraticEvenElement(QuadraticEvenField field) {
+    public QuadraticElement(QuadraticField field) {
         super(field);
         this.field = field;
 
@@ -21,7 +21,7 @@ public class QuadraticEvenElement extends GenericPointElement {
         this.y = field.getTargetField().newElement();
     }
 
-    public QuadraticEvenElement(QuadraticEvenElement element) {
+    public QuadraticElement(QuadraticElement element) {
         super(element.field);
         this.field = element.field;
 
@@ -30,16 +30,16 @@ public class QuadraticEvenElement extends GenericPointElement {
     }
 
 
-    public QuadraticEvenField getField() {
+    public QuadraticField getField() {
         return field;
     }
 
-    public QuadraticEvenElement duplicate() {
-        return new QuadraticEvenElement(this);
+    public QuadraticElement duplicate() {
+        return new QuadraticElement(this);
     }
 
-    public QuadraticEvenElement set(Element e) {
-        QuadraticEvenElement element = (QuadraticEvenElement) e;
+    public QuadraticElement set(Element e) {
+        QuadraticElement element = (QuadraticElement) e;
 
         this.field = element.field;
 
@@ -49,14 +49,14 @@ public class QuadraticEvenElement extends GenericPointElement {
         return this;
     }
 
-    public QuadraticEvenElement set(int value) {
+    public QuadraticElement set(int value) {
         x.set(value);
         y.setToZero();
 
         return this;
     }
 
-    public QuadraticEvenElement set(BigInteger value) {
+    public QuadraticElement set(BigInteger value) {
         x.set(value);
         y.setToZero();
 
@@ -71,21 +71,21 @@ public class QuadraticEvenElement extends GenericPointElement {
         return x.isOne() && y.isZero();
     }
 
-    public QuadraticEvenElement setToZero() {
+    public QuadraticElement setToZero() {
         x.setToZero();
         y.setToZero();
 
         return this;
     }
 
-    public QuadraticEvenElement setToOne() {
+    public QuadraticElement setToOne() {
         x.setToOne();
         y.setToZero();
 
         return this;
     }
 
-    public QuadraticEvenElement setToRandom() {
+    public QuadraticElement setToRandom() {
         x.setToRandom();
         y.setToRandom();
 
@@ -110,14 +110,14 @@ public class QuadraticEvenElement extends GenericPointElement {
         return len;
     }
 
-    public QuadraticEvenElement twice() {
+    public QuadraticElement twice() {
         x.twice();
         y.twice();
 
         return this;
     }
 
-    public QuadraticEvenElement mul(int z) {
+    public QuadraticElement mul(int z) {
         x.mul(z);
         y.mul(z);
 
@@ -128,7 +128,7 @@ public class QuadraticEvenElement extends GenericPointElement {
         return x.getDecoding();
     }
 
-    public QuadraticEvenElement square() {
+    public QuadraticElement square() {
 //        System.out.println("fq_square (a) = " + this);
 
         Element e0 = x.duplicate().square();
@@ -164,7 +164,7 @@ public class QuadraticEvenElement extends GenericPointElement {
          */
     }
 
-    public QuadraticEvenElement invert() {
+    public QuadraticElement invert() {
         Element e0 = x.duplicate().square();
         Element e1 = y.duplicate().square();
         e1.mul(field.getTargetField().getNqr());
@@ -197,15 +197,15 @@ public class QuadraticEvenElement extends GenericPointElement {
         */
     }
 
-    public QuadraticEvenElement negate() {
+    public QuadraticElement negate() {
         x.negate();
         y.negate();
 
         return this;
     }
 
-    public QuadraticEvenElement add(Element e) {
-        QuadraticEvenElement element = (QuadraticEvenElement) e;
+    public QuadraticElement add(Element e) {
+        QuadraticElement element = (QuadraticElement) e;
 
         x.add(element.x);
         y.add(element.y);
@@ -213,8 +213,8 @@ public class QuadraticEvenElement extends GenericPointElement {
         return this;
     }
 
-    public QuadraticEvenElement sub(Element e) {
-        QuadraticEvenElement element = (QuadraticEvenElement) e;
+    public QuadraticElement sub(Element e) {
+        QuadraticElement element = (QuadraticElement) e;
 
         x.sub(element.x);
         y.sub(element.y);
@@ -222,8 +222,8 @@ public class QuadraticEvenElement extends GenericPointElement {
         return this;
     }
 
-    public QuadraticEvenElement mul(Element e) {
-        QuadraticEvenElement element = (QuadraticEvenElement) e;
+    public QuadraticElement mul(Element e) {
+        QuadraticElement element = (QuadraticElement) e;
 
 //        System.out.println("mul (a) = " + this);
 //        System.out.println("mul (b) = " + element);
@@ -278,14 +278,14 @@ public class QuadraticEvenElement extends GenericPointElement {
         */
     }
 
-    public QuadraticEvenElement mul(BigInteger n) {
+    public QuadraticElement mul(BigInteger n) {
         x.mul(n);
         y.mul(n);
 
         return this;
     }
 
-    public QuadraticEvenElement mulZn(Element e) {
+    public QuadraticElement mulZn(Element e) {
         x.mulZn(e);
         y.mulZn(e);
 
@@ -319,7 +319,7 @@ public class QuadraticEvenElement extends GenericPointElement {
 */
     }
 
-    public QuadraticEvenElement sqrt() {
+    public QuadraticElement sqrt() {
         Element e0 = x.duplicate().square();
         Element e1 = y.duplicate().square();
         e1.mul(field.getNqr());
@@ -383,12 +383,12 @@ public class QuadraticEvenElement extends GenericPointElement {
         if (e == this)
             return 0;
         
-        QuadraticEvenElement element = (QuadraticEvenElement) e;
+        QuadraticElement element = (QuadraticElement) e;
 
         return x.compareTo(element.x) ==0 && y.compareTo(element.y) == 0 ? 0 : 1;
     }
 
-    public QuadraticEvenElement powZn(Element n) {
+    public QuadraticElement powZn(Element n) {
         pow(n.toBigInteger());
 
         return this;
@@ -409,7 +409,7 @@ public class QuadraticEvenElement extends GenericPointElement {
         return result;
     }
 
-    public QuadraticEvenElement setFromHash(byte[] source, int offset, int length) {
+    public QuadraticElement setFromHash(byte[] source, int offset, int length) {
         int k = length / 2;
         x.setFromHash(source, offset, k);
         y.setFromHash(source, offset + k, k);

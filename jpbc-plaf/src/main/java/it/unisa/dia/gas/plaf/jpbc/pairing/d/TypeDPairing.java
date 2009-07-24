@@ -9,7 +9,7 @@ import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyElement;
 import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyField;
 import it.unisa.dia.gas.plaf.jpbc.field.polymod.PolyModElement;
 import it.unisa.dia.gas.plaf.jpbc.field.polymod.PolyModField;
-import it.unisa.dia.gas.plaf.jpbc.field.quadratic.QuadraticEvenField;
+import it.unisa.dia.gas.plaf.jpbc.field.quadratic.QuadraticField;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingMap;
 
@@ -237,8 +237,8 @@ public class TypeDPairing implements Pairing {
         return new PolyModField(irred, curveParams.getBigInteger("nqr"));
     }
 
-    protected QuadraticEvenField initQuadratic() {
-        return new QuadraticEvenField(Fqd);
+    protected QuadraticField initQuadratic() {
+        return new QuadraticField(Fqd);
     }
 
     protected Field initGT() {

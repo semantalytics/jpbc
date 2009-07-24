@@ -7,7 +7,7 @@ import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveField;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteField;
 import it.unisa.dia.gas.plaf.jpbc.field.naive.NaiveField;
-import it.unisa.dia.gas.plaf.jpbc.field.quadratic.QuadraticTwoField;
+import it.unisa.dia.gas.plaf.jpbc.field.quadratic.DegreeTwoQuadraticField;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingMap;
 
@@ -143,7 +143,7 @@ public class TypeAPairing implements Pairing {
     }
 
     protected Field<? extends Point> initFi() {
-        return new QuadraticTwoField<Field>(Fq);
+        return new DegreeTwoQuadraticField<Field>(Fq);
     }
 
     protected Field initGT(Field field) {

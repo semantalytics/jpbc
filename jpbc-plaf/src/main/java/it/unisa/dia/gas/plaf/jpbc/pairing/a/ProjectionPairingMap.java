@@ -4,7 +4,7 @@ import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteElement;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteField;
-import it.unisa.dia.gas.plaf.jpbc.field.quadratic.QuadraticTwoElement;
+import it.unisa.dia.gas.plaf.jpbc.field.quadratic.DegreeTwoQuadraticElement;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingMap;
 
 import java.math.BigInteger;
@@ -254,7 +254,7 @@ public class ProjectionPairingMap implements PairingMap {
         t0 = element.getField().newElement();
         t1 = element.getField().newElement();
 
-        tatePow((QuadraticTwoElement) t0, (QuadraticTwoElement) element, (QuadraticTwoElement) t1, pairing.phikonr);
+        tatePow((DegreeTwoQuadraticElement) t0, (DegreeTwoQuadraticElement) element, (DegreeTwoQuadraticElement) t1, pairing.phikonr);
 
         element.set(t0);
 
