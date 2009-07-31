@@ -14,12 +14,8 @@ public class PBCPairingBenchmark extends PairingBenchmark {
     @Override
     public void setUp() {
         pairing = new PBCPairing(getCurveParams());
-        System.out.println("G1 FixedLengthInBytes = " + pairing.getG1().getFixedLengthInBytes());
-        System.out.println("G1 order bigLength = " + pairing.getG1().getOrder().bitLength());
-
-        System.out.println("GT FixedLengthInBytes = " + pairing.getGT().getFixedLengthInBytes());
-        System.out.println("GT order bigLength = " + pairing.getGT().getOrder().bitLength());
     }
+
 
     public static void main(String[] args) {
         PBCPairingBenchmark test = new PBCPairingBenchmark(args[0],

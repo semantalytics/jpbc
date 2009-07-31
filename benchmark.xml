@@ -318,17 +318,19 @@
 
     <target name="benchmark">
 
+        <!-- 140963, 437, 420 -->
+
         <java classname="it.unisa.dia.gas.jpbc.benchmark.PBCPairingBenchmark">
-            <arg value="it/unisa/dia/gas/plaf/jpbc/pairing/a1/a1.properties"/>
-            <arg value="100"/>
+            <arg value="it/unisa/dia/gas/plaf/jpbc/pbc/pairing/d_9563.properties"/>
+            <arg value="1000"/>
             <classpath>
                 <path refid="jpbc-pbc.runtime.module.classpath"/>
             </classpath>
         </java>
 
         <java classname="it.unisa.dia.gas.jpbc.benchmark.PBCPairingBenchmark">
-            <arg value="it/unisa/dia/gas/plaf/jpbc/pairing/a/a_1024_181.properties"/>
-            <arg value="100"/>
+            <arg value="it/unisa/dia/gas/plaf/jpbc/pbc/pairing/d_594739_677_650.properties"/>
+            <arg value="1000"/>
             <classpath>
                 <path refid="jpbc-pbc.runtime.module.classpath"/>
             </classpath>

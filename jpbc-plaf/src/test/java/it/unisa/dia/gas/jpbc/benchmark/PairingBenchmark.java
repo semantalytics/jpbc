@@ -64,7 +64,7 @@ public class PairingBenchmark {
             if (curveFile.exists()) {
                 curveParams.load(curveFile.toURI().toURL().openStream());
             } else
-                curveParams.load(this.getClass().getClassLoader().getResourceAsStream(curveParamsFileName));
+                curveParams.load(getClass().getClassLoader().getResourceAsStream(curveParamsFileName));
         } catch (IOException e) {
             throw new IllegalArgumentException(e);
         }

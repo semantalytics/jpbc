@@ -32,13 +32,9 @@ public class PBCPairing implements Pairing {
             throw new IllegalStateException("PBC support not available.");
 
         // Init pairing...
-        String buf = curveParams.toString(" ");
-
-        pairing = new PBCPairingType();
-        PBCLibraryProvider.getPbcLibrary().pbc_pairing_init_inp_buf(pairing, buf, buf.length());
+        pairing = new PBCPairingType(curveParams.toString(" "));
 
         // Init fields
-
         initFields();
     }
 
