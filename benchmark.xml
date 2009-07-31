@@ -320,7 +320,7 @@
 
         <!-- 140963, 437, 420 -->
 
-        <java classname="it.unisa.dia.gas.jpbc.benchmark.PBCPairingBenchmark">
+        <java fork="true" classname="it.unisa.dia.gas.jpbc.benchmark.PBCPairingBenchmark">
             <arg value="it/unisa/dia/gas/plaf/jpbc/pbc/pairing/d_9563.properties"/>
             <arg value="1000"/>
             <classpath>
@@ -328,7 +328,7 @@
             </classpath>
         </java>
 
-        <java classname="it.unisa.dia.gas.jpbc.benchmark.PBCPairingBenchmark">
+        <java fork="true" classname="it.unisa.dia.gas.jpbc.benchmark.PBCPairingBenchmark">
             <arg value="it/unisa/dia/gas/plaf/jpbc/pbc/pairing/d_594739_677_650.properties"/>
             <arg value="1000"/>
             <classpath>

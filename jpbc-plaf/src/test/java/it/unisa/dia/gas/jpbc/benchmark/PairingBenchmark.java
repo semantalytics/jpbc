@@ -79,6 +79,7 @@ public class PairingBenchmark {
         System.out.printf("PairingBenchmark{%s %s}\n", args[0], args[1]);
         test.setUp();
         test.testPairingPreProcessing();
+        System.out.printf("PairingBenchmark. Finished.\n");
     }
 
 }

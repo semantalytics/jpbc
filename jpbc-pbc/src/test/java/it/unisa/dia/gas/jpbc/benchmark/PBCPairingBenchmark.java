@@ -24,6 +24,7 @@ public class PBCPairingBenchmark extends PairingBenchmark {
         System.out.printf("PBCPairingBenchmark{%s %s}\n", args[0], args[1]);
         test.setUp();
         test.testPairingPreProcessing();
+        System.out.printf("PBCPairingBenchmark. Finished.\n");
     }
 
 }
