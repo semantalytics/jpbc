@@ -137,10 +137,6 @@ public class GTFiniteElement extends GenericElement {
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
-    public GTFiniteElement sqrt() {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
     public GTFiniteElement pow(BigInteger n) {
         this.value.pow(n);
 

@@ -245,46 +245,38 @@ public class NaiveElement extends GenericElement {
     }
 
     public NaiveElement sqrt() {
-        int s;
-        int i;
-        BigInteger e;
-        BigInteger t, t0;
-        Element ginv, e0;
-        Element nqr;
+        // Apply the Tonelli-Shanks Algorithm
 
-        ginv = field.newElement();
-        e0 = field.newElement();
-        nqr = field.getNqr();
+        Element e0 = field.newElement();
+        Element nqr = field.getNqr();
+        Element gInv = nqr.duplicate().invert();
 
-        ginv.set(nqr).invert();
-
-        //let q be the order of the field
-        //q - 1 = 2^s t, t odd
-        t = order.subtract(BigInteger.ONE)/*.setMutable(true)*/;
-        s = BigIntegerUtils.scanOne(t, 0);
+        // let q be the order of the field
+        // q - 1 = 2^s t, for some t odd
+        BigInteger t = order.subtract(BigInteger.ONE);
+        int s = BigIntegerUtils.scanOne(t, 0);
         t = t.divide(BigInteger.valueOf(2 << (s - 1)));
 
-        e = BigInteger.ZERO;
+        BigInteger e = BigInteger.ZERO;
+        BigInteger orderMinusOne = order.subtract(BigInteger.ONE);
 
-        for (i = 2; i <= s; i++) {
-            t0 = order.subtract(BigInteger.ONE);
-            t0 = t0.divide(BigInteger.valueOf(2 << (i - 1)));
-
-            e0.set(ginv).pow(e);
-            e0.mul(this).pow(t0);
+        for (int i = 2; i <= s; i++) {
+            e0.set(gInv).pow(e);
+            e0.mul(this).pow(orderMinusOne.divide(BigInteger.valueOf(2 << (i - 1))));
 
             if (!e0.isOne())
                 e = e.setBit(i - 1);
         }
-        e0.set(ginv).pow(e);
+        e0.set(gInv).pow(e);
         e0.mul(this);
         t = t.add(BigInteger.ONE);
         t = t.divide(BigIntegerUtils.TWO);
         e = e.divide(BigIntegerUtils.TWO);
 
-        //(suggested by Hovav Shacham) replace next three lines with
+        // TODO:
+        // (suggested by Hovav Shacham) replace next three lines with
         //  element_pow2_mpz(x, e0, t, nqr, e);
-        //once sliding windows are implemented for pow2
+        // once sliding windows are implemented for pow2
 
         e0.pow(t);
         set(nqr).pow(e).mul(e0);

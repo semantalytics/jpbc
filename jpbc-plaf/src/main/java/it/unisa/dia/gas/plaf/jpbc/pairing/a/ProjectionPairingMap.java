@@ -26,7 +26,7 @@ public class ProjectionPairingMap implements PairingMap {
      */
     public Element pairing(Point in1, Point in2) {
         // could save a couple of inversions by avoiding
-        // this function and rewriting do_line() to handle projective coords
+        // this function and rewriting lineStep() to handle projective coords
         // convert V from weighted projective (Jacobian) to affine
         // i.e. (X, Y, Z) --> (X/Z^2, Y/Z^3)
         // also sets z to 1
@@ -34,23 +34,25 @@ public class ProjectionPairingMap implements PairingMap {
         Point V = (Point) in1.duplicate();
         Element Vx = V.getX();
         Element Vy = V.getY();
-
-        Point V1 = pairing.Eq.newElement();
+        Element z = pairing.Fq.newOneElement();
+        Element z2 = pairing.Fq.newOneElement();
 
         Element Qx = in2.getX();
         Element Qy = in2.getY();
 
+        // The coefficients of the line equation
         Element a = pairing.Fq.newElement();
         Element b = pairing.Fq.newElement();
         Element c = pairing.Fq.newElement();
-        Element e0 = pairing.Fq.newElement();
 
         Point f0 = pairing.Fq2.newElement();
-        Point out = pairing.Fq2.newElement();
         Point f = pairing.Fq2.newOneElement();
 
-        Element z = pairing.Fq.newOneElement();
-        Element z2 = pairing.Fq.newOneElement();
+        // Temp element
+        Element e0 = pairing.Fq.newElement();
+
+        // Remember that r = 2^exp2 + sign1 * 2^exp1 + sign0 * 1 (Solinas prime)
+        System.out.println(pairing.r.toString(2));
 
         int i = 0;
         int n = pairing.exp1;
@@ -58,14 +60,15 @@ public class ProjectionPairingMap implements PairingMap {
             // f = f^2 g_V,V(Q)
             // where g_V,V = tangent at V
             f.square();
-
-            do_tangent(f0, a, b, c, Vx, Vy, z, z2, e0, Qx, Qy, f);
-            proj_double(e0, a, b, c, Vx, Vy, z, z2);
+            tangentStep(f0, a, b, c, Vx, Vy, z, z2, e0, Qx, Qy, f);
+            twiceProjective(e0, a, b, c, Vx, Vy, z, z2);
         }
 
+        // Move to affine
         pointToAffine(Vx, Vy, z, z2, e0);
 
         Element f1;
+        Point V1 = pairing.Eq.newElement();
         if (pairing.sign1 < 0) {
             V1.set(V).negate();
             f1 = f.duplicate().invert();
@@ -77,17 +80,19 @@ public class ProjectionPairingMap implements PairingMap {
         n = pairing.exp2;
         for (; i < n; i++) {
             f.square();
-
-            do_tangent(f0, a, b, c, Vx, Vy, z, z2, e0, Qx, Qy, f);
-            proj_double(e0, a, b, c, Vx, Vy, z, z2);
+            tangentStep(f0, a, b, c, Vx, Vy, z, z2, e0, Qx, Qy, f);
+            twiceProjective(e0, a, b, c, Vx, Vy, z, z2);
         }
 
         f.mul(f1);
 
+        // Move to affine again
         pointToAffine(Vx, Vy, z, z2, e0);
 
-        do_line(f0, a, b, c, Vx, Vy, e0, V1.getX(), V1.getY(), Qx, Qy, f);
+        lineStep(f0, a, b, c, Vx, Vy, V1.getX(), V1.getY(), e0, Qx, Qy, f);
 
+        // Do final pow
+        Point out = pairing.Fq2.newElement();
         tatePow(out, f, f0, pairing.phikonr);
 
         return new GTFiniteElement(this, (GTFiniteField) pairing.getGT(), out);
@@ -124,7 +129,7 @@ public class ProjectionPairingMap implements PairingMap {
         Element e0 = pairing.Fq.newElement();
 
         n = pairing.exp1;
-        for (i=0; i<n; i++) {
+        for (i = 0; i < n; i++) {
             initPPPDoTangent(processingInfo, a, b, c, Vx, Vy, e0);
             V.twice();
         }
@@ -136,7 +141,7 @@ public class ProjectionPairingMap implements PairingMap {
         }
 
         n = pairing.exp2;
-        for (; i<n; i++) {
+        for (; i < n; i++) {
             initPPPDoTangent(processingInfo, a, b, c, Vx, Vy, e0);
             V.twice();
         }
@@ -154,7 +159,7 @@ public class ProjectionPairingMap implements PairingMap {
         Point out = pairing.Fq2.newElement();
 
         n = pairing.exp1;
-        for (i=0; i<n; i++) {
+        for (i = 0; i < n; i++) {
             f.square();
             a_miller_evalfn(f0, processingInfo.coeff[i][0], processingInfo.coeff[i][1], processingInfo.coeff[i][2], Qx, Qy);
             f.mul(f0);
@@ -165,7 +170,7 @@ public class ProjectionPairingMap implements PairingMap {
             out.set(f);
         }
         n = pairing.exp2;
-        for (; i<n; i++) {
+        for (; i < n; i++) {
             f.square();
 
             a_miller_evalfn(f0, processingInfo.coeff[i][0], processingInfo.coeff[i][1], processingInfo.coeff[i][2], Qx, Qy);
@@ -185,16 +190,14 @@ public class ProjectionPairingMap implements PairingMap {
     }
 
 
-    
-
     final void initPPPDoLine(PairingPreProcessingInfo info, Element a, Element b, Element c, Element Vx, Element Vy, Element V1x, Element V1y, Element e0) {
-        compute_abc_line(a, b, c, Vx, Vy, V1x, V1y, e0);
-        info.addRow(a,b,c);
+        computeLine(a, b, c, Vx, Vy, V1x, V1y, e0);
+        info.addRow(a, b, c);
     }
 
     void initPPPDoTangent(PairingPreProcessingInfo info, Element a, Element b, Element c, Element Vx, Element Vy, Element e0) {
-	    compute_abc_tangent(a, b, c, Vx, Vy, e0);
-        info.addRow(a,b,c);
+        compute_abc_tangent(a, b, c, Vx, Vy, e0);
+        info.addRow(a, b, c);
     }
 
     void compute_abc_tangent(Element a, Element b, Element c, Element Vx, Element Vy, Element e0) {
@@ -237,13 +240,6 @@ public class ProjectionPairingMap implements PairingMap {
     }
 
 
-
-
-
-
-
-
-
     public Element tatePow(Element element) {
         Element t0, t1;
         t0 = element.getField().newElement();
@@ -281,7 +277,6 @@ public class ProjectionPairingMap implements PairingMap {
     }
 
 
-
     final void pointToAffine(Element Vx, Element Vy, Element z, Element z2, Element e0) {
         // Vx = Vx * z^-2
         Vx.mul(e0.set(z.invert()).square());
@@ -292,12 +287,8 @@ public class ProjectionPairingMap implements PairingMap {
         z2.setToOne();
     }
 
-    final void proj_double(Element e0, Element e1, Element e2, Element e3, Element Vx, Element Vy, Element z, Element z2) {
-        e0.set(Vx).square();
-        e1.set(e0).twice();
-        e0.add(e1);
-        e1.set(z2).square();
-        e0.add(e1);
+    final void twiceProjective(Element e0, Element e1, Element e2, Element e3, Element Vx, Element Vy, Element z, Element z2) {
+        e0.set(Vx).square().add(e1.set(e0).twice()).add(e1.set(z2).square());
 
         z.mul(Vy);
         z.twice();
@@ -359,39 +350,44 @@ public class ProjectionPairingMap implements PairingMap {
         */
     }
 
-    final void do_tangent(Point f0, Element a, Element b, Element c, Element Vx, Element Vy, Element z, Element z2, Element e0,
-                          Element Qx, Element Qy,
-                          Element f) {
-        compute_abc_tangent_proj(a, b, c, Vx, Vy, z, z2, e0);
+    final void tangentStep(Point f0,
+                           Element a, Element b, Element c,
+                           Element Vx, Element Vy, Element z,
+                           Element z2, Element e0,
+                           Element Qx, Element Qy,
+                           Element f) {
+        computeTangentProjective(a, b, c, Vx, Vy, z, z2, e0);
         a_miller_evalfn(f0, a, b, c, Qx, Qy);
         f.mul(f0);
-
-        /*
-        compute_abc_tangent_proj(a, b, c, Vx, Vy, z, z2, e0);
-        a_miller_evalfn(f0, a, b, c, Qx, Qy);
-        element_mul(f, f, f0);
-        */
     }
 
-    final void do_line(Point f0,
-                       Element a, Element b, Element c, Element Vx, Element Vy, Element e0,
-                       Element V1x, Element V1y,
-                       Element Qx, Element Qy,
-                       Element f) {
-        compute_abc_line(a, b, c, Vx, Vy, V1x, V1y, e0);
+    final void lineStep(Point f0,
+                        Element a, Element b, Element c,
+                        Element Vx, Element Vy,
+                        Element V1x, Element V1y,
+                        Element e0,
+                        Element Qx, Element Qy,
+                        Element f) {
+        computeLine(a, b, c, Vx, Vy, V1x, V1y, e0);
         a_miller_evalfn(f0, a, b, c, Qx, Qy);
         f.mul(f0);
-
-        /*
-        compute_abc_line(a, b, c, Vx, Vy, V1x, V1y, e0);
-	    a_miller_evalfn(f0, a, b, c, Qx, Qy);
-	    element_mul(f, f, f0);
-	    */
     }
 
-    final void compute_abc_tangent_proj(Element a, Element b, Element c,
-                                        Element Vx, Element Vy,
-                                        Element z, Element z2, Element e0) {
+    /**
+     * Compute the tangent line T (aX + bY + c) at point V=(Vx, Vy, z)
+     *
+     * @param a  the coefficient of X of tangent line T.
+     * @param b  the coefficient of Y of tangent line T.
+     * @param c  the constant term f tangent line T.
+     * @param Vx V's x.
+     * @param Vy V's y.
+     * @param z  V's z
+     * @param z2 z sqaure.
+     * @param e0 temp element.
+     */
+    final void computeTangentProjective(Element a, Element b, Element c,
+                                        Element Vx, Element Vy, Element z,
+                                        Element z2, Element e0) {
         a.set(z2).square();
         b.set(Vx).square();
         a.add(b.add(e0.set(b).twice())).negate();
@@ -415,45 +411,49 @@ public class ProjectionPairingMap implements PairingMap {
         // c = 3x^3 + z^4 x - 2x^2 y
     }
 
-    final void compute_abc_line(Element a, Element b, Element c,
-                                Element Vx, Element Vy,
-                                Element V1x, Element V1y,
-                                Element e0) {
+    /**
+     * Compute the tangent line L (aX + bY + c) through the points V=(Vx, Vy) e V1=(V1x, V1y).
+     *
+     * @param a   the coefficient of X of tangent line T.
+     * @param b   the coefficient of Y of tangent line T.
+     * @param c   the constant term f tangent line T.
+     * @param Vx  V's x.
+     * @param Vy  V's y.
+     * @param V1x V1's x.
+     * @param V1y V1's y.
+     * @param e0  temp element.
+     */
+    final void computeLine(Element a, Element b, Element c,
+                           Element Vx, Element Vy,
+                           Element V1x, Element V1y,
+                           Element e0) {
+
+        // a = -(V1y - Vy) / (V1x - Vx);
+        // b = 1;
+        // c = -(Vy + a * Vx);
+        //
+        // but we will multiply by V1x - Vx to avoid division, so
+        //
+        // a = -(V1y - Vy)
+        // b = V1x - Vx
+        // c = -(Vy b + a Vx);
 
         a.set(Vy).sub(V1y);
         b.set(V1x).sub(Vx);
         c.set(Vx).mul(V1y).sub(e0.set(Vy).mul(V1x));
-
-        /*
-        //a = -(B.y - A.y) / (B.x - A.x);
-        //b = 1;
-        //c = -(A.y + a * A.x);
-        //but we'll multiply by B.x - A.x to avoid division, so
-        //a = -(By - Ay)
-        //b = Bx - Ax
-        //c = -(Ay b + a Ax);
-        element_sub(a, Vy, V1y);
-        element_sub(b, V1x, Vx);
-        element_mul(c, Vx, V1y);
-        element_mul(e0, Vy, V1x);
-        element_sub(c, c, e0);
-        */
     }
 
     final void a_miller_evalfn(Point out, Element a, Element b, Element c, Element Qx, Element Qy) {
-        //we'll map Q via (x,y) --> (-x, iy)
-        //hence Re(a Qx + b Qy + c) = -a Q'x + c and
-        //Im(a Qx + b Qy + c) = b Q'y
+        // we will map Q via (x,y) --> (-x, iy)
+        // hence:
+        // Re(a Qx + b Qy + c) = -a Q'x + c and
+        // Im(a Qx + b Qy + c) = b Q'y
 
-        Element x = out.getX();
-        Element y = out.getY();
+        Element rePart = out.getX();
+        Element imPart = out.getY();
 
-        x.set(c).sub(y.set(a).mul(Qx));
-        y.set(b).mul(Qy);
-
-/*        element_mul(fi_im(out), a, Qx);
-        element_sub(fi_re(out), c, fi_im(out));
-        element_mul(fi_im(out), b, Qy);*/
+        rePart.set(c).sub(imPart.set(a).mul(Qx));
+        imPart.set(b).mul(Qy);
     }
 
     final void lucas_odd(Point out, Point in, Point temp, BigInteger cofactor) {

@@ -166,6 +166,10 @@ public class CurveElement extends GenericPointElement {
     }
 
     public CurveElement mul(Element e) {
+        // Apply the Chord-TAngent Law of Composition
+        // Consider P1 = this = (x1, y1);
+        //          P2 = e = (x2, y2);
+
         if (infFlag != 0) {
             set(e);
             return this;
@@ -177,7 +181,6 @@ public class CurveElement extends GenericPointElement {
             return this;
 
         if (x.compareTo(element.x) == 0) {
-
             if (y.compareTo(element.y) == 0) {
                 if (y.isZero()) {
                     infFlag = 1;
@@ -191,10 +194,11 @@ public class CurveElement extends GenericPointElement {
             infFlag = 1;
             return this;
         } else {
-            //lambda = (y2-y1)/(x2-x1)
+            // P1 != P2, so the slope of the line Lthrough P1 and P2 is
+            // lambda = (y2-y1)/(x2-x1)
             Element lambda = element.y.duplicate().sub(y).mul(element.x.duplicate().sub(x).invert());
 
-            //x3 = lambda^2 - x1 - x2
+            // x3 = lambda^2 - x1 - x2
             Element x3 = lambda.duplicate().square().sub(x).sub(element.x);
 
             //y3 = (x1-x3)lambda - y1
@@ -434,55 +438,19 @@ public class CurveElement extends GenericPointElement {
 
 
     protected void twiceInternal() {
+        // We have P1 = P2 so the tangent line T at P1 ha slope
         //lambda = (3x^2 + a) / 2y
         Element lambda = x.duplicate().square().mul(3).add(getField().a).mul(y.duplicate().twice().invert());
 
-        // x1 = lambda^2 - 2x
-        Element x1 = lambda.duplicate().square().sub(x.duplicate().twice());
+        // x3 = lambda^2 - 2x
+        Element x3 = lambda.duplicate().square().sub(x.duplicate().twice());
 
-        // y1 = (x - x1)lambda - y
-        Element y1 = x.duplicate().sub(x1).mul(lambda).sub(y);
+        // y3 = (x - x3) lambda - y
+        Element y3 = x.duplicate().sub(x3).mul(lambda).sub(y);
 
-        x.set(x1);
-        y.set(y1);
-
+        x.set(x3);
+        y.set(y3);
         infFlag = 0;
-
-        /*
-        element_t lambda, e0, e1;
-        field_ptr f = r->x->field;
-
-        element_init(lambda, f);
-        element_init(e0, f);
-        element_init(e1, f);
-
-        //lambda = (3x^2 + a) / 2y
-        element_square(lambda, p->x);
-        element_mul_si(lambda, lambda, 3);
-        element_add(lambda, lambda, a);
-
-        element_double(e0, p->y);
-
-        element_invert(e0, e0);
-        element_mul(lambda, lambda, e0);
-        //x1 = lambda^2 - 2x
-        //element_add(e1, p->x, p->x);
-        element_double(e1, p->x);
-        element_square(e0, lambda);
-        element_sub(e0, e0, e1);
-        //y1 = (x - x1)lambda - y
-        element_sub(e1, p->x, e0);
-        element_mul(e1, e1, lambda);
-        element_sub(e1, e1, p->y);
-
-        element_set(r->x, e0);
-        element_set(r->y, e1);
-        r->inf_flag = 0;
-
-        element_clear(lambda);
-        element_clear(e0);
-        element_clear(e1);
-        */
     }
 
     protected void setPointFromX() {
