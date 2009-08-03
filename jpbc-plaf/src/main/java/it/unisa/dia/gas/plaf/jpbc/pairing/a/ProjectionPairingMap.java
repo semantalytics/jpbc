@@ -25,19 +25,17 @@ public class ProjectionPairingMap implements PairingMap {
      * in1, in2 are from E(F_q), out from F_q^2
      */
     public Element pairing(Point in1, Point in2) {
-        //could save a couple of inversions by avoiding
-        //this function and rewriting do_line() to handle projective coords
-        //convert V from weighted projective (Jacobian) to affine
-        //i.e. (X, Y, Z) --> (X/Z^2, Y/Z^3)
-        //also sets z to 1
+        // could save a couple of inversions by avoiding
+        // this function and rewriting do_line() to handle projective coords
+        // convert V from weighted projective (Jacobian) to affine
+        // i.e. (X, Y, Z) --> (X/Z^2, Y/Z^3)
+        // also sets z to 1
 
         Point V = (Point) in1.duplicate();
         Element Vx = V.getX();
         Element Vy = V.getY();
 
         Point V1 = pairing.Eq.newElement();
-        Element V1x;
-        Element V1y;
 
         Element Qx = in2.getX();
         Element Qy = in2.getY();
@@ -51,8 +49,8 @@ public class ProjectionPairingMap implements PairingMap {
         Point out = pairing.Fq2.newElement();
         Point f = pairing.Fq2.newOneElement();
 
-        Element z = pairing.Fq.newElement().setToOne();
-        Element z2 = pairing.Fq.newElement().setToOne();
+        Element z = pairing.Fq.newOneElement();
+        Element z2 = pairing.Fq.newOneElement();
 
         int i = 0;
         int n = pairing.exp1;
@@ -65,7 +63,7 @@ public class ProjectionPairingMap implements PairingMap {
             proj_double(e0, a, b, c, Vx, Vy, z, z2);
         }
 
-        point_to_affine(z, e0, Vx, Vy, z2);
+        pointToAffine(Vx, Vy, z, z2, e0);
 
         Element f1;
         if (pairing.sign1 < 0) {
@@ -86,12 +84,9 @@ public class ProjectionPairingMap implements PairingMap {
 
         f.mul(f1);
 
-        point_to_affine(z, e0, Vx, Vy, z2);
+        pointToAffine(Vx, Vy, z, z2, e0);
 
-        V1x = V1.getX();
-        V1y = V1.getY();
-
-        do_line(f0, a, b, c, Vx, Vy, e0, V1x, V1y, Qx, Qy, f);
+        do_line(f0, a, b, c, Vx, Vy, e0, V1.getX(), V1.getY(), Qx, Qy, f);
 
         tatePow(out, f, f0, pairing.phikonr);
 
@@ -287,24 +282,14 @@ public class ProjectionPairingMap implements PairingMap {
 
 
 
-    final void point_to_affine(Element z, Element e0, Element Vx, Element Vy, Element z2) {
-        z.invert();
-        e0.set(z).square();
-        Vx.mul(e0);
-        e0.mul(z);
-        Vy.mul(e0);
+    final void pointToAffine(Element Vx, Element Vy, Element z, Element z2, Element e0) {
+        // Vx = Vx * z^-2
+        Vx.mul(e0.set(z.invert()).square());
+        // Vy = Vy * z^-3
+        Vy.mul(e0.mul(z));
+
         z.setToOne();
         z2.setToOne();
-
-        /*
-        element_invert(z, z);
-        element_square(e0, z);
-        element_mul(Vx, Vx, e0);
-        element_mul(e0, e0, z);
-        element_mul(Vy, Vy, e0);
-        element_set1(z);
-        element_set1(z2);
-        */
     }
 
     final void proj_double(Element e0, Element e1, Element e2, Element e3, Element Vx, Element Vy, Element z, Element z2) {
@@ -409,43 +394,25 @@ public class ProjectionPairingMap implements PairingMap {
                                         Element z, Element z2, Element e0) {
         a.set(z2).square();
         b.set(Vx).square();
-
         a.add(b.add(e0.set(b).twice())).negate();
+
+        // Now:
+        // a = -(3x^2 + cca z^4)     with cca = 1
 
         e0.set(Vy).twice();
         b.set(e0).mul(z2).mul(z);
+
+        // Now:
+        // b = 2 y z^3
 
         c.set(Vx).mul(a);
         a.mul(z2);
         e0.mul(Vy);
         c.add(e0).negate();
 
-        /*
-        //a = -(3x^2 + cca z^4)
-        //for this case cca = 1
-        //b = 2 y z^3
-        //c = -(2 y^2 + x a)
-        //a = z^2 a
-        element_square(a, z2);
-        element_square(b, Vx);
-        ////element_mul_si(b, b, 3);
-        element_double(e0, b);
-        element_add(b, e0, b);
-        element_add(a, a, b);
-        element_neg(a, a);
-
-        ////element_mul_si(e0, Vy, 2);
-        element_double(e0, Vy);
-        element_mul(b, e0, z2);
-        element_mul(b, b, z);
-
-        element_mul(c, Vx, a);
-        element_mul(a, a, z2);
-        element_mul(e0, e0, Vy);
-        element_add(c, c, e0);
-        element_neg(c, c);
-        */
-
+        // Now:
+        // a = -3x^2 z^2 - z^6
+        // c = 3x^3 + z^4 x - 2x^2 y
     }
 
     final void compute_abc_line(Element a, Element b, Element c,
@@ -477,6 +444,7 @@ public class ProjectionPairingMap implements PairingMap {
         //we'll map Q via (x,y) --> (-x, iy)
         //hence Re(a Qx + b Qy + c) = -a Q'x + c and
         //Im(a Qx + b Qy + c) = b Q'y
+
         Element x = out.getX();
         Element y = out.getY();
 

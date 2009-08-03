@@ -34,8 +34,7 @@ public class TypeACurveGenerator implements CurveGenerator {
 
         SecureRandom random = new SecureRandom();
         do {
-            int i;
-
+            // r is picked to be a Solinas prime, that is, r has the form 2a +- 2b +- 1 for some integers 0 < b < a.
             r = BigInteger.ZERO;
 
             if (random.nextInt(Integer.MAX_VALUE) % 2 != 0) {
@@ -47,7 +46,6 @@ public class TypeACurveGenerator implements CurveGenerator {
             }
             r = r.setBit(exp2);
 
-            //use q as a temp variable
             q = BigInteger.ZERO;
             exp1 = (random.nextInt(Integer.MAX_VALUE) % (exp2 - 1)) + 1;
             q = q.setBit(exp1);
@@ -69,22 +67,23 @@ public class TypeACurveGenerator implements CurveGenerator {
             if (!r.isProbablePrime(10))
                 continue;
 
-            for (i = 0; i < 10; i++) {
-                int bit;
-
-                //use q as a temp variable
+            for (int i = 0; i < 10; i++) {
                 q = BigInteger.ZERO;
-                bit = qbits - rbits - 4 + 1;
+                int bit = qbits - rbits - 4 + 1;
                 if (bit < 3)
                     bit = 3;
                 q = q.setBit(bit);
 
-                h = BigIntegerUtils.getRandom(q);
-                h = h.multiply(BigIntegerUtils.TWELVE);
+                // we randomly generate h where where h is a multiple of four and sufficiently large to
+                // guarantee (hr)^2 is big enough to resist finite field attacks.
+                // If h is constrained to be a multiple of three as well, then cube roots are extremely easy to
+                // compute in Fq: for all x ? Fq we see x?(q?2)/3 is the cube root of x,
+                h = BigIntegerUtils.getRandom(q).multiply(BigIntegerUtils.TWELVE);
 
-                //finally q takes the value it should
-                q = h.multiply(r);
-                q = q.subtract(BigInteger.ONE);
+                // Next it is checked that q = hr ?1 is prime, if it is the case we have finished.
+                // Also, we choose q = -1 mod 12 so F_q2 can be implemented as F_q[i] (where i = sqrt(-1)).
+                // Look at the class DegreeTwoQuadraticField and DegreeTwoQuadraticElement
+                q = h.multiply(r).subtract(BigInteger.ONE);
 
                 if (q.isProbablePrime(10)) {
                     found = true;

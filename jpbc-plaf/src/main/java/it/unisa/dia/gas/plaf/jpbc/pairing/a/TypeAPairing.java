@@ -117,9 +117,7 @@ public class TypeAPairing implements Pairing {
         Fq = initFp(q);
 
         // Init Eq
-        Eq = initEq(Fq.newOneElement(),
-                    Fq.newZeroElement(),
-                    r, h);
+        Eq = initEq();
 
         // Init Fq2
         Fq2 = initFi();
@@ -130,7 +128,7 @@ public class TypeAPairing implements Pairing {
         // Init G1, G2, GT
         G1 = Eq;
         G2 = G1;
-        GT = initGT(Fq2);
+        GT = initGT();
     }
 
 
@@ -138,16 +136,16 @@ public class TypeAPairing implements Pairing {
         return new NaiveField(order);
     }
 
-    protected Field<? extends Point> initEq(Element a, Element b, BigInteger order, BigInteger cofac) {
-        return new CurveField<Field>(a, b, order, cofac);
+    protected Field<? extends Point> initEq() {
+        return new CurveField<Field>(Fq.newOneElement(), Fq.newZeroElement(), r, h);
     }
 
     protected Field<? extends Point> initFi() {
         return new DegreeTwoQuadraticField<Field>(Fq);
     }
 
-    protected Field initGT(Field field) {
-        return new GTFiniteField(pairingMap, field);
+    protected Field initGT() {
+        return new GTFiniteField(pairingMap, Fq2);
     }
 
 
