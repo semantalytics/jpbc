@@ -9,11 +9,11 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.map.AbstractMillerPairingMap;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class TateMillerAffinePairingMap extends AbstractMillerPairingMap {
+public class MillerAffinePairingMap extends AbstractMillerPairingMap<Element> {
     protected TypeA1Pairing pairing;
 
 
-    public TateMillerAffinePairingMap(TypeA1Pairing pairing) {
+    public MillerAffinePairingMap(TypeA1Pairing pairing) {
         this.pairing = pairing;
     }
 
@@ -35,7 +35,7 @@ public class TateMillerAffinePairingMap extends AbstractMillerPairingMap {
         Element curveA = pairing.Fp.newOneElement();
         Element e0 = pairing.Fp.newElement();
 
-        Point f0 = pairing.Fq2.newElement();
+        Point<Element> f0 = pairing.Fq2.newElement();
         Point out = pairing.Fq2.newElement();
         Point f = pairing.Fq2.newOneElement();
 

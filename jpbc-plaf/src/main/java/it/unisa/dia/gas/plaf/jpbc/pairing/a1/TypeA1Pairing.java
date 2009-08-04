@@ -142,11 +142,7 @@ public class TypeA1Pairing implements Pairing {
     }
 
     protected void initMap() {
-        pairingMap = new TateMillerAffinePairingMap(this);
-    }
-
-    public static void main(String[] args) {
-        System.out.println(new BigInteger("98826429041171753291515535532523512299028170537954154869719707264887274916552228805607584116490046284509883309001532457986879277885241872021906840932513241346999389365188296460009947").bitLength());
+        pairingMap = new MillerAffinePairingMap(this);
     }
 
 }
