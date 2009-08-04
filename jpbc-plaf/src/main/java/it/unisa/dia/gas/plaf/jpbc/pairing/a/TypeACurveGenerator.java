@@ -22,8 +22,6 @@ public class TypeACurveGenerator implements CurveGenerator {
 
 
     public Map generate() {
-        CurveParams params = new CurveParams();
-
         boolean found = false;
 
         BigInteger q;
@@ -92,14 +90,15 @@ public class TypeACurveGenerator implements CurveGenerator {
             }
         } while (!found);
 
+        CurveParams params = new CurveParams();
         params.put("type", "a");
         params.put("q", q.toString());
-        params.put("h", h.toString());
         params.put("r", r.toString());
-        params.put("exp2", "" + exp2);
+        params.put("h", h.toString());
         params.put("exp1", "" + exp1);
-        params.put("sign1", "" + sign1);
+        params.put("exp2", "" + exp2);
         params.put("sign0", "" + sign0);
+        params.put("sign1", "" + sign1);
 
         return params;
     }

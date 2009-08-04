@@ -106,11 +106,20 @@ public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElemen
         return this;
     }
 
+    // Existing points are invalidated as this mangles c.
+    public void reinitCurveTwist() {
+        Element nqr = targetField.getNqr();
+        a.mul(nqr).mul(nqr);
+        b.mul(nqr).mul(nqr).mul(nqr);
+        // Recompute generators.
+        initGen();
+    }
+
     public CurveElement getGenNoCofac() {
         return genNoCofac;
     }
 
-    
+
     protected void initGen() {
         genNoCofac = getCurveRandomNoCofacSolvefory();
         if (cofac != null) {

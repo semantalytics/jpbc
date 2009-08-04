@@ -77,7 +77,9 @@ public class EPairingMap extends DefaultPairingMap {
             proj_double(Zx, Zy, e0, e1, e2, e3, z, z2, cca);
             do_vertical(vd, v, Zx, e0, z2, numx, denomx);
         }
-        to_affine(z, z2, e0, Zx, Zy);
+
+        pointToAffine(Zx, Zy, z, z2, e0);
+
         if (pairing.sign1 < 0) {
             v1.set(vd);
             vd1.set(v);
@@ -97,7 +99,10 @@ public class EPairingMap extends DefaultPairingMap {
             proj_double(Zx, Zy, e0, e1, e2, e3, z, z2, cca);
             do_vertical(vd, v, Zx, e0, z2, numx, denomx);
         }
-        to_affine(z, z2, e0, Zx, Zy);
+
+        pointToAffine(Zx, Zy, z, z2, e0);
+
+
         v.mul(v1);
         vd.mul(vd1);
         do_line(v, vd, Z, Z1, a, b, c, e0, e1, numx, numy, denomx, denomy);
@@ -112,28 +117,6 @@ public class EPairingMap extends DefaultPairingMap {
         res.set(v).mul(vd);
     }
 
-    //convert Z from weighted projective (Jacobian) to affine
-    //i.e. (X, Y, Z) --> (X/Z^2, Y/Z^3)
-    //also sets z to 1
-    void to_affine(Element z, Element z2, Element e0, Element Zx, Element Zy) {
-        z.invert();
-        e0.set(z).square();
-        Zx.mul(e0);
-        e0.mul(z);
-        Zy.mul(e0);
-        z.setToOne();
-        z2.setToOne();
-
-        /*
-        element_invert(z, z);
-        element_square(e0, z);
-        element_mul(Zx, Zx, e0);
-        element_mul(e0, e0, z);
-        element_mul(Zy, Zy, e0);
-        element_set1(z);
-        element_set1(z2);
-        */
-    }
 
     void proj_double(Element Zx, Element Zy, Element e0, Element e1, Element e2, Element e3, Element z, Element z2, Element cca) {
         Element x = Zx;

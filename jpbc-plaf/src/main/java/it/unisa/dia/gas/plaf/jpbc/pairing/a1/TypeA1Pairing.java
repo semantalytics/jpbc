@@ -142,7 +142,7 @@ public class TypeA1Pairing implements Pairing {
     }
 
     protected void initMap() {
-        pairingMap = new A1PairingMap(this);
+        pairingMap = new TateMillerAffinePairingMap(this);
     }
 
     public static void main(String[] args) {
