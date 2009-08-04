@@ -245,7 +245,7 @@ public class TypeDPairing implements Pairing {
     }
 
     protected void initMap() {
-        pairingMap = new CCPairingMap(this);
+        pairingMap = new CCMillerNoDenomPairingMap(this);
     }
 
 

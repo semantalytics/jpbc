@@ -5,12 +5,12 @@ import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveField;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteElement;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteField;
-import it.unisa.dia.gas.plaf.jpbc.pairing.map.DefaultPairingMap;
+import it.unisa.dia.gas.plaf.jpbc.pairing.map.AbstractPairingMap;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class EPairingMap extends DefaultPairingMap {
+public class EPairingMap extends AbstractPairingMap {
     protected TypeEPairing pairing;
 
 

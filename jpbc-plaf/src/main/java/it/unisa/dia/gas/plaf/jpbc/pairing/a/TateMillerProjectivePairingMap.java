@@ -5,16 +5,16 @@ import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteElement;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteField;
 import it.unisa.dia.gas.plaf.jpbc.field.quadratic.DegreeTwoQuadraticElement;
-import it.unisa.dia.gas.plaf.jpbc.pairing.map.DefaultPairingMap;
+import it.unisa.dia.gas.plaf.jpbc.pairing.map.AbstractMillerPairingMap;
 
 import java.math.BigInteger;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class TateMillerProjectivePairingMap extends DefaultPairingMap {
+public class TateMillerProjectivePairingMap extends AbstractMillerPairingMap {
     protected TypeAPairing pairing;
-    protected PairingPreProcessingInfo processingInfo;
+    protected MillerPreProcessingInfo processingInfo;
 
 
     public TateMillerProjectivePairingMap(TypeAPairing pairing) {
@@ -52,7 +52,6 @@ public class TateMillerProjectivePairingMap extends DefaultPairingMap {
         Element e0 = pairing.Fq.newElement();
 
         // Remember that r = 2^exp2 + sign1 * 2^exp1 + sign0 * 1 (Solinas prime)
-        System.out.println(pairing.r.toString(2));
 
         int i = 0;
         int n = pairing.exp1;
@@ -60,7 +59,7 @@ public class TateMillerProjectivePairingMap extends DefaultPairingMap {
             // f = f^2 g_V,V(Q)
             // where g_V,V = tangent at V
             f.square();
-            tangentStep(f0, a, b, c, Vx, Vy, z, z2, e0, Qx, Qy, f);
+            tangentStepProjective(f0, a, b, c, Vx, Vy, z, z2, e0, Qx, Qy, f);
             twiceProjective(e0, a, b, c, Vx, Vy, z, z2);
         }
 
@@ -80,7 +79,7 @@ public class TateMillerProjectivePairingMap extends DefaultPairingMap {
         n = pairing.exp2;
         for (; i < n; i++) {
             f.square();
-            tangentStep(f0, a, b, c, Vx, Vy, z, z2, e0, Qx, Qy, f);
+            tangentStepProjective(f0, a, b, c, Vx, Vy, z, z2, e0, Qx, Qy, f);
             twiceProjective(e0, a, b, c, Vx, Vy, z, z2);
         }
 
@@ -112,7 +111,7 @@ public class TateMillerProjectivePairingMap extends DefaultPairingMap {
     public void initPairingPreProcessing(Point in1) {
         int i, n;
 
-        processingInfo = new PairingPreProcessingInfo();
+        processingInfo = new MillerPreProcessingInfo();
         processingInfo.coeff = new Element[pairing.exp2 + 1][3];
 
         Point V = (Point) in1.duplicate();
@@ -120,17 +119,19 @@ public class TateMillerProjectivePairingMap extends DefaultPairingMap {
 
         Element Vx = V.getX();
         Element Vy = V.getY();
+
         Element V1x = V1.getX();
         Element V1y = V1.getY();
 
         Element a = pairing.Fq.newElement();
         Element b = pairing.Fq.newElement();
         Element c = pairing.Fq.newElement();
-        Element e0 = pairing.Fq.newElement();
+        Element curveA = pairing.Fq.newOneElement();
+        Element temp = pairing.Fq.newElement();
 
         n = pairing.exp1;
         for (i = 0; i < n; i++) {
-            initPPPDoTangent(processingInfo, a, b, c, Vx, Vy, e0);
+            computeTangent(processingInfo, a, b, c, Vx, Vy, curveA, temp);
             V.twice();
         }
 
@@ -142,11 +143,11 @@ public class TateMillerProjectivePairingMap extends DefaultPairingMap {
 
         n = pairing.exp2;
         for (; i < n; i++) {
-            initPPPDoTangent(processingInfo, a, b, c, Vx, Vy, e0);
+            computeTangent(processingInfo, a, b, c, Vx, Vy, curveA, temp);
             V.twice();
         }
 
-        initPPPDoLine(processingInfo, a, b, c, Vx, Vy, V1x, V1y, e0);
+        computeLine(processingInfo, a, b, c, Vx, Vy, V1x, V1y, temp);
     }
 
     public Element pairing(Point in2) {
@@ -161,7 +162,7 @@ public class TateMillerProjectivePairingMap extends DefaultPairingMap {
         n = pairing.exp1;
         for (i = 0; i < n; i++) {
             f.square();
-            a_miller_evalfn(f0, processingInfo.coeff[i][0], processingInfo.coeff[i][1], processingInfo.coeff[i][2], Qx, Qy);
+            millerStep(f0, processingInfo.coeff[i][0], processingInfo.coeff[i][1], processingInfo.coeff[i][2], Qx, Qy);
             f.mul(f0);
         }
         if (pairing.sign1 < 0) {
@@ -173,31 +174,18 @@ public class TateMillerProjectivePairingMap extends DefaultPairingMap {
         for (; i < n; i++) {
             f.square();
 
-            a_miller_evalfn(f0, processingInfo.coeff[i][0], processingInfo.coeff[i][1], processingInfo.coeff[i][2], Qx, Qy);
+            millerStep(f0, processingInfo.coeff[i][0], processingInfo.coeff[i][1], processingInfo.coeff[i][2], Qx, Qy);
 
             f.mul(f0);
         }
 
         f.mul(out);
-        {
-            a_miller_evalfn(f0, processingInfo.coeff[i][0], processingInfo.coeff[i][1], processingInfo.coeff[i][2], Qx, Qy);
-            f.mul(f0);
-        }
+        millerStep(f0, processingInfo.coeff[i][0], processingInfo.coeff[i][1], processingInfo.coeff[i][2], Qx, Qy);
+        f.mul(f0);
 
         tatePow(out, f, f0, pairing.phikonr);
 
         return new GTFiniteElement(this, (GTFiniteField) pairing.getGT(), out);
-    }
-
-
-    final void initPPPDoLine(PairingPreProcessingInfo info, Element a, Element b, Element c, Element Vx, Element Vy, Element V1x, Element V1y, Element e0) {
-        computeLine(a, b, c, Vx, Vy, V1x, V1y, e0);
-        info.addRow(a, b, c);
-    }
-
-    void initPPPDoTangent(PairingPreProcessingInfo info, Element a, Element b, Element c, Element Vx, Element Vy, Element e0) {
-        computeTangent(a, b, c, Vx, Vy, e0);
-        info.addRow(a, b, c);
     }
 
 
@@ -235,7 +223,7 @@ public class TateMillerProjectivePairingMap extends DefaultPairingMap {
         //Instead of:
         //	element_pow_mpz(out, in, cofactor);
         //we use Lucas sequences (see "Compressed Pairings", Scott and Barreto)
-        lucas_odd(out, in, temp, cofactor);
+        lucasOdd(out, in, temp, cofactor);
     }
 
 
@@ -303,133 +291,23 @@ public class TateMillerProjectivePairingMap extends DefaultPairingMap {
         */
     }
 
-    final void tangentStep(Point f0,
-                           Element a, Element b, Element c,
-                           Element Vx, Element Vy, Element z,
-                           Element z2, Element e0,
-                           Element Qx, Element Qy,
-                           Element f) {
-        computeTangentProjective(a, b, c, Vx, Vy, z, z2, e0);
-        a_miller_evalfn(f0, a, b, c, Qx, Qy);
-        f.mul(f0);
+
+
+    @Override
+    protected void millerStep(Point out, Element a, Element b, Element c, Element Qx, Element Qy) {
+        // we will map Q via (x,y) --> (-x, iy)
+        // hence:
+        // Re(a Qx + b Qy + c) = -a Q'x + c and
+        // Im(a Qx + b Qy + c) = b Q'y
+
+        Element rePart = out.getX();
+        Element imPart = out.getY();
+
+        rePart.set(c).sub(imPart.set(a).mul(Qx));
+        imPart.set(b).mul(Qy);
     }
 
-
-
-
-
-
-    final void lucas_odd(Point out, Point in, Point temp, BigInteger cofactor) {
-        //assumes cofactor is odd
-        //overwrites in and temp, out must not be in
-        //luckily this touchy routine is only used internally
-        //TODO: rewrite to allow (out == in)? would simplify a_finalpow()
-
-        Element in0 = in.getX();
-        Element in1 = in.getY();
-
-        Element v0 = out.getX();
-        Element v1 = out.getY();
-
-        Element t0 = temp.getX();
-        Element t1 = temp.getY();
-
-        t0.set(2);
-        t1.set(in0).twice();
-
-        v0.set(t0);
-        v1.set(t1);
-
-        int j = cofactor.bitLength() - 1;
-        for (; ;) {
-            if (j == 0) {
-                v1.mul(v0).sub(t1);
-                v0.square().sub(t0);
-
-                break;
-            }
-
-            if (cofactor.testBit(j)) {
-                v0.mul(v1).sub(t1);
-                v1.square().sub(t0);
-
-            } else {
-                v1.mul(v0).sub(t1);
-                v0.square().sub(t0);
-            }
-            j--;
-        }
-
-        v1.twice().sub(in0.set(v0).mul(t1));
-
-        t1.square().sub(t0).sub(t0);
-        v1.div(t1);
-
-        v0.halve();
-        v1.mul(in1);
-
-        /*
-        element_ptr in0 = fi_re(in);
-        element_ptr in1 = fi_im(in);
-        element_ptr v0 = fi_re(out);
-        element_ptr v1 = fi_im(out);
-        element_ptr t0 = fi_re(temp);
-        element_ptr t1 = fi_im(temp);
-        int j;
-
-        element_set_si(t0, 2);
-        element_double(t1, in0);
-
-        element_set(v0, t0);
-        element_set(v1, t1);
-
-        j = mpz_sizeinbase(cofactor, 2) - 1;
-
-        printf("J = %d",j);
-
-        for (;;) {
-        if (!j) {
-            element_mul(v1, v0, v1);
-            element_sub(v1, v1, t1);
-            element_square(v0, v0);
-            element_sub(v0, v0, t0);
-            break;
-        }
-        if (mpz_tstbit(cofactor, j)) {
-            element_mul(v0, v0, v1);
-            element_sub(v0, v0, t1);
-            element_square(v1, v1);
-            element_sub(v1, v1, t0);
-        } else {
-            element_mul(v1, v0, v1);
-            element_sub(v1, v1, t1);
-            element_square(v0, v0);
-            element_sub(v0, v0, t0);
-        }
-        j--;
-        }
-
-        //assume cofactor = (q + 1) / r is even
-        //(r should be odd and q + 1 is always even)
-        //thus v0 = V_k, v1 = V_{k+1}
-        //and V_{k-1} = P v0 - v1
-
-        //so U_k = (P V_k - 2 V_{k-1}) / (P^2 - 4)
-        //       = (2 v1 - P v0) / (P^2 - 4)
-
-        element_mul(in0, v0, t1);
-        element_double(v1, v1);
-        element_sub(v1, v1, in0);
-
-        element_square(t1, t1);
-        element_sub(t1, t1, t0);
-        element_sub(t1, t1, t0);
-        element_div(v1, v1, t1);
-
-        element_halve(v0, v0);
-        element_mul(v1, v1, in1);
-        */
-    }
+    
 
 
 }

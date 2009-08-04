@@ -4,12 +4,12 @@ import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteElement;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteField;
-import it.unisa.dia.gas.plaf.jpbc.pairing.map.DefaultPairingMap;
+import it.unisa.dia.gas.plaf.jpbc.pairing.map.AbstractMillerPairingMap;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class TateMillerAffinePairingMap extends DefaultPairingMap {
+public class TateMillerAffinePairingMap extends AbstractMillerPairingMap {
     protected TypeA1Pairing pairing;
 
 
@@ -32,6 +32,7 @@ public class TateMillerAffinePairingMap extends DefaultPairingMap {
         Element a = pairing.Fp.newElement();
         Element b = pairing.Fp.newElement();
         Element c = pairing.Fp.newElement();
+        Element curveA = pairing.Fp.newOneElement();
         Element e0 = pairing.Fp.newElement();
 
         Point f0 = pairing.Fq2.newElement();
@@ -40,7 +41,7 @@ public class TateMillerAffinePairingMap extends DefaultPairingMap {
 
         //TODO: sliding NAF
         for(int m = pairing.r.bitLength() - 2; m > 0; m--) {
-            tangentStep(f0, a, b, c, Vx, Vy, e0, Qx, Qy, f);
+            tangentStep(f0, a, b, c, Vx, Vy, curveA, e0, Qx, Qy, f);
             V.twice();
 
             if (pairing.r.testBit(m)) {
@@ -50,7 +51,7 @@ public class TateMillerAffinePairingMap extends DefaultPairingMap {
 
             f.square();
         }
-        tangentStep(f0, a, b, c, Vx, Vy, e0, Qx, Qy, f);
+        tangentStep(f0, a, b, c, Vx, Vy, curveA, e0, Qx, Qy, f);
 
         // Tate exponentiation.
         // Simpler but slower:
@@ -72,4 +73,17 @@ public class TateMillerAffinePairingMap extends DefaultPairingMap {
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
+    @Override
+    protected void millerStep(Point out, Element a, Element b, Element c, Element Qx, Element Qy) {
+        // we will map Q via (x,y) --> (-x, iy)
+        // hence:
+        // Re(a Qx + b Qy + c) = -a Q'x + c and
+        // Im(a Qx + b Qy + c) = b Q'y
+
+        Element rePart = out.getX();
+        Element imPart = out.getY();
+
+        rePart.set(c).sub(imPart.set(a).mul(Qx));
+        imPart.set(b).mul(Qy);
+    }
 }

@@ -53,6 +53,27 @@ public abstract class PairingTest extends TestCase {
         assertEquals(0, x1.compareTo(x2));
     }
 
+    public void testPairingPreProcessing() {
+        if (pairing == null)
+            return;
+
+        Element g, h;
+        Element x1, x2;
+
+        g = pairing.getG1().newElement().setToRandom();
+        h = pairing.getG2().newElement().setToRandom();
+
+        System.out.println("g = " + g);
+        System.out.println("h = " + h);
+
+        x1 = pairing.pairing(g, h);
+
+        pairing.initPairingPreProcessing(g);
+        x2 = pairing.pairing(h);
+        
+        assertEquals(0, x1.compareTo(x2));
+    }
+
     public void testPairingSymmetric() {
         if (pairing == null)
             return;
