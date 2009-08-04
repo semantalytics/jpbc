@@ -9,11 +9,11 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.map.AbstractMillerPairingMap;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class MillerAffinePairingMap extends AbstractMillerPairingMap<Element> {
+public class TypeA1MillerAffinePairingMap extends AbstractMillerPairingMap<Element> {
     protected TypeA1Pairing pairing;
 
 
-    public MillerAffinePairingMap(TypeA1Pairing pairing) {
+    public TypeA1MillerAffinePairingMap(TypeA1Pairing pairing) {
         this.pairing = pairing;
     }
 

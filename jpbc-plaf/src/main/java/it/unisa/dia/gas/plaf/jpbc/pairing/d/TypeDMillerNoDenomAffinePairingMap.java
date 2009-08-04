@@ -14,12 +14,12 @@ import java.util.List;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class MillerNoDenomPairingMap extends AbstractMillerPairingMap<Polynomial> {
+public class TypeDMillerNoDenomAffinePairingMap extends AbstractMillerPairingMap<Polynomial> {
     protected TypeDPairing pairing;
     protected MillerPreProcessingInfo processingInfo;
 
 
-    public MillerNoDenomPairingMap(TypeDPairing pairing) {
+    public TypeDMillerNoDenomAffinePairingMap(TypeDPairing pairing) {
         this.pairing = pairing;
     }
 

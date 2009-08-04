@@ -10,11 +10,11 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.map.AbstractPairingMap;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class EPairingMap extends AbstractPairingMap {
+public class TypeEMillerProjectivePairingMap extends AbstractPairingMap {
     protected TypeEPairing pairing;
 
 
-    public EPairingMap(TypeEPairing pairing) {
+    public TypeEMillerProjectivePairingMap(TypeEPairing pairing) {
         this.pairing = pairing;
     }
 

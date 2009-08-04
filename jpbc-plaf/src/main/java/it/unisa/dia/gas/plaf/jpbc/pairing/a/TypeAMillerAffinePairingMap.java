@@ -12,12 +12,12 @@ import java.math.BigInteger;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class MillerProjectivePairingMap extends AbstractMillerPairingMap {
+public class TypeAMillerAffinePairingMap extends AbstractMillerPairingMap {
     protected TypeAPairing pairing;
     protected MillerPreProcessingInfo processingInfo;
 
 
-    public MillerProjectivePairingMap(TypeAPairing pairing) {
+    public TypeAMillerAffinePairingMap(TypeAPairing pairing) {
         this.pairing = pairing;
     }
 
@@ -44,6 +44,7 @@ public class MillerProjectivePairingMap extends AbstractMillerPairingMap {
         Element a = pairing.Fq.newElement();
         Element b = pairing.Fq.newElement();
         Element c = pairing.Fq.newElement();
+        Element curveA = pairing.Fq.newOneElement();
 
         Point f0 = pairing.Fq2.newElement();
         Point f = pairing.Fq2.newOneElement();
@@ -59,8 +60,8 @@ public class MillerProjectivePairingMap extends AbstractMillerPairingMap {
             // f = f^2 g_V,V(Q)
             // where g_V,V = tangent at V
             f.square();
-            tangentStepProjective(f0, a, b, c, Vx, Vy, z, z2, e0, Qx, Qy, f);
-            twiceProjective(e0, a, b, c, Vx, Vy, z, z2);
+            tangentStep(f0, a, b, c, Vx, Vy, curveA, e0, Qx, Qy, f);
+            V.twice();
         }
 
         // Move to affine
@@ -79,14 +80,11 @@ public class MillerProjectivePairingMap extends AbstractMillerPairingMap {
         n = pairing.exp2;
         for (; i < n; i++) {
             f.square();
-            tangentStepProjective(f0, a, b, c, Vx, Vy, z, z2, e0, Qx, Qy, f);
-            twiceProjective(e0, a, b, c, Vx, Vy, z, z2);
+            tangentStep(f0, a, b, c, Vx, Vy, curveA, e0, Qx, Qy, f);
+            V.twice();
         }
 
         f.mul(f1);
-
-        // Move to affine again
-        pointToAffine(Vx, Vy, z, z2, e0);
 
         lineStep(f0, a, b, c, Vx, Vy, V1.getX(), V1.getY(), e0, Qx, Qy, f);
 
@@ -225,74 +223,7 @@ public class MillerProjectivePairingMap extends AbstractMillerPairingMap {
         //we use Lucas sequences (see "Compressed Pairings", Scott and Barreto)
         lucasOdd(out, in, temp, cofactor);
     }
-
-
-
-    final void twiceProjective(Element e0, Element e1, Element e2, Element e3, Element Vx, Element Vy, Element z, Element z2) {
-        e0.set(Vx).square().add(e1.set(e0).twice()).add(e1.set(z2).square());
-
-        z.mul(Vy);
-        z.twice();
-        z2.set(z).square();
-
-        e2.set(Vy).square();
-        e1.set(Vx).mul(e2);
-        e1.twice();
-        e1.twice();
-
-        e3.set(e1).twice();
-        Vx.set(e0).square().sub(e3);
-
-        e2.square().twice().twice().twice();
-
-        e1.sub(Vx);
-        e0.mul(e1);
-        Vy.set(e0).sub(e2);
-
-        /*
-        //e0 = 3x^2 + (cc->a) z^4
-        //for this case a = 1
-        element_square(e0, Vx);
-        ////element_mul_si(e0, e0, 3);
-        element_double(e1, e0);
-        element_add(e0, e1, e0);
-        element_square(e1, z2);
-        element_add(e0, e0, e1);
-
-        //z_out = 2 y z
-        element_mul(z, Vy, z);
-        ////element_mul_si(z, z, 2);
-        element_double(z, z);
-        element_square(z2, z);
-
-        //e1 = 4 x y^2
-        element_square(e2, Vy);
-        element_mul(e1, Vx, e2);
-        //element_mul_si(e1, e1, 4);
-        element_double(e1, e1);
-        element_double(e1, e1);
-
-        //x_out = e0^2 - 2 e1
-        element_double(e3, e1);
-        element_square(Vx, e0);
-        element_sub(Vx, Vx, e3);
-
-        //e2 = 8y^4
-        element_square(e2, e2);
-        //element_mul_si(e2, e2, 8);
-        element_double(e2, e2);
-        element_double(e2, e2);
-        element_double(e2, e2);
-
-        //y_out = e0(e1 - x_out) - e2
-        element_sub(e1, e1, Vx);
-        element_mul(e0, e0, e1);
-        element_sub(Vy, e0, e2);
-        */
-    }
-
-
-
+    
     @Override
     protected void millerStep(Point out, Element a, Element b, Element c, Element Qx, Element Qy) {
         // we will map Q via (x,y) --> (-x, iy)

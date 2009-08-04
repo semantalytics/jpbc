@@ -150,6 +150,6 @@ public class TypeAPairing implements Pairing {
 
 
     protected void initMap() {
-        pairingMap = new MillerProjectivePairingMap(this);
+        pairingMap = new TypeAMillerProjectivePairingMap(this);
     }
 }

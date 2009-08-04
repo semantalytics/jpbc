@@ -151,6 +151,6 @@ public class TypeEPairing implements Pairing {
 
 
     protected void initMap() {
-        pairingMap = new EPairingMap(this);
+        pairingMap = new TypeEMillerProjectivePairingMap(this);
     }
 }

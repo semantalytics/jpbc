@@ -240,7 +240,7 @@ public class TypeDPairing implements Pairing {
     }
 
     protected void initMap() {
-        pairingMap = new MillerNoDenomPairingMap(this);
+        pairingMap = new TypeDMillerNoDenomAffinePairingMap(this);
     }
 
 
