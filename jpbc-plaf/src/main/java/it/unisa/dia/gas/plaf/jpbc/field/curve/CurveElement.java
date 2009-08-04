@@ -11,7 +11,7 @@ import java.security.SecureRandom;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class CurveElement extends GenericPointElement {
+public class CurveElement<E extends Element> extends GenericPointElement<E> {
     protected int infFlag;
     protected SecureRandom random;
     protected CurveField curveField;
@@ -21,8 +21,8 @@ public class CurveElement extends GenericPointElement {
         super(field);
         this.curveField = (CurveField) field;
 
-        this.x = field.getTargetField().newElement();
-        this.y = field.getTargetField().newElement();
+        this.x = (E) field.getTargetField().newElement();
+        this.y = (E) field.getTargetField().newElement();
         this.infFlag = 1;
     }
 
@@ -30,8 +30,8 @@ public class CurveElement extends GenericPointElement {
         super(curveElement.field);
         this.curveField = curveElement.getField();
 
-        this.x = curveElement.x.duplicate();
-        this.y = curveElement.y.duplicate();
+        this.x = (E) curveElement.x.duplicate();
+        this.y = (E) curveElement.y.duplicate();
         this.infFlag = curveElement.infFlag;
     }
 

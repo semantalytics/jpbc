@@ -8,7 +8,7 @@ import java.math.BigInteger;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class QuadraticElement extends GenericPointElement {
+public class QuadraticElement<E extends Element> extends GenericPointElement<E> {
 
     protected QuadraticField field;
 
@@ -17,16 +17,16 @@ public class QuadraticElement extends GenericPointElement {
         super(field);
         this.field = field;
 
-        this.x = field.getTargetField().newElement();
-        this.y = field.getTargetField().newElement();
+        this.x = (E) field.getTargetField().newElement();
+        this.y = (E) field.getTargetField().newElement();
     }
 
     public QuadraticElement(QuadraticElement element) {
         super(element.field);
         this.field = element.field;
 
-        this.x = element.x.duplicate();
-        this.y = element.y.duplicate();
+        this.x = (E) element.x.duplicate();
+        this.y = (E) element.y.duplicate();
     }
 
 
@@ -43,8 +43,8 @@ public class QuadraticElement extends GenericPointElement {
 
         this.field = element.field;
 
-        this.x = element.x.duplicate();
-        this.y = element.y.duplicate();
+        this.x = (E) element.x.duplicate();
+        this.y = (E) element.y.duplicate();
 
         return this;
     }
@@ -435,15 +435,5 @@ public class QuadraticElement extends GenericPointElement {
     public String toString() {
         return String.format("{x=%s,y=%s}", x, y);
     }
-
-
-    public Element getX() {
-        return x;
-    }
-
-    public Element getY() {
-        return y;
-    }
-
 
 }

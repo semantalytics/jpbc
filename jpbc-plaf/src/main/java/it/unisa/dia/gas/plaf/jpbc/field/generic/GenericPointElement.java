@@ -7,10 +7,10 @@ import it.unisa.dia.gas.jpbc.Point;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public abstract class GenericPointElement extends GenericElement implements Point {
+public abstract class GenericPointElement<E extends Element> extends GenericElement implements Point<E> {
 
     protected FieldOver field;
-    protected Element x, y;
+    protected E x, y;
 
 
     protected GenericPointElement(FieldOver field) {
@@ -20,11 +20,11 @@ public abstract class GenericPointElement extends GenericElement implements Poin
     }
 
 
-    public Element getX() {
+    public E getX() {
         return x;
     }
 
-    public Element getY() {
+    public E getY() {
         return y;
     }
 
