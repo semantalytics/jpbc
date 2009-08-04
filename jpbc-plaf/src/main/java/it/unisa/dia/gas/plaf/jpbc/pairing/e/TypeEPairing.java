@@ -121,9 +121,7 @@ public class TypeEPairing implements Pairing {
         Fq = initFp(q);
 
         // Init Eq
-        CurveField<Field> Eq = initEq(Fq.newElement().set(a),
-                                      Fq.newElement().set(b),
-                                      r, h);
+        CurveField<Field> Eq = initEq();
         this.Eq = Eq;
 
         // k=1, hence phikonr = (p-1)/r
@@ -132,7 +130,7 @@ public class TypeEPairing implements Pairing {
         // Init G1, G2, GT
         G1 = Eq;
         G2 = G1;
-        GT = initGT(Fq);
+        GT = initGT();
 
         R = Eq.getGenNoCofac().duplicate();
     }
@@ -142,12 +140,13 @@ public class TypeEPairing implements Pairing {
         return new NaiveField(order);
     }
 
-    protected CurveField<Field> initEq(Element a, Element b, BigInteger order, BigInteger cofac) {
-        return new CurveField<Field>(a, b, order, cofac);
+    protected CurveField<Field> initEq() {
+        return new CurveField<Field>(Fq.newElement().set(a),                                       Fq.newElement().set(b),
+                                      r, h);
     }
 
-    protected Field initGT(Field field) {
-        return new GTFiniteField(pairingMap, field);
+    protected Field initGT() {
+        return new GTFiniteField(pairingMap, Fq);
     }
 
 
