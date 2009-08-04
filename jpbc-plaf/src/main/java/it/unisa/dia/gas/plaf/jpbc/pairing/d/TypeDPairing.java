@@ -129,9 +129,7 @@ public class TypeDPairing implements Pairing {
         Fq = initFp(q);
 
         // Init Eq
-        Eq = initEq(Fq.newElement().set(a),
-                    Fq.newElement().set(b),
-                    r, h);
+        Eq = initEq();
 
         // Init Fqx
         PolyField polyField = initPoly();
@@ -140,7 +138,7 @@ public class TypeDPairing implements Pairing {
         // Init the irreducible polynomial
         int d = k / 2;
 
-        PolyElement irreduciblePoly = polyField.newElement();
+        PolyElement<Element> irreduciblePoly = polyField.newElement();
         List<Element> irreduciblePolyCoeff = irreduciblePoly.getCoefficients();
         for (int i = 0; i < d; i++) {
             irreduciblePolyCoeff.add(polyField.getTargetField().newElement().set(curveParams.getBigInteger("coeff" + i)));
@@ -217,15 +215,12 @@ public class TypeDPairing implements Pairing {
         return new NaiveField(order);
     }
 
-    protected CurveField initEq(Element a, Element b, BigInteger order, BigInteger cofac) {
-        return new CurveField(a, b, order, cofac);
+    protected CurveField initEq() {
+        return new CurveField(Fq.newElement().set(a),Fq.newElement().set(b), r, h);
     }
 
     protected CurveField initEqMap() {
-        Element a = Fqd.newElement().map(Eq.getA());
-        Element b = Fqd.newElement().map(Eq.getB());
-
-        return initEq(a, b, r, null);
+        return new CurveField(Fqd.newElement().map(Eq.getA()),    Fqd.newElement().map(Eq.getB()), r, null);
     }
 
     protected PolyField initPoly() {
@@ -245,7 +240,7 @@ public class TypeDPairing implements Pairing {
     }
 
     protected void initMap() {
-        pairingMap = new CCMillerNoDenomPairingMap(this);
+        pairingMap = new MillerNoDenomPairingMap(this);
     }
 
 
