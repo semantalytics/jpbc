@@ -46,6 +46,14 @@ public class CurveParams extends LinkedHashMap<String, String> {
         return new BigInteger(value);
     }
 
+    public String getString(String key, String defaultValue) {
+        String value = get(key);
+        if (value == null)
+            return defaultValue;
+
+        return value;
+    }
+
     public CurveParams load(InputStream inputStream) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 

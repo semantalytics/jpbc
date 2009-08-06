@@ -166,7 +166,7 @@ public class TypeDMillerNoDenomAffinePairingMap extends AbstractMillerPairingMap
 
             return lucasEven(e0, pairing.phikonr);
         } else {
-            return element.duplicate().pow(pairing.tateexp);
+            return element.duplicate().pow(pairing.tateExp);
         }
 
         /*
@@ -200,7 +200,7 @@ public class TypeDMillerNoDenomAffinePairingMap extends AbstractMillerPairingMap
         element_clear(e2);
         element_clear(e3);
         }else{
-            element_pow_mpz(out, in, p - > tateexp);
+            element_pow_mpz(out, in, p - > tateExp);
         }
         */
     }

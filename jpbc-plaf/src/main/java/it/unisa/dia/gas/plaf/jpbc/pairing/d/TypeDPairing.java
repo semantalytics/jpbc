@@ -1,6 +1,9 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing.d;
 
-import it.unisa.dia.gas.jpbc.*;
+import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.jpbc.Point;
+import it.unisa.dia.gas.jpbc.Polynomial;
 import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveField;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteField;
 import it.unisa.dia.gas.plaf.jpbc.field.naive.NaiveField;
@@ -9,8 +12,8 @@ import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyField;
 import it.unisa.dia.gas.plaf.jpbc.field.polymod.PolyModElement;
 import it.unisa.dia.gas.plaf.jpbc.field.polymod.PolyModField;
 import it.unisa.dia.gas.plaf.jpbc.field.quadratic.QuadraticField;
+import it.unisa.dia.gas.plaf.jpbc.pairing.AbstractPairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
-import it.unisa.dia.gas.plaf.jpbc.pairing.map.PairingMap;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -18,7 +21,7 @@ import java.util.List;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class TypeDPairing implements Pairing {
+public class TypeDPairing extends AbstractPairing {
     protected CurveParams curveParams;
 
     protected int k;
@@ -31,7 +34,7 @@ public class TypeDPairing implements Pairing {
 
     protected PolyModElement xpowq, xpowq2;
     protected Element nqrInverse, nqrInverseSquare;
-    protected BigInteger tateexp;
+    protected BigInteger tateExp;
 
     protected BigInteger phikonr;
 
@@ -40,9 +43,6 @@ public class TypeDPairing implements Pairing {
     protected PolyModField Fqd;
     protected CurveField Eq, Etwist;
 
-    protected Field G1, G2, GT, Zr;
-
-    protected PairingMap pairingMap;
 
     public TypeDPairing(CurveParams curveParams) {
         this.curveParams = curveParams;
@@ -57,49 +57,7 @@ public class TypeDPairing implements Pairing {
         return false;
     }
 
-    public Field<? extends Point> getG1() {
-        return G1;
-    }
 
-    public Field<? extends Point> getG2() {
-        return G2;
-    }
-
-    public Field getZr() {
-        return Zr;
-    }
-
-    public Field getGT() {
-        return GT;
-    }
-
-    public Element pairing(Element g1, Element g2) {
-        if (!G1.equals(g1.getField()))
-            throw new IllegalArgumentException("pairing 1st input mismatch");
-        if (!G2.equals(g2.getField()))
-            throw new IllegalArgumentException("pairing 2nd input mismatch");
-
-        if (g1.isZero() || g2.isZero())
-            return GT.newElement().setToZero();
-
-        return pairingMap.pairing((Point) g1, (Point) g2);
-    }
-
-    public void initPairingPreProcessing(Element g1) {
-        if (!G1.equals(g1.getField()))
-            throw new IllegalArgumentException("pairing 1st input mismatch");
-
-        pairingMap.initPairingPreProcessing((Point) g1);
-    }
-
-    public Element pairing(Element g2) {
-        if (!G2.equals(g2.getField()))
-            throw new IllegalArgumentException("pairing 2nd input mismatch");
-
-        return pairingMap.pairing((Point) g2);
-    }
-
-    
     protected void initParams() {
         // validate the type
         String type = curveParams.getType();
@@ -161,31 +119,8 @@ public class TypeDPairing implements Pairing {
 
             xpowq = polyModElement;
             xpowq2 = polyModElement.duplicate().square();
-
-            /*
-            mpz_ptr q = param->q;
-            mpz_ptr z = pairing->phikonr;
-            mpz_init(z);
-            mpz_mul(z, q, q);
-            mpz_sub(z, z, q);
-            mpz_add_ui(z, z, 1);
-            mpz_divexact(z, z, pairing->r);
-
-            element_ptr e = p->xpowq;
-            element_init(e, p->Fqd);
-            element_set1(((element_t *) e->data)[1]);
-            element_pow_mpz(e, e, q);
-
-            element_init(p->xpowq2, p->Fqd);
-            element_square(p->xpowq2, e);
-            */
         } else {
-            tateexp = Fqk.getOrder().subtract(BigInteger.ONE).divide(r);
-            /*
-            mpz_init(p - > tateexp);
-            mpz_sub_ui(p - > tateexp, p - > Fqk - > order, 1);
-            mpz_divexact(p - > tateexp, p - > tateexp, pairing - > r);
-            */
+            tateExp = Fqk.getOrder().subtract(BigInteger.ONE).divide(r);
         }
 
         // init Etwist
@@ -198,18 +133,7 @@ public class TypeDPairing implements Pairing {
         G1 = Eq;
         G2 = Etwist;
         GT = initGT();
-
-/*
-        cc_miller_no_denom_fn = cc_miller_no_denom_affine;
-        pairing->option_set = d_pairing_option_set;
-        pairing->pp_init = d_pairing_pp_init;
-        pairing->pp_clear = d_pairing_pp_clear;
-        pairing->pp_apply = d_pairing_pp_apply;
-
-        pairing->clear_func = d_pairing_clear;
-
-        */
-    }
+   }
 
     protected Field initFp(BigInteger order) {
         return new NaiveField(order);
@@ -242,7 +166,5 @@ public class TypeDPairing implements Pairing {
     protected void initMap() {
         pairingMap = new TypeDMillerNoDenomAffinePairingMap(this);
     }
-
-
 
 }

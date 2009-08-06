@@ -55,7 +55,7 @@ public class TypeA1MillerAffinePairingMap extends AbstractMillerPairingMap<Eleme
 
         // Tate exponentiation.
         // Simpler but slower:
-        //   element_pow_mpz(out, f, p->tateexp);
+        //   element_pow_mpz(out, f, p->tateExp);
         // Use this trick instead:
         f0.set(f).invert();
         f.getY().negate();

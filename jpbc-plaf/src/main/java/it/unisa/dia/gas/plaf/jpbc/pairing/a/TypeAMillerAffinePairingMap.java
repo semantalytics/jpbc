@@ -203,7 +203,7 @@ public class TypeAMillerAffinePairingMap extends AbstractMillerPairingMap {
     final void tatePow(Point out, Point in, Point temp, BigInteger cofactor) {
         Element in1 = in.getY();
         //simpler but slower:
-        //element_pow_mpz(out, f, tateexp);
+        //element_pow_mpz(out, f, tateExp);
 
         //1. Exponentiate by q-1
         //which is equivalent to the following

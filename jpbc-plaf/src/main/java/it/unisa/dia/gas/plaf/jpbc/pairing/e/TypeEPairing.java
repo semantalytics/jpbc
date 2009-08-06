@@ -1,21 +1,19 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing.e;
 
-import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveField;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteField;
 import it.unisa.dia.gas.plaf.jpbc.field.naive.NaiveField;
+import it.unisa.dia.gas.plaf.jpbc.pairing.AbstractPairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
-import it.unisa.dia.gas.plaf.jpbc.pairing.map.PairingMap;
 
 import java.math.BigInteger;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class TypeEPairing implements Pairing {
+public class TypeEPairing extends AbstractPairing {
     protected int exp2;
     protected int exp1;
     protected int sign1;
@@ -32,11 +30,6 @@ public class TypeEPairing implements Pairing {
     protected Field Fq;
     protected Field<? extends Point> Eq;
 
-    protected Field<? extends Point> G1, G2;
-    protected Field GT, Zr;
-
-    protected PairingMap pairingMap;
-
 
     public TypeEPairing(CurveParams properties) {
         initParams(properties);
@@ -44,52 +37,6 @@ public class TypeEPairing implements Pairing {
         initFields();
     }
 
-
-    public boolean isSymmetric() {
-        return true;
-    }
-
-    public Field<? extends Point> getG1() {
-        return G1;
-    }
-
-    public Field<? extends Point> getG2() {
-        return G2;
-    }
-
-    public Field getZr() {
-        return Zr;
-    }
-
-    public Field getGT() {
-        return GT;
-    }
-
-    public Element pairing(Element g1, Element g2) {
-        if (!G1.equals(g1.getField()))
-            throw new IllegalArgumentException("pairing 1st input mismatch");
-        if (!G2.equals(g2.getField()))
-            throw new IllegalArgumentException("pairing 2nd input mismatch");
-
-        if (g1.isZero() || g2.isZero())
-            return GT.newElement().setToZero();
-
-        return pairingMap.pairing((Point) g1, (Point) g2);
-    }
-
-    public void initPairingPreProcessing(Element g1) {
-        if (!G1.equals(g1.getField()))
-            throw new IllegalArgumentException("pairing 1st input mismatch");
-
-        pairingMap.initPairingPreProcessing((Point) g1);
-    }
-
-    public Element pairing(Element g2) {
-        if (!G2.equals(g2.getField()))
-            throw new IllegalArgumentException("pairing 2nd input mismatch");
-
-        return pairingMap.pairing((Point) g2);
-    }
 
     protected void initParams(CurveParams curveParams) {
         // validate the type
@@ -117,7 +64,6 @@ public class TypeEPairing implements Pairing {
         Zr = initFp(r);
 
         // Init Fq
-
         Fq = initFp(q);
 
         // Init Eq
@@ -141,8 +87,8 @@ public class TypeEPairing implements Pairing {
     }
 
     protected CurveField<Field> initEq() {
-        return new CurveField<Field>(Fq.newElement().set(a),                                       Fq.newElement().set(b),
-                                      r, h);
+        return new CurveField<Field>(Fq.newElement().set(a), Fq.newElement().set(b),
+                                     r, h);
     }
 
     protected Field initGT() {
