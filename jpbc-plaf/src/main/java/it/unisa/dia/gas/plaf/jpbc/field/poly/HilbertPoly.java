@@ -2,6 +2,8 @@ package it.unisa.dia.gas.plaf.jpbc.field.poly;
 
 import it.unisa.dia.gas.plaf.jpbc.util.BigDecimalUtils;
 
+import static java.lang.Math.floor;
+import static java.lang.Math.sqrt;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
@@ -30,37 +32,21 @@ public class HilbertPoly {
      * @return
      */
     public List<BigInteger> getHilbertPoly() {
-/*        int a;
-        int t;
-        int B = floor(sqrt((double) D / 3.0));
-        mpc_t alpha;
-        mpc_t j;
-        mpf_t sqrtD;
-        mpf_t f0;
-        darray_t Pz;
-        mpc_t z0, z1, z2;
-        double d = 1.0;
-        int h = 1;
-        int jcount = 1;
-
-        //first compute required precision
-        int b = D % 2;
+        int B = (int) floor(sqrt((double) D / 3.0));
+        int a = 0, b = D % 2, t = 0, d = 0, h = 1, jcount = 1;
 
         boolean step1 = true, step2 = true;
-
-        while (true) {
+        for (; ;) {
             if (step1) {
                 t = (b * b + D) / 4;
                 a = b;
 
                 if (a <= 1) {
                     a = 1;
-                    step2 = false; //goto step535_4;
+                    step2 = false;
                 }
             }
             step1 = true;
-
-//            step535_3:
 
             if (step2) {
                 if (t % a == 0) {
@@ -76,33 +62,19 @@ public class HilbertPoly {
             }
             step2 = true;
 
-//            step535_4:
-
             a++;
             if (a * a <= t) {
-//                    goto step535_3;
                 step1 = false;
+                continue;
             } else {
                 b += 2;
-                if (b > B) break;
+                if (b > B)
+                    break;
             }
+
         }
+        /*
 
-        //printf("modulus: %f\n", exp(3.14159265358979 * sqrt(D)) * d * 0.5);
-        d *= Math.sqrt(D) * 3.14159265358979 / Math.log(2);
-        precision_init(d + 34);
-        fprintf(stderr, "class number %d, %d bit precision\n", h, (int) d + 34);
-
-        darray_init(Pz);
-        mpc_init(alpha);
-        mpc_init(j);
-        mpc_init(z0);
-        mpc_init(z1);
-        mpc_init(z2);
-        mpf_init(sqrtD);
-        mpf_init(f0);
-
-        mpf_sqrt_ui(sqrtD, D);
         b = D % 2;
         h = 0;
         for (; ;) {
@@ -119,11 +91,11 @@ public class HilbertPoly {
                 if (a * a <= t)
                     goto step3;
             } else {
-                //a, b, t/a are coeffs of an appropriate
-                //primitive reduced positive definite form
-                //compute j((-b + sqrt{-D})/(2a))
+                // a, b, t/a are coeffs of an appropriate primitive reduced positive
+                // definite form.
+                // Compute j((-b + sqrt{-D})/(2a)).
                 h++;
-                fprintf(stderr, "[%d/%d] a b c = %d %d %d\n", h, jcount, a, b, t / a);
+                pbc_info("[%d/%d] a b c = %d %d %d", h, jcount, a, b, t / a);
                 mpf_set_ui(f0, 1);
                 mpf_div_ui(f0, f0, 2 * a);
                 mpf_mul(mpc_im(alpha), sqrtD, f0);
@@ -140,7 +112,7 @@ public class HilbertPoly {
                     }
                 }
                 if (a == b || a * a == t || !b) {
-                    //P *= X - j
+                    // P *= X - j
                     int i, n;
                     mpc_ptr p0;
                     p0 = (mpc_ptr) pbc_malloc(sizeof(mpc_t));
@@ -159,18 +131,18 @@ public class HilbertPoly {
                     }
                     darray_append(Pz, p0);
                 } else {
-                    //P *= X^2 - 2 Re(j) X + |j|^2
+                    // P *= X^2 - 2 Re(j) X + |j|^2
                     int i, n;
                     mpc_ptr p0, p1;
                     p0 = (mpc_ptr) pbc_malloc(sizeof(mpc_t));
                     p1 = (mpc_ptr) pbc_malloc(sizeof(mpc_t));
                     mpc_init(p0);
                     mpc_init(p1);
-                    //p1 = - 2 Re(j)
+                    // p1 = - 2 Re(j)
                     mpf_mul_ui(f0, mpc_re(j), 2);
                     mpf_neg(f0, f0);
                     mpf_set(mpc_re(p1), f0);
-                    //p0 = |j|^2
+                    // p0 = |j|^2
                     mpf_mul(f0, mpc_re(j), mpc_re(j));
                     mpf_mul(mpc_re(p0), mpc_im(j), mpc_im(j));
                     mpf_add(mpc_re(p0), mpc_re(p0), f0);
@@ -211,39 +183,206 @@ public class HilbertPoly {
             if (b > B) break;
         }
 
-        //round polynomial
-        {
-            int i;
-            mpz_ptr coeff;
-            for (i = Pz - > count - 1; i >= 0; i--) {
-                coeff = (mpz_ptr) pbc_malloc(sizeof(mpz_t));
-                mpz_init(coeff);
-                if (mpf_sgn(mpc_re(Pz - > item[i])) < 0) {
-                    mpf_set_d(f0, -0.5);
-                } else {
-                    mpf_set_d(f0, 0.5);
-                }
-                mpf_add(f0, f0, mpc_re(Pz - > item[i]));
-                mpz_set_f(coeff, f0);
-                darray_append(P, coeff);
-                mpc_clear(Pz - > item[i]);
-                pbc_free(Pz - > item[i]);
-            }
-            coeff = (mpz_ptr) pbc_malloc(sizeof(mpz_t));
-            mpz_init(coeff);
-            mpz_set_ui(coeff, 1);
-            darray_append(P, coeff);
-        }
-        darray_clear(Pz);
-        mpc_clear(z0);
-        mpc_clear(z1);
-        mpc_clear(z2);
-        mpf_clear(f0);
-        mpf_clear(sqrtD);
-        mpc_clear(alpha);
-        mpc_clear(j);
 
-        precision_clear();*/
+        /*       int a, b;
+int t;
+int B = floor(sqrt((double) D / 3.0));
+mpc_t alpha;
+mpc_t j;
+mpf_t sqrtD;
+mpf_t f0;
+darray_t Pz;
+mpc_t z0, z1, z2;
+double d = 1.0;
+int h = 1;
+int jcount = 1;
+
+// Compute required precision.
+b = D % 2;
+for (;;) {
+  t = (b*b + D) / 4;
+  a = b;
+  if (a <= 1) {
+    a = 1;
+    goto step535_4;
+  }
+step535_3:
+  if (!(t % a)) {
+    jcount++;
+    if ((a == b) || (a*a == t) || !b) {
+      d += 1.0 / ((double) a);
+      h++;
+    } else {
+      d += 2.0 / ((double) a);
+      h+=2;
+    }
+  }
+step535_4:
+  a++;
+  if (a * a <= t) {
+    goto step535_3;
+  } else {
+    b += 2;
+    if (b > B) break;
+  }
+}
+
+//printf("modulus: %f\n", exp(3.14159265358979 * sqrt(D)) * d * 0.5);
+d *= sqrt(D) * 3.14159265358979 / log(2);
+precision_init(d + 34);
+pbc_info("class number %d, %d bit precision", h, (int) d + 34);
+
+darray_init(Pz);
+mpc_init(alpha);
+mpc_init(j);
+mpc_init(z0);
+mpc_init(z1);
+mpc_init(z2);
+mpf_init(sqrtD);
+mpf_init(f0);
+
+mpf_sqrt_ui(sqrtD, D);
+b = D % 2;
+h = 0;
+for (;;) {
+  t = (b*b + D) / 4;
+  if (b > 1) {
+    a = b;
+  } else {
+    a = 1;
+  }
+step3:
+  if (t % a) {
+step4:
+    a++;
+    if (a * a <= t) goto step3;
+  } else {
+    // a, b, t/a are coeffs of an appropriate primitive reduced positive
+    // definite form.
+    // Compute j((-b + sqrt{-D})/(2a)).
+    h++;
+    pbc_info("[%d/%d] a b c = %d %d %d", h, jcount, a, b, t/a);
+    mpf_set_ui(f0, 1);
+    mpf_div_ui(f0, f0, 2 * a);
+    mpf_mul(mpc_im(alpha), sqrtD, f0);
+    mpf_mul_ui(f0, f0, b);
+    mpf_neg(mpc_re(alpha), f0);
+
+    compute_j(j, alpha);
+if (0) {
+int i;
+for (i=Pz->count - 1; i>=0; i--) {
+  printf("P %d = ", i);
+  mpc_out_str(stdout, 10, 4, Pz->item[i]);
+  printf("\n");
+}
+}
+    if (a == b || a * a == t || !b) {
+      // P *= X - j
+      int i, n;
+      mpc_ptr p0;
+      p0 = (mpc_ptr) pbc_malloc(sizeof(mpc_t));
+      mpc_init(p0);
+      mpc_neg(p0, j);
+      n = Pz->count;
+      if (n) {
+        mpc_set(z1, Pz->item[0]);
+        mpc_add(Pz->item[0], z1, p0);
+        for (i=1; i<n; i++) {
+          mpc_mul(z0, z1, p0);
+          mpc_set(z1, Pz->item[i]);
+          mpc_add(Pz->item[i], z1, z0);
+        }
+        mpc_mul(p0, p0, z1);
+      }
+      darray_append(Pz, p0);
+    } else {
+      // P *= X^2 - 2 Re(j) X + |j|^2
+      int i, n;
+      mpc_ptr p0, p1;
+      p0 = (mpc_ptr) pbc_malloc(sizeof(mpc_t));
+      p1 = (mpc_ptr) pbc_malloc(sizeof(mpc_t));
+      mpc_init(p0);
+      mpc_init(p1);
+      // p1 = - 2 Re(j)
+      mpf_mul_ui(f0, mpc_re(j), 2);
+      mpf_neg(f0, f0);
+      mpf_set(mpc_re(p1), f0);
+      // p0 = |j|^2
+      mpf_mul(f0, mpc_re(j), mpc_re(j));
+      mpf_mul(mpc_re(p0), mpc_im(j), mpc_im(j));
+      mpf_add(mpc_re(p0), mpc_re(p0), f0);
+      n = Pz->count;
+      if (!n) {
+      } else if (n == 1) {
+        mpc_set(z1, Pz->item[0]);
+        mpc_add(Pz->item[0], z1, p1);
+        mpc_mul(p1, z1, p1);
+        mpc_add(p1, p1, p0);
+        mpc_mul(p0, p0, z1);
+      } else {
+        mpc_set(z2, Pz->item[0]);
+        mpc_set(z1, Pz->item[1]);
+        mpc_add(Pz->item[0], z2, p1);
+        mpc_mul(z0, z2, p1);
+        mpc_add(Pz->item[1], z1, z0);
+        mpc_add(Pz->item[1], Pz->item[1], p0);
+        for (i=2; i<n; i++) {
+          mpc_mul(z0, z1, p1);
+          mpc_mul(alpha, z2, p0);
+          mpc_set(z2, z1);
+          mpc_set(z1, Pz->item[i]);
+          mpc_add(alpha, alpha, z0);
+          mpc_add(Pz->item[i], z1, alpha);
+        }
+        mpc_mul(z0, z2, p0);
+        mpc_mul(p1, p1, z1);
+        mpc_add(p1, p1, z0);
+        mpc_mul(p0, p0, z1);
+      }
+      darray_append(Pz, p1);
+      darray_append(Pz, p0);
+    }
+    goto step4;
+  }
+  b+=2;
+  if (b > B) break;
+}
+
+// Round polynomial and assign.
+int k = 0;
+{
+  *arr = pbc_malloc(sizeof(mpz_t) * (Pz->count + 1));
+  int i;
+  for (i=Pz->count - 1; i>=0; i--) {
+    if (mpf_sgn(mpc_re(Pz->item[i])) < 0) {
+      mpf_set_d(f0, -0.5);
+    } else {
+      mpf_set_d(f0, 0.5);
+    }
+    mpf_add(f0, f0, mpc_re(Pz->item[i]));
+    mpz_init((*arr)[k]);
+    mpz_set_f((*arr)[k], f0);
+    k++;
+    mpc_clear(Pz->item[i]);
+    pbc_free(Pz->item[i]);
+  }
+  mpz_init((*arr)[k]);
+  mpz_set_ui((*arr)[k], 1);
+  k++;
+}
+darray_clear(Pz);
+mpc_clear(z0);
+mpc_clear(z1);
+mpc_clear(z2);
+mpf_clear(f0);
+mpf_clear(sqrtD);
+mpc_clear(alpha);
+mpc_clear(j);
+
+precision_clear();
+return k;       */
+
         throw new IllegalStateException("Not Implemente yet!!!");
     }
 
