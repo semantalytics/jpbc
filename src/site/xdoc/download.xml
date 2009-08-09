@@ -4,7 +4,7 @@
 <document>
     <properties>
         <title>jPBC - Download</title>
-        <author email="adecaro@users.sourceforge.net">Angelo De Caro</author>
+        <author email="decaro@dia.unisa.it">Angelo De Caro</author>
     </properties>
 
     <body>
@@ -38,7 +38,7 @@
 
                         <tr valign="top">
                             <td>jPBC</td>
-                            <td>1.5.0</td>
+                            <td>1.0.0</td>
                             <td>2009-02-28</td>
                             <td>Stable</td>
                             <td>
@@ -81,7 +81,7 @@
                             <td align="left">
                                 <b>Operating System</b>
                             </td>
-                            <td align="left">No minimum requirement. Tested on Windows XP, Ubuntu 8.04.
+                            <td align="left">No minimum requirement.
                             </td>
                         </tr>
                     </tbody>
@@ -92,78 +92,19 @@
             <subsection name="Usage">
                 <ol type="1">
                     <li>Unzip
-                        <tt>jPBC-1.5.0.zip</tt>
-                        to the directory you wish to unzip jPBC 1.5.0.
+                        <tt>jPBC-1.0.0.zip</tt>
+                        to the directory you wish to unzip jPBC 1.0.0.
                     </li>
                     <li>Move to
                         <tt>lib</tt>
                         directory where you can found jPBC jar files.
                     </li>
                     <li>To use jPBC add to your classpath
-                        <tt>jPBC_1.5.0-api.jar</tt> and
-                        <tt>jPBC_1.5.0-plaf.jar</tt> and
-                        <tt>jPBC_1.5.0-res.jar</tt> and
+                        <tt>jPBC_1.0.0-api.jar</tt> and
+                        <tt>jPBC_1.0.0-plaf.jar</tt> and
+                        <tt>jPBC_1.0.0-res.jar</tt> and
 						<tt>TableLayout-20020517.jar</tt>
 					</li>
-                </ol>
-                <h4>Transparency on Windows 2000/XP</h4>
-                <p>
-                    To see the transparency effect in action, you have to put TransparencyManager.dll into a system
-                    directory. Refers to java property "java.library.path" for those directories.
-                    <br/>
-                    You can found the precompiled TransparencyManager.dll file into <tt>/lib/win32</tt>
-                    starting from the directory you have choosed to unzip jPBC.
-                </p>
-                <p>
-                    But you can customize the transparency manager. See
-                    <a href="./jPBC-plaf/transparency.html">this</a>
-                    .
-                </p>
-            </subsection>
-
-			<a name="jPBCset"/>
-            <subsection name="jPBCSet Usage">
-                <h4>Windows 2000/XP</h4>
-                <ol type="1">
-                    <li>Unzip
-                        <tt>jPBC-1.5.0.zip</tt>
-                        to the directory you wish to unzip jPBC 1.5.0. These instructions assume you chose
-                        <tt>C:\Program Files\jPBC-1.5.0</tt>
-                    </li>
-                    <li>Move to
-                        <tt>bin</tt>
-                        directory.
-                        <tt>&quot;C:\Program Files\jPBC-1.5.0\bin&quot;</tt>
-                    </li>
-                    <li>In the same dialog, make sure that
-                        <tt>JAVA_HOME</tt>
-                        is set to the location of your JDK, eg.
-                        <tt>C:\Program Files\Java\jdk1.5.0_15</tt>
-                    </li>
-                    <li>Run
-                        <tt>jPBCset</tt>
-                    </li>
-                </ol>
-                <h4>Unix-based Operating Systems (Linux, Solaris and Mac OS X)</h4>
-                <ol type="1">
-                    <li>Unzip
-                        <tt>jPBC-1.5.0.zip</tt>
-                        to the directory you wish to install jPBC 1.5.0. These instructions assume you chose
-                        <tt>/usr/local/jPBC-1.5.0</tt>
-                    </li>
-                    <li>Move to
-                        <tt>bin</tt>
-                        directory.
-                        <tt>&quot;/usr/local/jPBC-1.5.0/bin&quot;</tt>
-                    </li>
-                    <li>In the same dialog, make sure that
-                        <tt>JAVA_HOME</tt>
-                        is set to the location of your JDK, eg.
-                        <tt>/usr/lib/jvm/java-6-openjdk</tt>
-                    </li>
-                    <li>Run
-                        <tt>./jPBCset.sh</tt>
-                    </li>
                 </ol>
             </subsection>
 
@@ -186,116 +127,12 @@
 							<td/>
 						</tr>
 
-                        <tr valign="top">
-                            <td>jPBC</td>
-                            <td>1.4.2</td>
-                            <td>2008-04-29</td>
-                            <td>Stable</td>
-                            <td>
-                                <em>
-                                    <a href="http://sourceforge.net/project/showfiles.php?group_id=178005&amp;package_id=205132&amp;release_id=595738">
-                                        Download
-                                    </a>
-                                </em>
-                            </td>
-                        </tr>
-                        <tr valign="top">
-                            <td>jPBC</td>
-                            <td>1.4.1</td>
-                            <td>2008-02-04</td>
-                            <td>Stable</td>
-                            <td>
-                                <em>
-                                    <a href="https://sourceforge.net/project/showfiles.php?group_id=178005&amp;package_id=205132&amp;release_id=573868">
-                                        Download
-                                    </a>
-                                </em>
-                            </td>
-                        </tr>
-                        <tr valign="top">
-                            <td>jPBC</td>
-                            <td>1.4.0</td>
-                            <td>2008-01-03</td>
-                            <td>Stable</td>
-                            <td>
-                                <em>
-                                    <a href="http://sourceforge.net/project/showfiles.php?group_id=178005&amp;package_id=205132&amp;release_id=565678">
-                                        Download
-                                    </a>
-                                </em>
-                            </td>
-                        </tr>
-                        <tr valign="top">
-                            <td>jPBC</td>
-                            <td>1.3.1</td>
-                            <td>2007-09-29</td>
-                            <td>Stable</td>
-                            <td>
-                                <em>
-                                    <a href="https://sourceforge.net/project/showfiles.php?group_id=178005&amp;package_id=205132&amp;release_id=542979">
-                                        Download
-                                    </a>
-                                </em>
-                            </td>
-                        </tr>
-                        <tr valign="top">
-                            <td>jPBC</td>
-                            <td>1.3.0</td>
-                            <td>2007-06-16</td>
-                            <td>Stable</td>
-                            <td>
-                                <em>
-                                    <a href="http://sourceforge.net/project/showfiles.php?group_id=178005&amp;package_id=205132&amp;release_id=516573">
-                                        Download
-                                    </a>
-                                </em>
-                            </td>
-                        </tr>
-                        <tr valign="top">
-                            <td>jPBC</td>
-                            <td>1.2.0</td>
-                            <td>2007-04-07</td>
-                            <td>Stable</td>
-                            <td>
-                                <em>
-                                    <a href="http://sourceforge.net/project/showfiles.php?group_id=178005&amp;package_id=205132&amp;release_id=499269">
-                                        Download
-                                    </a>
-                                </em>
-                            </td>
-                        </tr>
-                        <tr valign="top">
-                            <td>jPBC</td>
-                            <td>1.1.0</td>
-                            <td>2007-01-08</td>
-                            <td>Stable</td>
-                            <td>
-                                <em>
-                                    <a href="http://sourceforge.net/project/showfiles.php?group_id=178005&amp;package_id=205132&amp;release_id=476784">
-                                        Download
-                                    </a>
-                                </em>
-                            </td>
-                        </tr>
-                        <tr valign="top">
-                            <td>jPBC</td>
-                            <td>1.0.0</td>
-                            <td>2006-11-07</td>
-                            <td>Stable</td>
-                            <td>
-                                <em>
-                                    <a href="http://sourceforge.net/project/showfiles.php?group_id=178005&amp;package_id=205132&amp;release_id=461605">
-                                        Download
-                                    </a>
-                                </em>
-                            </td>
-                        </tr>
 					</tbody>
 				</table>
 
 				<br/>
 				<strong>
-					<a href="http://prdownloads.sourceforge.net/jPBC/?sort_by=date&amp;sort=desc">Browse all jPBC
+					<a href="http://prdownloads.sourceforge.net/jpbc/?sort_by=date&amp;sort=desc">Browse all jPBC
 						downloads
 					</a>
 				</strong>
