@@ -22,4 +22,11 @@ public abstract class GenericField<E extends Element> implements Field<E> {
         return e;
     }
 
+    public E newRandomElement() {
+        E e = newElement();
+        e.setToRandom();
+
+        return e;
+    }
+
 }

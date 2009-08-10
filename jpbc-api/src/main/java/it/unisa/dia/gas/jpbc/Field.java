@@ -31,6 +31,13 @@ public interface Field<E extends Element> {
     E newOneElement();
 
     /**
+     * Returns a new random element.
+     *
+     * @return a new random element.
+     */
+    E newRandomElement();
+    
+    /**
      * Returns the order of this field.
      *
      * @return the order of this field. Returns 0 for infinite order.
