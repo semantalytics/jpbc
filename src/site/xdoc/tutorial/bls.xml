@@ -1,0 +1,106 @@
+<!DOCTYPE document PUBLIC
+        "-//Apache Software Foundation//DTD XDOC 1.0//EN"
+        "http://maven.apache.org/dtd/xdoc_1_0.dtd">
+<document>
+    <properties>
+        <title>jPBC : Tutorial</title>
+        <author email="decaro@dia.unisa.it">Angelo De Caro</author>
+    </properties>
+
+    <body>
+        <section name="Tutorial - BLS">
+
+            <p>This chapter walks through how one might implement the Boneh-Lynn-Shacham (BLS) signature scheme using
+                the PBC library.
+            </p>
+
+
+
+            <subsection name="Scenario">
+                <p>Alice wishes to sign a message. She generates her public and
+                    private keys as follows. Her private key is a random element
+                    <span class="emphasis">
+                        <em>x</em>
+                    </span>
+                    of
+                    <span class=
+                            "emphasis">
+                        <em>Zr</em>
+                    </span>
+                    , and her corresponding public key
+                    is
+                    <span class="emphasis">
+                        <em>g</em>
+                    </span>
+                    <sup>
+                        <span class=
+                                "emphasis">
+                            <em>x</em>
+                        </span>
+                    </sup>
+                    .
+                </p>
+
+                <p>To sign a message, Alice hashes the message to some element
+                    <span class="emphasis">
+                        <em>h</em>
+                    </span>
+                    of
+                    <span class="emphasis">
+                        <em>G1</em>
+                    </span>
+                    , and then outputs the signature
+                    <span class="emphasis">
+                        <em>h</em>
+                    </span>
+                    <sup>
+                        <span class="emphasis">
+                            <em>x</em>
+                        </span>
+                    </sup>
+                    .
+                </p>
+
+                <p>To verify a signature σ, Bob checks that
+                    <span class=
+                            "emphasis">
+                        <em>e</em>
+                    </span>
+                    (
+                    <span class=
+                            "emphasis">
+                        <em>h</em>
+                    </span>
+                    ,
+                    <span class=
+                            "emphasis">
+                        <em>g</em>
+                    </span>
+                    <sup>
+                        <span class=
+                                "emphasis">
+                            <em>x</em>
+                        </span>
+                    </sup>
+                    ) =
+                    <span class=
+                            "emphasis">
+                        <em>e</em>
+                    </span>
+                    (σ,
+                    <span class=
+                            "emphasis">
+                        <em>g</em>
+                    </span>
+                    ).
+                </p>
+
+            </subsection>
+
+            <subsection name="Use jPBC">
+
+            </subsection>
+
+        </section>
+    </body>
+</document>

@@ -9,6 +9,57 @@
 
     <body>
         <section name="Tutorial">
+
+            <p>We have three groups
+                <span class=
+                        "emphasis">
+                    <em>G1</em>
+                </span>
+                ,
+                <span class=
+                        "emphasis">
+                    <em>G2</em>
+                </span>
+                ,
+                <span class=
+                        "emphasis">
+                    <em>GT</em>
+                </span>
+                of prime order
+                <span class=
+                        "emphasis">
+                    <em>r</em>
+                </span>
+                , and a bilinear map
+                <span class=
+                        "emphasis">
+                    <em>e</em>
+                </span>
+                that takes an element from
+                <span class="emphasis">
+                    <em>G1</em>
+                </span>
+                and an element from
+                <span class="emphasis">
+                    <em>G2</em>
+                </span>
+                , and outputs an
+                element of
+                <span class="emphasis">
+                    <em>GT</em>
+                </span>
+                . We publish these along with the system parameter
+                <span class=
+                        "emphasis">
+                    <em>g</em>
+                </span>
+                , which is a randomly chosen element of
+                <span class="emphasis">
+                    <em>G2</em>
+                </span>
+                .
+            </p>
+            
         </section>
     </body>
 </document>
