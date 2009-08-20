@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing.d;
 
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.PairingPreProcessing;
 import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.jpbc.Polynomial;
 import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveField;
@@ -69,69 +70,9 @@ public class TypeDMillerNoDenomAffinePairingMap extends AbstractMillerPairingMap
         element.set(tatePow(element));
     }
 
-
-    public void initPairingPreProcessing(Point in1) {
-        Point P = in1;
-        Element Px = P.getX();
-        Element Py = P.getY();
-
-        Point Z = (Point) P.duplicate();
-        Element Zx = Z.getX();
-        Element Zy = Z.getY();
-
-        Element a = pairing.Fq.newElement();
-        Element b = pairing.Fq.newElement();
-        Element c = pairing.Fq.newElement();
-        Element curveA = ((CurveField) P.getField()).getA();
-        Element temp = pairing.Fq.newElement();
-
-        int m = pairing.r.bitLength() - 2;
-        processingInfo = new MillerPreProcessingInfo();
-        processingInfo.coeff = new Element[2 * m][3];
-
-        for (; m > 0; m--) {
-            computeTangent(processingInfo, a, b, c, Zx, Zy, curveA, temp);
-            Z.twice();
-
-            if (pairing.r.testBit(m)) {
-                computeLine(processingInfo, a, b, c, Zx, Zy, Px, Py, temp);
-                Z.add(P);
-            }
-        }
-        computeTangent(processingInfo, a, b, c, Zx, Zy, curveA, temp);
+    public PairingPreProcessing pairingPreProcessing(Point in1) {
+        return new TypeDMillerNoDenomAffinePairingPreProcessing(in1);
     }
-
-    public Element pairing(Point in2) {
-        // map from twist: (x, y) --> (v^-1 x, v^-(3/2) y)
-        // where v is the quadratic non-residue used to construct the twist
-        Polynomial Qx = (Polynomial) in2.getX().duplicate().mul(pairing.nqrInverse);
-        // v^-3/2 = v^-2 * v^1/2
-        Polynomial Qy = (Polynomial) in2.getY().duplicate().mul(pairing.nqrInverseSquare);
-
-        Point<Polynomial> f0 = pairing.Fqk.newElement();
-        Element out = pairing.Fqk.newOneElement();
-        int row = 0;
-
-        for (int m =  pairing.r.bitLength() - 2; m > 0; m--) {
-            millerStep(f0, processingInfo.coeff[row][0], processingInfo.coeff[row][1], processingInfo.coeff[row][2], Qx, Qy);
-            out.mul(f0);
-            row++;
-
-            if (pairing.r.testBit(m)) {
-                millerStep(f0, processingInfo.coeff[row][0], processingInfo.coeff[row][1], processingInfo.coeff[row][2], Qx, Qy);
-                out.mul(f0);
-                row++;
-            }
-
-            out.square();
-        }
-        millerStep(f0, processingInfo.coeff[row][0], processingInfo.coeff[row][1], processingInfo.coeff[row][2], Qx, Qy);
-        out.mul(f0);
-
-        return new GTFiniteElement(this, (GTFiniteField) pairing.getGT(), tatePow(out));
-    }
-
-
 
 
     public Element tatePow(Element element) {
@@ -205,29 +146,6 @@ public class TypeDMillerNoDenomAffinePairingMap extends AbstractMillerPairingMap
         */
     }
 
-
-    @Override
-    protected void millerStep(Point<Polynomial> out, Element a, Element b, Element c, Polynomial Qx, Polynomial Qy) {
-        // a, b, c are in Fq
-        // point Q is (Qx, Qy * sqrt(nqr)) where nqr is used to construct
-        // the quadratic field extension Fqk of Fqd
-
-        Polynomial rePart = out.getX();
-        Polynomial imPart = out.getY();
-
-        int i;
-        //int d = rePart.getField().getN();
-        int d = rePart.getDegree();
-        for (i = 0; i < d; i++) {
-            rePart.getCoefficient(i).set(Qx.getCoefficient(i)).mul(a);
-            imPart.getCoefficient(i).set(Qy.getCoefficient(i)).mul(b);
-        }
-
-        rePart.getCoefficient(0).add(c);
-    }
-
-
-    //see thesis
     final void qPower(int sign, PolyModElement e2, Element e0re, Element e0im, Element e0re0, Element e0im0, List<Element> inre, List<Element> inim) {
         e2.set(pairing.xpowq).polymodConstMul(inre.get(1));
         e0re.set(e2);
@@ -250,6 +168,101 @@ public class TypeDMillerNoDenomAffinePairingMap extends AbstractMillerPairingMap
         }
     }
 
+
+    protected void millerStep(Point<Polynomial> out, Element a, Element b, Element c, Polynomial Qx, Polynomial Qy) {
+        // a, b, c are in Fq
+        // point Q is (Qx, Qy * sqrt(nqr)) where nqr is used to construct
+        // the quadratic field extension Fqk of Fqd
+
+        Polynomial rePart = out.getX();
+        Polynomial imPart = out.getY();
+
+        int i;
+        //int d = rePart.getField().getN();
+        int d = rePart.getDegree();
+        for (i = 0; i < d; i++) {
+            rePart.getCoefficient(i).set(Qx.getCoefficient(i)).mul(a);
+            imPart.getCoefficient(i).set(Qy.getCoefficient(i)).mul(b);
+        }
+
+        rePart.getCoefficient(0).add(c);
+    }
+
+
+    public class TypeDMillerNoDenomAffinePairingPreProcessing implements PairingPreProcessing {
+        protected Point in1;
+        protected MillerPreProcessingInfo processingInfo;
+
+
+        public TypeDMillerNoDenomAffinePairingPreProcessing(Point in1) {
+            this.in1 = in1;
+
+            Point P = in1;
+            Element Px = P.getX();
+            Element Py = P.getY();
+
+            Point Z = (Point) P.duplicate();
+            Element Zx = Z.getX();
+            Element Zy = Z.getY();
+
+            Element a = pairing.Fq.newElement();
+            Element b = pairing.Fq.newElement();
+            Element c = pairing.Fq.newElement();
+            Element curveA = ((CurveField) P.getField()).getA();
+            Element temp = pairing.Fq.newElement();
+
+            int m = pairing.r.bitLength() - 2;
+            processingInfo = new MillerPreProcessingInfo();
+            processingInfo.coeff = new Element[2 * m][3];
+
+            for (; m > 0; m--) {
+                computeTangent(processingInfo, a, b, c, Zx, Zy, curveA, temp);
+                Z.twice();
+
+                if (pairing.r.testBit(m)) {
+                    computeLine(processingInfo, a, b, c, Zx, Zy, Px, Py, temp);
+                    Z.add(P);
+                }
+            }
+            computeTangent(processingInfo, a, b, c, Zx, Zy, curveA, temp);
+        }
+
+        public Element pairing(Element in2) {
+            Point pointIn2 = (Point) in2;
+
+            // map from twist: (x, y) --> (v^-1 x, v^-(3/2) y)
+            // where v is the quadratic non-residue used to construct the twist
+            Polynomial Qx = (Polynomial) pointIn2.getX().duplicate().mul(pairing.nqrInverse);
+            // v^-3/2 = v^-2 * v^1/2
+            Polynomial Qy = (Polynomial) pointIn2.getY().duplicate().mul(pairing.nqrInverseSquare);
+
+            Point<Polynomial> f0 = pairing.Fqk.newElement();
+            Element out = pairing.Fqk.newOneElement();
+            int row = 0;
+
+            for (int m =  pairing.r.bitLength() - 2; m > 0; m--) {
+                millerStep(f0, processingInfo.coeff[row][0], processingInfo.coeff[row][1], processingInfo.coeff[row][2], Qx, Qy);
+                out.mul(f0);
+                row++;
+
+                if (pairing.r.testBit(m)) {
+                    millerStep(f0, processingInfo.coeff[row][0], processingInfo.coeff[row][1], processingInfo.coeff[row][2], Qx, Qy);
+                    out.mul(f0);
+                    row++;
+                }
+
+                out.square();
+            }
+            millerStep(f0, processingInfo.coeff[row][0], processingInfo.coeff[row][1], processingInfo.coeff[row][2], Qx, Qy);
+            out.mul(f0);
+
+            return new GTFiniteElement(
+                    TypeDMillerNoDenomAffinePairingMap.this,
+                    (GTFiniteField) pairing.getGT(),
+                    tatePow(out)
+            );
+        }
+    }
 
 
 }

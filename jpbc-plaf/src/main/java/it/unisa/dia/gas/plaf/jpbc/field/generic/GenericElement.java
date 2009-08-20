@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.field.generic;
 
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
 import it.unisa.dia.gas.jpbc.Field;
 
 import java.math.BigInteger;
@@ -12,7 +13,6 @@ import java.util.List;
  */
 public abstract class GenericElement implements Element {
     protected Field field;
-    protected GenericPowPreProcessing powPreProcessing; // TODO: complete importing when duplicating...plus GT specific preprocessing
 
 
     public GenericElement(Field field) {
@@ -49,6 +49,10 @@ public abstract class GenericElement implements Element {
 
     public Element powZn(Element n) {
         return pow(n.toBigInteger());
+    }
+
+    public ElementPowPreProcessing pow() {
+        return new GenericElementPowPreProcessing(this, 5);
     }
 
     public Element halve() {
@@ -119,49 +123,6 @@ public abstract class GenericElement implements Element {
         throw new IllegalStateException("Not implemented yet!!!");
     }
 
-
-    public void initPowPreProcessing() {
-        powPreProcessing = getPowPreProcessing(field.getOrder().bitLength(), 5);
-    }
-
-    public Element powPreProcessing(BigInteger n) {
-        if (powPreProcessing == null)
-            throw new IllegalStateException("You must call setPowPreProcessing before this.");
-
-        element_pow_base_table(n, powPreProcessing);
-
-        return this;
-    }
-
-    public Element powZnPreProcessing(Element n) {
-        return powPreProcessing(n.toBigInteger());
-    }
-
-
-    public void element_pow_base_table(BigInteger n, GenericPowPreProcessing base_table) {
-        /* early abort if raising to power 0 */
-        if (n.signum() == 0) {
-            setToOne();
-            return;
-        }
-
-        Element result = field.newOneElement();
-        int numLookups = n.bitLength() / base_table.k + 1;
-
-        for (int row = 0; row < numLookups; row++) {
-            int word = 0;
-            for (int s = 0; s < base_table.k; s++) {
-                word |= (n.testBit(base_table.k * row + s) ? 1 : 0) << s;
-            }
-
-            if (word > 0) {
-                result.mul(base_table.table[row][word]);
-            }
-
-        }
-
-        set(result);
-    }
 
 
     protected int optimalPowWindowSize(BigInteger n) {
@@ -257,45 +218,6 @@ public abstract class GenericElement implements Element {
         }
 
         set(result);
-    }
-
-    /**
-     * build k-bit base table for n-bit exponentiation w/ base a
-     *
-     * @param bits
-     * @param k
-     * @return
-     */
-    protected GenericPowPreProcessing getPowPreProcessing(int bits, int k) {
-        int lookup_size = 1 << k;
-
-        GenericPowPreProcessing base_table = new GenericPowPreProcessing();
-        base_table.numLookups = bits / k + 1;
-        base_table.k = k;
-        base_table.bits = bits;
-        base_table.table = new Element[base_table.numLookups][lookup_size];
-
-        Element multiplier = duplicate();
-
-        for (int i = 0; i < base_table.numLookups; i++) {
-
-            base_table.table[i][0] = field.newOneElement();
-
-            for (int j = 1; j < lookup_size; j++) {
-                base_table.table[i][j] = multiplier.duplicate().mul(base_table.table[i][j - 1]);
-            }
-            multiplier.mul(base_table.table[i][lookup_size - 1]);
-        }
-
-        return base_table;
-    }
-
-
-    public class GenericPowPreProcessing implements PreProcessing {
-        int k;
-        int bits;
-        int numLookups;
-        Element table[][];
     }
 
 }

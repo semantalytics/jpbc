@@ -1,9 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.pbc;
 
-import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.jpbc.Point;
+import it.unisa.dia.gas.jpbc.*;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pbc.field.PBCG1Field;
 import it.unisa.dia.gas.plaf.jpbc.pbc.field.PBCG2Field;
@@ -19,7 +16,6 @@ import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCPairingType;
 public class PBCPairing implements Pairing {
 
     protected PBCPairingType pairing;
-    protected PBCPairingPPType pairingPPType;
 
     protected PBCG1Field g1Field;
     protected PBCG2Field g2Field;
@@ -67,22 +63,9 @@ public class PBCPairing implements Pairing {
         return out;
     }
 
-    public void initPairingPreProcessing(Element g1) {
-        if (pairingPPType == null)
-            pairingPPType = new PBCPairingPPType();
-
-        PBCLibraryProvider.getPbcLibrary().pbc_pairing_pp_init(pairingPPType, ((PBCElement) g1).value, pairing);
+    public PairingPreProcessing pairing(Element g1) {
+        return new PBCPairingPreProcessing(g1);
     }
-
-    public Element pairing(Element g2) {
-        if (pairingPPType == null)
-            throw new IllegalStateException("Call initPairingPreProcessing before this.");
-
-        PBCElement out = (PBCElement) gTField.newElement();
-        PBCLibraryProvider.getPbcLibrary().pbc_pairing_pp_apply(out.value, ((PBCElement) g2).value, pairingPPType);
-        return out;
-    }
-
 
     @Override
     protected void finalize() throws Throwable {
@@ -99,5 +82,23 @@ public class PBCPairing implements Pairing {
         g2Field = new PBCG2Field(pairing);
         gTField = new PBCGTField(pairing);
         zRField = new PBCZrField(pairing);
+    }
+
+
+    public class PBCPairingPreProcessing implements PairingPreProcessing {
+        protected PBCPairingPPType pairingPPType;
+
+
+        public PBCPairingPreProcessing(Element g1) {
+            pairingPPType = new PBCPairingPPType(((PBCElement) g1).value, pairing);
+        }
+
+
+        public Element pairing(Element in2) {
+            PBCElement out = (PBCElement) gTField.newElement();
+            PBCLibraryProvider.getPbcLibrary().pbc_pairing_pp_apply(out.value, ((PBCElement) in2).value, pairingPPType);
+
+            return out;
+        }
     }
 }

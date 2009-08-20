@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing.a;
 
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.PairingPreProcessing;
 import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteElement;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteField;
@@ -14,12 +15,12 @@ import java.math.BigInteger;
  */
 public class TypeAMillerAffinePairingMap extends AbstractMillerPairingMap {
     protected TypeAPairing pairing;
-    protected MillerPreProcessingInfo processingInfo;
 
 
     public TypeAMillerAffinePairingMap(TypeAPairing pairing) {
         this.pairing = pairing;
     }
+
 
     /**
      * in1, in2 are from E(F_q), out from F_q^2
@@ -105,87 +106,9 @@ public class TypeAMillerAffinePairingMap extends AbstractMillerPairingMap {
         element.set(t0);
     }
 
-
-    public void initPairingPreProcessing(Point in1) {
-        int i, n;
-
-        processingInfo = new MillerPreProcessingInfo();
-        processingInfo.coeff = new Element[pairing.exp2 + 1][3];
-
-        Point V = (Point) in1.duplicate();
-        Point V1 = pairing.Eq.newElement();
-
-        Element Vx = V.getX();
-        Element Vy = V.getY();
-
-        Element V1x = V1.getX();
-        Element V1y = V1.getY();
-
-        Element a = pairing.Fq.newElement();
-        Element b = pairing.Fq.newElement();
-        Element c = pairing.Fq.newElement();
-        Element curveA = pairing.Fq.newOneElement();
-        Element temp = pairing.Fq.newElement();
-
-        n = pairing.exp1;
-        for (i = 0; i < n; i++) {
-            computeTangent(processingInfo, a, b, c, Vx, Vy, curveA, temp);
-            V.twice();
-        }
-
-        if (pairing.sign1 < 0) {
-            V1.set(V).negate();
-        } else {
-            V1.set(V);
-        }
-
-        n = pairing.exp2;
-        for (; i < n; i++) {
-            computeTangent(processingInfo, a, b, c, Vx, Vy, curveA, temp);
-            V.twice();
-        }
-
-        computeLine(processingInfo, a, b, c, Vx, Vy, V1x, V1y, temp);
+    public PairingPreProcessing pairingPreProcessing(Point in1) {
+        return new TypeAMillerAffinePairingPreProcessing(in1);
     }
-
-    public Element pairing(Point in2) {
-        //TODO: use proj coords here too to shave off a little time
-        Element Qx = in2.getX();
-        Element Qy = in2.getY();
-        int i, n;
-        Point f0 = pairing.Fq2.newElement();
-        Point f = pairing.Fq2.newOneElement();
-        Point out = pairing.Fq2.newElement();
-
-        n = pairing.exp1;
-        for (i = 0; i < n; i++) {
-            f.square();
-            millerStep(f0, processingInfo.coeff[i][0], processingInfo.coeff[i][1], processingInfo.coeff[i][2], Qx, Qy);
-            f.mul(f0);
-        }
-        if (pairing.sign1 < 0) {
-            out.set(f).invert();
-        } else {
-            out.set(f);
-        }
-        n = pairing.exp2;
-        for (; i < n; i++) {
-            f.square();
-
-            millerStep(f0, processingInfo.coeff[i][0], processingInfo.coeff[i][1], processingInfo.coeff[i][2], Qx, Qy);
-
-            f.mul(f0);
-        }
-
-        f.mul(out);
-        millerStep(f0, processingInfo.coeff[i][0], processingInfo.coeff[i][1], processingInfo.coeff[i][2], Qx, Qy);
-        f.mul(f0);
-
-        tatePow(out, f, f0, pairing.phikonr);
-
-        return new GTFiniteElement(this, (GTFiniteField) pairing.getGT(), out);
-    }
-
 
 
     public Element tatePow(Element element) {
@@ -224,7 +147,6 @@ public class TypeAMillerAffinePairingMap extends AbstractMillerPairingMap {
         lucasOdd(out, in, temp, cofactor);
     }
     
-    @Override
     protected void millerStep(Point out, Element a, Element b, Element c, Element Qx, Element Qy) {
         // we will map Q via (x,y) --> (-x, iy)
         // hence:
@@ -239,6 +161,97 @@ public class TypeAMillerAffinePairingMap extends AbstractMillerPairingMap {
     }
 
 
+    public class TypeAMillerAffinePairingPreProcessing implements PairingPreProcessing {
+        protected Point in1;
+        protected MillerPreProcessingInfo processingInfo;
 
 
+        public TypeAMillerAffinePairingPreProcessing(Point in1) {
+            this.in1 = in1;
+
+            int i, n;
+
+            processingInfo = new MillerPreProcessingInfo();
+            processingInfo.coeff = new Element[pairing.exp2 + 1][3];
+
+            Point V = (Point) in1.duplicate();
+            Point V1 = pairing.Eq.newElement();
+
+            Element Vx = V.getX();
+            Element Vy = V.getY();
+
+            Element V1x = V1.getX();
+            Element V1y = V1.getY();
+
+            Element a = pairing.Fq.newElement();
+            Element b = pairing.Fq.newElement();
+            Element c = pairing.Fq.newElement();
+            Element curveA = pairing.Fq.newOneElement();
+            Element temp = pairing.Fq.newElement();
+
+            n = pairing.exp1;
+            for (i = 0; i < n; i++) {
+                computeTangent(processingInfo, a, b, c, Vx, Vy, curveA, temp);
+                V.twice();
+            }
+
+            if (pairing.sign1 < 0) {
+                V1.set(V).negate();
+            } else {
+                V1.set(V);
+            }
+
+            n = pairing.exp2;
+            for (; i < n; i++) {
+                computeTangent(processingInfo, a, b, c, Vx, Vy, curveA, temp);
+                V.twice();
+            }
+
+            computeLine(processingInfo, a, b, c, Vx, Vy, V1x, V1y, temp);
+        }
+
+        public Element pairing(Element in2) {
+            //TODO: use proj coords here too to shave off a little time
+            Point pointIn2 = (Point) in2;
+
+            Element Qx = pointIn2.getX();
+            Element Qy = pointIn2.getY();
+            int i, n;
+            Point f0 = pairing.Fq2.newElement();
+            Point f = pairing.Fq2.newOneElement();
+            Point out = pairing.Fq2.newElement();
+
+            n = pairing.exp1;
+            for (i = 0; i < n; i++) {
+                f.square();
+                millerStep(f0, processingInfo.coeff[i][0], processingInfo.coeff[i][1], processingInfo.coeff[i][2], Qx, Qy);
+                f.mul(f0);
+            }
+            if (pairing.sign1 < 0) {
+                out.set(f).invert();
+            } else {
+                out.set(f);
+            }
+            n = pairing.exp2;
+            for (; i < n; i++) {
+                f.square();
+
+                millerStep(f0, processingInfo.coeff[i][0], processingInfo.coeff[i][1], processingInfo.coeff[i][2], Qx, Qy);
+
+                f.mul(f0);
+            }
+
+            f.mul(out);
+            millerStep(f0, processingInfo.coeff[i][0], processingInfo.coeff[i][1], processingInfo.coeff[i][2], Qx, Qy);
+            f.mul(f0);
+
+            tatePow(out, f, f0, pairing.phikonr);
+
+            return new GTFiniteElement(
+                    TypeAMillerAffinePairingMap.this,
+                    (GTFiniteField) pairing.getGT(),
+                    out
+            );
+        }
+    }
 }

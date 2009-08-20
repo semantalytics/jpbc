@@ -41,7 +41,6 @@ public class NaiveElement extends GenericElement {
         this.value = naiveElement.value;
         this.order = naiveElement.field.getOrder();
         this.oddOrder = BigIntegerUtils.isOdd(order);
-        this.powPreProcessing = naiveElement.powPreProcessing;
     }
 
     public NaiveElement duplicate() {

@@ -1,9 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing;
 
-import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.jpbc.Point;
+import it.unisa.dia.gas.jpbc.*;
 import it.unisa.dia.gas.plaf.jpbc.pairing.map.PairingMap;
 
 /**
@@ -49,21 +46,12 @@ public abstract class AbstractPairing implements Pairing {
         return pairingMap.pairing((Point) g1, (Point) g2);
     }
 
-    public void initPairingPreProcessing(Element g1) {
+    public PairingPreProcessing pairing(Element g1) {
         if (!G1.equals(g1.getField()))
             throw new IllegalArgumentException("pairing 1st input mismatch");
 
-        pairingMap.initPairingPreProcessing((Point) g1);
+        return pairingMap.pairingPreProcessing((Point) g1);
     }
-
-    public Element pairing(Element g2) {
-        if (!G2.equals(g2.getField()))
-            throw new IllegalArgumentException("pairing 2nd input mismatch");
-
-        return pairingMap.pairing((Point) g2);
-    }
-
-
 
     
     public PairingMap getPairingMap() {

@@ -2,6 +2,7 @@ package it.unisa.dia.gas.jpbc.benchmark;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
+import it.unisa.dia.gas.jpbc.PairingPreProcessing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
@@ -37,11 +38,11 @@ public class PairingBenchmark {
 
         for (int i = 0; i < times; i++) {
             Element g = pairing.getG1().newElement().setToRandom();
-            pairing.initPairingPreProcessing(g);
+            PairingPreProcessing ppp = pairing.pairing(g);
             Element h = pairing.getG2().newElement().setToRandom();
 
             long start = System.currentTimeMillis();
-            Element r1 = pairing.pairing(h);
+            Element r1 = ppp.pairing(h);
             long end = System.currentTimeMillis();
             t1 += (end - start);
 

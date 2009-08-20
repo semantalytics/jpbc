@@ -73,7 +73,7 @@ public class TypeA1MillerAffinePairingMap extends AbstractMillerPairingMap<Eleme
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
-    @Override
+
     protected void millerStep(Point out, Element a, Element b, Element c, Element Qx, Element Qy) {
         // we will map Q via (x,y) --> (-x, iy)
         // hence:

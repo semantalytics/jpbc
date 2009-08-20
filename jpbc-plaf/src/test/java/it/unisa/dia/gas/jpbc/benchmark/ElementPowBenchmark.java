@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.jpbc.benchmark;
 
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
@@ -41,11 +42,11 @@ public class ElementPowBenchmark {
         for (int i = 0; i < times; i++) {
             Element e1 = pairing.getZr().newElement().setToRandom();
             Element e2 = e1.duplicate();
-            e1.initPowPreProcessing();
+            ElementPowPreProcessing ppp = e1.pow();
             BigInteger n = pairing.getZr().newElement().setToRandom().toBigInteger();
 
             long start = System.currentTimeMillis();
-            e1.duplicate().powPreProcessing(n);
+            ppp.pow(n);
             long end = System.currentTimeMillis();
             t1 += (end - start);
 
@@ -71,11 +72,11 @@ public class ElementPowBenchmark {
         for (int i = 0; i < times; i++) {
             Element e1 = pairing.getZr().newElement().setToRandom();
             Element e2 = e1.duplicate();
-            e1.initPowPreProcessing();
+            ElementPowPreProcessing ppp = e1.pow();
             Element n = pairing.getZr().newElement().setToRandom();
 
             long start = System.currentTimeMillis();
-            e1.duplicate().powZnPreProcessing(n);
+            ppp.powZn(n);
             long end = System.currentTimeMillis();
             t1 += (end - start);
 

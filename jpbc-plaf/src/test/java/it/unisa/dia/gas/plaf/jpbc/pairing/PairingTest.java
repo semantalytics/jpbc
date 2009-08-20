@@ -2,6 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.pairing;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
+import it.unisa.dia.gas.jpbc.PairingPreProcessing;
 import junit.framework.TestCase;
 
 /**
@@ -68,8 +69,8 @@ public abstract class PairingTest extends TestCase {
 
         x1 = pairing.pairing(g, h);
 
-        pairing.initPairingPreProcessing(g);
-        x2 = pairing.pairing(h);
+        PairingPreProcessing ppp = pairing.pairing(g);
+        x2 = ppp.pairing(h);
         
         assertEquals(0, x1.compareTo(x2));
     }

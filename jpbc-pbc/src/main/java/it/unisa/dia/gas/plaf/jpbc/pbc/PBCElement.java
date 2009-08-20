@@ -3,6 +3,7 @@ package it.unisa.dia.gas.plaf.jpbc.pbc;
 import com.sun.jna.Memory;
 import com.sun.jna.Pointer;
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.MPZElementType;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCElementPPType;
@@ -237,27 +238,8 @@ public class PBCElement implements Element {
         return PBCLibraryProvider.getPbcLibrary().pbc_element_cmp(value, ((PBCElement) o).value);
     }
 
-    public void initPowPreProcessing() {
-        elementPPType = new PBCElementPPType();
-        PBCLibraryProvider.getPbcLibrary().pbc_element_pp_init(elementPPType, value);
-    }
-
-    public Element powPreProcessing(BigInteger n) {
-        if (elementPPType == null)
-            throw new IllegalStateException("Call initPowPreProcessing before this.");
-
-        PBCLibraryProvider.getPbcLibrary().pbc_element_pp_pow(value, MPZElementType.fromBigInteger(n), elementPPType);
-
-        return this;
-    }
-
-    public Element powZnPreProcessing(Element n) {
-        if (elementPPType == null)
-            throw new IllegalStateException("Call initPowPreProcessing before this.");
-
-        PBCLibraryProvider.getPbcLibrary().pbc_element_pp_pow_zn(value, ((PBCElement) n).value, elementPPType);
-
-        return this;
+    public ElementPowPreProcessing pow() {
+        return new PBCElementPowPreProcessing(field, value);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.field;
 
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
@@ -22,10 +23,10 @@ public class PowPreProcessingTest extends TestCase {
 
         Element e1 = pairing.getZr().newElement().setToRandom();
         Element e2 = e1.duplicate();
-        e1.initPowPreProcessing();
+        ElementPowPreProcessing ppp = e1.pow();
         BigInteger n = pairing.getZr().newElement().setToRandom().toBigInteger();
 
-        Element r1 = e1.duplicate().powPreProcessing(n);
+        Element r1 = ppp.pow(n);
         Element r2 = e2.duplicate().pow(n);
 
         assertEquals(0, r1.compareTo(r2));
@@ -37,10 +38,10 @@ public class PowPreProcessingTest extends TestCase {
 
         Element e1 = pairing.getZr().newElement().setToRandom();
         Element e2 = e1.duplicate();
-        e1.initPowPreProcessing();
+        ElementPowPreProcessing ppp = e1.pow();
         Element n = pairing.getZr().newElement().setToRandom();
 
-        Element r1 = e1.duplicate().powZnPreProcessing(n);
+        Element r1 = ppp.powZn(n);
         Element r2 = e2.duplicate().powZn(n);
 
         assertEquals(0, r1.compareTo(r2));
