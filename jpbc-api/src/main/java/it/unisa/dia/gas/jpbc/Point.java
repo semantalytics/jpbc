@@ -1,7 +1,7 @@
 package it.unisa.dia.gas.jpbc;
 
 /**
- * This interface represents an element with two coordinates.
+ * This interface represents an element with two coordinates. (A point over an elliptic curve).
  *
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */

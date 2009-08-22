@@ -1,0 +1,143 @@
+<!DOCTYPE document PUBLIC
+        "-//Apache Software Foundation//DTD XDOC 1.0//EN"
+        "http://maven.apache.org/dtd/xdoc_1_0.dtd">
+<document>
+    <properties>
+        <title>jPBC : Tutorial - Element Functions</title>
+        <author email="decaro@dia.unisa.it">Angelo De Caro</author>
+    </properties>
+
+    <body>
+        <section name="Element Functions">
+            <p>
+                Elements of groups, rings and fields are accessible using the
+                Element
+                interface.
+            </p>
+
+            <a name="initializing"/>
+            <subsection name="Initializing Elements">
+                <p>
+                    You can obtain an instance of an Element starting from an algebraic structure, such as a particular
+                    finite field or elliptic curve group, represented by the
+                    Field
+                    interface.
+
+                    <br/>
+
+                    We use G1 and G2 to denote the input groups to the pairing, and GT for the output group. All have
+                    order r, and Zr means the ring of integers modulo r. G1 is the smaller group (the group of points
+                    over the base field). With symmetric pairings, G1 = G2.
+                </p>
+            </subsection>
+
+            <a name="assigning"/>
+            <subsection name="Assigning elements">
+                <p>
+                    The following functions can be used to assign values to elements. When integers are assigned,
+                    they are mapped to algebraic structures canonically if it makes sense (e.g. rings and fields).
+                </p>
+
+                <source>
+                    /* Sets an element to zero. */
+                    element.setToZero();
+                </source>
+
+                <source>
+                    /* Sets an element to one. */
+                    element.setToOne();
+                </source>
+
+                <source>
+                    /* If the element lies in a finite algebraic structure, assigns a uniformly random element to it. */
+                    element.setToRandom();
+                </source>
+
+                <source>
+                    /* Sets the element to an int. */
+                    element.set(5);
+                </source>
+
+                <source>
+                    /* Sets the element to an BigInteger. */
+                    element.set(new BigInteger("126785438"));
+                </source>
+
+                <source>
+                    /* Sets the element to an another element. * /
+                    Element e = element.getField().newElement().set(5);
+                    element.set(e);
+                </source>
+            </subsection>
+
+            <a name="arithmetic"/>
+            <subsection name="Element arithmetic">
+                When one of these functions expects its arguments to be from particular algebraic structures, this is
+                reflected in the name of the function.
+
+                <br/>
+                The addition and multiplication functions perform addition and multiplication operations in rings and
+                fields. For groups of points on an elliptic curve, such as the G1 and G2 groups associated with
+                pairings, both addition and multiplication represent the group operation (and similarly both
+                <code>0</code>
+                and
+                <code>1</code>
+                represent the identity element).
+
+                In contrast, the GT group is currently implemented as a subgroup of a finite field, so only
+                multiplicative operations should be used for GT.
+
+                <source>
+                    /* Adds an element to another one. */
+                    Element a = element.getField().newElement().set(5);
+                    element.add(a);
+                </source>
+
+                <source>
+                    /* Substracts an element to another one.*//
+                    Element a = element.getField().newElement().set(5);
+                    element.sub(a);
+                </source>
+
+                <source>
+                    /* Multiplies an element to another one. */
+                    Element a = element.getField().newElement().set(5);
+                    element.mul(a);
+                </source>
+
+                <source>
+                    /* Multiplies an element to an int. */
+                    element.mul(5);
+                </source>
+
+                <source>
+                    /* Multiplies an element to an BigInteger. */
+                    element.mul(new BigInteger("5"));
+                </source>
+
+                <source>
+                    /* Multiplies an element to an z which must be an element of a integer mod ring (i.e. Zn for some
+                    n). *(
+                    Element z = pairing.getZr().newRandomElement();
+                    element.mulZn(z);
+                </source>
+            </subsection>
+
+
+            <a name="exponentiating"/>
+            <subsection name="Exponentiating Elements">
+                
+            </subsection>
+            
+            <a name="comparing"/>
+            <subsection name="Comparing Elements">
+                
+            </subsection>
+
+            <a name="io"/>
+            <subsection name="Import/Export Elements">
+
+            </subsection>
+        </section>
+    </body>
+</document>

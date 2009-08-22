@@ -38,7 +38,7 @@ public class NaiveField extends GenericField<NaiveElement> {
         return nqr.duplicate();
     }
 
-    public int getFixedLengthInBytes() {
+    public int getLengthInBytes() {
         return fixedLengthInBytes;
     }
 }

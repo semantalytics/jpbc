@@ -17,11 +17,11 @@ public class QuadraticField<F extends Field, E extends QuadraticElement> extends
 
         this.order = targetField.getOrder().multiply(targetField.getOrder());
 
-        if (targetField.getFixedLengthInBytes() < 0) {
+        if (targetField.getLengthInBytes() < 0) {
             //f->length_in_bytes = fq_length_in_bytes;
             fixedLengthInBytes = -1;
         } else {
-            fixedLengthInBytes = 2 * targetField.getFixedLengthInBytes();
+            fixedLengthInBytes = 2 * targetField.getLengthInBytes();
         }
     }
 
@@ -38,7 +38,7 @@ public class QuadraticField<F extends Field, E extends QuadraticElement> extends
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
-    public int getFixedLengthInBytes() {
+    public int getLengthInBytes() {
         return fixedLengthInBytes;
     }
 }

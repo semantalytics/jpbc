@@ -15,18 +15,34 @@
 
         <menu name="jPBC">
             <item name="Introduction" href="index.html"/>
+
             <item name="Download" href="download.html"/>
+
             <item name="Build Howto" href="buildHowto.html"/>
+
             <item name="Contact" href="contact.html"/>
+
             <item name="Tutorial" href="/tutorial/tutorial.html">
                 <item name="Schemes">
                     <item name="BLS signatures" href="/tutorial/bls.html"/>
                 </item>
-                <item name="Pairing Functions" href="/tutorial/pairingFunctions.html"/>
-                <item name="Element Functions" href="/tutorial/elementFunctions.html"/>
+
+                <item name="Pairing Functions" href="/tutorial/pairingFunctions.html">
+                    <item name="Initializing" href="/tutorial/pairingFunctions.html#initializing"/>
+                    <item name="Applying" href="/tutorial/pairingFunctions.html#applying"/>
+                </item>
+
                 <item name="Field Functions" href="/tutorial/fieldFunctions.html"/>
+
+                <item name="Element Functions" href="/tutorial/elementFunctions.html">
+                    <item name="Initializing" href="/tutorial/elementFunctions.html#initializing"/>
+                    <item name="Assigning" href="/tutorial/elementFunctions.html#assigning"/>
+                    <item name="Arithmetic" href="/tutorial/elementFunctions.html#arithmetic"/>
+                </item>
+                    
                 <item name="Curve Generators" href="/tutorial/curveGenerators.html"/>
             </item>
+
             <item name="Statistics" href="statistics.html"/>
         </menu>
 

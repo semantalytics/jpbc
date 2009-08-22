@@ -54,7 +54,7 @@ public abstract class PBCField implements Field {
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
-    public int getFixedLengthInBytes() {
+    public int getLengthInBytes() {
         return fixedLengthInBytes;
     }
 

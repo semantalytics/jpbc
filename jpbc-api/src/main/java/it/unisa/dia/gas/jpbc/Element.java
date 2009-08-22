@@ -19,7 +19,7 @@ public interface Element extends Comparable<Element>, Serializable {
      * Returns the length in bytes necessary to represent this element.
      *
      * @return the length in bytes necessary to represent this element.
-     * @see it.unisa.dia.gas.jpbc.Field#getFixedLengthInBytes()
+     * @see it.unisa.dia.gas.jpbc.Field#getLengthInBytes()
      */
     int getLengthInBytes();
 
@@ -62,7 +62,7 @@ public interface Element extends Comparable<Element>, Serializable {
     BigInteger toBigInteger();
 
     /**
-     * If the this element lies in a finite algebraic structure, assigns a uniformly random element to it.
+     * If this element lies in a finite algebraic structure, assigns a uniformly random element to it.
      *
      * @return this.
      */

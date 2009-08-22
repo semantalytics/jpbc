@@ -35,11 +35,11 @@ public class PolyModField<F extends Field> extends GenericFieldOver<F, PolyModEl
 
         computeXPowers();
 
-        if (targetField.getFixedLengthInBytes() < 0) {
+        if (targetField.getLengthInBytes() < 0) {
             //f->length_in_bytes = fq_length_in_bytes;
             fixedLengthInBytes = -1;
         } else {
-            fixedLengthInBytes = targetField.getFixedLengthInBytes() * n;
+            fixedLengthInBytes = targetField.getLengthInBytes() * n;
         }
     }
 
@@ -56,7 +56,7 @@ public class PolyModField<F extends Field> extends GenericFieldOver<F, PolyModEl
         return nqr;
     }
 
-    public int getFixedLengthInBytes() {
+    public int getLengthInBytes() {
         return fixedLengthInBytes;
     }
 

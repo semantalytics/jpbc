@@ -58,8 +58,8 @@ public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElemen
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
-    public int getFixedLengthInBytes() {
-        return getTargetField().getFixedLengthInBytes() * 2;
+    public int getLengthInBytes() {
+        return getTargetField().getLengthInBytes() * 2;
     }
 
 

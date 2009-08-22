@@ -28,7 +28,7 @@ public class PolyField<F extends Field> extends GenericFieldOver<F, PolyElement>
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
-    public int getFixedLengthInBytes() {
+    public int getLengthInBytes() {
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 

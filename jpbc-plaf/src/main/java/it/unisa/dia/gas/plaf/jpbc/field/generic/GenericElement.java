@@ -25,7 +25,7 @@ public abstract class GenericElement implements Element {
     }
 
     public int getLengthInBytes() {
-        return field.getFixedLengthInBytes();
+        return field.getLengthInBytes();
     }
 
     public int setFromBytes(byte[] source) {

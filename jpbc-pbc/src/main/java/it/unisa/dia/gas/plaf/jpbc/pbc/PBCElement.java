@@ -244,8 +244,8 @@ public class PBCElement implements Element {
 
     @Override
     public String toString() {
-        Memory memory = new Memory(getField().getFixedLengthInBytes()*3);
-        PBCLibraryProvider.getPbcLibrary().pbc_element_snprint(memory, getField().getFixedLengthInBytes()*3, value);
+        Memory memory = new Memory(getField().getLengthInBytes()*3);
+        PBCLibraryProvider.getPbcLibrary().pbc_element_snprint(memory, getField().getLengthInBytes()*3, value);
         return memory.getString(0);
     }
 

@@ -157,13 +157,13 @@ public class NaiveElement extends GenericElement {
     }
 
     public int setFromBytes(byte[] source, int offset) {
-        value = new BigInteger(Utils.copyOf(source, offset, field.getFixedLengthInBytes())).mod(order);
+        value = new BigInteger(Utils.copyOf(source, offset, field.getLengthInBytes())).mod(order);
 
-        return field.getFixedLengthInBytes();
+        return field.getLengthInBytes();
     }
 
     public int setEncoding(byte[] bytes) {
-        byte[] source = Utils.copyOf(bytes, field.getFixedLengthInBytes() - 1);
+        byte[] source = Utils.copyOf(bytes, field.getLengthInBytes() - 1);
         value = new BigInteger(source);
 
         return source.length;
@@ -305,11 +305,11 @@ public class NaiveElement extends GenericElement {
     @Override
     public byte[] toBytes() {
         byte[] bytes = value.toByteArray();
-        if (bytes.length > field.getFixedLengthInBytes())
+        if (bytes.length > field.getLengthInBytes())
             throw new IllegalStateException("result has more than FixedLengthInBytes.");
-        else if (bytes.length < field.getFixedLengthInBytes()) {
-            byte[] result = new byte[field.getFixedLengthInBytes()];
-            System.arraycopy(bytes, 0, result, field.getFixedLengthInBytes() - bytes.length, bytes.length);
+        else if (bytes.length < field.getLengthInBytes()) {
+            byte[] result = new byte[field.getLengthInBytes()];
+            System.arraycopy(bytes, 0, result, field.getLengthInBytes() - bytes.length, bytes.length);
             return result;
         }
         return bytes;

@@ -57,6 +57,6 @@ public interface Field<E extends Element> {
      *
      * @return the length in bytes needed to represent an element of this Field.
      */
-    int getFixedLengthInBytes();
+    int getLengthInBytes();
 
 }
