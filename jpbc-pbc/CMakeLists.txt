@@ -66,9 +66,9 @@ endif(COMMAND cmake_policy)
     link_directories( ${LIB_PATH_PBC} )
     include_directories ( ${INCLUDE_PATH_PBC} )
 
-
 #=============
 # Build target
 #=============
 
     add_library( jpbc-pbc SHARED ${jpbc-pbc-source})
+    target_link_libraries(jpbc-pbc gmp pbc) #link the math library
