@@ -71,4 +71,4 @@ endif(COMMAND cmake_policy)
 #=============
 
     add_library( jpbc-pbc SHARED ${jpbc-pbc-source})
-    target_link_libraries(jpbc-pbc gmp pbc) #link the math library
+    target_link_libraries(jpbc-pbc gmp pbc)

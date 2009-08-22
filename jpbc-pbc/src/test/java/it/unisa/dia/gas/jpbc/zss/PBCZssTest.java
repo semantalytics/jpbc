@@ -2,7 +2,6 @@ package it.unisa.dia.gas.jpbc.zss;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pbc.PBCPairing;
 import junit.framework.TestCase;
@@ -28,18 +27,8 @@ public class PBCZssTest extends TestCase {
         System.out.printf("ZSS short signature schema\n");
         System.out.printf("KEYGEN\n");
 
-        x = pairing.getZr().newElement().setToRandom();
-
-        P = pairing.getG1().newElement().setToRandom();
-
-        System.out.println("P = " + P);
-        System.out.println("((Point)P).getY().sign() = " + ((Point)P).getY().sign());
-        ((Point)P).getY().invert();
-        System.out.println("P = " + P);
-        
-
-        ((Point)P).setFromBytesCompressed(((Point)P).toBytesCompressed());
-        System.out.println("P = " + P);
+        x = pairing.getZr().newRandomElement();
+        P = pairing.getG1().newRandomElement();
 
         Ppub = P.duplicate().mulZn(x);
 
