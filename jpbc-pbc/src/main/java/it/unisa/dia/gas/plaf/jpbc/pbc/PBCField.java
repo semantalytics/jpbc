@@ -46,6 +46,14 @@ public abstract class PBCField implements Field {
         return newElement().setToRandom();
     }
 
+    public Element newElement(int value) {
+        return newElement(value);
+    }
+
+    public Element newElement(BigInteger value) {
+        return newElement(value);
+    }
+
     public BigInteger getOrder() {
         return order;
     }

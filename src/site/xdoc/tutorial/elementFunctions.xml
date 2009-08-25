@@ -11,7 +11,7 @@
         <section name="Element Functions">
             <p>
                 Elements of groups, rings and fields are accessible using the
-                Element
+                <code>Element</code>
                 interface.
             </p>
 
@@ -38,35 +38,47 @@
                     they are mapped to algebraic structures canonically if it makes sense (e.g. rings and fields).
                 </p>
 
-                <source>
-                    /* Sets an element to zero. */
-                    element.setToZero();
+                <source>import it.unisa.dia.gas.jpbc.Element;
+
+/* Sets an element to zero. */
+
+<strong style="color:green">element.setToZero();</strong>
                 </source>
 
-                <source>
-                    /* Sets an element to one. */
-                    element.setToOne();
+                <source>import it.unisa.dia.gas.jpbc.Element;
+
+/* Sets an element to one. */
+
+<strong style="color:green">element.setToOne();</strong>
                 </source>
 
-                <source>
-                    /* If the element lies in a finite algebraic structure, assigns a uniformly random element to it. */
-                    element.setToRandom();
+                <source>import it.unisa.dia.gas.jpbc.Element;
+
+/* If the element lies in a finite algebraic structure, assigns a uniformly random element to it. */
+
+<strong style="color:green">element.setToRandom();</strong>
                 </source>
 
-                <source>
-                    /* Sets the element to an int. */
-                    element.set(5);
+                <source>import it.unisa.dia.gas.jpbc.Element;
+
+/* Sets the element to an int. */
+
+<strong style="color:green">element.set(5);</strong>
                 </source>
 
-                <source>
-                    /* Sets the element to an BigInteger. */
-                    element.set(new BigInteger("126785438"));
+                <source>import it.unisa.dia.gas.jpbc.Element;
+
+/* Sets the element to an BigInteger. */
+
+<strong style="color:green">element.set(new BigInteger("126785438"));</strong>
                 </source>
 
-                <source>
-                    /* Sets the element to an another element. * /
-                    Element e = element.getField().newElement().set(5);
-                    element.set(e);
+                <source>import it.unisa.dia.gas.jpbc.Element;
+
+/* Sets the element to an another element. * /
+
+Element e = element.getField().newElement(5);
+<strong style="color:green">element.set(e);</strong>
                 </source>
             </subsection>
 
@@ -87,39 +99,56 @@
                 In contrast, the GT group is currently implemented as a subgroup of a finite field, so only
                 multiplicative operations should be used for GT.
 
-                <source>
-                    /* Adds an element to another one. */
-                    Element a = element.getField().newElement().set(5);
-                    element.add(a);
+                <source>import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.jpbc.Element;
+
+/* Adds an element to another one. */
+
+Element a = element.getField().newElement().set(5);
+<strong style="color:green">element.add(a);</strong>
                 </source>
 
-                <source>
-                    /* Substracts an element to another one.*//
-                    Element a = element.getField().newElement().set(5);
-                    element.sub(a);
+                <source>import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.jpbc.Element;
+
+/* Substracts an element to another one.*//
+
+Element a = element.getField().newElement().set(5);
+<strong style="color:green">element.sub(a);</strong>
                 </source>
 
-                <source>
-                    /* Multiplies an element to another one. */
-                    Element a = element.getField().newElement().set(5);
-                    element.mul(a);
+                <source>import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.jpbc.Element;
+
+/* Multiplies an element to another one. */
+
+Element a = element.getField().newElement().set(5);
+<strong style="color:green">element.mul(a);</strong>
                 </source>
 
-                <source>
-                    /* Multiplies an element to an int. */
-                    element.mul(5);
+                <source>import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.jpbc.Element;
+
+/* Multiplies an element to an int. */
+
+<strong style="color:green">element.mul(5);</strong>
                 </source>
 
-                <source>
-                    /* Multiplies an element to an BigInteger. */
-                    element.mul(new BigInteger("5"));
+                <source>import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.jpbc.Element;
+
+/* Multiplies an element to an BigInteger. */
+
+<strong style="color:green">element.mul(new BigInteger("5"));</strong>
                 </source>
 
-                <source>
-                    /* Multiplies an element to an z which must be an element of a integer mod ring (i.e. Zn for some
-                    n). *(
-                    Element z = pairing.getZr().newRandomElement();
-                    element.mulZn(z);
+                <source>import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.jpbc.Element;
+
+/* Multiplies an element to an z which must be an element of a integer mod ring (i.e. Zn for some n). */
+
+Element z = pairing.getZr().newRandomElement();
+<strong style="color:green">element.mulZn(z);</strong>
                 </source>
             </subsection>
 

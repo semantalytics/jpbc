@@ -10,36 +10,107 @@
     <body>
         <section name="Pairing Functions">
             <p>
-                An application should first initialize a pairing object. This causes PBC to setup curves, groups and
-                other mathematical miscellany. After that, elements can be initialized and manipulated for cryptographic
-                operations.
+                Before elements can be initialized and manipulated for cryptographic operations, an instance of the
+                <code>Pairing</code>
+                interface must be initialized.
 
                 <br/>
-                Parameters for various pairings are included with the PBC library distribution in the param
-                subdirectory, and some are suitable for cryptographic use. Some programs in the gen subdirectory may be
-                used to generate parameters (see Chapter 7, Bundled programs). Also, see the PBC website for many more
-                pairing parameters.
+                TODO: put a link to curve generatos
 
                 <br/>
-                Pairings involve three groups of prime order. The PBC library calls them G1, G2, and GT, and calls the
-                order r. The pairing is a bilinear map that takes two elements as input, one from G1 and one from G2,
-                and outputs an element of GT.
+                Pairings involve three groups of prime order r called G1, G2, and GT. The pairing is a bilinear map that
+                takes two elements as input, one from G1 and one from G2, and outputs an element of GT.
 
                 <br/>
                 The elements of G2 are at least as long as G1; G1 is guaranteed to be the shorter of the two. Sometimes
                 G1 and G2 are the same group (i.e. the pairing is symmetric) so their elements can be mixed freely. In
-                this case the pairing_is_symmetric function returns 1.
+                this case the
+                <code>Pairing#isSymmetric()</code>
+                function returns<code>true</code>.
             </p>
 
 
             <a name="initializing"/>
             <subsection name="Initializing Pairings">
+                <p>
+                    To create an instance of the
+                    <code>Pairing</code>
+                    interface there are essentially two ways.
+
+                    <br/>
+                    One is to use the implementing class of the type chosen. For example you can use the following:
+                </p>
+                <source>import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
+import <strong style="color:green">it.unisa.dia.gas.plaf.jpbc.pairing.a.TypeAPairing</strong>;
+import <strong style="color:green">it.unisa.dia.gas.jpbc.Pairing</strong>;
+
+...
+
+CurveParams curveParams = ...
+Pairing pairing = <strong style="color:green">new TypeAPairing(curveParams);</strong>
+                </source>
+                <p>
+                    Another way is to use the factory provided by the plaf module. Each curve definition bring with it the curve's type used.
+                    Using this information the factory chooses the right implementation.
+                    <br/>
+
+                </p>
+                <source>import package it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
+import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;                    
+import it.unisa.dia.gas.jpbc.Pairing;
+
+...                    
+
+CurveParams curveParams = ...
+Pairing pairing = <strong style="color:green">PairingFactory.getPairing(curveParams);</strong>
+                </source>
 
             </subsection>
 
             <a name="applying"/>
             <subsection name="Applying pairings">
+                <p>
+                    The following applies the bilinear map described by pairing. The element out will be set to the map
+                    applied to in1 and in2, that is out = e(in1, in2). in1 must be in the group G1, in2 must be in the
+                    group G2. out will lie in the group GT.
+                </p>
+                <source>import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.Pairing;
 
+...
+
+Element in1 = pairing.getG1().newRandomElement();
+Element in2 = pairing.getG2().newRandomElement();
+Element out = <strong style="color:green">pairing.pairing(g, h);</strong>
+                </source>
+
+                <p>
+                    There is another way to apply the pairing which uses a pre-processing technic . So if you have for many times
+                    the same first input (that in G1) you can use the following to reduce the time used to compute
+                    the pairing.
+                </p>
+
+                <source xml:space="preserve">import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.Pairing;
+import <strong style="color:green">it.unisa.dia.gas.jpbc.PairingPreProcessing</strong>;
+
+...
+
+/* Get ready to perform a pairing whose first input is in1,
+   store the results of time-saving precomputation in ppp. */
+
+Element in1 = pairing.getG1().newRandomElement();
+<strong style="color:green">PairingPreProcessing ppp = pairing.pairing(in1);</strong>
+
+/* Compute the pairing using in2 and the preprocessed information
+   stored in ppp. The inputs to the pairing are the element
+   previously used to initialize ppp and the element in2. */
+
+Element in2 = pairing.getG2().newRandomElement();
+Element out = <strong style="color:green">ppp.pairing(in2);</strong>
+                </source>
             </subsection>
         </section>
     </body>

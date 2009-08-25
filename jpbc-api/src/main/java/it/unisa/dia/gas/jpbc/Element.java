@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.math.BigInteger;
 
 /**
+ * TODO
  * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @since 1.0.0
  */
 public interface Element extends Comparable<Element>, Serializable {
 
@@ -12,6 +14,7 @@ public interface Element extends Comparable<Element>, Serializable {
      * Returns the field to which this element lie.
      *
      * @return the field to which this element lie.
+     * @since 1.0.0
      */
     Field getField();
 
@@ -20,6 +23,7 @@ public interface Element extends Comparable<Element>, Serializable {
      *
      * @return the length in bytes necessary to represent this element.
      * @see it.unisa.dia.gas.jpbc.Field#getLengthInBytes()
+     * @since 1.0.0
      */
     int getLengthInBytes();
 
@@ -27,6 +31,7 @@ public interface Element extends Comparable<Element>, Serializable {
      * Returns a copy of this element.
      *
      * @return a copy of this element.
+     * @since 1.0.0
      */
     Element duplicate();
 
@@ -35,6 +40,7 @@ public interface Element extends Comparable<Element>, Serializable {
      *
      * @param value the new value of this element.
      * @return this element set to value.
+     * @since 1.0.0
      */
     Element set(Element value);
 
@@ -43,6 +49,7 @@ public interface Element extends Comparable<Element>, Serializable {
      *
      * @param value the new value of this element.
      * @return this element set to value.
+     * @since 1.0.0
      */
     Element set(int value);
 
@@ -51,6 +58,7 @@ public interface Element extends Comparable<Element>, Serializable {
      *
      * @param value the new value of this element.
      * @return this element set to value.
+     * @since 1.0.0
      */
     Element set(BigInteger value);
 
@@ -58,6 +66,7 @@ public interface Element extends Comparable<Element>, Serializable {
      * Converts this to a BigInteger if such operation makes sense.
      *
      * @return a BigInteger which represents this element.
+     * @since 1.0.0
      */
     BigInteger toBigInteger();
 
@@ -65,6 +74,7 @@ public interface Element extends Comparable<Element>, Serializable {
      * If this element lies in a finite algebraic structure, assigns a uniformly random element to it.
      *
      * @return this.
+     * @since 1.0.0
      */
     Element setToRandom();
 
@@ -75,6 +85,7 @@ public interface Element extends Comparable<Element>, Serializable {
      * @param offset the starting offset.
      * @param length the number of bytes to be used.
      * @return this element modified.
+     * @since 1.0.0
      */
     Element setFromHash(byte[] source, int offset, int length);
 
@@ -83,6 +94,7 @@ public interface Element extends Comparable<Element>, Serializable {
      *
      * @param source the source of bytes.
      * @return the number of bytes read.
+     * @since 1.0.0
      */
     int setFromBytes(byte[] source);
 
@@ -92,6 +104,7 @@ public interface Element extends Comparable<Element>, Serializable {
      * @param source the source of bytes.
      * @param offset the starting offset.
      * @return the number of bytes read.
+     * @since 1.0.0
      */
     int setFromBytes(byte[] source, int offset);
 
@@ -99,6 +112,7 @@ public interface Element extends Comparable<Element>, Serializable {
      * Converts this element to bytes. The number of bytes it will write can be determined calling getLengthInBytes().
      *
      * @return the bytes written.
+     * @since 1.0.0
      */
     byte[] toBytes();
 
@@ -106,6 +120,7 @@ public interface Element extends Comparable<Element>, Serializable {
      * TODO
      * @param bytes
      * @return
+     * @since 1.0.0
      */
     int setEncoding(byte[] bytes);
 
@@ -115,6 +130,7 @@ public interface Element extends Comparable<Element>, Serializable {
      * Sets this element to zero.
      *
      * @return this element set to zero.
+     * @since 1.0.0
      */
     Element setToZero();
 
@@ -122,6 +138,7 @@ public interface Element extends Comparable<Element>, Serializable {
      * Returns true if n is zero, false otherwise.
      *
      * @return true if n is zero, false otherwise.
+     * @since 1.0.0
      */
     boolean isZero();
 
@@ -129,6 +146,7 @@ public interface Element extends Comparable<Element>, Serializable {
      * Sets this element to one.
      *
      * @return this element set to one.
+     * @since 1.0.0
      */
     Element setToOne();
 
@@ -136,6 +154,7 @@ public interface Element extends Comparable<Element>, Serializable {
      * Returns true if n is one, false otherwise.
      *
      * @return true if n is one, false otherwise.
+     * @since 1.0.0
      */
     boolean isOne();
 
@@ -143,6 +162,7 @@ public interface Element extends Comparable<Element>, Serializable {
      * Sets this = this + this.
      *
      * @return this + this.
+     * @since 1.0.0
      */
     Element twice();
 
@@ -150,24 +170,31 @@ public interface Element extends Comparable<Element>, Serializable {
      * Se this = this^2.
      *
      * @return this^2.
+     * @since 1.0.0
      */
     Element square();
 
     /**
      * Sets this to the inverse of itself.
+     *
      * @return the inverse of itself.
+     * @since 1.0.0
      */
     Element invert();
 
     /**
      * Sets this = this / 2.
+     *
      * @return this / 2.
+     * @since 1.0.0
      */
     Element halve();
 
     /**
      * Set this = -this.
+     *
      * @return -this.
+     * @since 1.0.0
      */
     Element negate();
 
@@ -176,6 +203,7 @@ public interface Element extends Comparable<Element>, Serializable {
      *
      * @param element the value to be added.
      * @return this + element.
+     * @since 1.0.0
      */
     Element add(Element element);
 
@@ -184,6 +212,7 @@ public interface Element extends Comparable<Element>, Serializable {
      *
      * @param element the value to be subtracted.
      * @return this - element.
+     * @since 1.0.0
      */
     Element sub(Element element);
 
@@ -192,6 +221,7 @@ public interface Element extends Comparable<Element>, Serializable {
      *
      * @param element the value to be multiplied
      * @return this * element.
+     * @since 1.0.0
      */
     Element mul(Element element);
 
@@ -200,13 +230,16 @@ public interface Element extends Comparable<Element>, Serializable {
      *
      * @param z the value to be multiplied
      * @return this * z
+     * @since 1.0.0
      */
     Element mul(int z);
 
     /**
      * Sets this = this * n, that is this + this + ... + this where there are n this's.
+     *
      * @param n the value to be multiplied
      * @return this * n
+     * @since 1.0.0
      */
     Element mul(BigInteger n);
 
@@ -216,6 +249,7 @@ public interface Element extends Comparable<Element>, Serializable {
      *
      * @param z the value to be multiplied
      * @return this * z
+     * @since 1.0.0
      */
     Element mulZn(Element z);
 
@@ -224,6 +258,7 @@ public interface Element extends Comparable<Element>, Serializable {
      *
      * @param element is the divisor.
      * @return this / element
+     * @since 1.0.0
      */
     Element div(Element element);
 
@@ -232,6 +267,7 @@ public interface Element extends Comparable<Element>, Serializable {
      *
      * @param n the exponent of the power.
      * @return this^n.
+     * @since 1.0.0
      */
     Element pow(BigInteger n);
 
@@ -240,6 +276,7 @@ public interface Element extends Comparable<Element>, Serializable {
      *
      * @param n the exponent of the power.
      * @return this^n
+     * @since 1.0.0
      */
     Element powZn(Element n);
 
@@ -252,6 +289,7 @@ public interface Element extends Comparable<Element>, Serializable {
      * Sets this = sqrt(this).
      *
      * @return the square radix of this element.
+      * @since 1.0.0
      */
     Element sqrt();
 
@@ -259,6 +297,7 @@ public interface Element extends Comparable<Element>, Serializable {
      * Returns true if this element is a perfect square (quadratic residue), false otherwise.
      *
      * @return true if this element is a perfect square (quadratic residue), false otherwise.
+     * @since 1.0.0
      */
     boolean isSqr();
 
@@ -266,6 +305,7 @@ public interface Element extends Comparable<Element>, Serializable {
      * If this element is zero, returns 0. For a non zero value the behaviour depends on the algebraic structure.
      *
      * @return 0 is this element is zero, otherwise the behaviour depends on the algebraic structure. 
+     * @since 1.0.0
      */
     int sign();
 

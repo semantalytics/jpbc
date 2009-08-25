@@ -8,6 +8,7 @@ package it.unisa.dia.gas.jpbc;
  * In this case the #isSymmetric() function returns true.
  *
  * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @since 1.0.0
  */
 public interface Pairing {
 
@@ -15,6 +16,7 @@ public interface Pairing {
      * Returns true if this pairing is symmetric, false otherwise.
      *
      * @return true if this pairing is symmetric, false otherwise.
+     * @since 1.0.0
      */
     boolean isSymmetric();
 
@@ -22,27 +24,31 @@ public interface Pairing {
      * Return the G1 field.
      *
       * @return the G1 field.
+     * @since 1.0.0
      */
     Field<? extends Point> getG1();
 
     /**
      * Return the G2 field.
      *
-      * @return the G2 field.
+     * @return the G2 field.
+     * @since 1.0.0
      */
     Field<? extends Point> getG2();
 
     /**
      * Return the GT field which is the group of rth roots of unity.
      *
-      * @return the GT field.
+     * @return the GT field.
+     * @since 1.0.0
      */
     Field getGT();
 
     /**
      * Return the Zr field.
      *
-      * @return the Zr field.
+     * @return the Zr field.
+     * @since 1.0.0
      */
     Field getZr();
 
@@ -52,6 +58,7 @@ public interface Pairing {
      * @param g1 an element from G1.
      * @param g2 an element from G2.
      * @return an element from GT whose value is assigned by this map applied to g1 and g2.
+     * @since 1.0.0
      */
     Element pairing(Element g1, Element g2);
 
@@ -59,6 +66,7 @@ public interface Pairing {
      * todo
      * @param g1
      * @return
+     * @since 1.0.0
      */
     PairingPreProcessing pairing(Element g1);
 

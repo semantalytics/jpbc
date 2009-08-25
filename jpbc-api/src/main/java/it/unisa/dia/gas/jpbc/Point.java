@@ -4,6 +4,7 @@ package it.unisa.dia.gas.jpbc;
  * This interface represents an element with two coordinates. (A point over an elliptic curve).
  *
  * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @since 1.0.0
  */
 public interface Point<E extends Element> extends Element {
 
@@ -11,6 +12,7 @@ public interface Point<E extends Element> extends Element {
      * Returns the x-coordinate.
      *
      * @return the x-coordinate.
+     * @since 1.0.0
      */
     E getX();
 
@@ -18,6 +20,7 @@ public interface Point<E extends Element> extends Element {
      * Returns the y-coordinate.
      *
      * @return the y-coordinate.
+     * @since 1.0.0
      */
     E getY();
 
@@ -27,6 +30,7 @@ public interface Point<E extends Element> extends Element {
      * Converts this element to bytes. The number of bytes it will write can be determined calling getLengthInBytesCompressed().
      *
      * @return the bytes written.
+     * @since 1.0.0
      */
     byte[] toBytesCompressed();
 
@@ -35,6 +39,7 @@ public interface Point<E extends Element> extends Element {
      *
      * @param source the source of bytes.
      * @return the number of bytes read.
+     * @since 1.0.0
      */
     int setFromBytesCompressed(byte[] source);
 
@@ -45,15 +50,22 @@ public interface Point<E extends Element> extends Element {
      * @param source the source of bytes.
      * @param offset the starting offset.
      * @return the number of bytes read.
+     * @since 1.0.0
      */
     int setFromBytesCompressed(byte[] source, int offset);
 
+    /**
+     * todo
+     * @return
+     * @since 1.0.0
+     */
     int getLengthInBytesX();
 
     /**
      * Converts the x-coordinate to bytes. The number of bytes it will write can be determined calling getLengthInBytesX().
      *
      * @return the bytes written.
+     * @since 1.0.0
      */
     byte[] toBytesX();
 
@@ -63,6 +75,7 @@ public interface Point<E extends Element> extends Element {
      *
      * @param source the source of bytes.
      * @return the number of bytes read.
+     * @since 1.0.0
      */
     int setFromBytesX(byte[] source);
 
@@ -73,6 +86,7 @@ public interface Point<E extends Element> extends Element {
      * @param source the source of bytes.
      * @param offset the starting offset.
      * @return the number of bytes read.
+     * @since 1.0.0
      */
     int setFromBytesX(byte[] source, int offset);
 

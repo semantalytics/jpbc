@@ -256,20 +256,22 @@ void pbc_element_clear(element_t element) {
 
 
 void pbc_curve_x_coord(element_t out, element_t element) {
-/*    element_ptr x = curve_x_coord(element);
+    // TODO: what happen to the memory used by out?
+    element_ptr x = element_x(element);
 
     element_init_same_as(out, x);
     element_set(out, x);
     out[0] = *x;
-*/}
+}
 
 void pbc_curve_y_coord(element_t out, element_t element) {
-/*    element_ptr y = curve_y_coord(element);
+    // TODO: what happen to the memory used by out?
+    element_ptr y = element_y(element);
 
     element_init_same_as(out, y);
     element_set(out, y);
     out[0] = *y;
-*/}
+}
 
 
 void pbc_element_pp_init(element_pp_t p, element_t in) {
