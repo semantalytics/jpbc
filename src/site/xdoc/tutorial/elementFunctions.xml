@@ -152,10 +152,53 @@ Element z = pairing.getZr().newRandomElement();
                 </source>
             </subsection>
 
-
             <a name="exponentiating"/>
             <subsection name="Exponentiating Elements">
-                
+                <source>import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.jpbc.Element;
+
+/* Raises element to an BigInteger. */
+
+<strong style="color:green">element.pow(BigInteger.valueOf(5));</strong>
+                </source>
+
+                <source>import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.jpbc.Element;
+
+/* Raises element to an z which must be an element of a integer mod ring (i.e. Zn for some n). */
+
+Element z = pairing.getZr().newRandomElement();
+<strong style="color:green">element.mulZn(z);</strong>
+                </source>
+
+                <p>
+                    There is another way to exponentiate an element which uses a pre-processing technic . So if you have
+                    for many times the same base you can use the following to reduce the time used to compute
+                    the power.
+                </p>
+
+                <source xml:space="preserve">import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.Pairing;
+import <strong style="color:green">it.unisa.dia.gas.jpbc.ElementPowPreProcessing</strong>;
+
+...
+
+/* Prepare to exponentiate an element a, and store pre-processing information in ppp. */
+
+Element a = pairing.getG1().newRandomElement();
+<strong style="color:green">ElementPowPreProcessing ppp = element.pow();</strong>
+
+/* Raises a to power and returns the result in out, where a is a previously preprocessed element,
+   that is, the second argument passed to a previous pos() call
+
+BigInteger power = BigInteger.valueOf(5);
+Element out = <strong style="color:green">ppp.pow(power);</strong>
+
+Element z = pairing.getZr().newRandomElement();
+out = <strong style="color:green">ppp.pow(z);</strong>                    
+                </source>
+
             </subsection>
             
             <a name="comparing"/>
