@@ -24,6 +24,11 @@ public interface Point<E extends Element> extends Element {
      */
     E getY();
 
+    /**
+     * Returns the length in bytes needed to represent this element in a compressed way.
+     *
+     * @return the length in bytes needed to represent this element in a compressed way.
+     */
     int getLengthInBytesCompressed();
 
     /**
@@ -55,8 +60,9 @@ public interface Point<E extends Element> extends Element {
     int setFromBytesCompressed(byte[] source, int offset);
 
     /**
-     * todo
-     * @return
+     * Returns the length in bytes needed to represent the x coordinate of this element.
+     *
+     * @return the length in bytes needed to represent the x coordinate of this element.
      * @since 1.0.0
      */
     int getLengthInBytesX();

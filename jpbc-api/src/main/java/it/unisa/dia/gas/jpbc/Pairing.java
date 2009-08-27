@@ -53,21 +53,23 @@ public interface Pairing {
     Field getZr();
 
     /**
-     * Applies the bilinear map. It returns e(g1, g2). g1 must be in the group G1, g2 must be in the group G2.
+     * Applies the bilinear map. It returns e(in1, in2). g1 must be in the group G1, g2 must be in the group G2.
      *
-     * @param g1 an element from G1.
-     * @param g2 an element from G2.
-     * @return an element from GT whose value is assigned by this map applied to g1 and g2.
+     * @param in1 an element from G1.
+     * @param in2 an element from G2.
+     * @return an element from GT whose value is assigned by this map applied to in1 and in2.
      * @since 1.0.0
      */
-    Element pairing(Element g1, Element g2);
+    Element pairing(Element in1, Element in2);
 
     /**
-     * todo
-     * @param g1
-     * @return
+     * Get ready to perform a pairing whose first input is in1, returns the results of time-saving pre-computation.
+     *
+     * @param in1 the first input of a pairing execution, used to pre-compute the pairing.
+     *
+     * @return the results of time-saving pre-computation.
      * @since 1.0.0
      */
-    PairingPreProcessing pairing(Element g1);
+    PairingPreProcessing pairing(Element in1);
 
 }

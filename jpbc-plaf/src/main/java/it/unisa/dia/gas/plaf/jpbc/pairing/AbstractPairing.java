@@ -34,23 +34,23 @@ public abstract class AbstractPairing implements Pairing {
         return GT;
     }
 
-    public Element pairing(Element g1, Element g2) {
-        if (!G1.equals(g1.getField()))
+    public Element pairing(Element in1, Element in2) {
+        if (!G1.equals(in1.getField()))
             throw new IllegalArgumentException("pairing 1st input mismatch");
-        if (!G2.equals(g2.getField()))
+        if (!G2.equals(in2.getField()))
             throw new IllegalArgumentException("pairing 2nd input mismatch");
 
-        if (g1.isZero() || g2.isZero())
+        if (in1.isZero() || in2.isZero())
             return GT.newElement().setToZero();
 
-        return pairingMap.pairing((Point) g1, (Point) g2);
+        return pairingMap.pairing((Point) in1, (Point) in2);
     }
 
-    public PairingPreProcessing pairing(Element g1) {
-        if (!G1.equals(g1.getField()))
+    public PairingPreProcessing pairing(Element in1) {
+        if (!G1.equals(in1.getField()))
             throw new IllegalArgumentException("pairing 1st input mismatch");
 
-        return pairingMap.pairingPreProcessing((Point) g1);
+        return pairingMap.pairingPreProcessing((Point) in1);
     }
 
     

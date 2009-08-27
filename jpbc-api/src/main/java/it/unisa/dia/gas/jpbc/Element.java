@@ -4,8 +4,12 @@ import java.io.Serializable;
 import java.math.BigInteger;
 
 /**
- * TODO
+ * Elements of groups, rings and fields are accessible using the <code>Element</code>
+ * interface. You can obtain an instance of an Element starting from an algebraic structure, such as a particular
+ * finite field or elliptic curve group, represented by the <code>Field</code> interface.
+ *
  * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @see Field
  * @since 1.0.0
  */
 public interface Element extends Comparable<Element>, Serializable {
@@ -118,6 +122,7 @@ public interface Element extends Comparable<Element>, Serializable {
 
     /**
      * TODO
+     *
      * @param bytes
      * @return
      * @since 1.0.0
@@ -282,15 +287,18 @@ public interface Element extends Comparable<Element>, Serializable {
     Element powZn(Element n);
 
     /**
-     * TODO:
+     * Prepare to exponentiate this element and returns pre-processing information.
+     *
+     * @return the pre-processing information used to execute the exponentation of this element.
+     * @see it.unisa.dia.gas.jpbc.ElementPowPreProcessing
      */
     ElementPowPreProcessing pow();
 
-     /**
+    /**
      * Sets this = sqrt(this).
      *
      * @return the square radix of this element.
-      * @since 1.0.0
+     * @since 1.0.0
      */
     Element sqrt();
 
@@ -305,7 +313,7 @@ public interface Element extends Comparable<Element>, Serializable {
     /**
      * If this element is zero, returns 0. For a non zero value the behaviour depends on the algebraic structure.
      *
-     * @return 0 is this element is zero, otherwise the behaviour depends on the algebraic structure. 
+     * @return 0 is this element is zero, otherwise the behaviour depends on the algebraic structure.
      * @since 1.0.0
      */
     int sign();

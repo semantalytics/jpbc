@@ -55,16 +55,16 @@ public class PBCPairing implements Pairing {
         return zRField;
     }
 
-    public Element pairing(Element g1, Element g2) {
+    public Element pairing(Element in1, Element in2) {
         PBCElement out = (PBCElement) gTField.newElement();
 
-        PBCLibraryProvider.getPbcLibrary().pbc_pairing_apply(out.getValue(), ((PBCElement) g1).getValue(), ((PBCElement) g2).getValue(), pairing);
+        PBCLibraryProvider.getPbcLibrary().pbc_pairing_apply(out.getValue(), ((PBCElement) in1).getValue(), ((PBCElement) in2).getValue(), pairing);
 
         return out;
     }
 
-    public PairingPreProcessing pairing(Element g1) {
-        return new PBCPairingPreProcessing(g1);
+    public PairingPreProcessing pairing(Element in1) {
+        return new PBCPairingPreProcessing(in1);
     }
 
     @Override
