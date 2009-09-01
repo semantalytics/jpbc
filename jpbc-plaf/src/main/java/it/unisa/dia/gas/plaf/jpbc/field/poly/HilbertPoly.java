@@ -33,17 +33,16 @@ public class HilbertPoly {
      * @return
      */
     public BigInteger[] getHilbertPoly() {
-
         // Compute required precision.
 
         int a = 0;
         int b = D % 2;
-        int B = (int) floor(sqrt((double) D / 3.0));
         double d = 1.0;
         int h = 1;
+
+        int B = (int) floor(sqrt((double) D / 3.0));
         int t = 0;
         int jcount = 1;
-
 
         boolean step1 = true, step2 = true;
         for (; ;) {
@@ -83,9 +82,12 @@ public class HilbertPoly {
 
         }
 
-        System.out.printf("sqrt(D) = %f\n", sqrt(D));
-        System.out.printf("d = %f\n", d);
-        System.out.printf("Math.exp(3.14159265358979d * sqrt(D)) = %f\n", Math.exp(3.14159265358979d * sqrt(D)));
+        System.out.println("a = " + a);
+        System.out.println("b = " + b);
+        System.out.println("d = " + d);
+        System.out.println("h = " + h);
+        System.out.println("t = " + t);
+
         System.out.printf("modulus: %f\n", Math.exp(3.14159265358979d * sqrt(D)) * d * 0.5);
         d *= sqrt(D) * 3.14159265358979d / log(2);
         precision_init((int) d + 34);
@@ -349,6 +351,7 @@ public class HilbertPoly {
         System.out.println("pwr = " + pwr);
         f0 = recipeulere.pow(pwr);
         fp0 = fp0.add(BigDecimal.valueOf(pwr));
+        System.out.println("fp0 = " + fp0);
 
         z0.setRe(fp0);
 
@@ -359,11 +362,14 @@ public class HilbertPoly {
         Complex res = cis(z0.getIm());
 
         System.out.println("res = " + res);
+        System.out.println("f0 = " + f0);
+        
         res.mul(f0);
         return res;
     }
 
     protected Complex cis(BigDecimal theta) {
+        System.out.println("theta = " + theta);
         // out = exp(i theta)
         //     = cos theta + i sin theta
         // converges quickly near the origin
@@ -403,7 +409,7 @@ public class HilbertPoly {
             }
         }
 
-        return new Complex(precisionMathContext, rx, ry);
+        return new Complex(precisionMathContext, rx.round(precisionMathContext), ry.round(precisionMathContext));
     }
 
 
@@ -438,9 +444,13 @@ public class HilbertPoly {
         for (int n = 1; n < 100; n++) {
             int power = n * (3 * n - 1) / 2;
             z1.set(q).pow(power);
+
+//            System.out.println("z1 = " + z1);
+
             z2.set(q).pow(n);
             z2.mul(z1);
             z1.add(z2);
+
 
             if (d != 0) {
                 z0.sub(z1);
@@ -449,13 +459,13 @@ public class HilbertPoly {
                 z0.add(z1);
                 d = 1;
             }
+
+//            System.out.println("z0 = " + z0);
             System.out.print(".");
         }
         System.out.println();
 
-        z0.pow(24);
-
-        return new Complex(z0).mul(q);
+        return new Complex(z0.pow(24)).mul(q);
     }
 
 
@@ -464,9 +474,14 @@ public class HilbertPoly {
     protected Complex compute_h(Complex tau) {
         Complex q = compute_q(tau);
         System.out.println("q = " + q);
+
         Complex z0 = new Complex(precisionMathContext);
+
         z0 = compute_Delta(z0.set(q).mul(q));
         Complex z1 = compute_Delta(q);
+
+        System.out.println("z0 = " + z0);
+        System.out.println("z1 = " + z1);
 
         return new Complex(z0).div(z1);
     }
@@ -475,7 +490,9 @@ public class HilbertPoly {
     // Computes j = j(tau).
     protected Complex compute_j(Complex tau) {
         Complex h = compute_h(tau);
+
         System.out.println("h = " + h);
+        
         return new Complex(h).mul_2exp(8).add(1).pow(3).div(h);
     }
 
@@ -483,11 +500,5 @@ public class HilbertPoly {
     public static void main(String[] args) {
         HilbertPoly poly = new HilbertPoly(9563);
         poly.getHilbertPoly();
-
-        int D=9563;
-        //System.out.printf("Math.exp(3.14159265358979d * sqrt(D)) = %f\n", Math.exp(3.14159265358979d * sqrt(D)));
-
-        System.out.printf("sqrt(D)  = %f\n",  sqrt(D));
-        System.out.printf("exp(...) = %f\n",  Math.exp(sqrt(D)));
     }
 }

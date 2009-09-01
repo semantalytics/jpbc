@@ -75,7 +75,7 @@ public class Complex {
     public Complex mul(Complex value) {
         BigDecimal ac = this.re.multiply(value.re, mathContext);
         BigDecimal bd = this.im.multiply(value.im, mathContext);
-        BigDecimal f0 = this.re.multiply(value.im, mathContext);
+        BigDecimal f0 = this.re.add(this.im, mathContext);
 
         this.im = value.re.add(value.im, mathContext)
                 .multiply(f0, mathContext)
@@ -120,7 +120,7 @@ public class Complex {
 
         // set m to biggest power of 2 less than n
         for (m = 1; m <= power; m <<= 1);
-            m >>= 1;
+        m >>= 1;
 
         Complex z0 = new Complex(mathContext).set(1);
 
@@ -132,6 +132,7 @@ public class Complex {
             m >>= 1;
         }
 
+        set(z0);
         return this;
     }
 
@@ -183,6 +184,6 @@ public class Complex {
 
     @Override
     public String toString() {
-        return String.format("Complex{re=%s, im=%s}", re, im);
+        return String.format("Complex{\n\tim=%s, \n\tre=%s\n}", im, re);
     }
 }
