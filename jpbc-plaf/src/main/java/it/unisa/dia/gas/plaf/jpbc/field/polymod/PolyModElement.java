@@ -473,7 +473,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
         PolyElement s = polyField.newElement();
         Element e0 = field.newElement();
 
-        f.ensureCoeffSize(3);
+        f.ensureSize(3);
         f.getCoefficient(2).setToOne();
         f.getCoefficient(0).set(this).negate();
 
@@ -490,7 +490,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
             Element x;
             Element e1, e2;
 
-            r.ensureCoeffSize(2);
+            r.ensureSize(2);
             r.getCoefficient(1).setToOne();
             x = r.getCoefficient(0);
             x.setToRandom();
@@ -511,7 +511,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
                     e2 = s.getCoefficient(2);
                     e0.set(e2).mul(this);
                     e1.add(e0);
-                    s.ensureCoeffSize(2);
+                    s.ensureSize(2);
                     s.removeLeadingZeroes();
                 }
 
@@ -522,7 +522,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
                         e2 = s.getCoefficient(2);
                         e0.set(e2).mul(this);
                         e1.add(e0);
-                        s.ensureCoeffSize(2);
+                        s.ensureSize(2);
                         s.removeLeadingZeroes();
                     }
                 }

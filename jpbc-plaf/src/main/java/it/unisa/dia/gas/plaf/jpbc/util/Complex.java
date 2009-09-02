@@ -86,6 +86,16 @@ public class Complex {
         return this;
     }
 
+    public Complex mul_2exp(int value) {
+        // Compute 2^value
+        BigDecimal pow = BigDecimalUtils.TWO.pow(value, mathContext);
+
+        this.re = this.re.multiply(pow, mathContext);
+        this.im = this.im.multiply(pow, mathContext);
+
+        return this;
+    }
+
     public Complex mul(BigDecimal value) {
         this.re = this.re.multiply(value, mathContext);
         this.im = this.im.multiply(value, mathContext);
@@ -116,10 +126,12 @@ public class Complex {
     public Complex pow(int power) {
         if (power < 0)
             throw new IllegalArgumentException("power must be greater than or equal zero.");
-        int m;
 
         // set m to biggest power of 2 less than n
-        for (m = 1; m <= power; m <<= 1);
+        int m = 1;
+        while (m <= power) {
+            m <<= 1;
+        }
         m >>= 1;
 
         Complex z0 = new Complex(mathContext).set(1);
@@ -165,15 +177,6 @@ public class Complex {
         return this;
     }
 
-    public Complex mul_2exp(int value) {
-        //Compute 2^value
-        BigDecimal pow = BigDecimalUtils.TWO.pow(value, mathContext);
-
-        this.re = this.re.multiply(pow, mathContext);
-        this.im = this.im.multiply(pow, mathContext);
-
-        return this;
-    }
 
     public Complex add(int value) {
         this.re = this.re.add(BigDecimal.valueOf(value), mathContext);

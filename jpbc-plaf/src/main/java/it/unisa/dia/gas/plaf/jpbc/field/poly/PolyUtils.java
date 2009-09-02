@@ -12,7 +12,7 @@ public class PolyUtils {
         int n = poly.getCoefficients().size();
 
         PolyElement res = poly.getField().newElement();
-        res.ensureCoeffSize(n);
+        res.ensureSize(n);
 
         for (int i = 0; i < n; i++) {
             res.getCoefficient(i).set(a).mul(poly.getCoefficient(i));
@@ -40,7 +40,7 @@ public class PolyUtils {
 
         PolyElement r = a.duplicate();
         PolyElement q = a.getField().newElement();
-        q.ensureCoeffSize(k + 1);
+        q.ensureSize(k + 1);
 
         Element temp = a.getField().getTargetField().newElement();
         Element bn = b.getCoefficient(n).duplicate().invert();

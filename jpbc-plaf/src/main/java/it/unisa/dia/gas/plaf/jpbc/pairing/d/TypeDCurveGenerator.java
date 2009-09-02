@@ -37,7 +37,6 @@ public class TypeDCurveGenerator implements CurveGenerator {
     }
 
 
-
     public Map generate() {
         Map[] curves = findCurves();
         if (curves == null || curves.length == 0)
@@ -62,7 +61,7 @@ public class TypeDCurveGenerator implements CurveGenerator {
         this.discriminant = discriminant;
         this.D3 = D3;
         this.pellEquation = new PellEquation(D3, -8);
-   }
+    }
 
     /**
      * Finds the next valid discriminant starting from the previous discriminant value.
@@ -132,7 +131,6 @@ public class TypeDCurveGenerator implements CurveGenerator {
 
         return curves.toArray(new Map[curves.size()]);
     }
-
 
 
     protected int mnt_step2(Map params, BigInteger U) {
@@ -247,7 +245,6 @@ public class TypeDCurveGenerator implements CurveGenerator {
      */
     protected void compute_cm_curve(Map param) {
 /*        List coefflist;
-        Element root;
         PolyElement hp;
         Field<? extends Element> fp;
         PolyField fpx;
@@ -261,18 +258,15 @@ public class TypeDCurveGenerator implements CurveGenerator {
         hp = fpx.newElement();
 
         darray_init(coefflist);
-
         hilbert_poly(coefflist, cm - > D);
-
         n = coefflist - > count;
         poly_alloc(hp, n);
         for (i = 0; i < n; i++) {
             element_set_mpz(poly_coeff(hp, i), coefflist - > item[i]);
         }
-
         hilbert_poly_clear(coefflist);
-
         darray_clear(coefflist);
+
         //TODO: remove x = 0, 1728 roots
         //TODO: what if there's no roots?
         //printf("hp ");
@@ -280,7 +274,9 @@ public class TypeDCurveGenerator implements CurveGenerator {
         //printf("\n");
 
         element_init(root, fp);
-        findroot(root, hp);
+        Element root = poly_findroot(hp);
+
+
         //printf("root = ");
         //element_out_str(stdout, 0, root);
         //printf("\n");
@@ -334,6 +330,9 @@ public class TypeDCurveGenerator implements CurveGenerator {
     }
 
 
+    // Returns 0 when a root exists and sets root to one of the roots.
+
+
     /**
      * solves x^2 - d y^2 = n
      * D not a square
@@ -352,7 +351,6 @@ public class TypeDCurveGenerator implements CurveGenerator {
             this.D = D;
             this.N = n;
         }
-
 
         public void solve() {
             //TODO: brute force for small D

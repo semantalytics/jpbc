@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.field.poly;
 
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Polynomial;
 import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericPolyElement;
 import it.unisa.dia.gas.plaf.jpbc.field.polymod.PolyModElement;
@@ -13,10 +14,10 @@ import java.math.BigInteger;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class PolyElement<E extends Element> extends GenericPolyElement<E> {
-    protected PolyField field;
+    protected PolyField<Field> field;
 
 
-    public PolyElement(PolyField field) {
+    public PolyElement(PolyField<Field> field) {
         super(field);
         this.field = field;
     }
@@ -39,7 +40,7 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
     public PolyElement<E> set(Element e) {
         PolyElement<E> element = (PolyElement<E>) e;
 
-        ensureCoeffSize(element.coeff.size());
+        ensureSize(element.coeff.size());
 
         for (int i = 0; i < coeff.size(); i++) {
             coeff.get(i).set(element.coeff.get(i));
@@ -49,7 +50,7 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
     }
 
     public PolyElement<E> set(int value) {
-        ensureCoeffSize(1);
+        ensureSize(1);
         coeff.get(0).set(value);
         removeLeadingZeroes();
 
@@ -57,7 +58,7 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
     }
 
     public PolyElement<E> set(BigInteger value) {
-        ensureCoeffSize(1);
+        ensureSize(1);
         coeff.get(0).set(value);
         removeLeadingZeroes();
 
@@ -73,7 +74,7 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
     }
 
     public PolyElement<E> setToZero() {
-        ensureCoeffSize(0);
+        ensureSize(0);
 
         return this;
     }
@@ -83,7 +84,7 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
     }
 
     public PolyElement<E> setToOne() {
-        ensureCoeffSize(1);
+        ensureSize(1);
         coeff.get(0).setToOne();
 
         return this;
@@ -131,7 +132,7 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
             big = element;
         }
 
-        ensureCoeffSize(n1);
+        ensureSize(n1);
         for (i = 0; i < n; i++) {
             coeff.get(i).add(element.coeff.get(i));
         }
@@ -189,7 +190,7 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
             big = element;
         }
 
-        ensureCoeffSize(n1);
+        ensureSize(n1);
 
         for (i = 0; i < n; i++) {
             coeff.get(i).sub(element.coeff.get(i));
@@ -229,7 +230,7 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
 
         prod = field.newElement();
         n = fcount + gcount - 1;
-        prod.ensureCoeffSize(n);
+        prod.ensureSize(n);
 
         e0 = field.getTargetField().newElement();
         for (i = 0; i < n; i++) {
@@ -342,7 +343,7 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
         StringBuffer buffer = new StringBuffer("[");
 
         for (Element e : coeff) {
-            buffer.append(e).append(", ");
+            buffer.append(e).append(" ");
         }
         buffer.append("]");
         return buffer.toString();
@@ -353,7 +354,7 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
     }
 
 
-    public void ensureCoeffSize(int size) {
+    public void ensureSize(int size) {
         int k = coeff.size();
         while (k < size) {
             coeff.add((E) field.getTargetField().newElement());
@@ -364,6 +365,14 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
             coeff.remove(coeff.size() - 1);
         }
     }
+
+    public void setCoefficient1(int n) {
+        if (this.coeff.size() < n + 1) {
+            ensureSize(n + 1);
+        }
+        this.coeff.get(n).setToOne();
+    }
+
 
     public void removeLeadingZeroes() {
         int n = coeff.size() - 1;
@@ -380,7 +389,7 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
     public PolyElement<E> setFromPolyMod(PolyModElement polyModElement) {
         int i, n = polyModElement.getField().getN();
 
-        ensureCoeffSize(n);
+        ensureSize(n);
         for (i = 0; i < n; i++) {
             coeff.get(i).set(polyModElement.getCoefficient(i));
         }
@@ -390,13 +399,22 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
     }
 
     public PolyElement<E> setToRandomMonic(int degree) {
-        ensureCoeffSize(degree + 1);
+        ensureSize(degree + 1);
 
         int i;
-        for (i=0; i<degree; i++) {
+        for (i = 0; i < degree; i++) {
             coeff.get(i).setToRandom();
         }
         coeff.get(i).setToOne();
+
+        return this;
+    }
+
+    public PolyElement<E> setFromCoefficientMonic(BigInteger[] coefficients) {
+        setCoefficient1(coefficients.length - 1);
+        for (int i = 0; i < coefficients.length; i++) {
+            this.coeff.get(i).set(coefficients[i]);
+        }
 
         return this;
     }
@@ -449,15 +467,17 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
      */
     public E findRoot() {
         // Compute gcd(x^q - x, poly)
-        BigInteger q = field.getTargetField().getOrder();
-
-        PolyModField fpxmod = new PolyModField(this, null);
+        PolyModField<Field> fpxmod = new PolyModField<Field>(this, null);
 
         PolyModElement p = fpxmod.newElement();
-        Element x = fpxmod.newElement();
+        Polynomial x = fpxmod.newOneElement();
+
+        BigInteger q = field.getTargetField().getOrder();
         PolyElement g = field.newElement();
 
-        ((Polynomial) x).getCoefficient(1).setToOne();
+        x.getCoefficient(1).setToOne();
+//        System.out.printf("findroot: degree %d...\n", this.getDegree());
+
         p.set(x).pow(q).sub(x);
         g.setFromPolyMod(p).gcd(this).makeMonic();
 
@@ -466,55 +486,51 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
         }
 
         // Use Cantor-Zassenhaus to find a root
-
         PolyElement fac = field.newElement();
         PolyElement r = field.newElement();
-        x = field.newElement().set(1);
+        x = field.newElement(1);
 
         q = q.subtract(BigInteger.ONE);
         q = q.divide(BigIntegerUtils.TWO);
 
-        boolean checkDegree = true;
         while (true) {
-            if (checkDegree && g.getDegree() == 1) {
-                //found a root!
+            if (g.getDegree() == 1) {
+                // found a root!
                 break;
             }
 
-            checkDegree = true;
-
-            r.setToRandomMonic(1);
-
-            //TODO: evaluate at g instead of bothering with gcd
-            fac.set(r).gcd(g);
-
-            if (fac.getDegree() > 0) {
-                g.set(fac).makeMonic();
-            } else {
-                fpxmod = new PolyModField(g, null);
-
-                int n;
-                p = fpxmod.newElement();
-                p.setFromPolyTruncate(r);
-
-                //fprintf(stderr, "findroot: degree %d...\n", poly_degree(g));
-                p.pow(q);
-                r.setFromPolyMod(p);
-
-                r.add(x);
+            while (true) {
+                r.setToRandomMonic(1);
+                // TODO: evaluate at g instead of bothering with gcd
                 fac.set(r).gcd(g);
 
-                n = fac.getDegree();
-                if (n > 0 && n < g.getDegree()) {
+                if (fac.getDegree() > 0) {
                     g.set(fac).makeMonic();
+                    break;
                 } else {
-                    checkDegree = false;
+                    fpxmod = new PolyModField<Field>(g, null);
+
+                    p = fpxmod.newElement();
+                    p.setFromPolyTruncate(r);
+
+//                    System.out.printf("findroot: degree %d...\n", g.getDegree());
+                    p.pow(q);
+                    r.setFromPolyMod(p);
+
+                    r.add(x);
+                    fac.set(r).gcd(g);
+
+                    int n = fac.getDegree();
+                    if (n > 0 && n < g.getDegree()) {
+                        g.set(fac).makeMonic();
+                        break;
+                    }
                 }
             }
         }
 
 //        fprintf(stderr, "findroot: found root\n");
-        return (E) g.getCoefficient(0).duplicate();
+        return (E) g.getCoefficient(0).negate();
     }
 
 }

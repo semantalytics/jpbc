@@ -14,17 +14,16 @@ import java.util.List;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class HilbertPoly {
+public class HilbertPolyGenerator {
     protected int D;
 
     protected BigDecimal pi, eulere, recipeulere, epsilon, negepsilon;
     protected static List fact;
 
 
-    public HilbertPoly(int D) {
+    public HilbertPolyGenerator(int D) {
         this.D = D;
     }
-
 
     /**
      * returns darray of mpz's that are coefficients of H_D(x)
@@ -88,13 +87,17 @@ public class HilbertPoly {
         System.out.println("h = " + h);
         System.out.println("t = " + t);
 
-        System.out.printf("modulus: %f\n", Math.exp(3.14159265358979d * sqrt(D)) * d * 0.5);
+        System.out.printf("modulus: %12.80f\n", Math.exp(3.14159265358979d * sqrt(D)) * d * 0.5);
+        System.out.printf("sqrt(D) = %12.80f\n", sqrt(D));
         d *= sqrt(D) * 3.14159265358979d / log(2);
+        System.out.printf("d = %12.80f\n", d);
         precision_init((int) d + 34);
         System.out.printf("class number %d, %d bit precision\n", h, (int) d + 34);
 
 
-        BigDecimal sqrtD = new BigDecimal(sqrt(D));
+        BigDecimal sqrtD = new BigDecimal(sqrt(D), precisionMathContext);
+
+        
         b = D % 2;
         h = 0;
         List<Complex> Pz = new LinkedList<Complex>() {
@@ -160,10 +163,11 @@ public class HilbertPoly {
 
                     f0 = BigDecimal.ONE.divide(BigDecimal.valueOf(2 * a), precisionMathContext);
 
+                    System.out.println("f0 = " + f0);
+
                     Complex alpha = new Complex(precisionMathContext);
                     alpha.setIm(sqrtD.multiply(f0, precisionMathContext));
-                    f0 = f0.multiply(BigDecimal.valueOf(b), precisionMathContext);
-                    alpha.setRe(f0.negate(precisionMathContext));
+                    alpha.setRe(f0.multiply(BigDecimal.valueOf(b), precisionMathContext).negate(precisionMathContext));
 
                     System.out.println("alpha = " + alpha);
 
@@ -200,7 +204,7 @@ public class HilbertPoly {
                             }
                             p0.mul(z1);
                         }
-                        
+
                         Pz.add(p0);
                     } else {
                         // P *= X^2 - 2 Re(j) X + |j|^2
@@ -271,15 +275,18 @@ public class HilbertPoly {
                 f0 = new BigDecimal(-0.5);
             else
                 f0 = new BigDecimal(0.5);
-            f0 = f0.add(Pz.get(i).getRe());
+            f0 = f0.add(Pz.get(i).getRe(), precisionMathContext);
 
             coeff[k++] = f0.toBigInteger();
-            System.out.printf("coeff_%d = %s\n", k-1, coeff[k-1].toString());
+            System.out.printf("coeff_%d = %s\n", k - 1, coeff[k - 1].toString());
         }
         coeff[k] = BigInteger.ONE;
 
         return coeff;
     }
+
+
+
 
     MathContext precisionMathContext;
 
@@ -289,13 +296,11 @@ public class HilbertPoly {
 
         precisionMathContext = new MathContext(prec);
 
-        MathContext precisionTwoMathContext = new MathContext(2);
-
         epsilon = BigDecimal.ONE;
-        epsilon = epsilon.divide(BigDecimalUtils.TWO.pow(prec), precisionTwoMathContext);
-        negepsilon = epsilon.negate(precisionTwoMathContext);
+        epsilon = epsilon.divide(BigDecimalUtils.TWO.pow(prec, precisionMathContext), precisionMathContext);
+        negepsilon = epsilon.negate(precisionMathContext);
 
-        System.out.printf("epsilon %s\n", epsilon);
+        System.out.printf("epsilon %12.80f\n", epsilon.doubleValue());
 
         recipeulere = BigDecimal.ZERO;
         pi = BigDecimal.ZERO;
@@ -311,7 +316,7 @@ public class HilbertPoly {
                 break;
             }
 
-            eulere = eulere.add(f0);
+            eulere = eulere.add(f0, precisionMathContext);
         }
         recipeulere = BigDecimal.ONE.divide(eulere, precisionMathContext);
 
@@ -349,13 +354,13 @@ public class HilbertPoly {
         fp0 = z0.getRe();
         pwr = abs(fp0.intValue());
         System.out.println("pwr = " + pwr);
-        f0 = recipeulere.pow(pwr);
-        fp0 = fp0.add(BigDecimal.valueOf(pwr));
+        f0 = recipeulere.pow(pwr, precisionMathContext);
+        fp0 = fp0.add(BigDecimal.valueOf(pwr), precisionMathContext);
         System.out.println("fp0 = " + fp0);
 
         z0.setRe(fp0);
 
-        f0 = exp(z0.getRe()).multiply(f0);
+        f0 = exp(z0.getRe()).multiply(f0, precisionMathContext);
 
         System.out.println("z0 = " + z0);
 
@@ -363,7 +368,7 @@ public class HilbertPoly {
 
         System.out.println("res = " + res);
         System.out.println("f0 = " + f0);
-        
+
         res.mul(f0);
         return res;
     }
@@ -492,13 +497,13 @@ public class HilbertPoly {
         Complex h = compute_h(tau);
 
         System.out.println("h = " + h);
-        
+
         return new Complex(h).mul_2exp(8).add(1).pow(3).div(h);
     }
 
 
     public static void main(String[] args) {
-        HilbertPoly poly = new HilbertPoly(9563);
-        poly.getHilbertPoly();
+        HilbertPolyGenerator hilbertPolyGenerator = new HilbertPolyGenerator(9563);
+        hilbertPolyGenerator.getHilbertPoly();
     }
 }

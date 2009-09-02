@@ -6,7 +6,7 @@
 #include <pbc/pbc_field.h>
 #include <pbc/pbc_pairing.h>
 #include <stdio.h>
-
+#include <math.h>
 
 int pbc_pairing_sizeof() {
     return sizeof(pairing_t);
