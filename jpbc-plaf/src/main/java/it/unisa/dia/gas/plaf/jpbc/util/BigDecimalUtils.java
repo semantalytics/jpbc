@@ -10,7 +10,6 @@ import java.math.MathContext;
 public class BigDecimalUtils {
     public static final BigDecimal TWO = BigDecimal.valueOf(2);
 
-
     public static BigDecimal compute_pi(int precision) {
         MathContext mathContext = new MathContext(precision);
 
@@ -27,10 +26,9 @@ public class BigDecimalUtils {
         BigFraction p = new BigFraction(BigInteger.ZERO, BigInteger.ONE);
         BigFraction q;
 
-
-        int nlimit = precision / 47 + 1;
+        int nLimit = precision / 47 + 1;
         boolean toggle = true;
-        for (int n = 0; n < nlimit; n++) {
+        for (int n = 0; n < nLimit; n++) {
             BigInteger z0 = BigIntegerUtils.factorial(6 * n);
             BigInteger z1 = k1.multiply(BigInteger.valueOf(n));
             z1 = z1.add(k2);
@@ -68,11 +66,4 @@ public class BigDecimalUtils {
         return pi;
     }
 
-    
- 
-
-    public static void main(String[] args) {
-        System.out.println(compute_pi(100));
-    }
-    
 }

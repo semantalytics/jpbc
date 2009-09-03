@@ -13,6 +13,8 @@ public interface PairingMap extends PairingPreProcessing {
 
     PairingPreProcessing pairingPreProcessing(Point in1);
 
+    boolean isAlmostCoddh(Element a, Element b, Element c, Element d);
+
 
     void finalPow(Element element);
 

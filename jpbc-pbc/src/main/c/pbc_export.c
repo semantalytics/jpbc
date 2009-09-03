@@ -89,6 +89,11 @@ void pbc_pairing_clear(pairing_t pairing) {
     pairing_clear(pairing);
 }
 
+int pbc_is_almost_coddh(element_t a, element_t b, element_t c, element_t d, pairing_t pairing) {
+    return is_almost_coddh(a, b, c, d, pairing);
+}
+
+
 
 void pbc_element_init_G1(element_t element, pairing_t pairing) {
     element_init_G1(element, pairing);

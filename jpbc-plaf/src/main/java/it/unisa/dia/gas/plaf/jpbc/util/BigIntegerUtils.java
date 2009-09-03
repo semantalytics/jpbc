@@ -161,6 +161,28 @@ public class BigIntegerUtils {
         return result;
     }
 
+    /**
+     * Compute trace of Frobenius at q^n given trace at q.
+     * See p.105 of Blake, Seroussi and Smart.
+     *
+     * @param res
+     * @param q
+     * @param trace
+     * @param n
+     * @return
+     */
+    public static BigInteger pbc_mpz_trace_n(BigInteger q, BigInteger trace, int n) {
+        BigInteger c2 = TWO;
+        BigInteger c1 = trace;
+        for (int i = 2; i <= n; i++) {
+            BigInteger c0 = trace.multiply(c1);
+            BigInteger t0 = q.multiply(c2);
+            c0 = c0.subtract(t0);
+            c2 = c1;
+            c1 = c0;
+        }
+        return c1;
+    }
 
     /*	Compute the integer square root of n or a number which is too large by one
         Precondition: n >= 0 and 2^log2n <= n < 2^(log2n + 1), i.e. log2n = floor(log2(n))
@@ -192,5 +214,49 @@ public class BigIntegerUtils {
         return new BigInteger[]{s.shiftLeft(log2b).add(q), qu[1].shiftLeft(log2b).add(n.and(mask)).subtract(q.multiply(q))};
     }
 
+
+    /**
+     * Divides `n` with primes up to `limit`. For each factor found,
+     * call `fun`. If the callback returns nonzero, then aborts and returns 1.
+     * Otherwise returns 0.
+     */
+    public static abstract class TrialDivide {
+        protected BigInteger limit;
+
+        public TrialDivide(BigInteger limit) {
+            this.limit = limit;
+        }
+
+        public int trialDivide(BigInteger n) {
+            BigInteger m = n;
+            BigInteger p = TWO;
+
+            while (m.compareTo(BigInteger.ONE) != 0) {
+                if (m.isProbablePrime(10))
+                    p = m;
+
+                if (limit != null && !limit.equals(BigInteger.ZERO) && p.compareTo(limit) > 0)
+                    p = m;
+
+                if (isDivisible(m, p)) {
+                    int mul = 0;
+                    do {
+                        m = m.divide(p);
+                        mul++;
+                    } while (isDivisible(m, p));
+
+                    if (fun(p, mul) != 0)
+                        return 1;
+                }
+                p = p.nextProbablePrime();
+            }
+
+            return 0;
+        }
+
+
+        protected abstract int fun(BigInteger factor, int multiplicity);
+
+    }
 
 }

@@ -22,7 +22,20 @@ public abstract class AbstractPairingMap implements PairingMap {
         return pairing(in1, (Point) in2);
     }
 
-    
+    public boolean isAlmostCoddh(Element a, Element b, Element c, Element d) {
+        Element t0, t1;
+
+        t0 = pairing((Point) a, (Point) d);
+        t1 = pairing((Point) b, (Point) c);
+
+        if (t0.compareTo(t1) == 0) {
+            return true;
+        } else {
+            t0.mul(t1);
+            return t0.isOne();
+        }
+    }
+
     protected final void pointToAffine(Element Vx, Element Vy, Element z, Element z2, Element e0) {
         // Vx = Vx * z^-2
         Vx.mul(e0.set(z.invert()).square());
@@ -32,4 +45,5 @@ public abstract class AbstractPairingMap implements PairingMap {
         z.setToOne();
         z2.setToOne();
     }
+
 }

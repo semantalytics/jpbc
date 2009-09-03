@@ -49,6 +49,8 @@ public interface PBCLibrary extends Library {
 
     void pbc_pairing_clear(Pointer pairing);
 
+    int pbc_is_almost_coddh(Pointer a, Pointer b, Pointer c, Pointer d, Pointer pairing);
+
 
     void pbc_element_init_G1(Pointer element, Pointer pairing);
 

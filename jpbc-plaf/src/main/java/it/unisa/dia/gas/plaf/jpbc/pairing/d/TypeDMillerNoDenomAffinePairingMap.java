@@ -26,44 +26,13 @@ public class TypeDMillerNoDenomAffinePairingMap extends AbstractMillerPairingMap
 
 
     public Element pairing(Point in1, Point in2) {
-        Point P = in1;
-        Element Px = P.getX();
-        Element Py = P.getY();
-
         // map from twist: (x, y) --> (v^-1 x, v^-(3/2) y)
         // where v is the quadratic non-residue used to construct the twist
         Polynomial Qx = (Polynomial) in2.getX().duplicate().mul(pairing.nqrInverse);
         // v^-3/2 = v^-2 * v^1/2
         Polynomial Qy = (Polynomial) in2.getY().duplicate().mul(pairing.nqrInverseSquare);
 
-        Point Z = (Point) P.duplicate();
-        Element Zx = Z.getX();
-        Element Zy = Z.getY();
-
-
-        Element a = Px.getField().newElement();
-        Element b = a.duplicate();
-        Element c = a.duplicate();
-        Element cca = ((CurveField) P.getField()).getA();
-        Element temp = a.duplicate();
-
-        Point<Polynomial> f0 = pairing.Fqk.newElement();
-        Element f = pairing.Fqk.newOneElement();
-
-        for (int m = pairing.r.bitLength() - 2; m > 0; m--) {
-            tangentStep(f0, a, b, c, Zx, Zy, cca, temp, Qx, Qy, f);
-            Z.twice();
-
-            if (pairing.r.testBit(m)) {
-                lineStep(f0, a, b, c, Zx, Zy, Px, Py, temp, Qx, Qy, f);
-                Z.add(P);
-            }
-
-            f.square();
-        }
-        tangentStep(f0, a, b, c, Zx, Zy, cca, temp, Qx, Qy, f);
-
-        return new GTFiniteElement(this, (GTFiniteField) pairing.getGT(), tatePow(f));
+        return new GTFiniteElement(this, (GTFiniteField) pairing.getGT(), tatePow(pairing(in1, Qx, Qy)));
     }
 
     public void finalPow(Element element) {
@@ -72,6 +41,35 @@ public class TypeDMillerNoDenomAffinePairingMap extends AbstractMillerPairingMap
 
     public PairingPreProcessing pairingPreProcessing(Point in1) {
         return new TypeDMillerNoDenomAffinePairingPreProcessing(in1);
+    }
+
+    public boolean isAlmostCoddh(Element a, Element b, Element c, Element d) {
+        // Twist: (x, y) --> (v^-1 x, v^-(3/2) y)
+        // where v is the quadratic nonresidue used to construct the twist.
+
+        Element cx = ((Point) c).getX().duplicate().mul(pairing.nqrInverse);
+        Element dx = ((Point) d).getX().duplicate().mul(pairing.nqrInverse);
+
+        // v^-3/2 = v^-2 * v^1/2
+        Element cy = ((Point) c).getY().duplicate().mul(pairing.nqrInverseSquare);
+        Element dy = ((Point) d).getY().duplicate().mul(pairing.nqrInverseSquare);
+
+        Element t0 = pairing((Point) a, (Polynomial) dx, (Polynomial) dy);
+        Element t1 = pairing((Point) b, (Polynomial) cx, (Polynomial) cy);
+        t0 = tatePow(t0);
+        t1 = tatePow(t1);
+        Element t2 = t0.duplicate().mul(t1);
+
+        if (t2.isOne())
+            return true;    // We were given g, g^x, h, h^-x.
+        else {
+          // Cheaply check the other case.
+            t2.set(t0).mul(t1.invert());
+            if (t2.isOne())
+                return true;    // We were given g, g^x, h, h^x.
+        }
+
+        return false;
     }
 
 
@@ -168,6 +166,38 @@ public class TypeDMillerNoDenomAffinePairingMap extends AbstractMillerPairingMap
         }
     }
 
+    protected Element pairing(Point P, Polynomial Qx, Polynomial Qy) {
+        Element Px = P.getX();
+        Element Py = P.getY();
+
+        Point Z = (Point) P.duplicate();
+        Element Zx = Z.getX();
+        Element Zy = Z.getY();
+
+        Element a = Px.getField().newElement();
+        Element b = a.duplicate();
+        Element c = a.duplicate();
+        Element cca = ((CurveField) P.getField()).getA();
+        Element temp = a.duplicate();
+
+        Point<Polynomial> f0 = pairing.Fqk.newElement();
+        Element f = pairing.Fqk.newOneElement();
+
+        for (int m = pairing.r.bitLength() - 2; m > 0; m--) {
+            tangentStep(f0, a, b, c, Zx, Zy, cca, temp, Qx, Qy, f);
+            Z.twice();
+
+            if (pairing.r.testBit(m)) {
+                lineStep(f0, a, b, c, Zx, Zy, Px, Py, temp, Qx, Qy, f);
+                Z.add(P);
+            }
+
+            f.square();
+        }
+        tangentStep(f0, a, b, c, Zx, Zy, cca, temp, Qx, Qy, f);
+
+        return f;
+    }
 
     protected void millerStep(Point<Polynomial> out, Element a, Element b, Element c, Polynomial Qx, Polynomial Qy) {
         // a, b, c are in Fq
@@ -263,6 +293,5 @@ public class TypeDMillerNoDenomAffinePairingMap extends AbstractMillerPairingMap
             );
         }
     }
-
 
 }

@@ -95,10 +95,10 @@ public class TypeACurveGenerator implements CurveGenerator {
         params.put("q", q.toString());
         params.put("r", r.toString());
         params.put("h", h.toString());
-        params.put("exp1", "" + exp1);
-        params.put("exp2", "" + exp2);
-        params.put("sign0", "" + sign0);
-        params.put("sign1", "" + sign1);
+        params.put("exp1", String.valueOf(exp1));
+        params.put("exp2", String.valueOf(exp2));
+        params.put("sign0", String.valueOf(sign0));
+        params.put("sign1", String.valueOf(sign1));
 
         return params;
     }

@@ -435,8 +435,65 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
         return this;
     }
 
+    /**
+     * Returns <tt>true</tt> if polynomial is irreducible, <tt>false</tt> otherwise.
+     * <p/>
+     * A polynomial f(x) is irreducible in F_q[x] if and only if:
+     * (1) f(x) | x^{q^n} - x, and
+     * (2) gcd(f(x), x^{q^{n/d}} - x) = 1 for all primes d | n.
+     * (Recall GF(p) is the splitting field for x^p - x.)
+     *
+     * @return
+     */
     public boolean isIrriducible() {
-        throw new IllegalStateException("Not Implemented yet!!!");
+
+        // 0, units are not irreducibles.
+        // Assume coefficients are from a field.
+        if (getDegree() <= 0)
+            return false;
+
+        // Degree 1 polynomials are always irreducible.
+        if (getDegree() == 1)
+            return true;
+
+        PolyModField rxmod = new PolyModField(this);
+
+        final PolyModElement xpow = rxmod.newElement();
+
+        // The degree fits in an unsigned int but I'm lazy and want to use my
+        // mpz trial division code.
+
+        final PolyElement g = getField().newElement();
+
+        final PolyModElement x = rxmod.newElement();
+        x.getCoefficient(1).setToOne();
+
+        final BigInteger deg = BigInteger.valueOf(getDegree());
+
+        BigIntegerUtils.TrialDivide  trialDivide = new BigIntegerUtils.TrialDivide(null) {
+            protected int fun(BigInteger factor, int multiplicity) {
+                BigInteger z = deg.divide(factor);
+                z = getField().getTargetField().getOrder().pow(z.intValue());
+                xpow.set(x).pow(z).sub(x);
+                if (xpow.isZero())
+                    return 1;
+
+                g.setFromPolyMod(xpow);
+//                poly_gcd(g, f, g);
+                g.gcd(PolyElement.this);
+                return g.getDegree() != 0 ? 1 : 0;
+            }
+        };
+
+
+        if (trialDivide.trialDivide(deg) == 0) {
+            // By now condition (2) has been satisfied. Check (1).
+            BigInteger z = getField().getTargetField().getOrder().pow(this.getDegree());
+            xpow.set(x).pow(z).sub(x);
+            return xpow.isZero();
+        }
+
+        return false;
     }
 
     public PolyElement<E> gcd(PolyElement g) {
@@ -467,16 +524,16 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
      */
     public E findRoot() {
         // Compute gcd(x^q - x, poly)
-        PolyModField<Field> fpxmod = new PolyModField<Field>(this, null);
+        PolyModField<Field> fpxmod = new PolyModField<Field>(this);
 
         PolyModElement p = fpxmod.newElement();
-        Polynomial x = fpxmod.newOneElement();
+        Polynomial x = fpxmod.newElement();
 
         BigInteger q = field.getTargetField().getOrder();
         PolyElement g = field.newElement();
 
         x.getCoefficient(1).setToOne();
-//        System.out.printf("findroot: degree %d...\n", this.getDegree());
+        System.out.printf("findroot: degree %d...\n", this.getDegree());
 
         p.set(x).pow(q).sub(x);
         g.setFromPolyMod(p).gcd(this).makeMonic();

@@ -53,7 +53,11 @@ public abstract class AbstractPairing implements Pairing {
         return pairingMap.pairingPreProcessing((Point) in1);
     }
 
-    
+    public boolean isAlmostCoddh(Element a, Element b, Element c, Element d) {
+        return pairingMap.isAlmostCoddh(a, b, c, d);
+    }
+
+
     public PairingMap getPairingMap() {
         return pairingMap;
     }

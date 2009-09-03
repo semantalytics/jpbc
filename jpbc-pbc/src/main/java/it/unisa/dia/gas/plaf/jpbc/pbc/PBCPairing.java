@@ -67,6 +67,16 @@ public class PBCPairing implements Pairing {
         return new PBCPairingPreProcessing(in1);
     }
 
+    public boolean isAlmostCoddh(Element a, Element b, Element c, Element d) {
+        return PBCLibraryProvider.getPbcLibrary().pbc_is_almost_coddh(
+                ((PBCElement) a).getValue(),
+                ((PBCElement) b).getValue(),
+                ((PBCElement) c).getValue(),
+                ((PBCElement) d).getValue(),
+                pairing
+        ) == 1;
+    }
+
     @Override
     protected void finalize() throws Throwable {
         g1Field = null;

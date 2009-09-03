@@ -2,6 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.field.poly;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.plaf.jpbc.field.naive.NaiveField;
+import it.unisa.dia.gas.plaf.jpbc.util.HilbertPolyGenerator;
 import junit.framework.TestCase;
 
 import java.math.BigInteger;
@@ -9,7 +10,7 @@ import java.math.BigInteger;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class HilbertPolyTest extends TestCase {
+public class HilbertPolyGeneratorTest extends TestCase {
 
     public void testHilbertPolyRoot() {
         HilbertPolyGenerator hilbertPolyGenerator = new HilbertPolyGenerator(59);

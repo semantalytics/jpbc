@@ -21,6 +21,10 @@ public class PolyModField<F extends Field> extends GenericFieldOver<F, PolyModEl
     protected PolyModElement[] xpwr;
 
 
+    public PolyModField(PolyElement irreduciblePoly) {
+        this(irreduciblePoly, null);
+    }
+
     public PolyModField(PolyElement irreduciblePoly, BigInteger nqr) {
         super((F) irreduciblePoly.getField().getTargetField());
 
