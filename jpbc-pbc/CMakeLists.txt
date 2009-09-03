@@ -1,10 +1,10 @@
-#==================================
+#==========================
 #
 # JPBC-PBC build system
 #
 # Main input file for CMake
 #
-#==================================
+#==========================
 
 #================
 # Configure CMake
@@ -16,20 +16,16 @@ if(COMMAND cmake_policy)
   cmake_policy(SET CMP0003 NEW)
 endif(COMMAND cmake_policy)
 
-#===============================================
+#=======================
 # Set the project's name
-#
-# This makes the following cmake vars available:
-#   ${SHAWN_SOURCE_DIR}
-#   ${SHAWN_BINARY_DIR}
-#
-#===============================================
+#=======================
 
 	project( JPBC-PBC )
+    set(CMAKE_MODULE_PATH .)
 
-#=============
+#========
 # Options
-#=============
+#========
 
 #===============================================
 # Set the default paths for binary and lib build
@@ -56,6 +52,9 @@ endif(COMMAND cmake_policy)
 # Add include and library directories for the compiler/linker
 #============================================================
 
+    find_package(GMP REQUIRED)
+    find_package(PBC REQUIRED)
+
     set ( LIB_PATH_GMP   CACHE PATH "GMP lib path" )
     set ( INCLUDE_PATH_GMP   CACHE PATH "GMP include path" )
     link_directories( ${LIB_PATH_GMP} )
@@ -65,6 +64,7 @@ endif(COMMAND cmake_policy)
     set ( INCLUDE_PATH_PBC   CACHE PATH "PBC include path" )
     link_directories( ${LIB_PATH_PBC} )
     include_directories ( ${INCLUDE_PATH_PBC} )
+
 
 #=============
 # Build target
