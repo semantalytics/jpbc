@@ -16,7 +16,7 @@ import java.util.Map;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class CurveGeneratorPBCPairingTest extends TestCase {
+public class JPBCCurveGeneratorPBCPairingTest extends TestCase {
     protected Pairing pairing;
 
 

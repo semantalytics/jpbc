@@ -8,6 +8,11 @@
 #include <stdio.h>
 #include <math.h>
 
+// ==============
+// sizeof methods
+// ==============
+
+
 int pbc_pairing_sizeof() {
     return sizeof(pairing_t);
 }
@@ -27,6 +32,29 @@ int pbc_mpz_sizeof() {
 int pbc_element_pp_sizeof() {
     return sizeof(element_pp_t);
 }
+
+
+// ========================
+// curve generation methods
+// ========================
+
+
+void pbc_curvegen_a(const char *fileName, int rbits, int qbits) {
+      pbc_param_t par;
+
+      pbc_param_init_a_gen(par, rbits, qbits);
+
+      FILE *pFile = fopen(fileName, "w+");
+
+      pbc_param_out_str(pFile, par);
+      pbc_param_clear(par);
+
+      fclose (pFile);
+}
+
+// ===============
+// pairing methods
+// ===============
 
 void pbc_pairing_init_inp_buf(pairing_t pairing, const char *buf, size_t len) {
     pairing_init_set_buf (pairing, buf, len);
@@ -93,6 +121,10 @@ int pbc_is_almost_coddh(element_t a, element_t b, element_t c, element_t d, pair
     return is_almost_coddh(a, b, c, d, pairing);
 }
 
+
+// ===============
+// element methods
+// ===============
 
 
 void pbc_element_init_G1(element_t element, pairing_t pairing) {
@@ -295,6 +327,9 @@ void pbc_element_pp_pow_zn(element_t out, element_t power, element_pp_t p) {
     element_pp_pow_zn(out, power, p);
 }
 
+// =============
+// field methods
+// =============
 
 void pbc_field_order(element_t element, mpz_t order) {
     //gmp_fprintf(stderr, "element->field->order = %Zd\n", element->field->order);

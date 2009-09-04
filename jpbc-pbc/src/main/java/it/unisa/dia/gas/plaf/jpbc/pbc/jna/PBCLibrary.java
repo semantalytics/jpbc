@@ -165,4 +165,5 @@ public interface PBCLibrary extends Library {
 
     int element_from_bytes_compressed(Pointer element, byte[] data);
 
+    void pbc_curvegen_a(String fileName, int rbits, int qbits);
 }
