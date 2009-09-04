@@ -12,32 +12,30 @@ import java.util.Map;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class TypeA1CurveGenerator implements CurveGenerator {
-    protected int rBits, qBits;
 
-    public TypeA1CurveGenerator(int rBits, int qBits) {
-        this.rBits = rBits;
-        this.qBits = qBits;
+    public TypeA1CurveGenerator() {
     }
 
     public Map generate() {
         SecureRandom secureRandom = new SecureRandom();
 
-        BigInteger q = new BigInteger(qBits, 16, secureRandom);
-        BigInteger r = new BigInteger(rBits, 16, secureRandom);
-        BigInteger N = q.multiply(r);
+        BigInteger p = new BigInteger(512, 16, secureRandom);
+        BigInteger q = new BigInteger(512, 16, secureRandom);
+        BigInteger order = p.multiply(q);
 
         // If order is even, ideally check all even l, not just multiples of 4
         long l = 4;
-        BigInteger n = N.multiply(BigIntegerUtils.FOUR);
-        BigInteger p = n.subtract(BigInteger.ONE);
+        BigInteger n = order.multiply(BigIntegerUtils.FOUR);
+        p = n.subtract(BigInteger.ONE);
         while (!p.isProbablePrime(20)){
             p = p.add(n);
             l += 4;
         }
 
         CurveParams params = new CurveParams();
+        params.put("type", "a1");
         params.put("p", p.toString());
-        params.put("n", n.toString());
+        params.put("n", order.toString());
         params.put("l", String.valueOf(l));
 
         return params;

@@ -1,7 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing.e;
 
 import it.unisa.dia.gas.jpbc.CurveGenerator;
-import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveField;
 import it.unisa.dia.gas.plaf.jpbc.field.naive.NaiveField;
@@ -28,13 +27,13 @@ public class TypeECurveGenerator implements CurveGenerator {
     public Map generate() {
         SecureRandom secureRandom = new SecureRandom();
 
-        //3 takes 2 bits to represent
+        // 3 takes 2 bits to represent
         BigInteger q;
         BigInteger r;
         BigInteger h = null;
         BigInteger n = null;
 
-        //won't find any curves is hBits is too low
+        // won't find any curves is hBits is too low
         int hBits = (qBits - 2) / 2 - rBits;
         if (hBits < 3)
             hBits = 3;
@@ -59,8 +58,7 @@ public class TypeECurveGenerator implements CurveGenerator {
             exp1 = (secureRandom.nextInt(Integer.MAX_VALUE) % (exp2 - 1)) + 1;
 
             //use q as a temp variable
-            q = BigInteger.ZERO;
-            q = q.setBit(exp1);
+            q = BigInteger.ZERO.setBit(exp1);
 
             if (sign1 > 0) {
                 r = r.add(q);
@@ -80,14 +78,14 @@ public class TypeECurveGenerator implements CurveGenerator {
 
             for (int i = 0; i < 10; i++) {
                 //use q as a temp variable
-                q = BigInteger.ZERO;
-                q = q.setBit(hBits + 1);
+                q = BigInteger.ZERO.setBit(hBits + 1);
 
                 h = BigIntegerUtils.getRandom(q);
                 h = h.multiply(h).multiply(BigIntegerUtils.THREE);
 
                 //finally q takes the value it should
-                n = r.multiply(r).multiply(h).add(BigInteger.ONE);
+                n = r.multiply(r).multiply(h);
+                q = n.add(BigInteger.ONE);
                 if (q.isProbablePrime(10)) {
                     found = true;
                     break;
@@ -100,11 +98,11 @@ public class TypeECurveGenerator implements CurveGenerator {
 
         // We may need to twist it.
         // Pick a random point P and twist the curve if P has the wrong order.
-        Element P = curveField.newElement().setToRandom().mul(n);
-        if (!P.isZero())
-            curveField.reinitCurveTwist();
+        if (!curveField.newElement().setToRandom().mul(n).isZero())
+            curveField.twist();
 
         CurveParams params = new CurveParams();
+        params.put("type", "e");
         params.put("q", q.toString());
         params.put("r", r.toString());
         params.put("h", h.toString());

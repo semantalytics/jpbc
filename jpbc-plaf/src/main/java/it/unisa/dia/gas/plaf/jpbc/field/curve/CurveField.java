@@ -94,6 +94,11 @@ public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElemen
         return b;
     }
 
+    /**
+     * Existing points are invalidated as this mangles c.
+     *
+     * @return the twisted curve.
+     */
     public CurveField twist() {
 //        System.out.println("twist");
         Element nqr = getTargetField().getNqr();
@@ -104,15 +109,6 @@ public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElemen
         initGen();
 
         return this;
-    }
-
-    // Existing points are invalidated as this mangles c.
-    public void reinitCurveTwist() {
-        Element nqr = targetField.getNqr();
-        a.mul(nqr).mul(nqr);
-        b.mul(nqr).mul(nqr).mul(nqr);
-        // Recompute generators.
-        initGen();
     }
 
     public CurveElement getGenNoCofac() {

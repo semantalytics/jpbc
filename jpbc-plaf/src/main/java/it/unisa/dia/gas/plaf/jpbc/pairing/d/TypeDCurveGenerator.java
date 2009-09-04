@@ -206,6 +206,7 @@ public class TypeDCurveGenerator implements CurveGenerator {
             }
         }
 
+        params.put("type", "d");
         params.put("k", "6");
         params.put("D", String.valueOf(discriminant));
         params.put("q", q.toString());
