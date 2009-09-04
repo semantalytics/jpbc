@@ -1,8 +1,10 @@
-package it.unisa.dia.gas.plaf.jpbc.pbc;
+package it.unisa.dia.gas.plaf.jpbc.pbc.element;
 
 import it.unisa.dia.gas.plaf.jpbc.field.PowPreProcessingTest;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
+import it.unisa.dia.gas.plaf.jpbc.pbc.PBCPairing;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCLibraryProvider;
+import it.unisa.dia.gas.plaf.jpbc.pbc.pairing.PBCPairingTest;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)

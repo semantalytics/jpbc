@@ -27,7 +27,7 @@ public abstract class PBCCurveGenerator implements CurveGenerator {
             curveParams.load(inputStream);
             inputStream.close();
 
-            file.delete();
+//            file.delete();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

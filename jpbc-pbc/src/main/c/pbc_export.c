@@ -5,6 +5,7 @@
 #include <pbc/pbc.h>
 #include <pbc/pbc_field.h>
 #include <pbc/pbc_pairing.h>
+#include <pbc/pbc_utils.h>
 #include <stdio.h>
 #include <math.h>
 
@@ -39,17 +40,75 @@ int pbc_element_pp_sizeof() {
 // ========================
 
 
-void pbc_curvegen_a(const char *fileName, int rbits, int qbits) {
+int pbc_curvegen_a(const char *fileName, int rbits, int qbits) {
       pbc_param_t par;
-
       pbc_param_init_a_gen(par, rbits, qbits);
-
       FILE *pFile = fopen(fileName, "w+");
-
       pbc_param_out_str(pFile, par);
       pbc_param_clear(par);
-
       fclose (pFile);
+
+      return 1;
+}
+
+int pbc_curvegen_a1(const char *fileName) {
+    mpz_t p, q, N;
+
+    mpz_init(p);
+    mpz_init(q);
+    mpz_init(N);
+
+    // In a real application, p and q must be stored somewhere safe.
+    pbc_mpz_randomb(p, 512);
+    pbc_mpz_randomb(q, 512);
+
+    mpz_nextprime(p, p);
+    mpz_nextprime(q, q);
+    mpz_mul(N, p, q);
+
+    pbc_param_t param;
+    pbc_param_init_a1_gen(param, N);
+    FILE *pFile = fopen(fileName, "w+");
+    pbc_param_out_str(pFile, param);
+    pbc_param_clear(param);
+    fclose (pFile);
+
+    mpz_clear(p);
+    mpz_clear(q);
+    mpz_clear(N);
+    
+    return 1;
+}
+
+int pbc_curvegen_d(const char *fileName, int discriminant) {
+    int generate(pbc_cm_t cm, void *data) {
+      UNUSED_VAR(data);
+      pbc_param_t param;
+      pbc_info("gendparam: computing Hilbert polynomial and finding roots...");
+      pbc_param_init_d_gen(param, cm);
+      pbc_info("gendparam: bits in q = %zu\n", mpz_sizeinbase(cm->q, 2));
+      FILE *pFile = fopen(fileName, "w+");
+      pbc_param_out_str(pFile, param);
+      pbc_param_clear(param);
+      fclose (pFile);
+      return 1;
+    }
+
+    if (!pbc_cm_search_d(generate, NULL, discriminant, 500))
+        return 0;
+
+    return 1;
+}
+
+int pbc_curvegen_e(const char *fileName, int rbits, int qbits) {
+      pbc_param_t par;
+      pbc_param_init_e_gen(par, rbits, qbits);
+      FILE *pFile = fopen(fileName, "w+");
+      pbc_param_out_str(pFile, par);
+      pbc_param_clear(par);
+      fclose (pFile);
+
+      return 1;
 }
 
 // ===============

@@ -4,6 +4,7 @@ import static java.lang.Math.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class HilbertPolyGenerator {
         // Compute required precision.
         int a = 0;
         int b = D % 2;
-        double  d = 1.0;
+        double d = 1.0;
         int h = 1;
 
         int B = (int) floor(sqrt((double) D / 3.0));
@@ -76,12 +77,19 @@ public class HilbertPolyGenerator {
 
         }
 
-        d *= sqrt(D) * 3.14159265358979d / log(2);
-        initPrecision((int) d + 34);
+//        5.54526825320470858102580005130496645923
+//        5.54526825320470858102580005130496645923
 
-        BigDecimal sqrtD = new BigDecimal(sqrt(D), new MathContext(21))/*precisionMathContext)*/;
+        d *= sqrt(D) * 3.14159265358979d / log(2);
+//        initPrecision((int) d + 34);
+        initPrecision((int) (d / 2) + 5);
+
+        System.out.println("step1 = " + new BigDecimal(sqrt(D)));
+        BigDecimal sqrtD = BigDecimalUtils.sqrt(new BigDecimal(D), precisionMathContext.getPrecision())/*.setScale(precisionMathContext.getPrecision(), precisionMathContext.getRoundingMode())*/;
+//        sqrtD = new BigDecimal(sqrt(D)).setScale(precisionMathContext.getPrecision(), precisionMathContext.getRoundingMode());
+
+        System.out.println("sqrtD = " + sqrtD);
         System.out.printf("%15.80f\n", sqrt(D));
-        System.out.println("sqrtD = " + sqrtD.toString());
         b = D % 2;
         h = 0;
         List<Complex> Pz = new LinkedList<Complex>();
@@ -135,16 +143,21 @@ public class HilbertPolyGenerator {
                     // a, b, t/a are coeffs of an appropriate primitive reduced positive
                     // definite form.
                     // Compute j((-b + sqrt{-D})/(2a)).
+
                     h++;
                     System.out.printf("[%d/%d] a b c = %d %d %d\n", h, jcount, a, b, t / a);
 
-                    f0 = BigDecimal.ONE.divide(BigDecimal.valueOf(2 * a), precisionMathContext);
+                    f0 = BigDecimal.ONE.divide(BigDecimal.valueOf(2 * a), precisionMathContext.getPrecision() + 1, precisionMathContext.getRoundingMode());
+                    System.out.println("f0 = " + f0);
 
                     Complex alpha = new Complex(precisionMathContext);
-                    alpha.setIm(sqrtD.multiply(f0, precisionMathContext));
+                    alpha.setIm(sqrtD.multiply(f0).setScale(precisionMathContext.getPrecision(), precisionMathContext.getRoundingMode()));
                     alpha.setRe(f0.multiply(BigDecimal.valueOf(b), precisionMathContext).negate(precisionMathContext));
                     System.out.println("alpha = " + alpha);
+
                     Complex j = computeJ(alpha);
+
+                    System.out.println("j = " + j);
 
                     if (a == b || a * a == t || b == 0) {
                         // P *= X - j
@@ -231,7 +244,7 @@ public class HilbertPolyGenerator {
         BigInteger[] coeff = new BigInteger[Pz.size() + 1];
         int k = 0;
         for (int i = Pz.size() - 1; i >= 0; i--) {
-            f0 = Pz.get(i).getRe().signum() < 0 ? new BigDecimal(-0.5) : new BigDecimal(0.5);
+            f0 = Pz.get(i).getRe().signum() < 0 ? new BigDecimal("-0.5") : new BigDecimal("0.5");
             f0 = f0.add(Pz.get(i).getRe(), precisionMathContext);
 
             coeff[k++] = f0.toBigInteger();
@@ -244,27 +257,42 @@ public class HilbertPolyGenerator {
 
 
     protected void initPrecision(int precision) {
-        precisionMathContext = new MathContext(precision);
+        precisionMathContext = new MathContext(precision, RoundingMode.HALF_DOWN);
 
         // compute epsilon
         epsilon = BigDecimal.ONE;
-        epsilon = epsilon.divide(BigDecimalUtils.TWO.pow(precision, precisionMathContext), precisionMathContext);
-        negepsilon = epsilon.negate(precisionMathContext);
+        epsilon = epsilon.divide(BigDecimalUtils.TWO.pow(101), precision + 13, precisionMathContext.getRoundingMode());
+        negepsilon = epsilon.negate().setScale(precisionMathContext.getPrecision(), precisionMathContext.getRoundingMode());
 
         // compute eulere
         eulere = BigDecimal.ONE;
         BigDecimal f0 = BigDecimal.ONE;
         for (int i = 1; ; i++) {
-            f0 = f0.divide(BigDecimal.valueOf(i), precisionMathContext);
+            f0 = f0.divide(BigDecimal.valueOf(i), precisionMathContext.getPrecision() + (i-1), precisionMathContext.getRoundingMode());
             if (f0.compareTo(epsilon) < 0)
                 break;
 
-            eulere = eulere.add(f0, precisionMathContext);
+            System.out.println("f0 = " + f0);
+            eulere = eulere.add(f0).setScale(precisionMathContext.getPrecision() + 3, precisionMathContext.getRoundingMode());
+            System.out.println("eulere = " + eulere);
         }
-        recipeulere = BigDecimal.ONE.divide(eulere, precisionMathContext);
+        recipeulere = BigDecimal.ONE.divide(eulere, precisionMathContext.getPrecision(), precisionMathContext.getRoundingMode());
+
+        System.out.println("epsilon = " + epsilon);
+        System.out.println("eulere = " + eulere);
+        System.out.println("recipeulere = " + recipeulere);
+
+//        2.70833333333333333333333333333333333333337
+//        2.70833333333333333333333333333333333333337
+
+                
+        //                                394430452610505902706
+        //0.00000000000000000000000000000039443045261050590270600000000000000000000000000000
+        //2.718281828459045235360287471352545502609208837906
+        //2.71828182845822974791228759482727736696
 
         // compute pi
-        pi = BigDecimalUtils.compute_pi(precision);
+        pi = BigDecimalUtils.computePI(precision);
     }
 
 
@@ -282,7 +310,11 @@ public class HilbertPolyGenerator {
         fp0 = fp0.subtract(f1);
 
         z0.setRe(fp0);
-        z0.mul(pi).mul(2).muli(z0);
+        System.out.println("z0 = " + z0);
+        System.out.println("pi = " + pi);
+        z0.mul(pi);
+        System.out.println("z0 = " + z0);
+        z0.mul(2).muli(z0);
 
         // compute q = exp(z0);
         // first write z0 = A + a + b i
@@ -291,11 +323,13 @@ public class HilbertPolyGenerator {
         // compute e^A separately
         fp0 = z0.getRe();
         int pwr = abs(fp0.intValue());
-        BigDecimal f0 = recipeulere.pow(pwr, precisionMathContext);
-        fp0 = fp0.add(BigDecimal.valueOf(pwr), precisionMathContext);
+        System.out.println("pwr = " + pwr);
+        BigDecimal f0 = recipeulere.pow(pwr).setScale(precisionMathContext.getPrecision(), precisionMathContext.getRoundingMode());
+        fp0 = fp0.add(BigDecimal.valueOf(pwr)).setScale(precisionMathContext.getPrecision(), precisionMathContext.getRoundingMode());
+        System.out.println("fp0 = " + fp0);
 
         z0.setRe(fp0);
-        f0 = exp(z0.getRe()).multiply(f0, precisionMathContext);
+        f0 = exp(z0.getRe()).multiply(f0).setScale(precisionMathContext.getPrecision(), precisionMathContext.getRoundingMode());
 
         Complex res = cis(z0.getIm());
         res.mul(f0);
@@ -318,20 +352,20 @@ public class HilbertPolyGenerator {
 
             // Update real part
             i++;
-            temp = temp.divide(BigDecimal.valueOf(i), precisionMathContext).multiply(theta, precisionMathContext);
+            temp = temp.divide(BigDecimal.valueOf(i), precisionMathContext.getPrecision(), precisionMathContext.getRoundingMode()).multiply(theta).setScale(precisionMathContext.getPrecision(), precisionMathContext.getRoundingMode());
             if (toggle) {
-                rx = rx.add(temp, precisionMathContext);
+                rx = rx.add(temp).setScale(precisionMathContext.getPrecision(), precisionMathContext.getRoundingMode());
             } else {
-                rx = rx.subtract(temp, precisionMathContext);
+                rx = rx.subtract(temp).setScale(precisionMathContext.getPrecision(), precisionMathContext.getRoundingMode());
             }
 
             // Update imaginary part
             i++;
-            temp = temp.divide(BigDecimal.valueOf(i), precisionMathContext).multiply(theta, precisionMathContext);
+            temp = temp.divide(BigDecimal.valueOf(i), precisionMathContext.getPrecision(), precisionMathContext.getRoundingMode()).multiply(theta).setScale(precisionMathContext.getPrecision(), precisionMathContext.getRoundingMode());
             if (toggle) {
-                ry = ry.add(temp, precisionMathContext);
+                ry = ry.add(temp).setScale(precisionMathContext.getPrecision(), precisionMathContext.getRoundingMode());
             } else {
-                ry = ry.subtract(temp, precisionMathContext);
+                ry = ry.subtract(temp).setScale(precisionMathContext.getPrecision(), precisionMathContext.getRoundingMode());
             }
 
             // Check exit condition
@@ -342,22 +376,22 @@ public class HilbertPolyGenerator {
             }
         }
 
-        return new Complex(precisionMathContext, rx.round(precisionMathContext), ry.round(precisionMathContext));
+        return new Complex(precisionMathContext, rx, ry);
     }
 
     public BigDecimal exp(BigDecimal pwr) {
-        BigDecimal res = pwr.add(BigDecimal.ONE, precisionMathContext);
+        BigDecimal res = pwr.add(BigDecimal.ONE).setScale(precisionMathContext.getPrecision(), precisionMathContext.getRoundingMode());
 
         BigDecimal temp = pwr;
         for (int i = 2; ; i++) {
-            temp = temp.multiply(pwr, precisionMathContext).divide(BigDecimal.valueOf(i), precisionMathContext);
+            temp = temp.multiply(pwr).divide(BigDecimal.valueOf(i), precisionMathContext.getPrecision(), precisionMathContext.getRoundingMode());
             if (temp.signum() > 0) {
                 if (temp.compareTo(epsilon) < 0) break;
             } else {
                 if (temp.compareTo(negepsilon) > 0) break;
             }
 
-            res = res.add(temp, precisionMathContext);
+            res = res.add(temp).setScale(precisionMathContext.getPrecision(), precisionMathContext.getRoundingMode());
         }
 
         return res;
@@ -365,6 +399,7 @@ public class HilbertPolyGenerator {
 
     /**
      * Computes z = Delta(q) (see Cohen).
+     *
      * @param q
      */
     protected Complex computeDelta(Complex q) {
@@ -399,7 +434,7 @@ public class HilbertPolyGenerator {
      */
     protected Complex computeH(Complex tau) {
         Complex q = computeQ(tau);
-
+        System.out.println("q = " + q);
         Complex z0 = computeDelta(new Complex(q).mul(q));
         Complex z1 = computeDelta(q);
 
@@ -414,12 +449,13 @@ public class HilbertPolyGenerator {
      */
     protected Complex computeJ(Complex tau) {
         Complex h = computeH(tau);
+        System.out.println("h = " + h);
         return new Complex(h).mul_2exp(8).add(1).pow(3).div(h);
     }
 
 
     public static void main(String[] args) {
-        HilbertPolyGenerator hilbertPolyGenerator = new HilbertPolyGenerator(11);
+        HilbertPolyGenerator hilbertPolyGenerator = new HilbertPolyGenerator(123);
         hilbertPolyGenerator.getHilbertPoly();
     }
 }

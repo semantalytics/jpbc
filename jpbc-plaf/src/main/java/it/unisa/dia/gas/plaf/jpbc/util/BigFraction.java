@@ -111,7 +111,7 @@ public class BigFraction {
         return f.toString();
     }
 
-    public String toString() {
+/*    public String toString() {
         reduceThis();
         String str = "";
 
@@ -135,7 +135,7 @@ public class BigFraction {
 
         return str + "/" + denominator.toString();
     }
-
+  */
     public int intValue() {
         reduceThis();
         return numerator.divide(denominator).intValue();
@@ -187,5 +187,10 @@ public class BigFraction {
 
     public BigFraction inverse() {
         return new BigFraction(denominator, numerator);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("BigFraction{\n\tnum=%s, \n\tdem=%s\n}", numerator, denominator);
     }
 }

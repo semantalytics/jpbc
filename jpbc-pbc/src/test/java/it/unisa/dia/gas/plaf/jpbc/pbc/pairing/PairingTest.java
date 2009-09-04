@@ -1,69 +1,19 @@
-package it.unisa.dia.gas.plaf.jpbc.pbc;
+package it.unisa.dia.gas.plaf.jpbc.pbc.pairing;
 
-import it.unisa.dia.gas.jpbc.CurveGenerator;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.jpbc.PairingPreProcessing;
-import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
-import it.unisa.dia.gas.plaf.jpbc.pairing.a.TypeACurveGenerator;
-import it.unisa.dia.gas.plaf.jpbc.pairing.a1.TypeA1CurveGenerator;
-import it.unisa.dia.gas.plaf.jpbc.pairing.d.TypeDCurveGenerator;
-import it.unisa.dia.gas.plaf.jpbc.pairing.e.TypeECurveGenerator;
 import junit.framework.TestCase;
-
-import java.util.Map;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class JPBCCurveGeneratorPBCPairingTest extends TestCase {
+public class PairingTest extends TestCase {
+
     protected Pairing pairing;
 
 
-    public void testTypeA() {
-        CurveGenerator curveGenerator = new TypeACurveGenerator(603, 181);
-        initPairing(curveGenerator.generate());
-        doTest();
-    }
-
-    public void testTypeA1() {
-        // Generate TypeA curve
-        CurveGenerator curveGenerator = new TypeA1CurveGenerator();
-        initPairing(curveGenerator.generate());
-        doTest();
-    }
-
-    public void testTypeD() {
-        // Generate TypeA curve
-        CurveGenerator curveGenerator = new TypeDCurveGenerator(9563);
-        initPairing(curveGenerator.generate());
-        doTest();
-    }
-
-    public void testTypeE() {
-        // Generate TypeA curve
-        CurveGenerator curveGenerator = new TypeECurveGenerator(160, 1024);
-        initPairing(curveGenerator.generate());
-        doTest();
-    }
-
-
-    protected void initPairing(Map curve) {
-        pairing = new PBCPairing((CurveParams) curve);
-
-        assertNotNull(pairing.getG1());
-        assertNotNull(pairing.getG2());
-        assertNotNull(pairing.getGT());
-        assertNotNull(pairing.getZr());
-    }
-
-    protected void doTest() {
-        doPairing();
-        doPairingPreProcessing();
-        doPairingSymmetric();
-    }
-
-    protected void doPairing() {
+    public void doPairing() {
         if (pairing == null)
             return;
 
@@ -105,7 +55,7 @@ public class JPBCCurveGeneratorPBCPairingTest extends TestCase {
         assertEquals(0, x1.compareTo(x2));
     }
 
-    protected void doPairingPreProcessing() {
+    public void doPairingPreProcessing() {
         if (pairing == null)
             return;
 
@@ -126,7 +76,7 @@ public class JPBCCurveGeneratorPBCPairingTest extends TestCase {
         assertEquals(0, x1.compareTo(x2));
     }
 
-    protected void doPairingSymmetric() {
+    public void doPairingSymmetric() {
         if (pairing == null)
             return;
 
