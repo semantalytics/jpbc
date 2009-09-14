@@ -11,83 +11,49 @@
         <section name="Element Functions">
             <p>
                 Elements of groups, rings and fields are accessible using the
-                <code>Element</code>
-                interface.
+                <code>it.unisa.dia.gas.jpbc.Element</code>
+                interface which represents a mutable value. So any methods you call on it affect value.
             </p>
 
             <a name="initializing"/>
             <subsection name="Initializing Elements">
                 <p>
                     You can obtain an instance of an Element starting from an algebraic structure, such as a particular
-                    finite field or elliptic curve group, represented by the
-                    Field
-                    interface.
-
-                    <br/>
-
-                    We use G1 and G2 to denote the input groups to the pairing, and GT for the output group. All have
-                    order r, and Zr means the ring of integers modulo r. G1 is the smaller group (the group of points
-                    over the base field). With symmetric pairings, G1 = G2.
+                    finite field or elliptic curve group. Go to this section to know how.
                 </p>
             </subsection>
 
             <a name="assigning"/>
             <subsection name="Assigning elements">
                 <p>
-                    The following functions can be used to assign values to elements. When integers are assigned,
+                    The following methods can be used to assign values to elements. When integers are assigned,
                     they are mapped to algebraic structures canonically if it makes sense (e.g. rings and fields).
                 </p>
 
-                <source>import it.unisa.dia.gas.jpbc.Element;
-
-/* Sets an element to zero. */
-
+                <source>/* Sets an element to zero. */
 <strong style="color:green">element.setToZero();</strong>
                 </source>
 
-                <source>import it.unisa.dia.gas.jpbc.Element;
-
-/* Sets an element to one. */
-
+                <source>/* Sets an element to one. */
 <strong style="color:green">element.setToOne();</strong>
                 </source>
 
-                <source>import it.unisa.dia.gas.jpbc.Element;
-
-/* If the element lies in a finite algebraic structure, assigns a uniformly random element to it. */
-
+                <source>/* If the element lies in a finite algebraic structure, assigns a uniformly random element to it. */
 <strong style="color:green">element.setToRandom();</strong>
                 </source>
 
-                <source>import it.unisa.dia.gas.jpbc.Element;
-
-/* Sets the element to an int. */
-
+                <source>/* Sets the element to an int. */
 <strong style="color:green">element.set(5);</strong>
                 </source>
 
-                <source>import it.unisa.dia.gas.jpbc.Element;
-
-/* Sets the element to an BigInteger. */
-
+                <source>/* Sets the element to an BigInteger. */
 <strong style="color:green">element.set(new BigInteger("126785438"));</strong>
                 </source>
 
-                <source>import it.unisa.dia.gas.jpbc.Element;
-
-/* Sets the element to an another element. * /
-
-Element e = element.getField().newElement(5);
-<strong style="color:green">element.set(e);</strong>
-                </source>
             </subsection>
 
             <a name="arithmetic"/>
             <subsection name="Element arithmetic">
-                When one of these functions expects its arguments to be from particular algebraic structures, this is
-                reflected in the name of the function.
-
-                <br/>
                 The addition and multiplication functions perform addition and multiplication operations in rings and
                 fields. For groups of points on an elliptic curve, such as the G1 and G2 groups associated with
                 pairings, both addition and multiplication represent the group operation (and similarly both
@@ -99,54 +65,31 @@ Element e = element.getField().newElement(5);
                 In contrast, the GT group is currently implemented as a subgroup of a finite field, so only
                 multiplicative operations should be used for GT.
 
-                <source>import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.jpbc.Element;
-
-/* Adds an element to another one. */
-
-Element a = element.getField().newElement().set(5);
+                <source>/* Adds an element to another one. */
+Element a = element.getField().newElement(5);
 <strong style="color:green">element.add(a);</strong>
                 </source>
 
-                <source>import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.jpbc.Element;
-
-/* Substracts an element to another one.*//
-
-Element a = element.getField().newElement().set(5);
+                <source>/* Substracts an element to another one.*//
+Element a = element.getField().newElement(5);
 <strong style="color:green">element.sub(a);</strong>
                 </source>
 
-                <source>import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.jpbc.Element;
-
-/* Multiplies an element to another one. */
-
-Element a = element.getField().newElement().set(5);
+                <source>/* Multiplies an element to another one. */
+Element a = element.getField().newElement(5);
 <strong style="color:green">element.mul(a);</strong>
                 </source>
 
-                <source>import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.jpbc.Element;
-
-/* Multiplies an element to an int. */
-
+                <source>/* Multiplies an element to an int. */
 <strong style="color:green">element.mul(5);</strong>
                 </source>
 
-                <source>import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.jpbc.Element;
-
+                <source>
 /* Multiplies an element to an BigInteger. */
-
 <strong style="color:green">element.mul(new BigInteger("5"));</strong>
                 </source>
 
-                <source>import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.jpbc.Element;
-
-/* Multiplies an element to an z which must be an element of a integer mod ring (i.e. Zn for some n). */
-
+                <source>/* Multiplies an element to an z which must be an element of a integer mod ring (i.e. Zn for some n). */
 Element z = pairing.getZr().newRandomElement();
 <strong style="color:green">element.mulZn(z);</strong>
                 </source>
@@ -154,43 +97,33 @@ Element z = pairing.getZr().newRandomElement();
 
             <a name="exponentiating"/>
             <subsection name="Exponentiating Elements">
-                <source>import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.jpbc.Element;
-
+                <source>
 /* Raises element to an BigInteger. */
-
 <strong style="color:green">element.pow(BigInteger.valueOf(5));</strong>
                 </source>
 
-                <source>import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.jpbc.Element;
-
+                <source>
 /* Raises element to an z which must be an element of a integer mod ring (i.e. Zn for some n). */
-
 Element z = pairing.getZr().newRandomElement();
 <strong style="color:green">element.mulZn(z);</strong>
                 </source>
 
                 <p>
-                    There is another way to exponentiate an element which uses a pre-processing technic . So if you have
+                    There is another way to exponentiate an element which uses a pre-processing technic. So if you have
                     for many times the same base you can use the following to reduce the time used to compute
                     the power.
+                    <br/>
+                    The reference interface is
+                    <code>it.unisa.dia.gas.jpbc.ElementPowPreProcessing</code>
                 </p>
 
-                <source xml:space="preserve">import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.jpbc.Pairing;
-import <strong style="color:green">it.unisa.dia.gas.jpbc.ElementPowPreProcessing</strong>;
-
-...
-
-/* Prepare to exponentiate an element a, and store pre-processing information in ppp. */
+                <source xml:space="preserve">/* Prepare to exponentiate an element a, and store pre-processing information in ppp. */
 
 Element a = pairing.getG1().newRandomElement();
 <strong style="color:green">ElementPowPreProcessing ppp = element.pow();</strong>
 
 /* Raises a to power and returns the result in out, where a is a previously preprocessed element,
-   that is, the second argument passed to a previous pos() call
+   that is, the second argument passed to a previous pow() call */
 
 BigInteger power = BigInteger.valueOf(5);
 Element out = <strong style="color:green">ppp.pow(power);</strong>
@@ -203,7 +136,26 @@ out = <strong style="color:green">ppp.pow(z);</strong>
             
             <a name="comparing"/>
             <subsection name="Comparing Elements">
-                
+                                
+                <source>/* Returns true if the element is 1. */
+<strong style="color:green">element.isOne();</strong>
+                </source>
+
+                <source>/* Returns true if the element is 0. */
+<strong style="color:green">element.isZero();</strong>
+                </source>
+
+                <source>/* Returns 0 if a and b are the same, nonzero otherwise. */
+<strong style="color:green">a.compareTo(b);</strong>
+                </source>
+
+                <source>/* Returns true if this element is a perfect square (quadratic residue), false otherwise. */
+<strong style="color:green">element.isSqr();</strong>
+                </source>
+
+                <source>/* If this element is zero, returns 0. For a non zero value the behaviour depends on the algebraic structure. */
+<strong style="color:green">element.sign();</strong>
+                </source>
             </subsection>
 
             <a name="io"/>

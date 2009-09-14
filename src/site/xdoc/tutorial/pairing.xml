@@ -1,0 +1,124 @@
+<!DOCTYPE document PUBLIC
+        "-//Apache Software Foundation//DTD XDOC 1.0//EN"
+        "http://maven.apache.org/dtd/xdoc_1_0.dtd">
+<document>
+    <properties>
+        <title>jPBC : Tutorial - Pairing Functions</title>
+        <author email="decaro@dia.unisa.it">Angelo De Caro</author>
+    </properties>
+
+    <body>
+        <section name="Pairing Functions">
+            <p>
+                Before elements can be initialized and manipulated for cryptographic operations, an instance of the
+                <code>it.unisa.dia.gas.jpbc.Pairing</code>
+                interface must be initialized.
+
+                <br/>
+                TODO: put a link to curve generatos
+
+                We use <code>G1</code> and <code>G2</code> to denote the input groups to the pairing, and <code>GT</code> for the output group. All have
+                order r, and <code>Zr</code> means the ring of integers modulo r. <code>G1</code> is the smaller group (the group of points
+                over the base field). With symmetric pairings, <code>G1</code> = <code>G2</code>.
+
+                <br/>
+                Pairings involve three groups of prime order r called <code>G1</code>, <code>G2</code>, and <code><code>GT</code></code>. The pairing is a bilinear map that
+                takes two elements as input, one from <code>G1</code> and one from <code>G2</code>, and outputs an element of <code><code>GT</code></code>.
+
+                <br/>
+                The elements of <code>G2</code> are at least as long as <code>G1</code>; <code>G1</code> is guaranteed to be the shorter of the two. Sometimes
+                <code>G1</code> and <code>G2</code> are the same group (i.e. the pairing is symmetric) so their elements can be mixed freely. In
+                this case the
+                <code>Pairing#isSymmetric()</code>
+                method returns<code>true</code>.
+            </p>
+
+
+            <a name="initializing"/>
+            <subsection name="Initializing Pairings">
+                <p>
+                    To create an instance of the
+                    <code>it.unisa.dia.gas.jpbc.Pairing</code>
+                    interface there are essentially two ways.
+
+                    <br/>
+                    One is to use the implementing class of the type chosen. For example you can use the following:
+                </p>
+                <source>import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
+import it.unisa.dia.gas.plaf.jpbc.pairing.a.TypeAPairing;
+
+CurveParams curveParams = new CurveParams().load("type_a_curve.properties");
+Pairing pairing = <strong style="color:green">new TypeAPairing(curveParams);</strong>
+                </source>
+                <p>
+                    Another way is to use the factory provided by the plaf module. Each curve definition bring with it the curve's type used.
+                    Using this information the factory chooses the right implementation.
+                    <br/>
+
+                </p>
+                <source>import package it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
+
+CurveParams curveParams = new CurveParams().load("curve.properties");
+Pairing pairing = <strong style="color:green">PairingFactory.getPairing(curveParams);</strong>
+                </source>
+
+            </subsection>
+
+            <a name="applying"/>
+            <subsection name="Applying pairings">
+                <p>
+                    The following applies the bilinear map described by pairing. The element
+                    <code>out</code>
+                    will be set to the map
+                    applied to
+                    <code>in1</code>
+                    and
+                    <code>in2</code>
+                    , that is
+                    <code>out = e(in1, in2)</code>
+                    .
+                    <code>in1</code>
+                    must be in the group
+                    <code><code>G1</code></code>
+                    ,
+                    <code>in2</code>
+                    must be in the
+                    group
+                    <code><code>G2</code></code>
+                    . out will lie in the group
+                    <code><code><code>GT</code></code></code>
+                    .
+                </p>
+                <source>
+Element in1 = pairing.get<code>G1</code>().newRandomElement();
+Element in2 = pairing.get<code>G2</code>().newRandomElement();
+Element out = <strong style="color:green">pairing.pairing(in1, in2);</strong>
+                </source>
+
+                <p>
+                    There is another way to apply the pairing which uses a pre-processing technic . So if you have for many times
+                    the same first input (that in <code>G1</code>) you can use the following to reduce the time used to compute
+                    the pairing.
+                    <br/>
+                    The reference interface is
+                    <code>it.unisa.dia.gas.jpbc.PairingPreProcessing</code>
+                </p>
+
+                <source xml:space="preserve">
+/* Get ready to perform a pairing whose first input is in1,
+   store the results of time-saving precomputation in ppp. */
+
+Element in1 = pairing.get<code>G1</code>().newRandomElement();
+<strong style="color:green">PairingPreProcessing ppp = pairing.pairing(in1);</strong>
+
+/* Compute the pairing using in2 and the preprocessed information
+   stored in ppp. The inputs to the pairing are the element
+   previously used to initialize ppp and the element in2. */
+
+Element in2 = pairing.get<code>G2</code>().newRandomElement();
+Element out = <strong style="color:green">ppp.pairing(in2);</strong>
+                </source>
+            </subsection>
+        </section>
+    </body>
+</document>

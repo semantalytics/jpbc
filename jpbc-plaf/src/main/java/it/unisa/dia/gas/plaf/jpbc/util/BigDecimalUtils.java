@@ -77,9 +77,6 @@ public class BigDecimalUtils {
         pi = pi.multiply(f1).setScale(oldPrecision + 1, HALF_DOWN);
         System.out.println("pi = " + pi);
 
-//        3.141592653589793238462643383279502884197
-//        3.141592653589793238462643383279502884197
-
 //        System.exit(0);
 
         return pi;
@@ -105,4 +102,5 @@ public class BigDecimalUtils {
 
         return x1;
     }
+
 }

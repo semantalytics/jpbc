@@ -1,0 +1,61 @@
+<!DOCTYPE document PUBLIC
+        "-//Apache Software Foundation//DTD XDOC 1.0//EN"
+        "http://maven.apache.org/dtd/xdoc_1_0.dtd">
+<document>
+    <properties>
+        <title>jPBC : Tutorial -  Field Functions</title>
+        <author email="decaro@dia.unisa.it">Angelo De Caro</author>
+    </properties>
+
+    <body>
+        <section name="Field Functions">
+
+            <p>
+                You can obtain an instance of an
+                <code>Element</code>
+                starting from an algebraic structure, such as a particular
+                finite field or elliptic curve group, represented by the
+                <code>it.unisa.dia.gas.jpbc.Field</code>
+                interface.
+                <br/>
+
+                Typically instances of that interface are accessed using the
+                <code>it.unisa.dia.gas.jpbc.Pairing</code>
+                interface. Look to the specific tutorial section.
+            </p>
+
+
+            <subsection name="Initializing Elements">
+
+                <p>
+                    The following methods can be used to create elements.
+                </p>
+
+                <source>/* Create a new element. */
+<strong style="color:green">Element element = field.newElement();</strong>
+                </source>
+
+                <source>/* Create a new element whose value is zero. */
+<strong style="color:green">Element element = field.newZeroElement();</strong>
+                </source>
+
+                <source>/* Create a new element whose value is one. */
+<strong style="color:green">Element element = field.newOneElement();</strong>
+                </source>
+
+                <source>/* Create a new random element. */
+<strong style="color:green">Element element = field.newRandomElement();</strong>
+                </source>
+
+                <source>/* Create a new element with a specified value. */
+<strong style="color:green">Element element = field.newElement(5);</strong>
+                </source>
+
+                <source>/* Create a new element with a specified value. */
+<strong style="color:green">Element element = field.newElement(new BigInteger("5390843849083028490328"));</strong>
+                </source>
+            </subsection>
+
+        </section>
+    </body>
+</document>

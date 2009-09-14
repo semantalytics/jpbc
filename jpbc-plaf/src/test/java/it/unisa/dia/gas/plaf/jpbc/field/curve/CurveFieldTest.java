@@ -3,6 +3,7 @@ package it.unisa.dia.gas.plaf.jpbc.field.curve;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
+import it.unisa.dia.gas.plaf.jpbc.pairing.a.TypeACurveGenerator;
 import it.unisa.dia.gas.plaf.jpbc.pairing.a.TypeAPairing;
 import junit.framework.TestCase;
 
@@ -24,9 +25,10 @@ public class CurveFieldTest extends TestCase {
     }
 
     protected CurveParams getCurveParams() {
-        CurveParams curveParams = new CurveParams();
-        curveParams.load(this.getClass().getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pairing/a/a_603_181.properties"));
-        return curveParams;
+//        CurveParams curveParams = new CurveParams();
+//        curveParams.load(this.getClass().getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pairing/a/a_603_181.properties"));
+//        return curveParams;
+        return (CurveParams) new TypeACurveGenerator(11, 13).generate();
     }
 
 

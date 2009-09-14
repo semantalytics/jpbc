@@ -6,6 +6,7 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/jpbc-pbc/CMakeFiles" />
       <excludeFolder url="file://$MODULE_DIR$/jpbc-pbc/build" />
+      <excludeFolder url="file://$MODULE_DIR$/lib" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />

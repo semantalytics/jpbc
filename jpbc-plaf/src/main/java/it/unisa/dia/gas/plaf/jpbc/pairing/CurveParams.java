@@ -1,9 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.math.BigInteger;
 import java.util.LinkedHashMap;
 import java.util.StringTokenizer;
@@ -56,7 +53,6 @@ public class CurveParams extends LinkedHashMap<String, String> {
 
     public CurveParams load(InputStream inputStream) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-
         try {
             while (true) {
                 String line = reader.readLine();
@@ -76,6 +72,33 @@ public class CurveParams extends LinkedHashMap<String, String> {
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+
+        return this;
+    }
+
+    public CurveParams load(String path) {
+        InputStream inputStream = null;
+
+        File file = new File(path);
+        if (file.exists()) {
+            try {
+                inputStream = file.toURI().toURL().openStream();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            inputStream = this.getClass().getClassLoader().getResourceAsStream(path);
+        }
+
+        if (inputStream == null)
+            throw new IllegalArgumentException("No valid resource found!");
+
+        load(inputStream);
+
+        try {
+            inputStream.close();
+        } catch (IOException e) {
         }
 
         return this;

@@ -15,6 +15,17 @@
     <orderEntry type="library" exported="" name="Maven: log4j:log4j:1.2.9" level="project" />
     <orderEntry type="library" exported="" name="Maven: bouncycastle:bcprov-jdk16:140" level="project" />
     <orderEntry type="module" module-name="jpbc-api" exported="" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../lib/apfloat.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/../lib/source" />
+        </SOURCES>
+      </library>
+    </orderEntry>
   </component>
 </module>
 

@@ -27,17 +27,19 @@
                     <item name="BLS signatures" href="/tutorial/bls.html"/>
                 </item>
 
-                <item name="Pairing Functions" href="/tutorial/pairingFunctions.html">
-                    <item name="Initializing" href="/tutorial/pairingFunctions.html#initializing"/>
-                    <item name="Applying" href="/tutorial/pairingFunctions.html#applying"/>
+                <item name="Pairing" href="/tutorial/pairing.html">
+                    <item name="Initializing" href="/tutorial/pairing.html#initializing"/>
+                    <item name="Applying" href="/tutorial/pairing.html#applying"/>
                 </item>
 
-                <item name="Field Functions" href="/tutorial/fieldFunctions.html"/>
+                <item name="Field" href="/tutorial/field.html"/>
 
-                <item name="Element Functions" href="/tutorial/elementFunctions.html">
-                    <item name="Initializing" href="/tutorial/elementFunctions.html#initializing"/>
-                    <item name="Assigning" href="/tutorial/elementFunctions.html#assigning"/>
-                    <item name="Arithmetic" href="/tutorial/elementFunctions.html#arithmetic"/>
+                <item name="Element" href="/tutorial/element.html">
+                    <item name="Initializing" href="/tutorial/element.html#initializing"/>
+                    <item name="Assigning" href="/tutorial/element.html#assigning"/>
+                    <item name="Arithmetic" href="/tutorial/element.html#arithmetic"/>
+                    <item name="Exponentiating" href="/tutorial/element.html#exponentiating"/>
+                    <item name="Comparing" href="/tutorial/element.html#comparing"/>                    
                 </item>
                     
                 <item name="Curve Generators" href="/tutorial/curveGenerators.html"/>

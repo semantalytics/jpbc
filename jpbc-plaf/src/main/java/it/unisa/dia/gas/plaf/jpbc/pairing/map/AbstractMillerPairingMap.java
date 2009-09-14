@@ -109,7 +109,7 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
     }
 
     /**
-     * Compute the tangent line T (aX + bY + c) at point V=(Vx, Vy, z)
+     * Compute the tangent line T (aX + bY + c) at point V = (Vx, Vy, z)
      *
      * @param a  the coefficient of X of tangent line T.
      * @param b  the coefficient of Y of tangent line T.
@@ -148,7 +148,7 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
 
 
     /**
-     * Compute the tangent line L (aX + bY + c) through the points V=(Vx, Vy) e V1=(V1x, V1y).
+     * Compute the tangent line L (aX + bY + c) through the points V = (Vx, Vy) e V1 = (V1x, V1y).
      *
      * @param a   the coefficient of X of tangent line T.
      * @param b   the coefficient of Y of tangent line T.

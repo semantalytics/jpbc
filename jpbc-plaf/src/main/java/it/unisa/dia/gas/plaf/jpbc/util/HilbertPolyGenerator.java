@@ -4,7 +4,7 @@ import static java.lang.Math.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
-import java.math.RoundingMode;
+import static java.math.RoundingMode.HALF_DOWN;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -81,8 +81,7 @@ public class HilbertPolyGenerator {
 //        5.54526825320470858102580005130496645923
 
         d *= sqrt(D) * 3.14159265358979d / log(2);
-//        initPrecision((int) d + 34);
-        initPrecision((int) (d / 2) + 5);
+        initPrecision((int) d + 34);
 
         System.out.println("step1 = " + new BigDecimal(sqrt(D)));
         BigDecimal sqrtD = BigDecimalUtils.sqrt(new BigDecimal(D), precisionMathContext.getPrecision())/*.setScale(precisionMathContext.getPrecision(), precisionMathContext.getRoundingMode())*/;
@@ -256,43 +255,34 @@ public class HilbertPolyGenerator {
     }
 
 
-    protected void initPrecision(int precision) {
-        precisionMathContext = new MathContext(precision, RoundingMode.HALF_DOWN);
+    protected void initPrecision(int bitPrecision) {
+        int decimalPrecision = BigInteger.valueOf(2).shiftLeft(bitPrecision).toString(10).length();
+        precisionMathContext = new MathContext(bitPrecision, HALF_DOWN);
 
         // compute epsilon
-        epsilon = BigDecimal.ONE;
-        epsilon = epsilon.divide(BigDecimalUtils.TWO.pow(101), precision + 13, precisionMathContext.getRoundingMode());
-        negepsilon = epsilon.negate().setScale(precisionMathContext.getPrecision(), precisionMathContext.getRoundingMode());
+        epsilon = BigDecimal.ONE.divide(BigDecimalUtils.TWO.pow(bitPrecision), decimalPrecision + 20, HALF_DOWN);
+        negepsilon = epsilon.negate().setScale(precisionMathContext.getPrecision(), HALF_DOWN);
 
         // compute eulere
         eulere = BigDecimal.ONE;
         BigDecimal f0 = BigDecimal.ONE;
         for (int i = 1; ; i++) {
-            f0 = f0.divide(BigDecimal.valueOf(i), precisionMathContext.getPrecision() + (i-1), precisionMathContext.getRoundingMode());
+            f0 = f0.divide(BigDecimal.valueOf(i), decimalPrecision *2, HALF_DOWN);
             if (f0.compareTo(epsilon) < 0)
                 break;
 
             System.out.println("f0 = " + f0);
-            eulere = eulere.add(f0).setScale(precisionMathContext.getPrecision() + 3, precisionMathContext.getRoundingMode());
+            eulere = eulere.add(f0).setScale(decimalPrecision + (3*i), HALF_DOWN);
             System.out.println("eulere = " + eulere);
         }
-        recipeulere = BigDecimal.ONE.divide(eulere, precisionMathContext.getPrecision(), precisionMathContext.getRoundingMode());
+        recipeulere = BigDecimal.ONE.divide(eulere, decimalPrecision, HALF_DOWN);
 
         System.out.println("epsilon = " + epsilon);
         System.out.println("eulere = " + eulere);
         System.out.println("recipeulere = " + recipeulere);
 
-//        2.70833333333333333333333333333333333333337
-//        2.70833333333333333333333333333333333333337
-
-                
-        //                                394430452610505902706
-        //0.00000000000000000000000000000039443045261050590270600000000000000000000000000000
-        //2.718281828459045235360287471352545502609208837906
-        //2.71828182845822974791228759482727736696
-
         // compute pi
-        pi = BigDecimalUtils.computePI(precision);
+        pi = BigDecimalUtils.computePI(bitPrecision);
     }
 
 
@@ -455,7 +445,9 @@ public class HilbertPolyGenerator {
 
 
     public static void main(String[] args) {
-        HilbertPolyGenerator hilbertPolyGenerator = new HilbertPolyGenerator(123);
+        System.out.println(BigInteger.valueOf(2).shiftLeft(92).toString(10).length());
+
+        HilbertPolyGenerator hilbertPolyGenerator = new HilbertPolyGenerator(59);
         hilbertPolyGenerator.getHilbertPoly();
     }
 }
