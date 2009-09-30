@@ -3,7 +3,6 @@ package it.unisa.dia.gas.jpbc.zss;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.jpbc.Point;
-import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveElement;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pairing.a.TypeAPairing;
 import junit.framework.TestCase;
@@ -29,8 +28,6 @@ public class ZssTest extends TestCase {
 
         x = pairing.getZr().newRandomElement();
         P = pairing.getG1().newRandomElement();
-
-        ((CurveElement)P).getOrder();
 
         System.out.println("P = " + P);
 //        ((Point)P).setFromBytesX(((Point)P).toBytesX());
