@@ -16,10 +16,9 @@
         <developer>
             <id>adecaro</id>
             <name>Angelo De Caro</name>
-            <email>adecaro@users.sourceforge.net</email>
+            <email>decaro@dia.unisa..it</email>
             <roles>
-                <role>Project Manager</role>
-                <role>Architect</role>
+                <role>Developer</role>
             </roles>
             <timezone>+1</timezone>
         </developer>

@@ -3,7 +3,7 @@
         "http://maven.apache.org/dtd/xdoc_1_0.dtd">
 <document>
     <properties>
-        <title>jPBC : Tutorial -  Field Functions</title>
+        <title>jPBC : Docs -  Field Functions</title>
         <author email="decaro@dia.unisa.it">Angelo De Caro</author>
     </properties>
 
@@ -12,21 +12,22 @@
 
             <p>
                 You can obtain an instance of an
-                <code>Element</code>
+                <code>it.unisa.dia.gas.jpbc.Element</code> interface
                 starting from an algebraic structure, such as a particular
                 finite field or elliptic curve group, represented by the
-                <code>it.unisa.dia.gas.jpbc.Field</code>
+                <code><strong style="color:red">it.unisa.dia.gas.jpbc.Field</strong></code>
                 interface.
                 <br/>
 
                 Typically instances of that interface are accessed using the
-                <code>it.unisa.dia.gas.jpbc.Pairing</code>
-                interface. Look to the specific tutorial section.
+                <code><strong style="color:red">it.unisa.dia.gas.jpbc.Pairing</strong></code>
+                interface. Go
+                <a href="./pairing.html">here</a>
+                to know how.
             </p>
 
 
             <subsection name="Initializing Elements">
-
                 <p>
                     The following methods can be used to create elements.
                 </p>

@@ -1,0 +1,271 @@
+<!DOCTYPE document PUBLIC
+        "-//Apache Software Foundation//DTD XDOC 1.0//EN"
+        "http://maven.apache.org/dtd/xdoc_1_0.dtd">
+<document>
+    <properties>
+        <title>jPBC : Docs - Curve Generators</title>
+        <author email="decaro@dia.unisa.it">Angelo De Caro</author>
+    </properties>
+
+    <body>
+        <section name="Curve Generators">
+            <p>
+                Pairings are initialized from pairing parameters. Depending of type you must choose the right generator.
+                A generator in a instance of the
+                <code>
+                    <strong style="color:red">it.unisa.dia.gas.jpbc.CurveGenerator</strong>
+                </code>
+                interface.
+            </p>
+            <p>
+                In general to generate the pairing parameters you can do the following:
+            </p>
+
+            <source>import it.unisa.dia.gas.jpbc.CurveGenerator;
+
+// Init the generator...
+CurveGenerator curveGenerator = ...
+
+// Generate the parameters...
+Map curveParams = <strong style="color:green">curveGenerator.generate();</strong>
+
+// Print them on the screen...
+System.out.println(params); 
+            </source>
+
+            <p>
+                All the generators implemented return an instance of the class
+                <code>
+                    <strong style="color:green">it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams</strong>
+                </code>
+                which provides useful methods to print and load parameters.
+            </p>
+
+            <a name="TypeA"/>
+            <subsection name="Type A">
+                <p>
+                    Type A pairings are constructed on the curve y
+                    <sup>2</sup>
+                    =
+                    x
+                    <sup>3</sup>
+                    + x over the field F_q for some prime q = 3 mod
+                    4. Both G1 and G2 are the group of points E(F_q), so this
+                    pairing is symmetric. The order r is some prime factor of q + 1.
+                </p>
+
+                <p>
+                    Look
+                    <a href="http://crypto.stanford.edu/pbc/manual/ch08s03.html">here</a>
+                    for other information.
+                </p>
+
+                <p>
+                    To use the generator use the following:
+                </p>
+
+                <ol>
+                    <li>
+                        <p>
+                            The generator provided by the plaf module:
+                        </p>
+                        <source>import it.unisa.dia.gas.plaf.jpbc.pairing.a.TypeACurveGenerator;
+
+// Init the generator...
+int rBits = 160;
+int qBits = 512;
+CurveGenerator curveGenerator = new TypeACurveGenerator(rBits, qBits);
+</source>
+                    </li>
+                    <li>
+                        <p>
+                            The PBC Wrapper:
+                        </p>
+                        <source>import it.unisa.dia.gas.plaf.jpbc.pbc.curve.PBCTypeACurveGenerator;
+
+CurveGenerator curveGenerator = new PBCTypeACurveGenerator(rBits, qBits);
+</source>
+                    </li>
+                </ol>
+
+                <p>
+                    A possible output is the following:
+                </p>
+
+                <source xml:space="preserve">
+type a
+q 465809987686528456433820509097680573834273641761786625424840043538076876234206562893647511212987092957977148064442773937804178448677347985356293095456645127477393452799268540178681508542821146778364147034844106669722022646576596992464142988530545981117480553980249934026929905052860956552125783505432963737819
+r 3064991081731777716716683913095816541402266270741561343
+h 151977599694462091499092633437896417267123966707330122064236513303248082476057667316431706285338864463131479496744469238202934278366549234322011829000890272345051427129683698149410512911997114723483146377405442651416064741977609291895013018610051943208740
+exp1 103
+exp2 181
+sign0 -1
+sign1 -1
+</source>
+
+                <p>
+                    Type A1 uses the same equation, but have different fields since the library is given r and cannot choose it.
+                </p>
+
+                <p>
+                    To use the generator use the following:
+                </p>
+
+                <ol>
+                    <li>
+                        <p>
+                            The generator provided by the plaf module:
+                        </p>
+                        <source>import it.unisa.dia.gas.plaf.jpbc.pairing.a1.TypeA1CurveGenerator;
+
+// Init the generator...
+CurveGenerator curveGenerator = new TypeA1CurveGenerator();
+</source>
+                    </li>
+                    <li>
+                        <p>
+                            The PBC Wrapper:
+                        </p>
+                        <source>import it.unisa.dia.gas.plaf.jpbc.pbc.curve.PBCTypeA1CurveGenerator;
+
+CurveGenerator curveGenerator = new PBCTypeA1CurveGenerator(rBits, qBits);
+</source>
+                    </li>
+                </ol>
+
+                <p>
+                    A possible output is the following:
+                </p>
+
+                <source xml:space="preserve">
+type a1
+p 86912747365829531323980519579806544385324483480824269436713433275452246726928680880589416802860497258393202850146247184348089648018829397063707837025234120757713704631392016397213312009235480350790880824511353454080182894711450847165017720728666606141950074952901763345438126731528113395394443825138423007152911
+n 62437318509935008135043476709631138207848048477603641836719420456503050809575201782032627013549207800569829633725752287606386241392837210534272871426173937325943753327149437066963586213531235884188851167034018285977142884131789401699006983282088079124964134305245519644711297939316173416231640678978752160311
+l 1392
+</source>
+
+            </subsection>
+
+            <a name="TypeD"/>
+            <subsection name="Type D">
+                These are ordinary curves of with embedding degree 6, whose orders are prime or a prime multiplied by a small constant.
+                <p>
+                    Look
+                    <a href="http://crypto.stanford.edu/pbc/manual/ch08s06.html">here</a>
+                    for other information.
+                </p>
+                
+                <p>
+                    To use the generator use the following:
+                </p>
+
+                <ol>
+                    <li>
+                        <p>
+                            The PBC Wrapper:
+                        </p>
+                        <source>import it.unisa.dia.gas.plaf.jpbc.pbc.curve.PBCTypeDCurveGenerator;
+
+// Init the generator...
+int discriminant = 9563;
+CurveGenerator curveGenerator = new PBCTypeDCurveGenerator(discriminant);
+</source>
+                    </li>
+                </ol>
+
+                <p>
+                    A possible output is the following:
+                </p>
+
+                <source xml:space="preserve">
+type d
+q 2094476214847295281570670320144695883131009753607350517892357
+n 2094476214847295281570670320143248652598286201895740019876423
+h 1122591
+r 1865751832009427548920907365321162072917283500309320153
+a 982173098527651790709849523520327569717720135226858622584613
+b 654782065685101193806566349013551713145146756817905748389742
+k 6
+nk 84421409121513221644716967251498543569964760150943970280296295496165154657097987617093928595467244393873913569302597521196137376192587250931727762632568620562823714441576400096248911214941742242106512149305076320555351603145285797909942596124862593877499051211952936404822228308154770272833273836975042632765377879565229109013234552083886934379264203243445590336
+hk 24251848326363771171270027814768648115136299306034875585195931346818912374815385257266068811350396365799298585287746735681314613260560203359251331805443378322987677594618057568388400134442772232086258797844238238645130212769322779762522643806720212266304
+coeff0 1588818987237821572423114324880401861663865653133763691723716
+coeff1 1760153528765803930066908946486500362397173920240475785379803
+coeff2 2049888389983546663243916150869866382799954492149630470949951
+nqr 1146467906739450941418701450790603726238899593000901105835892
+</source>
+
+
+            </subsection>
+
+            <a name="TypeE"/>
+            <subsection name="Type E">
+                <p>
+                    The CM (Complex Multiplication) method of constructing
+                    elliptic curves starts with the Diophantine equation
+                </p>
+                <source>DV^2 = 4q - t^2</source>
+
+                <p>If t = 2 and q = D r<sup>2</sup> h<sup>2</sup> + 1 for some
+                prime r (which we choose to be a Solinas prime) and some
+                integer h, we find that this equation is easily solved with V =
+                2rh.</p>
+
+                <p>Thus it is easy to find a curve (over the field F_q) with
+                order q - 1. Note r<sup>2</sup> divides q - 1, thus we have an
+                embedding degree of 1.</p>
+
+                <p>
+                    Look
+                    <a href="http://crypto.stanford.edu/pbc/manual/ch08s07.html">here</a>
+                    for other information.
+                </p>
+
+                <p>
+                    To use the generator use the following:
+                </p>
+
+                <ol>
+                    <li>
+                        <p>
+                            The generator provided by the plaf module:
+                        </p>
+                        <source>import it.unisa.dia.gas.plaf.jpbc.pairing.e.TypeECurveGenerator;
+
+// Init the generator...
+int rBits = 160;
+int qBits = 1024;
+CurveGenerator curveGenerator = new TypeECurveGenerator(rBits, qBits);
+</source>
+                    </li>
+                    <li>
+                        <p>
+                            The PBC Wrapper:
+                        </p>
+                        <source>import it.unisa.dia.gas.plaf.jpbc.pbc.curve.PBCTypeECurveGenerator;
+
+CurveGenerator curveGenerator = new PBCTypeECurveGenerator(rBits, qBits);
+</source>
+                    </li>
+                </ol>
+
+                <p>
+                    A possible output is the following:
+                </p>
+
+                <source xml:space="preserve">
+type e
+q 274486805462003429510769607767064538623921974426219186390361216549560625377987045369929271496608226923392664240011792509882179956473352660137145250287472721037335737479705957390101195908803297551112290696666811374006580406216686843379014297076462207553016776919064431003584315931518258251039328939428908567149
+r 730750818665451459101842416358141509827966402561
+h 514023354722583523589851081897492703336251497283677478847634305759043727287999834553374446616572065454868521775523687223709730913070131908152672869801348728592412053561950679577413659098428256946446986313583495788
+exp1 17
+exp2 159
+sign0 1
+sign1 1
+a 0
+b 1
+</source>
+
+            </subsection>
+        </section>
+    </body>
+</document>

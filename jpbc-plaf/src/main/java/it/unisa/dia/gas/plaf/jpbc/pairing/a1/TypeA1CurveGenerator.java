@@ -40,4 +40,12 @@ public class TypeA1CurveGenerator implements CurveGenerator {
 
         return params;
     }
+
+    public static void main(String[] args) {
+        TypeA1CurveGenerator generator = new TypeA1CurveGenerator();
+        CurveParams curveParams = (CurveParams) generator.generate();
+
+        System.out.println(curveParams.toString(" "));
+    }
+
 }

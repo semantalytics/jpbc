@@ -104,8 +104,18 @@ public class TypeACurveGenerator implements CurveGenerator {
     }
 
     public static void main(String[] args) {
-        TypeACurveGenerator generator = new TypeACurveGenerator(181, 1024);
+        if (args.length < 2)
+            throw new IllegalArgumentException("Too few arguments. Usage <rbits> <qbits>");
+
+        if (args.length > 2)
+            throw new IllegalArgumentException("Too many arguments. Usage <rbits> <qbits>");
+
+        Integer rBits = Integer.parseInt(args[0]);
+        Integer qBits = Integer.parseInt(args[1]);
+
+        TypeACurveGenerator generator = new TypeACurveGenerator(rBits, qBits);
         CurveParams curveParams = (CurveParams) generator.generate();
+
         System.out.println(curveParams.toString(" "));
     }
 

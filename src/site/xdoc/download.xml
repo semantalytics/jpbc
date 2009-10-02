@@ -43,7 +43,7 @@
                             <td>Stable</td>
                             <td>
                                 <em>
-                                    <a href="http://sourceforge.net/project/showfiles.php?group_id=178005">
+                                    <a href="http://sourceforge.net/projects/jpbc/files/">
                                         Download
                                     </a>
                                 </em>
@@ -101,9 +101,9 @@
                     </li>
                     <li>To use jPBC add to your classpath
                         <tt>jPBC_1.0.0-api.jar</tt> and
-                        <tt>jPBC_1.0.0-plaf.jar</tt> and
-                        <tt>jPBC_1.0.0-res.jar</tt> and
-						<tt>TableLayout-20020517.jar</tt>
+                        <tt>jPBC_1.0.0-plaf.jar</tt>.
+                        To use the wrapper include also
+                        <tt>jPBC_1.0.0-pbc.jar</tt>.
 					</li>
                 </ol>
             </subsection>

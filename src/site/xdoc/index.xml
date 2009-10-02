@@ -10,7 +10,7 @@
     <body>
         <section name="Introduction">
             <div id="downloadbox">
-                <h5>Get jPBC 1.5.0 Now!!!</h5>
+                <h5>Get jPBC 1.0.0 Now!!!</h5>
                 <span style="display: block; text-align: right; font-size: smaller">Released: February 28, 2009</span>
                 <p>
                     <a href="download.html">jPBC 1.0.0</a>
@@ -22,10 +22,6 @@
                     </li>
                     <li>
                         <a href="download.html#usage">jPBC Usage</a>
-                    </li>
-                    <li>
-                        <img src="./images/new.png" alt=""/>
-                        <a href="tutorial/tutorial.html">Tutorial</a>
                     </li>
                     <li>
                         <img src="./images/new.png" alt=""/>
@@ -42,38 +38,25 @@
                 </ul>
             </div>
 
-            <p>
-                jPBC is a Java docking framework to be used in cross-platform Swing applications.
-                jPBC is an IntelliJ Idea like docking framework for managing secondary windows within the main
-                window.
-                jPBC allows to move,resize or extract those secondary windows.
-                Also, jPBC provides support for content management of the main window.
-                Like Eclipse, jPBC supports the concept of "prospective" using jPBC groups.
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-            </p>
+            jPBC is:
+            <ul>
+                <li>
+                    a Java Porting of the
+                    <a href="http://crypto.stanford.edu/pbc/">PBC</a>
+                    library a Pairing-Based Cryptography Library written in C and
+                    developed by Ben Lynn.
+                    It supports symmetric and asymmetric pairing.
+                </li>
+                <li>
+                    a Java Wrapper of the
+                    <a href="http://crypto.stanford.edu/pbc/">PBC</a>
+                    library so you can delegate all the computation to the C library.
+                    Look
+                    <a href="./docs/pbcwrapper.html">here</a>
+                    to know how to use the wrapper.
+                </li>
 
-            <subsection name="Main Modules">
-                <p>
-                    jPBC is separated in two main modules.
-                </p>
-                <ul>
-                    <li>
-                        <a href="./api/index.html">jPBC-API</a>
-                        defines the API for jPBC used to manage every aspects of the framework.
-                    </li>
-                    <li>
-                        <a href="./plaf/index.html">jPBC-PLAF</a>
-                        It's the PBC porting.
-                    </li>
-                    <li>
-                        <a href="./pbc/index.html">jPBC-PBC</a>
-                        It's the PBC wrapper.
-                    </li>
-                </ul>
-            </subsection>
+            </ul>
         </section>
     </body>
 </document>

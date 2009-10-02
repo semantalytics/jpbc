@@ -3,7 +3,7 @@
         "http://maven.apache.org/dtd/xdoc_1_0.dtd">
 <document>
     <properties>
-        <title>jPBC : Tutorial - Element Functions</title>
+        <title>jPBC : Docs - Element Functions</title>
         <author email="decaro@dia.unisa.it">Angelo De Caro</author>
     </properties>
 
@@ -11,20 +11,22 @@
         <section name="Element Functions">
             <p>
                 Elements of groups, rings and fields are accessible using the
-                <code>it.unisa.dia.gas.jpbc.Element</code>
-                interface which represents a mutable value. So any methods you call on it affect value.
+                <code><strong style="color:red">it.unisa.dia.gas.jpbc.Element</strong></code>
+                interface which represents a mutable value. So any method you call on it affect the element's value.
             </p>
 
             <a name="initializing"/>
             <subsection name="Initializing Elements">
                 <p>
                     You can obtain an instance of an Element starting from an algebraic structure, such as a particular
-                    finite field or elliptic curve group. Go to this section to know how.
+                    finite field or elliptic curve group. Go
+                    <a href="./field.html">here</a>
+                    to know how.
                 </p>
             </subsection>
 
             <a name="assigning"/>
-            <subsection name="Assigning elements">
+            <subsection name="Assigning Elements">
                 <p>
                     The following methods can be used to assign values to elements. When integers are assigned,
                     they are mapped to algebraic structures canonically if it makes sense (e.g. rings and fields).
@@ -46,15 +48,15 @@
 <strong style="color:green">element.set(5);</strong>
                 </source>
 
-                <source>/* Sets the element to an BigInteger. */
+                <source>/* Sets the element to a BigInteger. */
 <strong style="color:green">element.set(new BigInteger("126785438"));</strong>
                 </source>
 
             </subsection>
 
             <a name="arithmetic"/>
-            <subsection name="Element arithmetic">
-                The addition and multiplication functions perform addition and multiplication operations in rings and
+            <subsection name="Element Arithmetic">
+                The addition and the multiplication functions perform addition and multiplication operations in rings and
                 fields. For groups of points on an elliptic curve, such as the G1 and G2 groups associated with
                 pairings, both addition and multiplication represent the group operation (and similarly both
                 <code>0</code>
@@ -65,31 +67,30 @@
                 In contrast, the GT group is currently implemented as a subgroup of a finite field, so only
                 multiplicative operations should be used for GT.
 
-                <source>/* Adds an element to another one. */
+                <source>/* Performs the addition between element and a.*/
 Element a = element.getField().newElement(5);
 <strong style="color:green">element.add(a);</strong>
                 </source>
 
-                <source>/* Substracts an element to another one.*//
+                <source>/* Performs the substraction between element and a.
 Element a = element.getField().newElement(5);
 <strong style="color:green">element.sub(a);</strong>
                 </source>
 
-                <source>/* Multiplies an element to another one. */
+                <source>/* Performs the multiplication between element and a. */
 Element a = element.getField().newElement(5);
 <strong style="color:green">element.mul(a);</strong>
                 </source>
 
-                <source>/* Multiplies an element to an int. */
+                <source>/* Performs the multiplication between element and an int. */
 <strong style="color:green">element.mul(5);</strong>
                 </source>
 
-                <source>
-/* Multiplies an element to an BigInteger. */
+                <source>/* Performs the multiplication between element and a BigInteger. */
 <strong style="color:green">element.mul(new BigInteger("5"));</strong>
                 </source>
 
-                <source>/* Multiplies an element to an z which must be an element of a integer mod ring (i.e. Zn for some n). */
+                <source>/* Performs the multiplication between element and z where z must be an element of a integer mod ring (i.e. Zn for some n). */
 Element z = pairing.getZr().newRandomElement();
 <strong style="color:green">element.mulZn(z);</strong>
                 </source>
@@ -98,38 +99,35 @@ Element z = pairing.getZr().newRandomElement();
             <a name="exponentiating"/>
             <subsection name="Exponentiating Elements">
                 <source>
-/* Raises element to an BigInteger. */
+/* Raises element to a BigInteger. */
 <strong style="color:green">element.pow(BigInteger.valueOf(5));</strong>
                 </source>
 
                 <source>
-/* Raises element to an z which must be an element of a integer mod ring (i.e. Zn for some n). */
+/* Raises element to a z which must be an element of a integer mod ring (i.e. Zn for some n). */
 Element z = pairing.getZr().newRandomElement();
 <strong style="color:green">element.mulZn(z);</strong>
                 </source>
 
                 <p>
-                    There is another way to exponentiate an element which uses a pre-processing technic. So if you have
-                    for many times the same base you can use the following to reduce the time used to compute
+                    There is another way to exponentiate an element which uses a pre-processing technique. So if you have
+                    for many times the same base you can use the following code to reduce the time used to compute
                     the power.
                     <br/>
-                    The reference interface is
-                    <code>it.unisa.dia.gas.jpbc.ElementPowPreProcessing</code>
+                    The interface to be used is
+                    <code><strong style="color:red">it.unisa.dia.gas.jpbc.ElementPowPreProcessing</strong></code>
                 </p>
 
-                <source xml:space="preserve">/* Prepare to exponentiate an element a, and store pre-processing information in ppp. */
+                <source xml:space="preserve">/* Prepare element to be raised and store pre-processing information in ppp.
+element will be not modified in any way.*/
 
-Element a = pairing.getG1().newRandomElement();
 <strong style="color:green">ElementPowPreProcessing ppp = element.pow();</strong>
 
-/* Raises a to power and returns the result in out, where a is a previously preprocessed element,
-   that is, the second argument passed to a previous pow() call */
+/* Now let's raise using ppp which returns a new element which contains the result of the operation. */
 
-BigInteger power = BigInteger.valueOf(5);
-Element out = <strong style="color:green">ppp.pow(power);</strong>
+Element out = <strong style="color:green">ppp.pow(BigInteger.valueOf(5));</strong>
 
-Element z = pairing.getZr().newRandomElement();
-out = <strong style="color:green">ppp.pow(z);</strong>                    
+out = <strong style="color:green">ppp.pow(pairing.getZr().newRandomElement());</strong>
                 </source>
 
             </subsection>
@@ -161,6 +159,29 @@ out = <strong style="color:green">ppp.pow(z);</strong>
             <a name="io"/>
             <subsection name="Import/Export Elements">
 
+                <source>/* Converts element to bytes. The number of bytes it will write can be determined calling getLengthInBytes(). */
+<strong style="color:green">byte[] bytes = element.toBytes();</strong>
+                </source>
+
+                <source>/* Reads element from the buffer source and returns the number of bytes read. */
+<strong style="color:green">element.setFromBytes(bytes);</strong>
+                </source>
+
+                <source>/* Reads element from the buffer source, starting from the passed offset, and returns the number of bytes read. */
+<strong style="color:green">element.setFromBytes(bytes, 13);</strong>
+                </source>
+
+                <source>/* Sets element deterministically from the buffer source.*/
+<strong style="color:green">element.setFromHash(bytes, 0, bytes.length);</strong>
+                </source>
+
+                <source>/* Encodes the buffer source into element. */
+<strong style="color:green">element.setEncoding(bytes);</strong>
+                </source>
+
+                <source>/* Returns the bytes encoded by element. */
+<strong style="color:green">byte[] bytes = element.getDecoding();</strong>
+                </source>
             </subsection>
         </section>
     </body>

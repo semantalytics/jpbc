@@ -3,7 +3,7 @@
         "http://maven.apache.org/dtd/xdoc_1_0.dtd">
 <document>
     <properties>
-        <title>jPBC : Tutorial - Pairing Functions</title>
+        <title>jPBC : Docs - Pairing Functions</title>
         <author email="decaro@dia.unisa.it">Angelo De Caro</author>
     </properties>
 
@@ -11,11 +11,16 @@
         <section name="Pairing Functions">
             <p>
                 Before elements can be initialized and manipulated for cryptographic operations, an instance of the
-                <code>it.unisa.dia.gas.jpbc.Pairing</code>
-                interface must be initialized.
+                <code><strong style="color:red">it.unisa.dia.gas.jpbc.Pairing</strong></code>
+                interface must be obtained.
 
                 <br/>
-                TODO: put a link to curve generatos
+
+                Pairings are initialized from pairing parameters. Go
+                <a href="./curvegenerator.html">here</a>
+                to see how to do that.
+
+                <br/>
 
                 We use <code>G1</code> and <code>G2</code> to denote the input groups to the pairing, and <code>GT</code> for the output group. All have
                 order r, and <code>Zr</code> means the ring of integers modulo r. <code>G1</code> is the smaller group (the group of points
@@ -38,29 +43,38 @@
             <subsection name="Initializing Pairings">
                 <p>
                     To create an instance of the
-                    <code>it.unisa.dia.gas.jpbc.Pairing</code>
-                    interface there are essentially two ways.
-
-                    <br/>
-                    One is to use the implementing class of the type chosen. For example you can use the following:
+                    <code><strong style="color:red">it.unisa.dia.gas.jpbc.Pairing</strong></code>
+                    interface you can use the following:
                 </p>
-                <source>import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
-import it.unisa.dia.gas.plaf.jpbc.pairing.a.TypeAPairing;
 
-CurveParams curveParams = new CurveParams().load("type_a_curve.properties");
-Pairing pairing = <strong style="color:green">new TypeAPairing(curveParams);</strong>
-                </source>
-                <p>
-                    Another way is to use the factory provided by the plaf module. Each curve definition bring with it the curve's type used.
-                    Using this information the factory chooses the right implementation.
-                    <br/>
-
-                </p>
-                <source>import package it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
+                <ol>
+                    <li>
+                        <p>
+                            The factory provided by the Java Porting. Each curve definition bring with it the curve's type used.
+                            Using this information the factory chooses the right implementation.
+                        </p>
+                        <source>import package it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
 CurveParams curveParams = new CurveParams().load("curve.properties");
 Pairing pairing = <strong style="color:green">PairingFactory.getPairing(curveParams);</strong>
-                </source>
+                        </source>
+                    </li>
+                    <li>
+                        <p>
+                            The
+                            <a href="./pbcwrapper.html">PBC Wrapper</a>
+                            which uses PBC to execute all the computations.
+                            Go
+                            <a href="./pbcwrapper.html">here</a>
+                            to see how to start with the wrapper.
+                        </p>
+                        <source>import it.unisa.dia.gas.plaf.jpbc.pbc.PBCPairing;
+
+CurveParams curveParams = new CurveParams().load("curve.properties");
+Pairing pairing = <strong style="color:green">new PBCPairing(curveParams);</strong>
+                        </source>
+                    </li>
+                </ol>
 
             </subsection>
 
@@ -101,7 +115,7 @@ Element out = <strong style="color:green">pairing.pairing(in1, in2);</strong>
                     the pairing.
                     <br/>
                     The reference interface is
-                    <code>it.unisa.dia.gas.jpbc.PairingPreProcessing</code>
+                    <code><strong style="color:red">it.unisa.dia.gas.jpbc.PairingPreProcessing</strong></code>
                 </p>
 
                 <source xml:space="preserve">

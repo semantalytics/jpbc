@@ -15,39 +15,42 @@
 
         <menu name="jPBC">
             <item name="Introduction" href="index.html"/>
-
             <item name="Download" href="download.html"/>
-
             <item name="Build Howto" href="buildHowto.html"/>
-
             <item name="Contact" href="contact.html"/>
-
-            <item name="Tutorial" href="/tutorial/tutorial.html">
-                <item name="Schemes">
-                    <item name="BLS signatures" href="/tutorial/bls.html"/>
-                </item>
-
-                <item name="Pairing" href="/tutorial/pairing.html">
-                    <item name="Initializing" href="/tutorial/pairing.html#initializing"/>
-                    <item name="Applying" href="/tutorial/pairing.html#applying"/>
-                </item>
-
-                <item name="Field" href="/tutorial/field.html"/>
-
-                <item name="Element" href="/tutorial/element.html">
-                    <item name="Initializing" href="/tutorial/element.html#initializing"/>
-                    <item name="Assigning" href="/tutorial/element.html#assigning"/>
-                    <item name="Arithmetic" href="/tutorial/element.html#arithmetic"/>
-                    <item name="Exponentiating" href="/tutorial/element.html#exponentiating"/>
-                    <item name="Comparing" href="/tutorial/element.html#comparing"/>                    
-                </item>
-                    
-                <item name="Curve Generators" href="/tutorial/curveGenerators.html"/>
-            </item>
-
-            <item name="Statistics" href="statistics.html"/>
         </menu>
 
+        <menu name="Documentation">
+
+            <item name="Pairing" href="/docs/pairing.html">
+                <item name="Initializing" href="/docs/pairing.html#initializing"/>
+                <item name="Applying" href="/docs/pairing.html#applying"/>
+            </item>
+
+            <item name="Field" href="/docs/field.html"/>
+
+            <item name="Element" href="/docs/element.html">
+                <item name="Initializing" href="/docs/element.html#initializing"/>
+                <item name="Assigning" href="/docs/element.html#assigning"/>
+                <item name="Arithmetic" href="/docs/element.html#arithmetic"/>
+                <item name="Exponentiating" href="/docs/element.html#exponentiating"/>
+                <item name="Comparing" href="/docs/element.html#comparing"/>
+                <item name="Import/Export" href="/docs/element.html#io"/>
+            </item>
+
+            <item name="Curve Generators" href="/docs/curvegenerator.html">
+                <item name="Type A" href="/docs/curvegenerator.html#TypeA"/>
+                <item name="Type D" href="/docs/curvegenerator.html#TypeD"/>
+                <item name="Type E" href="/docs/curvegenerator.html#TypeE"/>
+            </item>
+
+            <item name="PBC Wrapper" href="/docs/pbcwrapper.html"/>
+        </menu>
+
+        <menu name="Schemes">
+            <item name="BLS signatures" href="/schemes/bls.html"/>
+        </menu>
+        
         ${reports}
     </body>
 

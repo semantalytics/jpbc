@@ -25,11 +25,6 @@
                 To build the binary and the source distribution simply call :
             </p>
             <source>mvn -Ddistro clean package install assembly:assembly</source>
-            <p>
-                <br/>
-                To build the site simply call :
-            </p>
-            <source>mvn -Dsite clean package site assembly:assembly</source>
         </section>
     </body>
 </document>
