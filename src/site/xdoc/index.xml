@@ -41,14 +41,16 @@
             jPBC is:
             <ul>
                 <li>
-                    a Java Porting of the
+                    a <strong style="color:red">Java Porting</strong> of the
                     <a href="http://crypto.stanford.edu/pbc/">PBC</a>
                     library a Pairing-Based Cryptography Library written in C and
-                    developed by Ben Lynn.
+                    developed by
+                    <a href="http://crypto.stanford.edu/~blynn/">Ben Lynn</a>
+                    .
                     It supports symmetric and asymmetric pairing.
                 </li>
                 <li>
-                    a Java Wrapper of the
+                    a <strong style="color:red">Java Wrapper</strong> of the
                     <a href="http://crypto.stanford.edu/pbc/">PBC</a>
                     library so you can delegate all the computation to the C library.
                     Look

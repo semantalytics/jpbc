@@ -4,16 +4,16 @@ body {
 	margin-left: auto;
 	margin-right: auto;
 	background-repeat: repeat-y;
-	font-size: 13px;
+	font-size: 17px;
 	padding: 0px;
 }
 td, select, input, li{
 	font-family: Verdana, Helvetica, Arial, sans-serif;
-	font-size: 12px;
+	font-size: 14px;
 	color:#333333;
 }
 code{
-  font-size: 12px;
+  font-size: 15px;
 }
 a {
   text-decoration: none;
@@ -59,7 +59,7 @@ h3 {
 }
 p {
   line-height: 1.3em;
-  font-size: 12px;
+  font-size: 15px;
   color: #000;
 }
 #breadcrumbs {
@@ -194,7 +194,7 @@ table {
 }
 
 #bannerImage {
-    border : 0;    
+    border : 0;
     width : 100%;
     height : 93px;
 }
