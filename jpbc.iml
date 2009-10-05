@@ -12,8 +12,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:3.8.1" level="project" />
-    <orderEntry type="library" exported="" name="Maven: log4j:log4j:1.2.9" level="project" />
-    <orderEntry type="library" exported="" name="Maven: bouncycastle:bcprov-jdk16:140" level="project" />
   </component>
 </module>
 

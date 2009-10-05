@@ -1,0 +1,84 @@
+<assembly xmlns="http://maven.apache.org/xsd/assembly-1.1.0-SNAPSHOT.xsd">
+
+    <formats>
+        <format>dir</format>
+        <format>zip</format>
+        <format>tar.gz</format>
+    </formats>
+
+    <includeBaseDirectory>false</includeBaseDirectory>
+
+    <moduleSets>
+        <moduleSet>
+            <includes>
+                <include>it.unisa.dia.gas:jpbc-pbc</include>
+            </includes>
+            <binaries>
+                <outputDirectory>lib</outputDirectory>
+                <includeDependencies>true</includeDependencies>
+                <unpack>false</unpack>
+            </binaries>
+        </moduleSet>
+
+        <moduleSet>
+            <includes>
+                <include>it.unisa.dia.gas:jpbc-api</include>
+                <include>it.unisa.dia.gas:jpbc-plaf</include>
+                <include>it.unisa.dia.gas:jpbc-pbc</include>
+                <include>it.unisa.dia.gas:jpbc-site-skin</include>
+            </includes>
+            <sources>
+                <fileSets>
+                    <fileSet>
+                        <outputDirectory>src</outputDirectory>
+                        <excludes>
+                            <exclude>target/**</exclude>
+                        </excludes>
+                        <directory>src</directory>
+                    </fileSet>
+                    <fileSet>
+                        <outputDirectory>.</outputDirectory>
+                        <includes>
+                            <include>pom.xml</include>
+                            <include>CMakeLists.txt</include>
+                            <include>*.iml</include>
+                            <include>*.cmake</include>
+                        </includes>
+                    </fileSet>
+                </fileSets>
+            </sources>
+        </moduleSet>
+    </moduleSets>
+
+    <fileSets>
+        <fileSet>
+            <directory>src</directory>
+            <outputDirectory>src</outputDirectory>
+            <includes/>
+        </fileSet>
+
+<!--
+        <fileSet>
+            <directory>license</directory>
+            <outputDirectory>license</outputDirectory>
+            <includes/>
+        </fileSet>
+-->
+    </fileSets>
+
+    <files>
+        <file>
+            <source>pom.xml</source>
+            <outputDirectory>.</outputDirectory>
+        </file>
+        <file>
+            <source>jpbc.iml</source>
+            <outputDirectory>.</outputDirectory>
+        </file>
+        <file>
+            <source>benchmark.*</source>
+            <outputDirectory>.</outputDirectory>
+        </file>
+    </files>
+
+</assembly>

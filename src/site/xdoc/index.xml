@@ -43,10 +43,9 @@
                 <li>
                     a <strong style="color:red">Java Porting</strong> of the
                     <a href="http://crypto.stanford.edu/pbc/">PBC</a>
-                    library a Pairing-Based Cryptography Library written in C and
+                    library which is the Pairing-Based Cryptography Library written in C and
                     developed by
-                    <a href="http://crypto.stanford.edu/~blynn/">Ben Lynn</a>
-                    .
+                    <a href="http://crypto.stanford.edu/~blynn/">Ben Lynn</a>.
                     It supports symmetric and asymmetric pairing.
                 </li>
                 <li>

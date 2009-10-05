@@ -87,9 +87,14 @@ div.clear hr{
 }
 #navcolumn li.expanded {
   background-image: url(../images/expanded.gif);
+  font-size: 13px;
 }
 #navcolumn li.collapsed {
   background-image: url(../images/collapsed.gif);
+  font-size: 13px;
+}
+#navcolumn li.none {
+  font-size: 13px;
 }
 #poweredBy {
   text-align: center;

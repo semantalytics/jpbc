@@ -92,7 +92,7 @@
             <subsection name="Usage">
                 <ol type="1">
                     <li>Unzip
-                        <tt>jPBC-1.0.0.zip</tt>
+                        <tt>jpbc-1.0.0.zip</tt>
                         to the directory you wish to unzip jPBC 1.0.0.
                     </li>
                     <li>Move to
@@ -100,10 +100,11 @@
                         directory where you can found jPBC jar files.
                     </li>
                     <li>To use jPBC add to your classpath
-                        <tt>jPBC_1.0.0-api.jar</tt> and
-                        <tt>jPBC_1.0.0-plaf.jar</tt>.
+                        <tt>jpbc_1.0.0-api.jar</tt> and
+                        <tt>jpbc_1.0.0-plaf.jar</tt>.
                         To use the wrapper include also
-                        <tt>jPBC_1.0.0-pbc.jar</tt>.
+                        <tt>jpbc_1.0.0-pbc.jar</tt>.
+                        <tt>jna-3.1.0.jar</tt>.
 					</li>
                 </ol>
             </subsection>

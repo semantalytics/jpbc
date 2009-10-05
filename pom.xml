@@ -57,19 +57,62 @@
             <version>3.8.1</version>
             <scope>test</scope>
         </dependency>
-
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.9</version>
-        </dependency>
-
-        <dependency>
-            <groupId>bouncycastle</groupId>
-            <artifactId>bcprov-jdk16</artifactId>
-            <version>140</version>
-        </dependency>
     </dependencies>
+
+    <profiles>
+        <!-- Profile which creates an assembly using mydoggy-distro.xml -->
+        <profile>
+            <id>distro</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/main/assembly/jpbc-distro.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+            <activation>
+                <property>
+                    <name>distro</name>
+                </property>
+            </activation>
+        </profile>
+
+<!--
+        &lt;!&ndash; Profile which creates an assembly using mydoggy-site.xml &ndash;&gt;
+        <profile>
+            <id>site</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/main/assembly/mydoggy-site.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-site-plugin</artifactId>
+                        <version>2.0-beta-5</version>
+                        <configuration>
+                            <locales>en</locales>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+            <activation>
+                <property>
+                    <name>site</name>
+                </property>
+            </activation>
+        </profile>
+-->
+    </profiles>
 
     <build>
         <extensions>

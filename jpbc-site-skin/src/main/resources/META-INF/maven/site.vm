@@ -247,7 +247,7 @@
           <div id="customPoweredBy">
                 <!-- Piwik -->
             <script type="text/javascript">
-                var pkBaseURL = (("https:" == document.location.protocol) ? "https://apps.sourceforge.net/piwik/mydoggy/" : "http://apps.sourceforge.net/piwik/mydoggy/");
+                var pkBaseURL = (("https:" == document.location.protocol) ? "https://apps.sourceforge.net/piwik/jpbc/" : "http://apps.sourceforge.net/piwik/jpbc/");
                 document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
                 </script><script type="text/javascript">
                 piwik_action_name = '';
@@ -255,7 +255,7 @@
                 piwik_url = pkBaseURL + "piwik.php";
                 piwik_log(piwik_action_name, piwik_idsite, piwik_url);
             </script>
-            <object><noscript><p><img src="http://apps.sourceforge.net/piwik/mydoggy/piwik.php?idsite=1" alt="piwik"/></p></noscript></object>
+            <object><noscript><p><img src="http://apps.sourceforge.net/piwik/jpbc/piwik.php?idsite=1" alt="piwik"/></p></noscript></object>
             <!-- End Piwik Tag -->
           </div>
         #end
@@ -272,7 +272,7 @@
         <div id="customPoweredBy">
             <!-- Piwik -->
             <script type="text/javascript">
-                var pkBaseURL = (("https:" == document.location.protocol) ? "https://apps.sourceforge.net/piwik/mydoggy/" : "http://apps.sourceforge.net/piwik/mydoggy/");
+                var pkBaseURL = (("https:" == document.location.protocol) ? "https://apps.sourceforge.net/piwik/jpbc/" : "http://apps.sourceforge.net/piwik/jpbc/");
                 document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
                 </script><script type="text/javascript">
                 piwik_action_name = '';
@@ -280,7 +280,7 @@
                 piwik_url = pkBaseURL + "piwik.php";
                 piwik_log(piwik_action_name, piwik_idsite, piwik_url);
             </script>
-            <object><noscript><p><img src="http://apps.sourceforge.net/piwik/mydoggy/piwik.php?idsite=1" alt="piwik"/></p></noscript></object>
+            <object><noscript><p><img src="http://apps.sourceforge.net/piwik/jpbc/piwik.php?idsite=1" alt="piwik"/></p></noscript></object>
             <!-- End Piwik Tag -->
         </div>
     #end
@@ -299,7 +299,7 @@
       <meta name="author" content="$author" />
     #end
     <meta http-equiv="Content-Type" content="text/html; charset=${outputEncoding}" />
-    <meta name="keywords" content="java, swing, docking, framework, intellij, mydoggy" />
+    <meta name="keywords" content="jpbc, pbc, pairing, cryptography" />
     #if ( $decoration.body.head )
       #foreach( $item in $decoration.body.head.getChildren() )
         #if ( $item.name == "script" )
@@ -312,8 +312,8 @@
   </head>
   <body class="composite">
     <div id="banner">
-        <a href="http://mydoggy.sourceforge.net" id="bannerLeft">
-            <img id="bannerImage" src="http://mydoggy.sourceforge.net/images/banners/banner_4.jpg" alt="" width="1124"/>
+        <a href="http://http://gas.dia.unisa.it/projects/jpbc/" id="bannerLeft">
+            <img id="bannerImage" src="http://http://gas.dia.unisa.it/projects/jpbc/images/banners/banner_4.jpg" alt="" width="1124"/>
         </a>
         <div class="clear">
         <hr/>
