@@ -15,7 +15,12 @@
                 <code>it.unisa.dia.gas.jpbc.Element</code> interface
                 starting from an algebraic structure, such as a particular
                 finite field or elliptic curve group, represented by the
-                <code><strong style="color:red">it.unisa.dia.gas.jpbc.Field</strong></code>
+                <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Field.html">
+                    <code>
+                        <strong style="color:red">it.unisa.dia.gas.jpbc.Field</strong>
+                    </code>
+                </a>
+
                 interface.
                 <br/>
 

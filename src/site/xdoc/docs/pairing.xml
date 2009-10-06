@@ -11,7 +11,12 @@
         <section name="Pairing Functions">
             <p>
                 Before elements can be initialized and manipulated for cryptographic operations, an instance of the
-                <code><strong style="color:red">it.unisa.dia.gas.jpbc.Pairing</strong></code>
+                <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Pairing.html">
+                    <code>
+                        <strong style="color:red">it.unisa.dia.gas.jpbc.Pairing</strong>
+                    </code>
+                </a>
+
                 interface must be obtained.
 
                 <br/>
@@ -43,7 +48,11 @@
             <subsection name="Initializing Pairings">
                 <p>
                     To create an instance of the
-                    <code><strong style="color:red">it.unisa.dia.gas.jpbc.Pairing</strong></code>
+                    <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Pairing.html">
+                        <code>
+                            <strong style="color:red">it.unisa.dia.gas.jpbc.Pairing</strong>
+                        </code>
+                    </a>
                     interface you can use the following:
                 </p>
 

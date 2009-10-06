@@ -11,15 +11,10 @@ import java.math.BigInteger;
  */
 public class PolyElementTest extends TestCase {
 
+/*
     public void testGDC() {
         PolyField field = new PolyField(new NaiveField(BigInteger.valueOf(17)));
 
-//        r = [4, 1]
-//        g = [14, 8, 1]
-//        fac = [15]
-//r = [3, 1]
-//g = [14, 8, 1]
-//fac = [16]
         PolyElement r = field.newElement();
         r.setFromCoefficientMonic(new BigInteger[]{BigInteger.valueOf(3), BigInteger.valueOf(1)});
 
@@ -29,6 +24,7 @@ public class PolyElementTest extends TestCase {
         Element fac = field.newElement().set(r).gcd(g);
         System.out.println("fac = " + fac);
     }
+*/
 
 
     public void testFindRoot() {

@@ -14,7 +14,7 @@
                 <include>it.unisa.dia.gas:jpbc-pbc</include>
             </includes>
             <binaries>
-                <outputDirectory>lib</outputDirectory>
+                <outputDirectory>jars</outputDirectory>
                 <includeDependencies>true</includeDependencies>
                 <unpack>false</unpack>
             </binaries>
@@ -42,7 +42,7 @@
                             <include>pom.xml</include>
                             <include>CMakeLists.txt</include>
                             <include>*.iml</include>
-                            <include>*.cmake</include>
+                            <include>Find*.cmake</include>
                         </includes>
                     </fileSet>
                 </fileSets>
@@ -55,6 +55,14 @@
             <directory>src</directory>
             <outputDirectory>src</outputDirectory>
             <includes/>
+        </fileSet>
+
+        <fileSet>
+            <directory>jpbc-plaf/target</directory>
+            <outputDirectory>jars/test</outputDirectory>
+            <includes>
+                <include>*tests.jar</include>
+            </includes>
         </fileSet>
 
 <!--
@@ -76,7 +84,11 @@
             <outputDirectory>.</outputDirectory>
         </file>
         <file>
-            <source>benchmark.*</source>
+            <source>benchmark.xml</source>
+            <outputDirectory>.</outputDirectory>
+        </file>
+        <file>
+            <source>benchmark.properties</source>
             <outputDirectory>.</outputDirectory>
         </file>
     </files>

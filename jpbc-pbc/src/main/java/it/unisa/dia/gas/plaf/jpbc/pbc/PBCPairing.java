@@ -83,8 +83,7 @@ public class PBCPairing implements Pairing {
         g2Field = null;
         gTField = null;
         zRField = null;
-
-        PBCLibraryProvider.getPbcLibrary().pbc_pairing_clear(pairing);
+//        PBCLibraryProvider.getPbcLibrary().pbc_pairing_clear(pairing);
     }
 
     protected void initFields() {

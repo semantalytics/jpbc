@@ -242,21 +242,21 @@
             <img border="0" alt="$i18n.getString( "site-renderer", $locale, "template.builtby" ) Maven" src="$relativePath/images/logos/maven-feather.png">
           </a>
           <div id="customPoweredBy">
-              <script type="text/javascript" src="http://www.ohloh.net/projects/6945/widgets/project_thin_badge"></script>
+                <script type="text/javascript" src="http://www.ohloh.net/p/365451/widgets/project_users_logo.js"></script>
           </div>
           <div id="customPoweredBy">
                 <!-- Piwik -->
-            <script type="text/javascript">
-                var pkBaseURL = (("https:" == document.location.protocol) ? "https://apps.sourceforge.net/piwik/jpbc/" : "http://apps.sourceforge.net/piwik/jpbc/");
+                <script type="text/javascript">
+                var pkBaseURL = (("https:" == document.location.protocol) ? "https://sourceforge.net/apps/piwik/jpbc/" : "http://sourceforge.net/apps/piwik/jpbc/");
                 document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
                 </script><script type="text/javascript">
                 piwik_action_name = '';
-                piwik_idsite = 1;
+                piwik_idsite = 2;
                 piwik_url = pkBaseURL + "piwik.php";
                 piwik_log(piwik_action_name, piwik_idsite, piwik_url);
-            </script>
-            <object><noscript><p><img src="http://apps.sourceforge.net/piwik/jpbc/piwik.php?idsite=1" alt="piwik"/></p></noscript></object>
-            <!-- End Piwik Tag -->
+                </script>
+                <object><noscript><p><img src="http://sourceforge.net/apps/piwik/jpbc/piwik.php?idsite=2" alt="piwik"/></p></noscript></object>
+                <!-- End Piwik Tag -->
           </div>
         #end
     #else
@@ -267,20 +267,20 @@
           <img alt="$i18n.getString( "site-renderer", $locale, "template.builtby" ) Maven" src="$relativePath/images/logos/maven-feather.png">
         </a>
         <div id="customPoweredBy">
-            <script type="text/javascript" src="http://www.ohloh.net/projects/6945/widgets/project_thin_badge"></script>
+            <script type="text/javascript" src="http://www.ohloh.net/p/365451/widgets/project_users_logo.js"></script>
         </div>
         <div id="customPoweredBy">
             <!-- Piwik -->
             <script type="text/javascript">
-                var pkBaseURL = (("https:" == document.location.protocol) ? "https://apps.sourceforge.net/piwik/jpbc/" : "http://apps.sourceforge.net/piwik/jpbc/");
-                document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
-                </script><script type="text/javascript">
-                piwik_action_name = '';
-                piwik_idsite = 1;
-                piwik_url = pkBaseURL + "piwik.php";
-                piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+            var pkBaseURL = (("https:" == document.location.protocol) ? "https://sourceforge.net/apps/piwik/jpbc/" : "http://sourceforge.net/apps/piwik/jpbc/");
+            document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+            </script><script type="text/javascript">
+            piwik_action_name = '';
+            piwik_idsite = 2;
+            piwik_url = pkBaseURL + "piwik.php";
+            piwik_log(piwik_action_name, piwik_idsite, piwik_url);
             </script>
-            <object><noscript><p><img src="http://apps.sourceforge.net/piwik/jpbc/piwik.php?idsite=1" alt="piwik"/></p></noscript></object>
+            <object><noscript><p><img src="http://sourceforge.net/apps/piwik/jpbc/piwik.php?idsite=2" alt="piwik"/></p></noscript></object>
             <!-- End Piwik Tag -->
         </div>
     #end
@@ -312,8 +312,8 @@
   </head>
   <body class="composite">
     <div id="banner">
-        <a href="http://http://gas.dia.unisa.it/projects/jpbc/" id="bannerLeft">
-            <img id="bannerImage" src="http://http://gas.dia.unisa.it/projects/jpbc/images/banners/banner_4.jpg" alt="" width="1124"/>
+        <a href="http://gas.dia.unisa.it/projects/jpbc/" id="bannerLeft">
+            <img id="bannerImage" src="http://gas.dia.unisa.it/projects/jpbc/images/banners/banner_4.jpg" alt="" width="1124"/>
         </a>
         <div class="clear">
         <hr/>

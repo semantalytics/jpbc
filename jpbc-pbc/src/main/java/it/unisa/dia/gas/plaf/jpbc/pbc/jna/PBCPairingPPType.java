@@ -17,4 +17,11 @@ public class PBCPairingPPType extends Memory {
         this();
         PBCLibraryProvider.getPbcLibrary().pbc_pairing_pp_init(this, element, pairing);        
     }
+
+    @Override
+    protected void finalize() {
+        PBCLibraryProvider.getPbcLibrary().pbc_pairing_pp_clear(this);
+        
+        super.finalize();
+    }
 }

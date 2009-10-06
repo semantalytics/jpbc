@@ -11,7 +11,12 @@
         <section name="Element Functions">
             <p>
                 Elements of groups, rings and fields are accessible using the
-                <code><strong style="color:red">it.unisa.dia.gas.jpbc.Element</strong></code>
+                <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Element.html">
+                    <code>
+                        <strong style="color:red">it.unisa.dia.gas.jpbc.Element</strong>
+                    </code>
+                </a>
+
                 interface which represents a mutable value. So any method you call on it affect the element's value.
             </p>
 

@@ -2,7 +2,6 @@ package it.unisa.dia.gas.jpbc.zss;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pairing.a.TypeAPairing;
 import junit.framework.TestCase;
@@ -15,7 +14,7 @@ public class ZssTest extends TestCase {
     public void testZss() {
         // Load pairing
         CurveParams curveParams = new CurveParams();
-        curveParams.load(ZssTest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pairing/a/a_311_289.properties"));
+        curveParams.load(ZssTest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pairing/a/a_603_181.properties"));
 
         Pairing pairing = new TypeAPairing(curveParams);
 
@@ -29,11 +28,6 @@ public class ZssTest extends TestCase {
         x = pairing.getZr().newRandomElement();
         P = pairing.getG1().newRandomElement();
 
-        System.out.println("P = " + P);
-//        ((Point)P).setFromBytesX(((Point)P).toBytesX());
-        ((Point)P).setFromBytesCompressed(((Point)P).toBytesCompressed());
-        System.out.println("P = " + P);
-
         Ppub = P.duplicate().mulZn(x);
 
         System.out.println("P = " + P);
@@ -41,10 +35,12 @@ public class ZssTest extends TestCase {
         System.out.println("Ppub = " + Ppub);
 
         System.out.printf("SIGN\n");
-//            H = pairing.getZr().newElement().setFromHash("Message".getBytes());
-        H = pairing.getZr().newRandomElement();
-        t1 = H.duplicate().add(x).invert();
-        S = P.duplicate().mulZn(t1);
+        byte[] source = "Message".getBytes();
+
+        H = pairing.getZr().newElement().setFromHash(source, 0, source.length);
+//            H = pairing.getZr().newElement().setToRandom();
+        t1 = pairing.getZr().newElement().set(H).add(x).invert();
+        S = pairing.getG1().newElement().set(P).mulZn(t1);
 
         System.out.printf("Signature of message \"Message\" is:\n");
         System.out.println("S = " + S);
@@ -52,7 +48,7 @@ public class ZssTest extends TestCase {
         System.out.printf("VERIFY\n");
 //            H.setFromHash("Message".getBytes());
 //            H = pairing.getZr().newElement().setToOne();
-        t2 = P.duplicate().mulZn(H).add(Ppub);
+        t2 = pairing.getG1().newElement().set(P).mulZn(H).add(Ppub);
 
         time1 = System.currentTimeMillis();
         t3 = pairing.pairing(t2, S);
@@ -65,6 +61,6 @@ public class ZssTest extends TestCase {
         assertEquals(0, t3.compareTo(t4));
 
         System.out.printf("All time = %d\n", time2 - time1);
-    }
+     }
 
 }

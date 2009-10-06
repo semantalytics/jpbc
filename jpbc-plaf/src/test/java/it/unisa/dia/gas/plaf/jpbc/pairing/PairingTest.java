@@ -120,12 +120,16 @@ public abstract class PairingTest extends TestCase {
 
     @Override
     protected void setUp() throws Exception {
-        pairing = PairingFactory.getPairing(getCurveParams());
+        CurveParams curveParams = getCurveParams();
+        if (curveParams != null) {
+            pairing = PairingFactory.getPairing(curveParams);
 
-        assertNotNull(pairing.getG1());
-        assertNotNull(pairing.getG2());
-        assertNotNull(pairing.getGT());
-        assertNotNull(pairing.getZr());
+            assertNotNull(pairing.getG1());
+            assertNotNull(pairing.getG2());
+            assertNotNull(pairing.getGT());
+            assertNotNull(pairing.getZr());
+        } else
+            pairing = null;
     }
 
     protected abstract CurveParams getCurveParams();

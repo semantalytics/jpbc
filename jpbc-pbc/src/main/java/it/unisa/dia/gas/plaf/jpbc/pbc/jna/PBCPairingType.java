@@ -15,7 +15,7 @@ public class PBCPairingType extends Memory {
 
     @Override
     protected void finalize() {
-        System.out.println("PBCPairingType.finalize. IsValid = " + this.isValid());
+//        System.out.println("PBCPairingType.finalize. IsValid = " + this.isValid());
         PBCLibraryProvider.getPbcLibrary().pbc_pairing_clear(this);
         super.finalize();
     }

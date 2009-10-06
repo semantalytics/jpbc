@@ -13,7 +13,10 @@
                 Pairings are initialized from pairing parameters. Depending of type you must choose the right generator.
                 A generator in a instance of the
                 <code>
-                    <strong style="color:red">it.unisa.dia.gas.jpbc.CurveGenerator</strong>
+                    <a href="../java-docs/api/it/unisa/dia/gas/jpbc/CurveGenerator.html">
+                        <strong style="color:red">it.unisa.dia.gas.jpbc.CurveGenerator</strong>
+                    </a>
+
                 </code>
                 interface.
             </p>
@@ -74,7 +77,7 @@ System.out.println(params);
 // Init the generator...
 int rBits = 160;
 int qBits = 512;
-CurveGenerator curveGenerator = new TypeACurveGenerator(rBits, qBits);
+CurveGenerator curveGenerator = <strong style="color:green">new TypeACurveGenerator(rBits, qBits)</strong>;
 </source>
                     </li>
                     <li>
@@ -83,7 +86,7 @@ CurveGenerator curveGenerator = new TypeACurveGenerator(rBits, qBits);
                         </p>
                         <source>import it.unisa.dia.gas.plaf.jpbc.pbc.curve.PBCTypeACurveGenerator;
 
-CurveGenerator curveGenerator = new PBCTypeACurveGenerator(rBits, qBits);
+CurveGenerator curveGenerator = <strong style="color:green">new PBCTypeACurveGenerator(rBits, qBits)</strong>;
 </source>
                     </li>
                 </ol>
@@ -119,7 +122,7 @@ sign1 -1
                         <source>import it.unisa.dia.gas.plaf.jpbc.pairing.a1.TypeA1CurveGenerator;
 
 // Init the generator...
-CurveGenerator curveGenerator = new TypeA1CurveGenerator();
+CurveGenerator curveGenerator = <strong style="color:green">new TypeA1CurveGenerator()</strong>;
 </source>
                     </li>
                     <li>
@@ -128,7 +131,7 @@ CurveGenerator curveGenerator = new TypeA1CurveGenerator();
                         </p>
                         <source>import it.unisa.dia.gas.plaf.jpbc.pbc.curve.PBCTypeA1CurveGenerator;
 
-CurveGenerator curveGenerator = new PBCTypeA1CurveGenerator(rBits, qBits);
+CurveGenerator curveGenerator = <strong style="color:green">new PBCTypeA1CurveGenerator(rBits, qBits)</strong>;
 </source>
                     </li>
                 </ol>
@@ -168,7 +171,7 @@ l 1392
 
 // Init the generator...
 int discriminant = 9563;
-CurveGenerator curveGenerator = new PBCTypeDCurveGenerator(discriminant);
+CurveGenerator curveGenerator = <strong style="color:green">new PBCTypeDCurveGenerator(discriminant)</strong>;
 </source>
                     </li>
                 </ol>
@@ -234,7 +237,7 @@ nqr 1146467906739450941418701450790603726238899593000901105835892
 // Init the generator...
 int rBits = 160;
 int qBits = 1024;
-CurveGenerator curveGenerator = new TypeECurveGenerator(rBits, qBits);
+CurveGenerator curveGenerator = <strong style="color:green">new TypeECurveGenerator(rBits, qBits)</strong>;
 </source>
                     </li>
                     <li>
@@ -243,7 +246,7 @@ CurveGenerator curveGenerator = new TypeECurveGenerator(rBits, qBits);
                         </p>
                         <source>import it.unisa.dia.gas.plaf.jpbc.pbc.curve.PBCTypeECurveGenerator;
 
-CurveGenerator curveGenerator = new PBCTypeECurveGenerator(rBits, qBits);
+CurveGenerator curveGenerator = <strong style="color:green">new PBCTypeECurveGenerator(rBits, qBits)</strong>;
 </source>
                     </li>
                 </ol>

@@ -8,7 +8,7 @@ import junit.framework.TestCase;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class PairingTest extends TestCase {
+public abstract class PairingTest extends TestCase {
 
     protected Pairing pairing;
 
