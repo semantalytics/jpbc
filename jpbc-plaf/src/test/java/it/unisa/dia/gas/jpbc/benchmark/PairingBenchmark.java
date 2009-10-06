@@ -29,31 +29,50 @@ public class PairingBenchmark {
     }
 
 
+    public void testPairing() {
+        if (pairing == null)
+            return;
+
+        long elapsed = 0;
+
+        for (int i = 0; i < times; i++) {
+            Element g = pairing.getG1().newElement().setToRandom();
+            Element h = pairing.getG2().newElement().setToRandom();
+
+            long start = System.currentTimeMillis();
+            Element r2 = pairing.pairing(g, h);
+            long end = System.currentTimeMillis();
+            elapsed += (end - start);
+        }
+
+        System.out.printf("[testPairing] Pairing (ms) = %d, Mean (ms) = %f\n", elapsed, (double) elapsed / times);
+    }
+
     public void testPairingPreProcessing() {
         if (pairing == null)
             return;
 
-        long t1 = 0;
-        long t2 = 0;
+        long el1 = 0;
+        long el2 = 0;
 
         for (int i = 0; i < times; i++) {
             Element g = pairing.getG1().newElement().setToRandom();
-            PairingPreProcessing ppp = pairing.pairing(g);
-            Element h = pairing.getG2().newElement().setToRandom();
 
             long start = System.currentTimeMillis();
-            Element r1 = ppp.pairing(h);
+            PairingPreProcessing ppp = pairing.pairing(g);
             long end = System.currentTimeMillis();
-            t1 += (end - start);
+            el1 += (end - start);
+
+            Element h = pairing.getG2().newElement().setToRandom();
 
             start = System.currentTimeMillis();
             Element r2 = pairing.pairing(g, h);
             end = System.currentTimeMillis();
-            t2 += (end - start);
+            el2 += (end - start);
         }
 
-        System.out.println("t1 = " + t1);
-        System.out.println("t2 = " + t2);
+        System.out.printf("[testPairingPreProcessing] PreProcessing (ms) = %d, Mean (ms) = %f\n", el1, (double) el1 / times);
+        System.out.printf("[testPairingPreProcessing] Pairing (ms) = %d, Mean (ms) = %f\n", el2, (double) el2 / times);
     }
 
 
@@ -79,6 +98,7 @@ public class PairingBenchmark {
                                                      Integer.parseInt(args[1]));
         System.out.printf("PairingBenchmark{%s %s}\n", args[0], args[1]);
         test.setUp();
+        test.testPairing();
         test.testPairingPreProcessing();
         System.out.printf("PairingBenchmark. Finished.\n");
     }

@@ -15,7 +15,7 @@ public class HVETest extends TestCase {
     public void testHVE() {
         // init pairing
         CurveParams curveParams = new CurveParams();
-        curveParams.load(HVETest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pairing/a/a_603_181.properties"));
+        curveParams.load(HVETest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pairing/a/a_181_603.properties"));
         Pairing pairing = new TypeAPairing(curveParams);
 
         // load public information

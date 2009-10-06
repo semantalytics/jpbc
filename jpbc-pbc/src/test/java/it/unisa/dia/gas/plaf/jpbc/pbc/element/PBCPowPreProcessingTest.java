@@ -59,7 +59,7 @@ public class PBCPowPreProcessingTest extends TestCase {
 
     protected CurveParams getCurveParams() {
         CurveParams curveParams = new CurveParams();
-        curveParams.load(PBCPairingTest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pbc/pairing/a_603_181.properties"));
+        curveParams.load(PBCPairingTest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pbc/pairing/a_181_603.properties"));
         return curveParams;
     }
 

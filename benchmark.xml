@@ -1,293 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="jpbc" default="benchmark">
 
-    <property file="benchmark.properties"/>
+    <!-- Options -->
 
-    <!-- Compiler options -->
+    <dirname property="basedir" file="${ant.file}"/>
 
-    <property name="compiler.debug" value="on"/>
-    <property name="compiler.generate.no.warnings" value="off"/>
-    <property name="compiler.args" value="-target 1.5"/>
-    <property name="compiler.max.memory" value="256m"/>
-    <patternset id="ignored.files">
-        <exclude name="**/CVS/**"/>
-        <exclude name="**/SCCS/**"/>
-        <exclude name="**/RCS/**"/>
-        <exclude name="**/rcs/**"/>
-        <exclude name="**/.DS_Store/**"/>
-        <exclude name="**/.svn/**"/>
-        <exclude name="**/.pyc/**"/>
-        <exclude name="**/.pyo/**"/>
-        <exclude name="**/*.pyc/**"/>
-        <exclude name="**/*.pyo/**"/>
-        <exclude name="**/.git/**"/>
-        <exclude name="**/*.hprof/**"/>
-        <exclude name="**/_svn/**"/>
-        <exclude name="**/.sbas/**"/>
-        <exclude name="**/.IJI.*/**"/>
-        <exclude name="**/vssver.scc/**"/>
-        <exclude name="**/vssver2.scc/**"/>
-    </patternset>
-    <patternset id="library.patterns">
-        <include name="*.zip"/>
-        <include name="*.war"/>
-        <include name="*.egg"/>
-        <include name="*.ear"/>
-        <include name="*.swc"/>
-        <include name="*.jar"/>
-    </patternset>
-    <patternset id="compiler.resources">
-        <include name="**/?*.properties"/>
-        <include name="**/?*.xml"/>
-        <include name="**/?*.gif"/>
-        <include name="**/?*.png"/>
-        <include name="**/?*.jpeg"/>
-        <include name="**/?*.jpg"/>
-        <include name="**/?*.html"/>
-        <include name="**/?*.dtd"/>
-        <include name="**/?*.tld"/>
-        <include name="**/?*.ftl"/>
-        <include name="**/?*.param"/>
-    </patternset>
-
-    <!-- JDK definitions -->
-
-    <property name="jdk.bin.1.6" value="${jdk.home.1.6}/bin"/>
-    <path id="jdk.classpath.1.6">
-        <fileset dir="${jdk.home.1.6}">
-            <include name="jre/lib/plugin.jar"/>
-            <include name="jre/lib/management-agent.jar"/>
-            <include name="jre/lib/alt-rt.jar"/>
-            <include name="jre/lib/jce.jar"/>
-            <include name="jre/lib/deploy.jar"/>
-            <include name="jre/lib/jsse.jar"/>
-            <include name="jre/lib/resources.jar"/>
-            <include name="jre/lib/charsets.jar"/>
-            <include name="jre/lib/javaws.jar"/>
-            <include name="jre/lib/rt.jar"/>
-            <include name="jre/lib/ext/sunpkcs11.jar"/>
-            <include name="jre/lib/ext/dnsns.jar"/>
-            <include name="jre/lib/ext/sunjce_provider.jar"/>
-            <include name="jre/lib/ext/localedata.jar"/>
-        </fileset>
+    <path id="runtime.classpath">
+        <pathelement location="${basedir}/jars/jpbc-api-1.0.0.jar"/>
+        <pathelement location="${basedir}/jars/jpbc-plaf-1.0.0.jar"/>
+        <pathelement location="${basedir}/jars/jpbc-pbc-1.0.0.jar"/>
+        <pathelement location="${basedir}/jars/jna-3.1.0.jar"/>
+        <pathelement location="${basedir}/jars/test/jpbc-plaf-1.0.0-tests.jar"/>
+        <pathelement location="${basedir}/jars/test/jpbc-pbc-1.0.0-tests.jar"/>
     </path>
-
-    <property name="project.jdk.home" value="${jdk.home.1.6}"/>
-    <property name="project.jdk.bin" value="${jdk.bin.1.6}"/>
-    <property name="project.jdk.classpath" value="jdk.classpath.1.6"/>
-
-
-    <!-- Project Libraries -->
-
-    <path id="library.maven:_junit:junit:3.8.1.classpath">
-        <pathelement location="${path.variable.maven_repository}/junit/junit/3.8.1/junit-3.8.1.jar"/>
-    </path>
-
-    <path id="library.maven:_net.java.dev.jna:jna:3.1.0.classpath">
-        <pathelement location="${path.variable.maven_repository}/net/java/dev/jna/jna/3.1.0/jna-3.1.0.jar"/>
-    </path>
-
-    <!-- Modules -->
-
-
-    <!-- Module jpbc -->
-
-    <dirname property="module.jpbc.basedir" file="${ant.file}"/>
-
-
-    <property name="module.jdk.home.jpbc" value="${project.jdk.home}"/>
-    <property name="module.jdk.bin.jpbc" value="${project.jdk.bin}"/>
-    <property name="module.jdk.classpath.jpbc" value="${project.jdk.classpath}"/>
-
-    <property name="compiler.args.jpbc" value="${compiler.args}"/>
-
-    <property name="jpbc.output.dir" value="${module.jpbc.basedir}/target/classes"/>
-    <property name="jpbc.testoutput.dir" value="${module.jpbc.basedir}/target/test-classes"/>
-
-    <path id="jpbc.module.bootclasspath">
-        <!-- Paths to be included in compilation bootclasspath -->
-    </path>
-
-    <path id="jpbc.module.classpath">
-        <path refid="${module.jdk.classpath.jpbc}"/>
-        <path refid="library.maven:_junit:junit:3.8.1.classpath"/>
-    </path>
-
-    <path id="jpbc.runtime.module.classpath">
-        <pathelement location="${jpbc.output.dir}"/>
-        <pathelement location="${jpbc.testoutput.dir}"/>
-        <path refid="library.maven:_junit:junit:3.8.1.classpath"/>
-    </path>
-
-
-    <patternset id="excluded.from.module.jpbc">
-        <patternset refid="ignored.files"/>
-    </patternset>
-
-    <patternset id="excluded.from.compilation.jpbc">
-        <patternset refid="excluded.from.module.jpbc"/>
-    </patternset>
-
-
-    <!-- Module jpbc-api -->
-
-    <dirname property="module.jpbc-api.basedir" file="${ant.file}"/>
-
-
-    <property name="module.jdk.home.jpbc-api" value="${project.jdk.home}"/>
-    <property name="module.jdk.bin.jpbc-api" value="${project.jdk.bin}"/>
-    <property name="module.jdk.classpath.jpbc-api" value="${project.jdk.classpath}"/>
-
-    <property name="compiler.args.jpbc-api" value="${compiler.args}"/>
-
-    <property name="jpbc-api.output.dir" value="${module.jpbc-api.basedir}/jpbc-api/target/classes"/>
-    <property name="jpbc-api.testoutput.dir" value="${module.jpbc-api.basedir}/jpbc-api/target/test-classes"/>
-
-    <path id="jpbc-api.module.bootclasspath">
-        <!-- Paths to be included in compilation bootclasspath -->
-    </path>
-
-    <path id="jpbc-api.module.classpath">
-        <path refid="${module.jdk.classpath.jpbc-api}"/>
-        <path refid="library.maven:_junit:junit:3.8.1.classpath"/>
-    </path>
-
-    <path id="jpbc-api.runtime.module.classpath">
-        <pathelement location="${jpbc-api.output.dir}"/>
-        <pathelement location="${jpbc-api.testoutput.dir}"/>
-        <path refid="library.maven:_junit:junit:3.8.1.classpath"/>
-    </path>
-
-
-    <patternset id="excluded.from.module.jpbc-api">
-        <patternset refid="ignored.files"/>
-    </patternset>
-
-    <patternset id="excluded.from.compilation.jpbc-api">
-        <patternset refid="excluded.from.module.jpbc-api"/>
-    </patternset>
-
-    <path id="jpbc-api.module.sourcepath">
-        <dirset dir="${module.jpbc-api.basedir}/jpbc-api">
-            <include name="src/main/java"/>
-        </dirset>
-    </path>
-
-
-    <!-- Module jpbc-plaf -->
-
-    <dirname property="module.jpbc-plaf.basedir" file="${ant.file}"/>
-
-
-    <property name="module.jdk.home.jpbc-plaf" value="${project.jdk.home}"/>
-    <property name="module.jdk.bin.jpbc-plaf" value="${project.jdk.bin}"/>
-    <property name="module.jdk.classpath.jpbc-plaf" value="${project.jdk.classpath}"/>
-
-    <property name="compiler.args.jpbc-plaf" value="${compiler.args}"/>
-
-    <property name="jpbc-plaf.output.dir" value="${module.jpbc-plaf.basedir}/jpbc-plaf/target/classes"/>
-    <property name="jpbc-plaf.testoutput.dir" value="${module.jpbc-plaf.basedir}/jpbc-plaf/target/test-classes"/>
-
-    <path id="jpbc-plaf.module.bootclasspath">
-        <!-- Paths to be included in compilation bootclasspath -->
-    </path>
-
-    <path id="jpbc-plaf.module.classpath">
-        <path refid="${module.jdk.classpath.jpbc-plaf}"/>
-        <path refid="library.maven:_junit:junit:3.8.1.classpath"/>
-        <pathelement location="${jpbc-api.output.dir}"/>
-        <pathelement location="${jpbc-api.testoutput.dir}"/>
-    </path>
-
-    <path id="jpbc-plaf.runtime.module.classpath">
-        <pathelement location="${jpbc-plaf.output.dir}"/>
-        <pathelement location="${jpbc-plaf.testoutput.dir}"/>
-        <path refid="library.maven:_junit:junit:3.8.1.classpath"/>
-        <path refid="jpbc-api.runtime.module.classpath"/>
-    </path>
-
-
-    <patternset id="excluded.from.module.jpbc-plaf">
-        <patternset refid="ignored.files"/>
-    </patternset>
-
-    <patternset id="excluded.from.compilation.jpbc-plaf">
-        <patternset refid="excluded.from.module.jpbc-plaf"/>
-    </patternset>
-
-    <path id="jpbc-plaf.module.sourcepath">
-        <dirset dir="${module.jpbc-plaf.basedir}/jpbc-plaf">
-            <include name="src/main/java"/>
-        </dirset>
-    </path>
-
-    <path id="jpbc-plaf.module.test.sourcepath">
-        <dirset dir="${module.jpbc-plaf.basedir}/jpbc-plaf">
-            <include name="src/test/java"/>
-            <include name="src/test/resources"/>
-        </dirset>
-    </path>
-
-
-    <!-- Module jpbc-pbc -->
-
-    <dirname property="module.jpbc-pbc.basedir" file="${ant.file}"/>
-
-
-    <property name="module.jdk.home.jpbc-pbc" value="${project.jdk.home}"/>
-    <property name="module.jdk.bin.jpbc-pbc" value="${project.jdk.bin}"/>
-    <property name="module.jdk.classpath.jpbc-pbc" value="${project.jdk.classpath}"/>
-
-    <property name="compiler.args.jpbc-pbc" value="${compiler.args}"/>
-
-    <property name="jpbc-pbc.output.dir" value="${module.jpbc-pbc.basedir}/jpbc-pbc/target/classes"/>
-    <property name="jpbc-pbc.testoutput.dir" value="${module.jpbc-pbc.basedir}/jpbc-pbc/target/test-classes"/>
-
-    <path id="jpbc-pbc.module.bootclasspath">
-        <!-- Paths to be included in compilation bootclasspath -->
-    </path>
-
-    <path id="jpbc-pbc.module.classpath">
-        <path refid="${module.jdk.classpath.jpbc-pbc}"/>
-        <path refid="library.maven:_junit:junit:3.8.1.classpath"/>
-        <pathelement location="${jpbc-api.output.dir}"/>
-        <pathelement location="${jpbc-api.testoutput.dir}"/>
-        <pathelement location="${jpbc-plaf.output.dir}"/>
-        <pathelement location="${jpbc-plaf.testoutput.dir}"/>
-        <path refid="library.maven:_net.java.dev.jna:jna:3.1.0.classpath"/>
-    </path>
-
-    <path id="jpbc-pbc.runtime.module.classpath">
-        <pathelement location="${jpbc-pbc.output.dir}"/>
-        <pathelement location="${jpbc-pbc.testoutput.dir}"/>
-        <path refid="library.maven:_junit:junit:3.8.1.classpath"/>
-        <path refid="jpbc-api.runtime.module.classpath"/>
-        <path refid="jpbc-plaf.runtime.module.classpath"/>
-        <path refid="library.maven:_net.java.dev.jna:jna:3.1.0.classpath"/>
-    </path>
-
-
-    <patternset id="excluded.from.module.jpbc-pbc">
-        <patternset refid="ignored.files"/>
-    </patternset>
-
-    <patternset id="excluded.from.compilation.jpbc-pbc">
-        <patternset refid="excluded.from.module.jpbc-pbc"/>
-    </patternset>
-
-    <path id="jpbc-pbc.module.sourcepath">
-        <dirset dir="${module.jpbc-pbc.basedir}/jpbc-pbc">
-            <include name="src/main/java"/>
-        </dirset>
-    </path>
-
-    <path id="jpbc-pbc.module.test.sourcepath">
-        <dirset dir="${module.jpbc-pbc.basedir}/jpbc-pbc">
-            <include name="src/test/java"/>
-            <include name="src/test/resources"/>
-        </dirset>
-    </path>
-
 
     <!-- Benchmarks -->
 
@@ -296,27 +21,44 @@
         <echo message="Starting Benchmarks..."/>
 
         <java fork="true" classname="it.unisa.dia.gas.jpbc.benchmark.PBCPairingBenchmark">
-            <arg value="it/unisa/dia/gas/plaf/jpbc/pbc/pairing/d_9563.properties"/>
-            <arg value="1000"/>
+            <arg value="${basedir}/params/d_9563.properties"/>
+            <arg value="100"/>
             <classpath>
-                <path refid="jpbc-pbc.runtime.module.classpath"/>
+                <path refid="runtime.classpath"/>
+            </classpath>
+        </java>
+
+        <java fork="true" classname="it.unisa.dia.gas.jpbc.benchmark.PairingBenchmark">
+            <arg value="${basedir}/params/d_9563.properties"/>
+            <arg value="100"/>
+            <classpath>
+                <path refid="runtime.classpath"/>
             </classpath>
         </java>
 
         <java fork="true" classname="it.unisa.dia.gas.jpbc.benchmark.PBCPairingBenchmark">
-            <arg value="it/unisa/dia/gas/plaf/jpbc/pbc/pairing/d_594739_677_650.properties"/>
-            <arg value="1000"/>
+            <arg value="${basedir}/params/a_181_603.properties"/>
+            <arg value="100"/>
             <classpath>
-                <path refid="jpbc-pbc.runtime.module.classpath"/>
+                <path refid="runtime.classpath"/>
             </classpath>
         </java>
+
+        <java fork="true" classname="it.unisa.dia.gas.jpbc.benchmark.PairingBenchmark">
+            <arg value="${basedir}/params/a_181_603.properties"/>
+            <arg value="100"/>
+            <classpath>
+                <path refid="runtime.classpath"/>
+            </classpath>
+        </java>
+
 
         <!--
         <java classname="it.unisa.dia.gas.jpbc.benchmark.ElementPowBenchmark">
             <arg value="it/unisa/dia/gas/plaf/jpbc/pairing/a/a_603_181.properties"/>
-            <arg value="10000"/>
+            <arg value="1000"/>
             <classpath>
-                <path refid="jpbc-pbc.runtime.module.classpath"/>
+                <path refid="runtime.classpath"/>
             </classpath>
         </java>
 
@@ -324,15 +66,15 @@
             <arg value="it/unisa/dia/gas/plaf/jpbc/pairing/a/a_603_181.properties"/>
             <arg value="100"/>
             <classpath>
-                <path refid="jpbc-pbc.runtime.module.classpath"/>
+                <path refid="runtime.classpath"/>
             </classpath>
         </java>
 
         <java classname="it.unisa.dia.gas.jpbc.benchmark.PBCElementPowBenchmark">
             <arg value="it/unisa/dia/gas/plaf/jpbc/pairing/a/a_603_181.properties"/>
-            <arg value="10000"/>
+            <arg value="1000"/>
             <classpath>
-                <path refid="jpbc-pbc.runtime.module.classpath"/>
+                <path refid="runtime.classpath"/>
             </classpath>
         </java>
 
@@ -340,7 +82,7 @@
             <arg value="it/unisa/dia/gas/plaf/jpbc/pairing/a/a_603_181.properties"/>
             <arg value="100"/>
             <classpath>
-                <path refid="jpbc-pbc.runtime.module.classpath"/>
+                <path refid="runtime.classpath"/>
             </classpath>
         </java>
         -->

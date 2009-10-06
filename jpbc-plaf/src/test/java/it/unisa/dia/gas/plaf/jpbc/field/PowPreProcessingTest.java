@@ -55,7 +55,7 @@ public class PowPreProcessingTest extends TestCase {
 
     protected CurveParams getCurveParams() {
         CurveParams curveParams = new CurveParams();
-        curveParams.load(this.getClass().getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pairing/a/a_603_181.properties"));
+        curveParams.load(this.getClass().getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pairing/a/a_181_603.properties"));
         return curveParams;
     }
 

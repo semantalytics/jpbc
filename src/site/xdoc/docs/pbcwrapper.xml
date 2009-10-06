@@ -50,6 +50,8 @@ ccmake .</source>
 
                     <p>
                         Now press
+                        <code>c</code>
+                        and then 
                         <code>g</code>
                         .
                         <br/>
