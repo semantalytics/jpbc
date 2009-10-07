@@ -8,6 +8,7 @@ import it.unisa.dia.gas.plaf.jpbc.util.Utils;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.util.Arrays;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -157,14 +158,14 @@ public class NaiveElement extends GenericElement {
     }
 
     public int setFromBytes(byte[] source, int offset) {
-        value = new BigInteger(Utils.copyOf(source, offset, field.getLengthInBytes())).mod(order);
+        value = new BigInteger(1, Utils.copyOf(source, offset, field.getLengthInBytes())).mod(order);
 
         return field.getLengthInBytes();
     }
 
     public int setEncoding(byte[] bytes) {
         byte[] source = Utils.copyOf(bytes, field.getLengthInBytes() - 1);
-        value = new BigInteger(source);
+        value = new BigInteger(1, source);
 
         return source.length;
     }
@@ -294,8 +295,8 @@ public class NaiveElement extends GenericElement {
         return pow(n.toBigInteger());
     }
 
-    public int compareTo(Element element) {
-        return value.compareTo(((NaiveElement)element).value);
+    public boolean isEqual(Element e) {
+        return value.compareTo(((NaiveElement) e).value) == 0;
     }
 
     public BigInteger toBigInteger() {
@@ -305,9 +306,13 @@ public class NaiveElement extends GenericElement {
     @Override
     public byte[] toBytes() {
         byte[] bytes = value.toByteArray();
-        if (bytes.length > field.getLengthInBytes())
-            throw new IllegalStateException("result has more than FixedLengthInBytes.");
-        else if (bytes.length < field.getLengthInBytes()) {
+        if (bytes.length > field.getLengthInBytes()) {
+            if (bytes[0] == 0 && bytes.length == field.getLengthInBytes() + 1) {
+                // Remove it
+                bytes = Arrays.copyOfRange(bytes, 1, bytes.length);
+            } else
+                throw new IllegalStateException("result has more than FixedLengthInBytes.");
+        } else if (bytes.length < field.getLengthInBytes()) {
             byte[] result = new byte[field.getLengthInBytes()];
             System.arraycopy(bytes, 0, result, field.getLengthInBytes() - bytes.length, bytes.length);
             return result;
@@ -332,7 +337,7 @@ public class NaiveElement extends GenericElement {
     }
 
     public boolean equals(Object o) {
-        return compareTo((NaiveElement) o) == 0;
+        return isEqual((NaiveElement) o);
     }
 
 

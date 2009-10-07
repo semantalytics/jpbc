@@ -143,8 +143,8 @@ public class GTFiniteElement extends GenericElement {
         return this;
     }
 
-    public int compareTo(Element element) {
-        return value.compareTo(((GTFiniteElement) element).value);
+    public boolean isEqual(Element element) {
+        return value.isEqual(((GTFiniteElement) element).value);
     }
 
     public GTFiniteElement powZn(Element n) {

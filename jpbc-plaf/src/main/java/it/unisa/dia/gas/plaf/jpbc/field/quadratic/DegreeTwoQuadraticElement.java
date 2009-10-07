@@ -223,13 +223,13 @@ public class DegreeTwoQuadraticElement<E extends Element> extends QuadraticEleme
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
-    public int compareTo(Element e) {
+    public boolean isEqual(Element e) {
         if (e == this)
-            return 0;
+            return true;
 
         DegreeTwoQuadraticElement element = (DegreeTwoQuadraticElement) e;
 
-        return x.compareTo(element.x) ==0 && y.compareTo(element.y) == 0 ? 0 : 1;
+        return x.isEqual(element.x) && y.isEqual(element.y);
     }
 
     public String toString() {

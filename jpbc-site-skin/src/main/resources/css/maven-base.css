@@ -156,8 +156,10 @@ div.clear hr{
 .source {
   padding: 12px;
   margin: 1em 7px 1em 7px;
+  font-size: 15px;
 }
 .source pre {
   margin: 0px;
   padding: 0px;
+  font-size: 15px;
 }

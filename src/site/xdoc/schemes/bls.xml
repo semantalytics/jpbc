@@ -8,97 +8,148 @@
     </properties>
 
     <body>
-        <section name="Schemes - Boneh-Lynn-Shacham (BLS) Short Signatures ">
+        <section name="Schemes - Boneh-Lynn-Shacham (BLS) Short Signatures Scheme">
 
             <p>
                 Let's implement the Boneh-Lynn-Shacham (BLS) signature scheme using the jPBC library.
             </p>
 
-
-            <subsection name="Scenario">
-                <p>Alice wishes to sign a message. She generates her public and
-                    private keys as follows. Her private key is a random element
-                    <span class="emphasis">
-                        <em>x</em>
+            <subsection name="Key Generation">
+                <p>
+                    The key generation algorithm selects a random integer
+                    <span class="texhtml">
+                        <i>x</i>
                     </span>
-                    of
+                    in
                     <span class="emphasis">
                         <em>Zr</em>
-                    </span>
-                    , and her corresponding public key
-                    is
-                    <span class="emphasis">
-                        <em>g</em>
-                    </span>
-                    <sup>
-                        <span class=
-                                "emphasis">
-                            <em>x</em>
-                        </span>
-                    </sup>
-                    .
+                    </span>.
+
                 </p>
 
-                <p>To sign a message, Alice hashes the message to some element
-                    <span class="emphasis">
-                        <em>h</em>
-                    </span>
-                    of
-                    <span class="emphasis">
-                        <em>G1</em>
-                    </span>
-                    , and then outputs the signature
-                    <span class="emphasis">
-                        <em>h</em>
-                    </span>
-                    <sup>
-                        <span class="emphasis">
-                            <em>x</em>
+                <ol>
+                    <li>
+                        The
+                        <strong style="color:red">private key</strong>
+                        is
+                        <span class="texhtml">
+                            <i>x</i>;
                         </span>
-                    </sup>
-                    .
+                    </li>
+                    <li>
+                        the
+                        <strong style="color:red">public key</strong>
+                        is
+                        <span class="texhtml">
+                            <i>g</i>
+                            <sup>
+                                <i>x</i>
+                            </sup>.
+                        </span>
+                    </li>
+                </ol>
+
+                <p>
+                    Let's see how to do that using jPBC:
                 </p>
 
-                <p>To verify a signature σ, Bob checks that
-                    <span class=
-                            "emphasis">
-                        <em>e</em>
-                    </span>
-                    (
-                    <span class=
-                            "emphasis">
-                        <em>h</em>
-                    </span>
-                    ,
-                    <span class=
-                            "emphasis">
-                        <em>g</em>
-                    </span>
-                    <sup>
-                        <span class=
-                                "emphasis">
-                            <em>x</em>
-                        </span>
-                    </sup>
-                    ) =
-                    <span class=
-                            "emphasis">
-                        <em>e</em>
-                    </span>
-                    (σ,
-                    <span class=
-                            "emphasis">
-                        <em>g</em>
-                    </span>
-                    ).
-                </p>
+                <source xml:space="preserve">
+import package it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
+<strong style="color:green">// Init Pairings</strong>
+
+CurveParams curveParams = new CurveParams().load("curve.properties");
+Pairing pairing = PairingFactory.getPairing(curveParams);
+
+<strong style="color:green">// Generate system parameters</strong>
+
+Element g = pairing.getG1().newRandomElement();
+
+<strong style="color:green">// Generate the secret key</strong>
+
+Element x = pairing.getZr().newRandomElement();
+
+<strong style="color:green">// Generate the corresponding public key</strong>
+
+Element pk = g.duplicate().powZn(x); // We need to duplicate g because it's a system parameter.
+                </source>
             </subsection>
 
-            <subsection name="Use jPBC">
+            <subsection name="Signing">
+                <p>
+                    Given the private key
+                    <span class="texhtml">
+                        <i>x</i>
+                    </span>, and some message
+                    <span class="texhtml">
+                        <i>m</i>
+                    </span>, first we compute the hash of the message and then we map the hash to some element
+                    <i>h</i> of  G1. We output the signature
+                    <span class="texhtml">sig =
+                        <i>h</i>
+                        <sup>
+                            <i>x</i>
+                        </sup>
+                    </span>.
+                </p>
 
+                <p>
+                    Using jPBC we have:
+                </p>
+                <source xml:space="preserve">
+
+<strong style="color:green">// Map the hash of the message m to some element of G1</strong>
+
+byte[] hash = ... // Generate an hash from m (48-bit hash)
+Element h = pairing.getG1().newElement().setFromHash(hash, 0, hash.length);
+
+<strong style="color:green">// Generate the signature</strong>
+
+Element sig = h.powZn(x); // We can discard the value h, so we don't need to duplicate it.                    
+                </source>
             </subsection>
 
+            <subsection name="Verification">
+                <p>
+                    Given a signature
+                    <span class="texhtml">sig</span>
+                    and a public key
+                    <span class="texhtml">
+                        <i>g</i>
+                        <sup>
+                            <i>x</i>
+                        </sup>
+                    </span>, we verify that
+                    <span class="texhtml"><i>e</i>(sig, <i>g</i>) =<i>e</i>(h, 
+                        <i>g</i>
+                        <sup>
+                            <i>x</i>
+                        </sup>
+                        )
+                    </span>.
+                </p>
+
+                <p>
+                    Again using jPBC::
+                </p>
+                <source xml:space="preserve">
+
+<strong style="color:green">// Map again the hash of the message m</strong>
+                    
+byte[] hash = ... // Generate an hash from m (48-bit hash)
+Element h = pairing.getG1().newElement().setFromHash(hash, 0, hash.length);
+
+<strong style="color:green">// Verify the signature</strong>
+
+Element temp1 = pairing.pairing(sig, g);
+Element temp2 = pairing.pairing(h, pk);
+
+if (temp1.isEqual(temp2))
+    System.out.println("The signature is valid.");
+else
+    System.out.println("The signature is NOT valid.");
+                </source>
+            </subsection>
         </section>
     </body>
 </document>

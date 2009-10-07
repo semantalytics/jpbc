@@ -25,6 +25,7 @@
                 <include>it.unisa.dia.gas:jpbc-api</include>
                 <include>it.unisa.dia.gas:jpbc-plaf</include>
                 <include>it.unisa.dia.gas:jpbc-pbc</include>
+                <include>it.unisa.dia.gas:jpbc-examples</include>
                 <include>it.unisa.dia.gas:jpbc-site-skin</include>
             </includes>
             <sources>

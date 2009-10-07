@@ -28,7 +28,7 @@ public abstract class AbstractPairingMap implements PairingMap {
         t0 = pairing((Point) a, (Point) d);
         t1 = pairing((Point) b, (Point) c);
 
-        if (t0.compareTo(t1) == 0) {
+        if (t0.isEqual(t1)) {
             return true;
         } else {
             t0.mul(t1);

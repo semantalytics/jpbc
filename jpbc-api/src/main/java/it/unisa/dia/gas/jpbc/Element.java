@@ -1,6 +1,5 @@
 package it.unisa.dia.gas.jpbc;
 
-import java.io.Serializable;
 import java.math.BigInteger;
 
 /**
@@ -12,7 +11,7 @@ import java.math.BigInteger;
  * @see Field
  * @since 1.0.0
  */
-public interface Element extends Comparable<Element>, Serializable {
+public interface Element {
 
     /**
      * Returns the field to which this element lie.
@@ -162,6 +161,14 @@ public interface Element extends Comparable<Element>, Serializable {
      * @since 1.0.0
      */
     Element setToOne();
+
+    /**
+     * Returns <tt>true</tt> if this and value have the same value, <tt>false</tt> otherwise.
+     *
+     * @param value the element to be compared.
+     * @return <tt>true</tt> if this and value have the same value, <tt>false</tt> otherwise.
+     */
+    boolean isEqual(Element value);
 
     /**
      * Returns true if n is one, false otherwise.

@@ -496,7 +496,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
             x.setToRandom();
             e0.set(x).mul(x);
 
-            if (e0.compareTo(this) == 0) {
+            if (e0.isEqual(this)) {
                 set(x);
                 break;
             }
@@ -541,7 +541,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
             e0.mul(e1);
             e2.set(e0).mul(e0);
 
-            if (e2.compareTo(this) == 0) {
+            if (e2.isEqual(this)) {
                 set(e0);
                 break;
             }
@@ -659,15 +659,15 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
         return res;
     }
 
-    public int compareTo(Element e) {
+    public boolean isEqual(Element e) {
         PolyModElement<E> element = (PolyModElement<E>) e;
 
         for (int i = 0; i < field.n; i++) {
-            if (coeff.get(i).compareTo(element.coeff.get(i)) != 0)
-                return 1;
+            if (!coeff.get(i).isEqual(element.coeff.get(i)))
+                return false;
         }
 
-        return 0;
+        return true;
     }
 
     public BigInteger toBigInteger() {

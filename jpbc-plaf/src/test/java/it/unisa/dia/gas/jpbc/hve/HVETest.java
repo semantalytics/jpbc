@@ -41,7 +41,7 @@ public class HVETest extends TestCase {
         Element m1 = engine.dec(ct);
 
         // compare m and m1
-        assertEquals(0, m.compareTo(m1));
+        assertTrue(m.isEqual(m1));
         assertEquals(message, new String(m1.getDecoding()));
     }
 

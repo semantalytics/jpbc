@@ -46,7 +46,7 @@ public class CurveFieldTest extends TestCase {
 
         Element egargr = pairing.pairing(gar, gr);
 
-        assertEquals(0, egga.compareTo(egargr));
+        assertTrue(egga.isEqual(egargr));
 
         Element eggMinusa = egg.duplicate().powZn(a.duplicate().negate());
 

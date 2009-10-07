@@ -106,7 +106,7 @@ public class Pub {
         for (Element element : a) {
             sum.add(element);
         }
-        if (sum.compareTo(msk.y) != 0)
+        if (!sum.isEqual(msk.y))
             throw new IllegalStateException();
 
         // generate Yis, Lis

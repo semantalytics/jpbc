@@ -48,7 +48,8 @@
         </menu>
 
         <menu name="Schemes">
-            <item name="BLS signatures" href="/schemes/bls.html"/>
+            <item name="BLS Signature" href="/schemes/bls.html"/>
+            <!--<item name="HVE" href="/schemes/hve.html"/>-->
         </menu>
         
         ${reports}

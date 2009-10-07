@@ -43,7 +43,7 @@ public abstract class PairingTest extends TestCase {
         x2 = pairing.pairing(zg, h);
         System.out.println("f(g^z, h) = " + x2);
 
-        assertEquals(0, x1.compareTo(x2));
+        assertTrue(x1.isEqual(x2));
 
         zh = h.duplicate().powZn(z);
 
@@ -52,7 +52,7 @@ public abstract class PairingTest extends TestCase {
         x2 = pairing.pairing(g, zh);
         System.out.println("f(g, h^z) = " + x2);
 
-        assertEquals(0, x1.compareTo(x2));
+        assertTrue(x1.isEqual(x2));
     }
 
     public void doPairingPreProcessing() {
@@ -73,7 +73,7 @@ public abstract class PairingTest extends TestCase {
         PairingPreProcessing ppp = pairing.pairing(g);
         x2 = ppp.pairing(h);
 
-        assertEquals(0, x1.compareTo(x2));
+        assertTrue(x1.isEqual(x2));
     }
 
     public void doPairingSymmetric() {
@@ -105,7 +105,7 @@ public abstract class PairingTest extends TestCase {
             x2 = pairing.pairing(zg, g);
             System.out.println("f(g^z, g) = " + x2);
 
-            assertEquals(0, x1.compareTo(x2));
+            assertTrue(x1.isEqual(x2));
 
             zh = g.duplicate().powZn(z);
 
@@ -114,7 +114,7 @@ public abstract class PairingTest extends TestCase {
             x2 = pairing.pairing(g, zh);
             System.out.println("f(g, g^z) = " + x2);
 
-            assertEquals(0, x1.compareTo(x2));
+            assertTrue(x1.isEqual(x2));
         }
     }
 

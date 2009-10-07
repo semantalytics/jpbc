@@ -31,7 +31,7 @@ public class PBCPowPreProcessingTest extends TestCase {
         Element r1 = ppp.pow(n);
         Element r2 = e2.duplicate().pow(n);
 
-        assertEquals(0, r1.compareTo(r2));
+        assertTrue(r1.isEqual(r2));
     }
 
     public void testPowPreProcessingZn() {
@@ -46,7 +46,7 @@ public class PBCPowPreProcessingTest extends TestCase {
         Element r1 = ppp.powZn(n);
         Element r2 = e2.duplicate().powZn(n);
 
-        assertEquals(0, r1.compareTo(r2));
+        assertTrue(r1.isEqual(r2));
     }
 
 

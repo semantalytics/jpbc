@@ -60,7 +60,7 @@ public class PBCZssTest extends TestCase {
         System.out.println("e(H(m)P + Ppub, S) = " + t3);
         System.out.println("e(P, P) = " + t4);
 
-        assertEquals(0, t3.compareTo(t4));
+        assertTrue(t3.isEqual(t4));
 
         System.out.printf("All time = %d\n", time2 - time1);
     }

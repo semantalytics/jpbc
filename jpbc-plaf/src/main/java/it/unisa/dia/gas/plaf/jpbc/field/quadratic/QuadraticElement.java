@@ -379,13 +379,13 @@ public class QuadraticElement<E extends Element> extends GenericPointElement<E> 
         */
     }
 
-    public int compareTo(Element e) {
+    public boolean isEqual(Element e) {
         if (e == this)
-            return 0;
+            return true;
         
         QuadraticElement element = (QuadraticElement) e;
 
-        return x.compareTo(element.x) ==0 && y.compareTo(element.y) == 0 ? 0 : 1;
+        return x.isEqual(element.x) && y.isEqual(element.y);
     }
 
     public QuadraticElement powZn(Element n) {

@@ -234,8 +234,8 @@ public class PBCElement implements Element {
         return bytes;
     }
 
-    public int compareTo(Element o) {
-        return PBCLibraryProvider.getPbcLibrary().pbc_element_cmp(value, ((PBCElement) o).value);
+    public boolean isEqual(Element e) {
+        return PBCLibraryProvider.getPbcLibrary().pbc_element_cmp(value, ((PBCElement) e).value) == 0;
     }
 
     public ElementPowPreProcessing pow() {
@@ -251,10 +251,8 @@ public class PBCElement implements Element {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof Element))
-            return false;
+        return obj instanceof Element && isEqual((Element) obj);
 
-        return compareTo((Element) obj) == 0;
     }
 
     public Pointer getValue() {

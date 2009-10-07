@@ -320,19 +320,20 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
         return res;
     }
 
-    public int compareTo(Element e) {
+    public boolean isEqual(Element e) {
         PolyElement<E> element = (PolyElement<E>) e;
 
         int n = this.coeff.size();
         int n1 = element.coeff.size();
         if (n != n1)
-            return 1;
+            return false;
 
         for (int i = 0; i < n; i++) {
-            if (coeff.get(i).compareTo(element.coeff.get(i)) != 0)
-                return 1;
+            if (!coeff.get(i).isEqual(element.coeff.get(i)))
+                return false;
         }
-        return 0;
+
+        return true;
     }
 
     public BigInteger toBigInteger() {

@@ -180,8 +180,8 @@ public class CurveElement<E extends Element> extends GenericPointElement<E> {
         if (element.infFlag != 0)
             return this;
 
-        if (x.compareTo(element.x) == 0) {
-            if (y.compareTo(element.y) == 0) {
+        if (x.isEqual(element.x)) {
+            if (y.isEqual(element.y)) {
                 if (y.isZero()) {
                     infFlag = 1;
                     return this;
@@ -280,17 +280,13 @@ public class CurveElement<E extends Element> extends GenericPointElement<E> {
         return BigIntegerUtils.isOdd(field.getOrder()) || duplicate().pow(field.getOrder().subtract(BigInteger.ONE).divide(BigIntegerUtils.TWO)).isOne();
     }
 
-    public int compareTo(Element e) {
+    public boolean isEqual(Element e) {
         if (this == e)
-            return 0;
+            return true;
 
         CurveElement element = (CurveElement) e;
 
-        if (infFlag != 0) {
-            return element.infFlag;
-        }
-
-        return x.compareTo(element.x) == 0 && y.compareTo(element.y) == 0 ? 0 : 1;
+        return infFlag == 0 && x.isEqual(element.x) && y.isEqual(element.y);
 
         /*
         if (a == b) {
@@ -304,7 +300,6 @@ public class CurveElement<E extends Element> extends GenericPointElement<E> {
             return element_cmp(p - > x, q - > x) || element_cmp(p - > y, q - > y);
         }
         */
-
     }
 
     public CurveElement powZn(Element e) {
@@ -328,29 +323,26 @@ public class CurveElement<E extends Element> extends GenericPointElement<E> {
     }
 
     public CurveElement setFromHash(byte[] source, int offset, int length) {
-/*        //TODO: don't find a hash by the 255th try = freeze!
-
-        char[] datacopy = hash.toCharArray();
-        Element t = field.targetField.newElement();
 
         infFlag = 0;
-        for (; ;) {
-            x.setFromHash(new String(datacopy));
-            t.set(x).square().add(field.a).mul(x).add(field.b);
+        x.setFromHash(source, offset, length);
+
+        Element t = field.getTargetField().newElement();
+        for(;;) {
+            t.set(x).square().add(curveField.a).mul(x).add(curveField.b);
             if (t.isSqr())
                 break;
 
-            datacopy[0]++;
+            x.square().add(t.setToOne());
         }
         y.set(t).sqrt();
         if (y.sign() < 0)
             y.negate();
 
-        if (field.cofac != null)
-            mul(field.cofac);
+        if (curveField.cofac != null)
+            mul(curveField.cofac);
 
-        return this;*/
-        throw new IllegalStateException("Not Implemented yet!!!");
+        return this;
     }
 
     public int sign() {
@@ -433,7 +425,7 @@ public class CurveElement<E extends Element> extends GenericPointElement<E> {
         t0.set(x).square().add(getField().getA()).mul(x).add(getField().getB());
         t1.set(y).square();
 
-        return t0.compareTo(t1) == 0;
+        return t0.isEqual(t1);
     }
 
 
