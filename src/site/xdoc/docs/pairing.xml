@@ -59,7 +59,8 @@
                 <ol>
                     <li>
                         <p>
-                            The factory provided by the Java Porting. Each curve definition bring with it the curve's type used.
+                            <strong style="color:ref">Java Porting</strong>
+                            : you can use a factory. Each curve definition bring with it the curve's type used.
                             Using this information the factory chooses the right implementation.
                         </p>
                         <source>import package it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
@@ -70,10 +71,8 @@ Pairing pairing = <strong style="color:green">PairingFactory.getPairing(curvePar
                     </li>
                     <li>
                         <p>
-                            The
-                            <a href="./pbcwrapper.html">PBC Wrapper</a>
-                            which uses PBC to execute all the computations.
-                            Go
+                            <strong style="color:ref"><a href="./pbcwrapper.html">Java Wrapper</a></strong>
+                            : which uses PBC to execute all the computations. Go
                             <a href="./pbcwrapper.html">here</a>
                             to see how to start with the wrapper.
                         </p>

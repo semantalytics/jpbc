@@ -9,7 +9,7 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import junit.framework.TestCase;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CryptoException;
-import org.bouncycastle.crypto.digests.SHA1Digest;
+import org.bouncycastle.crypto.digests.SHA256Digest;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -32,12 +32,12 @@ public class BLSTest extends TestCase {
         keyPairGenerator.init(new BLSKeyGenerationParameters(null, parameters));
         AsymmetricCipherKeyPair keyPair = keyPairGenerator.generateKeyPair();
 
-        BLSSigner blsSigner = new BLSSigner(new SHA1Digest());
+        BLSSigner blsSigner = new BLSSigner(new SHA256Digest());
 
         // Sign
         blsSigner.init(true, keyPair.getPrivate());
         blsSigner.update(message, 0, message.length);
-        byte[] sig = new byte[0];
+        byte[] sig = null;
         try {
             sig = blsSigner.generateSignature();
         } catch (CryptoException e) {

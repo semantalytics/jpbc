@@ -12,6 +12,7 @@
         <moduleSet>
             <includes>
                 <include>it.unisa.dia.gas:jpbc-pbc</include>
+                <include>it.unisa.dia.gas:jpbc-examples</include>
             </includes>
             <binaries>
                 <outputDirectory>jars</outputDirectory>

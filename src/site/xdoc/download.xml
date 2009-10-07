@@ -51,6 +51,12 @@
                         </tr>
                     </tbody>
                 </table>
+                
+                <p>
+                    <strong>
+                        <a href="http://prdownloads.sourceforge.net/jpbc/?sort_by=date&amp;sort=desc">Browse all jPB Cdownloads</a>
+                    </strong>
+                </p>
             </subsection>
 
 			<a name="requirements"/>
@@ -74,7 +80,7 @@
                             <td align="left">
                                 <b>Disk</b>
                             </td>
-                            <td align="left">The distro is approximately 5MB, but the core jars are approximately 0.7MB
+                            <td align="left">The distro is approximately 3MB, but the core jars are approximately 0.7MB
                             </td>
                         </tr>
                         <tr class="a">
@@ -95,49 +101,32 @@
                         <tt>jpbc-1.0.0.zip</tt>
                         to the directory you wish to unzip jPBC 1.0.0.
                     </li>
-                    <li>Move to
-                        <tt>lib</tt>
-                        directory where you can found jPBC jar files.
-                    </li>
                     <li>To use jPBC add to your classpath
-                        <tt>jpbc_1.0.0-api.jar</tt> and
-                        <tt>jpbc_1.0.0-plaf.jar</tt>.
+                        <ol type="1">
+                            <li>
+                                <tt>jpbc_1.0.0-api.jar</tt>
+                                and
+                            </li>
+
+                            <li><tt>jpbc_1.0.0-plaf.jar</tt>.
+                            </li>
+                        </ol>
                         To use the wrapper include also
-                        <tt>jpbc_1.0.0-pbc.jar</tt>.
-                        <tt>jna-3.1.0.jar</tt>.
+                        <ol>
+                            <li>
+                                <tt>jpbc_1.0.0-pbc.jar</tt>
+                                and
+                            </li>
+
+                            <li>
+                                <tt>jna-3.1.0.jar</tt>.
+                            </li>
+                        </ol>
+
+                        You will find these jars into the jars folder.
 					</li>
                 </ol>
             </subsection>
-
-			<subsection name="Previous Releases">
-				<table>
-					<tbody>
-						<tr>
-							<td>
-								<strong>Package</strong>
-							</td>
-							<td>
-								<strong>Version</strong>
-							</td>
-							<td>
-								<strong>Release date</strong>
-							</td>
-							<td>
-								<strong>Category</strong>
-							</td>
-							<td/>
-						</tr>
-
-					</tbody>
-				</table>
-
-				<br/>
-				<strong>
-					<a href="http://prdownloads.sourceforge.net/jpbc/?sort_by=date&amp;sort=desc">Browse all jPBC
-						downloads
-					</a>
-				</strong>
-			</subsection>
         </section>
     </body>
 </document>
