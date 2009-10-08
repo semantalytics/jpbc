@@ -10,6 +10,14 @@
     <body>
         <section name="Build Howto">
             <p>
+                You can obtain the sources of jPBC by
+                <a href="./download.html">downloading</a>
+                a distro package or
+                <a href="source-repository.html">checking out</a>
+                the latest head from the repository. 
+            </p>
+            
+            <p>
                 jPBC is built using Maven 2. You can download it from
                 <a href="http://maven.apache.org">http://maven.apache.org</a>.
                 <br/>

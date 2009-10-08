@@ -10,13 +10,13 @@
     <body>
         <section name="Download jPBC">
             <subsection name="Releases">
-				<ul>
-					<li>
-						Please see our
-						<a href="license.html">License FAQ</a>
-						before downloading.
-					</li>
-				</ul>
+                <ul>
+                    <li>
+                        Please see our
+                        <a href="license.html">License FAQ</a>
+                        before downloading.
+                    </li>
+                </ul>
 
                 <table>
                     <tbody>
@@ -51,15 +51,17 @@
                         </tr>
                     </tbody>
                 </table>
-                
+
                 <p>
                     <strong>
-                        <a href="http://prdownloads.sourceforge.net/jpbc/?sort_by=date&amp;sort=desc">Browse all jPB Cdownloads</a>
+                        <a href="http://prdownloads.sourceforge.net/jpbc/?sort_by=date&amp;sort=desc">Browse all jPB
+                            Cdownloads
+                        </a>
                     </strong>
                 </p>
             </subsection>
 
-			<a name="requirements"/>
+            <a name="requirements"/>
             <subsection name="System Requirements">
                 <table>
                     <tbody>
@@ -94,7 +96,7 @@
                 </table>
             </subsection>
 
-			<a name="usage"/>
+            <a name="usage"/>
             <subsection name="Usage">
                 <ol type="1">
                     <li>Unzip
@@ -124,9 +126,10 @@
                         </ol>
 
                         You will find these jars into the jars folder.
-					</li>
+                    </li>
                 </ol>
             </subsection>
+
         </section>
     </body>
 </document>

@@ -31,6 +31,12 @@
         </license>
     </licenses>
 
+    <scm>
+        <connection>scm:svn:https://jpbc.svn.sourceforge.net/svnroot/jpbc/trunk</connection>
+        <developerConnection>scm:svn:https://jpbc.svn.sourceforge.net/svnroot/jpbc/trunk</developerConnection>
+        <url>http://jpbc.svn.sourceforge.net/viewvc/jpbc/trunk/</url>
+    </scm>
+
     <modules>
         <module>jpbc-api</module>
         <module>jpbc-plaf</module>

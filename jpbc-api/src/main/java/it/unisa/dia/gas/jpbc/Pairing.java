@@ -21,33 +21,33 @@ public interface Pairing {
     boolean isSymmetric();
 
     /**
-     * Return the G1 field.
+     * Return the G1 group.
      *
-      * @return the G1 field.
+      * @return the G1 group.
      * @since 1.0.0
      */
     Field<? extends Point> getG1();
 
     /**
-     * Return the G2 field.
+     * Return the G2 group.
      *
-     * @return the G2 field.
+     * @return the G2 group.
      * @since 1.0.0
      */
     Field<? extends Point> getG2();
 
     /**
-     * Return the GT field which is the group of rth roots of unity.
+     * Return the GT group which is the group of rth roots of unity.
      *
-     * @return the GT field.
+     * @return the GT group.
      * @since 1.0.0
      */
     Field getGT();
 
     /**
-     * Return the Zr field.
+     * Return the Zr group.
      *
-     * @return the Zr field.
+     * @return the Zr group.
      * @since 1.0.0
      */
     Field getZr();

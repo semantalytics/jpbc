@@ -54,7 +54,7 @@
                 </p>
 
                 <source xml:space="preserve">
-import package it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
+import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
 <strong style="color:green">// Init Pairings</strong>
 

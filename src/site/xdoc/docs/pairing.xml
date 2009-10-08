@@ -16,32 +16,82 @@
                         <strong style="color:red">it.unisa.dia.gas.jpbc.Pairing</strong>
                     </code>
                 </a>
-
                 interface must be obtained.
+            </p>
 
-                <br/>
-
+            <p>
                 Pairings are initialized from pairing parameters. Go
                 <a href="./curvegenerator.html">here</a>
                 to see how to do that.
-
-                <br/>
-
-                We use <code>G1</code> and <code>G2</code> to denote the input groups to the pairing, and <code>GT</code> for the output group. All have
-                order r, and <code>Zr</code> means the ring of integers modulo r. <code>G1</code> is the smaller group (the group of points
-                over the base field). With symmetric pairings, <code>G1</code> = <code>G2</code>.
-
-                <br/>
-                Pairings involve three groups of prime order r called <code>G1</code>, <code>G2</code>, and <code><code>GT</code></code>. The pairing is a bilinear map that
-                takes two elements as input, one from <code>G1</code> and one from <code>G2</code>, and outputs an element of <code><code>GT</code></code>.
-
-                <br/>
-                The elements of <code>G2</code> are at least as long as <code>G1</code>; <code>G1</code> is guaranteed to be the shorter of the two. Sometimes
-                <code>G1</code> and <code>G2</code> are the same group (i.e. the pairing is symmetric) so their elements can be mixed freely. In
-                this case the
-                <code>Pairing#isSymmetric()</code>
-                method returns<code>true</code>.
             </p>
+
+            <subsection name="Notation">
+                We use:
+                <ol>
+                    <li>
+                        <strong style="color:red">
+                            <code>G1</code>
+                        </strong>
+                        and
+                        <strong style="color:red">
+                            <code>G2</code>
+                        </strong>
+                        to denote the
+                        <strong style="color:red">input</strong>
+                        groups to the pairing and
+                    </li>
+                    <li>
+                        <strong style="color:red">
+                            <code>GT</code>
+                        </strong>
+                        for the
+                        <strong style="color:red">output</strong>
+                        group. (All have order r)
+                    </li>
+                    <li>
+                        <strong style="color:red">
+                            <code>Zr</code>
+                        </strong>
+                        which means the
+                        <strong style="color:red">ring of integers</strong>
+                        modulo r.
+                    </li>
+                </ol>
+
+                <p>
+                    <code>G1</code> is the smaller group (the group of points over the base field). With symmetric pairings, <code>G1</code> = <code>G2</code>.
+                    <br/>
+                    The elements of <code>G2</code> are at least as long as <code>G1</code>; <code>G1</code> is guaranteed to be the shorter of the two. Sometimes
+                    <code>G1</code> and <code>G2</code> are the same group (i.e. the pairing is symmetric) so their elements can be mixed freely. In
+                    this case the
+                    <code>Pairing#isSymmetric()</code>
+                    method returns <code>true</code>.
+                </p>
+
+                <br/>
+                <br/>
+
+                <p>
+                    The pairing is a bilinear map that takes two elements as input, one from <code>G1</code> and one from
+                    <code>G2</code>, and outputs an element of <code>GT</code>.
+                </p>
+            </subsection>
+
+            <subsection name="Accessing Groups">
+                The Pairing interface provides some methods to access the groups:
+
+                <source xml:space="preserve">/* Return G1 */
+Field G1 = <strong style="color:green">pairing.getG1();</strong>
+
+/* Return G2 */
+Field G2 = <strong style="color:green">pairing.getG2();</strong>
+
+/* Return GT */
+Field GT = <strong style="color:green">pairing.getGT();</strong>
+
+/* Return Zr */
+Field Zr = <strong style="color:green">pairing.getZr();</strong></source>
+            </subsection>
 
 
             <a name="initializing"/>
@@ -59,11 +109,11 @@
                 <ol>
                     <li>
                         <p>
-                            <strong style="color:ref">Java Porting</strong>
+                            <strong style="color:red">Java Porting</strong>
                             : you can use a factory. Each curve definition bring with it the curve's type used.
                             Using this information the factory chooses the right implementation.
                         </p>
-                        <source>import package it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
+                        <source>import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
 CurveParams curveParams = new CurveParams().load("curve.properties");
 Pairing pairing = <strong style="color:green">PairingFactory.getPairing(curveParams);</strong>
@@ -71,7 +121,7 @@ Pairing pairing = <strong style="color:green">PairingFactory.getPairing(curvePar
                     </li>
                     <li>
                         <p>
-                            <strong style="color:ref"><a href="./pbcwrapper.html">Java Wrapper</a></strong>
+                            <strong style="color:red">Java Wrapper</strong>
                             : which uses PBC to execute all the computations. Go
                             <a href="./pbcwrapper.html">here</a>
                             to see how to start with the wrapper.
