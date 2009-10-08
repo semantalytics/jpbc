@@ -76,10 +76,10 @@ public interface Pairing {
      * Returns true given (g, g^x, h, h^x) or (g, g^x, h, h^-x)
      * order is important: a, b are from G1, c, d are from G2
      *
-     * @param a TODO:
-     * @param b
-     * @param c
-     * @param d
+     * @param a eventually g
+     * @param b eventually g^x
+     * @param c eventually h
+     * @param d eventually h^x or h^-x
      * @return <tt>true</tt> given (g, g^x, h, h^x) or (g, g^x, h, h^-x), <tt>false</tt> otherwise.
      */
     boolean isAlmostCoddh(Element a, Element b, Element c, Element d);

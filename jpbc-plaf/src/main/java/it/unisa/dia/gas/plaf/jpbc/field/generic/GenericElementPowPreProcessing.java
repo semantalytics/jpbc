@@ -38,7 +38,7 @@ public class GenericElementPowPreProcessing implements ElementPowPreProcessing {
     /**
      * build k-bit base table for n-bit exponentiation w/ base a
      *
-     * @param source todo
+     * @param source an element
      */
     protected void initTable(Element source) {
         int lookupSize = 1 << k;
