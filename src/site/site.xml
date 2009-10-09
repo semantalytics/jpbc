@@ -49,7 +49,8 @@
 
         <menu name="Schemes">
             <item name="BLS Signature" href="/schemes/bls.html"/>
-            <!--<item name="HVE" href="/schemes/hve.html"/>-->
+            <item name="Hidden Vector Encryption" href="/schemes/hve.html"/>
+            <item name="Untraceable Tags" href="/schemes/ut.html"/>
         </menu>
         
         ${reports}

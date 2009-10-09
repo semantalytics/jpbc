@@ -340,9 +340,4 @@ public class NaiveElement extends GenericElement {
         return isEqual((NaiveElement) o);
     }
 
-
-    public byte[] getBytes() {
-        return value.toByteArray();
-
-    }
 }
