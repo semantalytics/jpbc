@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.jpbc.examples.bls.params;
+package it.unisa.dia.gas.jpbc.plaf.crypto.bls.params;
 
 import it.unisa.dia.gas.jpbc.Element;
 

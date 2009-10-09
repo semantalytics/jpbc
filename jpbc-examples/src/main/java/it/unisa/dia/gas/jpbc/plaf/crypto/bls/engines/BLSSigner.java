@@ -1,10 +1,10 @@
-package it.unisa.dia.gas.jpbc.examples.bls.engines;
+package it.unisa.dia.gas.jpbc.plaf.crypto.bls.engines;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.jpbc.examples.bls.params.BLSKeyParameters;
-import it.unisa.dia.gas.jpbc.examples.bls.params.BLSPrivateKeyParameters;
-import it.unisa.dia.gas.jpbc.examples.bls.params.BLSPublicKeyParameters;
+import it.unisa.dia.gas.jpbc.plaf.crypto.bls.params.BLSKeyParameters;
+import it.unisa.dia.gas.jpbc.plaf.crypto.bls.params.BLSPrivateKeyParameters;
+import it.unisa.dia.gas.jpbc.plaf.crypto.bls.params.BLSPublicKeyParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.*;
 
