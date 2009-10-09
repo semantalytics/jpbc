@@ -8,10 +8,10 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>jpbc-examples</artifactId>
+    <artifactId>jpbc-crypto</artifactId>
     <packaging>jar</packaging>
     <version>1.0.0</version>
-    <name>jPBC - Examples</name>
+    <name>jPBC - Crypto</name>
     <url>http://gas.dia.unisa.it/</url>
     <description>
     </description>

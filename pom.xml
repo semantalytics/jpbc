@@ -41,7 +41,7 @@
         <module>jpbc-api</module>
         <module>jpbc-plaf</module>
         <module>jpbc-pbc</module>
-        <module>jpbc-examples</module>
+        <module>jpbc-crypto</module>
         <module>jpbc-site-skin</module>
     </modules>
 
