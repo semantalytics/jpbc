@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.jpbc.plaf.crypto.bls;
+package it.unisa.dia.gas.plaf.jpbc.crypto.bls;
 
 import it.unisa.dia.gas.jpbc.plaf.crypto.bls.engines.BLSSigner;
 import it.unisa.dia.gas.jpbc.plaf.crypto.bls.generators.BLSKeyPairGenerator;
