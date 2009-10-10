@@ -47,7 +47,7 @@
             <item name="PBC Wrapper" href="/docs/pbcwrapper.html"/>
         </menu>
 
-        <menu name="Schemes">
+        <menu name="Schemes" href="/schemes/schemes.html">
             <item name="BLS Signature" href="/schemes/bls.html"/>
             <item name="Hidden Vector Encryption" href="/schemes/hve.html"/>
             <item name="Untraceable Tags" href="/schemes/ut.html"/>

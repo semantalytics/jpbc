@@ -1,14 +1,13 @@
 package it.unisa.dia.gas.plaf.jpbc.crypto.ehve.params;
 
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.ssod.SearchKey;
 
 import java.util.List;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class HVESearchKeyParameters extends HVEKeyParameters implements SearchKey {
+public class HVESearchKeyParameters extends HVEKeyParameters {
     private List<Element> Y, L;
     private Element K;
 

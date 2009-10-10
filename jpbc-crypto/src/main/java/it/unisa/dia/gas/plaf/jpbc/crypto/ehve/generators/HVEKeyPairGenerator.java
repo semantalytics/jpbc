@@ -6,7 +6,7 @@ import it.unisa.dia.gas.plaf.jpbc.crypto.ehve.params.HVEKeyGenerationParameters;
 import it.unisa.dia.gas.plaf.jpbc.crypto.ehve.params.HVEParameters;
 import it.unisa.dia.gas.plaf.jpbc.crypto.ehve.params.HVEPrivateKeyParameters;
 import it.unisa.dia.gas.plaf.jpbc.crypto.ehve.params.HVEPublicKeyParameters;
-import it.unisa.dia.gas.plaf.jpbc.pbc.PairingFactory;
+import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPairGenerator;
 import org.bouncycastle.crypto.KeyGenerationParameters;

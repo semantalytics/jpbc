@@ -4,7 +4,7 @@ import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.crypto.ehve.params.HVESearchKeyGenerationParameters;
 import it.unisa.dia.gas.plaf.jpbc.crypto.ehve.params.HVESearchKeyParameters;
-import it.unisa.dia.gas.plaf.jpbc.pbc.PairingFactory;
+import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.KeyGenerationParameters;
 
@@ -76,7 +76,7 @@ public class HVESearchKeyGenerator {
             for (Element element : a) {
                 sum.add(element);
             }
-            if (sum.compareTo(param.getParameters().getY()) != 0)
+            if (!sum.isEqual(param.getParameters().getY()))
                 throw new IllegalStateException();
 
             // generate Yis, Lis

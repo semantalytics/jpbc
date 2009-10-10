@@ -5,7 +5,7 @@ import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.crypto.ehve.params.HVEKeyParameters;
 import it.unisa.dia.gas.plaf.jpbc.crypto.ehve.params.HVEPublicKeyParameters;
 import it.unisa.dia.gas.plaf.jpbc.crypto.ehve.params.HVESearchKeyParameters;
-import it.unisa.dia.gas.plaf.jpbc.pbc.PairingFactory;
+import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.AsymmetricBlockCipher;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.DataLengthException;
@@ -161,7 +161,7 @@ public class HVEAttributesEngine implements AsymmetricBlockCipher {
                 }
             }
 
-            return new byte[]{(byte) pairing.getGT().newOneElement().compareTo(result)};
+            return new byte[]{(byte) (pairing.getGT().newOneElement().isEqual(result) ? 0 : 1)};
         } else {
             // encryption
             if (inLen > length || inLen < length)
