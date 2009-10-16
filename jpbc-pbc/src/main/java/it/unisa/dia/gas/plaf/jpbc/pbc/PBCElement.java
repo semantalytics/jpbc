@@ -19,12 +19,18 @@ public class PBCElement implements Element {
     protected Pointer value;
     protected PBCField field;
     protected PBCElementPPType elementPPType;
+    protected boolean immutable;
 
 
     public PBCElement(Pointer value, PBCField field) {
         this.value = value;
         this.field = field;
+        this.immutable = false;
     }
+
+    public PBCElement(PBCElement pbcElement) {
+    }
+
 
 
     public Field getField() {
@@ -35,11 +41,19 @@ public class PBCElement implements Element {
         return PBCLibraryProvider.getPbcLibrary().pbc_element_length_in_bytes(this.value);
     }
 
-    public Element duplicate() {
-        return field.newElement().set(this);
+    public boolean isImmutable() {
+        return immutable;
     }
 
-    public Element set(Element value) {
+    public PBCElement getImmutable() {
+        return new ImmutablePBCElement(this);
+    }
+
+    public PBCElement duplicate() {
+        return (PBCElement) field.newElement().set(this);
+    }
+
+    public PBCElement set(Element value) {
         PBCElement pbcElement = (PBCElement) value;
 
         PBCLibraryProvider.getPbcLibrary().pbc_element_set(this.value, pbcElement.value);
@@ -48,26 +62,26 @@ public class PBCElement implements Element {
         return this;
     }
 
-    public Element set(int value) {
+    public PBCElement set(int value) {
         PBCLibraryProvider.getPbcLibrary().pbc_element_set_si(this.value, value);
 
         return this;
     }
 
-    public Element set(BigInteger value) {
+    public PBCElement set(BigInteger value) {
         MPZElementType z = MPZElementType.fromBigInteger(value);
         PBCLibraryProvider.getPbcLibrary().pbc_element_set_mpz(this.value, z);
 
         return this;
     }
 
-    public Element setToRandom() {
+    public PBCElement setToRandom() {
         PBCLibraryProvider.getPbcLibrary().pbc_element_random(value);
 
         return this;
     }
 
-    public Element setFromHash(byte[] source, int offset, int length) {
+    public PBCElement setFromHash(byte[] source, int offset, int length) {
         Memory memory = new Memory(length);
         memory.write(0, source, offset, length);
 
@@ -96,7 +110,7 @@ public class PBCElement implements Element {
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
-    public Element setToZero() {
+    public PBCElement setToZero() {
         PBCLibraryProvider.getPbcLibrary().pbc_element_set0(value);
 
         return this;
@@ -106,7 +120,7 @@ public class PBCElement implements Element {
         return PBCLibraryProvider.getPbcLibrary().pbc_element_is0(this.value) == 0;
     }
 
-    public Element setToOne() {
+    public PBCElement setToOne() {
         PBCLibraryProvider.getPbcLibrary().pbc_element_set1(value);
         
         return this;
@@ -116,93 +130,93 @@ public class PBCElement implements Element {
         return PBCLibraryProvider.getPbcLibrary().pbc_element_is1(this.value) == 0;
     }
 
-    public Element twice() {
+    public PBCElement twice() {
         PBCLibraryProvider.getPbcLibrary().pbc_element_double(this.value, this.value);
 
         return this;
     }
 
-    public Element square() {
+    public PBCElement square() {
         PBCLibraryProvider.getPbcLibrary().pbc_element_square(this.value, this.value);
 
         return this;
     }
 
-    public Element invert() {
+    public PBCElement invert() {
         PBCLibraryProvider.getPbcLibrary().pbc_element_invert(value, value);
 
         return this;
     }
 
-    public Element halve() {
+    public PBCElement halve() {
         PBCLibraryProvider.getPbcLibrary().pbc_element_halve(this.value, this.value);
 
         return this;
     }
 
-    public Element negate() {
+    public PBCElement negate() {
         PBCLibraryProvider.getPbcLibrary().pbc_element_neg(this.value, this.value);
 
         return this;
     }
 
-    public Element add(Element element) {
+    public PBCElement add(Element element) {
         PBCLibraryProvider.getPbcLibrary().pbc_element_add(value, value, ((PBCElement) element).value);
 
         return this;
     }
 
-    public Element sub(Element element) {
+    public PBCElement sub(Element element) {
         PBCLibraryProvider.getPbcLibrary().pbc_element_sub(this.value, this.value, ((PBCElement) element).value);
 
         return this;
     }
 
-    public Element div(Element element) {
+    public PBCElement div(Element element) {
         PBCLibraryProvider.getPbcLibrary().pbc_element_div(this.value, this.value, ((PBCElement) element).value);
 
         return this;
     }
 
-    public Element mul(Element element) {
+    public PBCElement mul(Element element) {
         PBCLibraryProvider.getPbcLibrary().pbc_element_mul(this.value, this.value, ((PBCElement) element).value);
 
         return this;
     }
 
-    public Element mul(int z) {
+    public PBCElement mul(int z) {
         PBCLibraryProvider.getPbcLibrary().pbc_element_mul_si(this.value, this.value, z);
 
         return this;
     }
 
-    public Element mul(BigInteger n) {
+    public PBCElement mul(BigInteger n) {
         MPZElementType z = MPZElementType.fromBigInteger(n);
         PBCLibraryProvider.getPbcLibrary().pbc_element_mul_mpz(this.value, this.value, z);
 
         return this;
     }
 
-    public Element mulZn(Element z) {
+    public PBCElement mulZn(Element z) {
         PBCLibraryProvider.getPbcLibrary().pbc_element_mul_zn(value, value, ((PBCElement) z).value);
                 
         return this;
     }
 
-    public Element pow(BigInteger n) {
+    public PBCElement pow(BigInteger n) {
         MPZElementType z = MPZElementType.fromBigInteger(n);
         PBCLibraryProvider.getPbcLibrary().pbc_element_pow_mpz(this.value, this.value, z);
 
         return this;
     }
 
-    public Element powZn(Element n) {
+    public PBCElement powZn(Element n) {
         PBCLibraryProvider.getPbcLibrary().pbc_element_pow_zn(value, value, ((PBCElement) n).value);
 
         return this;
     }
 
-    public Element sqrt() {
+    public PBCElement sqrt() {
         PBCLibraryProvider.getPbcLibrary().pbc_element_sqrt(value, value);
 
         return this;
