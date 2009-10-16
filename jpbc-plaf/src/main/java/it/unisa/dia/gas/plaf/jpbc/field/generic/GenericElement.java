@@ -13,6 +13,7 @@ import java.util.List;
  */
 public abstract class GenericElement implements Element {
     protected Field field;
+    protected boolean immutable = false;
 
 
     public GenericElement(Field field) {
@@ -22,6 +23,14 @@ public abstract class GenericElement implements Element {
 
     public Field getField() {
         return field;
+    }
+
+    public boolean isImmutable() {
+        return immutable;
+    }
+
+    public Element getImmutable() {
+        throw new IllegalStateException("Not Implemented yet!!!");
     }
 
     public int getLengthInBytes() {

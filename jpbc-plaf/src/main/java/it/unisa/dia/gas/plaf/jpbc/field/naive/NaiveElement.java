@@ -44,6 +44,12 @@ public class NaiveElement extends GenericElement {
         this.oddOrder = BigIntegerUtils.isOdd(order);
     }
 
+
+    @Override
+    public Element getImmutable() {
+        return new ImmutableNaiveElement(this);
+    }
+
     public NaiveElement duplicate() {
 //        return new NaiveElement(field, value);
         return new NaiveElement(this);

@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.plaf.jpbc.crypto.ehve.params;
+package it.unisa.dia.gas.plaf.jpbc.crypto.hve.params;
 
 import org.bouncycastle.crypto.KeyGenerationParameters;
 

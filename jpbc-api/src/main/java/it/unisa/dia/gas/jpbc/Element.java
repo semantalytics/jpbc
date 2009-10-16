@@ -31,6 +31,18 @@ public interface Element {
     int getLengthInBytes();
 
     /**
+     * TODO
+     * @return
+     */
+    boolean isImmutable();
+
+    /**
+     * TODO
+     * @return
+     */
+    Element getImmutable();
+
+    /**
      * Returns a copy of this element.
      *
      * @return a copy of this element.

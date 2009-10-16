@@ -1,8 +1,8 @@
-package it.unisa.dia.gas.plaf.jpbc.crypto.ehve.generators;
+package it.unisa.dia.gas.plaf.jpbc.crypto.hve.generators;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.plaf.jpbc.crypto.ehve.params.HVEParameters;
+import it.unisa.dia.gas.plaf.jpbc.crypto.hve.params.HVEParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
@@ -37,7 +37,7 @@ public class HVEParametersGenerator {
     public HVEParameters generateParameters() {
         Element g = pairing.getG1().newElement().setToRandom();
 
-        return new HVEParameters(curveParams, g, attributeLengths);
+        return new HVEParameters(curveParams, g.getImmutable(), attributeLengths);
     }
 
 }

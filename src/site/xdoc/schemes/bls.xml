@@ -30,7 +30,7 @@
                 <ol>
                     <li>
                         The
-                        <strong style="color:red">private key</strong>
+                        <strong style="color:red">Private Key</strong>
                         is
                         <span class="texhtml">
                             <i>x</i>;
@@ -38,7 +38,7 @@
                     </li>
                     <li>
                         the
-                        <strong style="color:red">public key</strong>
+                        <strong style="color:red">Public Key</strong>
                         is
                         <span class="texhtml">
                             <i>g</i>
@@ -63,7 +63,7 @@ Pairing pairing = PairingFactory.getPairing(curveParams);
 
 <strong style="color:green">// Generate system parameters</strong>
 
-Element g = pairing.getG1().newRandomElement();
+Element g = pairing.getG1().newRandomElement().getImmutable();
 
 <strong style="color:green">// Generate the secret key</strong>
 
@@ -71,7 +71,7 @@ Element x = pairing.getZr().newRandomElement();
 
 <strong style="color:green">// Generate the corresponding public key</strong>
 
-Element pk = g.duplicate().powZn(x); // We need to duplicate g because it's a system parameter.
+Element pk = g.powZn(x);
                 </source>
             </subsection>
 
@@ -97,7 +97,6 @@ Element pk = g.duplicate().powZn(x); // We need to duplicate g because it's a sy
                     Using jPBC we have:
                 </p>
                 <source xml:space="preserve">
-
 <strong style="color:green">// Map the hash of the message m to some element of G1</strong>
 
 byte[] hash = ... // Generate an hash from m (48-bit hash)
@@ -105,8 +104,8 @@ Element h = pairing.getG1().newElement().setFromHash(hash, 0, hash.length);
 
 <strong style="color:green">// Generate the signature</strong>
 
-Element sig = h.powZn(x); // We can discard the value h, so we don't need to duplicate it.                    
-                </source>
+Element sig = h.powZn(x);
+</source>
             </subsection>
 
             <subsection name="Verification">

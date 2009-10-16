@@ -22,6 +22,6 @@ public class BLSParametersGenerator {
     public BLSParameters generateParameters() {
         Element g = pairing.getG1().newElement().setToRandom();
 
-        return new BLSParameters(curveParams, g);
+        return new BLSParameters(curveParams, g.getImmutable());
     }
 }

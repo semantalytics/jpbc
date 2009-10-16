@@ -1,9 +1,9 @@
-package it.unisa.dia.gas.plaf.jpbc.crypto.ehve.generators;
+package it.unisa.dia.gas.plaf.jpbc.crypto.hve.generators;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.plaf.jpbc.crypto.ehve.params.HVESearchKeyGenerationParameters;
-import it.unisa.dia.gas.plaf.jpbc.crypto.ehve.params.HVESearchKeyParameters;
+import it.unisa.dia.gas.plaf.jpbc.crypto.hve.params.HVESearchKeyGenerationParameters;
+import it.unisa.dia.gas.plaf.jpbc.crypto.hve.params.HVESearchKeyParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.KeyGenerationParameters;
@@ -57,7 +57,7 @@ public class HVESearchKeyGenerator {
         if (nonStarCount == 0) {
             return new HVESearchKeyParameters(
                     param.getParameters().getParameters(),
-                    param.getParameters().getParameters().getG().duplicate().powZn(param.getParameters().getY())
+                    param.getParameters().getParameters().getG().powZn(param.getParameters().getY())
                     );            
         } else {
             // generate a_is
@@ -69,7 +69,7 @@ public class HVESearchKeyGenerator {
 
                 sum.add(ai);
             }
-            a.add(param.getParameters().getY().duplicate().sub(sum));
+            a.add(param.getParameters().getY().sub(sum));
 
             // Verify that the as sum to msk.y
             sum.setToZero();
@@ -107,15 +107,15 @@ public class HVESearchKeyGenerator {
                 } else {
 
                     Y.add(
-                            g.duplicate().powZn(
+                            g.powZn(
                                     a.get(ai).duplicate().div(param.getParameters().getT().get(yi).get(j))
-                            )
+                            ).getImmutable()
                     );
 
                     L.add(
-                            g.duplicate().powZn(
+                            g.powZn(
                                     a.get(ai).duplicate().div(param.getParameters().getV().get(yi).get(j))
-                            )
+                            ).getImmutable()
                     );
                     ai++;
                 }

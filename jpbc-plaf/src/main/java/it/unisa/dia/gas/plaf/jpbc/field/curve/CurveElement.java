@@ -40,6 +40,10 @@ public class CurveElement<E extends Element> extends GenericPointElement<E> {
         return (CurveField) field;
     }
 
+    public Element getImmutable() {
+        return new ImmutableCurveElement<E>(this);
+    }
+
     public CurveElement duplicate() {
         return new CurveElement(this);
     }

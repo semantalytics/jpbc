@@ -1,11 +1,11 @@
-package it.unisa.dia.gas.plaf.jpbc.crypto.ehve.generators;
+package it.unisa.dia.gas.plaf.jpbc.crypto.hve.generators;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.plaf.jpbc.crypto.ehve.params.HVEKeyGenerationParameters;
-import it.unisa.dia.gas.plaf.jpbc.crypto.ehve.params.HVEParameters;
-import it.unisa.dia.gas.plaf.jpbc.crypto.ehve.params.HVEPrivateKeyParameters;
-import it.unisa.dia.gas.plaf.jpbc.crypto.ehve.params.HVEPublicKeyParameters;
+import it.unisa.dia.gas.plaf.jpbc.crypto.hve.params.HVEKeyGenerationParameters;
+import it.unisa.dia.gas.plaf.jpbc.crypto.hve.params.HVEParameters;
+import it.unisa.dia.gas.plaf.jpbc.crypto.hve.params.HVEPrivateKeyParameters;
+import it.unisa.dia.gas.plaf.jpbc.crypto.hve.params.HVEPublicKeyParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPairGenerator;
@@ -55,11 +55,11 @@ public class HVEKeyPairGenerator implements AsymmetricCipherKeyPairGenerator {
 
             for (int j = 0; j < howMany; j++) {
                 Element t_j = pairing.getZr().newElement().setToRandom();
-                T_i.add(g.duplicate().powZn(t_j));
+                T_i.add(g.powZn(t_j).getImmutable());
                 t_i.add(t_j);
 
                 Element v_j = pairing.getZr().newElement().setToRandom();
-                V_i.add(g.duplicate().powZn(v_j));
+                V_i.add(g.powZn(v_j).getImmutable());
                 v_i.add(v_j);
             }
 
@@ -71,8 +71,8 @@ public class HVEKeyPairGenerator implements AsymmetricCipherKeyPairGenerator {
         }
 
         return new AsymmetricCipherKeyPair(
-            new HVEPublicKeyParameters(parameters, Y, T, V),
-            new HVEPrivateKeyParameters(parameters, y, t, v)
+            new HVEPublicKeyParameters(parameters, Y.getImmutable(), T, V),
+            new HVEPrivateKeyParameters(parameters, y.getImmutable(), t, v)
         );
     }
 

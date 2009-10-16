@@ -1,10 +1,10 @@
-package it.unisa.dia.gas.plaf.jpbc.crypto.ehve.engines;
+package it.unisa.dia.gas.plaf.jpbc.crypto.hve.engines;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.plaf.jpbc.crypto.ehve.params.HVEKeyParameters;
-import it.unisa.dia.gas.plaf.jpbc.crypto.ehve.params.HVEPublicKeyParameters;
-import it.unisa.dia.gas.plaf.jpbc.crypto.ehve.params.HVESearchKeyParameters;
+import it.unisa.dia.gas.plaf.jpbc.crypto.hve.params.HVEKeyParameters;
+import it.unisa.dia.gas.plaf.jpbc.crypto.hve.params.HVEPublicKeyParameters;
+import it.unisa.dia.gas.plaf.jpbc.crypto.hve.params.HVESearchKeyParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.AsymmetricBlockCipher;
 import org.bouncycastle.crypto.CipherParameters;
@@ -177,11 +177,11 @@ public class HVEAttributesEngine implements AsymmetricBlockCipher {
 
             HVEPublicKeyParameters pub = (HVEPublicKeyParameters) key;
 
-            Element s = pairing.getZr().newRandomElement();
+            Element s = pairing.getZr().newRandomElement().getImmutable();
 //        Element M = pairing.getGT().newOneElement();
 
-            Element omega = pub.getY().duplicate().powZn(s.duplicate().negate())/*.mul(M)*/;
-            Element C0 = pub.getParameters().getG().duplicate().powZn(s);
+            Element omega = pub.getY().powZn(s.negate())/*.mul(M)*/;
+            Element C0 = pub.getParameters().getG().powZn(s);
 
             List<Element> X = new ArrayList<Element>();
             List<Element> W = new ArrayList<Element>();
@@ -189,7 +189,7 @@ public class HVEAttributesEngine implements AsymmetricBlockCipher {
             int blockOffset = 0;
             for (int i = 0; i < n; i++) {
                 Element si = pairing.getZr().newElement().setToRandom();
-                Element sMinusSi = s.duplicate().sub(si);
+                Element sMinusSi = s.sub(si);
 
                 // Compute j
                 int pow = 1;
@@ -201,8 +201,8 @@ public class HVEAttributesEngine implements AsymmetricBlockCipher {
                 blockOffset += attributeLengths[i];
 
                 // Populate X and W
-                X.add(pub.getT().get(i).get(j).duplicate().powZn(sMinusSi));
-                W.add(pub.getV().get(i).get(j).duplicate().powZn(si));
+                X.add(pub.getT().get(i).get(j).powZn(sMinusSi));
+                W.add(pub.getV().get(i).get(j).powZn(si));
             }
 
             // Convert the Elements to byte arrays

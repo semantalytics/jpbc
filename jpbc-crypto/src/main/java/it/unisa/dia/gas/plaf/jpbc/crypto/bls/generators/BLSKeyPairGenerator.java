@@ -33,11 +33,11 @@ public class BLSKeyPairGenerator implements AsymmetricCipherKeyPairGenerator {
         Element sk = pairing.getZr().newRandomElement();
 
         // Generate the corresponding public key
-        Element pk = g.duplicate().powZn(sk);
+        Element pk = g.powZn(sk);
 
         return new AsymmetricCipherKeyPair(
-            new BLSPublicKeyParameters(parameters, pk),
-            new BLSPrivateKeyParameters(parameters, sk)
+            new BLSPublicKeyParameters(parameters, pk.getImmutable()),
+            new BLSPrivateKeyParameters(parameters, sk.getImmutable())
         );
     }
 
