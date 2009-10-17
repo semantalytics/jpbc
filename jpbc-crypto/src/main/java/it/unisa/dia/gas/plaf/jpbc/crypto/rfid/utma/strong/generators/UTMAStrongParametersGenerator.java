@@ -5,6 +5,7 @@ import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params.UTMAStrongMasterSecretKeyParameters;
 import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params.UTMAStrongParameters;
 import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params.UTMAStrongPublicParameters;
+import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params.UTMAStrongRPublicParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
@@ -17,13 +18,13 @@ import org.bouncycastle.crypto.KeyGenerationParameters;
 public class UTMAStrongParametersGenerator {
 
     private CurveParams curveParams;
-    private AsymmetricCipherKeyPairGenerator keyPairGenerator;
+    private AsymmetricCipherKeyPairGenerator rKeyPairGenerator;
 
     private Pairing pairing;
 
 
-    public UTMAStrongParametersGenerator(AsymmetricCipherKeyPairGenerator keyPairGenerator) {
-        this.keyPairGenerator = keyPairGenerator;
+    public UTMAStrongParametersGenerator(AsymmetricCipherKeyPairGenerator rKeyPairGenerator) {
+        this.rKeyPairGenerator = rKeyPairGenerator;
     }
 
 
@@ -31,32 +32,35 @@ public class UTMAStrongParametersGenerator {
         this.curveParams = curveParams;
         this.pairing = PairingFactory.getPairing(curveParams);
 
-        keyPairGenerator.init(keyGenerationParameters);
+        rKeyPairGenerator.init(keyGenerationParameters);
     }
 
     public UTMAStrongParameters generateParameters() {
-        Element g = pairing.getG1().newElement().setToRandom();
-        Element g0 = pairing.getG1().newElement().setToRandom();
-        Element g1 = pairing.getG1().newElement().setToRandom();
+        Element g = pairing.getG1().newRandomElement();
+        Element g0 = pairing.getG1().newRandomElement();
+        Element g1 = pairing.getG1().newRandomElement();
 
-        Element t1 = pairing.getZr().newElement().setToRandom();
-        Element t2 = pairing.getZr().newElement().setToRandom();
-        Element t3 = pairing.getZr().newElement().setToRandom();
-        Element w  = pairing.getZr().newElement().setToRandom();
+        Element t1 = pairing.getZr().newRandomElement();
+        Element t2 = pairing.getZr().newRandomElement();
+        Element t3 = pairing.getZr().newRandomElement();
+        Element omega = pairing.getZr().newRandomElement();
 
-        Element omega = pairing.pairing(g, g).powZn(w.duplicate().mul(t1).mul(t2).mul(t3));
+        Element Omega = pairing.pairing(g, g).powZn(omega.duplicate().mul(t1).mul(t2).mul(t3));
         Element T1 = g.duplicate().powZn(t1);
         Element T2 = g.duplicate().powZn(t2);
         Element T3 = g.duplicate().powZn(t3);
 
 
-        AsymmetricCipherKeyPair asymmetricCipherKeyPair = keyPairGenerator.generateKeyPair();
+        AsymmetricCipherKeyPair rKeyPair = rKeyPairGenerator.generateKeyPair();
 
-        UTMAStrongPublicParameters utmaPublicParameters = new UTMAStrongPublicParameters(curveParams, g, g0, g1, omega, T1, T2, T3,
-                                                                                         asymmetricCipherKeyPair.getPublic());
+        UTMAStrongPublicParameters utmaPublicParameters = new UTMAStrongPublicParameters(curveParams, g,
+                                                                                         g0, g1, Omega, T1, T2, T3,
+                                                                                         rKeyPair.getPublic());
         return new UTMAStrongParameters(
                 utmaPublicParameters,
-                new UTMAStrongMasterSecretKeyParameters(utmaPublicParameters, t1, t2, t3, w)
+                new UTMAStrongRPublicParameters(rKeyPair.getPrivate()),
+                new UTMAStrongMasterSecretKeyParameters(utmaPublicParameters,
+                                                        t1, t2, t3, omega)
         );
     }
 

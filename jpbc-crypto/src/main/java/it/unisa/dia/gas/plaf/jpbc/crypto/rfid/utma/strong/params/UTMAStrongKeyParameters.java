@@ -21,5 +21,4 @@ public class UTMAStrongKeyParameters extends AsymmetricKeyParameter implements S
         return publicParameters;
     }
 
-
 }

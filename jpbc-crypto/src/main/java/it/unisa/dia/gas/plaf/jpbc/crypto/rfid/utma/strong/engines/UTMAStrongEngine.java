@@ -2,6 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.engines;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
+import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params.UTMAStrongKeyParameters;
 import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params.UTMAStrongPrivateKeyParameters;
 import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params.UTMAStrongPublicKeyParameters;
@@ -20,14 +21,21 @@ import java.io.IOException;
 public class UTMAStrongEngine implements AsymmetricBlockCipher {
 
     private UTMAStrongKeyParameters key;
+    private AsymmetricBlockCipher ssEngine;
     private boolean forEncryption;
 
     private int byteLength;
     private Pairing pairing;
 
+
+    public UTMAStrongEngine(AsymmetricBlockCipher ssEngine) {
+        this.ssEngine = ssEngine;
+    }
+
+    
     /**
      * initialise the UTMA engine.
-     *
+     *                            
      * @param forEncryption true if we are encrypting, false otherwise.
      * @param param         the necessary HVE key parameters.
      */
@@ -45,14 +53,21 @@ public class UTMAStrongEngine implements AsymmetricBlockCipher {
             if (!(key instanceof UTMAStrongPublicKeyParameters)) {
                 throw new IllegalArgumentException("UTMAStrongPublicKeyParameters are required for encryption.");
             }
+
+            // Init the engine also
+            ssEngine.init(forEncryption, key.getParameters().getRPublicKey());
         } else {
             if (!(key instanceof UTMAStrongPrivateKeyParameters)) {
                 throw new IllegalArgumentException("UTMAStrongPrivateKeyParameters are required for decryption.");
             }
+
+            // Init the engine also
+            ssEngine.init(forEncryption, ((UTMAStrongPrivateKeyParameters) key).getRPrivateKey());
         }
 
         this.pairing = PairingFactory.getPairing(key.getParameters().getCurveParams());
         this.byteLength = pairing.getGT().getLengthInBytes();
+
     }
 
     /**
@@ -67,7 +82,7 @@ public class UTMAStrongEngine implements AsymmetricBlockCipher {
             return byteLength;
         }
 
-        return (pairing.getGT().getLengthInBytes() + (4  * pairing.getG1().getLengthInBytes())) * 2;
+        return (pairing.getGT().getLengthInBytes() + (4  * pairing.getG1().getLengthInBytes())) + ssEngine.getInputBlockSize();
     }
 
     /**
@@ -79,7 +94,7 @@ public class UTMAStrongEngine implements AsymmetricBlockCipher {
      */
     public int getOutputBlockSize() {
         if (forEncryption) {
-            return (pairing.getGT().getLengthInBytes() + (4  * pairing.getG1().getLengthInBytes())) * 2;
+            return (pairing.getGT().getLengthInBytes() + (4  * pairing.getG1().getLengthInBytes())) + ssEngine.getOutputBlockSize();
         }
 
         return 1;
@@ -143,7 +158,7 @@ public class UTMAStrongEngine implements AsymmetricBlockCipher {
 
             // TODO: should we check also the encryption of ONE?
         } else {
-            // encryption
+            // encrypt the message
             if (inLen > byteLength)
                 throw new DataLengthException("input must be of size " + byteLength);
 
@@ -161,7 +176,15 @@ public class UTMAStrongEngine implements AsymmetricBlockCipher {
             // Convert the Elements to byte arrays
             ByteArrayOutputStream bytes = new ByteArrayOutputStream(getOutputBlockSize());
             encrypt(bytes, M);
-            encrypt(bytes, pairing.getGT().newOneElement());
+
+            // Put the encryption of the public key
+            UTMAStrongPublicKeyParameters publicKeyParameters = (UTMAStrongPublicKeyParameters) key;
+            byte[] pkMaterial = ((Point) publicKeyParameters.getPk()).toBytesCompressed();
+            try {
+                bytes.write(ssEngine.processBlock(pkMaterial, 0, pkMaterial.length));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
 
             return bytes.toByteArray();
         }
@@ -191,7 +214,6 @@ public class UTMAStrongEngine implements AsymmetricBlockCipher {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 
 }

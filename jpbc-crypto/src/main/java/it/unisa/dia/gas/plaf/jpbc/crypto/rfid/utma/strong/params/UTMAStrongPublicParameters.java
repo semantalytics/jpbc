@@ -9,16 +9,17 @@ import org.bouncycastle.crypto.CipherParameters;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class UTMAStrongPublicParameters extends UTMAWeakPublicParameters {
-    private CipherParameters rPublicKeyParameters;
+    private CipherParameters rPublicKey;
 
 
-    public UTMAStrongPublicParameters(CurveParams curveParams, Element g, Element g0, Element g1, Element omega, Element T1, Element T2, Element T3, CipherParameters rPublicKeyParameters) {
+    public UTMAStrongPublicParameters(CurveParams curveParams, Element g, Element g0, Element g1, Element omega, Element T1, Element T2, Element T3, CipherParameters rPublicKey) {
         super(curveParams, g, g0, g1, omega, T1, T2, T3);
-        this.rPublicKeyParameters = rPublicKeyParameters;
+
+        this.rPublicKey = rPublicKey;
     }
 
 
-    public CipherParameters getRPublicKeyParameters() {
-        return rPublicKeyParameters;
+    public CipherParameters getRPublicKey() {
+        return rPublicKey;
     }
 }

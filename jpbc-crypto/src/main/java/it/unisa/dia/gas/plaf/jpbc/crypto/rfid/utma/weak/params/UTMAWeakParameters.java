@@ -22,7 +22,7 @@ public class UTMAWeakParameters implements CipherParameters, Serializable {
         return publicParameters;
     }
 
-    public UTMAWeakMasterSecretKeyParameters getMasterSecretKeyParamters() {
+    public UTMAWeakMasterSecretKeyParameters getMasterSecretKeyParameters() {
         return masterSecretKeyParameters;
     }
 }

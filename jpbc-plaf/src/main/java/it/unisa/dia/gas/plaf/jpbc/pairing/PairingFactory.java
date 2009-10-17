@@ -15,11 +15,10 @@ public class PairingFactory {
         if (curveParams == null)
             throw new IllegalArgumentException("curveParams cannot be null.");
 
-        // Try to load the wrapper first...
+        // TODO: Try to load the wrapper first...
         try {
             Class.forName("it.unisa.dia.gas.plaf.jpbc.pbc.PairingFactory");
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
 
 

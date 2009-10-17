@@ -23,7 +23,7 @@ public class UTMAWeakKeyPairGenerator implements AsymmetricCipherKeyPairGenerato
         UTMAWeakParameters parameters = param.getParameters();
 
         UTMAWeakPublicParameters publicParameters = parameters.getPublicParameters();
-        UTMAWeakMasterSecretKeyParameters masterSecretKeyParameters = parameters.getMasterSecretKeyParamters();
+        UTMAWeakMasterSecretKeyParameters masterSecretKeyParameters = parameters.getMasterSecretKeyParameters();
 
         Pairing pairing = PairingFactory.getPairing(publicParameters.getCurveParams());
 

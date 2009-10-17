@@ -395,3 +395,13 @@ void pbc_field_order(element_t element, mpz_t order) {
     mpz_set(order, element->field->order);
     //gmp_fprintf(stderr, "order = %Zd\n", order);
 }
+
+
+// =====================
+// encode/decode methods
+// =====================
+
+
+void pbc_encode() {
+
+}

@@ -5,11 +5,17 @@ package it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params;
  */
 public class UTMAStrongParameters {
     private UTMAStrongPublicParameters publicParameters;
+    private UTMAStrongRPublicParameters rPublicParameters;
+
     private UTMAStrongMasterSecretKeyParameters masterSecretKeyParameters;
 
 
-    public UTMAStrongParameters(UTMAStrongPublicParameters publicParameters, UTMAStrongMasterSecretKeyParameters masterSecretKeyParameters) {
+    public UTMAStrongParameters(UTMAStrongPublicParameters publicParameters,
+                                UTMAStrongRPublicParameters rPublicParameters,
+                                UTMAStrongMasterSecretKeyParameters masterSecretKeyParameters) {
         this.publicParameters = publicParameters;
+        this.rPublicParameters = rPublicParameters;
+
         this.masterSecretKeyParameters = masterSecretKeyParameters;
     }
 
@@ -18,7 +24,11 @@ public class UTMAStrongParameters {
         return publicParameters;
     }
 
-    public UTMAStrongMasterSecretKeyParameters getMasterSecretKeyParamters() {
+    public UTMAStrongRPublicParameters getRPublicParameters() {
+        return rPublicParameters;
+    }
+
+    public UTMAStrongMasterSecretKeyParameters getMasterSecretKeyParameters() {
         return masterSecretKeyParameters;
     }
 
