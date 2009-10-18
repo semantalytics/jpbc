@@ -48,14 +48,8 @@
                     </li>
                     <li>
                         <span class="texhtml">
-                            <i>g</i>
-                            <sub>
-                                <i>0</i>
-                            </sub>,
-                            <i>g</i>
-                            <sub>
-                                <i>1</i>
-                            </sub>
+                            <i>g</i><sub><i>0</i></sub>,
+                            <i>g</i><sub><i>1</i></sub>
                         </span>
                         from
                         <span class="emphasis">
@@ -74,59 +68,32 @@
                             <i>Omega</i>=<i>e</i>(<i>g</i>,<i>g</i>)
                             <sup>
                                 <i>omega</i>
-                                <i>t</i>
-                                <sub>
-                                    <i>1</i>
-                                </sub>
-                                <i>t</i>
-                                <sub>
-                                    <i>2</i>
-                                </sub>
-                                <i>t</i>
-                                <sub>
-                                    <i>3</i>
-                                </sub>
+                                <i>t</i><sub><i>1</i></sub>
+                                <i>t</i><sub><i>2</i></sub>
+                                <i>t</i><sub><i>3</i></sub>
                             </sup>
                             
                         </span>
                     </li>
                     <li>
                         <span class="texhtml">
-                            <i>T</i>
-                            <sub>
-                                <i>1</i>
-                            </sub> =
-                            <i>g</i>
-                            <sup>
-                                <i>t</i>
-                                <sub>1</sub>
-                            </sup>
+                            <i>T</i><sub><i>1</i></sub>
+                            =
+                            <i>g</i><sup><i>t</i><sub>1</sub></sup>
                         </span>
                     </li>
                     <li>
                         <span class="texhtml">
-                            <i>T</i>
-                            <sub>
-                                <i>2</i>
-                            </sub> =
-                            <i>g</i>
-                            <sup>
-                                <i>t</i>
-                                <sub>2</sub>
-                            </sup>
+                            <i>T</i><sub><i>2</i></sub>
+                            =
+                            <i>g</i><sup><i>t</i><sub>2</sub></sup>
                         </span>
                     </li>
                     <li>
                         <span class="texhtml">
-                            <i>T</i>
-                            <sub>
-                                <i>3</i>
-                            </sub> =
-                            <i>g</i>
-                            <sup>
-                                <i>t</i>
-                                <sub>3</sub>
-                            </sup>
+                            <i>T</i><sub><i>3</i></sub>
+                            =
+                            <i>g</i><sup><i>t</i><sub>3</sub></sup>
                         </span>
                     </li>
                 </ol>
@@ -141,27 +108,12 @@
                         <strong style="color:red">Public Information (Pub)</strong>
                         are
                         (<span class="texhtml">
-                            <i>g</i>
-                            <sub>
-                                <i>0</i>
-                            </sub>,
-                            <i>g</i>
-                            <sub>
-                                <i>1</i>
-                            </sub>,
+                            <i>g</i><sub><i>0</i></sub>,
+                            <i>g</i><sub><i>1</i></sub>,
                             <i>Omega</i>,
-                            <i>T</i>
-                            <sub>
-                                <i>1</i>
-                            </sub>,
-                            <i>T</i>
-                            <sub>
-                                <i>2</i>
-                            </sub>,
-                            <i>T</i>
-                            <sub>
-                                <i>3</i>
-                            </sub>
+                            <i>T</i><sub><i>1</i></sub>,
+                            <i>T</i><sub><i>2</i></sub>,
+                            <i>T</i><sub><i>3</i></sub>
                         </span>)
                     </li>
                     <li>
@@ -170,18 +122,9 @@
                         is
                         (<span class="texhtml">
                             <i>omega</i>,
-                            <i>t</i>
-                            <sub>
-                                <i>1</i>
-                            </sub>,
-                            <i>t</i>
-                            <sub>
-                                <i>2</i>
-                            </sub>,
-                            <i>t</i>
-                            <sub>
-                                <i>3</i>
-                            </sub>
+                            <i>t</i><sub><i>1</i></sub>,
+                            <i>t</i><sub><i>2</i></sub>,
+                            <i>t</i><sub><i>3</i></sub>
                         </span>)
                     </li>
                 </ol>

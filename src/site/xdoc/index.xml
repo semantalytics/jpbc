@@ -38,7 +38,7 @@
                 </ul>
             </div>
 
-            jPBC is:
+            The Java Pairing Based Cryptography Library (jPBC) is:
             <ul>
                 <li>
                     a <strong style="color:red">Java Porting</strong> of the
