@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.StringTokenizer;
 
 /**
+ * TODO: introduce immutable...
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class CurveParams extends LinkedHashMap<String, String> {

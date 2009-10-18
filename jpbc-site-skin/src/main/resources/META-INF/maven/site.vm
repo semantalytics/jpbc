@@ -311,14 +311,14 @@
     #end
   </head>
   <body class="composite">
-    <div id="banner">
+<!--    <div id="banner">
         <a href="http://gas.dia.unisa.it/projects/jpbc/" id="bannerLeft">
             <img id="bannerImage" src="http://gas.dia.unisa.it/projects/jpbc/images/banners/banner_4.jpg" alt="" width="1124"/>
         </a>
         <div class="clear">
         <hr/>
       </div>
-    </div>
+    </div>  -->
     <div id="breadcrumbs">
       #publishDate( "left" $decoration.publishDate $decoration.version )
       <div class="xright">#links( $decoration.body.links )#publishDate( "right" $decoration.publishDate $decoration.version )</div>

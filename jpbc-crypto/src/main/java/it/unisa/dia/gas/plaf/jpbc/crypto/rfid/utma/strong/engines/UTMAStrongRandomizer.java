@@ -149,9 +149,9 @@ public class UTMAStrongRandomizer {
         Element ct[] = new Element[5];
 
         ct[0] = key.getParameters().getOmega().powZn(s);
-        ct[1] = key.getPk().duplicate().mulZn(s);
+        ct[1] = key.getPk().mulZn(s);
         ct[2] = key.getParameters().getT2().powZn(s2);
-        ct[3] = key.getParameters().getT3().powZn(s.duplicate().sub(s1).sub(s2));
+        ct[3] = key.getParameters().getT3().powZn(s.sub(s1).sub(s2));
         ct[4] = key.getParameters().getT1().powZn(s1);
 
         return ct;

@@ -11,6 +11,7 @@ public class UTMAStrongPublicKeyParameters extends UTMAStrongKeyParameters {
 
     public UTMAStrongPublicKeyParameters(UTMAStrongPublicParameters publicParameters, Element pk) {
         super(false, publicParameters);
+        
         this.pk = pk;
     }
 

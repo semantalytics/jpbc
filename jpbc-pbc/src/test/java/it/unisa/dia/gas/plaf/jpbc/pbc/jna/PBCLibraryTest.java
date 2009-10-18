@@ -8,6 +8,10 @@ import junit.framework.TestCase;
 public class PBCLibraryTest extends TestCase {
 
     public void testSize() {
+        // Check for link library
+        if (!PBCLibraryProvider.isAvailable())
+            return;
+                
         assertTrue(PBCLibraryProvider.isAvailable());
 
         System.out.println("pbc_pairing_sizeof() = " + PBCLibraryProvider.getPbcLibrary().pbc_pairing_sizeof());

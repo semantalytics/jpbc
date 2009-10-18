@@ -53,14 +53,18 @@ public class UTMAStrongParametersGenerator {
 
         AsymmetricCipherKeyPair rKeyPair = rKeyPairGenerator.generateKeyPair();
 
-        UTMAStrongPublicParameters utmaPublicParameters = new UTMAStrongPublicParameters(curveParams, g,
-                                                                                         g0, g1, Omega, T1, T2, T3,
-                                                                                         rKeyPair.getPublic());
+        UTMAStrongPublicParameters utmaPublicParameters = new UTMAStrongPublicParameters(
+                curveParams,
+                g.getImmutable(), g0.getImmutable(), g1.getImmutable(), Omega.getImmutable(),
+                T1.getImmutable(), T2.getImmutable(), T3.getImmutable(),
+                rKeyPair.getPublic());
+
         return new UTMAStrongParameters(
                 utmaPublicParameters,
                 new UTMAStrongRPublicParameters(rKeyPair.getPrivate()),
                 new UTMAStrongMasterSecretKeyParameters(utmaPublicParameters,
-                                                        t1, t2, t3, omega)
+                                                        t1.getImmutable(), t2.getImmutable(), t3.getImmutable(),
+                                                        omega.getImmutable())
         );
     }
 

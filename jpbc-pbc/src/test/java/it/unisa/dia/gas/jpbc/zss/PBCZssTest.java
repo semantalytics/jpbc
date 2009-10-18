@@ -4,6 +4,7 @@ import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pbc.PBCPairing;
+import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCLibraryProvider;
 import junit.framework.TestCase;
 
 
@@ -13,8 +14,11 @@ import junit.framework.TestCase;
 public class PBCZssTest extends TestCase {
 
     public void testZss() {
-        // Load pairing
+        // Check for link library
+        if (!PBCLibraryProvider.isAvailable())
+            return;
 
+        // Load pairing
         CurveParams curveParams = new CurveParams();
         curveParams.load(PBCZssTest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pbc/pairing/a_181_603.properties"));
 

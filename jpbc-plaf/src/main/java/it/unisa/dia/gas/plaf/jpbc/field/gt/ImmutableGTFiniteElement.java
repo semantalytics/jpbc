@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.plaf.jpbc.pbc;
+package it.unisa.dia.gas.plaf.jpbc.field.gt;
 
 import it.unisa.dia.gas.jpbc.Element;
 
@@ -7,56 +7,56 @@ import java.math.BigInteger;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class ImmutablePBCElement extends PBCElement {
+public class ImmutableGTFiniteElement extends GTFiniteElement {
 
-    public ImmutablePBCElement(PBCElement pbcElement) {
-        super(pbcElement);
+    public ImmutableGTFiniteElement(GTFiniteElement gtFiniteElement) {
+        super(gtFiniteElement);
+        
         this.immutable = true;
     }
-    
-    
+
     @Override
-    public PBCElement set(Element value) {
+    public GTFiniteElement set(Element value) {
         return duplicate().set(value);    
     }
 
     @Override
-    public PBCElement set(int value) {
+    public GTFiniteElement set(int value) {
         return duplicate().set(value);    
     }
 
     @Override
-    public PBCElement set(BigInteger value) {
+    public GTFiniteElement set(BigInteger value) {
         return duplicate().set(value);    
     }
 
     @Override
-    public PBCElement twice() {
-        return duplicate().twice();    
+    public GTFiniteElement twice() {
+        return (GTFiniteElement) duplicate().twice();
     }
 
     @Override
-    public PBCElement mul(int z) {
-        return duplicate().mul(z);    
+    public GTFiniteElement mul(int z) {
+        return (GTFiniteElement) duplicate().mul(z);
     }
 
     @Override
-    public PBCElement setToZero() {
+    public GTFiniteElement setToZero() {
         return duplicate().setToZero();    
     }
 
     @Override
-    public PBCElement setToOne() {
+    public GTFiniteElement setToOne() {
         return duplicate().setToOne();    
     }
 
     @Override
-    public PBCElement setToRandom() {
+    public GTFiniteElement setToRandom() {
         return duplicate().setToRandom();    
     }
 
     @Override
-    public PBCElement setFromHash(byte[] source, int offset, int length) {
+    public GTFiniteElement setFromHash(byte[] source, int offset, int length) {
         return duplicate().setFromHash(source, offset, length);    
     }
 
@@ -76,68 +76,68 @@ public class ImmutablePBCElement extends PBCElement {
     }
 
     @Override
-    public PBCElement square() {
-        return duplicate().square();    
+    public GTFiniteElement square() {
+        return (GTFiniteElement) duplicate().square();
     }
 
     @Override
-    public PBCElement invert() {
+    public GTFiniteElement invert() {
         return duplicate().invert();    
     }
 
     @Override
-    public PBCElement halve() {
-        return duplicate().halve();    
+    public GTFiniteElement halve() {
+        return (GTFiniteElement) duplicate().halve();
     }
 
     @Override
-    public PBCElement negate() {
+    public GTFiniteElement negate() {
         return duplicate().negate();    
     }
 
     @Override
-    public PBCElement add(Element element) {
+    public GTFiniteElement add(Element element) {
         return duplicate().add(element);    
     }
 
     @Override
-    public PBCElement sub(Element element) {
+    public GTFiniteElement sub(Element element) {
         return duplicate().sub(element);    
     }
 
     @Override
-    public PBCElement div(Element element) {
+    public GTFiniteElement div(Element element) {
         return duplicate().div(element);    
     }
 
     @Override
-    public PBCElement mul(Element element) {
+    public GTFiniteElement mul(Element element) {
         return duplicate().mul(element);    
     }
 
     @Override
-    public PBCElement mul(BigInteger n) {
+    public GTFiniteElement mul(BigInteger n) {
         return duplicate().mul(n);    
     }
 
     @Override
-    public PBCElement mulZn(Element z) {
-        return duplicate().mulZn(z);    
+    public GTFiniteElement mulZn(Element z) {
+        return (GTFiniteElement) duplicate().mulZn(z);
     }
 
     @Override
-    public PBCElement sqrt() {
-        return duplicate().sqrt();    
+    public GTFiniteElement sqrt() {
+        return (GTFiniteElement) duplicate().sqrt();    
     }
 
     @Override
-    public PBCElement pow(BigInteger n) {
+    public GTFiniteElement pow(BigInteger n) {
         return duplicate().pow(n);    
     }
 
     @Override
-    public PBCElement powZn(Element n) {
+    public GTFiniteElement powZn(Element n) {
         return duplicate().powZn(n);    
     }
-    
+
 }

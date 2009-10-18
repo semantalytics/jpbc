@@ -164,7 +164,8 @@ out = <strong style="color:green">ppp.pow(pairing.getZr().newRandomElement());</
             <a name="io"/>
             <subsection name="Import/Export Elements">
 
-                <source>/* Converts element to bytes. The number of bytes it will write can be determined calling getLengthInBytes(). */
+                <source>/* Converts element to bytes. The number of bytes it will write can be determined
+calling getLengthInBytes(). */
 <strong style="color:green">byte[] bytes = element.toBytes();</strong>
                 </source>
 
@@ -172,7 +173,8 @@ out = <strong style="color:green">ppp.pow(pairing.getZr().newRandomElement());</
 <strong style="color:green">element.setFromBytes(bytes);</strong>
                 </source>
 
-                <source>/* Reads element from the buffer source, starting from the passed offset, and returns the number of bytes read. */
+                <source>/* Reads element from the buffer source, starting from the passed offset,
+and returns the number of bytes read. */
 <strong style="color:green">element.setFromBytes(bytes, 13);</strong>
                 </source>
 

@@ -51,7 +51,6 @@ public class NaiveElement extends GenericElement {
     }
 
     public NaiveElement duplicate() {
-//        return new NaiveElement(field, value);
         return new NaiveElement(this);
     }
 

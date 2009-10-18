@@ -39,7 +39,7 @@
                         <tr valign="top">
                             <td>jPBC</td>
                             <td>1.0.0</td>
-                            <td>2009-02-28</td>
+                            <td>October 2009</td>
                             <td>Stable</td>
                             <td>
                                 <em>
@@ -52,13 +52,14 @@
                     </tbody>
                 </table>
 
-                <p>
-                    <strong>
-                        <a href="http://prdownloads.sourceforge.net/jpbc/?sort_by=date&amp;sort=desc">Browse all jPB
-                            Cdownloads
-                        </a>
-                    </strong>
-                </p>
+                <br/>
+                <br/>
+                
+                <strong>
+                    <a href="http://prdownloads.sourceforge.net/jpbc/?sort_by=date&amp;sort=desc">
+                        Browse all jPBC downloads
+                    </a>
+                </strong>
             </subsection>
 
             <a name="requirements"/>
@@ -124,10 +125,15 @@
                                 <tt>jna-3.1.0.jar</tt>.
                             </li>
                         </ol>
-
-                        You will find these jars into the jars folder.
+                        Rememeber that for using the wrappen you must compile a shared library
+                        which links jPBC with PBC. Go
+                        <a href="./docs/pbcwrapper.html">here</a>
+                        to see how to do that.
                     </li>
                 </ol>
+                <p>
+                    You will find these dependencies into the jars folder.
+                </p>
             </subsection>
 
         </section>

@@ -37,7 +37,7 @@ public class UTMAStrongKeyPairGenerator implements AsymmetricCipherKeyPairGenera
         );
 
         Element D1 = publicParameters.getG().powZn(
-                mskParameters.getW().duplicate().mul(mskParameters.getT1()).mul(mskParameters.getT3()).negate()
+                mskParameters.getOmega().duplicate().mul(mskParameters.getT1()).mul(mskParameters.getT3()).negate()
         ).mul(
                 pk.duplicate().powZn(
                         r.duplicate().mul(mskParameters.getT1()).mul(mskParameters.getT3()).negate()
@@ -45,7 +45,7 @@ public class UTMAStrongKeyPairGenerator implements AsymmetricCipherKeyPairGenera
         );
 
         Element D2 = publicParameters.getG().powZn(
-                mskParameters.getW().duplicate().mul(mskParameters.getT1()).mul(mskParameters.getT2()).negate()
+                mskParameters.getOmega().duplicate().mul(mskParameters.getT1()).mul(mskParameters.getT2()).negate()
         ).mul(
                 pk.duplicate().powZn(
                         r.duplicate().mul(mskParameters.getT1()).mul(mskParameters.getT2()).negate()
@@ -53,7 +53,7 @@ public class UTMAStrongKeyPairGenerator implements AsymmetricCipherKeyPairGenera
         );
 
         Element D3 = publicParameters.getG().powZn(
-                mskParameters.getW().duplicate().mul(mskParameters.getT2()).mul(mskParameters.getT3()).negate()
+                mskParameters.getOmega().duplicate().mul(mskParameters.getT2()).mul(mskParameters.getT3()).negate()
         ).mul(
                 pk.duplicate().powZn(
                         r.duplicate().mul(mskParameters.getT2()).mul(mskParameters.getT3()).negate()
@@ -61,9 +61,11 @@ public class UTMAStrongKeyPairGenerator implements AsymmetricCipherKeyPairGenera
         );
         
         return new AsymmetricCipherKeyPair(
-                new UTMAStrongPublicKeyParameters(publicParameters, pk),
+                new UTMAStrongPublicKeyParameters(publicParameters,
+                                                  pk.getImmutable()),
                 new UTMAStrongPrivateKeyParameters(publicParameters,
-                                                   D0, D1, D2, D3,
+                                                   D0.getImmutable(), D1.getImmutable(),
+                                                   D2.getImmutable(), D3.getImmutable(),
                                                    parameters.getRPublicParameters().getRPrivateKey())
         );
     }

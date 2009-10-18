@@ -28,6 +28,18 @@ public class GTFiniteElement extends GenericElement {
         this.value = value.duplicate();
     }
 
+    public GTFiniteElement(GTFiniteElement element) {
+        super(element.field);
+
+        this.pairing = element.pairing;
+        this.value = element.value;
+    }
+
+    
+    @Override
+    public GTFiniteElement getImmutable() {
+        return new ImmutableGTFiniteElement(this);
+    }
 
     public GTFiniteElement duplicate() {
         return new GTFiniteElement(pairing, (GTFiniteField) field, value);

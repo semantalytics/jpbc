@@ -11,10 +11,10 @@
         <section name="Introduction">
             <div id="downloadbox">
                 <h5>Get jPBC 1.0.0 Now!!!</h5>
-                <span style="display: block; text-align: right; font-size: smaller">Released: February 28, 2009</span>
+                <span style="display: block; text-align: right; font-size: smaller">Released: October, 2009</span>
                 <p>
                     <a href="download.html">jPBC 1.0.0</a>
-                    <small>(distro 5.0 Mb - core 775 Kb)</small>
+                    <small>(distro 3.0 Mb - core 130 Kb)</small>
                 </p>
                 <ul>
                     <li>
@@ -58,6 +58,34 @@
                 </li>
 
             </ul>
+
+            jPBC is composed by the following modules:
+            <ul>
+                <li>
+                    <strong style="color:green">jpbc-api</strong> :
+                    which contains the api exposed by jPBC.
+                </li>
+
+                <li>
+                    <strong style="color:green">jpbc-plaf</strong> :
+                    which contains the default api's implementation. This module contains the PBC's Java Porting.
+                </li>
+
+                <li>
+                    <strong style="color:green">jpbc-pbc</strong> :
+                    which contains the api's implementation to be used when PBC is choosen as computation engine.
+                    This module contains the PBC's Java Wrapper.
+                </li>
+
+                <li>
+                    <strong style="color:green">jpbc-crypto</strong> :
+                    which contains the implementation of some cryptosystems. Go
+                    <a href="./schemes/schemes.html">here</a>
+                    to start.
+                </li>
+
+            </ul>
+
         </section>
     </body>
 </document>

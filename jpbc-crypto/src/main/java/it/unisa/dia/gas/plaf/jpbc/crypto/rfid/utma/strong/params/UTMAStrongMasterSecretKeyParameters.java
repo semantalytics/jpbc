@@ -6,17 +6,18 @@ import it.unisa.dia.gas.jpbc.Element;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class UTMAStrongMasterSecretKeyParameters extends UTMAStrongKeyParameters {
-    private Element t1, t2, t3, w;
+    private Element t1, t2, t3, omega;
 
 
     public UTMAStrongMasterSecretKeyParameters(UTMAStrongPublicParameters publicParameters,
-                                               Element t1, Element t2, Element t3, Element w) {
+                                               Element t1, Element t2, Element t3,
+                                               Element omega) {
         super(true, publicParameters);
 
         this.t1 = t1;
         this.t2 = t2;
         this.t3 = t3;
-        this.w = w;
+        this.omega = omega;
     }
 
     
@@ -32,8 +33,8 @@ public class UTMAStrongMasterSecretKeyParameters extends UTMAStrongKeyParameters
         return t3;
     }
 
-    public Element getW() {
-        return w;
+    public Element getOmega() {
+        return omega;
     }
 
 }

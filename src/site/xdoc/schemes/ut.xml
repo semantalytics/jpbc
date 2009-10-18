@@ -36,18 +36,10 @@
                 <ol>
                     <li>
                         <span class="texhtml">
-                            <i>t</i>
-                            <sub>
-                                <i>1</i>
-                            </sub>,
-                            <i>t</i>
-                            <sub>
-                                <i>2</i>
-                            </sub>,
-                            <i>t</i>
-                            <sub>
-                                <i>3</i>
-                            </sub> and omega
+                            <i>t</i><sub><i>1</i></sub>,
+                            <i>t</i><sub><i>2</i></sub>,
+                            <i>t</i><sub><i>3</i></sub> 
+                            and omega
                         </span>
                         from
                         <span class="emphasis">

@@ -199,9 +199,9 @@ public class UTMAStrongEngine implements AsymmetricBlockCipher {
         Element s2 = pairing.getZr().newElement().setToRandom();
 
         Element C = publicKeyParameters.getParameters().getOmega().powZn(s).mul(M);
-        Element C0 = publicKeyParameters.getPk().duplicate().mulZn(s);
+        Element C0 = publicKeyParameters.getPk().mulZn(s);
         Element C1 = publicKeyParameters.getParameters().getT2().powZn(s2);
-        Element C2 = publicKeyParameters.getParameters().getT3().powZn(s.duplicate().sub(s1).sub(s2));
+        Element C2 = publicKeyParameters.getParameters().getT3().powZn(s.sub(s1).sub(s2));
         Element C3 = publicKeyParameters.getParameters().getT1().powZn(s1);
 
         // Convert the Elements to byte arrays

@@ -11,7 +11,7 @@
         <section name="Curve Generators">
             <p>
                 Pairings are initialized from pairing parameters. Depending on the type of pairing, you must choose the right generator.
-                A generator in a instance of the
+                A generator is a instance of the
                 <code>
                     <a href="../java-docs/api/it/unisa/dia/gas/jpbc/CurveGenerator.html">
                         <strong style="color:red">it.unisa.dia.gas.jpbc.CurveGenerator</strong>

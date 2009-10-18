@@ -1,0 +1,44 @@
+<!DOCTYPE document PUBLIC
+        "-//Apache Software Foundation//DTD XDOC 1.0//EN"
+        "http://maven.apache.org/dtd/xdoc_1_0.dtd">
+<document>
+    <properties>
+        <title>jPBC : Schemes</title>
+        <author email="decaro@dia.unisa.it">Angelo De Caro</author>
+    </properties>
+
+    <body>
+        <section name="Schemes">
+
+            <p>
+                Using jPBC some cryptosystems has been implemented. Into the jPBC distribution package you will find the full
+                implementation of these cryptosystems in the context of the
+                <a href="http://www.bouncycastle.org/java.html">Bouncy Castle</a>
+                framework. This will simplify the integration into the Java Cryptography Extension (JCE) framework.
+            </p>
+
+            <p>
+                The followings links will point you to some web-pages which describe the implemented cryptosystems
+                in a simplified way to give you some hits on how to do crypto-things using jPBC.
+            </p>
+
+            <ol>
+                <li>
+                    <strong style="color:red">
+                        <a href="./bls.html">BLS Signature</a>
+                    </strong>: Boneh-Lynn-Shacham (BLS) Short Signatures Scheme.
+                </li>
+                <li>
+                    <strong style="color:red">
+                        <a href="./hve.html">HVE</a>
+                    </strong>: Iovino-Persiano (HVE) Hidden Vector Encryption.
+                </li>
+                <li>
+                    <strong style="color:red">
+                        <a href="ut.html">UT</a>
+                    </strong>: Blundo-De Caro-Persiano (UT) Untraceable Tags.
+                </li>
+            </ol>
+        </section>
+    </body>
+</document>

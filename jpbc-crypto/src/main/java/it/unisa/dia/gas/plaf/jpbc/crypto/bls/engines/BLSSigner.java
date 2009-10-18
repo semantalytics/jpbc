@@ -65,10 +65,10 @@ public class BLSSigner implements Signer {
         digest.doFinal(hash, 0);
 
         // Map the hash of the message m to some element of G1
-        h = pairing.getG1().newElement().setFromHash(hash, 0, hash.length);
+        h = pairing.getG1().newElement().setFromHash(hash, 0, hash.length).getImmutable();
 
         // Generate the signature
-        Element sig = h.duplicate().powZn(privateKey.getSk());
+        Element sig = h.powZn(privateKey.getSk());
 
         return sig.toBytes();
     }
