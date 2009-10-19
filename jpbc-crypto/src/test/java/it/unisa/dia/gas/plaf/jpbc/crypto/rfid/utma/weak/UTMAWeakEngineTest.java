@@ -67,7 +67,9 @@ public class UTMAWeakEngineTest extends TestCase {
         // Randomize
         UTMAWeakRandomizer randomizer = new UTMAWeakRandomizer();
         randomizer.init(keyPair.getPublic());
-        cipherText = randomizer.processBlock(cipherText, 0, cipherText.length);
+        for (int i = 0; i < 10; i++) {
+            cipherText = randomizer.processBlock(cipherText, 0, cipherText.length);
+        }
 
         // Decrypt
         weakEngine.init(false, keyPair.getPrivate());

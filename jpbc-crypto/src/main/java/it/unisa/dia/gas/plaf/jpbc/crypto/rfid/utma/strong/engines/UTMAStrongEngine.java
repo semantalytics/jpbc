@@ -37,7 +37,7 @@ public class UTMAStrongEngine implements AsymmetricBlockCipher {
      * initialise the UTMA engine.
      *                            
      * @param forEncryption true if we are encrypting, false otherwise.
-     * @param param         the necessary HVE key parameters.
+     * @param param         the necessary UTMA key parameters.
      */
     public void init(boolean forEncryption, CipherParameters param) {
         if (param instanceof ParametersWithRandom) {

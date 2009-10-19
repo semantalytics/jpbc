@@ -38,6 +38,8 @@ public class UTMAStrongEngineTest extends TestCase {
         );
         UTMAStrongParameters utmaParameters =  utmaStrongParametersGenerator.generateParameters();
 
+        // Generate Key-Pair
+
         UTMAStrongKeyPairGenerator utmaStrongKeyPairGenerator = new UTMAStrongKeyPairGenerator();
         utmaStrongKeyPairGenerator.init(new UTMAStrongKeyGenerationParameters(new SecureRandom(), utmaParameters));
         AsymmetricCipherKeyPair keyPair = utmaStrongKeyPairGenerator.generateKeyPair();
@@ -48,10 +50,12 @@ public class UTMAStrongEngineTest extends TestCase {
         UTMAStrongEngine strongEngine = new UTMAStrongEngine(new ElGamalEngine());
 
         // Encrypt
+
         strongEngine.init(true, keyPair.getPublic());
         byte[] cipherText = strongEngine.processBlock(messageAsBytes, 0, messageAsBytes.length);
 
         // Decrypt
+
         strongEngine.init(false, keyPair.getPrivate());
         byte[] plainText = strongEngine.processBlock(cipherText, 0, cipherText.length);
 
@@ -69,6 +73,8 @@ public class UTMAStrongEngineTest extends TestCase {
         );
         UTMAStrongParameters utmaParameters =  utmaStrongParametersGenerator.generateParameters();
 
+        // Generate Key-Pair
+
         UTMAStrongKeyPairGenerator utmaStrongKeyPairGenerator = new UTMAStrongKeyPairGenerator();
         utmaStrongKeyPairGenerator.init(new UTMAStrongKeyGenerationParameters(new SecureRandom(), utmaParameters));
         AsymmetricCipherKeyPair keyPair = utmaStrongKeyPairGenerator.generateKeyPair();
@@ -85,7 +91,9 @@ public class UTMAStrongEngineTest extends TestCase {
         // Randomize
         UTMAStrongRandomizer randomizer = new UTMAStrongRandomizer(new ElGamalEngine());
         randomizer.init(keyPair.getPublic());
-        cipherText = randomizer.processBlock(cipherText, 0, cipherText.length);
+        for (int i = 0; i < 10; i++) {
+            cipherText = randomizer.processBlock(cipherText, 0, cipherText.length);
+        }
 
         // Decrypt
         strongEngine.init(false, keyPair.getPrivate());
