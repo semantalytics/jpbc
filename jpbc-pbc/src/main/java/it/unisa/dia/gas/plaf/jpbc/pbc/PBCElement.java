@@ -107,6 +107,7 @@ public class PBCElement implements Element {
 
     public int setEncoding(byte[] bytes) {
         //throw new IllegalStateException("Not Implemented yet!!!");
+
         int lengthInBytes = PBCLibraryProvider.getPbcLibrary().pbc_element_length_in_bytes(value);
         if (bytes.length < lengthInBytes) {
             byte[] temp = new byte[lengthInBytes];
