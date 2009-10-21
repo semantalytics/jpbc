@@ -19,4 +19,5 @@ public class UTMAStrongPublicKeyParameters extends UTMAStrongKeyParameters {
     public Element getPk() {
         return pk;
     }
+
 }

@@ -11,6 +11,7 @@ public class ImmutablePBCElement extends PBCElement {
 
     public ImmutablePBCElement(PBCElement pbcElement) {
         super(pbcElement);
+        
         this.immutable = true;
     }
     

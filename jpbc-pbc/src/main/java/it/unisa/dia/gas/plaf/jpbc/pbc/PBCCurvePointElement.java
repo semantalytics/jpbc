@@ -16,6 +16,14 @@ public class PBCCurvePointElement extends PBCElement implements Point {
         super(value, field);
     }
 
+    public PBCCurvePointElement(PBCElement pbcElement) {
+        super(pbcElement);
+    }
+
+    @Override
+    public PBCElement getImmutable() {
+        return new ImmutablePBCCurvePointElement(this);
+    }
 
     public Element getX() {
         PBCElementType dest = new PBCElementType();

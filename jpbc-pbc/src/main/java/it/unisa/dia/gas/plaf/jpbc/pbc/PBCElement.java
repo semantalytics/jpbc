@@ -29,8 +29,11 @@ public class PBCElement implements Element {
     }
 
     public PBCElement(PBCElement pbcElement) {
-    }
+        PBCElement duplicate = pbcElement.duplicate();
 
+        this.value = duplicate.value;
+        this.field = duplicate.field;
+    }
 
 
     public Field getField() {
@@ -103,11 +106,20 @@ public class PBCElement implements Element {
     }
 
     public int setEncoding(byte[] bytes) {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        //throw new IllegalStateException("Not Implemented yet!!!");
+        int lengthInBytes = PBCLibraryProvider.getPbcLibrary().pbc_element_length_in_bytes(value);
+        if (bytes.length < lengthInBytes) {
+            byte[] temp = new byte[lengthInBytes];
+            System.arraycopy(bytes, 0, temp, 0, bytes.length);
+            bytes = temp;
+        }
+
+        return setFromBytes(bytes, 0);
     }
 
     public byte[] getDecoding() {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        return toBytes();
+        //throw new IllegalStateException("Not Implemented yet!!!");
     }
 
     public PBCElement setToZero() {

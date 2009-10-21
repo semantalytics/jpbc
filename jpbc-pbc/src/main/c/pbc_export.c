@@ -402,6 +402,8 @@ void pbc_field_order(element_t element, mpz_t order) {
 // =====================
 
 
-void pbc_encode() {
-
+void pbc_encode(elemet_t e) {
+    element_from_bytes
+      element_init(e->data, f);
+      element_set1(e->data);
 }

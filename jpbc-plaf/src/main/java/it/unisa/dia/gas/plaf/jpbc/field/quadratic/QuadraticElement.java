@@ -110,6 +110,10 @@ public class QuadraticElement<E extends Element> extends GenericPointElement<E> 
         return len;
     }
 
+    public byte[] getDecoding() {
+        return x.getDecoding();
+    }
+
     public QuadraticElement twice() {
         x.twice();
         y.twice();
@@ -122,10 +126,6 @@ public class QuadraticElement<E extends Element> extends GenericPointElement<E> 
         y.mul(z);
 
         return this;
-    }
-
-    public byte[] getDecoding() {
-        return x.getDecoding();
     }
 
     public QuadraticElement square() {

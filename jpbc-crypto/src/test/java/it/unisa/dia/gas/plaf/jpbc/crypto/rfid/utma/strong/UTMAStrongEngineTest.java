@@ -59,7 +59,7 @@ public class UTMAStrongEngineTest extends TestCase {
         strongEngine.init(false, keyPair.getPrivate());
         byte[] plainText = strongEngine.processBlock(cipherText, 0, cipherText.length);
 
-        assertEquals(message, new String(plainText));
+        assertEquals(message, new String(plainText).trim());
     }
 
     public void testEngineEncryptRandomizeDecrypt() {
@@ -99,7 +99,7 @@ public class UTMAStrongEngineTest extends TestCase {
         strongEngine.init(false, keyPair.getPrivate());
         byte[] plainText = strongEngine.processBlock(cipherText, 0, cipherText.length);
 
-        assertEquals(message, new String(plainText));
+        assertEquals(message, new String(plainText).trim());
     }
 
     
