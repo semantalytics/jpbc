@@ -33,6 +33,13 @@ public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElemen
     protected CurveElement gen, genNoCofac;
     protected BigInteger order, cofac;
 
+    // A non-NULL quotient_cmp means we are working with the quotient group of
+    // order #E / quotient_cmp, and the points are actually coset
+    // representatives. Thus for a comparison, we must multiply by quotient_cmp
+    // before comparing.
+    protected BigInteger quotient_cmp = null;
+
+
 
     public CurveField(Element a, Element b, BigInteger order, BigInteger cofac) {
         super((F) a.getField());
@@ -94,13 +101,20 @@ public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElemen
         return b;
     }
 
+    public BigInteger getQuotient_cmp() {
+        return quotient_cmp;
+    }
+
+    public void setQuotient_cmp(BigInteger quotient_cmp) {
+        this.quotient_cmp = quotient_cmp;
+    }
+
     /**
      * Existing points are invalidated as this mangles c.
      *
      * @return the twisted curve.
      */
     public CurveField twist() {
-//        System.out.println("twist");
         Element nqr = getTargetField().getNqr();
 
         a.mul(nqr).mul(nqr);

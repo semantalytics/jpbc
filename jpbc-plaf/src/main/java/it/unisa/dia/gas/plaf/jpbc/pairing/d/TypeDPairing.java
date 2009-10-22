@@ -14,6 +14,7 @@ import it.unisa.dia.gas.plaf.jpbc.field.polymod.PolyModField;
 import it.unisa.dia.gas.plaf.jpbc.field.quadratic.QuadraticField;
 import it.unisa.dia.gas.plaf.jpbc.pairing.AbstractPairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
+import it.unisa.dia.gas.plaf.jpbc.util.BigIntegerUtils;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -31,6 +32,7 @@ public class TypeDPairing extends AbstractPairing {
     protected BigInteger h;
     protected BigInteger a;
     protected BigInteger b;
+    protected BigInteger n;
 
     protected PolyModElement xpowq, xpowq2;
     protected Element nqrInverse, nqrInverseSquare;
@@ -69,10 +71,10 @@ public class TypeDPairing extends AbstractPairing {
         if (k % 2 != 0)
             throw new IllegalArgumentException("odd k not implemented anymore");
 
-
         r = curveParams.getBigInteger("r");
         q = curveParams.getBigInteger("q");
         h = curveParams.getBigInteger("h");
+        n = curveParams.getBigInteger("n");
 
         a = curveParams.getBigInteger("a");
         b = curveParams.getBigInteger("b");
@@ -109,6 +111,7 @@ public class TypeDPairing extends AbstractPairing {
         // init Fqk
         Fqk = initQuadratic();
 
+        // Compute constants involved in the final powering.
         if (k == 6) {
             phikonr = q.multiply(q).subtract(q).add(BigInteger.ONE).divide(r);
 
@@ -125,6 +128,16 @@ public class TypeDPairing extends AbstractPairing {
 
         // init Etwist
         Etwist = initEqMap().twist();
+
+
+        // ndonr temporarily holds the trace.
+        BigInteger ndonr = q.subtract(n).add(BigInteger.ONE) ;
+
+        // Negate it because we want the trace of the twist.
+        ndonr = ndonr.negate();
+        ndonr = BigIntegerUtils.pbc_mpz_curve_order_extn(q, ndonr, d);
+        ndonr = ndonr.divide(r);
+        Etwist.setQuotient_cmp(ndonr);
 
         nqrInverse = Fqd.getNqr().duplicate().invert();
         nqrInverseSquare = nqrInverse.duplicate().square();

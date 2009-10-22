@@ -59,7 +59,6 @@ public class BigIntegerUtils {
         c1 = trace;
 
         for (i = 2; i <= n; i++) {
-
             c0 = trace.multiply(c1);
             t0 = q.multiply(c2);
             c0 = c0.subtract(t0);
@@ -69,6 +68,16 @@ public class BigIntegerUtils {
 
         return c1;
     }
+
+
+    // Given q, t such that #E(F_q) = q - t + 1, compute #E(F_q^k).
+    public static BigInteger pbc_mpz_curve_order_extn(BigInteger q, BigInteger t, int k) {
+        BigInteger z = q.pow(k).add(BigInteger.ONE);
+        BigInteger tk = compute_trace_n(q, t, k);
+        z = z.subtract(tk);
+        return z;
+    }
+
 
     public static boolean isDivisible(BigInteger a, BigInteger b) {
         return a.remainder(b).compareTo(ZERO) == 0;

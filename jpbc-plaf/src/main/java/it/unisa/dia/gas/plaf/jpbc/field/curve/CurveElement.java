@@ -113,7 +113,7 @@ public class CurveElement<E extends Element> extends GenericPointElement<E> {
         len += y.setFromBytes(source, offset + len);
 
         //if point does not lie on curve, set it to O
-        if (!isValid()) 
+        if (!isValid())
             setToZero();
 
         return len;
@@ -290,20 +290,15 @@ public class CurveElement<E extends Element> extends GenericPointElement<E> {
 
         CurveElement element = (CurveElement) e;
 
-        return infFlag == 0 && x.isEqual(element.x) && y.isEqual(element.y);
+        if (curveField.quotient_cmp != null) {
+            // If we're working with a quotient group we must account for different
+            // representatives of the same coset.
 
-        /*
-        if (a == b) {
-            return 0;
-        } else {
-            point_ptr p = a - > data;
-            point_ptr q = b - > data;
-            if (p - > inf_flag) {
-                return q - > inf_flag;
-            }
-            return element_cmp(p - > x, q - > x) || element_cmp(p - > y, q - > y);
+            //       int result = !element_is1(e);
+            return !this.duplicate().div(element).pow(curveField.quotient_cmp).isOne();
         }
-        */
+
+        return point_cmp(element);
     }
 
     public CurveElement powZn(Element e) {
@@ -332,7 +327,7 @@ public class CurveElement<E extends Element> extends GenericPointElement<E> {
         x.setFromHash(source, offset, length);
 
         Element t = field.getTargetField().newElement();
-        for(;;) {
+        for (; ;) {
             t.set(x).square().add(curveField.a).mul(x).add(curveField.b);
             if (t.isSqr())
                 break;
@@ -452,6 +447,15 @@ public class CurveElement<E extends Element> extends GenericPointElement<E> {
     protected void setPointFromX() {
         infFlag = 0;
         y.set(x.duplicate().square().add(curveField.getA()).mul(x).add(curveField.getB()).sqrt());
+    }
+
+
+    protected boolean point_cmp(CurveElement element) {
+        if (this.infFlag != 0 || element.infFlag != 0) {
+            return !(this.infFlag != 0 && element.infFlag != 0);
+        }
+
+        return x.isEqual(element.x) && y.isEqual(element.y);
     }
 
 }
