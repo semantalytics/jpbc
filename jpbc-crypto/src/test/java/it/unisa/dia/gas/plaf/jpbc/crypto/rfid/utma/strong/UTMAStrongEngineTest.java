@@ -10,15 +10,12 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import junit.framework.TestCase;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.engines.ElGamalEngine;
-import org.bouncycastle.crypto.generators.ElGamalKeyPairGenerator;
-import org.bouncycastle.crypto.generators.ElGamalParametersGenerator;
-import org.bouncycastle.crypto.params.ElGamalKeyGenerationParameters;
 import org.bouncycastle.crypto.params.ElGamalParameters;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
@@ -30,12 +27,8 @@ public class UTMAStrongEngineTest extends TestCase {
     public void testEngineEncryptDecrypt() {
         // Generate public info
 
-        UTMAStrongParametersGenerator utmaStrongParametersGenerator = new UTMAStrongParametersGenerator(new ElGamalKeyPairGenerator());
-        utmaStrongParametersGenerator.init(getCurveParamas(),
-                                           new ElGamalKeyGenerationParameters(
-                                                   new SecureRandom(),
-                                                   getElGamalParameters())
-        );
+        UTMAStrongParametersGenerator utmaStrongParametersGenerator = new UTMAStrongParametersGenerator();
+        utmaStrongParametersGenerator.init(getCurveParamas(), getElGamalParameters());
         UTMAStrongParameters utmaParameters =  utmaStrongParametersGenerator.generateParameters();
 
         // Generate Key-Pair
@@ -65,12 +58,8 @@ public class UTMAStrongEngineTest extends TestCase {
     public void testEngineEncryptRandomizeDecrypt() {
         // Generate public info
 
-        UTMAStrongParametersGenerator utmaStrongParametersGenerator = new UTMAStrongParametersGenerator(new ElGamalKeyPairGenerator());
-        utmaStrongParametersGenerator.init(getCurveParamas(),
-                                           new ElGamalKeyGenerationParameters(
-                                                   new SecureRandom(),
-                                                   getElGamalParameters())
-        );
+        UTMAStrongParametersGenerator utmaStrongParametersGenerator = new UTMAStrongParametersGenerator();
+        utmaStrongParametersGenerator.init(getCurveParamas(), getElGamalParameters());
         UTMAStrongParameters utmaParameters =  utmaStrongParametersGenerator.generateParameters();
 
         // Generate Key-Pair
@@ -102,7 +91,42 @@ public class UTMAStrongEngineTest extends TestCase {
         assertEquals(message, new String(plainText).trim());
     }
 
-    
+    public void testEngineEncryptRandomizeDecryptLoadingParamsFromFile() {
+        AsymmetricCipherKeyPair keyPair = null;
+        try {
+            // Load public info
+            UTMAStrongKeyPairGenerator utmaStrongKeyPairGenerator = new UTMAStrongKeyPairGenerator();
+            keyPair = utmaStrongKeyPairGenerator.load(
+                    this.getClass().getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/crypto/rfid/utma/strong/utmas_keypair.params")
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail(e.getMessage());
+        }
+
+        String message = "Hello World!!!";
+        byte[] messageAsBytes = message.getBytes();
+
+        UTMAStrongEngine strongEngine = new UTMAStrongEngine(new ElGamalEngine());
+
+        // Encrypt
+        strongEngine.init(true, keyPair.getPublic());
+        byte[] cipherText = strongEngine.processBlock(messageAsBytes, 0, messageAsBytes.length);
+
+        // Randomize
+        UTMAStrongRandomizer randomizer = new UTMAStrongRandomizer(new ElGamalEngine());
+        randomizer.init(keyPair.getPublic());
+        for (int i = 0; i < 10; i++) {
+            cipherText = randomizer.processBlock(cipherText, 0, cipherText.length);
+        }
+
+        // Decrypt
+        strongEngine.init(false, keyPair.getPrivate());
+        byte[] plainText = strongEngine.processBlock(cipherText, 0, cipherText.length);
+
+        assertEquals(message, new String(plainText).trim());
+    }
+
 
     protected CurveParams getCurveParamas() {
         CurveParams curveParams = new CurveParams();
@@ -128,11 +152,11 @@ public class UTMAStrongEngineTest extends TestCase {
 
 
     public static void main(String[] args) {
-        ElGamalParametersGenerator elGamalParametersGenerator = new ElGamalParametersGenerator();
+        // Generate Elgamal Parameters
+/*        ElGamalParametersGenerator elGamalParametersGenerator = new ElGamalParametersGenerator();
         elGamalParametersGenerator.init(1024, 12, new SecureRandom());
         ElGamalParameters elGamalParameters = elGamalParametersGenerator.generateParameters();
 
-        // Write to a file
         try {
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("elgamal_1024.params"));
             oos.writeObject(elGamalParameters.getG());
@@ -143,5 +167,56 @@ public class UTMAStrongEngineTest extends TestCase {
         } catch (IOException e) {
             e.printStackTrace();
         }
+*/
+        
+        // Generate and Store UTMA Strong Parameters
+
+        try {
+            // Load parameters, the curve and elgamal params
+            CurveParams curveParams = new CurveParams();
+            InputStream inputStream = UTMAStrongEngineTest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/crypto/a_181_603.properties");
+            curveParams.load(inputStream);
+            inputStream.close();
+
+            inputStream = UTMAStrongEngineTest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/crypto/elgamal_1024.params");
+            ObjectInputStream ooi = new ObjectInputStream(inputStream);
+            BigInteger g = (BigInteger) ooi.readObject();
+            BigInteger p = (BigInteger) ooi.readObject();
+            Integer l = (Integer) ooi.readObject();
+            ooi.close();
+
+            // Generate and store the public info
+            UTMAStrongParametersGenerator utmaStrongParametersGenerator = new UTMAStrongParametersGenerator();
+            utmaStrongParametersGenerator.init(curveParams, new ElGamalParameters(p, g, l));
+            UTMAStrongParameters utmaParameters =  utmaStrongParametersGenerator.generateParameters();
+
+/*
+            FileOutputStream fileOutputStream = new FileOutputStream("utmas.params");
+            utmaStrongParametersGenerator.store(fileOutputStream, utmaParameters);
+            fileOutputStream.flush();
+            fileOutputStream.close();
+*/
+
+            // Generate and store a keypair
+            UTMAStrongKeyPairGenerator utmaStrongKeyPairGenerator = new UTMAStrongKeyPairGenerator();
+            utmaStrongKeyPairGenerator.init(new UTMAStrongKeyGenerationParameters(new SecureRandom(), utmaParameters));
+
+            System.out.println("STORE");
+
+            AsymmetricCipherKeyPair keyPair = utmaStrongKeyPairGenerator.generateKeyPair();
+            FileOutputStream fileOutputStream = new FileOutputStream("utmas_keypair.params");
+            utmaStrongKeyPairGenerator.store(fileOutputStream, keyPair);
+            fileOutputStream.flush();
+            fileOutputStream.close();
+
+            System.out.println("READ");
+
+            inputStream = new FileInputStream("utmas_keypair.params");
+            keyPair = utmaStrongKeyPairGenerator.load(inputStream);
+            inputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }
