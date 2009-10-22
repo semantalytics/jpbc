@@ -124,15 +124,6 @@ public abstract class GenericElement implements Element {
         return add(this);
     }
 
-    public int setEncoding(byte[] bytes) {
-        throw new IllegalStateException("Not implemented yet!!!");
-    }
-
-    public byte[] getDecoding() {
-        throw new IllegalStateException("Not implemented yet!!!");
-    }
-
-
 
     protected int optimalPowWindowSize(BigInteger n) {
         int expBits;

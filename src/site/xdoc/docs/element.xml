@@ -182,13 +182,6 @@ and returns the number of bytes read. */
 <strong style="color:green">element.setFromHash(bytes, 0, bytes.length);</strong>
                 </source>
 
-                <source>/* Encodes the buffer source into element. */
-<strong style="color:green">element.setEncoding(bytes);</strong>
-                </source>
-
-                <source>/* Returns the bytes encoded by element. */
-<strong style="color:green">byte[] bytes = element.getDecoding();</strong>
-                </source>
             </subsection>
         </section>
     </body>

@@ -132,25 +132,6 @@ public interface Element {
     byte[] toBytes();
 
     /**
-     * Encodes the passed bytes into this element.
-     *
-     * @param bytes the source of data.
-     * @return the number of bytes used.
-     * @see it.unisa.dia.gas.jpbc.Element#getDecoding()
-     * @since 1.0.0
-     */
-    int setEncoding(byte[] bytes);
-
-    /**
-     * Returns the bytes encoded by this element.
-     *
-     * @return the bytes encoded by this element.
-     * @see it.unisa.dia.gas.jpbc.Element#setEncoding(byte[])
-     * @since 1.0.0
-     */
-    byte[] getDecoding();
-
-    /**
      * Sets this element to zero.
      *
      * @return this element set to zero.

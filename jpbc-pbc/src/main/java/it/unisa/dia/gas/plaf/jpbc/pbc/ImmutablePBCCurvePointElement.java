@@ -72,11 +72,6 @@ public class ImmutablePBCCurvePointElement extends PBCCurvePointElement {
     }
 
     @Override
-    public int setEncoding(byte[] bytes) {
-        return duplicate().setEncoding(bytes);
-    }
-
-    @Override
     public PBCCurvePointElement square() {
         return (PBCCurvePointElement) duplicate().square();
     }

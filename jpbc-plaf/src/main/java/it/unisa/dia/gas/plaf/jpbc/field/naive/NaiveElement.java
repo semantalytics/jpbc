@@ -168,17 +168,6 @@ public class NaiveElement extends GenericElement {
         return field.getLengthInBytes();
     }
 
-    public int setEncoding(byte[] bytes) {
-        byte[] source = Utils.copyOf(bytes, field.getLengthInBytes() - 1);
-        value = new BigInteger(1, source);
-
-        return source.length;
-    }
-
-    public byte[] getDecoding() {
-        return value.toByteArray();
-    }
-
     public NaiveElement square() {
 //        value = value.modPow(BigIntegerUtils.TWO, order);
         value = value.multiply(value).mod(order);

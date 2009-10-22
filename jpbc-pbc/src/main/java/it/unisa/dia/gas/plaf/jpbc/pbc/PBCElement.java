@@ -105,24 +105,6 @@ public class PBCElement implements Element {
         return lengthInBytes;
     }
 
-    public int setEncoding(byte[] bytes) {
-        //throw new IllegalStateException("Not Implemented yet!!!");
-
-        int lengthInBytes = PBCLibraryProvider.getPbcLibrary().pbc_element_length_in_bytes(value);
-        if (bytes.length < lengthInBytes) {
-            byte[] temp = new byte[lengthInBytes];
-            System.arraycopy(bytes, 0, temp, 0, bytes.length);
-            bytes = temp;
-        }
-
-        return setFromBytes(bytes, 0);
-    }
-
-    public byte[] getDecoding() {
-        return toBytes();
-        //throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
     public PBCElement setToZero() {
         PBCLibraryProvider.getPbcLibrary().pbc_element_set0(value);
 

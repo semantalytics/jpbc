@@ -139,7 +139,7 @@ public class UTMAWeakEngine implements AsymmetricBlockCipher {
                     .mul(pairing.pairing(C1, privateKeyParameters.getD1()))
                     .mul(pairing.pairing(C2, privateKeyParameters.getD2()))
                     .mul(pairing.pairing(C3, privateKeyParameters.getD3()));
-            return C.getDecoding();
+            return C.toBytes();
 
             // TODO: should we check also the encryption of ONE? 
         } else {
@@ -156,7 +156,7 @@ public class UTMAWeakEngine implements AsymmetricBlockCipher {
             }
 
             Element M = pairing.getGT().newElement();
-            M.setEncoding(block);       // TODO: verify the output
+            M.setFromBytes(block);       // TODO: verify the output
 
             // Convert the Elements to byte arrays
             ByteArrayOutputStream bytes = new ByteArrayOutputStream(getOutputBlockSize());

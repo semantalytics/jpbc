@@ -68,7 +68,7 @@ public class UTMAStrongKeyPairGenerator implements AsymmetricCipherKeyPairGenera
                         r.duplicate().mul(mskParameters.getT2()).mul(mskParameters.getT3()).negate()
                 )
         );
-        
+
         return new AsymmetricCipherKeyPair(
                 new UTMAStrongPublicKeyParameters(publicParameters,
                                                   pk.getImmutable()),
@@ -154,23 +154,34 @@ public class UTMAStrongKeyPairGenerator implements AsymmetricCipherKeyPairGenera
         CurveParams curveParams = fromBytes(CurveParams.class, readByteArray(in));
         this.pairing = PairingFactory.getPairing(curveParams);
 
-        Element g = pairing.getG1().newElement(); g.setFromBytes(readByteArray(in));
-        Element g0 = pairing.getG1().newElement(); g0.setFromBytes(readByteArray(in));
-        Element g1 = pairing.getG1().newElement(); g1.setFromBytes(readByteArray(in));
+        Element g = pairing.getG1().newElement();
+        g.setFromBytes(readByteArray(in));
+        Element g0 = pairing.getG1().newElement();
+        g0.setFromBytes(readByteArray(in));
+        Element g1 = pairing.getG1().newElement();
+        g1.setFromBytes(readByteArray(in));
 
-        Element T1 = pairing.getG1().newElement(); T1.setFromBytes(readByteArray(in));
-        Element T2 = pairing.getG1().newElement(); T2.setFromBytes(readByteArray(in));
-        Element T3 = pairing.getG1().newElement(); T3.setFromBytes(readByteArray(in));
-        Element Omega = pairing.getGT().newElement(); Omega.setFromBytes(readByteArray(in));
+        Element T1 = pairing.getG1().newElement();
+        T1.setFromBytes(readByteArray(in));
+        Element T2 = pairing.getG1().newElement();
+        T2.setFromBytes(readByteArray(in));
+        Element T3 = pairing.getG1().newElement();
+        T3.setFromBytes(readByteArray(in));
+        Element Omega = pairing.getGT().newElement();
+        Omega.setFromBytes(readByteArray(in));
 
         // Load rPublicKey
         CipherParameters rPublicKey = loadRPublicKey(in);
 
         // Load public key
-        Element pk = pairing.getG1().newElement(); pk.setFromBytes(readByteArray(in));
+        Element pk = pairing.getG1().newElement();
+        pk.setFromBytes(readByteArray(in));
 
-        return new UTMAStrongPublicKeyParameters(new UTMAStrongPublicParameters(curveParams, g, g0, g1, Omega, T1, T2, T3, rPublicKey),
-                                                 pk);
+        return new UTMAStrongPublicKeyParameters(
+                new UTMAStrongPublicParameters(curveParams, g.getImmutable(),
+                                               g0.getImmutable(), g1.getImmutable(), Omega.getImmutable(),
+                                               T1.getImmutable(), T2.getImmutable(), T3.getImmutable(), rPublicKey),
+                pk.getImmutable());
     }
 
     public CipherParameters loadPrivateKey(InputStream inputStream) throws IOException {
@@ -180,14 +191,21 @@ public class UTMAStrongKeyPairGenerator implements AsymmetricCipherKeyPairGenera
         CurveParams curveParams = fromBytes(CurveParams.class, readByteArray(in));
         this.pairing = PairingFactory.getPairing(curveParams);
 
-        Element g = pairing.getG1().newElement(); g.setFromBytes(readByteArray(in));
-        Element g0 = pairing.getG1().newElement(); g0.setFromBytes(readByteArray(in));
-        Element g1 = pairing.getG1().newElement(); g1.setFromBytes(readByteArray(in));
+        Element g = pairing.getG1().newElement();
+        g.setFromBytes(readByteArray(in));
+        Element g0 = pairing.getG1().newElement();
+        g0.setFromBytes(readByteArray(in));
+        Element g1 = pairing.getG1().newElement();
+        g1.setFromBytes(readByteArray(in));
 
-        Element T1 = pairing.getG1().newElement(); T1.setFromBytes(readByteArray(in));
-        Element T2 = pairing.getG1().newElement(); T2.setFromBytes(readByteArray(in));
-        Element T3 = pairing.getG1().newElement(); T3.setFromBytes(readByteArray(in));
-        Element Omega = pairing.getGT().newElement(); Omega.setFromBytes(readByteArray(in));
+        Element T1 = pairing.getG1().newElement();
+        T1.setFromBytes(readByteArray(in));
+        Element T2 = pairing.getG1().newElement();
+        T2.setFromBytes(readByteArray(in));
+        Element T3 = pairing.getG1().newElement();
+        T3.setFromBytes(readByteArray(in));
+        Element Omega = pairing.getGT().newElement();
+        Omega.setFromBytes(readByteArray(in));
 
         // Load rPublicKey
         CipherParameters rPublicKey = loadRPublicKey(in);
@@ -196,17 +214,23 @@ public class UTMAStrongKeyPairGenerator implements AsymmetricCipherKeyPairGenera
         CipherParameters rPrivateKey = loadRPrivateKey(in);
 
         // Load private key
-        Element D0 = pairing.getG1().newElement(); D0.setFromBytes(readByteArray(in));
-        Element D1 = pairing.getG1().newElement(); D1.setFromBytes(readByteArray(in));
-        Element D2 = pairing.getG1().newElement(); D2.setFromBytes(readByteArray(in));
-        Element D3 = pairing.getG1().newElement(); D3.setFromBytes(readByteArray(in));
+        Element D0 = pairing.getG1().newElement();
+        D0.setFromBytes(readByteArray(in));
+        Element D1 = pairing.getG1().newElement();
+        D1.setFromBytes(readByteArray(in));
+        Element D2 = pairing.getG1().newElement();
+        D2.setFromBytes(readByteArray(in));
+        Element D3 = pairing.getG1().newElement();
+        D3.setFromBytes(readByteArray(in));
 
         return new UTMAStrongPrivateKeyParameters(
-                new UTMAStrongPublicParameters(curveParams, g, g0, g1, Omega, T1, T2, T3, rPublicKey),
-                D0, D1, D2, D3, rPrivateKey);
+                new UTMAStrongPublicParameters(curveParams, g.getImmutable(),
+                                               g0.getImmutable(), g1.getImmutable(), Omega.getImmutable(),
+                                               T1.getImmutable(), T2.getImmutable(), T3.getImmutable(), rPublicKey),
+                D0.getImmutable(), D1.getImmutable(), D2.getImmutable(), D3.getImmutable(), rPrivateKey);
     }
 
-    
+
     protected void storeRPublicKey(DataOutputStream out, CipherParameters cipherParameters) throws IOException {
         if (cipherParameters instanceof ElGamalPublicKeyParameters) {
             ElGamalPublicKeyParameters publicKeyParameters = (ElGamalPublicKeyParameters) cipherParameters;

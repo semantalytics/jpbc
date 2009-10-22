@@ -166,9 +166,4 @@ public class ImmutableCurveElement<E extends Element> extends CurveElement<E> {
         return duplicate().sqrt();    
     }
 
-    @Override
-    public int setEncoding(byte[] bytes) {
-        return duplicate().setEncoding(bytes);    
-    }
-
 }

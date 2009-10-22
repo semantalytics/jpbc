@@ -72,11 +72,6 @@ public class ImmutablePBCElement extends PBCElement {
     }
 
     @Override
-    public int setEncoding(byte[] bytes) {
-        return duplicate().setEncoding(bytes);    
-    }
-
-    @Override
     public PBCElement square() {
         return duplicate().square();    
     }

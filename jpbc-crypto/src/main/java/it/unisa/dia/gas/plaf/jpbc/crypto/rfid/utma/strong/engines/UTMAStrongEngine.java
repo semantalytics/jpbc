@@ -10,6 +10,7 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.AsymmetricBlockCipher;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.DataLengthException;
+import org.bouncycastle.crypto.engines.ElGamalEngine;
 import org.bouncycastle.crypto.params.ParametersWithRandom;
 
 import java.io.ByteArrayOutputStream;
@@ -32,6 +33,9 @@ public class UTMAStrongEngine implements AsymmetricBlockCipher {
         this.ssEngine = ssEngine;
     }
 
+    public UTMAStrongEngine() {
+        this(new ElGamalEngine());
+    }
     
     /**
      * initialise the UTMA engine.
@@ -72,8 +76,6 @@ public class UTMAStrongEngine implements AsymmetricBlockCipher {
 
     /**
      * Return the maximum size for an input block to this engine.
-     * For UTMA this is always one byte less than the size of P on
-     * encryption, and twice the length as the size of P on decryption.
      *
      * @return maximum size for an input block.
      */
@@ -87,8 +89,6 @@ public class UTMAStrongEngine implements AsymmetricBlockCipher {
 
     /**
      * Return the maximum size for an output block to this engine.
-     * For UTMA this is always one byte less than the size of P on
-     * decryption, and twice the length as the size of P on encryption.
      *
      * @return maximum size for an output block.
      */
@@ -154,7 +154,7 @@ public class UTMAStrongEngine implements AsymmetricBlockCipher {
                     .mul(pairing.pairing(C1, privateKeyParameters.getD1()))
                     .mul(pairing.pairing(C2, privateKeyParameters.getD2()))
                     .mul(pairing.pairing(C3, privateKeyParameters.getD3()));
-            return C.getDecoding();
+            return C.toBytes();
 
             // TODO: should we check also the encryption of ONE?
         } else {
@@ -171,7 +171,7 @@ public class UTMAStrongEngine implements AsymmetricBlockCipher {
             }
 
             Element M = pairing.getGT().newElement();
-            M.setEncoding(block);       // TODO: verify the output
+            M.setFromBytes(block);       // TODO: verify the output
 
             // Convert the Elements to byte arrays
             ByteArrayOutputStream bytes = new ByteArrayOutputStream(getOutputBlockSize());

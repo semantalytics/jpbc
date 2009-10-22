@@ -101,19 +101,6 @@ public class QuadraticElement<E extends Element> extends GenericPointElement<E> 
         return len;
     }
 
-    public int setEncoding(byte[] bytes) {
-        int len;
-
-        len = x.setEncoding(bytes);
-        y.setToRandom();
-
-        return len;
-    }
-
-    public byte[] getDecoding() {
-        return x.getDecoding();
-    }
-
     public QuadraticElement twice() {
         x.twice();
         y.twice();

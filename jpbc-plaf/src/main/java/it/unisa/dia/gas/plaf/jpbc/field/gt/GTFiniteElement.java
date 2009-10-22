@@ -103,14 +103,6 @@ public class GTFiniteElement extends GenericElement {
         return value.setFromBytes(source, offset);
     }
 
-    public int setEncoding(byte[] bytes) {
-        return value.setEncoding(bytes);
-    }
-
-    public byte[] getDecoding() {
-        return value.getDecoding();
-    }
-
     public GTFiniteElement invert() {
         value.invert();
         

@@ -70,11 +70,6 @@ public class ImmutableNaiveElement extends NaiveElement {
     }
 
     @Override
-    public int setEncoding(byte[] bytes) {
-        return duplicate().setEncoding(bytes);    
-    }
-
-    @Override
     public NaiveElement square() {
         return duplicate().square();    
     }
