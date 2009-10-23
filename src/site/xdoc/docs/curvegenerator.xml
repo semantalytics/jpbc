@@ -163,6 +163,12 @@ l 1392
                 </p>
                 
                 <p>
+                    By now you can use only the generator provided by PBC. If you don't want to use PBC at all,
+                    <a href="http://crypto.stanford.edu/pbc/download.html">here</a>
+                    you can find some pre-generated type D curves.
+                </p>
+
+                <p>
                     To use the generator use the following:
                 </p>
 

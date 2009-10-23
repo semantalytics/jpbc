@@ -80,13 +80,12 @@
                 <include>*tests.jar</include>
             </includes>
         </fileSet>
-<!--
+
         <fileSet>
             <directory>license</directory>
             <outputDirectory>license</outputDirectory>
             <includes/>
         </fileSet>
--->
     </fileSets>
 
     <files>

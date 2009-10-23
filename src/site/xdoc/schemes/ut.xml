@@ -205,6 +205,11 @@ Element Omega = pairing.pairing(g, g).pow(
 
         <a name="strong"/>
         <section name="Strong Construction">
+
+            <p>
+                You will find all the sources into the jpbc-crypto module.
+            </p>
+
             <subsection name="Generate and Store the Public Information">
                 <source>
 import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.generators.UTMAStrongParametersGenerator;

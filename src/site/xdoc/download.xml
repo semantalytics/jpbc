@@ -108,28 +108,43 @@
                     <li>To use jPBC add to your classpath
                         <ol type="1">
                             <li>
-                                <tt>jpbc_1.0.0-api.jar</tt>
+                                <strong style="color:red"><tt>jpbc_1.0.0-api.jar</tt></strong>
                                 and
                             </li>
 
-                            <li><tt>jpbc_1.0.0-plaf.jar</tt>.
+                            <li>
+                                <strong style="color:red"><tt>jpbc_1.0.0-plaf.jar</tt></strong>.
                             </li>
                         </ol>
                         To use the wrapper include also
                         <ol>
                             <li>
-                                <tt>jpbc_1.0.0-pbc.jar</tt>
+                                <strong style="color:green"><tt>jpbc_1.0.0-pbc.jar</tt></strong>
                                 and
                             </li>
 
                             <li>
-                                <tt>jna-3.1.0.jar</tt>.
+                                <strong style="color:green"><tt>jna-3.1.0.jar</tt></strong>.
                             </li>
                         </ol>
                         Remember that to use the wrapper you must compile a shared library
-                        which links jPBC with PBC. Go
+                        which connects PBC to jPBC. Go
                         <a href="./docs/pbcwrapper.html">here</a>
                         to see how to do that.
+                    </li>
+                    <li>
+                        To use the implemented
+                        <a href="schemes/schemes.html">schemes</a>
+                        include also
+                        <ol>
+                            <li>
+                                <strong style="color:green"><tt>jpbc_1.0.0-crypto.jar</tt></strong>
+                                and
+                            </li>
+                            <li>
+                                <strong style="color:green"><tt>bcprov-jdk15-140.jar</tt></strong>.
+                            </li>
+                        </ol>
                     </li>
                 </ol>
                 <p>

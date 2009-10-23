@@ -10,7 +10,8 @@
     <body>
         <section name="Introduction">
             <div id="downloadbox">
-                <h5><img src="./images/new.png" alt=""/>Get jPBC 1.0.0 Now!!!</h5>
+                <!--<img src="./images/new.png" alt=""/> -->
+                <h5>Get jPBC 1.0.0 Now!!!</h5>
                 <span style="display: block; text-align: right; font-size: smaller">Released: October, 2009</span>
                 <p>
                     <a href="download.html">jPBC 1.0.0</a>
