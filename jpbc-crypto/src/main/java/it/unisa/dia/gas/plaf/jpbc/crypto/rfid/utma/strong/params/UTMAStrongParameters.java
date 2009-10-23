@@ -1,9 +1,11 @@
 package it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params;
 
+import org.bouncycastle.crypto.CipherParameters;
+
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class UTMAStrongParameters {
+public class UTMAStrongParameters implements CipherParameters {
     private UTMAStrongPublicParameters publicParameters;
     private UTMAStrongRPublicParameters rPublicParameters;
 

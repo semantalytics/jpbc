@@ -9,6 +9,7 @@
 
     <body>
         <section name="Download jPBC">
+
             <subsection name="Releases">
                 <ul>
                     <li>
@@ -125,7 +126,7 @@
                                 <tt>jna-3.1.0.jar</tt>.
                             </li>
                         </ol>
-                        Rememeber that for using the wrappen you must compile a shared library
+                        Remember that to use the wrapper you must compile a shared library
                         which links jPBC with PBC. Go
                         <a href="./docs/pbcwrapper.html">here</a>
                         to see how to do that.

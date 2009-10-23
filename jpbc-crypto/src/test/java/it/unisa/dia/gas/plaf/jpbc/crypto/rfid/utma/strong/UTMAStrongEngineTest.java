@@ -12,7 +12,6 @@ import junit.framework.TestCase;
 import org.bouncycastle.crypto.AsymmetricBlockCipher;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.InvalidCipherTextException;
-import org.bouncycastle.crypto.engines.ElGamalEngine;
 import org.bouncycastle.crypto.paddings.PKCS7Padding;
 import org.bouncycastle.crypto.params.ElGamalParameters;
 
@@ -92,8 +91,8 @@ public class UTMAStrongEngineTest extends TestCase {
             byte[] cipherText = strongEngine.processBlock(messageAsBytes, 0, messageAsBytes.length);
 
             // Randomize
-            UTMAStrongRandomizer randomizer = new UTMAStrongRandomizer(new ElGamalEngine());
-            randomizer.init(keyPair.getPublic());
+            UTMAStrongRandomizer randomizer = new UTMAStrongRandomizer();
+            randomizer.init(utmaParameters);
             for (int i = 0; i < 10; i++) {
                 cipherText = randomizer.processBlock(cipherText, 0, cipherText.length);
             }
@@ -129,9 +128,6 @@ public class UTMAStrongEngineTest extends TestCase {
         utmaStrongKeyPairGenerator.init(new UTMAStrongKeyGenerationParameters(new SecureRandom(), utmaParameters));
         AsymmetricCipherKeyPair keyPair = utmaStrongKeyPairGenerator.generateKeyPair();
 
-        String message = "Hello World!!!";
-        byte[] messageAsBytes = message.getBytes();
-
         try {
             AsymmetricBlockCipher strongEngine = new MultiBlockAsymmetricBlockCipher(
                     new UTMAStrongEngine(),
@@ -139,12 +135,15 @@ public class UTMAStrongEngineTest extends TestCase {
             );
 
             // Encrypt
+            String message = "Hello World!!!";
+            byte[] messageAsBytes = message.getBytes();
+
             strongEngine.init(true, keyPair.getPublic());
             byte[] cipherText = strongEngine.processBlock(messageAsBytes, 0, messageAsBytes.length);
 
             // Randomize
-            UTMAStrongRandomizer randomizer = new UTMAStrongRandomizer(new ElGamalEngine());
-            randomizer.init(keyPair.getPublic());
+            UTMAStrongRandomizer randomizer = new UTMAStrongRandomizer();
+            randomizer.init(utmaParameters);
             for (int i = 0; i < 10; i++) {
                 cipherText = randomizer.processBlock(cipherText, 0, cipherText.length);
             }
@@ -161,7 +160,20 @@ public class UTMAStrongEngineTest extends TestCase {
     }
 
     public void testEngineEncRandDecKeyPairFromFile() {
-        // Generate Key-Pair
+        // Load public info
+
+        UTMAStrongParameters utmaParameters = null;
+        try {
+            UTMAStrongParametersGenerator utmaStrongParametersGenerator = new UTMAStrongParametersGenerator();
+            utmaParameters = utmaStrongParametersGenerator.load(
+                    this.getClass().getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/crypto/rfid/utma/strong/utmas.params")
+            );
+        } catch (IOException e) {
+            e.printStackTrace();
+            fail(e.getMessage());
+        }
+
+        // Load Key-Pair
 
         AsymmetricCipherKeyPair keyPair = null;
         try {
@@ -188,8 +200,8 @@ public class UTMAStrongEngineTest extends TestCase {
             byte[] cipherText = strongEngine.processBlock(messageAsBytes, 0, messageAsBytes.length);
 
             // Randomize
-            UTMAStrongRandomizer randomizer = new UTMAStrongRandomizer(new ElGamalEngine());
-            randomizer.init(keyPair.getPublic());
+            UTMAStrongRandomizer randomizer = new UTMAStrongRandomizer();
+            randomizer.init(utmaParameters);
             for (int i = 0; i < 10; i++) {
                 cipherText = randomizer.processBlock(cipherText, 0, cipherText.length);
             }

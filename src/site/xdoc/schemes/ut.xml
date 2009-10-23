@@ -16,7 +16,6 @@
                 problems to privacy. Tag untraceability is a significant concern that
                 needs to be addressed in deploying RFID-based system.
 
-                In this paper we propose a new construction for untraceable tags.
                 Our construction is the first construction in the symmetric bilinear
                 setting based on a {\em mild} assumption.
                 That is our assumption is tautological in the generic group model
@@ -25,8 +24,27 @@
                 of the number of adversarial queries and other large quantities).
             </p>
 
+            <p>
+                In this page we will see:
+            </p>
+
+            <ol>
+                <li>
+                    how to implement the
+                    <strong style="color:red"><a href="#weak">weak construction</a></strong>
+                    of the scheme;
+                </li>
+                <li>
+                    how to use the
+                    <strong style="color:red"><a href="#strong">strong construction</a></strong>,
+                    which can be find in the jpbc-crypto module, in the
+                    context of the Bouncy Castle framework.
+                </li>
+            </ol>
+
         </section>
-        
+
+        <a name="weak"/>
         <section name="Weak Construction">
             
             <subsection name="Public Information Generation">
@@ -182,6 +200,141 @@ Element Omega = pairing.pairing(g, g).pow(
 
             <subsection name="Randomize">
 
+            </subsection>
+        </section>
+
+        <a name="strong"/>
+        <section name="Strong Construction">
+            <subsection name="Generate and Store the Public Information">
+                <source>
+import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.generators.UTMAStrongParametersGenerator;
+import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params.UTMAStrongParameters;
+
+<strong style="color:green">// Init the generator.</strong>
+UTMAStrongParametersGenerator pubInfoGenerator = new UTMAStrongParametersGenerator();
+pubInfoGenerator.init(curveParams, new ElGamalParameters(p, g, l));
+
+<strong style="color:green">// Generate the parameters.</strong>
+UTMAStrongParameters utmaParameters = pubInfoGenerator.generateParameters();
+
+<strong style="color:green">// Store the parameters in a file.</strong>
+FileOutputStream fileOutputStream = new FileOutputStream("utmas.params");
+
+pubInfoGenerator.store(fileOutputStream, utmaParameters);
+
+fileOutputStream.flush();
+fileOutputStream.close();
+                </source>
+            </subsection>
+
+            <subsection name="Load the Public Information">
+                <source>
+import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.generators.UTMAStrongParametersGenerator;
+import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params.UTMAStrongParameters;
+
+<strong style="color:green">// Init the generator.</strong>
+UTMAStrongParametersGenerator pubInfoGenerator = new UTMAStrongParametersGenerator();
+
+<strong style="color:green">// Load the parameters from a file.</strong>
+FileInputStream fileInputStream = new FileInputStream("utmas.params");
+
+UTMAStrongParameters utmaParameters = pubInfoGenerator.load(fileInputStream);
+
+fileInputStream.close();
+                </source>
+            </subsection>
+
+            <subsection name="Generate and Store a Key-Pair">
+                <source>
+import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.generators.UTMAStrongKeyPairGenerator;
+import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params.UTMAStrongKeyGenerationParameters;
+import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
+
+<strong style="color:green">// Init the generator.</strong>
+UTMAStrongKeyPairGenerator keyPairGenerator = new UTMAStrongKeyPairGenerator();
+keyPairGenerator.init(new UTMAStrongKeyGenerationParameters(new SecureRandom(), utmaParameters));
+
+<strong style="color:green">// Generate the key-pair.</strong>
+AsymmetricCipherKeyPair keyPair = keyPairGenerator.generateKeyPair();
+
+<strong style="color:green">// Store the key-pair.</strong>
+fileOutputStream = new FileOutputStream("utmas_keypair.params");
+
+utmaStrongKeyPairGenerator.store(fileOutputStream, keyPair);
+
+fileOutputStream.flush();
+fileOutputStream.close();
+                </source>
+            </subsection>
+
+            <subsection name="Load a Key-Pair">
+                <source>
+import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.generators.UTMAStrongKeyPairGenerator;
+import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params.UTMAStrongKeyGenerationParameters;
+import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
+
+<strong style="color:green">// Init the generator.</strong>
+UTMAStrongKeyPairGenerator keyPairGenerator = new UTMAStrongKeyPairGenerator();
+
+<strong style="color:green">// Load the key-pair from a file.</strong>
+fileInputStream = new FileInputStream("utmas_keypair.params");
+
+AsymmetricCipherKeyPair keyPair = utmaStrongKeyPairGenerator.load(fileInputStream);
+
+fileInputStream.close();
+                </source>
+            </subsection>
+
+            <subsection name="Encrypt">
+                <source>
+import org.bouncycastle.crypto.AsymmetricBlockCipher;
+import it.unisa.dia.gas.plaf.crypto.engines.MultiBlockAsymmetricBlockCipher;
+import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.engines.UTMAStrongEngine;
+
+<strong style="color:green">// Init the engine.</strong>
+AsymmetricBlockCipher strongEngine = new MultiBlockAsymmetricBlockCipher(
+        new UTMAStrongEngine(),
+        new PKCS7Padding()
+);
+
+<strong style="color:green">// Encrypt</strong>
+String message = "Hello World!!!";
+byte[] messageAsBytes = message.getBytes();
+
+strongEngine.init(true, keyPair.getPublic());
+byte[] cipherText = strongEngine.processBlock(messageAsBytes, 0, messageAsBytes.length);
+                </source>
+            </subsection>
+
+            <subsection name="Decrypt">
+                <source>
+import org.bouncycastle.crypto.AsymmetricBlockCipher;
+import it.unisa.dia.gas.plaf.crypto.engines.MultiBlockAsymmetricBlockCipher;
+import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.engines.UTMAStrongEngine;
+
+<strong style="color:green">// Init the engine.</strong>
+AsymmetricBlockCipher strongEngine = new MultiBlockAsymmetricBlockCipher(
+        new UTMAStrongEngine(),
+        new PKCS7Padding()
+);
+
+<strong style="color:green">// Decrypt</strong>
+strongEngine.init(false, keyPair.getPrivate());
+byte[] plainText = strongEngine.processBlock(cipherText, 0, cipherText.length);
+                </source>
+            </subsection>
+
+            <subsection name="Randomize">
+                <source>
+import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.engines.UTMAStrongRandomizer;
+
+<strong style="color:green">// Init the engine.</strong>
+UTMAStrongRandomizer randomizer = new UTMAStrongRandomizer();
+randomizer.init(utmaParameters);
+
+<strong style="color:green">// Re-Randomize</strong>
+cipherText = randomizer.processBlock(cipherText, 0, cipherText.length);
+                </source>
             </subsection>
         </section>
     </body>

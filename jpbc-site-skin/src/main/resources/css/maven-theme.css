@@ -74,6 +74,7 @@ p {
     line-height: 1.3em;
     font-size: 15px;
     color: #000;
+    text-align: justify;
 }
 
 #breadcrumbs {

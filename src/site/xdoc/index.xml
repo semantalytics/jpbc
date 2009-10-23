@@ -10,7 +10,7 @@
     <body>
         <section name="Introduction">
             <div id="downloadbox">
-                <h5>Get jPBC 1.0.0 Now!!!</h5>
+                <h5><img src="./images/new.png" alt=""/>Get jPBC 1.0.0 Now!!!</h5>
                 <span style="display: block; text-align: right; font-size: smaller">Released: October, 2009</span>
                 <p>
                     <a href="download.html">jPBC 1.0.0</a>
@@ -23,15 +23,15 @@
                     <li>
                         <a href="download.html#usage">jPBC Usage</a>
                     </li>
+<!--
                     <li>
-                        <img src="./images/new.png" alt=""/>
                         <a href="changes-report.html">Changes Report</a>
                     </li>
+-->
                     <li>
                         <a href="license.html">License (GPL)</a>
                     </li>
                     <li>
-                        <img src="./images/new.png" alt=""/>
                         <a href="contact.html">Contant. Chat with me.</a>
                     </li>
 
@@ -85,7 +85,8 @@
                 </li>
 
             </ul>
-
+            In the jpbc distribution each module correspond to a directory where you will find the sources of the module and
+            other stuff.
         </section>
     </body>
 </document>
