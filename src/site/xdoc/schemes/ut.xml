@@ -17,9 +17,9 @@
                 needs to be addressed in deploying RFID-based system.
 
                 Our construction is the first construction in the symmetric bilinear
-                setting based on a {\em mild} assumption.
+                setting based on a mild assumption.
                 That is our assumption is tautological in the generic group model
-                and is ``efficiently falsifiable'' in the sense that its problem
+                and is ''efficiently falsifiable'' in the sense that its problem
                 instances are stated non-interactively and concisely (i.e., independently
                 of the number of adversarial queries and other large quantities).
             </p>
