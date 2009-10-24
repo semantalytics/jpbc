@@ -31,14 +31,20 @@ public interface Element {
     int getLengthInBytes();
 
     /**
-     * TODO
-     * @return
+     * Returns <tt>true</tt> if this element is immutable, <tt>false</tt> otherwise.
+     *
+     * @return <tt>true</tt> if this element is immutable, <tt>false</tt> otherwise.
+     * @see #getImmutable() 
      */
     boolean isImmutable();
 
     /**
-     * TODO
-     * @return
+     * Returns the immutable version of this element.
+     * When an element is immutable it means that every call to a method which modifies the value
+     * of the element returns a new instance of the element and not the same one.
+     *
+     * @return the immutable version of this element.
+     * @see #isImmutable()
      */
     Element getImmutable();
 
@@ -286,7 +292,7 @@ public interface Element {
 
     /**
      * Sets this = this^n, where n is an element of a ring Z_N  for some N
-     * (typically the order of the algebraic structure x lies in).
+     * (typically the order of the algebraic structure n lies in).
      *
      * @param n the exponent of the power.
      * @return this^n

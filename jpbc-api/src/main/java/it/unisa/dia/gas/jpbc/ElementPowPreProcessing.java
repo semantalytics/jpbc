@@ -9,17 +9,20 @@ import java.math.BigInteger;
 public interface ElementPowPreProcessing extends PreProcessing {
 
     /**
-     * todo
-     * @param n
-     * @return
+     * Compute the power to n using the pre-processed information.
+     *
+     * @param n the exponent of the power.
+     * @return a new element whose value is the computed power.
      * @since 1.0.0
      */
     Element pow(BigInteger n);
 
     /**
+     * Compute the power to n, where n is an element of a ring Z_N  for some N,
+     * using the pre-processed information, 
      *
-     * @param n
-     * @return
+     * @param n the exponent of the power.
+     * @return a new element whose value is the computed power.
      * @since 1.0.0
      */
     Element powZn(Element n);

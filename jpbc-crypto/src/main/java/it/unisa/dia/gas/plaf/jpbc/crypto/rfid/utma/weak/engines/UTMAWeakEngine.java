@@ -156,7 +156,7 @@ public class UTMAWeakEngine implements AsymmetricBlockCipher {
             }
 
             Element M = pairing.getGT().newElement();
-            M.setFromBytes(block);       // TODO: verify the output
+            M.setFromBytes(block);
 
             // Convert the Elements to byte arrays
             ByteArrayOutputStream bytes = new ByteArrayOutputStream(getOutputBlockSize());

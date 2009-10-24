@@ -39,14 +39,10 @@ public class BigFraction {
     }
 
     public BigFraction add(BigFraction rhs) {
-        // a   b      a.d + b.c
-        // - + -  =   ---------
-        // c   d         c.d
-        // a/c = this
-        // b/d = rhs
         BigInteger ad = numerator.multiply(rhs.denominator);
         BigInteger bc = denominator.multiply(rhs.numerator);
         BigInteger cd = denominator.multiply(rhs.denominator);
+
         return new BigFraction(ad.add(bc), cd);
     }
 
@@ -54,6 +50,7 @@ public class BigFraction {
         BigInteger ad = numerator.multiply(rhs.denominator);
         BigInteger bc = denominator.multiply(rhs.numerator);
         BigInteger cd = denominator.multiply(rhs.denominator);
+
         return new BigFraction(ad.subtract(bc), cd);
     }
 
@@ -64,22 +61,6 @@ public class BigFraction {
     public BigFraction divide(BigFraction rhs) {
         // we turn the fraction upside down and multiply
         return new BigFraction(numerator.multiply(rhs.denominator), denominator.multiply(rhs.numerator));
-    }
-
-    public BigFraction min(BigFraction rhs) {
-        return compareTo(rhs) < 0 ? new BigFraction(this) : new BigFraction(rhs);
-    }
-
-    public BigFraction max(BigFraction rhs) {
-        return compareTo(rhs) > 0 ? new BigFraction(this) : new BigFraction(rhs);
-    }
-
-    public BigFraction abs() {
-        return new BigFraction(numerator.abs(), denominator.abs());
-    }
-
-    public BigFraction reciprocal() {
-        return new BigFraction(denominator, numerator);
     }
 
     public BigFraction negate() {
@@ -109,55 +90,6 @@ public class BigFraction {
 
     public static String toString(BigFraction f) {
         return f.toString();
-    }
-
-/*    public String toString() {
-        reduceThis();
-        String str = "";
-
-        // Is it negative? The reduction ensures only the nom is -ve, and is handled
-        // by either:
-        // 1. the whole number
-        // 2. the nom in the purely fractional version
-        // Therefore we need to abs dar[1] later
-
-        // Is the fraction top-heavy? If so, we need to introduce a whole number
-        BigInteger[] dar = numerator.divideAndRemainder(denominator);
-
-        if (!dar[0].equals(BigInteger.ZERO)) {
-            str += dar[0].toString() + " ";
-            // Calculate the new nominator; which not coincidentally
-            // is the remainder
-            str += dar[1].abs().toString();
-        } else {
-            str += numerator.toString();
-        }
-
-        return str + "/" + denominator.toString();
-    }
-  */
-    public int intValue() {
-        reduceThis();
-        return numerator.divide(denominator).intValue();
-    }
-
-    public long longValue() {
-        reduceThis();
-        return numerator.divide(denominator).longValue();
-    }
-
-    public float floatValue() {
-        // TODO When we get BigFraction we can convert numerator
-        // and denominator into that, before calculating the
-        // division, and returning the result.
-        reduceThis();
-        return numerator.floatValue() / denominator.floatValue();
-    }
-
-    public double doubleValue() {
-        // TODO See note in @floatValue
-        reduceThis();
-        return numerator.doubleValue() / denominator.doubleValue();
     }
 
     public BigFraction reduce() {

@@ -155,8 +155,6 @@ public class UTMAStrongEngine implements AsymmetricBlockCipher {
                     .mul(pairing.pairing(C2, privateKeyParameters.getD2()))
                     .mul(pairing.pairing(C3, privateKeyParameters.getD3()));
             return C.toBytes();
-
-            // TODO: should we check also the encryption of ONE?
         } else {
             // encrypt the message
             if (inLen > byteLength)
@@ -171,7 +169,7 @@ public class UTMAStrongEngine implements AsymmetricBlockCipher {
             }
 
             Element M = pairing.getGT().newElement();
-            M.setFromBytes(block);       // TODO: verify the output
+            M.setFromBytes(block);
 
             // Convert the Elements to byte arrays
             ByteArrayOutputStream bytes = new ByteArrayOutputStream(getOutputBlockSize());
