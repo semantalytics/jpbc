@@ -20,7 +20,7 @@
 
         <echo message="Starting Benchmarks..."/>
 
-        <java fork="true" classname="it.unisa.dia.gas.jpbc.benchmark.PBCPairingBenchmark">
+        <java fork="true" classname="it.unisa.dia.gas.jpbc.benchmark.PBCBenchmark">
             <arg value="${basedir}/params/d_9563.properties"/>
             <arg value="100"/>
             <classpath>
@@ -28,7 +28,7 @@
             </classpath>
         </java>
 
-        <java fork="true" classname="it.unisa.dia.gas.jpbc.benchmark.PairingBenchmark">
+        <java fork="true" classname="it.unisa.dia.gas.jpbc.benchmark.JPBCBenchmark">
             <arg value="${basedir}/params/d_9563.properties"/>
             <arg value="100"/>
             <classpath>
@@ -36,7 +36,7 @@
             </classpath>
         </java>
 
-        <java fork="true" classname="it.unisa.dia.gas.jpbc.benchmark.PBCPairingBenchmark">
+        <java fork="true" classname="it.unisa.dia.gas.jpbc.benchmark.PBCBenchmark">
             <arg value="${basedir}/params/a_181_603.properties"/>
             <arg value="100"/>
             <classpath>
@@ -44,48 +44,13 @@
             </classpath>
         </java>
 
-        <java fork="true" classname="it.unisa.dia.gas.jpbc.benchmark.PairingBenchmark">
+        <java fork="true" classname="it.unisa.dia.gas.jpbc.benchmark.JPBCBenchmark">
             <arg value="${basedir}/params/a_181_603.properties"/>
             <arg value="100"/>
             <classpath>
                 <path refid="runtime.classpath"/>
             </classpath>
         </java>
-
-
-        <!--
-        <java classname="it.unisa.dia.gas.jpbc.benchmark.ElementPowBenchmark">
-            <arg value="it/unisa/dia/gas/plaf/jpbc/pairing/a/a_603_181.properties"/>
-            <arg value="1000"/>
-            <classpath>
-                <path refid="runtime.classpath"/>
-            </classpath>
-        </java>
-
-        <java classname="it.unisa.dia.gas.jpbc.benchmark.PairingBenchmark">
-            <arg value="it/unisa/dia/gas/plaf/jpbc/pairing/a/a_603_181.properties"/>
-            <arg value="100"/>
-            <classpath>
-                <path refid="runtime.classpath"/>
-            </classpath>
-        </java>
-
-        <java classname="it.unisa.dia.gas.jpbc.benchmark.PBCElementPowBenchmark">
-            <arg value="it/unisa/dia/gas/plaf/jpbc/pairing/a/a_603_181.properties"/>
-            <arg value="1000"/>
-            <classpath>
-                <path refid="runtime.classpath"/>
-            </classpath>
-        </java>
-
-        <java classname="it.unisa.dia.gas.jpbc.benchmark.PBCPairingBenchmark">
-            <arg value="it/unisa/dia/gas/plaf/jpbc/pairing/a/a_603_181.properties"/>
-            <arg value="100"/>
-            <classpath>
-                <path refid="runtime.classpath"/>
-            </classpath>
-        </java>
-        -->
     </target>
 
 </project>

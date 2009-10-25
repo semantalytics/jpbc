@@ -31,7 +31,7 @@ public class PBCElementPowBenchmark {
     }
 
     public void testPowPreProcessing() {
-        System.out.println("ElementPowBenchmark.testPowPreProcessing");
+        System.out.println("ElementPowBenchmark.testPowPreProcessingZr");
 
         if (pairing == null)
             return;
@@ -61,7 +61,7 @@ public class PBCElementPowBenchmark {
     }
 
     public void testPowPreProcessingZn() {
-        System.out.println("ElementPowBenchmark.testPowPreProcessingZn");
+        System.out.println("ElementPowBenchmark.testPowZnPreProcessing");
 
         if (pairing == null)
             return;
