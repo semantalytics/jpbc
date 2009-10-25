@@ -10,109 +10,54 @@
     <body>
         <section name="Benchmark">
 
-            <subsection name="Porting Benchmark">
+            <ol>
+                <li>
+                    <a href="#porting">
+                        <strong style="color:red">Java Porting</strong>
+                    </a>
+                    benchmark.
 
-                <table class="benchmark">
-                    <caption>Average Pairing Time (ms)</caption>
-                    <col id="col1"/>
+                    <a href="#wrapper">
+                        <strong style="color:red">Java Wrapper</strong>
+                    </a>
+                    benchmark.
+                </li>
+            </ol>
+
+        </section>
+
+        <a name="porting"/>
+        <section name="Porting Benchmark">
+
+            <subsection name="Pairing">
+                <table>
                     <tr>
-                        <th>Benchmark</th>
-                        <th colspan="6">Pairing Type</th>
+                        <th>Benchmark - Average Time (ms)</th>
+                        <th>Pairing Type</th>
                     </tr>
-                    <tr id="row2">
+                    <tr>
                         <th></th>
-                        <th>a_181_603</th>
-                        <th>d_9563</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
+                        <th><strong style="color:green">a_181_603</strong></th>
+                        <th><strong style="color:green">a1</strong></th>
+                        <th><strong style="color:green">d_9563</strong></th>
+                        <th><strong style="color:green">e_181_1024</strong></th>
                     </tr>
                     <tr>
-                        <th align="left">Pairing#pairing(in1, in2)</th>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
+                        <th align="left"><strong style="color:green">Pairing#pairing(in1, in2)</strong></th>
                         <td>0</td>
                         <td>0</td>
                         <td>0</td>
                         <td>0</td>
                     </tr>
                     <tr>
-                        <th align="left">Pairing#pairing(in1)</th>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                    </tr>
-                    <tr>
-                        <th align="left">PairingPreProcessing#pairing(in2)</th>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
+                        <th align="left"><strong style="color:green">Pairing#pairing(in1)</strong></th>
                         <td>0</td>
                         <td>0</td>
                         <td>0</td>
                         <td>0</td>
                     </tr>
                     <tr>
-                        <th align="left">(G1) Element#pow(BigInteger)</th>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                    </tr>
-                    <tr>
-                        <th align="left">(G1) Element#powZn(Element)</th>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                    </tr>
-                    <tr>
-                        <th align="left">(G1) Element#pow()</th>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                    </tr>
-                    <tr>
-                        <th align="left">(G1) ElementPowPreProcessing#pow(BigInteger)</th>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                    </tr>
-                    <tr>
-                        <th align="left">(G1) ElementPowPreProcessing#powZn(Element)</th>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
+                        <th align="left"><strong style="color:green">PairingPreProcessing#pairing(in2)</strong></th>
                         <td>0</td>
                         <td>0</td>
                         <td>0</td>
@@ -120,7 +65,472 @@
                     </tr>
                 </table>
             </subsection>
-                        
+
+            <subsection name="Pow over G1">
+
+                <table class="benchmark">
+                    <tr>
+                        <th>Benchmark - Average Time (ms)</th>
+                        <th colspan="6">Pairing Type</th>
+                    </tr>
+
+                    <tr>
+                        <th></th>
+                        <th><strong style="color:green">a_181_603</strong></th>
+                        <th><strong style="color:green">a1</strong></th>
+                        <th><strong style="color:green">d_9563</strong></th>
+                        <th><strong style="color:green">e_181_1024</strong></th>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">Element#pow(BigInteger)</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">Element#powZn(Element)</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">Element#pow()</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">ElementPowPreProcessing#pow(BigInteger)</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">ElementPowPreProcessing#powZn(Element)</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                </table>
+            </subsection>
+
+            <subsection name="Pow over G2">
+
+                <table class="benchmark">
+                    <tr>
+                        <th>Benchmark - Average Time (ms)</th>
+                        <th colspan="6">Pairing Type</th>
+                    </tr>
+
+                    <tr>
+                        <th></th>
+                        <th><strong style="color:green">a_181_603</strong></th>
+                        <th><strong style="color:green">a1</strong></th>
+                        <th><strong style="color:green">d_9563</strong></th>
+                        <th><strong style="color:green">e_181_1024</strong></th>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">Element#pow(BigInteger)</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">Element#powZn(Element)</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">Element#pow()</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">ElementPowPreProcessing#pow(BigInteger)</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">ElementPowPreProcessing#powZn(Element)</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                </table>
+            </subsection>
+
+            <subsection name="Pow over GT">
+
+                <table class="benchmark">
+                    <tr>
+                        <th>Benchmark - Average Time (ms)</th>
+                        <th colspan="6">Pairing Type</th>
+                    </tr>
+
+                    <tr>
+                        <th></th>
+                        <th><strong style="color:green">a_181_603</strong></th>
+                        <th><strong style="color:green">a1</strong></th>
+                        <th><strong style="color:green">d_9563</strong></th>
+                        <th><strong style="color:green">e_181_1024</strong></th>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">Element#pow(BigInteger)</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">Element#powZn(Element)</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">Element#pow()</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">ElementPowPreProcessing#pow(BigInteger)</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">ElementPowPreProcessing#powZn(Element)</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                </table>
+            </subsection>
+
+            <subsection name="Pow over Zr">
+
+                <table class="benchmark">
+                    <tr>
+                        <th>Benchmark - Average Time (ms)</th>
+                        <th colspan="6">Pairing Type</th>
+                    </tr>
+
+                    <tr>
+                        <th></th>
+                        <th><strong style="color:green">a_181_603</strong></th>
+                        <th><strong style="color:green">a1</strong></th>
+                        <th><strong style="color:green">d_9563</strong></th>
+                        <th><strong style="color:green">e_181_1024</strong></th>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">Element#pow(BigInteger)</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">Element#powZn(Element)</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">Element#pow()</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">ElementPowPreProcessing#pow(BigInteger)</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">ElementPowPreProcessing#powZn(Element)</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                </table>
+            </subsection>
         </section>
+
+        <a name="wrapper"/>
+        <section name="Wrapper Benchmark">
+
+            <subsection name="Pairing">
+                <table>
+                    <tr>
+                        <th>Benchmark - Average Time (ms)</th>
+                        <th>Pairing Type</th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th><strong style="color:green">a_181_603</strong></th>
+                        <th><strong style="color:green">a1</strong></th>
+                        <th><strong style="color:green">d_9563</strong></th>
+                        <th><strong style="color:green">e_181_1024</strong></th>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">Pairing#pairing(in1, in2)</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">Pairing#pairing(in1)</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">PairingPreProcessing#pairing(in2)</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                </table>
+            </subsection>
+
+            <subsection name="Pow over G1">
+
+                <table class="benchmark">
+                    <tr>
+                        <th>Benchmark - Average Time (ms)</th>
+                        <th colspan="6">Pairing Type</th>
+                    </tr>
+
+                    <tr>
+                        <th></th>
+                        <th><strong style="color:green">a_181_603</strong></th>
+                        <th><strong style="color:green">a1</strong></th>
+                        <th><strong style="color:green">d_9563</strong></th>
+                        <th><strong style="color:green">e_181_1024</strong></th>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">Element#pow(BigInteger)</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">Element#powZn(Element)</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">Element#pow()</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">ElementPowPreProcessing#pow(BigInteger)</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">ElementPowPreProcessing#powZn(Element)</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                </table>
+            </subsection>
+
+            <subsection name="Pow over G2">
+
+                <table class="benchmark">
+                    <tr>
+                        <th>Benchmark - Average Time (ms)</th>
+                        <th colspan="6">Pairing Type</th>
+                    </tr>
+
+                    <tr>
+                        <th></th>
+                        <th><strong style="color:green">a_181_603</strong></th>
+                        <th><strong style="color:green">a1</strong></th>
+                        <th><strong style="color:green">d_9563</strong></th>
+                        <th><strong style="color:green">e_181_1024</strong></th>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">Element#pow(BigInteger)</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">Element#powZn(Element)</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">Element#pow()</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">ElementPowPreProcessing#pow(BigInteger)</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">ElementPowPreProcessing#powZn(Element)</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                </table>
+            </subsection>
+
+            <subsection name="Pow over GT">
+
+                <table class="benchmark">
+                    <tr>
+                        <th>Benchmark - Average Time (ms)</th>
+                        <th colspan="6">Pairing Type</th>
+                    </tr>
+
+                    <tr>
+                        <th></th>
+                        <th><strong style="color:green">a_181_603</strong></th>
+                        <th><strong style="color:green">a1</strong></th>
+                        <th><strong style="color:green">d_9563</strong></th>
+                        <th><strong style="color:green">e_181_1024</strong></th>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">Element#pow(BigInteger)</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">Element#powZn(Element)</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">Element#pow()</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">ElementPowPreProcessing#pow(BigInteger)</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">ElementPowPreProcessing#powZn(Element)</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                </table>
+            </subsection>
+
+            <subsection name="Pow over Zr">
+
+                <table class="benchmark">
+                    <tr>
+                        <th>Benchmark - Average Time (ms)</th>
+                        <th colspan="6">Pairing Type</th>
+                    </tr>
+
+                    <tr>
+                        <th></th>
+                        <th><strong style="color:green">a_181_603</strong></th>
+                        <th><strong style="color:green">a1</strong></th>
+                        <th><strong style="color:green">d_9563</strong></th>
+                        <th><strong style="color:green">e_181_1024</strong></th>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">Element#pow(BigInteger)</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">Element#powZn(Element)</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">Element#pow()</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">ElementPowPreProcessing#pow(BigInteger)</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left"><strong style="color:green">ElementPowPreProcessing#powZn(Element)</strong></th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                </table>
+            </subsection>
+        </section>
+
     </body>
 </document>

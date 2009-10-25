@@ -114,14 +114,14 @@ p {
 }
 
 table.bodyTable th {
-    color: white;
-    background-color: #bbb;
+    color: black;
+    background-color: #white;
     text-align: left;
     font-weight: bold;
 }
 
 table.bodyTable th, table.bodyTable td {
-    font-size: 11px;
+    font-size: 13px;
 }
 
 table.bodyTable tr.a {
