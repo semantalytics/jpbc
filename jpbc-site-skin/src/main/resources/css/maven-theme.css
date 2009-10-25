@@ -227,3 +227,28 @@ table {
     width: 100%;
     height: 93px;
 }
+
+table.benchmark {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table.benchmark caption {
+    font-size: 15px;
+    font-weight: bold;
+    padding-bottom: 1ex;
+}
+
+table.benchmark tr#row2 {
+    border-bottom: 1px solid black;
+    text-align: center;
+}
+
+table.benchmark col#col1 {
+    border-right: 1px solid black;
+}
+
+table.benchmark td {
+    text-align: center;
+}
+

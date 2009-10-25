@@ -12,7 +12,6 @@ import java.math.BigInteger;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class JPBCBenchmark {
-
     protected Pairing pairing;
     protected String curveParamsFileName;
     protected int times;
@@ -24,11 +23,12 @@ public class JPBCBenchmark {
     }
 
     public void setUp() {
+        PairingFactory.getInstance().setUsePBCWhenPossible(false);
         pairing = PairingFactory.getPairing(getCurveParams());
     }
 
 
-    public void testPairing() {
+    public void benchmarkPairing() {
         if (pairing == null)
             return;
 
@@ -46,10 +46,10 @@ public class JPBCBenchmark {
             elapsed += (end - start);
         }
 
-        System.out.printf("[testPairing]              Pairing       (ms) = %d, Mean (ms) = %f\n", elapsed, (double) elapsed / times);
+        System.out.printf("Pairing#pairing(in1, in2)    = %f\n", (double) elapsed / times);
     }
 
-    public void testPairingPreProcessing() {
+    public void benchmarkPairingPreProcessing() {
         if (pairing == null)
             return;
 
@@ -68,16 +68,18 @@ public class JPBCBenchmark {
             t1 += (end - start);
 
             start = System.currentTimeMillis();
+
             ppp.pairing(h);
+
             end = System.currentTimeMillis();
             t2 += (end - start);
         }
 
-        System.out.printf("[testPairingPreProcessing] PreProcessing (ms) = %d, Mean (ms) = %f\n", t1, (double) t1 / times);
-        System.out.printf("[testPairingPreProcessing] Pairing       (ms) = %d, Mean (ms) = %f\n", t2, (double) t2 / times);
+        System.out.printf("Pairing#pairing(in1)         = %f\n", (double) t1 / times);
+        System.out.printf("PairingPreProcessing#pairing = %f\n", (double) t2 / times);
     }
 
-    public void testPow() {
+    public void benchmarkPow() {
         if (pairing == null)
             return;
 
@@ -87,7 +89,7 @@ public class JPBCBenchmark {
         pow(pairing.getZr(), "Zr");
     }
 
-    public void testPowPreProcessing() {
+    public void benchmarkPowPreProcessing() {
         if (pairing == null)
             return;
 
@@ -139,12 +141,11 @@ public class JPBCBenchmark {
             t3 += (end - start);
         }
 
-        System.out.printf("[testPow (" + label +")] pow           (ms) = %d, Mean (ms) = %f\n", t2, (double) t2 / times);
-        System.out.printf("[testPow (" + label +")] powZn         (ms) = %d, Mean (ms) = %f\n", t3, (double) t3 / times);
+        System.out.printf("(" + label + ") Element#pow(BigInteger)                 = %f\n", (double) t2 / times);
+        System.out.printf("(" + label + ") Element#powZn(Element)                  = %f\n", (double) t3 / times);
     }
 
     protected void powPreProcessing(Field field, String label) {
-
         if (pairing == null)
             return;
 
@@ -175,23 +176,23 @@ public class JPBCBenchmark {
             t3 += (end - start);
         }
 
-        System.out.printf("[testPowPreProcessing (" + label +")] PreProcessing (ms) = %d, Mean (ms) = %f\n", t1, (double) t1 / times);
-        System.out.printf("[testPowPreProcessing (" + label +")] pow           (ms) = %d, Mean (ms) = %f\n", t2, (double) t2 / times);
-        System.out.printf("[testPowPreProcessing (" + label +")] powZn         (ms) = %d, Mean (ms) = %f\n", t3, (double) t3 / times);
+        System.out.printf("(" + label + ") Element#pow()                           = %f\n", (double) t1 / times);
+        System.out.printf("(" + label + ") ElementPowPreProcessing#pow(BigInteger) = %f\n", (double) t2 / times);
+        System.out.printf("(" + label + ") ElementPowPreProcessing#powZn(Element)  = %f\n", (double) t3 / times);
     }
 
 
 
     public static void main(String[] args) {
-        JPBCBenchmark test = new JPBCBenchmark(args[0],
+        JPBCBenchmark benchmark = new JPBCBenchmark(args[0],
                                                      Integer.parseInt(args[1]));
-        System.out.printf("jPBC Benchmark{%s %s}\n", args[0], args[1]);
-        test.setUp();
-        test.testPairing();
-        test.testPairingPreProcessing();
-        test.testPow();
-        test.testPowPreProcessing();
-        System.out.printf("jPBC Benchmark. Finished.\n");
+        System.out.printf("PBC Benchmark{%s %s}\n", args[0], args[1]);
+        benchmark.setUp();
+        benchmark.benchmarkPairing();
+        benchmark.benchmarkPairingPreProcessing();
+        benchmark.benchmarkPow();
+        benchmark.benchmarkPowPreProcessing();
+        System.out.printf("PBC Benchmark. Finished.\n");
     }
 
 }

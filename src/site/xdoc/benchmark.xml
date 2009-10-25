@@ -9,6 +9,118 @@
 
     <body>
         <section name="Benchmark">
+
+            <subsection name="Porting Benchmark">
+
+                <table class="benchmark">
+                    <caption>Average Pairing Time (ms)</caption>
+                    <col id="col1"/>
+                    <tr>
+                        <th>Benchmark</th>
+                        <th colspan="6">Pairing Type</th>
+                    </tr>
+                    <tr id="row2">
+                        <th></th>
+                        <th>a_181_603</th>
+                        <th>d_9563</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th align="left">Pairing#pairing(in1, in2)</th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left">Pairing#pairing(in1)</th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left">PairingPreProcessing#pairing(in2)</th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left">(G1) Element#pow(BigInteger)</th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left">(G1) Element#powZn(Element)</th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left">(G1) Element#pow()</th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left">(G1) ElementPowPreProcessing#pow(BigInteger)</th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th align="left">(G1) ElementPowPreProcessing#powZn(Element)</th>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                </table>
+            </subsection>
+                        
         </section>
     </body>
 </document>
