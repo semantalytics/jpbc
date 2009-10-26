@@ -31,6 +31,15 @@
         </java>
     </target>
 
+    <target name="typeD">
+        <java fork="true" classname="it.unisa.dia.gas.plaf.jpbc.pbc.curve.PBCTypeDCurveGenerator">
+            <arg line="${args}"/>
+            <classpath>
+                <path refid="runtime.classpath"/>
+            </classpath>
+        </java>
+    </target>
+
     <target name="typeE">
         <java fork="true" classname="it.unisa.dia.gas.plaf.jpbc.pairing.e.TypeECurveGenerator">
             <arg line="${args}"/>
