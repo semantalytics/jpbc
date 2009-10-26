@@ -18,6 +18,7 @@ public class TypeEPairing extends AbstractPairing {
     protected int exp1;
     protected int sign1;
     protected int sign0;
+
     protected BigInteger r;
     protected BigInteger q;
     protected BigInteger h;
@@ -92,7 +93,7 @@ public class TypeEPairing extends AbstractPairing {
     }
 
     protected Field initGT() {
-        return new GTFiniteField(pairingMap, Fq);
+        return new GTFiniteField(r, pairingMap, Fq);
     }
 
 

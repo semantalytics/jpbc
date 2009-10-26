@@ -15,8 +15,8 @@ import java.math.BigInteger;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class TypeA1Pairing extends AbstractPairing {
-    protected BigInteger p;
     protected BigInteger r;
+    protected BigInteger p;
     protected long l;
 
     protected BigInteger phikonr;
@@ -83,7 +83,7 @@ public class TypeA1Pairing extends AbstractPairing {
     }
 
     protected Field initGT(Field field) {
-        return new GTFiniteField(pairingMap, field);
+        return new GTFiniteField(r, pairingMap, field);
     }
 
     protected void initMap() {

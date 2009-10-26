@@ -173,7 +173,7 @@ public class TypeDPairing extends AbstractPairing {
     }
 
     protected Field initGT() {
-        return new GTFiniteField(pairingMap, Fqk);
+        return new GTFiniteField(r, pairingMap, Fqk);
     }
 
     protected void initMap() {

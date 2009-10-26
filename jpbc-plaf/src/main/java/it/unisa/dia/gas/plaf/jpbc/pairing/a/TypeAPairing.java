@@ -23,9 +23,10 @@ public class TypeAPairing extends AbstractPairing {
     protected int exp1;
     protected int sign1;
     protected int sign0;
-    protected BigInteger r; // r = 2^exp2 + sign1 * 2^exp1 + sign0 * 1
-    protected BigInteger q; // we work in E(F_q) (and E(F_q^2))
-    protected BigInteger h; // r * h = q + 1
+
+    protected BigInteger r;
+    protected BigInteger q; 
+    protected BigInteger h;
 
     protected BigInteger phikonr;
 
@@ -54,9 +55,9 @@ public class TypeAPairing extends AbstractPairing {
         sign1 = curveParams.getInt("sign1");
         sign0 = curveParams.getInt("sign0");
 
-        r = curveParams.getBigInteger("r");
-        q = curveParams.getBigInteger("q");
-        h = curveParams.getBigInteger("h");
+        r = curveParams.getBigInteger("r"); // r = 2^exp2 + sign1 * 2^exp1 + sign0 * 1
+        q = curveParams.getBigInteger("q"); // we work in E(F_q) (and E(F_q^2))
+        h = curveParams.getBigInteger("h");  // r * h = q + 1
     }
 
 
@@ -97,7 +98,7 @@ public class TypeAPairing extends AbstractPairing {
     }
 
     protected Field initGT() {
-        return new GTFiniteField(pairingMap, Fq2);
+        return new GTFiniteField(r, pairingMap, Fq2);
     }
 
 

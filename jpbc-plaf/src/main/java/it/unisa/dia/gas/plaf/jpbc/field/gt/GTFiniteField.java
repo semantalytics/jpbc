@@ -11,10 +11,13 @@ import java.math.BigInteger;
  */
 public class GTFiniteField<F extends Field> extends GenericFieldOver<F, GTFiniteElement> {
     protected PairingMap pairing;
+    protected BigInteger order;
 
 
-    public GTFiniteField(PairingMap pairing, Field targetField) {
+    public GTFiniteField(BigInteger order, PairingMap pairing, Field targetField) {
         super((F) targetField);
+
+        this.order = order;
         this.pairing = pairing;
     }
 
@@ -24,7 +27,7 @@ public class GTFiniteField<F extends Field> extends GenericFieldOver<F, GTFinite
     }
 
     public BigInteger getOrder() {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        return order;
     }
 
     public GTFiniteElement getNqr() {

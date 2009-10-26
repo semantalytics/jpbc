@@ -185,13 +185,13 @@ public class JPBCBenchmark {
 
     public static void main(String[] args) {
         JPBCBenchmark benchmark = new JPBCBenchmark(args[0], Integer.parseInt(args[1]));
-        System.out.printf("PBC Benchmark{%s %s}\n", args[0], args[1]);
+        System.out.printf("JPBC Benchmark{%s %s}\n", args[0], args[1]);
         benchmark.setUp();
         benchmark.benchmarkPairing();
         benchmark.benchmarkPairingPreProcessing();
         benchmark.benchmarkPow();
         benchmark.benchmarkPowPreProcessing();
-        System.out.printf("PBC Benchmark. Finished.\n");
+        System.out.printf("JPBC Benchmark. Finished.\n");
     }
 
 }
