@@ -75,7 +75,7 @@ public class PBCBenchmark {
         }
 
         System.out.printf("Pairing#pairing(in1)                         = %f\n", (double) t1 / times);
-        System.out.printf("PairingPreProcessing#pairing                 = %f\n", (double) t2 / times);
+        System.out.printf("PairingPreProcessing#pairing(in2)            = %f\n", (double) t2 / times);
     }
 
     public void benchmarkPow() {

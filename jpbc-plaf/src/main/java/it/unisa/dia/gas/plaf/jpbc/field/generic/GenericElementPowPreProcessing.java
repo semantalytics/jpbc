@@ -20,7 +20,7 @@ public class GenericElementPowPreProcessing implements ElementPowPreProcessing {
 
     public GenericElementPowPreProcessing(Element source, int k) {
         this.field = source.getField();
-        this.bits = field.getOrder().bitCount();
+        this.bits = field.getOrder().bitLength();
         this.k = k;
 
         initTable(source);
@@ -44,8 +44,6 @@ public class GenericElementPowPreProcessing implements ElementPowPreProcessing {
         int lookupSize = 1 << k;
 
         numLookups = bits / k + 1;
-        k = k;
-        bits = bits;
         table = new Element[numLookups][lookupSize];
 
         Element multiplier = source.duplicate();

@@ -12,7 +12,7 @@ import java.math.BigInteger;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class PowPreProcessingTest extends TestCase {
+public abstract class ElementPowPreProcessingTest extends TestCase {
 
     protected Pairing pairing;
 
@@ -53,10 +53,6 @@ public class PowPreProcessingTest extends TestCase {
         pairing = PairingFactory.getPairing(getCurveParams());
     }
 
-    protected CurveParams getCurveParams() {
-        CurveParams curveParams = new CurveParams();
-        curveParams.load(this.getClass().getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pairing/a/a_181_603.properties"));
-        return curveParams;
-    }
+    protected abstract CurveParams getCurveParams();
 
 }

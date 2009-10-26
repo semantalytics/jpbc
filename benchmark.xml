@@ -51,6 +51,39 @@
                 <path refid="runtime.classpath"/>
             </classpath>
         </java>
+
+        <java fork="true" classname="it.unisa.dia.gas.jpbc.benchmark.PBCBenchmark">
+            <arg value="${basedir}/params/a1.properties"/>
+            <arg value="100"/>
+            <classpath>
+                <path refid="runtime.classpath"/>
+            </classpath>
+        </java>
+
+        <java fork="true" classname="it.unisa.dia.gas.jpbc.benchmark.JPBCBenchmark">
+            <arg value="${basedir}/params/a1.properties"/>
+            <arg value="100"/>
+            <classpath>
+                <path refid="runtime.classpath"/>
+            </classpath>
+        </java>
+
+        <java fork="true" classname="it.unisa.dia.gas.jpbc.benchmark.PBCBenchmark">
+            <arg value="${basedir}/params/e_181_1024.properties"/>
+            <arg value="100"/>
+            <classpath>
+                <path refid="runtime.classpath"/>
+            </classpath>
+        </java>
+
+        <java fork="true" classname="it.unisa.dia.gas.jpbc.benchmark.JPBCBenchmark">
+            <arg value="${basedir}/params/e_181_1024.properties"/>
+            <arg value="100"/>
+            <classpath>
+                <path refid="runtime.classpath"/>
+            </classpath>
+        </java>
+
     </target>
 
 </project>

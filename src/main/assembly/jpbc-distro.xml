@@ -27,7 +27,7 @@
                 <include>it.unisa.dia.gas:jpbc-plaf</include>
                 <include>it.unisa.dia.gas:jpbc-pbc</include>
                 <include>it.unisa.dia.gas:jpbc-crypto</include>
-                <include>it.unisa.dia.gas:jpbc-site-skin</include>
+                <!--<include>it.unisa.dia.gas:jpbc-site-skin</include>-->
             </includes>
             <sources>
                 <fileSets>
@@ -53,11 +53,13 @@
     </moduleSets>
 
     <fileSets>
+<!--
         <fileSet>
             <directory>src</directory>
             <outputDirectory>src</outputDirectory>
             <includes/>
         </fileSet>
+-->
 
         <fileSet>
             <directory>params</directory>
@@ -104,6 +106,10 @@
         <file>
             <source>curvegen.xml</source>
             <outputDirectory>.</outputDirectory>
+        </file>
+        <file>
+            <source>./src/main/assembly/jpbc-distro.xml</source>
+            <outputDirectory>./src/main/assembly/</outputDirectory>
         </file>
     </files>
 
