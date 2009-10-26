@@ -45,7 +45,7 @@ public class PBCBenchmark {
             elapsed += (end - start);
         }
 
-        System.out.printf("Pairing#pairing(in1, in2)    = %f\n", (double) elapsed / times);
+        System.out.printf("Pairing#pairing(in1, in2)                    = %f\n", (double) elapsed / times);
     }
 
     public void benchmarkPairingPreProcessing() {
@@ -74,8 +74,8 @@ public class PBCBenchmark {
             t2 += (end - start);
         }
 
-        System.out.printf("Pairing#pairing(in1)         = %f\n", (double) t1 / times);
-        System.out.printf("PairingPreProcessing#pairing = %f\n", (double) t2 / times);
+        System.out.printf("Pairing#pairing(in1)                         = %f\n", (double) t1 / times);
+        System.out.printf("PairingPreProcessing#pairing                 = %f\n", (double) t2 / times);
     }
 
     public void benchmarkPow() {
@@ -183,8 +183,8 @@ public class PBCBenchmark {
 
 
     public static void main(String[] args) {
-        PBCBenchmark benchmark = new PBCBenchmark(args[0],
-                                                     Integer.parseInt(args[1]));
+        PBCBenchmark benchmark = new PBCBenchmark(args[0], Integer.parseInt(args[1]));
+        
         System.out.printf("PBC Benchmark{%s %s}\n", args[0], args[1]);
         benchmark.setUp();
         benchmark.benchmarkPairing();

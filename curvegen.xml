@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="jpbc">
+
+    <!-- Options -->
+
+    <dirname property="basedir" file="${ant.file}"/>
+
+    <path id="runtime.classpath">
+        <pathelement location="${basedir}/jars/jpbc-api-1.0.0.jar"/>
+        <pathelement location="${basedir}/jars/jpbc-plaf-1.0.0.jar"/>
+        <pathelement location="${basedir}/jars/jpbc-pbc-1.0.0.jar"/>
+    </path>
+
+    <!-- Curve Generators -->
+
+    <target name="typeA">
+        <java fork="true" classname="it.unisa.dia.gas.plaf.jpbc.pairing.a.TypeACurveGenerator">
+            <arg line="${args}"/>
+            <classpath>
+                <path refid="runtime.classpath"/>
+            </classpath>
+        </java>
+    </target>
+
+    <target name="typeA1">
+        <java fork="true" classname="it.unisa.dia.gas.plaf.jpbc.pairing.a1.TypeA1CurveGenerator">
+            <arg line="${args}"/>
+            <classpath>
+                <path refid="runtime.classpath"/>
+            </classpath>
+        </java>
+    </target>
+
+    <target name="typeE">
+        <java fork="true" classname="it.unisa.dia.gas.plaf.jpbc.pairing.e.TypeECurveGenerator">
+            <arg line="${args}"/>
+            <classpath>
+                <path refid="runtime.classpath"/>
+            </classpath>
+        </java>
+    </target>
+
+</project>
