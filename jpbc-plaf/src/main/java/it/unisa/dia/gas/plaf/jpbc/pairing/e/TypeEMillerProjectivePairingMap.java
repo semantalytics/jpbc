@@ -30,7 +30,7 @@ public class TypeEMillerProjectivePairingMap extends AbstractPairingMap {
     }
 
     public void finalPow(Element element) {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        element.pow(pairing.phikonr);
     }
 
 
