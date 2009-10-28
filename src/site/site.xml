@@ -16,7 +16,7 @@
         <menu name="jPBC">
             <item name="Introduction" href="index.html"/>
             <item name="Download" href="download.html"/>
-            <item name="Build Howto" href="buildHowto.html"/>
+            <item name="Build HowTo" href="buildHowto.html"/>
             <item name="Contact" href="contact.html"/>
             <item name="Benchmark" href="benchmark.html"/>
         </menu>

@@ -7,107 +7,203 @@ import it.unisa.dia.gas.plaf.jpbc.pbc.PBCPairing;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.Arrays;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class PBCBenchmark {
-    protected Pairing pairing;
-    protected String curveParamsFileName;
     protected int times;
 
-
-    public PBCBenchmark(String curveParamsFileName, int times) {
-        this.curveParamsFileName = curveParamsFileName;
+    public PBCBenchmark(int times) {
         this.times = times;
     }
 
-    public void setUp() {
-        pairing = new PBCPairing(getCurveParams());
+
+    public String benchmark(String[] curves) {
+        StringBuffer buffer = new StringBuffer();
+
+        benchmark(buffer, curves);
+
+        return buffer.toString();
     }
 
 
-    public void benchmarkPairing() {
-        if (pairing == null)
-            return;
+    protected void benchmark(StringBuffer buffer, String[] curves) {
+        // Pairing Benchmarks
+        System.out.println("Pairing Benchmark...");
 
-        long elapsed = 0;
+        String[] pairingBenchmarkNames = new String[]{
+                "Pairing#pairing(in1, in2)",
+                "Pairing#pairing(in1)",
+                "PairingPreProcessing#pairing(in2)",
+        };
 
-        for (int i = 0; i < times; i++) {
-            Element g = pairing.getG1().newElement().setToRandom();
-            Element h = pairing.getG2().newElement().setToRandom();
+        String[] elementBenchmarkNames = new String[]{
+                "Element#pow(BigInteger)",
+                "Element#powZn(Element)",
+                "Element#pow()",
+                "ElementPowPreProcessing#pow(BigInteger)",
+                "ElementPowPreProcessing#powZn(Element)"
+        };
 
-            long start = System.currentTimeMillis();
+        double[][] pairingBenchmarks = new double[3 + (5 * 4)][curves.length];
 
-            pairing.pairing(g, h);
+        for (int col = 0; col < curves.length; col++) {
+            System.out.printf("Curve = %s...", curves[col]);
 
-            long end = System.currentTimeMillis();
-            elapsed += (end - start);
+            Pairing pairing = getPairing(curves[col]);
+
+            int t1 = 0, t2 = 0, t3 = 0;
+            for (int i = 0; i < times; i++) {
+                Element g = pairing.getG1().newElement().setToRandom();
+                Element h = pairing.getG2().newElement().setToRandom();
+
+                long start = System.currentTimeMillis();
+                pairing.pairing(g, h);
+                long end = System.currentTimeMillis();
+                t1 += (end - start);
+
+                start = System.currentTimeMillis();
+                PairingPreProcessing ppp = pairing.pairing(g);
+                end = System.currentTimeMillis();
+                t2 += (end - start);
+
+                start = System.currentTimeMillis();
+                ppp.pairing(h);
+                end = System.currentTimeMillis();
+                t3 += (end - start);
+
+            }
+
+            pairingBenchmarks[0][col] = (double) t1 / times;
+            pairingBenchmarks[1][col] = (double) t2 / times;
+            pairingBenchmarks[2][col] = (double) t3 / times;
+            System.out.printf("finished.\n");
         }
 
-        System.out.printf("Pairing#pairing(in1, in2)                    = %f\n", (double) elapsed / times);
-    }
+        System.out.println("Element Pow Benchmark...");
+        // Element Pow Benchmarks
+        String[] fieldNames = new String[]{
+                "G1", "G2", "GT", "Zr"
+        };
+        double[][][] elementPowBenchmarks = new double[fieldNames.length][elementBenchmarkNames.length][curves.length];
 
-    public void benchmarkPairingPreProcessing() {
-        if (pairing == null)
-            return;
+        for (int col = 0; col < curves.length; col++) {
+            System.out.printf("Curve = %s\n", curves[col]);
 
-        long t1 = 0;
-        long t2 = 0;
+            Pairing pairing = getPairing(curves[col]);
+            Field[] fields = new Field[]{
+                    pairing.getG1(),
+                    pairing.getG2(),
+                    pairing.getGT(),
+                    pairing.getZr()
+            };
 
-        for (int i = 0; i < times; i++) {
-            Element g = pairing.getG1().newElement().setToRandom();
-            Element h = pairing.getG2().newElement().setToRandom();
+            for (int fieldIndex = 0; fieldIndex < fields.length; fieldIndex++) {
+                System.out.printf("Field %s...", fieldNames[fieldIndex]);
 
-            long start = System.currentTimeMillis();
+                long t1 = 0, t2 = 0,t3 = 0,t4 = 0, t5 = 0;
+                for (int i = 0; i < times; i++) {
+                    Element e1 = fields[fieldIndex].newRandomElement();
 
-            PairingPreProcessing ppp = pairing.pairing(g);
+                    BigInteger n = pairing.getZr().newRandomElement().toBigInteger();
+                    Element n1 = pairing.getZr().newRandomElement();
 
-            long end = System.currentTimeMillis();
-            t1 += (end - start);
+                    long start = System.currentTimeMillis();
+                    e1.duplicate().pow(n);
+                    long end = System.currentTimeMillis();
+                    t1 += (end - start);
 
-            start = System.currentTimeMillis();
+                    start = System.currentTimeMillis();
+                    e1.duplicate().powZn(n1);
+                    end = System.currentTimeMillis();
+                    t2 += (end - start);
 
-            ppp.pairing(h);
+                    start = System.currentTimeMillis();
+                    ElementPowPreProcessing ppp = e1.pow();
+                    end = System.currentTimeMillis();
+                    t3 += (end - start);
 
-            end = System.currentTimeMillis();
-            t2 += (end - start);
+                    start = System.currentTimeMillis();
+                    ppp.pow(n);
+                    end = System.currentTimeMillis();
+                    t4 += (end - start);
+
+                    start = System.currentTimeMillis();
+                    ppp.powZn(n1);
+                    end = System.currentTimeMillis();
+                    t5 += (end - start);
+                }
+
+                elementPowBenchmarks[fieldIndex][0][col] = (double ) t1 / times;
+                elementPowBenchmarks[fieldIndex][1][col] = (double ) t2 / times;
+                elementPowBenchmarks[fieldIndex][2][col] = (double ) t3 / times;
+                elementPowBenchmarks[fieldIndex][3][col] = (double ) t4 / times;
+                elementPowBenchmarks[fieldIndex][4][col] = (double ) t5 / times;
+                System.out.printf("finished.\n");
+            }
         }
 
-        System.out.printf("Pairing#pairing(in1)                         = %f\n", (double) t1 / times);
-        System.out.printf("PairingPreProcessing#pairing(in2)            = %f\n", (double) t2 / times);
+
+        buffer  .append("                <table>\n")
+                .append("                    <tr>\n")
+                .append("                        <th>Benchmark - Average Time (ms)</th>\n")
+                .append("                        <th>Pairing Type</th>\n")
+                .append("                    </tr>\n")
+                .append("                    <tr>\n")
+                .append("                        <th></th>\n");
+        for (String curve : curves) {
+            curve = curve.substring(curve.lastIndexOf('/')+1, curve.lastIndexOf('.'));
+
+            buffer.append("                        <th><strong style=\"color:green\">").append(curve).append("</strong></th>\n");
+        }
+        buffer.append("                    </tr>\n");
+
+        for (int row = 0; row < pairingBenchmarkNames.length; row++) {
+            buffer.append("                    <tr>\n")
+                    .append("                        <th align=\"left\"><strong style=\"color:green\">").append(pairingBenchmarkNames[row]).append("</strong></th>\n");
+            for (int col = 0; col < curves.length; col++) {
+                buffer.append("                        <td>").append(pairingBenchmarks[row][col]).append("</td>\n");
+            }
+            buffer.append("                    </tr>\n");
+        }
+
+        for (int fieldIndex = 0; fieldIndex < fieldNames.length; fieldIndex++) {
+            buffer.append("                    <tr>\n")
+                    .append("                        <th align=\"left\">\n")
+                    .append("                            <strong style=\"color:black\">Element Pow (").append(fieldNames[fieldIndex]).append(")</strong>\n")
+                    .append("                        </th>\n")
+                    .append("                        <td></td>\n")
+                    .append("                        <td></td>\n")
+                    .append("                        <td></td>\n")
+                    .append("                        <td></td>\n")
+                    .append("                    </tr>\n");
+            
+            for (int row = 0; row < elementBenchmarkNames.length; row++) {
+                buffer.append("                    <tr>\n")
+                        .append("                        <th align=\"left\"><strong style=\"color:green\">")
+                        .append(elementBenchmarkNames[row])
+                        .append("</strong></th>\n");
+                for (int col = 0; col < curves.length; col++) {
+                    buffer.append("                        <td>").append(elementPowBenchmarks[fieldIndex][row][col]).append("</td>\n");
+                }
+                buffer.append("                    </tr>\n");
+            }
+        }
+
+        buffer.append("                </table>\n");
     }
 
-    public void benchmarkPow() {
-        if (pairing == null)
-            return;
-
-        pow(pairing.getG1(), "G1");
-        pow(pairing.getG2(), "G2");
-        pow(pairing.getGT(), "GT");
-        pow(pairing.getZr(), "Zr");
-    }
-
-    public void benchmarkPowPreProcessing() {
-        if (pairing == null)
-            return;
-
-        powPreProcessing(pairing.getG1(), "G1");
-        powPreProcessing(pairing.getG2(), "G2");
-        powPreProcessing(pairing.getGT(), "GT");
-        powPreProcessing(pairing.getZr(), "Zr");
-    }
-
-
-    protected CurveParams getCurveParams() {
+    protected CurveParams getCurveParams(String curve) {
         CurveParams curveParams = new CurveParams();
 
         try {
-            File curveFile = new File(curveParamsFileName);
+            File curveFile = new File(curve);
             if (curveFile.exists()) {
                 curveParams.load(curveFile.toURI().toURL().openStream());
             } else
-                curveParams.load(getClass().getClassLoader().getResourceAsStream(curveParamsFileName));
+                curveParams.load(getClass().getClassLoader().getResourceAsStream(curve));
         } catch (IOException e) {
             throw new IllegalArgumentException(e);
         }
@@ -115,82 +211,21 @@ public class PBCBenchmark {
         return curveParams;
     }
 
-    protected void pow(Field field, String label) {
-        if (pairing == null)
-            return;
+    protected Pairing getPairing(String curve) {
+        return new PBCPairing(getCurveParams(curve));
+    }                 
 
-        long t2 = 0;
-        long t3 = 0;
-
-        for (int i = 0; i < times; i++) {
-            Element e1 = field.newRandomElement();
-
-            BigInteger n = pairing.getZr().newRandomElement().toBigInteger();
-
-            long start = System.currentTimeMillis();
-            e1.duplicate().pow(n);
-            long end = System.currentTimeMillis();
-            t2 += (end - start);
-
-            Element n1 = pairing.getZr().newRandomElement();
-
-            start = System.currentTimeMillis();
-            e1.duplicate().powZn(n1);
-            end = System.currentTimeMillis();
-            t3 += (end - start);
-        }
-
-        System.out.printf("(" + label + ") Element#pow(BigInteger)                 = %f\n", (double) t2 / times);
-        System.out.printf("(" + label + ") Element#powZn(Element)                  = %f\n", (double) t3 / times);
-    }
-
-    protected void powPreProcessing(Field field, String label) {
-        if (pairing == null)
-            return;
-
-        long t1 = 0;
-        long t2 = 0;
-        long t3 = 0;
-
-        for (int i = 0; i < times; i++) {
-            Element e1 = field.newRandomElement();
-
-            long start = System.currentTimeMillis();
-            ElementPowPreProcessing ppp = e1.pow();
-            long end = System.currentTimeMillis();
-            t1 += (end - start);
-
-            BigInteger n = pairing.getZr().newRandomElement().toBigInteger();
-
-            start = System.currentTimeMillis();
-            ppp.pow(n);
-            end = System.currentTimeMillis();
-            t2 += (end - start);
-
-            Element n1 = pairing.getZr().newRandomElement();
-
-            start = System.currentTimeMillis();
-            ppp.powZn(n1);
-            end = System.currentTimeMillis();
-            t3 += (end - start);
-        }
-
-        System.out.printf("(" + label + ") Element#pow()                           = %f\n", (double) t1 / times);
-        System.out.printf("(" + label + ") ElementPowPreProcessing#pow(BigInteger) = %f\n", (double) t2 / times);
-        System.out.printf("(" + label + ") ElementPowPreProcessing#powZn(Element)  = %f\n", (double) t3 / times);
-    }
-
-
-
+    
     public static void main(String[] args) {
-        PBCBenchmark benchmark = new PBCBenchmark(args[0], Integer.parseInt(args[1]));
-        
-        System.out.printf("PBC Benchmark{%s %s}\n", args[0], args[1]);
-        benchmark.setUp();
-        benchmark.benchmarkPairing();
-        benchmark.benchmarkPairingPreProcessing();
-        benchmark.benchmarkPow();
-        benchmark.benchmarkPowPreProcessing();
+        PBCBenchmark benchmark = new PBCBenchmark(Integer.parseInt(args[0]));
+        String[] curves = Arrays.copyOfRange(args, 1, args.length);
+
+        System.out.printf("PBC Benchmark.\n");
+        System.out.printf("#Times = %s\n", args[0]);
+        for (String curve : curves) {
+            System.out.printf("Curve = %s\n", curve);
+        }
+        System.out.printf("Results: \n %s\n", benchmark.benchmark(curves));
         System.out.printf("PBC Benchmark. Finished.\n");
     }
 }

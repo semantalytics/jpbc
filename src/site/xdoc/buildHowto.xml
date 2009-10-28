@@ -3,12 +3,12 @@
         "http://maven.apache.org/dtd/xdoc_1_0.dtd">
 <document>
     <properties>
-        <title>jPBC : Build Howto</title>
+        <title>jPBC : Build HowTo</title>
         <author email="adecaro@users.sourceforge.net">Angelo De Caro</author>
     </properties>
 
     <body>
-        <section name="Build Howto">
+        <section name="Build HowTo">
 
             <subsection name="Where are the sources?">
                 <p>

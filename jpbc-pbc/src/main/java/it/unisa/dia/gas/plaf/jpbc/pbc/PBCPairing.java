@@ -79,11 +79,12 @@ public class PBCPairing implements Pairing {
 
     @Override
     protected void finalize() throws Throwable {
+        super.finalize();
+        
         g1Field = null;
         g2Field = null;
         gTField = null;
         zRField = null;
-//        PBCLibraryProvider.getPbcLibrary().pbc_pairing_clear(pairing);
     }
 
     protected void initFields() {

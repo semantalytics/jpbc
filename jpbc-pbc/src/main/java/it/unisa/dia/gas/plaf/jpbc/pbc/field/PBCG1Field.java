@@ -4,7 +4,6 @@ import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.plaf.jpbc.pbc.PBCCurvePointElement;
 import it.unisa.dia.gas.plaf.jpbc.pbc.PBCField;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCElementType;
-import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCLibraryProvider;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCPairingType;
 
 /**
@@ -19,10 +18,10 @@ public class PBCG1Field extends PBCField {
 
 
     public Element newElement() {
-        PBCElementType element = new PBCElementType();
-        PBCLibraryProvider.getPbcLibrary().pbc_element_init_G1(element, pairing);
-
-        return new PBCCurvePointElement(element, this);
+        return new PBCCurvePointElement(
+                new PBCElementType(PBCElementType.FieldType.G1, pairing),
+                this
+        );
     }
 
 }
