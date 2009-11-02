@@ -217,8 +217,6 @@ public class PBCBenchmark {
 
     
     public static void main(String[] args) {
-        System.out.println(System.getProperties().get("java.library.path"));
-
         PBCBenchmark benchmark = new PBCBenchmark(Integer.parseInt(args[0]));
         String[] curves = Arrays.copyOfRange(args, 1, args.length);
 

@@ -131,6 +131,16 @@ Pairing pairing = <strong style="color:green">PairingFactory.getPairing(curvePar
 CurveParams curveParams = new CurveParams().load("curve.properties");
 Pairing pairing = <strong style="color:green">new PBCPairing(curveParams);</strong>
                         </source>
+                        <p>
+                            You can still use the PairingFactory in this way:
+                        </p>
+                        <source>import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
+
+CurveParams curveParams = new CurveParams().load("curve.properties");
+// Ask to the PairingFactory to try to use the PBC wrapper when possible.
+<strong style="color:green">PairingFactory.getInstance().setUsePBCWhenPossible(true);</strong>
+Pairing pairing = <strong style="color:green">PairingFactory.getPairing(curveParams);</strong>
+                        </source>
                     </li>
                 </ol>
 
