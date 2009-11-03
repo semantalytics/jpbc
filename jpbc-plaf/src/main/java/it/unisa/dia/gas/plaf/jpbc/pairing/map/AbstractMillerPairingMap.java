@@ -130,16 +130,14 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
         // Now:
         // a = -(3x^2 + cca z^4)     with cca = 1
 
-        e0.set(Vy).twice();
-        b.set(e0).mul(z2).mul(z);
+        b.set(e0.set(Vy).twice()).mul(z2).mul(z);
 
         // Now:
         // b = 2 y z^3
 
         c.set(Vx).mul(a);
         a.mul(z2);
-        e0.mul(Vy);
-        c.add(e0).negate();
+        c.add(e0.mul(Vy)).negate();
 
         // Now:
         // a = -3x^2 z^2 - z^6

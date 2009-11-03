@@ -153,8 +153,7 @@ public class TypeAMillerProjectivePairingMap extends AbstractMillerPairingMap {
     final void twiceProjective(Element e0, Element e1, Element e2, Element e3, Element Vx, Element Vy, Element z, Element z2) {
         e0.set(Vx).square().add(e1.set(e0).twice()).add(e1.set(z2).square());
 
-        z.mul(Vy);
-        z.twice();
+        z.mul(Vy).twice();
         z2.set(z).square();
 
         e2.set(Vy).square();
