@@ -81,7 +81,7 @@ int pbc_curvegen_a1(const char *fileName) {
 }
 
 
-char* pbc_curvegen_d_file_name;
+const char* pbc_curvegen_d_file_name;
 
 int pbc_curvegen_d_generate(pbc_cm_t cm, void *data) {
     UNUSED_VAR(data);
