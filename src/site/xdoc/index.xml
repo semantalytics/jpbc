@@ -3,7 +3,7 @@
         "http://maven.apache.org/dtd/xdoc_1_0.dtd">
 <document>
     <properties>
-        <title>jPBC : Introduction</title>
+        <title>Java Pairing-Based Cryptography Library : Introduction</title>
         <author email="adecaro@users.sourceforge.net">Angelo De Caro</author>
     </properties>
 

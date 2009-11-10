@@ -3,7 +3,7 @@
         "http://maven.apache.org/dtd/xdoc_1_0.dtd">
 <document>
     <properties>
-        <title>jPBC : Schemes - BLS</title>
+        <title>Java Pairing-Based Cryptography Library : Schemes - BLS</title>
         <author email="decaro@dia.unisa.it">Angelo De Caro</author>
     </properties>
 

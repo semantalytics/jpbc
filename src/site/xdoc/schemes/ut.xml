@@ -3,7 +3,7 @@
         "http://maven.apache.org/dtd/xdoc_1_0.dtd">
 <document>
     <properties>
-        <title>jPBC : Schemes - Untraceable Tags based on Mild Assumptions</title>
+        <title>Java Pairing-Based Cryptography Library : Schemes - Untraceable Tags based on Mild Assumptions</title>
         <author email="decaro@dia.unisa.it">Angelo De Caro</author>
     </properties>
 

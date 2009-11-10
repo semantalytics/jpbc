@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<project name="jPBC">
+<project>
 
     <skin>
         <groupId>it.unisa.dia.gas</groupId>
@@ -13,7 +13,7 @@
             <item name="SF Project page" href="http://sourceforge.net/projects/jpbc/"/>
         </links>
 
-        <menu name="jPBC">
+        <menu name="jPBC Library">
             <item name="Introduction" href="index.html"/>
             <item name="Download" href="download.html"/>
             <item name="Build HowTo" href="buildHowto.html"/>

@@ -3,7 +3,7 @@
         "http://maven.apache.org/dtd/xdoc_1_0.dtd">
 <document>
     <properties>
-        <title>jPBC : Docs - PBC Wrapper</title>
+        <title>Java Pairing-Based Cryptography Library : Docs - PBC Wrapper</title>
         <author email="decaro@dia.unisa.it">Angelo De Caro</author>
     </properties>
 
