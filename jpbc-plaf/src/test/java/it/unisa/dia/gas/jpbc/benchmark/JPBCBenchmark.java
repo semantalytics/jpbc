@@ -44,7 +44,9 @@ public class JPBCBenchmark {
                 "Element#powZn(Element)",
                 "Element#pow()",
                 "ElementPowPreProcessing#pow(BigInteger)",
-                "ElementPowPreProcessing#powZn(Element)"
+                "ElementPowPreProcessing#powZn(Element)",
+                "Element#mul(BigInteger)",
+                "Element#setToRandom()"
         };
 
         double[][] pairingBenchmarks = new double[3 + (5 * 4)][curves.length];
@@ -87,7 +89,7 @@ public class JPBCBenchmark {
         String[] fieldNames = new String[]{
                 "G1", "G2", "GT", "Zr"
         };
-        double[][][] elementPowBenchmarks = new double[fieldNames.length][elementBenchmarkNames.length][curves.length];
+        double[][][] elementBenchmarks = new double[fieldNames.length][elementBenchmarkNames.length][curves.length];
 
         for (int col = 0; col < curves.length; col++) {
             System.out.printf("Curve = %s\n", curves[col]);
@@ -103,7 +105,7 @@ public class JPBCBenchmark {
             for (int fieldIndex = 0; fieldIndex < fields.length; fieldIndex++) {
                 System.out.printf("Field %s...", fieldNames[fieldIndex]);
 
-                long t1 = 0, t2 = 0,t3 = 0,t4 = 0, t5 = 0;
+                long t1 = 0, t2 = 0,t3 = 0,t4 = 0, t5 = 0, t6 = 0, t7 = 0;
                 for (int i = 0; i < times; i++) {
                     Element e1 = fields[fieldIndex].newRandomElement();
 
@@ -134,13 +136,25 @@ public class JPBCBenchmark {
                     ppp.powZn(n1);
                     end = System.currentTimeMillis();
                     t5 += (end - start);
+
+                    start = System.currentTimeMillis();
+                    e1.duplicate().mul(n);
+                    end = System.currentTimeMillis();
+                    t6 += (end - start);
+
+                    start = System.currentTimeMillis();
+                    e1.setToRandom();
+                    end = System.currentTimeMillis();
+                    t7 += (end - start);
                 }
 
-                elementPowBenchmarks[fieldIndex][0][col] = (double ) t1 / times;
-                elementPowBenchmarks[fieldIndex][1][col] = (double ) t2 / times;
-                elementPowBenchmarks[fieldIndex][2][col] = (double ) t3 / times;
-                elementPowBenchmarks[fieldIndex][3][col] = (double ) t4 / times;
-                elementPowBenchmarks[fieldIndex][4][col] = (double ) t5 / times;
+                elementBenchmarks[fieldIndex][0][col] = (double ) t1 / times;
+                elementBenchmarks[fieldIndex][1][col] = (double ) t2 / times;
+                elementBenchmarks[fieldIndex][2][col] = (double ) t3 / times;
+                elementBenchmarks[fieldIndex][3][col] = (double ) t4 / times;
+                elementBenchmarks[fieldIndex][4][col] = (double ) t5 / times;
+                elementBenchmarks[fieldIndex][5][col] = (double ) t6 / times;
+                elementBenchmarks[fieldIndex][6][col] = (double ) t7 / times;
                 System.out.printf("finished.\n");
             }
         }
@@ -186,7 +200,7 @@ public class JPBCBenchmark {
                         .append(elementBenchmarkNames[row])
                         .append("</strong></th>\n");
                 for (int col = 0; col < curves.length; col++) {
-                    buffer.append("                        <td>").append(elementPowBenchmarks[fieldIndex][row][col]).append("</td>\n");
+                    buffer.append("                        <td>").append(elementBenchmarks[fieldIndex][row][col]).append("</td>\n");
                 }
                 buffer.append("                    </tr>\n");
             }
