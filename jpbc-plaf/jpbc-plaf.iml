@@ -22,6 +22,7 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry type="library" name="gwt-user" level="project" />
     <orderEntry type="module" module-name="jpbc-api" exported="" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:3.8.1" level="project" />
   </component>
