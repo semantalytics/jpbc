@@ -23,6 +23,8 @@ public abstract class PairingTest extends TestCase {
         g = pairing.getG1().newElement().setToRandom();
         h = pairing.getG2().newElement().setToRandom();
 
+        System.out.println(h.duplicate().isEqual(h));
+
         System.out.println("g = " + g);
         System.out.println("h = " + h);
 

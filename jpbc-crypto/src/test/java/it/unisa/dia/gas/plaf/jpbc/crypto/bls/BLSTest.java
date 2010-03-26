@@ -18,7 +18,7 @@ public class BLSTest extends TestCase {
 
     public void testSignerEngine() {
         CurveParams curveParams = new CurveParams();
-        curveParams.load(BLSTest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/crypto/a_181_603.properties"));
+        curveParams.load(BLSTest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/crypto/d_9563.properties"));
 
         byte[] message = "Hello World!!!".getBytes();
 

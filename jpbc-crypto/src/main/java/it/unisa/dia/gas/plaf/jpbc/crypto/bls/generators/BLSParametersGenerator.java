@@ -20,7 +20,7 @@ public class BLSParametersGenerator {
     }
 
     public BLSParameters generateParameters() {
-        Element g = pairing.getG1().newElement().setToRandom();
+        Element g = pairing.getG2().newRandomElement();
 
         return new BLSParameters(curveParams, g.getImmutable());
     }

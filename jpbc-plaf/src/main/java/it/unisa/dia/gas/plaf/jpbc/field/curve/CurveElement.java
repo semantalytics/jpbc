@@ -293,12 +293,10 @@ public class CurveElement<E extends Element> extends GenericPointElement<E> {
         if (curveField.quotient_cmp != null) {
             // If we're working with a quotient group we must account for different
             // representatives of the same coset.
-
-            //       int result = !element_is1(e);
             return !this.duplicate().div(element).pow(curveField.quotient_cmp).isOne();
         }
 
-        return point_cmp(element);
+        return isEqual(element);
     }
 
     public CurveElement powZn(Element e) {
@@ -450,7 +448,7 @@ public class CurveElement<E extends Element> extends GenericPointElement<E> {
     }
 
 
-    protected boolean point_cmp(CurveElement element) {
+    protected boolean isEqual(CurveElement element) {
         if (this.infFlag != 0 || element.infFlag != 0) {
             return !(this.infFlag != 0 && element.infFlag != 0);
         }
