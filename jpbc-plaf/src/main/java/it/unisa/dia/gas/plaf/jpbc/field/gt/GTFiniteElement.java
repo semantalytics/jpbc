@@ -148,6 +148,9 @@ public class GTFiniteElement extends GenericElement {
     }
 
     public boolean isEqual(Element element) {
+        if (this == element)
+            return true;
+
         return value.isEqual(((GTFiniteElement) element).value);
     }
 
@@ -170,8 +173,14 @@ public class GTFiniteElement extends GenericElement {
         throw new IllegalStateException("Not implemented yet!!!");
     }
 
+
     public String toString() {
         return value.toString();
     }
 
+    public boolean equals(Object obj) {
+        if (obj instanceof GTFiniteElement)
+            return isEqual((Element) obj);
+        return super.equals(obj);
+    }
 }

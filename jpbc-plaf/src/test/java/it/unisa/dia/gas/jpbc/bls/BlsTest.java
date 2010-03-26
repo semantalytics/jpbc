@@ -18,7 +18,7 @@ public class BlsTest extends TestCase {
         Pairing pairing = PairingFactory.getPairing(curveParams);
 
         // Generate system parameters
-        Element g = pairing.getG1().newRandomElement();
+        Element g = pairing.getG2().newRandomElement();
 
         // Generate the secret key
         Element x = pairing.getZr().newRandomElement();

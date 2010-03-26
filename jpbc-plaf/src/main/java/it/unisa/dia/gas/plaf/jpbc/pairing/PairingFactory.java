@@ -7,6 +7,8 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.d.TypeDPairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.e.TypeEPairing;
 
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -25,10 +27,13 @@ public class PairingFactory {
 
 
     private boolean usePBCWhenPossible = false;
+    private boolean reuseIstance = true;
 
     private Class pbcPairingFactoryClass = null;
     private Method getPairingMethod;
     private Throwable pbcPairingFailure;
+
+    private Map<String, Pairing> instances;
 
     public PairingFactory() {
         // Try to load jpbc-pbc factory
@@ -38,7 +43,9 @@ public class PairingFactory {
         } catch (Exception e) {
             pbcPairingFailure = e;
         }
+        this.instances = new HashMap<String, Pairing>();
     }
+
 
     public Pairing initPairing(CurveParams curveParams) {
         if (curveParams == null)
@@ -53,16 +60,28 @@ public class PairingFactory {
 
         String type = curveParams.getType();
 
+        Pairing pairing;
+        if (reuseIstance) {
+            pairing = instances.get(type);
+            if (pairing != null)
+                return pairing;
+        }
+
         if ("a".equalsIgnoreCase(type))
-            return new TypeAPairing(curveParams);
+            pairing = new TypeAPairing(curveParams);
         else if ("a1".equalsIgnoreCase(type))
-            return new TypeA1Pairing(curveParams);
+            pairing = new TypeA1Pairing(curveParams);
         else if ("d".equalsIgnoreCase(type))
-            return new TypeDPairing(curveParams);
+            pairing = new TypeDPairing(curveParams);
         else if ("e".equalsIgnoreCase(type))
-            return new TypeEPairing(curveParams);
+            pairing = new TypeEPairing(curveParams);
         else
             throw new IllegalArgumentException("Type not supported. Type = " + type);
+
+        if (reuseIstance)
+            instances.put(type, pairing);
+        
+        return pairing;
     }
 
     public boolean isUsePBCWhenPossible() {
@@ -71,6 +90,14 @@ public class PairingFactory {
 
     public void setUsePBCWhenPossible(boolean usePBCWhenPossible) {
         this.usePBCWhenPossible = usePBCWhenPossible;
+    }
+
+    public boolean isReuseIstance() {
+        return reuseIstance;
+    }
+
+    public void setReuseIstance(boolean reuseIstance) {
+        this.reuseIstance = reuseIstance;
     }
 
     public Throwable getPbcPairingFailure() {

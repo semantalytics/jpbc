@@ -419,8 +419,14 @@ public class QuadraticElement<E extends Element> extends GenericPointElement<E> 
         */
     }
 
+
     public String toString() {
         return String.format("{x=%s,y=%s}", x, y);
     }
 
+    public boolean equals(Object obj) {
+        if (obj instanceof QuadraticElement)
+            return isEqual((Element) obj);
+        return super.equals(obj);
+    }
 }

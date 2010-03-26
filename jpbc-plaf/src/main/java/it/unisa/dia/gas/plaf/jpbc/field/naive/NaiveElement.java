@@ -290,7 +290,8 @@ public class NaiveElement extends GenericElement {
     }
 
     public boolean isEqual(Element e) {
-        return value.compareTo(((NaiveElement) e).value) == 0;
+        return this == e || value.compareTo(((NaiveElement) e).value) == 0;
+
     }
 
     public BigInteger toBigInteger() {
@@ -331,6 +332,8 @@ public class NaiveElement extends GenericElement {
     }
 
     public boolean equals(Object o) {
+        if (o instanceof NaiveElement)
+            return isEqual((Element) o);        
         return isEqual((NaiveElement) o);
     }
 

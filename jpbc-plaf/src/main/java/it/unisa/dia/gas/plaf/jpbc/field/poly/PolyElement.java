@@ -321,6 +321,9 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
     }
 
     public boolean isEqual(Element e) {
+        if (this == e)
+            return true;
+        
         PolyElement<E> element = (PolyElement<E>) e;
 
         int n = this.coeff.size();
@@ -340,6 +343,10 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
+    public int getDegree() {
+        return coeff.size() - 1;
+    }
+
     public String toString() {
         StringBuffer buffer = new StringBuffer("[");
 
@@ -350,8 +357,10 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
         return buffer.toString();
     }
 
-    public int getDegree() {
-        return coeff.size() - 1;
+    public boolean equals(Object obj) {
+        if (obj instanceof PolyElement)
+            return isEqual((Element) obj);
+        return super.equals(obj);
     }
 
 

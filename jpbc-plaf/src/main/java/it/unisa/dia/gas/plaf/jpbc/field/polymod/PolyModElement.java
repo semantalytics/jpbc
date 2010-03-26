@@ -674,6 +674,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
         return coeff.get(0).toBigInteger();
     }
 
+
     public String toString() {
         StringBuffer buffer = new StringBuffer("[");
         for (Element e : coeff) {
@@ -683,6 +684,11 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
         return buffer.toString();
     }
 
+    public boolean equals(Object obj) {
+        if (obj instanceof PolyModElement)
+            return isEqual((Element) obj);
+        return super.equals(obj);    
+    }
 
     public PolyModElement<E> setFromPolyTruncate(PolyElement<E> element) {
         int n = element.getCoefficients().size();

@@ -293,7 +293,7 @@ public class CurveElement<E extends Element> extends GenericPointElement<E> {
         if (curveField.quotient_cmp != null) {
             // If we're working with a quotient group we must account for different
             // representatives of the same coset.
-            return !this.duplicate().div(element).pow(curveField.quotient_cmp).isOne();
+            return this.duplicate().div(element).pow(curveField.quotient_cmp).isOne();
         }
 
         return isEqual(element);
@@ -354,10 +354,16 @@ public class CurveElement<E extends Element> extends GenericPointElement<E> {
         */
     }
 
+
     public String toString() {
         return String.format("{x=%s,y=%s,infFlag=%d}", x, y, infFlag);
     }
 
+    public boolean equals(Object obj) {
+        if (obj instanceof CurveElement)
+            return isEqual((Element) obj);
+        return super.equals(obj);    
+    }
 
     public int getLengthInBytesCompressed() {
         return x.getLengthInBytes() + 1;
