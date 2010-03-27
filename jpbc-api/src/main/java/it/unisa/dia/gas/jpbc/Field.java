@@ -76,7 +76,7 @@ public interface Field<E extends Element> {
      * @return a quadratic non-residue in this field.
      * @since 1.0.0
      */
-    E getNqr();
+    Element getNqr();
 
     /**
      * Returns the length in bytes needed to represent an element of this Field.

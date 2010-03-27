@@ -103,7 +103,7 @@ public class TypeDMillerNoDenomAffinePairingMap extends AbstractMillerPairingMap
             in.set(e3).mul(e0);
             e0.set(in);
 
-            return lucasEven(e0, pairing.phikonr);
+            return lucasEven(e0, pairing.phikOnr);
         } else {
             return element.duplicate().pow(pairing.tateExp);
         }
@@ -133,7 +133,7 @@ public class TypeDMillerNoDenomAffinePairingMap extends AbstractMillerPairingMap
         element_mul(in, e3, e0);
 
         element_set(e0, in);
-        lucasEven(out, e0, pairing - > phikonr);
+        lucasEven(out, e0, pairing - > phikOnr);
 
         element_clear(e0);
         element_clear(e2);
@@ -145,22 +145,22 @@ public class TypeDMillerNoDenomAffinePairingMap extends AbstractMillerPairingMap
     }
 
     final void qPower(int sign, PolyModElement e2, Element e0re, Element e0im, Element e0re0, Element e0im0, List<Element> inre, List<Element> inim) {
-        e2.set(pairing.xpowq).polymodConstMul(inre.get(1));
+        e2.set(pairing.xPowq).polymodConstMul(inre.get(1));
         e0re.set(e2);
-        e2.set(pairing.xpowq2).polymodConstMul(inre.get(2));
+        e2.set(pairing.xPowq2).polymodConstMul(inre.get(2));
         e0re.add(e2);
         e0re0.add(inre.get(0));
 
         if (sign > 0) {
-            e2.set(pairing.xpowq).polymodConstMul(inim.get(1));
+            e2.set(pairing.xPowq).polymodConstMul(inim.get(1));
             e0im.set(e2);
-            e2.set(pairing.xpowq2).polymodConstMul(inim.get(2));
+            e2.set(pairing.xPowq2).polymodConstMul(inim.get(2));
             e0im.add(e2);
             e0im0.add(inim.get(0));
         } else {
-            e2.set(pairing.xpowq).polymodConstMul(inim.get(1));
+            e2.set(pairing.xPowq).polymodConstMul(inim.get(1));
             e0im.set(e2).negate();
-            e2.set(pairing.xpowq2).polymodConstMul(inim.get(2));
+            e2.set(pairing.xPowq2).polymodConstMul(inim.get(2));
             e0im.sub(e2);
             e0im0.sub(inim.get(0));
         }

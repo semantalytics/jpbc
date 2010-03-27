@@ -9,13 +9,18 @@ import java.math.BigInteger;
  */
 public class NaiveField extends GenericField<NaiveElement> {
     protected BigInteger order;
-    protected NaiveElement nqr;
+    public NaiveElement nqr;
     protected int fixedLengthInBytes;
 
 
     public NaiveField(BigInteger order) {
         this.order = order;
         this.fixedLengthInBytes = (order.bitLength() + 7) / 8;
+    }
+
+    public NaiveField(BigInteger order, BigInteger nqr) {
+        this(order);
+        this.nqr = newElement().set(nqr);
     }
 
     

@@ -251,8 +251,9 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
                 element_clear(c0);
                 element_clear(c2);
                 */
-            case 6:
-                throw new IllegalStateException("Not Implemented yet!!!");
+//            case 6:
+            // TODO: port the PBC code
+//                throw new IllegalStateException("Not Implemented yet!!!");
             default:
                 squareInternal();
         }
@@ -355,8 +356,9 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
                 element_clear(c3);
                 element_clear(c4);
                 */
-            case 6:
-                throw new IllegalStateException("Not Implemented yet!!!");
+//            case 6:
+            // TODO: port the PBC code
+//                throw new IllegalStateException("Not Implemented yet!!!");
 //                f->mul = polymod_mul_degree6;
             default:
 
@@ -462,7 +464,9 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
     }
 
     public PolyModElement<E> powZn(Element e) {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        // TODO: port the PBC code
+//        throw new IllegalStateException("Not Implemented yet!!!");
+        return (PolyModElement<E>) pow(e.toBigInteger());
     }
 
     public PolyModElement<E> sqrt() {

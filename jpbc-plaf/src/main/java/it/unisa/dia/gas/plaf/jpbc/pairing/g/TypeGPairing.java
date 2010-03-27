@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.plaf.jpbc.pairing.d;
+package it.unisa.dia.gas.plaf.jpbc.pairing.g;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
@@ -22,15 +22,16 @@ import java.util.List;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class TypeDPairing extends AbstractPairing {
+public class TypeGPairing extends AbstractPairing {
     protected CurveParams curveParams;
 
     protected int k;
 
     protected BigInteger q, n, r, h;
     protected BigInteger a, b;
+    protected BigInteger nqr;
 
-    protected PolyModElement xPowq, xPowq2;
+    protected PolyModElement xPowq, xPowq2, xPowq3, xPowq4;
     protected Element nqrInverse, nqrInverseSquare;
     protected BigInteger tateExp, phikOnr;
 
@@ -40,7 +41,7 @@ public class TypeDPairing extends AbstractPairing {
     protected CurveField Eq, Etwist;
 
 
-    public TypeDPairing(CurveParams curveParams) {
+    public TypeGPairing(CurveParams curveParams) {
         this.curveParams = curveParams;
 
         initParams();
@@ -56,22 +57,21 @@ public class TypeDPairing extends AbstractPairing {
 
     protected void initParams() {
         // validate the type
-        String type = curveParams.getType();
-        if (type == null || !"d".equalsIgnoreCase(type))
-            throw new IllegalArgumentException("Type not valid. Found '" + type + "'. Expected 'd'.");
+        String type = curveParams.get("type");
+        if (type == null || !type.equalsIgnoreCase("g"))
+            throw new IllegalArgumentException("Type not valid. Found '" + type + "'. Expected 'g'.");
 
         // load params
-        k = curveParams.getInt("k");
-        if (k % 2 != 0)
-            throw new IllegalArgumentException("odd k not implemented anymore");
-
-        r = curveParams.getBigInteger("r");
         q = curveParams.getBigInteger("q");
-        h = curveParams.getBigInteger("h");
         n = curveParams.getBigInteger("n");
-
+        h = curveParams.getBigInteger("h");
+        r = curveParams.getBigInteger("r");
         a = curveParams.getBigInteger("a");
         b = curveParams.getBigInteger("b");
+//        k = curveParams.getBigInteger("k");
+//        nk = curveParams.getBigInteger("nk");
+//        hk = curveParams.getBigInteger("hk");
+        nqr = curveParams.getBigInteger("nqr");
     }
 
 
@@ -82,71 +82,71 @@ public class TypeDPairing extends AbstractPairing {
         // Init Fq
         Fq = initFp(q);
 
-        // Init Eq
+        // Init the curve
         Eq = initEq();
 
         // Init Fqx
-        PolyField polyField = initPoly();
-        Fqx = polyField;
+        Fqx = initPoly();
 
-        // Init the irreducible polynomial
-        int d = k / 2;
-
-        PolyElement<Element> irreduciblePoly = polyField.newElement();
+        // Init polymod
+        // First set the coefficient of x^5 to 1 so we can call element_item()
+        // for the other coefficients.
+        PolyElement irreduciblePoly = (PolyElement) Fqx.newElement();
         List<Element> irreduciblePolyCoeff = irreduciblePoly.getCoefficients();
-        for (int i = 0; i < d; i++) {
-            irreduciblePolyCoeff.add(polyField.getTargetField().newElement().set(curveParams.getBigInteger("coeff" + i)));
-        }
-        irreduciblePolyCoeff.add(polyField.getTargetField().newElement().setToOne());
+        for (int i = 0; i < 5; i++)
+            irreduciblePolyCoeff.add(Fq.newElement().set(curveParams.getBigInteger("coeff" + i)));
+        irreduciblePolyCoeff.add(Fq.newOneElement());
 
-        // init Fqd
-        Fqd  = initPolyMod(irreduciblePoly);
+        // init Fq12
+        Fqd = initPolyMod(irreduciblePoly);
 
-        // init Fqk
         Fqk = initQuadratic();
 
-        // Compute constants involved in the final powering.
-        if (k == 6) {
-            phikOnr = q.multiply(q).subtract(q).add(BigInteger.ONE).divide(r);
-
-            PolyModElement polyModElement = Fqd.newElement();
-            polyModElement.getCoefficient(1).setToOne();
-
-            polyModElement.pow(q);
-
-            xPowq = polyModElement;
-            xPowq2 = polyModElement.duplicate().square();
-        } else {
-            tateExp = Fqk.getOrder().subtract(BigInteger.ONE).divide(r);
-        }
-
-        // init Etwist
         Etwist = initEqMap().twist();
-
-        // ndonr temporarily holds the trace.
-        BigInteger ndonr = q.subtract(n).add(BigInteger.ONE) ;
-
-        // Negate it because we want the trace of the twist.
-        ndonr = ndonr.negate();
-        ndonr = BigIntegerUtils.pbc_mpz_curve_order_extn(q, ndonr, d);
-        ndonr = ndonr.divide(r);
-        Etwist.setQuotient_cmp(ndonr);
 
         nqrInverse = Fqd.getNqr().duplicate().invert();
         nqrInverseSquare = nqrInverse.duplicate().square();
+
+        // ndonr temporarily holds the trace.
+        BigInteger ndonr = q.subtract(n).add(BigInteger.ONE);
+
+        // Negate because we want the order of the twist.
+        ndonr = ndonr.negate();
+        ndonr = BigIntegerUtils.pbc_mpz_curve_order_extn(q, ndonr, 5);
+        ndonr = ndonr.divide(r);
+        Etwist.setQuotient_cmp(ndonr);
+
+        // Compute phi(k)/r = (q^4 - q^3 + ... + 1)/r.
+        phikOnr = BigInteger.ONE;
+        phikOnr = phikOnr.subtract(q);
+        BigInteger z0 = q.multiply(q);
+        phikOnr = phikOnr.add(z0);
+        z0 = z0.multiply(q);
+        phikOnr = phikOnr.subtract(z0);
+        z0 = z0.multiply(q);
+        phikOnr = phikOnr.add(z0);
+        phikOnr = phikOnr.divide(r);
+
+        // Compute xPowq's
+        xPowq = Fqd.newElement();
+        xPowq.getCoefficient(1).setToOne();
+        xPowq.pow(q);
+        xPowq2 = xPowq.duplicate().square();
+        xPowq4 = xPowq2.duplicate().square();
+        xPowq3 = xPowq2.duplicate().mul(xPowq);
 
         // Init G1, G2, GT
         G1 = Eq;
         G2 = Etwist;
         GT = initGT();
-   }
+    }
 
     protected Field initFp(BigInteger order) {
         return new NaiveField(order);
     }
 
     protected CurveField initEq() {
-        return new CurveField(Fq.newElement().set(a),Fq.newElement().set(b), r, h);
+        return new CurveField(Fq.newElement().set(a), Fq.newElement().set(b), r, h);
     }
 
     protected CurveField initEqMap() {
@@ -158,7 +158,7 @@ public class TypeDPairing extends AbstractPairing {
     }
 
     protected PolyModField initPolyMod(PolyElement irred) {
-        return new PolyModField(irred, curveParams.getBigInteger("nqr"));
+        return new PolyModField(irred, nqr);
     }
 
     protected QuadraticField initQuadratic() {
@@ -170,7 +170,6 @@ public class TypeDPairing extends AbstractPairing {
     }
 
     protected void initMap() {
-        pairingMap = new TypeDMillerNoDenomAffinePairingMap(this);
+        pairingMap = new TypeGMillerNoDenomAffinePairingMap(this);
     }
-
 }

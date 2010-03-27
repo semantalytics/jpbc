@@ -75,7 +75,7 @@ public class TypeAPairing extends AbstractPairing {
         // Init Fq2
         Fq2 = initFi();
 
-        // k=2, hence phi_k(q) = q + 1, phikonr = (q+1)/r
+        // k=2, hence phi_k(q) = q + 1, phikOnr = (q+1)/r
         phikonr = h;
 
         // Init G1, G2, GT

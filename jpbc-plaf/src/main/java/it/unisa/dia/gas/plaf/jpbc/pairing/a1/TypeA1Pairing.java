@@ -51,7 +51,7 @@ public class TypeA1Pairing extends AbstractPairing {
         // Init Zr
         Zr = initFp(r);
 
-        //k=2, hence phi_k(q) = q + 1, phikonr = (q+1)/r
+        //k=2, hence phi_k(q) = q + 1, phikOnr = (q+1)/r
         phikonr = BigInteger.valueOf(l);
 
         // Init Fp

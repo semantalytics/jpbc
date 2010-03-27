@@ -1,5 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.field.quadratic;
 
+import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericFieldOver;
 
@@ -34,8 +35,8 @@ public class QuadraticField<F extends Field, E extends QuadraticElement> extends
         return order;
     }
 
-    public E getNqr() {
-        throw new IllegalStateException("Not Implemented yet!!!");
+    public Element getNqr() {
+        return targetField.getNqr();
     }
 
     public int getLengthInBytes() {

@@ -5,6 +5,8 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.a.TypeAPairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.a1.TypeA1Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.d.TypeDPairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.e.TypeEPairing;
+import it.unisa.dia.gas.plaf.jpbc.pairing.f.TypeFPairing;
+import it.unisa.dia.gas.plaf.jpbc.pairing.g.TypeGPairing;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -75,6 +77,10 @@ public class PairingFactory {
             pairing = new TypeDPairing(curveParams);
         else if ("e".equalsIgnoreCase(type))
             pairing = new TypeEPairing(curveParams);
+        else if ("f".equalsIgnoreCase(type))
+            return new TypeFPairing(curveParams);
+        else if ("g".equalsIgnoreCase(type))
+            return new TypeGPairing(curveParams);
         else
             throw new IllegalArgumentException("Type not supported. Type = " + type);
 
