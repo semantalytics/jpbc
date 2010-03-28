@@ -5,6 +5,7 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pairing.a.TypeACurveGenerator;
 import it.unisa.dia.gas.plaf.jpbc.pairing.a1.TypeA1CurveGenerator;
 import it.unisa.dia.gas.plaf.jpbc.pairing.e.TypeECurveGenerator;
+import it.unisa.dia.gas.plaf.jpbc.pairing.f.TypeFCurveGenerator;
 import it.unisa.dia.gas.plaf.jpbc.pbc.PBCPairing;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCLibraryProvider;
 
@@ -35,6 +36,12 @@ public class JPBCCurveGeneratorPBCPairingTest extends PairingTest {
 
     public void testTypeE() {
         CurveGenerator curveGenerator = new TypeECurveGenerator(160, 1024);
+        initPairing(curveGenerator.generate());
+        doTest();
+    }
+
+    public void testTypeF() {
+        CurveGenerator curveGenerator = new TypeFCurveGenerator(160);
         initPairing(curveGenerator.generate());
         doTest();
     }

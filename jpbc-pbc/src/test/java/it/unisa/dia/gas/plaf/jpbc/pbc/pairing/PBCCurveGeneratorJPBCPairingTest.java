@@ -2,10 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.pbc.pairing;
 
 import it.unisa.dia.gas.jpbc.CurveGenerator;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
-import it.unisa.dia.gas.plaf.jpbc.pbc.curve.PBCTypeA1CurveGenerator;
-import it.unisa.dia.gas.plaf.jpbc.pbc.curve.PBCTypeACurveGenerator;
-import it.unisa.dia.gas.plaf.jpbc.pbc.curve.PBCTypeDCurveGenerator;
-import it.unisa.dia.gas.plaf.jpbc.pbc.curve.PBCTypeECurveGenerator;
+import it.unisa.dia.gas.plaf.jpbc.pbc.curve.*;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCLibraryProvider;
 
 /**
@@ -61,6 +58,32 @@ public class PBCCurveGeneratorJPBCPairingTest extends PairingTest {
         CurveGenerator curveGenerator = new PBCTypeECurveGenerator(160, 1024);
         CurveParams curveParams = (CurveParams) curveGenerator.generate();
         curveParams.put("type", "e");
+
+        initPairing(curveParams);
+        doTest();
+    }
+
+    public void testTypeF() {
+        // Check for link library
+        if (!PBCLibraryProvider.isAvailable())
+            return;
+
+        CurveGenerator curveGenerator = new PBCTypeFCurveGenerator(160);
+        CurveParams curveParams = (CurveParams) curveGenerator.generate();
+        curveParams.put("type", "f");
+
+        initPairing(curveParams);
+        doTest();
+    }
+
+    public void testTypeG() {
+        // Check for link library
+        if (!PBCLibraryProvider.isAvailable())
+            return;
+
+        CurveGenerator curveGenerator = new PBCTypeGCurveGenerator(35707);
+        CurveParams curveParams = (CurveParams) curveGenerator.generate();
+        curveParams.put("type", "g");
 
         initPairing(curveParams);
         doTest();

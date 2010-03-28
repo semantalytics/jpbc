@@ -4,6 +4,8 @@ import java.util.List;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @since 1.0.0
+ * TODO: write javadocs
  */
 public interface Polynomial<E extends Element> extends Element {
 

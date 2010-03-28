@@ -21,22 +21,26 @@
         <echo message="Starting Benchmarks..."/>
 
         <java fork="true" classname="it.unisa.dia.gas.jpbc.benchmark.PBCBenchmark">
-            <arg value="100"/>
+            <arg value="1000"/>
             <arg value="${basedir}/params/a_181_603.properties"/>
             <arg value="${basedir}/params/a1.properties"/>
             <arg value="${basedir}/params/d_9563.properties"/>
             <arg value="${basedir}/params/e_181_1024.properties"/>
+            <arg value="${basedir}/params/f.properties"/>
+            <arg value="${basedir}/params/g149.properties"/>
             <classpath>
                 <path refid="runtime.classpath"/>
             </classpath>
         </java>
 
         <java fork="true" classname="it.unisa.dia.gas.jpbc.benchmark.JPBCBenchmark">
-            <arg value="100"/>
+            <arg value="1000"/>
             <arg value="${basedir}/params/a_181_603.properties"/>
             <arg value="${basedir}/params/a1.properties"/>
             <arg value="${basedir}/params/d_9563.properties"/>
             <arg value="${basedir}/params/e_181_1024.properties"/>
+            <arg value="${basedir}/params/f.properties"/>
+            <arg value="${basedir}/params/g149.properties"/>
             <classpath>
                 <path refid="runtime.classpath"/>
             </classpath>

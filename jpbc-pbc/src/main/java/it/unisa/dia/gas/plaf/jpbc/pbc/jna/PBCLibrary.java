@@ -173,4 +173,8 @@ public interface PBCLibrary extends Library {
     int pbc_curvegen_d(String fileName, int discriminant);
 
     int pbc_curvegen_e(String fileName, int rbits, int qbits);
+
+    int pbc_curvegen_f(String fileName, int rbits);
+
+    int pbc_curvegen_g(String fileName, int discriminant);
 }

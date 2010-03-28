@@ -4,13 +4,13 @@
     <parent>
         <groupId>it.unisa.dia.gas</groupId>
         <artifactId>jpbc</artifactId>
-        <version>1.0.0</version>
+        <version>1.1.0</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>jpbc-crypto</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <name>jPBC - Crypto</name>
     <url>http://gas.dia.unisa.it/</url>
     <description>
@@ -33,19 +33,19 @@
         <dependency>
             <groupId>it.unisa.dia.gas</groupId>
             <artifactId>jpbc-api</artifactId>
-            <version>1.0.0</version>
+            <version>1.1.0</version>
         </dependency>
 
         <dependency>
             <groupId>it.unisa.dia.gas</groupId>
             <artifactId>jpbc-plaf</artifactId>
-            <version>1.0.0</version>
+            <version>1.1.0</version>
         </dependency>
 
         <dependency>
             <groupId>it.unisa.dia.gas</groupId>
             <artifactId>jpbc-pbc</artifactId>
-            <version>1.0.0</version>
+            <version>1.1.0</version>
         </dependency>
 
         <dependency>

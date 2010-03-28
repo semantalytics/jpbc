@@ -20,7 +20,8 @@ public class NaiveField extends GenericField<NaiveElement> {
 
     public NaiveField(BigInteger order, BigInteger nqr) {
         this(order);
-        this.nqr = newElement().set(nqr);
+        if (nqr != null)
+            this.nqr = newElement().set(nqr);
     }
 
     

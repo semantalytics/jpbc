@@ -7,6 +7,7 @@ import it.unisa.dia.gas.jpbc.PairingPreProcessing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.a.TypeACurveGenerator;
 import it.unisa.dia.gas.plaf.jpbc.pairing.a1.TypeA1CurveGenerator;
 import it.unisa.dia.gas.plaf.jpbc.pairing.e.TypeECurveGenerator;
+import it.unisa.dia.gas.plaf.jpbc.pairing.f.TypeFCurveGenerator;
 import junit.framework.TestCase;
 
 import java.util.Map;
@@ -43,6 +44,13 @@ public class CurveGeneratorPairingTest extends TestCase {
     public void testTypeE() {
         // Generate TypeE curve
         CurveGenerator curveGenerator = new TypeECurveGenerator(160, 1024);
+        initPairing(curveGenerator.generate());
+        doTest();
+    }
+
+    public void testTypeF() {
+        // Generate TypeE curve
+        CurveGenerator curveGenerator = new TypeFCurveGenerator(160);
         initPairing(curveGenerator.generate());
         doTest();
     }

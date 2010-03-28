@@ -6,7 +6,7 @@
     <groupId>it.unisa.dia.gas</groupId>
     <artifactId>jpbc</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <name>jPBC</name>
     <url>http://gas.dia.unisa.it/</url>
     <description>

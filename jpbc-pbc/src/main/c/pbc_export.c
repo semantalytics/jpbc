@@ -96,7 +96,6 @@ int pbc_curvegen_d_generate(pbc_cm_t cm, void *data) {
     return 1;
 }
 
-
 int pbc_curvegen_d(const char *fileName, int discriminant) {
     pbc_curvegen_d_file_name = fileName;
     if (!pbc_cm_search_d(pbc_curvegen_d_generate, NULL, discriminant, 500))
@@ -114,6 +113,41 @@ int pbc_curvegen_e(const char *fileName, int rbits, int qbits) {
       fclose (pFile);
 
       return 1;
+}
+
+int pbc_curvegen_f(const char *fileName, int rbits) {
+      pbc_param_t par;
+      pbc_param_init_f_gen(par, rbits);
+      FILE *pFile = fopen(fileName, "w+");
+      pbc_param_out_str(pFile, par);
+      pbc_param_clear(par);
+      fclose (pFile);
+
+      return 1;
+}
+
+
+const char* pbc_curvegen_g_file_name;
+
+int pbc_curvegen_g_generate(pbc_cm_t cm, void *data) {
+    UNUSED_VAR(data);
+    pbc_param_t param;
+    pbc_info("gendparam: computing Hilbert polynomial and finding roots...");
+    pbc_param_init_g_gen(param, cm);
+    pbc_info("gendparam: bits in q = %zu\n", mpz_sizeinbase(cm->q, 2));
+    FILE *pFile = fopen(pbc_curvegen_g_file_name, "w+");
+    pbc_param_out_str(pFile, param);
+    pbc_param_clear(param);
+    fclose (pFile);
+    return 1;
+}
+
+int pbc_curvegen_g(const char *fileName, int discriminant) {
+    pbc_curvegen_g_file_name = fileName;
+    if (!pbc_cm_search_g(pbc_curvegen_g_generate, NULL, discriminant, 500))
+        return 0;
+
+    return 1;
 }
 
 // ===============

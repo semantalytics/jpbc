@@ -282,7 +282,7 @@ public class QuadraticElement<E extends Element> extends GenericPointElement<E> 
     public boolean isSqr() {
         Element e0 = x.duplicate().square();
         Element e1 = y.duplicate().square();
-        e1.mul(field.getNqr());
+        e1.mul(field.getTargetField().getNqr());
         e0.sub(e1);
 
         return e0.isSqr();
@@ -309,7 +309,7 @@ public class QuadraticElement<E extends Element> extends GenericPointElement<E> 
     public QuadraticElement sqrt() {
         Element e0 = x.duplicate().square();
         Element e1 = y.duplicate().square();
-        e1.mul(field.getNqr());
+        e1.mul(field.getTargetField().getNqr());
         e0.sub(e1);
         e0.sqrt();
         e1.set(x).add(e0);

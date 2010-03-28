@@ -52,6 +52,10 @@ public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElemen
         initGen();
     }
 
+    public CurveField(Element b, BigInteger order, BigInteger cofac) {
+        this(b.getField().newZeroElement(), b, order, cofac);
+    }
+
 
     public CurveElement newElement() {
         return new CurveElement(this);
