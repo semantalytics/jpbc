@@ -12,6 +12,15 @@ public abstract class AbstractPairingMap implements PairingMap {
     protected Point in1;
 
 
+    public Element pairing(Element[] in1, Element[] in2) {
+        Element out = pairing((Point) in1[0], (Point) in2[0]);
+
+        for(int i = 1; i < in1.length; i++)
+            out.mul(pairing((Point) in1[i], (Point) in2[i]));
+        
+        return out;
+    }
+
     public PairingPreProcessing pairingPreProcessing(Point in1) {
         this.in1 = in1;
 

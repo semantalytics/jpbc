@@ -57,6 +57,22 @@ public abstract class AbstractPairing implements Pairing {
         return pairingMap.isAlmostCoddh(a, b, c, d);
     }
 
+    public Element pairing(Element[] in1, Element[] in2) {
+        if (in1.length != in2.length)
+            throw new IllegalArgumentException("The number of elements from G1 is different from the number of elements from G2.");
+
+        for (int i = 0; i < in1.length; i++) {
+            if (!G1.equals(in1[i].getField()))
+                throw new IllegalArgumentException("pairing 1st input mismatch");
+            if (!G2.equals(in2[i].getField()))
+                throw new IllegalArgumentException("pairing 2nd input mismatch");
+
+            if (in1[i].isZero() || in2[i].isZero())
+                return GT.newElement().setToZero();
+        }
+
+        return pairingMap.pairing(in1, in2);
+    }
 
     public PairingMap getPairingMap() {
         return pairingMap;

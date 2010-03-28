@@ -118,4 +118,25 @@ public abstract class PairingTest extends TestCase {
         }
     }
 
+    public void doProdPairing() {
+        if (pairing == null)
+            return;
+
+        Element g1, h1;
+        Element g2, h2;
+
+        Element out1, out2;
+
+        g1 = pairing.getG1().newElement().setToRandom();
+        h1 = pairing.getG2().newElement().setToRandom();
+
+        g2 = pairing.getG1().newElement().setToRandom();
+        h2 = pairing.getG2().newElement().setToRandom();
+
+        out1 = pairing.pairing(g1, h1).mul(pairing.pairing(g2, h2));
+        out2 = pairing.pairing(new Element[]{g1, g2}, new Element[]{h1, h2});
+
+        assertEquals(true, out1.isEqual(out2));
+    }
+
 }

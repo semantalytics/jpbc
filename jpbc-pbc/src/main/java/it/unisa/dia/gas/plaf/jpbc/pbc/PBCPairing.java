@@ -1,5 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.pbc;
 
+import com.sun.jna.Pointer;
 import it.unisa.dia.gas.jpbc.*;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pbc.field.PBCG1Field;
@@ -59,6 +60,24 @@ public class PBCPairing implements Pairing {
         PBCElement out = (PBCElement) gTField.newElement();
 
         PBCLibraryProvider.getPbcLibrary().pbc_pairing_apply(out.getValue(), ((PBCElement) in1).getValue(), ((PBCElement) in2).getValue(), pairing);
+
+        return out;
+    }
+
+    public Element pairing(Element[] in1, Element[] in2) {
+        PBCElement out = (PBCElement) gTField.newElement();
+
+        Pointer[] in1Pointers = new Pointer[in1.length];
+        for (int i = 0; i <in1.length; i++) {
+            in1Pointers[i] = ((PBCElement) in1[i]).getValue();
+        }
+
+        Pointer[] in2Pointers = new Pointer[in2.length];
+        for (int i = 0; i <in2.length; i++) {
+            in2Pointers[i] = ((PBCElement) in2[i]).getValue();
+        }
+
+        PBCLibraryProvider.getPbcLibrary().pbc_pairing_prod(out.getValue(), in1Pointers, in2Pointers, in1.length);
 
         return out;
     }

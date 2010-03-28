@@ -23,7 +23,7 @@ public interface Pairing {
     /**
      * Return the G1 group.
      *
-      * @return the G1 group.
+     * @return the G1 group.
      * @since 1.0.0
      */
     Field<? extends Point> getG1();
@@ -62,11 +62,22 @@ public interface Pairing {
      */
     Element pairing(Element in1, Element in2);
 
+
+    /**
+     * Computes the product of pairings, that is
+     * 'e'('in1'[0], 'in2'[0]) ... 'e'('in1'[n-1], 'in2'[n-1]).
+     *
+     * @param in1 must have at least 'n' elements belonging to the groups G1
+     * @param in2 must have at least 'n' elements belonging to the groups G2
+     * @return the product of pairings, that is 'e'('in1'[0], 'in2'[0]) ... 'e'('in1'[n-1], 'in2'[n-1]). 
+     * @since 1.1.0
+     */
+    Element pairing(Element[] in1, Element[] in2);
+
     /**
      * Get ready to perform a pairing whose first input is in1, returns the results of time-saving pre-computation.
      *
      * @param in1 the first input of a pairing execution, used to pre-compute the pairing.
-     *
      * @return the results of time-saving pre-computation.
      * @since 1.0.0
      */

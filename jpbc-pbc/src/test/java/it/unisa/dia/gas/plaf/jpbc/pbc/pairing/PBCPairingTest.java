@@ -21,7 +21,11 @@ public class PBCPairingTest extends PairingTest {
         doPairingSymmetric();
     }
 
+    public void testProdPairing() {
+        doProdPairing();
+    }
 
+    
     protected void setUp() throws Exception {
         if (PBCLibraryProvider.isAvailable()) {
             pairing = new PBCPairing(getCurveParams());
@@ -36,7 +40,7 @@ public class PBCPairingTest extends PairingTest {
 
     protected CurveParams getCurveParams() {
         CurveParams curveParams = new CurveParams();
-        curveParams.load(PBCPairingTest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pbc/pairing/d_9563.properties"));
+        curveParams.load(PBCPairingTest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pbc/pairing/a_181_603.properties"));
         return curveParams;
     }
 }

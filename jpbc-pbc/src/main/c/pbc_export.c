@@ -175,6 +175,10 @@ void pbc_pairing_apply(element_t out, element_t in1, element_t in2, pairing_t pa
     pairing_apply(out, in1, in2, pairing);
 }
 
+void pbc_pairing_prod(element_t out, element_t in1[], element_t in2[], int n) {
+    element_prod_pairing(out, in1, in2, n);
+}
+
 int pbc_pairing_is_symmetric(pairing_t pairing) {
     return pairing_is_symmetric(pairing);
 }

@@ -29,6 +29,8 @@ public interface PBCLibrary extends Library {
 
     void pbc_pairing_apply(Pointer out, Pointer in1, Pointer in2, Pointer pairing);
 
+    void pbc_pairing_prod(Pointer out, Pointer[] in1, Pointer[] in2, int n);
+
     int pbc_pairing_is_symmetric(Pointer pairing);
 
     int pbc_pairing_length_in_bytes_G1(Pointer pairing);
