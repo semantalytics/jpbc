@@ -22,12 +22,14 @@
 
         <java fork="true" classname="it.unisa.dia.gas.jpbc.benchmark.PBCBenchmark">
             <arg value="1000"/>
-            <arg value="${basedir}/params/a_181_603.properties"/>
-            <arg value="${basedir}/params/a1.properties"/>
-            <arg value="${basedir}/params/d_9563.properties"/>
-            <arg value="${basedir}/params/e_181_1024.properties"/>
-            <arg value="${basedir}/params/f.properties"/>
-            <arg value="${basedir}/params/g149.properties"/>
+            <arg value="${basedir}/params/benchmark/a.properties"/>
+            <arg value="${basedir}/params/benchmark/a1.properties"/>
+            <arg value="${basedir}/params/benchmark/d_159.properties"/>
+            <arg value="${basedir}/params/benchmark/d_201.properties"/>
+            <arg value="${basedir}/params/benchmark/d_224.properties"/>
+            <arg value="${basedir}/params/benchmark/e.properties"/>
+            <arg value="${basedir}/params/benchmark/f.properties"/>
+            <arg value="${basedir}/params/benchmark/g149.properties"/>
             <classpath>
                 <path refid="runtime.classpath"/>
             </classpath>
@@ -35,12 +37,14 @@
 
         <java fork="true" classname="it.unisa.dia.gas.jpbc.benchmark.JPBCBenchmark">
             <arg value="1000"/>
-            <arg value="${basedir}/params/a_181_603.properties"/>
-            <arg value="${basedir}/params/a1.properties"/>
-            <arg value="${basedir}/params/d_9563.properties"/>
-            <arg value="${basedir}/params/e_181_1024.properties"/>
-            <arg value="${basedir}/params/f.properties"/>
-            <arg value="${basedir}/params/g149.properties"/>
+            <arg value="${basedir}/params/benchmark/a.properties"/>
+            <arg value="${basedir}/params/benchmark/a1.properties"/>
+            <arg value="${basedir}/params/benchmark/d_159.properties"/>
+            <arg value="${basedir}/params/benchmark/d_201.properties"/>
+            <arg value="${basedir}/params/benchmark/d_224.properties"/>
+            <arg value="${basedir}/params/benchmark/e.properties"/>
+            <arg value="${basedir}/params/benchmark/f.properties"/>
+            <arg value="${basedir}/params/benchmark/g149.properties"/>
             <classpath>
                 <path refid="runtime.classpath"/>
             </classpath>
