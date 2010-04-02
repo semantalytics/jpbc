@@ -77,6 +77,7 @@ public class PBCPairing implements Pairing {
             in2Pointers[i] = ((PBCElement) in2[i]).getValue();
         }
 
+        // TODO: it does not work.
         PBCLibraryProvider.getPbcLibrary().pbc_pairing_prod(out.getValue(), in1Pointers, in2Pointers, in1.length);
 
         return out;

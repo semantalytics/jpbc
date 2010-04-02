@@ -44,6 +44,8 @@
                 <item name="Type A" href="/docs/curvegenerator.html#TypeA"/>
                 <item name="Type D" href="/docs/curvegenerator.html#TypeD"/>
                 <item name="Type E" href="/docs/curvegenerator.html#TypeE"/>
+                <item name="Type F" href="/docs/curvegenerator.html#TypeF"/>
+                <item name="Type G" href="/docs/curvegenerator.html#TypeG"/>
             </item>
 
             <item name="PBC Wrapper" href="/docs/pbcwrapper.html"/>

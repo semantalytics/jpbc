@@ -48,14 +48,12 @@ public class TypeFMillerNoDenomPairingMap extends AbstractMillerPairingMap {
     private void qPower(PolyModElement element, PolyModElement e1, Element e) {
         e1.getCoefficient(0).set(element.getCoefficient(0));
         e1.getCoefficient(1).set(element.getCoefficient(1).duplicate().mul(e));
+
         Element epow = e.duplicate().square();
         e1.getCoefficient(2).set(element.getCoefficient(2).duplicate().mul(epow));
-        epow.mul(e);
-        e1.getCoefficient(3).set(element.getCoefficient(3).duplicate().mul(epow));
-        epow.mul(e);
-        e1.getCoefficient(4).set(element.getCoefficient(4).duplicate().mul(epow));
-        epow.mul(e);
-        e1.getCoefficient(5).set(element.getCoefficient(5).duplicate().mul(epow));
+        e1.getCoefficient(3).set(element.getCoefficient(3).duplicate().mul(epow.mul(e)));
+        e1.getCoefficient(4).set(element.getCoefficient(4).duplicate().mul(epow.mul(e)));
+        e1.getCoefficient(5).set(element.getCoefficient(5).duplicate().mul(epow.mul(e)));
     }
 
     protected Element pairing(Point P, Point Qx, Point Qy) {

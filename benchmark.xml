@@ -6,27 +6,28 @@
     <dirname property="basedir" file="${ant.file}"/>
 
     <path id="runtime.classpath">
-        <pathelement location="${basedir}/jars/jpbc-api-1.0.0.jar"/>
-        <pathelement location="${basedir}/jars/jpbc-plaf-1.0.0.jar"/>
-        <pathelement location="${basedir}/jars/jpbc-pbc-1.0.0.jar"/>
+        <pathelement location="${basedir}/jars/jpbc-api-1.1.0.jar"/>
+        <pathelement location="${basedir}/jars/jpbc-plaf-1.1.0.jar"/>
+        <pathelement location="${basedir}/jars/jpbc-pbc-1.1.0.jar"/>
         <pathelement location="${basedir}/jars/jna-3.1.0.jar"/>
-        <pathelement location="${basedir}/jars/test/jpbc-plaf-1.0.0-tests.jar"/>
-        <pathelement location="${basedir}/jars/test/jpbc-pbc-1.0.0-tests.jar"/>
+        <pathelement location="${basedir}/jars/test/jpbc-plaf-1.1.0-tests.jar"/>
+        <pathelement location="${basedir}/jars/test/jpbc-pbc-1.1.0-tests.jar"/>
     </path>
 
     <!-- Benchmarks -->
 
     <target name="benchmark">
 
+        <echo message="BaseDir = ${basedir}"/>
         <echo message="Starting Benchmarks..."/>
 
         <java fork="true" classname="it.unisa.dia.gas.jpbc.benchmark.PBCBenchmark">
-            <arg value="1000"/>
+            <arg value="100"/>
             <arg value="${basedir}/params/benchmark/a.properties"/>
             <arg value="${basedir}/params/benchmark/a1.properties"/>
-            <arg value="${basedir}/params/benchmark/d_159.properties"/>
-            <arg value="${basedir}/params/benchmark/d_201.properties"/>
-            <arg value="${basedir}/params/benchmark/d_224.properties"/>
+            <arg value="${basedir}/params/benchmark/d159.properties"/>
+            <arg value="${basedir}/params/benchmark/d201.properties"/>
+            <arg value="${basedir}/params/benchmark/d224.properties"/>
             <arg value="${basedir}/params/benchmark/e.properties"/>
             <arg value="${basedir}/params/benchmark/f.properties"/>
             <arg value="${basedir}/params/benchmark/g149.properties"/>
@@ -36,12 +37,12 @@
         </java>
 
         <java fork="true" classname="it.unisa.dia.gas.jpbc.benchmark.JPBCBenchmark">
-            <arg value="1000"/>
+            <arg value="100"/>
             <arg value="${basedir}/params/benchmark/a.properties"/>
             <arg value="${basedir}/params/benchmark/a1.properties"/>
-            <arg value="${basedir}/params/benchmark/d_159.properties"/>
-            <arg value="${basedir}/params/benchmark/d_201.properties"/>
-            <arg value="${basedir}/params/benchmark/d_224.properties"/>
+            <arg value="${basedir}/params/benchmark/d159.properties"/>
+            <arg value="${basedir}/params/benchmark/d201.properties"/>
+            <arg value="${basedir}/params/benchmark/d224.properties"/>
             <arg value="${basedir}/params/benchmark/e.properties"/>
             <arg value="${basedir}/params/benchmark/f.properties"/>
             <arg value="${basedir}/params/benchmark/g149.properties"/>

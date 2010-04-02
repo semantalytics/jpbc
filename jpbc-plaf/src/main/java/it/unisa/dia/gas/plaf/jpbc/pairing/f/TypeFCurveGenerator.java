@@ -17,6 +17,8 @@ import java.util.Map;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * The curve is defined as E : y^2 = x^2 + b
+ * for some b \in F_q.
  */
 public class TypeFCurveGenerator implements CurveGenerator {
     protected int rBits; // The number of bits in r, the order of the subgroup G1
@@ -31,19 +33,27 @@ public class TypeFCurveGenerator implements CurveGenerator {
         //36 is a 6-bit number
         int xbit = (rBits - 6) / 4;
 
+        // Compute q and r primes
+
         //TODO: use binary search to find smallest appropriate x
         BigInteger q, r, b;
 
         BigInteger x = BigInteger.ZERO.setBit(xbit);
         BigInteger t;
         for (; ;) {
+            // t = 6x^2 + 1
             t = x.multiply(x).multiply(BigInteger.valueOf(6)).add(BigInteger.ONE);
-            q = tryminusx(x);
+
+            // q = 36x^4 + 36x^3 + 24x^2 - 6x + 1
+            q = tryMinusX(x);
+            // r = 36x^4 + 36x^3 + 18x^2 - 6x + 1
             r = q.subtract(t).add(BigInteger.ONE);
 
             if (q.isProbablePrime(10) && r.isProbablePrime(10)) break;
 
-            q = tryplusx(x);
+            // q = 36x^4 + 36x^3 + 24x^2 + 6x + 1
+            q = tryPlusX(x);
+            // r = 36x^4 + 36x^3 + 18x^2 + 6x + 1
             r = q.subtract(t).add(BigInteger.ONE);
 
             if (q.isProbablePrime(10) && r.isProbablePrime(10)) break;
@@ -51,6 +61,7 @@ public class TypeFCurveGenerator implements CurveGenerator {
             x = x.add(BigInteger.ONE);
         }
 
+        // Compute b
         Field Fq = new NaiveField(q);
         Element e1 = Fq.newElement();
         for (; ;) {
@@ -61,7 +72,6 @@ public class TypeFCurveGenerator implements CurveGenerator {
             if (point.isZero())
                 break;
         }
-
         b = e1.toBigInteger();
 
         Field Fq2 = new QuadraticField(Fq);
@@ -124,9 +134,8 @@ public class TypeFCurveGenerator implements CurveGenerator {
     }
 
 
-    protected BigInteger tryminusx(BigInteger x) {
-        //36x4 - 36x3 + 24x2 - 6x + 1
-        //= ((36(x - 1)x + 24)x - 6)x + 1
+    protected BigInteger tryMinusX(BigInteger x) {
+        // 36x^4 + 36x^3 + 24x^2 - 6x + 1 = ((36(x - 1)x + 24)x - 6)x + 1
 
         return x.subtract(BigInteger.ONE)
                 .multiply(x)
@@ -138,9 +147,8 @@ public class TypeFCurveGenerator implements CurveGenerator {
                 .add(BigInteger.ONE);
     }
 
-    protected BigInteger tryplusx(BigInteger x) {
-        //36x4 + 36x3 + 24x2 + 6x + 1
-        //= ((36(x + 1)x + 24)x + 6)x + 1
+    protected BigInteger tryPlusX(BigInteger x) {
+        // 36x^4 + 36x^3 + 24x^2 + 6x + 1 = ((36(x - 1)x + 24)x + 6)x + 1
         return x.add(BigInteger.ONE)
                 .multiply(x)
                 .multiply(BigInteger.valueOf(36))

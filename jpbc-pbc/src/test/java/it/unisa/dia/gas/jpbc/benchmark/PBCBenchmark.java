@@ -2,7 +2,7 @@ package it.unisa.dia.gas.jpbc.benchmark;
 
 import it.unisa.dia.gas.jpbc.*;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
-import it.unisa.dia.gas.plaf.jpbc.pbc.PBCPairing;
+import it.unisa.dia.gas.plaf.jpbc.pbc.PairingFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -226,7 +226,7 @@ public class PBCBenchmark {
     }
 
     protected Pairing getPairing(String curve) {
-        return new PBCPairing(getCurveParams(curve));
+        return PairingFactory.getPairing(getCurveParams(curve));
     }                 
 
     

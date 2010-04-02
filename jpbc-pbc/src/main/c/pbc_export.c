@@ -176,6 +176,10 @@ void pbc_pairing_apply(element_t out, element_t in1, element_t in2, pairing_t pa
 }
 
 void pbc_pairing_prod(element_t out, element_t in1[], element_t in2[], int n) {
+    pbc_info("I'm here!!! %d\n", n);
+    element_printf("out : %B\n", out);
+    element_printf("in2[0] : %B\n", in2[0]);
+    element_printf("in1[0] : %B\n", in1[0]);
     element_prod_pairing(out, in1, in2, n);
 }
 

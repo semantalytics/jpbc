@@ -121,6 +121,11 @@ public class TypeFPairing extends AbstractPairing {
         ndonr = ndonr.divide(r);
         Etwist.setQuotient_cmp(ndonr);
 
+        /*
+            For k = 12, the final exponent becomes
+            (q^12-1)/r = (p^6 - 1 )(p^2+1) ( (p^4-p^2+1)/r )
+            Lets compute the final factor (p^4-p^2+1)/r
+        */
         tateExp = q.multiply(q).subtract(BigInteger.ONE).multiply(q).multiply(q).add(BigInteger.ONE).divide(r);
 
         PolyModElement polyModElement = Fq12.newElement();

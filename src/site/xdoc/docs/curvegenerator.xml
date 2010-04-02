@@ -206,8 +206,6 @@ coeff1 1760153528765803930066908946486500362397173920240475785379803
 coeff2 2049888389983546663243916150869866382799954492149630470949951
 nqr 1146467906739450941418701450790603726238899593000901105835892
 </source>
-
-
             </subsection>
 
             <a name="TypeE"/>
@@ -277,8 +275,126 @@ sign1 1
 a 0
 b 1
 </source>
-
             </subsection>
+
+
+            <a name="TypeF"/>
+            <subsection name="Type F">
+                <p>
+                    Using carefully crafted polynomials, k = 12 pairings can be constructed.
+                    Only 160 bits are needed to represent elements of one group,
+                    and 320 bits for the other.
+                    Also, embedding degree k = 12 allows higher security short signatures.
+                    (k = 6 curves cannot be used to scale security from 160-bits
+                    to say 256-bits because finite field attacks are subexponential.)
+                    <br/>
+                    Discovered by Barreto and Naehrig, "Pairing-friendly elliptic curves of prime order".
+                </p>
+
+                <p>
+                    Look
+                    <a href="http://crypto.stanford.edu/pbc/manual/ch08s08.html">here</a>
+                    for other information.
+                </p>
+
+                <p>
+                    To use the generator use the following:
+                </p>
+
+                <ol>
+                    <li>
+                        <p>
+                            The generator provided by the plaf module:
+                        </p>
+                        <source>import it.unisa.dia.gas.plaf.jpbc.pairing.f.TypeFCurveGenerator;
+
+// Init the generator...
+int rBits = 160;
+CurveGenerator curveGenerator = <strong style="color:green">new TypeFCurveGenerator(rBits)</strong>;
+</source>
+                    </li>
+                    <li>
+                        <p>
+                            The PBC Wrapper:
+                        </p>
+                        <source>import it.unisa.dia.gas.plaf.jpbc.pbc.curve.PBCTypeFCurveGenerator;
+
+CurveGenerator curveGenerator = <strong style="color:green">new PBCTypeFCurveGenerator(rBits)</strong>;
+</source>
+                    </li>
+                </ol>
+
+                <p>
+                    A possible output is the following:
+                </p>
+
+                <source xml:space="preserve">
+type e
+q 7245986106510086080714203333362098431608853335867425877960916928496629182991629664903654100214900946450053872786629995869445693724001299041657434948257845644905153122838458864000479326695430719258600053239930483226650953770354174712511646273516974069245462534034085895319225452125649979474047163305307830001
+r 730750862221594424981965739670091261094297337857
+h 13569343110918781839835249021482970252603216587988030044836106948825516930173270978617489032334001006615524543925753725725046733884363846960470444404747241287743773746682188521738728797153760275116924829183670000
+a 7130970454025799000067946137594446075551569949583815943390108723282396973737794273397246892274981883807989525599540630855644968426794929215599380425269625872763801485968007136000471718335185787206876242871042697778608875139078711621836858237429403052273312335081163896980825048123655535355411494046493419999
+b 7169309004853894693616698536183663527570664411678352588247044791687141043489072737232715961588288238022010974661903752526911876859197052490952065266265699130144252031591491045333807587788600764557450846327338626261289568016170532652061787582791926724597362401398804563093625182790987016728290050466098223333
+exp2 159
+exp1 135
+sign1 1
+sign0 1
+</source>
+            </subsection>
+
+
+            <a name="TypeG"/>
+            <subsection name="Type G">
+                Another construction based on the CM method.
+                Discovered by Freeman, "Constructing pairing-friendly elliptic curves with embedding degree 10."
+                <p>
+                    Look
+                    <a href="http://crypto.stanford.edu/pbc/manual/ch08s09.html">here</a>
+                    for other information.
+                </p>
+
+<!--
+                <p>
+                    By now you can use only the generator provided by PBC. If you don't want to use PBC at all,
+                    <a href="http://crypto.stanford.edu/pbc/download.html">here</a>
+                    you can find some pre-generated type D curves.
+                </p>
+-->
+
+                <p>
+                    To use the generator use the following:
+                </p>
+
+                <ol>
+                    <li>
+                        <p>
+                            The PBC Wrapper:
+                        </p>
+                        <source>import it.unisa.dia.gas.plaf.jpbc.pbc.curve.PBCTypeGCurveGenerator;
+
+// Init the generator...
+int discriminant = 35707;
+CurveGenerator curveGenerator = <strong style="color:green">new PBCTypeFCurveGenerator(discriminant)</strong>;
+</source>
+                    </li>
+                </ol>
+
+                <p>
+                    A possible output is the following:
+                </p>
+
+                <source xml:space="preserve">
+type f
+q 205523667896953300194896352429254920972540065223
+r 205523667896953300194895899082072403858390252929
+b 40218105156867728698573668525883168222119515413
+beta 115334401956802802075595682801335644058796914268
+alpha0 191079354656274778837764015557338301375963168470
+alpha1 71445317903696340296199556072836940741717506375
+</source>
+            </subsection>
+
+
         </section>
     </body>
 </document>

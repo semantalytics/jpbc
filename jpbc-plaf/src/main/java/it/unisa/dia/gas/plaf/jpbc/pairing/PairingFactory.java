@@ -35,7 +35,7 @@ public class PairingFactory {
     private Method getPairingMethod;
     private Throwable pbcPairingFailure;
 
-    private Map<String, Pairing> instances;
+    private Map<CurveParams, Pairing> instances;
 
     public PairingFactory() {
         // Try to load jpbc-pbc factory
@@ -45,7 +45,7 @@ public class PairingFactory {
         } catch (Exception e) {
             pbcPairingFailure = e;
         }
-        this.instances = new HashMap<String, Pairing>();
+        this.instances = new HashMap<CurveParams, Pairing>();
     }
 
 
@@ -64,7 +64,7 @@ public class PairingFactory {
 
         Pairing pairing;
         if (reuseIstance) {
-            pairing = instances.get(type);
+            pairing = instances.get(curveParams);
             if (pairing != null)
                 return pairing;
         }
@@ -85,7 +85,7 @@ public class PairingFactory {
             throw new IllegalArgumentException("Type not supported. Type = " + type);
 
         if (reuseIstance)
-            instances.put(type, pairing);
+            instances.put(curveParams, pairing);
         
         return pairing;
     }
