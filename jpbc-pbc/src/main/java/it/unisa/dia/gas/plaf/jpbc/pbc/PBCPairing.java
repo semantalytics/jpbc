@@ -59,7 +59,12 @@ public class PBCPairing implements Pairing {
     public Element pairing(Element in1, Element in2) {
         PBCElement out = (PBCElement) gTField.newElement();
 
-        PBCLibraryProvider.getPbcLibrary().pbc_pairing_apply(out.getValue(), ((PBCElement) in1).getValue(), ((PBCElement) in2).getValue(), pairing);
+        PBCLibraryProvider.getPbcLibrary().pbc_pairing_apply(
+                out.getValue(),
+                ((PBCElement) in1).getValue(),
+                ((PBCElement) in2).getValue(),
+                pairing
+        );
 
         return out;
     }
@@ -77,8 +82,11 @@ public class PBCPairing implements Pairing {
             in2Pointers[i] = ((PBCElement) in2[i]).getValue();
         }
 
-        // TODO: it does not work.
-        PBCLibraryProvider.getPbcLibrary().pbc_pairing_prod(out.getValue(), in1Pointers, in2Pointers, in1.length);
+        PBCLibraryProvider.getPbcLibrary().pbc_pairing_prod(
+                out.getValue(),
+                in1Pointers,
+                in2Pointers,
+                in1.length);
 
         return out;
     }
@@ -126,7 +134,11 @@ public class PBCPairing implements Pairing {
 
         public Element pairing(Element in2) {
             PBCElement out = (PBCElement) gTField.newElement();
-            PBCLibraryProvider.getPbcLibrary().pbc_pairing_pp_apply(out.value, ((PBCElement) in2).value, pairingPPType);
+            PBCLibraryProvider.getPbcLibrary().pbc_pairing_pp_apply(
+                    out.value,
+                    ((PBCElement) in2).value,
+                    pairingPPType
+            );
 
             return out;
         }

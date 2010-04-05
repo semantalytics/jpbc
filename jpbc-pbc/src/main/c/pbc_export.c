@@ -175,12 +175,17 @@ void pbc_pairing_apply(element_t out, element_t in1, element_t in2, pairing_t pa
     pairing_apply(out, in1, in2, pairing);
 }
 
-void pbc_pairing_prod(element_t out, element_t in1[], element_t in2[], int n) {
-    pbc_info("I'm here!!! %d\n", n);
-    element_printf("out : %B\n", out);
-    element_printf("in2[0] : %B\n", in2[0]);
-    element_printf("in1[0] : %B\n", in1[0]);
-    element_prod_pairing(out, in1, in2, n);
+void pbc_pairing_prod(element_t out, element_ptr in1[], element_ptr in2[], int n) {
+    element_t in1a[n];
+    element_t in2a[n];
+
+    int i = 0;
+    for (i = 0; i < n; i++) {
+        in1a[i][0] = *in1[i];
+        in2a[i][0] = *in2[i];
+    }
+
+    element_prod_pairing(out, in1a, in2a, n);
 }
 
 int pbc_pairing_is_symmetric(pairing_t pairing) {
