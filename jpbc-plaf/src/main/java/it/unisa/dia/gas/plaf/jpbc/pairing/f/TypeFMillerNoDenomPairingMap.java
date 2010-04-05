@@ -37,10 +37,12 @@ public class TypeFMillerNoDenomPairingMap extends AbstractMillerPairingMap {
     public Element tateExp(Element element) {
         PolyModElement x = pairingData.Fq12.newElement();
         PolyModElement y = pairingData.Fq12.newElement();
-        qPower((PolyModElement) element, y, pairingData.xpowq8);
-        qPower((PolyModElement) element, x, pairingData.xpowq6);
+
+        qPower((PolyModElement) element, y, pairingData.xPowq8);
+        qPower((PolyModElement) element, x, pairingData.xPowq6);
         y.mul(x);
-        qPower((PolyModElement) element, x, pairingData.xpowq2);
+        qPower((PolyModElement) element, x, pairingData.xPowq2);
+
         return y.mul(x.mul(element).invert()).pow(pairingData.tateExp);
     }
 
@@ -121,7 +123,10 @@ public class TypeFMillerNoDenomPairingMap extends AbstractMillerPairingMap {
         v.set(e0);
     }
 
-    protected void millerStepTerm(int i, int j, int k, int flag, Polynomial e0, Polynomial v, Element a, Element b, Element c, Element Qx, Element Qy) {
+    protected void millerStepTerm(int i, int j, int k, int flag, 
+                                  Polynomial e0, Polynomial v,
+                                  Element a, Element b, Element c,
+                                  Element Qx, Element Qy) {
         Point e2 = (Point) e0.getCoefficient(i);
         Point e1 = (Point) v.getCoefficient(j).duplicate().mul(Qx);
         if (flag == 1)

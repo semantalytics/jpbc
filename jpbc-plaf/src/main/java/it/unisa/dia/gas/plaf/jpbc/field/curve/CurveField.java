@@ -115,6 +115,9 @@ public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElemen
 
     /**
      * Existing points are invalidated as this mangles c.
+     * Consider the curve E′ given by Y^2 = X^3 + a v^2 X + v^3 b, which
+     * we call the (quadratic) twist of the curve E, where
+     * v is a quadratic nonresidue in Fq
      *
      * @return the twisted curve.
      */

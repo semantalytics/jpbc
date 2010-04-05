@@ -64,17 +64,9 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
         //b = 2 * Vy
         //c = -(2 Vy^2 + a Vx);
 
-        a.set(Vx).square();
-//        a.add(a).add(a);
-        a.mul(3);
-        a.add(curveA);
-        a.negate();
-
+        a.set(Vx).square().mul(3).add(curveA).negate();
         b.set(Vy).twice();
-
-        temp.set(b).mul(Vy);
-        c.set(a).mul(Vx);
-        c.add(temp).negate();
+        c.set(a).mul(Vx).add(temp.set(b).mul(Vy)).negate();
     }
 
     protected final void computeTangent(MillerPreProcessingInfo info,

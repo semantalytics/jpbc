@@ -34,7 +34,7 @@ public class TypeFPairing extends AbstractPairing {
     protected BigInteger alpha0;
     protected BigInteger alpha1;
 
-    protected Element xpowq2, xpowq6, xpowq8;
+    protected Element xPowq2, xPowq6, xPowq8;
     protected Element negAlpha, negAlphaInv;
     protected BigInteger tateExp;
 
@@ -132,15 +132,15 @@ public class TypeFPairing extends AbstractPairing {
         polyModElement.getCoefficient(1).setToOne();
         polyModElement.pow(q);
         polyModElement.pow(q);
-        xpowq2 = polyModElement.getCoefficient(1).duplicate();
+        xPowq2 = polyModElement.getCoefficient(1).duplicate();
         polyModElement.pow(q);
         polyModElement.pow(q);
         polyModElement.pow(q);
         polyModElement.pow(q);
-        xpowq6 = polyModElement.getCoefficient(1).duplicate();
+        xPowq6 = polyModElement.getCoefficient(1).duplicate();
         polyModElement.pow(q);
         polyModElement.pow(q);
-        xpowq8 = polyModElement.getCoefficient(1).duplicate();
+        xPowq8 = polyModElement.getCoefficient(1).duplicate();
 
         // Init G1, G2, GT
         G1 = Eq;
