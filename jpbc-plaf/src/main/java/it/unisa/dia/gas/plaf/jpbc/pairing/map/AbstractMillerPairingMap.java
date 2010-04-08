@@ -36,11 +36,11 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
     }
 
     protected final void tangentStepProjective(Point<E> f0,
-                           Element a, Element b, Element c,
-                           Element Vx, Element Vy, Element z,
-                           Element z2, Element e0,
-                           E Qx, E Qy,
-                           Element f) {
+                                               Element a, Element b, Element c,
+                                               Element Vx, Element Vy, Element z,
+                                               Element z2, Element e0,
+                                               E Qx, E Qy,
+                                               Element f) {
         computeTangentProjective(a, b, c, Vx, Vy, z, z2, e0);
         millerStep(f0, a, b, c, Qx, Qy);
         f.mul(f0);
@@ -49,7 +49,6 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
     protected abstract void millerStep(Point<E> out,
                                        Element a, Element b, Element c,
                                        E Qx, E Qy);
-
 
 
     protected final void computeTangent(Element a, Element b, Element c,
@@ -140,14 +139,14 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
     /**
      * Compute the tangent line L (aX + bY + c) through the points V = (Vx, Vy) e V1 = (V1x, V1y).
      *
-     * @param a   the coefficient of X of tangent line T.
-     * @param b   the coefficient of Y of tangent line T.
-     * @param c   the constant term f tangent line T.
-     * @param Vx  V's x.
-     * @param Vy  V's y.
-     * @param V1x V1's x.
-     * @param V1y V1's y.
-     * @param temp  temp element.
+     * @param a    the coefficient of X of tangent line T.
+     * @param b    the coefficient of Y of tangent line T.
+     * @param c    the constant term f tangent line T.
+     * @param Vx   V's x.
+     * @param Vy   V's y.
+     * @param V1x  V1's x.
+     * @param V1y  V1's y.
+     * @param temp temp element.
      */
     protected final void computeLine(Element a, Element b, Element c,
                                      Element Vx, Element Vy,
@@ -170,10 +169,10 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
     }
 
     protected final void computeLine(MillerPreProcessingInfo info,
-                                    Element a, Element b, Element c,
-                                    Element Vx, Element Vy,
-                                    Element V1x, Element V1y,
-                                    Element temp) {
+                                     Element a, Element b, Element c,
+                                     Element Vx, Element Vy,
+                                     Element V1x, Element V1y,
+                                     Element temp) {
         // a = -(V1y - Vy) / (V1x - Vx);
         // b = 1;
         // c = -(Vy + a * Vx);

@@ -102,8 +102,7 @@ public class TypeFPairing extends AbstractPairing {
         // init Fq12
         Fq12 = initPolyMod(irreduciblePoly);
 
-        negAlpha.negate();
-        negAlphaInv = negAlpha.duplicate().invert();
+        negAlphaInv = negAlpha.negate().duplicate().invert();
 
         // Initialize the curve Y^2 = X^3 + b.
         Eq = initEq();
@@ -180,6 +179,6 @@ public class TypeFPairing extends AbstractPairing {
     }
 
     protected void initMap() {
-        pairingMap = new TypeFMillerNoDenomPairingMap(this);
+        pairingMap = new TypeFTateNoDenomMillerPairingMap(this);
     }
 }

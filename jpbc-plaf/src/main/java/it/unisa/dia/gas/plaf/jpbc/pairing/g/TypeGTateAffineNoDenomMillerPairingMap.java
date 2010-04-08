@@ -11,12 +11,11 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.map.AbstractMillerPairingMap;
 
 import java.util.List;
 
-public class TypeGMillerNoDenomAffinePairingMap extends AbstractMillerPairingMap<Polynomial> {
+public class TypeGTateAffineNoDenomMillerPairingMap extends AbstractMillerPairingMap<Polynomial> {
     protected TypeGPairing pairing;
-    protected MillerPreProcessingInfo processingInfo;
 
 
-    public TypeGMillerNoDenomAffinePairingMap(TypeGPairing pairing) {
+    public TypeGTateAffineNoDenomMillerPairingMap(TypeGPairing pairing) {
         this.pairing = pairing;
     }
 
@@ -97,7 +96,9 @@ public class TypeGMillerNoDenomAffinePairingMap extends AbstractMillerPairingMap
         return lucasEven(e0, pairing.phikOnr);
     }
 
-    final void qPower(int sign, PolyModElement e2, Element e0re, Element e0im, Element e0re0, Element e0im0, List<Element> inre, List<Element> inim) {
+    final void qPower(int sign, PolyModElement e2,
+                      Element e0re, Element e0im, Element e0re0, Element e0im0,
+                      List<Element> inre, List<Element> inim) {
         e2.set(pairing.xPowq).polymodConstMul(inre.get(1));
         e0re.set(e2);
         e2.set(pairing.xPowq2).polymodConstMul(inre.get(2));

@@ -87,7 +87,7 @@ public class TypeA1Pairing extends AbstractPairing {
     }
 
     protected void initMap() {
-        pairingMap = new TypeA1MillerAffinePairingMap(this);
+        pairingMap = new TypeA1TateAffineMillerPairingMap(this);
     }
 
 }

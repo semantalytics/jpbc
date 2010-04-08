@@ -13,11 +13,11 @@ import java.math.BigInteger;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class TypeAMillerAffinePairingMap extends AbstractMillerPairingMap {
+public class TypeATateAffineMillerPairingMap extends AbstractMillerPairingMap {
     protected TypeAPairing pairing;
 
 
-    public TypeAMillerAffinePairingMap(TypeAPairing pairing) {
+    public TypeATateAffineMillerPairingMap(TypeAPairing pairing) {
         this.pairing = pairing;
     }
 
@@ -91,7 +91,7 @@ public class TypeAMillerAffinePairingMap extends AbstractMillerPairingMap {
 
         // Do final pow
         Point out = pairing.Fq2.newElement();
-        tatePow(out, f, f0, pairing.phikonr);
+        tatePow(out, f, f0, pairing.phikOnr);
 
         return new GTFiniteElement(this, (GTFiniteField) pairing.getGT(), out);
     }
@@ -101,7 +101,7 @@ public class TypeAMillerAffinePairingMap extends AbstractMillerPairingMap {
         t0 = element.getField().newElement();
         t1 = element.getField().newElement();
 
-        tatePow((Point) t0, (Point) element, (Point) t1, pairing.phikonr);
+        tatePow((Point) t0, (Point) element, (Point) t1, pairing.phikOnr);
 
         element.set(t0);
     }
@@ -116,7 +116,7 @@ public class TypeAMillerAffinePairingMap extends AbstractMillerPairingMap {
         t0 = element.getField().newElement();
         t1 = element.getField().newElement();
 
-        tatePow((DegreeTwoQuadraticElement) t0, (DegreeTwoQuadraticElement) element, (DegreeTwoQuadraticElement) t1, pairing.phikonr);
+        tatePow((DegreeTwoQuadraticElement) t0, (DegreeTwoQuadraticElement) element, (DegreeTwoQuadraticElement) t1, pairing.phikOnr);
 
         element.set(t0);
 
@@ -245,10 +245,10 @@ public class TypeAMillerAffinePairingMap extends AbstractMillerPairingMap {
             millerStep(f0, processingInfo.coeff[i][0], processingInfo.coeff[i][1], processingInfo.coeff[i][2], Qx, Qy);
             f.mul(f0);
 
-            tatePow(out, f, f0, pairing.phikonr);
+            tatePow(out, f, f0, pairing.phikOnr);
 
             return new GTFiniteElement(
-                    TypeAMillerAffinePairingMap.this,
+                    TypeATateAffineMillerPairingMap.this,
                     (GTFiniteField) pairing.getGT(),
                     out
             );

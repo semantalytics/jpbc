@@ -45,6 +45,7 @@ public abstract class AbstractPairingMap implements PairingMap {
         }
     }
 
+
     protected final void pointToAffine(Element Vx, Element Vy, Element z, Element z2, Element e0) {
         // Vx = Vx * z^-2
         Vx.mul(e0.set(z.invert()).square());

@@ -12,11 +12,11 @@ import java.math.BigInteger;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class TypeA1MillerAffinePairingMap extends AbstractMillerPairingMap<Element> {
+public class TypeA1TateAffineMillerPairingMap extends AbstractMillerPairingMap<Element> {
     protected TypeA1Pairing pairing;
 
 
-    public TypeA1MillerAffinePairingMap(TypeA1Pairing pairing) {
+    public TypeA1TateAffineMillerPairingMap(TypeA1Pairing pairing) {
         this.pairing = pairing;
     }
 

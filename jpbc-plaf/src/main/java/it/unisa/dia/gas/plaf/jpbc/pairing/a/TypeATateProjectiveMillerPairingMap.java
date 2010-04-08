@@ -5,7 +5,6 @@ import it.unisa.dia.gas.jpbc.PairingPreProcessing;
 import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteElement;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteField;
-import it.unisa.dia.gas.plaf.jpbc.field.quadratic.DegreeTwoQuadraticElement;
 import it.unisa.dia.gas.plaf.jpbc.pairing.map.AbstractMillerPairingMap;
 
 import java.math.BigInteger;
@@ -13,12 +12,11 @@ import java.math.BigInteger;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class TypeAMillerProjectivePairingMap extends AbstractMillerPairingMap {
+public class TypeATateProjectiveMillerPairingMap extends AbstractMillerPairingMap {
     protected TypeAPairing pairing;
-    protected MillerPreProcessingInfo processingInfo;
 
 
-    public TypeAMillerProjectivePairingMap(TypeAPairing pairing) {
+    public TypeATateProjectiveMillerPairingMap(TypeAPairing pairing) {
         this.pairing = pairing;
     }
 
@@ -94,7 +92,7 @@ public class TypeAMillerProjectivePairingMap extends AbstractMillerPairingMap {
 
         // Do final pow
         Point out = pairing.Fq2.newElement();
-        tatePow(out, f, f0, pairing.phikonr);
+        tatePow(out, f, f0, pairing.phikOnr);
 
         return new GTFiniteElement(this, (GTFiniteField) pairing.getGT(), out);
     }
@@ -104,13 +102,13 @@ public class TypeAMillerProjectivePairingMap extends AbstractMillerPairingMap {
         t0 = element.getField().newElement();
         t1 = element.getField().newElement();
 
-        tatePow((Point) t0, (Point) element, (Point) t1, pairing.phikonr);
+        tatePow((Point) t0, (Point) element, (Point) t1, pairing.phikOnr);
 
         element.set(t0);
     }
 
     public PairingPreProcessing pairingPreProcessing(Point in1) {
-        return new TypeAProjectivePairingPreProcessing(in1);
+        return new TypeATateProjectiveMillerPairingPreProcessing(in1);
     }
 
 
@@ -119,7 +117,9 @@ public class TypeAMillerProjectivePairingMap extends AbstractMillerPairingMap {
         t0 = element.getField().newElement();
         t1 = element.getField().newElement();
 
-        tatePow((DegreeTwoQuadraticElement) t0, (DegreeTwoQuadraticElement) element, (DegreeTwoQuadraticElement) t1, pairing.phikonr);
+        tatePow((Point) t0,
+                (Point) element,
+                (Point) t1, pairing.phikOnr);
 
         element.set(t0);
 
@@ -227,12 +227,12 @@ public class TypeAMillerProjectivePairingMap extends AbstractMillerPairingMap {
     }
 
 
-    public class TypeAProjectivePairingPreProcessing implements PairingPreProcessing {
+    public class TypeATateProjectiveMillerPairingPreProcessing implements PairingPreProcessing {
         protected Point in1;
         protected MillerPreProcessingInfo processingInfo;
 
 
-        public TypeAProjectivePairingPreProcessing(Point in1) {
+        public TypeATateProjectiveMillerPairingPreProcessing(Point in1) {
             this.in1 = in1;
 
             int i, n;
@@ -311,14 +311,14 @@ public class TypeAMillerProjectivePairingMap extends AbstractMillerPairingMap {
             millerStep(f0, processingInfo.coeff[i][0], processingInfo.coeff[i][1], processingInfo.coeff[i][2], Qx, Qy);
             f.mul(f0);
 
-            tatePow(out, f, f0, pairing.phikonr);
+            tatePow(out, f, f0, pairing.phikOnr);
 
             return new GTFiniteElement(
-                    TypeAMillerProjectivePairingMap.this,
+                    TypeATateProjectiveMillerPairingMap.this,
                     (GTFiniteField) pairing.getGT(),
                     out
             );
         }
     }
-    
+
 }

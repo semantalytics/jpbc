@@ -15,7 +15,7 @@ import java.math.BigInteger;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class TypeAPairing extends AbstractPairing {
-    public static final String MILLER_PROJECTTIVE_METHOD = "miller";
+    public static final String MILLER_PROJECTTIVE_METHOD = "miller-projective";
     public static final String MILLER_AFFINE_METHOD = "miller-affine";
 
 
@@ -28,7 +28,7 @@ public class TypeAPairing extends AbstractPairing {
     protected BigInteger q; 
     protected BigInteger h;
 
-    protected BigInteger phikonr;
+    protected BigInteger phikOnr;
 
     protected Field Fq;
     protected Field<? extends Point> Fq2;
@@ -76,7 +76,7 @@ public class TypeAPairing extends AbstractPairing {
         Fq2 = initFi();
 
         // k=2, hence phi_k(q) = q + 1, phikOnr = (q+1)/r
-        phikonr = h;
+        phikOnr = h;
 
         // Init G1, G2, GT
         G1 = Eq;
@@ -106,9 +106,9 @@ public class TypeAPairing extends AbstractPairing {
         String method = curveParams.getString("method", MILLER_PROJECTTIVE_METHOD);
 
         if (MILLER_PROJECTTIVE_METHOD.equals(method))
-            pairingMap = new TypeAMillerProjectivePairingMap(this);
+            pairingMap = new TypeATateProjectiveMillerPairingMap(this);
         else if (MILLER_AFFINE_METHOD.equals(method))
-            pairingMap = new TypeAMillerAffinePairingMap(this);
+            pairingMap = new TypeATateAffineMillerPairingMap(this);
         else
             throw new IllegalArgumentException("Pairing method not recognized. Method = " + method);
     }

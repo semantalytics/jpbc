@@ -15,12 +15,11 @@ import java.util.List;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class TypeDMillerNoDenomAffinePairingMap extends AbstractMillerPairingMap<Polynomial> {
+public class TypeDTateAffineNoDenomMillerPairingMap extends AbstractMillerPairingMap<Polynomial> {
     protected TypeDPairing pairing;
-    protected MillerPreProcessingInfo processingInfo;
 
 
-    public TypeDMillerNoDenomAffinePairingMap(TypeDPairing pairing) {
+    public TypeDTateAffineNoDenomMillerPairingMap(TypeDPairing pairing) {
         this.pairing = pairing;
     }
 
@@ -144,7 +143,9 @@ public class TypeDMillerNoDenomAffinePairingMap extends AbstractMillerPairingMap
         */
     }
 
-    final void qPower(int sign, PolyModElement e2, Element e0re, Element e0im, Element e0re0, Element e0im0, List<Element> inre, List<Element> inim) {
+    final void qPower(int sign, PolyModElement e2,
+                      Element e0re, Element e0im, Element e0re0, Element e0im0,
+                      List<Element> inre, List<Element> inim) {
         e2.set(pairing.xPowq).polymodConstMul(inre.get(1));
         e0re.set(e2);
         e2.set(pairing.xPowq2).polymodConstMul(inre.get(2));
@@ -206,15 +207,10 @@ public class TypeDMillerNoDenomAffinePairingMap extends AbstractMillerPairingMap
 
         Polynomial rePart = out.getX();
         Polynomial imPart = out.getY();
-
-        int i;
-        //int d = rePart.getField().getN();
-        int d = rePart.getDegree();
-        for (i = 0; i < d; i++) {
+        for (int i = 0, d = rePart.getDegree(); i < d; i++) {
             rePart.getCoefficient(i).set(Qx.getCoefficient(i)).mul(a);
             imPart.getCoefficient(i).set(Qy.getCoefficient(i)).mul(b);
         }
-
         rePart.getCoefficient(0).add(c);
     }
 
@@ -287,7 +283,7 @@ public class TypeDMillerNoDenomAffinePairingMap extends AbstractMillerPairingMap
             out.mul(f0);
 
             return new GTFiniteElement(
-                    TypeDMillerNoDenomAffinePairingMap.this,
+                    TypeDTateAffineNoDenomMillerPairingMap.this,
                     (GTFiniteField) pairing.getGT(),
                     tatePow(out)
             );

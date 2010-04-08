@@ -170,7 +170,7 @@ public class TypeDPairing extends AbstractPairing {
     }
 
     protected void initMap() {
-        pairingMap = new TypeDMillerNoDenomAffinePairingMap(this);
+        pairingMap = new TypeDTateAffineNoDenomMillerPairingMap(this);
     }
 
 }

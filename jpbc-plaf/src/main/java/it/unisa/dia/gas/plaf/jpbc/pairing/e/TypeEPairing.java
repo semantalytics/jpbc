@@ -98,6 +98,6 @@ public class TypeEPairing extends AbstractPairing {
 
 
     protected void initMap() {
-        pairingMap = new TypeEMillerProjectivePairingMap(this);
+        pairingMap = new TypeETateProjectiveMillerPairingMap(this);
     }
 }

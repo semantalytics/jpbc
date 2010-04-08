@@ -5,14 +5,13 @@ import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.jpbc.Polynomial;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteElement;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteField;
-import it.unisa.dia.gas.plaf.jpbc.field.polymod.PolyModElement;
 import it.unisa.dia.gas.plaf.jpbc.pairing.map.AbstractMillerPairingMap;
 
-public class TypeFMillerNoDenomPairingMap extends AbstractMillerPairingMap {
+public class TypeFTateNoDenomMillerPairingMap extends AbstractMillerPairingMap {
     protected TypeFPairing pairingData;
 
 
-    public TypeFMillerNoDenomPairingMap(TypeFPairing pairing) {
+    public TypeFTateNoDenomMillerPairingMap(TypeFPairing pairing) {
         this.pairingData = pairing;
     }
 
@@ -26,28 +25,32 @@ public class TypeFMillerNoDenomPairingMap extends AbstractMillerPairingMap {
         Point x = (Point) in2.getX().duplicate().mul(pairingData.negAlphaInv);
         Point y = (Point) in2.getY().duplicate().mul(pairingData.negAlphaInv);
 
-        return new GTFiniteElement(this, (GTFiniteField) pairingData.getGT(), tateExp(pairing(in1, x, y)));
+        return new GTFiniteElement(
+                this,
+                (GTFiniteField) pairingData.getGT(),
+                tateExp((Polynomial) pairing(in1, x, y))
+        );
     }
 
     public void finalPow(Element element) {
-        element.set(tateExp(element));
+        element.set(tateExp((Polynomial) element));
     }
 
 
-    public Element tateExp(Element element) {
-        PolyModElement x = pairingData.Fq12.newElement();
-        PolyModElement y = pairingData.Fq12.newElement();
+    public Element tateExp(Polynomial element) {
+        Polynomial x = pairingData.Fq12.newElement();
+        Polynomial y = pairingData.Fq12.newElement();
 
-        qPower((PolyModElement) element, y, pairingData.xPowq8);
-        qPower((PolyModElement) element, x, pairingData.xPowq6);
+        qPower(element, y, pairingData.xPowq8);
+        qPower(element, x, pairingData.xPowq6);
         y.mul(x);
-        qPower((PolyModElement) element, x, pairingData.xPowq2);
+        qPower(element, x, pairingData.xPowq2);
 
         return y.mul(x.mul(element).invert()).pow(pairingData.tateExp);
     }
 
 
-    private void qPower(PolyModElement element, PolyModElement e1, Element e) {
+    private void qPower(Polynomial element, Polynomial e1, Element e) {
         e1.getCoefficient(0).set(element.getCoefficient(0));
         e1.getCoefficient(1).set(element.getCoefficient(1).duplicate().mul(e));
 
