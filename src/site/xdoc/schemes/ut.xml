@@ -25,6 +25,13 @@
             </p>
 
             <p>
+                URL:
+                <a href="http://eprint.iacr.org/2009/380.pdf">
+                    http://eprint.iacr.org/2009/380.pdf
+                </a>
+            </p>
+
+            <p>
                 In this page we will see:
             </p>
 
@@ -49,7 +56,7 @@
             
             <subsection name="Public Information Generation">
                 <p>
-                    The public information generation algorithm select at random
+                    The publisc information generation algorithm select at random
                 </p>
                 <ol>
                     <li>
