@@ -5,11 +5,11 @@ import java.util.Arrays;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class PBCjPBCBenchmark {
+public class ComparisonBenchmark {
     protected int times;
 
 
-    public PBCjPBCBenchmark(int times) {
+    public ComparisonBenchmark(int times) {
         this.times = times;
     }
 
@@ -26,15 +26,15 @@ public class PBCjPBCBenchmark {
 
 
     public static void main(String[] args) {
-        PBCjPBCBenchmark benchmark = new PBCjPBCBenchmark(Integer.parseInt(args[0]));
+        ComparisonBenchmark benchmark = new ComparisonBenchmark(Integer.parseInt(args[0]));
         String[] curves = Arrays.copyOfRange(args, 1, args.length);
 
-        System.out.printf("PBCjPBC Benchmark.\n");
+        System.out.printf("Comparison Benchmark.\n");
         System.out.printf("#Times = %s\n", args[0]);
         for (String curve : curves) {
             System.out.printf("Curve = %s\n", curve);
         }
         System.out.printf("Results: \n %s\n", benchmark.benchmark(curves));
-        System.out.printf("PBCjPBC Benchmark. Finished.\n");
+        System.out.printf("Comparison Benchmark. Finished.\n");
     }
 }
