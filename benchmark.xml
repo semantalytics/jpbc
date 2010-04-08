@@ -21,7 +21,7 @@
         <echo message="BaseDir = ${basedir}"/>
         <echo message="Starting Benchmarks..."/>
 
-        <java fork="true" classname="it.unisa.dia.gas.jpbc.benchmark.PBCBenchmark">
+        <java fork="true" classname="it.unisa.dia.gas.jpbc.benchmark.PBCjPBCBenchmark">
             <arg value="100"/>
             <arg value="${basedir}/params/benchmark/a.properties"/>
             <arg value="${basedir}/params/benchmark/a1.properties"/>
@@ -36,20 +36,6 @@
             </classpath>
         </java>
 
-        <java fork="true" classname="it.unisa.dia.gas.jpbc.benchmark.JPBCBenchmark">
-            <arg value="100"/>
-            <arg value="${basedir}/params/benchmark/a.properties"/>
-            <arg value="${basedir}/params/benchmark/a1.properties"/>
-            <arg value="${basedir}/params/benchmark/d159.properties"/>
-            <arg value="${basedir}/params/benchmark/d201.properties"/>
-            <arg value="${basedir}/params/benchmark/d224.properties"/>
-            <arg value="${basedir}/params/benchmark/e.properties"/>
-            <arg value="${basedir}/params/benchmark/f.properties"/>
-            <arg value="${basedir}/params/benchmark/g149.properties"/>
-            <classpath>
-                <path refid="runtime.classpath"/>
-            </classpath>
-        </java>
     </target>
 
 </project>

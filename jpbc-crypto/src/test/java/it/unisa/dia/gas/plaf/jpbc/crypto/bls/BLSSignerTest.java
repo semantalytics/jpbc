@@ -14,11 +14,11 @@ import org.bouncycastle.crypto.digests.SHA256Digest;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class BLSBLSSignerTest extends TestCase {
+public class BLSSignerTest extends TestCase {
 
     public void testSignerEngine() {
         CurveParams curveParams = new CurveParams();
-        curveParams.load(BLSBLSSignerTest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/crypto/a_181_603.properties"));
+        curveParams.load(BLSSignerTest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/crypto/a_181_603.properties"));
 
         byte[] message = "Hello World!!!".getBytes();
 

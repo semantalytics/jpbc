@@ -20,36 +20,10 @@ public class JPBCBenchmark {
     }
 
 
-    public String benchmark(String[] curves) {
-        StringBuffer buffer = new StringBuffer();
+    public Benchmark benchmark(String[] curves) {
+        Benchmark benchmark = new Benchmark(curves);
 
-        benchmark(buffer, curves);
-
-        return buffer.toString();
-    }
-
-
-    protected void benchmark(StringBuffer buffer, String[] curves) {
-        // Pairing Benchmarks
-        System.out.println("Pairing Benchmark...");
-
-        String[] pairingBenchmarkNames = new String[]{
-                "Pairing#pairing(in1, in2)",
-                "Pairing#pairing(in1)",
-                "PairingPreProcessing#pairing(in2)",
-        };
-
-        String[] elementBenchmarkNames = new String[]{
-                "Element#pow(BigInteger)",
-                "Element#powZn(Element)",
-                "Element#pow()",
-                "ElementPowPreProcessing#pow(BigInteger)",
-                "ElementPowPreProcessing#powZn(Element)",
-                "Element#mul(BigInteger)",
-                "Element#setToRandom()"
-        };
-
-        double[][] pairingBenchmarks = new double[3 + (5 * 4)][curves.length];
+        double[][] pairingBenchmarks = benchmark.getPairingBenchmarks();
 
         for (int col = 0; col < curves.length; col++) {
             System.out.printf("Curve = %s...", curves[col]);
@@ -84,12 +58,10 @@ public class JPBCBenchmark {
             System.out.printf("finished.\n");
         }
 
-        System.out.println("Element Pow Benchmark...");
         // Element Pow Benchmarks
-        String[] fieldNames = new String[]{
-                "G1", "G2", "GT", "Zr"
-        };
-        double[][][] elementBenchmarks = new double[fieldNames.length][elementBenchmarkNames.length][curves.length];
+        System.out.println("Element Pow Benchmark...");
+
+        double[][][] elementBenchmarks = benchmark.getElementBenchmarks();
 
         for (int col = 0; col < curves.length; col++) {
             System.out.printf("Curve = %s\n", curves[col]);
@@ -103,7 +75,7 @@ public class JPBCBenchmark {
             };
 
             for (int fieldIndex = 0; fieldIndex < fields.length; fieldIndex++) {
-                System.out.printf("Field %s...", fieldNames[fieldIndex]);
+                System.out.printf("Field %s...", Benchmark.fieldNames[fieldIndex]);
 
                 long t1 = 0, t2 = 0,t3 = 0,t4 = 0, t5 = 0, t6 = 0, t7 = 0;
                 for (int i = 0; i < times; i++) {
@@ -159,54 +131,7 @@ public class JPBCBenchmark {
             }
         }
 
-
-        buffer  .append("                <table>\n")
-                .append("                    <tr>\n")
-                .append("                        <th>Benchmark - Average Time (ms)</th>\n")
-                .append("                        <th>Pairing Type</th>\n")
-                .append("                    </tr>\n")
-                .append("                    <tr>\n")
-                .append("                        <th></th>\n");
-        for (String curve : curves) {
-            curve = curve.substring(curve.lastIndexOf('/')+1, curve.lastIndexOf('.'));
-
-            buffer.append("                        <th><strong style=\"color:green\">").append(curve).append("</strong></th>\n");
-        }
-        buffer.append("                    </tr>\n");
-
-        for (int row = 0; row < pairingBenchmarkNames.length; row++) {
-            buffer.append("                    <tr>\n")
-                    .append("                        <th align=\"left\"><strong style=\"color:green\">").append(pairingBenchmarkNames[row]).append("</strong></th>\n");
-            for (int col = 0; col < curves.length; col++) {
-                buffer.append("                        <td>").append(pairingBenchmarks[row][col]).append("</td>\n");
-            }
-            buffer.append("                    </tr>\n");
-        }
-
-        for (int fieldIndex = 0; fieldIndex < fieldNames.length; fieldIndex++) {
-            buffer.append("                    <tr>\n")
-                    .append("                        <th align=\"left\">\n")
-                    .append("                            <strong style=\"color:black\">Element Pow (").append(fieldNames[fieldIndex]).append(")</strong>\n")
-                    .append("                        </th>\n")
-                    .append("                        <td></td>\n")
-                    .append("                        <td></td>\n")
-                    .append("                        <td></td>\n")
-                    .append("                        <td></td>\n")
-                    .append("                    </tr>\n");
-
-            for (int row = 0; row < elementBenchmarkNames.length; row++) {
-                buffer.append("                    <tr>\n")
-                        .append("                        <th align=\"left\"><strong style=\"color:green\">")
-                        .append(elementBenchmarkNames[row])
-                        .append("</strong></th>\n");
-                for (int col = 0; col < curves.length; col++) {
-                    buffer.append("                        <td>").append(elementBenchmarks[fieldIndex][row][col]).append("</td>\n");
-                }
-                buffer.append("                    </tr>\n");
-            }
-        }
-
-        buffer.append("                </table>\n");
+        return benchmark;
     }
 
     protected CurveParams getCurveParams(String curve) {
@@ -241,7 +166,7 @@ public class JPBCBenchmark {
         for (String curve : curves) {
             System.out.printf("Curve = %s\n", curve);
         }
-        System.out.printf("Results: \n %s\n", benchmark.benchmark(curves));
+        System.out.printf("Results: \n %s\n", benchmark.benchmark(curves).toHTML());
         System.out.printf("JPBC Benchmark. Finished.\n");
     }
 }

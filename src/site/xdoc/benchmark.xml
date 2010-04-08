@@ -26,36 +26,6 @@
                 </li>
             </ol>
 
-            <p>
-                Test machine:
-            </p>
-
-            <source>
-cat /proc/cpuinfo
-processor	: 0
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 15
-model name	: Intel(R) Core(TM)2 Quad CPU    Q6600  @ 2.40GHz
-stepping	: 11
-cpu MHz		: 1596.000
-cache size	: 4096 KB
-cpu cores	: 4
-apicid		: 0
-initial apicid	: 0
-fpu	    	: yes
-fpu_exception	: yes
-cpuid level	: 10
-wp	    	: yes
-flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36
-              clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx lm constant_tsc
-              arch_perfmon pebs bts rep_good pni dtes64 monitor ds_cpl vmx est tm2
-              ssse3 cx16 xtpr pdcm lahf_lm tpr_shadow vnmi flexpriority
-bogomips	: 4800.38
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 36 bits physical, 48 bits virtual
-power management:</source>
         </section>
 
         <a name="porting"/>
@@ -68,44 +38,68 @@ power management:</source>
                 <tr>
                     <th></th>
                     <th>
-                        <strong style="color:green">a_181_603</strong>
+                        <strong style="color:green">a</strong>
                     </th>
                     <th>
                         <strong style="color:green">a1</strong>
                     </th>
                     <th>
-                        <strong style="color:green">d_9563</strong>
+                        <strong style="color:green">d159</strong>
                     </th>
                     <th>
-                        <strong style="color:green">e_181_1024</strong>
+                        <strong style="color:green">d201</strong>
+                    </th>
+                    <th>
+                        <strong style="color:green">d224</strong>
+                    </th>
+                    <th>
+                        <strong style="color:green">e</strong>
+                    </th>
+                    <th>
+                        <strong style="color:green">f</strong>
+                    </th>
+                    <th>
+                        <strong style="color:green">g149</strong>
                     </th>
                 </tr>
                 <tr>
                     <th align="left">
                         <strong style="color:green">Pairing#pairing(in1, in2)</strong>
                     </th>
-                    <td>39.28</td>
-                    <td>881.46</td>
-                    <td>66.19</td>
-                    <td>90.53</td>
+                    <td>26.21</td>
+                    <td>745.44</td>
+                    <td>48.46</td>
+                    <td>58.6</td>
+                    <td>67.69</td>
+                    <td>67.66</td>
+                    <td>193.82</td>
+                    <td>191.45</td>
                 </tr>
                 <tr>
                     <th align="left">
                         <strong style="color:green">Pairing#pairing(in1)</strong>
                     </th>
-                    <td>44.0</td>
+                    <td>30.02</td>
+                    <td>0.0</td>
+                    <td>10.14</td>
+                    <td>12.07</td>
+                    <td>16.15</td>
                     <td>0.01</td>
-                    <td>14.05</td>
+                    <td>0.0</td>
                     <td>0.0</td>
                 </tr>
                 <tr>
                     <th align="left">
                         <strong style="color:green">PairingPreProcessing#pairing(in2)</strong>
                     </th>
-                    <td>16.54</td>
-                    <td>882.06</td>
-                    <td>52.42</td>
-                    <td>90.8</td>
+                    <td>10.94</td>
+                    <td>746.99</td>
+                    <td>38.92</td>
+                    <td>47.16</td>
+                    <td>52.1</td>
+                    <td>67.73</td>
+                    <td>192.78</td>
+                    <td>191.04</td>
                 </tr>
                 <tr>
                     <th align="left">
@@ -120,46 +114,92 @@ power management:</source>
                     <th align="left">
                         <strong style="color:green">Element#pow(BigInteger)</strong>
                     </th>
-                    <td>33.07</td>
-                    <td>448.39</td>
-                    <td>8.75</td>
-                    <td>70.15</td>
+                    <td>24.19</td>
+                    <td>404.57</td>
+                    <td>6.07</td>
+                    <td>9.02</td>
+                    <td>11.86</td>
+                    <td>64.26</td>
+                    <td>6.04</td>
+                    <td>5.49</td>
                 </tr>
                 <tr>
                     <th align="left">
                         <strong style="color:green">Element#powZn(Element)</strong>
                     </th>
-                    <td>32.99</td>
-                    <td>447.81</td>
-                    <td>8.77</td>
-                    <td>69.87</td>
+                    <td>24.39</td>
+                    <td>404.51</td>
+                    <td>6.15</td>
+                    <td>9.04</td>
+                    <td>11.94</td>
+                    <td>64.3</td>
+                    <td>6.06</td>
+                    <td>5.56</td>
                 </tr>
                 <tr>
                     <th align="left">
                         <strong style="color:green">Element#pow()</strong>
                     </th>
-                    <td>163.17</td>
-                    <td>2278.75</td>
-                    <td>43.13</td>
-                    <td>347.09</td>
+                    <td>120.75</td>
+                    <td>2052.83</td>
+                    <td>29.19</td>
+                    <td>44.14</td>
+                    <td>57.95</td>
+                    <td>319.54</td>
+                    <td>28.87</td>
+                    <td>25.93</td>
                 </tr>
                 <tr>
                     <th align="left">
                         <strong style="color:green">ElementPowPreProcessing#pow(BigInteger)</strong>
                     </th>
-                    <td>4.97</td>
-                    <td>70.12</td>
-                    <td>1.4</td>
-                    <td>10.21</td>
+                    <td>3.55</td>
+                    <td>63.62</td>
+                    <td>0.88</td>
+                    <td>1.32</td>
+                    <td>1.81</td>
+                    <td>9.24</td>
+                    <td>0.91</td>
+                    <td>0.81</td>
                 </tr>
                 <tr>
                     <th align="left">
                         <strong style="color:green">ElementPowPreProcessing#powZn(Element)</strong>
                     </th>
-                    <td>4.95</td>
-                    <td>70.24</td>
-                    <td>1.32</td>
-                    <td>10.15</td>
+                    <td>3.57</td>
+                    <td>63.49</td>
+                    <td>0.87</td>
+                    <td>1.33</td>
+                    <td>1.82</td>
+                    <td>9.43</td>
+                    <td>0.91</td>
+                    <td>0.75</td>
+                </tr>
+                <tr>
+                    <th align="left">
+                        <strong style="color:green">Element#mul(BigInteger)</strong>
+                    </th>
+                    <td>24.29</td>
+                    <td>403.77</td>
+                    <td>6.14</td>
+                    <td>9.1</td>
+                    <td>11.93</td>
+                    <td>64.24</td>
+                    <td>6.02</td>
+                    <td>5.56</td>
+                </tr>
+                <tr>
+                    <th align="left">
+                        <strong style="color:green">Element#setToRandom()</strong>
+                    </th>
+                    <td>75.68</td>
+                    <td>406.9</td>
+                    <td>6.23</td>
+                    <td>10.07</td>
+                    <td>11.99</td>
+                    <td>392.89</td>
+                    <td>6.14</td>
+                    <td>5.52</td>
                 </tr>
                 <tr>
                     <th align="left">
@@ -174,46 +214,92 @@ power management:</source>
                     <th align="left">
                         <strong style="color:green">Element#pow(BigInteger)</strong>
                     </th>
-                    <td>33.07</td>
-                    <td>431.66</td>
-                    <td>57.2</td>
-                    <td>77.9</td>
+                    <td>24.3</td>
+                    <td>402.66</td>
+                    <td>41.2</td>
+                    <td>58.93</td>
+                    <td>74.09</td>
+                    <td>64.31</td>
+                    <td>10.81</td>
+                    <td>84.61</td>
                 </tr>
                 <tr>
                     <th align="left">
                         <strong style="color:green">Element#powZn(Element)</strong>
                     </th>
-                    <td>33.08</td>
-                    <td>431.48</td>
-                    <td>57.18</td>
-                    <td>77.97</td>
+                    <td>24.29</td>
+                    <td>402.64</td>
+                    <td>41.23</td>
+                    <td>58.91</td>
+                    <td>73.83</td>
+                    <td>64.39</td>
+                    <td>10.86</td>
+                    <td>84.54</td>
                 </tr>
                 <tr>
                     <th align="left">
                         <strong style="color:green">Element#pow()</strong>
                     </th>
-                    <td>163.36</td>
-                    <td>2183.55</td>
-                    <td>275.77</td>
-                    <td>387.07</td>
+                    <td>120.68</td>
+                    <td>2051.59</td>
+                    <td>195.89</td>
+                    <td>284.98</td>
+                    <td>355.55</td>
+                    <td>319.52</td>
+                    <td>50.11</td>
+                    <td>389.09</td>
                 </tr>
                 <tr>
                     <th align="left">
                         <strong style="color:green">ElementPowPreProcessing#pow(BigInteger)</strong>
                     </th>
-                    <td>4.96</td>
-                    <td>67.34</td>
-                    <td>8.22</td>
-                    <td>11.41</td>
+                    <td>3.62</td>
+                    <td>63.34</td>
+                    <td>6.0</td>
+                    <td>8.51</td>
+                    <td>10.94</td>
+                    <td>9.36</td>
+                    <td>1.46</td>
+                    <td>12.32</td>
                 </tr>
                 <tr>
                     <th align="left">
                         <strong style="color:green">ElementPowPreProcessing#powZn(Element)</strong>
                     </th>
-                    <td>4.87</td>
-                    <td>67.26</td>
-                    <td>8.29</td>
-                    <td>11.46</td>
+                    <td>3.46</td>
+                    <td>63.79</td>
+                    <td>5.89</td>
+                    <td>8.53</td>
+                    <td>10.8</td>
+                    <td>9.37</td>
+                    <td>1.53</td>
+                    <td>11.7</td>
+                </tr>
+                <tr>
+                    <th align="left">
+                        <strong style="color:green">Element#mul(BigInteger)</strong>
+                    </th>
+                    <td>24.34</td>
+                    <td>403.92</td>
+                    <td>41.56</td>
+                    <td>59.28</td>
+                    <td>74.93</td>
+                    <td>64.41</td>
+                    <td>10.97</td>
+                    <td>87.64</td>
+                </tr>
+                <tr>
+                    <th align="left">
+                        <strong style="color:green">Element#setToRandom()</strong>
+                    </th>
+                    <td>76.69</td>
+                    <td>406.91</td>
+                    <td>123.54</td>
+                    <td>192.04</td>
+                    <td>217.12</td>
+                    <td>393.79</td>
+                    <td>21.31</td>
+                    <td>408.32</td>
                 </tr>
                 <tr>
                     <th align="left">
@@ -228,46 +314,92 @@ power management:</source>
                     <th align="left">
                         <strong style="color:green">Element#pow(BigInteger)</strong>
                     </th>
-                    <td>2.91</td>
-                    <td>40.33</td>
-                    <td>17.53</td>
-                    <td>1.52</td>
+                    <td>2.09</td>
+                    <td>36.51</td>
+                    <td>12.08</td>
+                    <td>16.51</td>
+                    <td>18.48</td>
+                    <td>1.43</td>
+                    <td>43.33</td>
+                    <td>33.72</td>
                 </tr>
                 <tr>
                     <th align="left">
                         <strong style="color:green">Element#powZn(Element)</strong>
                     </th>
-                    <td>2.85</td>
-                    <td>40.31</td>
-                    <td>17.52</td>
-                    <td>1.57</td>
+                    <td>2.06</td>
+                    <td>36.66</td>
+                    <td>12.24</td>
+                    <td>16.46</td>
+                    <td>18.46</td>
+                    <td>1.43</td>
+                    <td>43.69</td>
+                    <td>33.72</td>
                 </tr>
                 <tr>
                     <th align="left">
                         <strong style="color:green">Element#pow()</strong>
                     </th>
-                    <td>21.38</td>
-                    <td>299.65</td>
-                    <td>98.22</td>
-                    <td>13.73</td>
+                    <td>14.71</td>
+                    <td>271.62</td>
+                    <td>67.87</td>
+                    <td>92.62</td>
+                    <td>102.6</td>
+                    <td>12.23</td>
+                    <td>287.38</td>
+                    <td>193.62</td>
                 </tr>
                 <tr>
                     <th align="left">
                         <strong style="color:green">ElementPowPreProcessing#pow(BigInteger)</strong>
                     </th>
-                    <td>0.62</td>
-                    <td>9.53</td>
-                    <td>2.99</td>
-                    <td>0.36</td>
+                    <td>0.39</td>
+                    <td>8.72</td>
+                    <td>2.11</td>
+                    <td>2.7</td>
+                    <td>3.27</td>
+                    <td>0.34</td>
+                    <td>8.78</td>
+                    <td>6.01</td>
                 </tr>
                 <tr>
                     <th align="left">
                         <strong style="color:green">ElementPowPreProcessing#powZn(Element)</strong>
                     </th>
-                    <td>0.64</td>
-                    <td>9.19</td>
-                    <td>2.99</td>
-                    <td>0.41</td>
+                    <td>0.49</td>
+                    <td>8.45</td>
+                    <td>2.17</td>
+                    <td>2.92</td>
+                    <td>3.19</td>
+                    <td>0.36</td>
+                    <td>9.05</td>
+                    <td>6.0</td>
+                </tr>
+                <tr>
+                    <th align="left">
+                        <strong style="color:green">Element#mul(BigInteger)</strong>
+                    </th>
+                    <td>2.05</td>
+                    <td>37.05</td>
+                    <td>12.26</td>
+                    <td>16.67</td>
+                    <td>18.76</td>
+                    <td>1.45</td>
+                    <td>43.61</td>
+                    <td>34.12</td>
+                </tr>
+                <tr>
+                    <th align="left">
+                        <strong style="color:green">Element#setToRandom()</strong>
+                    </th>
+                    <td>3.49</td>
+                    <td>1.38</td>
+                    <td>6.6</td>
+                    <td>10.66</td>
+                    <td>10.08</td>
+                    <td>7.34</td>
+                    <td>128.04</td>
+                    <td>51.58</td>
                 </tr>
                 <tr>
                     <th align="left">
@@ -282,46 +414,92 @@ power management:</source>
                     <th align="left">
                         <strong style="color:green">Element#pow(BigInteger)</strong>
                     </th>
-                    <td>0.15</td>
-                    <td>8.14</td>
-                    <td>0.14</td>
                     <td>0.1</td>
+                    <td>8.62</td>
+                    <td>0.08</td>
+                    <td>0.15</td>
+                    <td>0.22</td>
+                    <td>0.1</td>
+                    <td>0.08</td>
+                    <td>0.08</td>
                 </tr>
                 <tr>
                     <th align="left">
                         <strong style="color:green">Element#powZn(Element)</strong>
                     </th>
-                    <td>0.16</td>
-                    <td>8.23</td>
+                    <td>0.08</td>
+                    <td>8.67</td>
+                    <td>0.08</td>
+                    <td>0.11</td>
+                    <td>0.14</td>
+                    <td>0.07</td>
                     <td>0.1</td>
-                    <td>0.1</td>
+                    <td>0.08</td>
                 </tr>
                 <tr>
                     <th align="left">
                         <strong style="color:green">Element#pow()</strong>
                     </th>
-                    <td>1.56</td>
-                    <td>70.02</td>
-                    <td>1.23</td>
-                    <td>1.12</td>
+                    <td>0.9</td>
+                    <td>75.86</td>
+                    <td>1.03</td>
+                    <td>1.36</td>
+                    <td>1.79</td>
+                    <td>0.92</td>
+                    <td>1.04</td>
+                    <td>0.97</td>
                 </tr>
                 <tr>
                     <th align="left">
                         <strong style="color:green">ElementPowPreProcessing#pow(BigInteger)</strong>
                     </th>
-                    <td>0.07</td>
-                    <td>2.32</td>
                     <td>0.03</td>
-                    <td>0.04</td>
+                    <td>2.44</td>
+                    <td>0.03</td>
+                    <td>0.07</td>
+                    <td>0.05</td>
+                    <td>0.06</td>
+                    <td>0.03</td>
+                    <td>0.03</td>
                 </tr>
                 <tr>
                     <th align="left">
                         <strong style="color:green">ElementPowPreProcessing#powZn(Element)</strong>
                     </th>
-                    <td>0.02</td>
-                    <td>2.2</td>
+                    <td>0.01</td>
+                    <td>2.42</td>
                     <td>0.05</td>
+                    <td>0.05</td>
+                    <td>0.05</td>
+                    <td>0.03</td>
                     <td>0.04</td>
+                    <td>0.05</td>
+                </tr>
+                <tr>
+                    <th align="left">
+                        <strong style="color:green">Element#mul(BigInteger)</strong>
+                    </th>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                </tr>
+                <tr>
+                    <th align="left">
+                        <strong style="color:green">Element#setToRandom()</strong>
+                    </th>
+                    <td>0.0</td>
+                    <td>0.09</td>
+                    <td>0.01</td>
+                    <td>0.0</td>
+                    <td>0.04</td>
+                    <td>0.01</td>
+                    <td>0.01</td>
+                    <td>0.02</td>
                 </tr>
             </table>
         </section>
@@ -336,56 +514,72 @@ power management:</source>
                 <tr>
                     <th></th>
                     <th>
-                        <strong style="color:green">
-                            a_181_603
-                        </strong>
+                        <strong style="color:green">a</strong>
                     </th>
                     <th>
-                        <strong style="color:green">
-                            a1
-                        </strong>
+                        <strong style="color:green">a1</strong>
                     </th>
                     <th>
-                        <strong style="color:green">
-                            d_9563
-                        </strong>
+                        <strong style="color:green">d159</strong>
                     </th>
                     <th>
-                        <strong style="color:green">
-                            e_181_1024
-                        </strong>
+                        <strong style="color:green">d201</strong>
+                    </th>
+                    <th>
+                        <strong style="color:green">d224</strong>
+                    </th>
+                    <th>
+                        <strong style="color:green">e</strong>
+                    </th>
+                    <th>
+                        <strong style="color:green">f</strong>
+                    </th>
+                    <th>
+                        <strong style="color:green">g149</strong>
                     </th>
                 </tr>
                 <tr>
                     <th align="left">
                         <strong style="color:green">Pairing#pairing(in1, in2)</strong>
                     </th>
-                    <td>8.2</td>
-                    <td>127.29</td>
-                    <td>12.14</td>
-                    <td>11.27</td>
+                    <td>3.25</td>
+                    <td>83.44</td>
+                    <td>10.98</td>
+                    <td>14.92</td>
+                    <td>18.33</td>
+                    <td>11.23</td>
+                    <td>69.12</td>
+                    <td>31.67</td>
                 </tr>
                 <tr>
                     <th align="left">
                         <strong style="color:green">Pairing#pairing(in1)</strong>
                     </th>
-                    <td>9.37</td>
-                    <td>116.01</td>
-                    <td>3.17</td>
-                    <td>0.02</td>
+                    <td>4.19</td>
+                    <td>97.12</td>
+                    <td>2.34</td>
+                    <td>3.18</td>
+                    <td>4.13</td>
+                    <td>0.06</td>
+                    <td>0.03</td>
+                    <td>2.09</td>
                 </tr>
                 <tr>
                     <th align="left">
                         <strong style="color:green">PairingPreProcessing#pairing(in2)</strong>
                     </th>
-                    <td>3.76</td>
-                    <td>20.1</td>
-                    <td>9.12</td>
-                    <td>11.27</td>
+                    <td>1.55</td>
+                    <td>21.87</td>
+                    <td>8.62</td>
+                    <td>12.2</td>
+                    <td>14.33</td>
+                    <td>11.29</td>
+                    <td>69.4</td>
+                    <td>29.64</td>
                 </tr>
                 <tr>
                     <th align="left">
-                        <strong style="color:black">Element Pow (G1</strong>
+                        <strong style="color:black">Element Pow (G1)</strong>
                     </th>
                     <td></td>
                     <td></td>
@@ -396,154 +590,292 @@ power management:</source>
                     <th align="left">
                         <strong style="color:green">Element#pow(BigInteger)</strong>
                     </th>
-                    <td>10.42</td>
-                    <td>76.83</td>
-                    <td>2.56</td>
-                    <td>12.53</td>
+                    <td>4.57</td>
+                    <td>60.81</td>
+                    <td>1.11</td>
+                    <td>1.6</td>
+                    <td>1.98</td>
+                    <td>6.32</td>
+                    <td>1.18</td>
+                    <td>1.06</td>
                 </tr>
                 <tr>
                     <th align="left">
                         <strong style="color:green">Element#powZn(Element)</strong>
                     </th>
-                    <td>10.28</td>
-                    <td>76.18</td>
-                    <td>2.63</td>
-                    <td>12.32</td>
+                    <td>4.41</td>
+                    <td>60.51</td>
+                    <td>1.1</td>
+                    <td>1.48</td>
+                    <td>1.94</td>
+                    <td>6.37</td>
+                    <td>1.13</td>
+                    <td>1.02</td>
                 </tr>
                 <tr>
                     <th align="left">
                         <strong style="color:green">Element#pow()</strong>
                     </th>
-                    <td>50.37</td>
-                    <td>380.64</td>
-                    <td>13.38</td>
-                    <td>61.36</td>
+                    <td>21.93</td>
+                    <td>295.4</td>
+                    <td>5.37</td>
+                    <td>7.4</td>
+                    <td>9.57</td>
+                    <td>30.18</td>
+                    <td>5.16</td>
+                    <td>4.85</td>
                 </tr>
                 <tr>
                     <th align="left">
                         <strong style="color:green">ElementPowPreProcessing#pow(BigInteger)</strong>
                     </th>
-                    <td>1.77</td>
-                    <td>12.03</td>
-                    <td>0.4</td>
-                    <td>1.86</td>
-                </tr>
-                <tr>
-                    <th align="left">
-                        <strong style="color:green">ElementPowPreProcessing#powZn(Element)</strong>
-                    </th>
-                    <td>1.57</td>
-                    <td>11.57</td>
-                    <td>0.39</td>
-                    <td>1.82</td>
-                </tr>
-                <tr>
-                    <th align="left">
-                        <strong style="color:black">Element Pow (G2</strong>
-                    </th>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <th align="left">
-                        <strong style="color:green">Element#pow(BigInteger)</strong>
-                    </th>
-                    <td>10.51</td>
-                    <td>73.45</td>
-                    <td>17.35</td>
-                    <td>12.52</td>
-                </tr>
-                <tr>
-                    <th align="left">
-                        <strong style="color:green">Element#powZn(Element)</strong>
-                    </th>
-                    <td>10.27</td>
-                    <td>73.26</td>
-                    <td>17.39</td>
-                    <td>12.27</td>
-                </tr>
-                <tr>
-                    <th align="left">
-                        <strong style="color:green">Element#pow()</strong>
-                    </th>
-                    <td>50.85</td>
-                    <td>372.14</td>
-                    <td>85.8</td>
-                    <td>61.16</td>
-                </tr>
-                <tr>
-                    <th align="left">
-                        <strong style="color:green">ElementPowPreProcessing#pow(BigInteger)</strong>
-                    </th>
-                    <td>1.67</td>
-                    <td>11.34</td>
-                    <td>2.6</td>
-                    <td>1.85</td>
-                </tr>
-                <tr>
-                    <th align="left">
-                        <strong style="color:green">ElementPowPreProcessing#powZn(Element)</strong>
-                    </th>
-                    <td>1.53</td>
-                    <td>11.19</td>
-                    <td>2.51</td>
-                    <td>1.8</td>
-                </tr>
-                <tr>
-                    <th align="left">
-                        <strong style="color:black">Element Pow (GT</strong>
-                    </th>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <th align="left">
-                        <strong style="color:green">Element#pow(BigInteger)</strong>
-                    </th>
-                    <td>1.24</td>
-                    <td>6.24</td>
-                    <td>3.47</td>
-                    <td>0.56</td>
-                </tr>
-                <tr>
-                    <th align="left">
-                        <strong style="color:green">Element#powZn(Element)</strong>
-                    </th>
-                    <td>1.08</td>
-                    <td>6.12</td>
-                    <td>3.51</td>
-                    <td>0.47</td>
-                </tr>
-                <tr>
-                    <th align="left">
-                        <strong style="color:green">Element#pow()</strong>
-                    </th>
-                    <td>53.48</td>
-                    <td>98.54</td>
-                    <td>139.53</td>
-                    <td>16.96</td>
-                </tr>
-                <tr>
-                    <th align="left">
-                        <strong style="color:green">ElementPowPreProcessing#pow(BigInteger)</strong>
-                    </th>
-                    <td>0.44</td>
-                    <td>1.65</td>
-                    <td>0.76</td>
+                    <td>0.81</td>
+                    <td>9.35</td>
+                    <td>0.19</td>
+                    <td>0.21</td>
+                    <td>0.32</td>
+                    <td>0.93</td>
                     <td>0.14</td>
+                    <td>0.2</td>
                 </tr>
                 <tr>
                     <th align="left">
                         <strong style="color:green">ElementPowPreProcessing#powZn(Element)</strong>
                     </th>
+                    <td>0.66</td>
+                    <td>9.0</td>
+                    <td>0.15</td>
+                    <td>0.21</td>
+                    <td>0.31</td>
+                    <td>0.83</td>
+                    <td>0.13</td>
+                    <td>0.2</td>
+                </tr>
+                <tr>
+                    <th align="left">
+                        <strong style="color:green">Element#mul(BigInteger)</strong>
+                    </th>
+                    <td>4.54</td>
+                    <td>60.97</td>
+                    <td>1.13</td>
+                    <td>1.63</td>
+                    <td>1.97</td>
+                    <td>6.47</td>
+                    <td>1.2</td>
+                    <td>1.05</td>
+                </tr>
+                <tr>
+                    <th align="left">
+                        <strong style="color:green">Element#setToRandom()</strong>
+                    </th>
+                    <td>5.32</td>
+                    <td>4.97</td>
+                    <td>1.72</td>
+                    <td>2.09</td>
+                    <td>2.57</td>
+                    <td>6.93</td>
+                    <td>1.67</td>
+                    <td>1.58</td>
+                </tr>
+                <tr>
+                    <th align="left">
+                        <strong style="color:black">Element Pow (G2)</strong>
+                    </th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th align="left">
+                        <strong style="color:green">Element#pow(BigInteger)</strong>
+                    </th>
+                    <td>4.49</td>
+                    <td>61.57</td>
+                    <td>10.35</td>
+                    <td>13.37</td>
+                    <td>16.89</td>
+                    <td>6.38</td>
+                    <td>2.16</td>
+                    <td>19.31</td>
+                </tr>
+                <tr>
+                    <th align="left">
+                        <strong style="color:green">Element#powZn(Element)</strong>
+                    </th>
+                    <td>4.42</td>
+                    <td>61.49</td>
+                    <td>10.24</td>
+                    <td>13.2</td>
+                    <td>16.93</td>
+                    <td>6.35</td>
+                    <td>2.35</td>
+                    <td>19.41</td>
+                </tr>
+                <tr>
+                    <th align="left">
+                        <strong style="color:green">Element#pow()</strong>
+                    </th>
+                    <td>21.89</td>
+                    <td>295.03</td>
+                    <td>49.96</td>
+                    <td>64.3</td>
+                    <td>82.0</td>
+                    <td>30.12</td>
+                    <td>10.92</td>
+                    <td>91.55</td>
+                </tr>
+                <tr>
+                    <th align="left">
+                        <strong style="color:green">ElementPowPreProcessing#pow(BigInteger)</strong>
+                    </th>
+                    <td>0.74</td>
+                    <td>9.15</td>
+                    <td>1.63</td>
+                    <td>1.87</td>
+                    <td>2.64</td>
+                    <td>0.95</td>
+                    <td>0.25</td>
+                    <td>2.76</td>
+                </tr>
+                <tr>
+                    <th align="left">
+                        <strong style="color:green">ElementPowPreProcessing#powZn(Element)</strong>
+                    </th>
+                    <td>0.64</td>
+                    <td>9.02</td>
+                    <td>1.46</td>
+                    <td>1.9</td>
+                    <td>2.53</td>
+                    <td>0.92</td>
+                    <td>0.35</td>
+                    <td>2.66</td>
+                </tr>
+                <tr>
+                    <th align="left">
+                        <strong style="color:green">Element#mul(BigInteger)</strong>
+                    </th>
+                    <td>4.52</td>
+                    <td>61.6</td>
+                    <td>10.37</td>
+                    <td>13.47</td>
+                    <td>16.95</td>
+                    <td>6.33</td>
+                    <td>2.36</td>
+                    <td>19.34</td>
+                </tr>
+                <tr>
+                    <th align="left">
+                        <strong style="color:green">Element#setToRandom()</strong>
+                    </th>
+                    <td>5.33</td>
+                    <td>4.9</td>
+                    <td>11.0</td>
+                    <td>13.83</td>
+                    <td>17.57</td>
+                    <td>6.95</td>
+                    <td>2.85</td>
+                    <td>20.01</td>
+                </tr>
+                <tr>
+                    <th align="left">
+                        <strong style="color:black">Element Pow (GT)</strong>
+                    </th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th align="left">
+                        <strong style="color:green">Element#pow(BigInteger)</strong>
+                    </th>
+                    <td>0.65</td>
+                    <td>5.31</td>
+                    <td>2.33</td>
+                    <td>3.03</td>
+                    <td>3.83</td>
                     <td>0.3</td>
-                    <td>1.45</td>
+                    <td>10.99</td>
+                    <td>14.28</td>
+                </tr>
+                <tr>
+                    <th align="left">
+                        <strong style="color:green">Element#powZn(Element)</strong>
+                    </th>
+                    <td>0.47</td>
+                    <td>5.4</td>
+                    <td>2.25</td>
+                    <td>3.05</td>
+                    <td>3.61</td>
+                    <td>0.2</td>
+                    <td>10.98</td>
+                    <td>6.67</td>
+                </tr>
+                <tr>
+                    <th align="left">
+                        <strong style="color:green">Element#pow()</strong>
+                    </th>
+                    <td>23.94</td>
+                    <td>86.75</td>
+                    <td>93.07</td>
+                    <td>120.42</td>
+                    <td>147.46</td>
+                    <td>9.41</td>
+                    <td>706.7</td>
+                    <td>388.71</td>
+                </tr>
+                <tr>
+                    <th align="left">
+                        <strong style="color:green">ElementPowPreProcessing#pow(BigInteger)</strong>
+                    </th>
+                    <td>0.32</td>
+                    <td>1.43</td>
+                    <td>0.58</td>
                     <td>0.6</td>
-                    <td>0.06</td>
+                    <td>0.76</td>
+                    <td>0.08</td>
+                    <td>1.86</td>
+                    <td>1.98</td>
+                </tr>
+                <tr>
+                    <th align="left">
+                        <strong style="color:green">ElementPowPreProcessing#powZn(Element)</strong>
+                    </th>
+                    <td>0.09</td>
+                    <td>1.3</td>
+                    <td>0.39</td>
+                    <td>0.7</td>
+                    <td>0.68</td>
+                    <td>0.03</td>
+                    <td>1.79</td>
+                    <td>1.07</td>
+                </tr>
+                <tr>
+                    <th align="left">
+                        <strong style="color:green">Element#mul(BigInteger)</strong>
+                    </th>
+                    <td>0.6</td>
+                    <td>5.29</td>
+                    <td>2.44</td>
+                    <td>3.1</td>
+                    <td>3.86</td>
+                    <td>0.28</td>
+                    <td>11.03</td>
+                    <td>18.54</td>
+                </tr>
+                <tr>
+                    <th align="left">
+                        <strong style="color:green">Element#setToRandom()</strong>
+                    </th>
+                    <td>2.38</td>
+                    <td>1.59</td>
+                    <td>4.78</td>
+                    <td>5.24</td>
+                    <td>5.39</td>
+                    <td>1.63</td>
+                    <td>39.84</td>
+                    <td>14.62</td>
                 </tr>
                 <tr>
                     <th align="left">
@@ -558,48 +890,124 @@ power management:</source>
                     <th align="left">
                         <strong style="color:green">Element#pow(BigInteger)</strong>
                     </th>
-                    <td>0.18</td>
-                    <td>2.15</td>
-                    <td>0.06</td>
+                    <td>0.16</td>
+                    <td>1.13</td>
                     <td>0.09</td>
+                    <td>0.07</td>
+                    <td>0.08</td>
+                    <td>0.07</td>
+                    <td>0.08</td>
+                    <td>2.88</td>
                 </tr>
                 <tr>
                     <th align="left">
                         <strong style="color:green">Element#powZn(Element)</strong>
                     </th>
-                    <td>0.08</td>
-                    <td>2.08</td>
-                    <td>0.05</td>
+                    <td>0.07</td>
+                    <td>1.19</td>
                     <td>0.04</td>
+                    <td>0.03</td>
+                    <td>0.06</td>
+                    <td>0.02</td>
+                    <td>0.04</td>
+                    <td>0.5</td>
                 </tr>
                 <tr>
                     <th align="left">
                         <strong style="color:green">Element#pow()</strong>
                     </th>
-                    <td>0.48</td>
-                    <td>11.29</td>
+                    <td>0.43</td>
+                    <td>10.41</td>
+                    <td>0.3</td>
                     <td>0.37</td>
-                    <td>0.41</td>
+                    <td>0.39</td>
+                    <td>0.19</td>
+                    <td>0.62</td>
+                    <td>2.53</td>
                 </tr>
                 <tr>
                     <th align="left">
                         <strong style="color:green">ElementPowPreProcessing#pow(BigInteger)</strong>
                     </th>
-                    <td>0.15</td>
-                    <td>0.47</td>
+                    <td>0.14</td>
+                    <td>0.28</td>
+                    <td>0.04</td>
                     <td>0.05</td>
-                    <td>0.07</td>
+                    <td>0.05</td>
+                    <td>0.04</td>
+                    <td>0.03</td>
+                    <td>4.25</td>
                 </tr>
                 <tr>
                     <th align="left">
                         <strong style="color:green">ElementPowPreProcessing#powZn(Element)</strong>
                     </th>
-                    <td>0.02</td>
-                    <td>0.34</td>
+                    <td>0.03</td>
+                    <td>0.16</td>
                     <td>0.0</td>
                     <td>0.01</td>
+                    <td>0.03</td>
+                    <td>0.01</td>
+                    <td>0.01</td>
+                    <td>0.23</td>
+                </tr>
+                <tr>
+                    <th align="left">
+                        <strong style="color:green">Element#mul(BigInteger)</strong>
+                    </th>
+                    <td>0.1</td>
+                    <td>0.1</td>
+                    <td>0.03</td>
+                    <td>0.05</td>
+                    <td>0.03</td>
+                    <td>0.04</td>
+                    <td>0.05</td>
+                    <td>0.81</td>
+                </tr>
+                <tr>
+                    <th align="left">
+                        <strong style="color:green">Element#setToRandom()</strong>
+                    </th>
+                    <td>0.96</td>
+                    <td>0.74</td>
+                    <td>0.58</td>
+                    <td>0.61</td>
+                    <td>0.63</td>
+                    <td>0.7</td>
+                    <td>0.52</td>
+                    <td>1.7</td>
                 </tr>
             </table>
+        </section>
+
+        <section name="Test Machine">
+            <source>
+cat /proc/cpuinfo
+processor : 0
+vendor_id : GenuineIntel
+cpu family : 6
+model : 15
+model name : Intel(R) Core(TM)2 Quad CPU Q6600 @ 2.40GHz
+stepping : 11
+cpu MHz : 1596.000
+cache size : 4096 KB
+cpu cores : 4
+apicid : 0
+initial apicid : 0
+fpu : yes
+fpu_exception : yes
+cpuid level : 10
+wp : yes
+flags : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36
+clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx lm constant_tsc
+arch_perfmon pebs bts rep_good pni dtes64 monitor ds_cpl vmx est tm2
+ssse3 cx16 xtpr pdcm lahf_lm tpr_shadow vnmi flexpriority
+bogomips : 4800.38
+clflush size : 64
+cache_alignment : 64
+address sizes : 36 bits physical, 48 bits virtual
+power management:</source>
+            
         </section>
 
     </body>
