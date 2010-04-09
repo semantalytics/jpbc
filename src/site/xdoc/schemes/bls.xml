@@ -12,7 +12,7 @@
 
             <p>
                 <a href="http://en.wikipedia.org/wiki/BLS_(cryptography)">[wikipedia]</a>
-                In cryptography, the Boneh–Lynn–Shacham signature scheme allows a user to verify that a
+                In cryptography, the Boneh-Lynn-Shacham signature scheme allows a user to verify that a
                 signer is authentic. The scheme uses a pairing function for verification and
                 signatures are group elements in some elliptic curve.
                 Working in an elliptic curve provides defense against index calculus attacks
@@ -20,19 +20,30 @@
                 referred to as short signatures, BLS short signatures, or simply BLS signatures.
                 The signature scheme is provably secure (that is, the scheme is existentially unforgeable
                 under adaptive chosen-message attacks) assuming both the existence of random oracles and the
-                intractability of the computational Diffie–Hellman problem.
+                intractability of the computational Diffie-Hellman problem.
             </p>
 
             <p>
-                In this page we will see how to use the
-                <strong style="color:red"><a href="#strong">HVE</a></strong>,
-                which can be find in the jpbc-crypto module, in the
-                context of the Bouncy Castle framework.
+                In this page we will see how to:
             </p>
+            <ol>
+                <li>
+                    implement
+                    <strong style="color:red"><a href="#bls">BLS</a></strong>
+                    using jPBC.
+                </li>
+                <li>
+                    use
+                    <strong style="color:red"><a href="#blsBCF">BLS</a></strong>
+                    in the context of the Bouncy Castle framework.
+                </li>
+            </ol>
 
         </section>
 
+        <a name="bls"/>
         <section name="BLS">
+
             <subsection name="Key Generation">
                 <p>
                     The key generation algorithm selects a random integer
@@ -138,7 +149,7 @@ Element sig = h.powZn(x);
                             <i>x</i>
                         </sup>
                     </span>, we verify that
-                    <span class="texhtml"><i>e</i>(sig, <i>g</i>) =<i>e</i>(h, 
+                    <span class="texhtml"><i>e</i>(sig, <i>g</i>) =<i>e</i>(h,
                         <i>g</i>
                         <sup>
                             <i>x</i>
@@ -153,7 +164,7 @@ Element sig = h.powZn(x);
                 <source xml:space="preserve">
 
 <strong style="color:green">// Map again the hash of the message m</strong>
-                    
+
 byte[] hash = ... // Generate an hash from m (48-bit hash)
 Element h = pairing.getG1().newElement().setFromHash(hash, 0, hash.length);
 
@@ -166,6 +177,116 @@ if (temp1.isEqual(temp2))
     System.out.println("The signature is valid.");
 else
     System.out.println("The signature is NOT valid.");
+                </source>
+            </subsection>
+        </section>
+
+        <a name="blsBCF"/>
+        <section name="BLS under BouncyCastle">
+            <p>
+                You will find all the sources into the jpbc-crypto module.
+            </p>
+
+            <subsection name="Key Generation">
+                <source>
+import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.generators.UTMAStrongParametersGenerator;
+import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params.UTMAStrongParameters;
+
+<strong style="color:green">// Init the generator.</strong>
+BLSParametersGenerator parametersGenerator = new BLSParametersGenerator();
+parametersGenerator.init(curveParams);
+
+<strong style="color:green">// Generate the parameters.</strong>
+BLSParameters parameters = parametersGenerator.generateParameters();
+
+<strong style="color:green">// Store the parameters in a file.</strong>
+FileOutputStream fileOutputStream = new FileOutputStream("bls.params");
+
+parametersGenerator.store(fileOutputStream, parameters);
+
+fileOutputStream.flush();
+fileOutputStream.close();
+                </source>
+            </subsection>
+
+            <subsection name="Load the Public Information">
+                <source>
+import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.generators.UTMAStrongParametersGenerator;
+import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params.UTMAStrongParameters;
+
+<strong style="color:green">// Init the generator.</strong>
+BLSParametersGenerator parametersGenerator = new BLSParametersGenerator();
+
+<strong style="color:green">// Load the parameters from a file.</strong>
+FileInputStream fileInputStream = new FileInputStream("utmas.params");
+
+BLSParameters parameters = parametersGenerator.load(fileInputStream);
+
+fileInputStream.close();
+                </source>
+            </subsection>
+
+            <subsection name="Generate and Store a Key-Pair">
+                <source>
+import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.generators.UTMAStrongKeyPairGenerator;
+import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params.UTMAStrongKeyGenerationParameters;
+import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
+
+<strong style="color:green">// Init the generator.</strong>
+BLSKeyPairGenerator keyPairGenerator = new BLSKeyPairGenerator();
+keyPairGenerator.init(new BLSKeyGenerationParameters(null, parameters));
+
+<strong style="color:green">// Generate the key-pair.</strong>
+AsymmetricCipherKeyPair keyPair = keyPairGenerator.generateKeyPair();
+
+<strong style="color:green">// Store the key-pair.</strong>
+fileOutputStream = new FileOutputStream("bls_keypair.params");
+
+keyPairGenerator.store(fileOutputStream, keyPair);
+
+fileOutputStream.flush();
+fileOutputStream.close();
+                </source>
+            </subsection>
+
+            <subsection name="Load a Key-Pair">
+                <source>
+import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.generators.UTMAStrongKeyPairGenerator;
+import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params.UTMAStrongKeyGenerationParameters;
+import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
+
+<strong style="color:green">// Init the generator.</strong>
+BLSKeyPairGenerator keyPairGenerator = new BLSKeyPairGenerator();
+
+<strong style="color:green">// Load the key-pair from a file.</strong>
+fileInputStream = new FileInputStream("bls_keypair.params");
+
+AsymmetricCipherKeyPair keyPair = keyPairGenerator.load(fileInputStream);
+
+fileInputStream.close();
+                </source>
+            </subsection>
+
+            <subsection name="Signing">
+                <source xml:space="preserve">
+BLSSigner blsSigner = new BLSSigner(new SHA256Digest());
+
+// Sign
+blsSigner.init(true, keyPair.getPrivate());
+blsSigner.update(message, 0, message.length);
+byte[] sig = null;
+try {
+    sig = blsSigner.generateSignature();
+} catch (CryptoException e) {
+    fail(e.getMessage());
+}
+                </source>
+            </subsection>
+
+            <subsection name="Verification">
+                <source>
+blsSigner.init(false, keyPair.getPublic());
+assertTrue(blsSigner.verifySignature(sig));
                 </source>
             </subsection>
         </section>

@@ -192,6 +192,9 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
 
 
     protected final Element lucasEven(Point in, BigInteger cofactor) {
+        //assumes cofactor is even
+        //mangles in
+        //in cannot be out
         if (in.isOne()) {
             return in.duplicate();
         }
@@ -242,74 +245,6 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
         v1.mul(in1);
 
         return out;
-
-        /*
-        static void lucasEven(element_ptr out, element_ptr in, mpz_t cofactor)
-//assumes cofactor is even
-//mangles in
-//in cannot be out
-{
-    if (element_is1(in)) {
-      element_set(out, in);
-      return;
-    }
-    element_t temp;
-    element_init_same_as(temp, out);
-    element_ptr in0 = fi_re(in);
-    element_ptr in1 = fi_im(in);
-    element_ptr v0 = fi_re(out);
-    element_ptr v1 = fi_im(out);
-    element_ptr t0 = fi_re(temp);
-    element_ptr t1 = fi_im(temp);
-    int j;
-
-    element_set_si(t0, 2);
-    element_double(t1, in0);
-
-    element_set(v0, t0);
-    element_set(v1, t1);
-
-    j = mpz_sizeinbase(cofactor, 2) - 1;
-    for (;;) {
-	if (!j) {
-	    element_mul(v1, v0, v1);
-	    element_sub(v1, v1, t1);
-	    element_square(v0, v0);
-	    element_sub(v0, v0, t0);
-	    break;
-	}
-	if (mpz_tstbit(cofactor, j)) {
-	    element_mul(v0, v0, v1);
-	    element_sub(v0, v0, t1);
-	    element_square(v1, v1);
-	    element_sub(v1, v1, t0);
-	} else {
-	    element_mul(v1, v0, v1);
-	    element_sub(v1, v1, t1);
-	    element_square(v0, v0);
-	    element_sub(v0, v0, t0);
-	}
-	j--;
-    }
-
-    //assume cofactor = (q^2 - q + 1) / r is odd
-    //thus v1 = V_k, v0 = V_{k-1}
-    //     U = (P v1 - 2 v0) / (P^2 - 4)
-
-    element_double(v0, v0);
-    element_mul(in0, t1, v1);
-    element_sub(in0, in0, v0);
-
-    element_square(t1, t1);
-    element_sub(t1, t1, t0);
-    element_sub(t1, t1, t0);
-
-    element_halve(v0, v1);
-    element_div(v1, in0, t1);
-    element_mul(v1, v1, in1);
-
-    element_clear(temp);
-    */
     }
 
     protected final void lucasOdd(Point out, Point in, Point temp, BigInteger cofactor) {
@@ -360,68 +295,6 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
 
         v0.halve();
         v1.mul(in1);
-
-        /*
-        element_ptr in0 = fi_re(in);
-        element_ptr in1 = fi_im(in);
-        element_ptr v0 = fi_re(out);
-        element_ptr v1 = fi_im(out);
-        element_ptr t0 = fi_re(temp);
-        element_ptr t1 = fi_im(temp);
-        int j;
-
-        element_set_si(t0, 2);
-        element_double(t1, in0);
-
-        element_set(v0, t0);
-        element_set(v1, t1);
-
-        j = mpz_sizeinbase(cofactor, 2) - 1;
-
-        printf("J = %d",j);
-
-        for (;;) {
-        if (!j) {
-            element_mul(v1, v0, v1);
-            element_sub(v1, v1, t1);
-            element_square(v0, v0);
-            element_sub(v0, v0, t0);
-            break;
-        }
-        if (mpz_tstbit(cofactor, j)) {
-            element_mul(v0, v0, v1);
-            element_sub(v0, v0, t1);
-            element_square(v1, v1);
-            element_sub(v1, v1, t0);
-        } else {
-            element_mul(v1, v0, v1);
-            element_sub(v1, v1, t1);
-            element_square(v0, v0);
-            element_sub(v0, v0, t0);
-        }
-        j--;
-        }
-
-        //assume cofactor = (q + 1) / r is even
-        //(r should be odd and q + 1 is always even)
-        //thus v0 = V_k, v1 = V_{k+1}
-        //and V_{k-1} = P v0 - v1
-
-        //so U_k = (P V_k - 2 V_{k-1}) / (P^2 - 4)
-        //       = (2 v1 - P v0) / (P^2 - 4)
-
-        element_mul(in0, v0, t1);
-        element_double(v1, v1);
-        element_sub(v1, v1, in0);
-
-        element_square(t1, t1);
-        element_sub(t1, t1, t0);
-        element_sub(t1, t1, t0);
-        element_div(v1, v1, t1);
-
-        element_halve(v0, v0);
-        element_mul(v1, v1, in1);
-        */
     }
 
 

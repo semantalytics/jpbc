@@ -11,17 +11,17 @@
         <section name="Schemes - (HVE) Hidden Vector Encryption">
             Predicate encryption schemes are encryption schemes in which
             each ciphertext Ct is associated with a binary attribute vector
-            x = (x1 , . . . , xn ) and keys K are associated with predicates. A key K can
+            x = (x1, ... ,xn) and keys K are associated with predicates. A key K can
             decrypt a ciphertext Ct if and only if the attribute vector of the cipher-
             text satisfies the predicate of the key. Predicate encryption schemes can
             be used to implement fine-grained access control on encrypted data and
             to perform search on encrypted data.
-            Hidden vector encryption schemes [Boneh and Waters – TCC 2007] are
+            Hidden vector encryption schemes [Boneh and Waters - TCC 2007] are
             encryption schemes in which each ciphertext Ct is associated with a bi-
             nary vector x = (x1 , . . . , xn ) and each key K is associated with binary
-            vector y = (y1 , · · · , yn ) with “don’t care” entries (denoted with ). Key
+            vector y = (y1 , · · · , yn ) with “don’t care” entries (denoted with *). Key
             K can decrypt ciphertext Ct if and only if x and y agree for all i for
-            which yi = .
+            which yi != *.
             Hidden vector encryption schemes are an important type of predicate
             encryption schemes as they can be used to construct more sophisticated
             predicate encryption schemes (supporting for example range and subset
@@ -41,13 +41,13 @@
             </p>
 
             <p>
-                In this page we will see how to use the
-                <strong style="color:red"><a href="#strong">HVE</a></strong>,
-                which can be find in the jpbc-crypto module, in the
-                context of the Bouncy Castle framework.
+                In this page we will see how to use
+                <strong style="color:red"><a href="#HVE">HVE</a></strong>,
+                in the context of the Bouncy Castle framework.
             </p>
         </section>
 
+        <a name="HVE"/>
         <section name="HVE">
             <p>
                 You will find all the sources into the jpbc-crypto module.

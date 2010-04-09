@@ -59,6 +59,7 @@ public class TypeATateProjectiveMillerPairingMap extends AbstractMillerPairingMa
             // f = f^2 g_V,V(Q)
             // where g_V,V = tangent at V
             f.square();
+
             tangentStepProjective(f0, a, b, c, Vx, Vy, z, z2, e0, Qx, Qy, f);
             twiceProjective(e0, a, b, c, Vx, Vy, z, z2);
         }
@@ -79,6 +80,7 @@ public class TypeATateProjectiveMillerPairingMap extends AbstractMillerPairingMa
         n = pairing.exp2;
         for (; i < n; i++) {
             f.square();
+
             tangentStepProjective(f0, a, b, c, Vx, Vy, z, z2, e0, Qx, Qy, f);
             twiceProjective(e0, a, b, c, Vx, Vy, z, z2);
         }
@@ -112,20 +114,6 @@ public class TypeATateProjectiveMillerPairingMap extends AbstractMillerPairingMa
     }
 
 
-    public Element tatePow(Element element) {
-        Element t0, t1;
-        t0 = element.getField().newElement();
-        t1 = element.getField().newElement();
-
-        tatePow((Point) t0,
-                (Point) element,
-                (Point) t1, pairing.phikOnr);
-
-        element.set(t0);
-
-        return element;
-    }
-
     final void tatePow(Point out, Point in, Point temp, BigInteger cofactor) {
         Element in1 = in.getY();
         //simpler but slower:
@@ -138,10 +126,6 @@ public class TypeATateProjectiveMillerPairingMap extends AbstractMillerPairingMa
         in1.negate();
         in.mul(temp);
 
-/*        element_invert(temp, in);
-        element_neg(in1, in1);
-        element_mul(in, in, temp);
-  */
         //2. Exponentiate by (q+1)/r
 
         //Instead of:
@@ -157,9 +141,7 @@ public class TypeATateProjectiveMillerPairingMap extends AbstractMillerPairingMa
         z2.set(z).square();
 
         e2.set(Vy).square();
-        e1.set(Vx).mul(e2);
-        e1.twice();
-        e1.twice();
+        e1.set(Vx).mul(e2).twice().twice();
 
         e3.set(e1).twice();
         Vx.set(e0).square().sub(e3);

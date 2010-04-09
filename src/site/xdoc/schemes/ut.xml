@@ -33,9 +33,8 @@
 
             <p>
                 In this page we will see how to use the
-                <strong style="color:red"><a href="#strong">strong construction</a></strong>,
-                which can be find in the jpbc-crypto module, in the
-                context of the Bouncy Castle framework.
+                <strong style="color:red"><a href="#strong">Strong Construction</a></strong>,
+                in the context of the Bouncy Castle framework.
             </p>
 
         </section>
