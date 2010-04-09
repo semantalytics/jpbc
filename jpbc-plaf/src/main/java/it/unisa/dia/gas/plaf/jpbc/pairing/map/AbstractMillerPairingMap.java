@@ -41,7 +41,28 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
                                                Element z2, Element e0,
                                                E Qx, E Qy,
                                                Element f) {
-        computeTangentProjective(a, b, c, Vx, Vy, z, z2, e0);
+
+        // Compute the tangent line T (aX + bY + c) at point V = (Vx, Vy, z)
+        a.set(z2).square();
+        b.set(Vx).square();
+        a.add(b.add(e0.set(b).twice())).negate();
+
+        // Now:
+        // a = -(3x^2 + cca z^4)     with cca = 1
+
+        b.set(e0.set(Vy).twice()).mul(z2).mul(z);
+
+        // Now:
+        // b = 2 y z^3
+
+        c.set(Vx).mul(a);
+        a.mul(z2);
+        c.add(e0.mul(Vy)).negate();
+
+        // Now:
+        // a = -3x^2 z^2 - z^6
+        // c = 3x^3 + z^4 x - 2x^2 y
+
         millerStep(f0, a, b, c, Qx, Qy);
         f.mul(f0);
     }
@@ -98,43 +119,6 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
 
         info.addRow(a, b, c);
     }
-
-    /**
-     * Compute the tangent line T (aX + bY + c) at point V = (Vx, Vy, z)
-     *
-     * @param a  the coefficient of X of tangent line T.
-     * @param b  the coefficient of Y of tangent line T.
-     * @param c  the constant term f tangent line T.
-     * @param Vx V's x.
-     * @param Vy V's y.
-     * @param z  V's z
-     * @param z2 z square.
-     * @param e0 temp element.
-     */
-    protected final void computeTangentProjective(Element a, Element b, Element c,
-                                                  Element Vx, Element Vy, Element z,
-                                                  Element z2, Element e0) {
-        a.set(z2).square();
-        b.set(Vx).square();
-        a.add(b.add(e0.set(b).twice())).negate();
-
-        // Now:
-        // a = -(3x^2 + cca z^4)     with cca = 1
-
-        b.set(e0.set(Vy).twice()).mul(z2).mul(z);
-
-        // Now:
-        // b = 2 y z^3
-
-        c.set(Vx).mul(a);
-        a.mul(z2);
-        c.add(e0.mul(Vy)).negate();
-
-        // Now:
-        // a = -3x^2 z^2 - z^6
-        // c = 3x^3 + z^4 x - 2x^2 y
-    }
-
 
     /**
      * Compute the tangent line L (aX + bY + c) through the points V = (Vx, Vy) e V1 = (V1x, V1y).
