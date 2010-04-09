@@ -11,9 +11,28 @@
         <section name="Schemes - Boneh-Lynn-Shacham (BLS) Short Signatures Scheme">
 
             <p>
-                Let's implement the Boneh-Lynn-Shacham (BLS) signature scheme using the jPBC library.
+                <a href="http://en.wikipedia.org/wiki/BLS_(cryptography)">[wikipedia]</a>
+                In cryptography, the Boneh–Lynn–Shacham signature scheme allows a user to verify that a
+                signer is authentic. The scheme uses a pairing function for verification and
+                signatures are group elements in some elliptic curve.
+                Working in an elliptic curve provides defense against index calculus attacks
+                against allowing shorter signatures than FDH signatures. Signatures are often
+                referred to as short signatures, BLS short signatures, or simply BLS signatures.
+                The signature scheme is provably secure (that is, the scheme is existentially unforgeable
+                under adaptive chosen-message attacks) assuming both the existence of random oracles and the
+                intractability of the computational Diffie–Hellman problem.
             </p>
 
+            <p>
+                In this page we will see how to use the
+                <strong style="color:red"><a href="#strong">HVE</a></strong>,
+                which can be find in the jpbc-crypto module, in the
+                context of the Bouncy Castle framework.
+            </p>
+
+        </section>
+
+        <section name="BLS">
             <subsection name="Key Generation">
                 <p>
                     The key generation algorithm selects a random integer

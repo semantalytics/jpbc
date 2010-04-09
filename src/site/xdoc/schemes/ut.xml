@@ -3,12 +3,12 @@
         "http://maven.apache.org/dtd/xdoc_1_0.dtd">
 <document>
     <properties>
-        <title>Java Pairing-Based Cryptography Library : Schemes - Untraceable Tags based on Mild Assumptions</title>
+        <title>Java Pairing-Based Cryptography Library : Schemes - Untraceable (RIFD) Tags based on Mild Assumptions</title>
         <author email="decaro@dia.unisa.it">Angelo De Caro</author>
     </properties>
 
     <body>
-        <section name="Schemes - Untraceable Tags based on Mild Assumptions">
+        <section name="Schemes - Untraceable (RIFD) Tags based on Mild Assumptions">
             <p>
                 Radio frequency identification (RFID) chips have been widely deployed in
                 large-scale systems such as inventory control and supply chain management.
@@ -32,182 +32,12 @@
             </p>
 
             <p>
-                In this page we will see:
+                In this page we will see how to use the
+                <strong style="color:red"><a href="#strong">strong construction</a></strong>,
+                which can be find in the jpbc-crypto module, in the
+                context of the Bouncy Castle framework.
             </p>
 
-            <ol>
-                <li>
-                    how to implement the
-                    <strong style="color:red"><a href="#weak">weak construction</a></strong>
-                    of the scheme;
-                </li>
-                <li>
-                    how to use the
-                    <strong style="color:red"><a href="#strong">strong construction</a></strong>,
-                    which can be find in the jpbc-crypto module, in the
-                    context of the Bouncy Castle framework.
-                </li>
-            </ol>
-
-        </section>
-
-        <a name="weak"/>
-        <section name="Weak Construction">
-            
-            <subsection name="Public Information Generation">
-                <p>
-                    The publisc information generation algorithm select at random
-                </p>
-                <ol>
-                    <li>
-                        <span class="texhtml">
-                            <i>t</i><sub><i>1</i></sub>,
-                            <i>t</i><sub><i>2</i></sub>,
-                            <i>t</i><sub><i>3</i></sub> 
-                            and omega
-                        </span>
-                        from
-                        <span class="emphasis">
-                            <em>Zr</em>
-                        </span>;
-                    </li>
-                    <li>
-                        <span class="texhtml">
-                            <i>g</i><sub><i>0</i></sub>,
-                            <i>g</i><sub><i>1</i></sub>
-                        </span>
-                        from
-                        <span class="emphasis">
-                            <em>G</em>
-                        </span>.
-                    </li>
-                </ol>
-
-                <p>
-                    and then compute the following values:
-                </p>
-
-                <ol>
-                    <li>
-                        <span class="texhtml">
-                            <i>Omega</i>=<i>e</i>(<i>g</i>,<i>g</i>)
-                            <sup>
-                                <i>omega</i>
-                                <i>t</i><sub><i>1</i></sub>
-                                <i>t</i><sub><i>2</i></sub>
-                                <i>t</i><sub><i>3</i></sub>
-                            </sup>
-                            
-                        </span>
-                    </li>
-                    <li>
-                        <span class="texhtml">
-                            <i>T</i><sub><i>1</i></sub>
-                            =
-                            <i>g</i><sup><i>t</i><sub>1</sub></sup>
-                        </span>
-                    </li>
-                    <li>
-                        <span class="texhtml">
-                            <i>T</i><sub><i>2</i></sub>
-                            =
-                            <i>g</i><sup><i>t</i><sub>2</sub></sup>
-                        </span>
-                    </li>
-                    <li>
-                        <span class="texhtml">
-                            <i>T</i><sub><i>3</i></sub>
-                            =
-                            <i>g</i><sup><i>t</i><sub>3</sub></sup>
-                        </span>
-                    </li>
-                </ol>
-
-                <p>
-                    So we have that
-                </p>
-
-                <ol>
-                    <li>
-                        the
-                        <strong style="color:red">Public Information (Pub)</strong>
-                        are
-                        (<span class="texhtml">
-                            <i>g</i><sub><i>0</i></sub>,
-                            <i>g</i><sub><i>1</i></sub>,
-                            <i>Omega</i>,
-                            <i>T</i><sub><i>1</i></sub>,
-                            <i>T</i><sub><i>2</i></sub>,
-                            <i>T</i><sub><i>3</i></sub>
-                        </span>)
-                    </li>
-                    <li>
-                        ant the
-                        <strong style="color:red">Master Secret Key (MSK)</strong>
-                        is
-                        (<span class="texhtml">
-                            <i>omega</i>,
-                            <i>t</i><sub><i>1</i></sub>,
-                            <i>t</i><sub><i>2</i></sub>,
-                            <i>t</i><sub><i>3</i></sub>
-                        </span>)
-                    </li>
-                </ol>
-
-
-
-                <p>
-                    Let's see how to do that using jPBC:
-                </p>
-
-                <source xml:space="preserve">import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
-
-<strong style="color:green">// Init Pairings</strong>
-
-CurveParams curveParams = new CurveParams().load("curve.properties");
-Pairing pairing = PairingFactory.getPairing(curveParams);
-
-<strong style="color:green">// Generate system parameters</strong>
-
-Element g = pairing.getG1().newRandomElement().getImmutable();
-
-<strong style="color:green">// Generate the MSK</strong>
-
-Element omega = pairing.getZr().newRandomElement().getImmutable();
-Element t1 = pairing.getZr().newRandomElement();
-Element t2 = pairing.getZr().newRandomElement();
-Element t3 = pairing.getZr().newRandomElement();
-
-<strong style="color:green">// Generate the Pub</strong>
-
-Element g0 = pairing.getG1().newRandomElement();
-Element g1 = pairing.getG1().newRandomElement();
-
-Element T1 = g.powZn(t1);
-Element T2 = g.powZn(t2);
-Element T3 = g.powZn(t3);
-
-Element Omega = pairing.pairing(g, g).pow(
-    omega.mul(t1).mul(t2).mul(t3)
-)
-</source>
-            </subsection>
-
-            <subsection name="Key Generation">
-
-            </subsection>
-
-            <subsection name="Encrypt">
-
-            </subsection>
-
-            <subsection name="Decrypt">
-
-            </subsection>
-
-            <subsection name="Randomize">
-
-            </subsection>
         </section>
 
         <a name="strong"/>
