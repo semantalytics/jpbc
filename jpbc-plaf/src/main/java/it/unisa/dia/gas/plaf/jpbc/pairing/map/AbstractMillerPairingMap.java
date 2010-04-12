@@ -18,7 +18,21 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
                                   Element e0,
                                   E Qx, E Qy,
                                   Element f) {
-        computeLine(a, b, c, Vx, Vy, V1x, V1y, e0);
+        // computeLine(a, b, c, Vx, Vy, V1x, V1y, e0);
+        // a = -(V1y - Vy) / (V1x - Vx);
+        // b = 1;
+        // c = -(Vy + a * Vx);
+        //
+        // but we will multiply by V1x - Vx to avoid division, so
+        //
+        // a = -(V1y - Vy)
+        // b = V1x - Vx
+        // c = -(Vy b + a Vx);
+
+        a.set(Vy).sub(V1y);
+        b.set(V1x).sub(Vx);
+        c.set(Vx).mul(V1y).sub(e0.set(Vy).mul(V1x));
+
         millerStep(f0, a, b, c, Qx, Qy);
         f.mul(f0);
     }
@@ -30,7 +44,19 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
                                      Element e0,
                                      E Qx, E Qy,
                                      Element f) {
-        computeTangent(a, b, c, Vx, Vy, curveA, e0);
+        //computeTangent(a, b, c, Vx, Vy, curveA, e0);
+        //a = -slope_tangent(V.x, V.y);
+        //b = 1;
+        //c = -(V.y + aV.x);
+        //but we multiply by -2*V.y to avoid division so:
+        //a = -(3 Vx^2 + cc->a)
+        //b = 2 * Vy
+        //c = -(2 Vy^2 + a Vx);
+
+        a.set(Vx).square().mul(3).add(curveA).negate();
+        b.set(Vy).twice();
+        c.set(a).mul(Vx).add(e0.set(b).mul(Vy)).negate();
+
         millerStep(f0, a, b, c, Qx, Qy);
         f.mul(f0);
     }
