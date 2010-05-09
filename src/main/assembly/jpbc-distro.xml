@@ -2,7 +2,7 @@
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.1 http://maven.apache.org/xsd/assembly-1.1.1.xsd">
 
-    <id>distro</id>
+    <!--<id>distro</id>-->
 
     <formats>
         <format>dir</format>
@@ -87,10 +87,42 @@
         </fileSet>
 
         <fileSet>
-            <directory>jpbc-pbc/target</directory>
-            <outputDirectory>jars/test</outputDirectory>
+            <directory>jpbc-api/target</directory>
+            <outputDirectory>jars/sources</outputDirectory>
             <includes>
-                <include>*tests.jar</include>
+                <include>*sources.jar</include>
+            </includes>
+        </fileSet>
+
+        <fileSet>
+            <directory>jpbc-plaf/target</directory>
+            <outputDirectory>jars/sources</outputDirectory>
+            <includes>
+                <include>*sources.jar</include>
+            </includes>
+        </fileSet>
+
+        <fileSet>
+            <directory>jpbc-pbc/target</directory>
+            <outputDirectory>jars/sources</outputDirectory>
+            <includes>
+                <include>*sources.jar</include>
+            </includes>
+        </fileSet>
+
+        <fileSet>
+            <directory>jpbc-crypto/target</directory>
+            <outputDirectory>jars/sources</outputDirectory>
+            <includes>
+                <include>*sources.jar</include>
+            </includes>
+        </fileSet>
+
+        <fileSet>
+            <directory>jpbc-plaf/target</directory>
+            <outputDirectory>jars/sources</outputDirectory>
+            <includes>
+                <include>*sources.jar</include>
             </includes>
         </fileSet>
 
