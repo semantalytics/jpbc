@@ -22,7 +22,7 @@
         <echo message="Starting Benchmarks..."/>
 
         <java fork="true" classname="it.unisa.dia.gas.jpbc.benchmark.ComparisonBenchmark">
-            <arg value="100"/>
+            <arg value="1000"/>
             <arg value="${basedir}/params/benchmark/a.properties"/>
             <arg value="${basedir}/params/benchmark/a1.properties"/>
             <arg value="${basedir}/params/benchmark/d159.properties"/>

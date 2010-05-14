@@ -87,6 +87,14 @@
         </fileSet>
 
         <fileSet>
+            <directory>jpbc-pbc/target</directory>
+            <outputDirectory>jars/test</outputDirectory>
+            <includes>
+                <include>*tests.jar</include>
+            </includes>
+        </fileSet>
+
+        <fileSet>
             <directory>jpbc-api/target</directory>
             <outputDirectory>jars/sources</outputDirectory>
             <includes>
