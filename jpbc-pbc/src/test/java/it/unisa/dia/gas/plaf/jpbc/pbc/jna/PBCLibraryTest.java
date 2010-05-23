@@ -8,6 +8,8 @@ import junit.framework.TestCase;
 public class PBCLibraryTest extends TestCase {
 
     public void testSize() {
+        System.out.println(System.getProperty("java.library.path"));
+
         // Check for link library
         if (!PBCLibraryProvider.isAvailable())
             return;

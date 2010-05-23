@@ -36,12 +36,9 @@ public class CurveFieldTest extends TestCase {
         Element r = pairing.getZr().newElement().setToRandom();
 
         Element egg = pairing.pairing(g, g);
-//        System.out.println("egg = " + egg);
         Element egga = egg.duplicate().powZn(a);
 
-        Element gar = g.duplicate().powZn(
-                a.duplicate().div(r)
-        );
+        Element gar = g.duplicate().powZn(a.duplicate().div(r));
         Element gr = g.duplicate().powZn(r);
 
         Element egargr = pairing.pairing(gar, gr);
@@ -49,16 +46,9 @@ public class CurveFieldTest extends TestCase {
         assertTrue(egga.isEqual(egargr));
 
         Element eggMinusa = egg.duplicate().powZn(a.duplicate().negate());
-
-//        System.out.println("egargr = " + egargr);
-//        System.out.println("eggMinusa = " + eggMinusa);
-
         Element one = egargr.duplicate().mul(eggMinusa);
 
-//        System.out.println("egg = " + egg);
-//        System.out.println("one = " + one);
-
-        assertTrue(one.isOne());
+        assertEquals(true, one.isOne());
     }
 
 

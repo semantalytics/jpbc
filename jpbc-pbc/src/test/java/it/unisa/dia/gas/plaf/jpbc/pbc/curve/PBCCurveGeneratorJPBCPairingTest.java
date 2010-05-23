@@ -1,9 +1,9 @@
-package it.unisa.dia.gas.plaf.jpbc.pbc.pairing;
+package it.unisa.dia.gas.plaf.jpbc.pbc.curve;
 
 import it.unisa.dia.gas.jpbc.CurveGenerator;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
-import it.unisa.dia.gas.plaf.jpbc.pbc.curve.*;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCLibraryProvider;
+import it.unisa.dia.gas.plaf.jpbc.pbc.pairing.PairingTest;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)

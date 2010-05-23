@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.plaf.jpbc.field;
+package it.unisa.dia.gas.plaf.jpbc.element;
 
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 

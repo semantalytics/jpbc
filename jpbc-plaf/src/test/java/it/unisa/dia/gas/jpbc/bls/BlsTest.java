@@ -11,12 +11,18 @@ import junit.framework.TestCase;
  */
 public class BlsTest extends TestCase {
 
-    public void testBls() {
+    protected Pairing pairing;
+
+    @Override
+    protected void setUp() throws Exception {
         // Load pairing
         CurveParams curveParams = new CurveParams();
         curveParams.load(BlsTest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pairing/a/a_181_603.properties"));
-        Pairing pairing = PairingFactory.getPairing(curveParams);
 
+        pairing = PairingFactory.getPairing(curveParams);
+    }
+
+    public void testBls() {
         // Generate system parameters
         Element g = pairing.getG2().newRandomElement();
 

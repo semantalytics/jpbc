@@ -112,7 +112,7 @@ public class PBCElement implements Element {
     }
 
     public boolean isZero() {
-        return PBCLibraryProvider.getPbcLibrary().pbc_element_is0(this.value) == 0;
+        return PBCLibraryProvider.getPbcLibrary().pbc_element_is0(this.value) == 1;
     }
 
     public PBCElement setToOne() {
@@ -122,7 +122,7 @@ public class PBCElement implements Element {
     }
 
     public boolean isOne() {
-        return PBCLibraryProvider.getPbcLibrary().pbc_element_is1(this.value) == 0;
+        return PBCLibraryProvider.getPbcLibrary().pbc_element_is1(this.value) == 1;
     }
 
     public PBCElement twice() {
@@ -218,7 +218,7 @@ public class PBCElement implements Element {
     }
 
     public boolean isSqr() {
-        return PBCLibraryProvider.getPbcLibrary().pbc_element_is_sqr(value) == 0;
+        return PBCLibraryProvider.getPbcLibrary().pbc_element_is_sqr(value) == 1;
     }
 
     public int sign() {

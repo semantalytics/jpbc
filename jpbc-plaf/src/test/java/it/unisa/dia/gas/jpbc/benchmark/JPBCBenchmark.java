@@ -50,6 +50,7 @@ public class JPBCBenchmark {
                 end = System.currentTimeMillis();
                 t3 += (end - start);
 
+                System.gc();
             }
 
             pairingBenchmarks[0][col] = (double) t1 / times;
@@ -118,6 +119,8 @@ public class JPBCBenchmark {
                     e1.setToRandom();
                     end = System.currentTimeMillis();
                     t7 += (end - start);
+
+                    System.gc();
                 }
 
                 elementBenchmarks[fieldIndex][0][col] = (double ) t1 / times;

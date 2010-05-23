@@ -11,13 +11,19 @@ import junit.framework.TestCase;
  */
 public class ZssTest extends TestCase {
 
-    public void testZss() {
+    protected Pairing pairing;
+
+    @Override
+    protected void setUp() throws Exception {
         // Load pairing
         CurveParams curveParams = new CurveParams();
         curveParams.load(ZssTest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pairing/a/a_181_603.properties"));
 
-        Pairing pairing = new TypeAPairing(curveParams);
+        pairing = new TypeAPairing(curveParams);
+    }
 
+
+    public void testZss() {
         long time1, time2;
 
         Element P, Ppub, x, S, H, t1, t2, t3, t4;
