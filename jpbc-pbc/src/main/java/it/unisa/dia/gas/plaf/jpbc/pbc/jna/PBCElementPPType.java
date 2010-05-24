@@ -20,7 +20,6 @@ public class PBCElementPPType extends Memory {
 
     @Override
     protected void finalize() {
-        System.out.println("PBCElementPPType.finalize");
         PBCLibraryProvider.getPbcLibrary().pbc_element_pp_clear(this);
         super.finalize();
     }

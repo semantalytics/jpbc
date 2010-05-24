@@ -11,24 +11,24 @@
         <section name="Schemes - (HVE) Hidden Vector Encryption">
             Predicate encryption schemes are encryption schemes in which
             each ciphertext Ct is associated with a binary attribute vector
-            x = (x1, ... ,xn) and keys K are associated with predicates. A key K can
-            decrypt a ciphertext Ct if and only if the attribute vector of the cipher-
-            text satisfies the predicate of the key. Predicate encryption schemes can
+            x = (x1, ..., xn) and keys K are associated with predicates. A key K can
+            decrypt a ciphertext Ct if and only if the attribute vector of the
+            cipher-text satisfies the predicate of the key. Predicate encryption schemes can
             be used to implement fine-grained access control on encrypted data and
             to perform search on encrypted data.
             Hidden vector encryption schemes [Boneh and Waters - TCC 2007] are
-            encryption schemes in which each ciphertext Ct is associated with a bi-
-            nary vector x = (x1 , . . . , xn ) and each key K is associated with binary
-            vector y = (y1 , · · · , yn ) with “don’t care” entries (denoted with *). Key
+            encryption schemes in which each ciphertext Ct is associated with a
+            binary vector x = (x1, ..., xn) and each key K is associated with binary
+            vector y = (y1, ..., yn) with "don't care" entries (denoted with *). Key
             K can decrypt ciphertext Ct if and only if x and y agree for all i for
             which yi != *.
             Hidden vector encryption schemes are an important type of predicate
             encryption schemes as they can be used to construct more sophisticated
             predicate encryption schemes (supporting for example range and subset
             queries).
-            We give a construction for hidden-vector encryption from standard com-
-            plexity assumptions on bilinear groups of prime order. Previous con-
-            structions were in bilinear groups of composite order and thus resulted
+            We give a construction for hidden-vector encryption from standard
+            complexity assumptions on bilinear groups of prime order. Previous
+            constructions were in bilinear groups of composite order and thus resulted
             in less efficient schemes. Our construction is both payload-hiding and
             attribute-hiding meaning that also the privacy of the attribute vector,
             besides privacy of the cleartext, is guaranteed.
