@@ -24,6 +24,9 @@ public class ZssTest extends TestCase {
 
 
     public void testZss() {
+        if (pairing == null)
+            return;
+        
         long time1, time2;
 
         Element P, Ppub, x, S, H, t1, t2, t3, t4;

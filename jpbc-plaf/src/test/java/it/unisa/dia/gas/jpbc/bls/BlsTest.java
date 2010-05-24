@@ -23,6 +23,9 @@ public class BlsTest extends TestCase {
     }
 
     public void testBls() {
+        if (pairing == null)
+            return;
+
         // Generate system parameters
         Element g = pairing.getG2().newRandomElement();
 

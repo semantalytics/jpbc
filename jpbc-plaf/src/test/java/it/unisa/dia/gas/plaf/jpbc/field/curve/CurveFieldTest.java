@@ -31,6 +31,9 @@ public class CurveFieldTest extends TestCase {
 
 
     public void testOne() {
+        if (pairing == null)
+            return;
+
         Element g = pairing.getG1().newElement().setToRandom();
         Element a = pairing.getZr().newElement().setToRandom();
         Element r = pairing.getZr().newElement().setToRandom();
