@@ -52,6 +52,18 @@ public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElemen
         initGen();
     }
 
+
+    public CurveField(Element a, Element b, BigInteger order, BigInteger cofac, BigInteger genNoCofac) {
+        super((F) a.getField());
+
+        this.a = a;
+        this.b = b;
+        this.order = order;
+        this.cofac = cofac;
+
+        initGen(genNoCofac);
+    }
+
     public CurveField(Element b, BigInteger order, BigInteger cofac) {
         this(b.getField().newZeroElement(), b, order, cofac);
     }
@@ -143,6 +155,22 @@ public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElemen
             gen = genNoCofac.duplicate().mul(cofac);
         } else {
             gen = genNoCofac.duplicate();
+        }
+    }
+
+    protected void initGen(BigInteger genNoCofac) {
+        if (genNoCofac == null) {
+            this.genNoCofac = getCurveRandomNoCofacSolvefory();
+        } else {
+            CurveElement element = new CurveElement(this);
+            element.setFromBytes(genNoCofac.toByteArray());
+            this.genNoCofac = element;
+        }
+
+        if (cofac != null) {
+            gen = this.genNoCofac.duplicate().mul(cofac);
+        } else {
+            gen = this.genNoCofac.duplicate();
         }
     }
 

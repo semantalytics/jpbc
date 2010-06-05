@@ -30,6 +30,8 @@ public class TypeAPairing extends AbstractPairing {
 
     protected BigInteger phikOnr;
 
+    protected BigInteger genNoCofac;
+
     protected Field Fq;
     protected Field<? extends Point> Fq2;
     protected Field<? extends Point> Eq;
@@ -58,6 +60,8 @@ public class TypeAPairing extends AbstractPairing {
         r = curveParams.getBigInteger("r"); // r = 2^exp2 + sign1 * 2^exp1 + sign0 * 1
         q = curveParams.getBigInteger("q"); // we work in E(F_q) (and E(F_q^2))
         h = curveParams.getBigInteger("h");  // r * h = q + 1
+
+        genNoCofac = curveParams.getBigInteger("genNoCofac", null);
     }
 
 
@@ -90,7 +94,7 @@ public class TypeAPairing extends AbstractPairing {
     }
 
     protected Field<? extends Point> initEq() {
-        return new CurveField<Field>(Fq.newOneElement(), Fq.newZeroElement(), r, h);
+        return new CurveField<Field>(Fq.newOneElement(), Fq.newZeroElement(), r, h, genNoCofac);
     }
 
     protected Field<? extends Point> initFi() {

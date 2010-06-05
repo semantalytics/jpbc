@@ -1,6 +1,9 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing.a;
 
 import it.unisa.dia.gas.jpbc.CurveGenerator;
+import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveField;
+import it.unisa.dia.gas.plaf.jpbc.field.naive.NaiveField;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.util.BigIntegerUtils;
 
@@ -13,11 +16,17 @@ import java.util.Map;
  */
 public class TypeACurveGenerator implements CurveGenerator {
     protected int rbits, qbits;
+    protected boolean generateCurveFieldGen;
 
 
     public TypeACurveGenerator(int rbits, int qbits) {
+        this(rbits, qbits, false);
+    }
+
+    public TypeACurveGenerator(int rbits, int qbits, boolean generateCurveFieldGen) {
         this.rbits = rbits;
         this.qbits = qbits;
+        this.generateCurveFieldGen = generateCurveFieldGen;
     }
 
 
@@ -99,6 +108,13 @@ public class TypeACurveGenerator implements CurveGenerator {
         params.put("exp2", String.valueOf(exp2));
         params.put("sign0", String.valueOf(sign0));
         params.put("sign1", String.valueOf(sign1));
+
+        if (generateCurveFieldGen) {
+            Field Fq = new NaiveField(q);
+            CurveField curveField = new CurveField<Field>(Fq.newOneElement(), Fq.newZeroElement(), r, h);
+            params.put("genNoCofac", new BigInteger(curveField.getGenNoCofac().toBytes()).toString());
+            
+        }
 
         return params;
     }

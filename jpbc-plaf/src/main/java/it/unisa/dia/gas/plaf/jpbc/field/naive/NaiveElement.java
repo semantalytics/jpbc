@@ -8,7 +8,6 @@ import it.unisa.dia.gas.plaf.jpbc.util.Utils;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.util.Arrays;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -304,7 +303,7 @@ public class NaiveElement extends GenericElement {
         if (bytes.length > field.getLengthInBytes()) {
             if (bytes[0] == 0 && bytes.length == field.getLengthInBytes() + 1) {
                 // Remove it
-                bytes = Arrays.copyOfRange(bytes, 1, bytes.length);
+                bytes = BigIntegerUtils.copyOfRange(bytes, 1, bytes.length);
             } else
                 throw new IllegalStateException("result has more than FixedLengthInBytes.");
         } else if (bytes.length < field.getLengthInBytes()) {

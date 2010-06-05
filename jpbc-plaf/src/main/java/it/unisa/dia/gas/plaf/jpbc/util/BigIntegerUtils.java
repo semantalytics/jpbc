@@ -1,9 +1,10 @@
 package it.unisa.dia.gas.plaf.jpbc.util;
 
 import java.math.BigInteger;
+import java.security.SecureRandom;
+
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.ZERO;
-import java.security.SecureRandom;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -71,6 +72,7 @@ public class BigIntegerUtils {
 
 
     // Given q, t such that #E(F_q) = q - t + 1, compute #E(F_q^k).
+
     public static BigInteger pbc_mpz_curve_order_extn(BigInteger q, BigInteger t, int k) {
         BigInteger z = q.pow(k).add(BigInteger.ONE);
         BigInteger tk = compute_trace_n(q, t, k);
@@ -95,6 +97,7 @@ public class BigIntegerUtils {
         Precondition: n >= 0
         Postcondition: Result sr has the property sr[0]^2 <= n < (sr[0] + 1)^2 and (sr[0]^2 + sr[1] = n)
     */
+
     public static BigInteger[] fullSqrt(BigInteger n) {
 
         if (n.compareTo(MAXINT) < 1) {
@@ -130,7 +133,7 @@ public class BigIntegerUtils {
 
     public static int jacobi(BigInteger a, BigInteger n) {
         /* Precondition: a, n >= 0; n is odd */
-        int ans = 0;
+/*        int ans = 0;
 
         if (ZERO.equals(a))
             ans = (ONE.equals(n)) ? 1 : 0;
@@ -147,7 +150,52 @@ public class BigIntegerUtils {
         else
             ans = (THREE.equals(a.mod(FOUR)) && THREE.equals(n.mod(FOUR))) ? -jacobi(n, a) : jacobi(n, a);
 
-        return ans;
+        return ans;*/
+
+        if (ZERO.equals(a))
+            return 0; // (0/n) = 0
+
+        int ans = 1;
+        BigInteger temp;
+        if (a.compareTo(ZERO) == -1) {
+            a = a.negate();    // (a/n) = (-a/n)*(-1/n)
+            if (n.mod(FOUR).equals(THREE))
+                ans = -ans; // (-1/n) = -1 if n = 3 ( mod 4 )
+        }
+        if (a.equals(ONE))
+            return ans; // (1/n) = 1
+
+        while (!ZERO.equals(a)) {
+            if (a.compareTo(ZERO) == -1) {
+                a = a.negate();    // (a/n) = (-a/n)*(-1/n)
+                if (n.mod(FOUR).equals(THREE))
+                    ans = -ans; // (-1/n) = -1 if n = 3 ( mod 4 )
+            }
+
+            while (a.mod(TWO).equals(ZERO)) {
+                a = a.divide(TWO);    // Property (iii)
+                BigInteger mod = n.mod(EIGHT);
+                if (mod.equals(THREE) || mod.equals(FIVE))
+                    ans = -ans;
+            }
+
+            // Property (iv)
+            temp = a;
+            a = n;
+            n = temp;
+
+            if (a.mod(FOUR).equals(THREE) && n.mod(FOUR).equals(THREE))
+                ans = -ans; // Property (iv)
+
+            a = a.mod(n); // because (a/p) = (a%p / p ) and a%pi = (a%n)%pi if n % pi = 0
+            if (a.compareTo(n.divide(TWO)) == 1) 
+                a = a.subtract(n);
+        }
+
+        if (n.equals(ONE))
+            return ans;
+        return 0;
+
     }
 
     public static int scanOne(BigInteger a, int startIndex) {
@@ -197,6 +245,7 @@ public class BigIntegerUtils {
         Precondition: n >= 0 and 2^log2n <= n < 2^(log2n + 1), i.e. log2n = floor(log2(n))
         Postcondition: Result sr has the property (sr[0]^2 - 1) <= n < (sr[0] + 1)^2 and (sr[0]^2 + sr[1] = n)
     */
+
     private static BigInteger[] isqrtInternal(BigInteger n, int log2n) {
         if (n.compareTo(MAXINT) < 1) {
             int ln = n.intValue(), s = (int) java.lang.Math.sqrt(ln);
@@ -266,6 +315,16 @@ public class BigIntegerUtils {
 
         protected abstract int fun(BigInteger factor, int multiplicity);
 
+    }
+
+    public static byte[] copyOfRange(byte[] original, int from, int to) {
+        int newLength = to - from;
+        if (newLength < 0)
+            throw new IllegalArgumentException(from + " > " + to);
+        byte[] copy = new byte[newLength];
+        System.arraycopy(original, from, copy, 0,
+                Math.min(original.length - from, newLength));
+        return copy;
     }
 
 }

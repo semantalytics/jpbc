@@ -450,7 +450,7 @@ public class CurveElement<E extends Element> extends GenericPointElement<E> {
 
     protected void setPointFromX() {
         infFlag = 0;
-        y.set(x.duplicate().square().add(curveField.getA()).mul(x).add(curveField.getB()).sqrt());
+        y.set(x.duplicate().square().add(curveField.a).mul(x).add(curveField.b).sqrt());
     }
 
 
