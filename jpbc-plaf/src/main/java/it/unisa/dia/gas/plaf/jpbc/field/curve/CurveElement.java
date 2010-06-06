@@ -456,7 +456,7 @@ public class CurveElement<E extends Element> extends GenericPointElement<E> {
 
     protected boolean isEqual(CurveElement element) {
         if (this.infFlag != 0 || element.infFlag != 0) {
-            return !(this.infFlag != 0 && element.infFlag != 0);
+            return (this.infFlag != 0 && element.infFlag != 0);
         }
 
         return x.isEqual(element.x) && y.isEqual(element.y);
