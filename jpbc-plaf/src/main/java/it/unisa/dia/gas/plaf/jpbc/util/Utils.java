@@ -13,7 +13,7 @@ public class Utils {
     }
 
     public static byte[] copyOf(byte[] original, int offset, int newLength) {
-        int len = Math.min(original.length, newLength);
+        int len = Math.min(original.length - offset, newLength);
         byte[] copy = new byte[len];
         System.arraycopy(original, offset, copy, 0, len);
         return copy;
