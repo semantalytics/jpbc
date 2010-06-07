@@ -146,7 +146,7 @@ public class NaiveElement extends GenericElement {
         assert (i == count);
 
         //mpz_import(z, count, 1, 1, 1, 0, buf);
-        BigInteger z = new BigInteger(buf);
+        BigInteger z = new BigInteger(1, buf);
 
         while (z.compareTo(order) > 0) {
             z = z.divide(BigIntegerUtils.TWO);
