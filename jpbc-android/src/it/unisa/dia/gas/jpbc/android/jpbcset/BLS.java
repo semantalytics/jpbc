@@ -15,12 +15,17 @@ public String init(){
 	
 	int rBits = 160;
 	int qBits = 512;
+
+    long s1 = System.currentTimeMillis();
 	CurveGenerator curveGenerator = new TypeACurveGenerator(rBits, qBits);
-    curveGenerator.toString();
-    //CurveParams curveParams;
     Map<?, ?> curveParams = curveGenerator.generate();
+    long e1 = System.currentTimeMillis();
+
+
+    long s2 = System.currentTimeMillis();
     Pairing pairing = PairingFactory.getPairing((CurveParams) curveParams);
-	
+    long e2 = System.currentTimeMillis();
+
     
 	Element g = pairing.getG1().newRandomElement().getImmutable();
 	
@@ -36,13 +41,17 @@ public String init(){
 	byte[] hashcode1 = "jxiaobao@gmail.com".getBytes();
 	Element h2 = pairing.getG1().newElement().setFromHash(hashcode1, 0, hashcode1.length);
 	
-	Element temp1 = pairing.pairing(sig,g);   
+    long s3 = System.currentTimeMillis();
+	Element temp1 = pairing.pairing(sig,g);
+    long e3 = System.currentTimeMillis();
 	Element temp2 = pairing.pairing(h2, pk); 
-	if(temp1.isEqual(temp2)){ 
-		return "The signature is valid.";
+
+
+	if(temp1.isEqual(temp2)){
+		return "The signature is valid." + (e1-s1) + " - " + (e2-s2) + " - " + (e3-s3);
 		}
 	else{
-		return "The signature is NOT valid.";
+		return "The signature is NOT valid." + (e1-s1) + " - " + (e2-s2) + " - " + (e3-s3);
 		} 
 }
 }
