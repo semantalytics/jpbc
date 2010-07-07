@@ -15,7 +15,6 @@ public class BLSSigner implements Signer {
     private BLSKeyParameters keyParameters;
     private Digest digest;
 
-    private Element h;
     private Pairing pairing;
 
 
@@ -36,6 +35,9 @@ public class BLSSigner implements Signer {
             throw new IllegalArgumentException("verification requires public key");
 
         this.pairing = PairingFactory.getPairing(keyParameters.getParameters().getCurveParams());
+
+        // Reset the digest
+        digest.reset();
     }
 
     public boolean verifySignature(byte[] signature) {
@@ -46,6 +48,14 @@ public class BLSSigner implements Signer {
 
         Element sig = pairing.getG1().newElement();
         sig.setFromBytes(signature);
+
+        // Generate the digest
+        int digestSize = digest.getDigestSize();
+        byte[] hash = new byte[digestSize];
+        digest.doFinal(hash, 0);
+
+        // Map the hash of the message m to some element of G1
+        Element h = pairing.getG1().newElement().setFromHash(hash, 0, hash.length);
 
         Element temp1 = pairing.pairing(sig, publicKey.getParameters().getG());
         Element temp2 = pairing.pairing(h, publicKey.getPk());
@@ -65,7 +75,7 @@ public class BLSSigner implements Signer {
         digest.doFinal(hash, 0);
 
         // Map the hash of the message m to some element of G1
-        h = pairing.getG1().newElement().setFromHash(hash, 0, hash.length).getImmutable();
+        Element h = pairing.getG1().newElement().setFromHash(hash, 0, hash.length);
 
         // Generate the signature
         Element sig = h.powZn(privateKey.getSk());

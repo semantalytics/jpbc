@@ -46,6 +46,7 @@ public class BLSSignerTest extends TestCase {
 
         // Verify
         blsSigner.init(false, keyPair.getPublic());
+        blsSigner.update(message, 0, message.length);
         assertTrue(blsSigner.verifySignature(sig));
     }
 }
