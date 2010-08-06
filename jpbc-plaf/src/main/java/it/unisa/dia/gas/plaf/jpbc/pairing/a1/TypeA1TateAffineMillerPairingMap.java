@@ -4,7 +4,6 @@ import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteElement;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteField;
-import it.unisa.dia.gas.plaf.jpbc.field.quadratic.DegreeTwoQuadraticElement;
 import it.unisa.dia.gas.plaf.jpbc.pairing.map.AbstractMillerPairingMap;
 
 import java.math.BigInteger;
@@ -87,7 +86,7 @@ public class TypeA1TateAffineMillerPairingMap extends AbstractMillerPairingMap<E
         t0 = element.getField().newElement();
         t1 = element.getField().newElement();
 
-        tatePow((DegreeTwoQuadraticElement) t0, (DegreeTwoQuadraticElement) element, (DegreeTwoQuadraticElement) t1, pairing.phikonr);
+        tatePow((Point) t0, (Point) element, (Point) t1, pairing.phikonr);
 
         element.set(t0);
 

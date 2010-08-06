@@ -26,6 +26,45 @@ public class BigIntegerUtils {
         return bigInteger.testBit(0);
     }
 
+    public static BigInteger generateSolinasPrime(int bits, SecureRandom random) {
+        // r is picked to be a Solinas prime, that is,
+        // r has the form 2a +- 2b +- 1 for some integers 0 < b < a.
+        BigInteger r, q;
+        int exp2, sign1;
+
+        while (true) {
+            r = BigInteger.ZERO;
+
+            if (random.nextInt(Integer.MAX_VALUE) % 2 != 0) {
+                exp2 = bits - 1;
+                sign1 = 1;
+            } else {
+                exp2 = bits;
+                sign1 = -1;
+            }
+            r = r.setBit(exp2);
+
+            q = BigInteger.ZERO.setBit((random.nextInt(Integer.MAX_VALUE) % (exp2 - 1)) + 1);
+
+            if (sign1 > 0) {
+                r = r.add(q);
+            } else {
+                r = r.subtract(q);
+            }
+
+            if (random.nextInt(Integer.MAX_VALUE) % 2 != 0) {
+                r = r.add(BigInteger.ONE);
+            } else {
+                r = r.subtract(BigInteger.ONE);
+            }
+
+            if (r.isProbablePrime(10))
+                return r;
+        }
+
+    }
+
+
     public static BigInteger factorial(int n) {
         return factorial(BigInteger.valueOf(n));
     }
@@ -51,7 +90,7 @@ public class BigIntegerUtils {
      * @param n
      * @return
      */
-    public static BigInteger compute_trace_n(BigInteger q, BigInteger trace, int n) {
+    public static BigInteger computeTrace(BigInteger q, BigInteger trace, int n) {
         int i;
         BigInteger c0, c1, c2;
         BigInteger t0;
@@ -75,7 +114,7 @@ public class BigIntegerUtils {
 
     public static BigInteger pbc_mpz_curve_order_extn(BigInteger q, BigInteger t, int k) {
         BigInteger z = q.pow(k).add(BigInteger.ONE);
-        BigInteger tk = compute_trace_n(q, t, k);
+        BigInteger tk = computeTrace(q, t, k);
         z = z.subtract(tk);
         return z;
     }

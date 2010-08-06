@@ -5,7 +5,7 @@ import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveField;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteField;
 import it.unisa.dia.gas.plaf.jpbc.field.naive.NaiveField;
-import it.unisa.dia.gas.plaf.jpbc.field.quadratic.DegreeTwoQuadraticField;
+import it.unisa.dia.gas.plaf.jpbc.field.quadratic.DegreeTwoExtensionQuadraticField;
 import it.unisa.dia.gas.plaf.jpbc.pairing.AbstractPairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 
@@ -51,11 +51,11 @@ public class TypeA1Pairing extends AbstractPairing {
         // Init Zr
         Zr = initFp(r);
 
-        //k=2, hence phi_k(q) = q + 1, phikOnr = (q+1)/r
-        phikonr = BigInteger.valueOf(l);
-
         // Init Fp
         Fp = initFp(p);
+
+        //k=2, hence phi_k(q) = q + 1, phikOnr = (q+1)/r
+        phikonr = BigInteger.valueOf(l);
 
         // Init Eq
         Eq = initEq();
@@ -79,7 +79,7 @@ public class TypeA1Pairing extends AbstractPairing {
     }
 
     protected Field<? extends Point> initFi() {
-        return new DegreeTwoQuadraticField<Field>(Fp);
+        return new DegreeTwoExtensionQuadraticField<Field>(Fp);
     }
 
     protected Field initGT(Field field) {

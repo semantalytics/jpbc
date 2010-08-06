@@ -5,7 +5,7 @@ import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveField;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteField;
 import it.unisa.dia.gas.plaf.jpbc.field.naive.NaiveField;
-import it.unisa.dia.gas.plaf.jpbc.field.quadratic.DegreeTwoQuadraticField;
+import it.unisa.dia.gas.plaf.jpbc.field.quadratic.DegreeTwoExtensionQuadraticField;
 import it.unisa.dia.gas.plaf.jpbc.pairing.AbstractPairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 
@@ -70,7 +70,6 @@ public class TypeAPairing extends AbstractPairing {
         Zr = initFp(r);
 
         // Init Fq
-
         Fq = initFp(q);
 
         // Init Eq
@@ -94,11 +93,16 @@ public class TypeAPairing extends AbstractPairing {
     }
 
     protected Field<? extends Point> initEq() {
-        return new CurveField<Field>(Fq.newOneElement(), Fq.newZeroElement(), r, h, genNoCofac);
+        // Remember the curve is: y^2 = x^3 + ax
+        return new CurveField<Field>(Fq.newOneElement(),   // a
+                                     Fq.newZeroElement(),  // b
+                                     r,                    // order
+                                     h,                    // cofactor  (r*h)=q+1=#E(F_q)
+                                     genNoCofac);
     }
 
     protected Field<? extends Point> initFi() {
-        return new DegreeTwoQuadraticField<Field>(Fq);
+        return new DegreeTwoExtensionQuadraticField<Field>(Fq);
     }
 
     protected Field initGT() {

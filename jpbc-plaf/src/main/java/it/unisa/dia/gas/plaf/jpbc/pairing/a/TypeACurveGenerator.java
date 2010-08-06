@@ -36,12 +36,13 @@ public class TypeACurveGenerator implements CurveGenerator {
         BigInteger q;
         BigInteger r;
         BigInteger h = null;
-        int exp1, exp2;
-        int sign0, sign1;
+        int exp1=0, exp2=0;
+        int sign0=0, sign1=0;
 
         SecureRandom random = new SecureRandom();
         do {
-            // r is picked to be a Solinas prime, that is, r has the form 2a +- 2b +- 1 for some integers 0 < b < a.
+            // r is picked to be a Solinas prime, that is,
+            // r has the form 2a +- 2b +- 1 for some integers 0 < b < a.
             r = BigInteger.ZERO;
 
             if (random.nextInt(Integer.MAX_VALUE) % 2 != 0) {
@@ -84,12 +85,12 @@ public class TypeACurveGenerator implements CurveGenerator {
                 // we randomly generate h where where h is a multiple of four and sufficiently large to
                 // guarantee (hr)^2 is big enough to resist finite field attacks.
                 // If h is constrained to be a multiple of three as well, then cube roots are extremely easy to
-                // compute in Fq: for all x ? Fq we see x?(q?2)/3 is the cube root of x,
+                // compute in Fq: for all x \in Fq we see x^(-(q-2)/3) is the cube root of x,
                 h = BigIntegerUtils.getRandom(q).multiply(BigIntegerUtils.TWELVE);
 
                 // Next it is checked that q = hr ?1 is prime, if it is the case we have finished.
                 // Also, we choose q = -1 mod 12 so F_q2 can be implemented as F_q[i] (where i = sqrt(-1)).
-                // Look at the class DegreeTwoQuadraticField and DegreeTwoQuadraticElement
+                // Look at the class DegreeTwoExtensionQuadraticField and DegreeTwoExtensionQuadraticElement
                 q = h.multiply(r).subtract(BigInteger.ONE);
 
                 if (q.isProbablePrime(10)) {

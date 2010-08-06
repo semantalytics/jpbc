@@ -5,7 +5,7 @@ import it.unisa.dia.gas.jpbc.PairingPreProcessing;
 import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteElement;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteField;
-import it.unisa.dia.gas.plaf.jpbc.field.quadratic.DegreeTwoQuadraticElement;
+import it.unisa.dia.gas.plaf.jpbc.field.quadratic.DegreeTwoExtensionQuadraticElement;
 import it.unisa.dia.gas.plaf.jpbc.pairing.map.AbstractMillerPairingMap;
 
 import java.math.BigInteger;
@@ -54,7 +54,6 @@ public class TypeATateAffineMillerPairingMap extends AbstractMillerPairingMap {
         Element e0 = pairing.Fq.newElement();
 
         // Remember that r = 2^exp2 + sign1 * 2^exp1 + sign0 * 1 (Solinas prime)
-
         int i = 0;
         int n = pairing.exp1;
         for (; i < n; i++) {
@@ -116,7 +115,7 @@ public class TypeATateAffineMillerPairingMap extends AbstractMillerPairingMap {
         t0 = element.getField().newElement();
         t1 = element.getField().newElement();
 
-        tatePow((DegreeTwoQuadraticElement) t0, (DegreeTwoQuadraticElement) element, (DegreeTwoQuadraticElement) t1, pairing.phikOnr);
+        tatePow((DegreeTwoExtensionQuadraticElement) t0, (DegreeTwoExtensionQuadraticElement) element, (DegreeTwoExtensionQuadraticElement) t1, pairing.phikOnr);
 
         element.set(t0);
 
@@ -153,11 +152,11 @@ public class TypeATateAffineMillerPairingMap extends AbstractMillerPairingMap {
         // Re(a Qx + b Qy + c) = -a Q'x + c and
         // Im(a Qx + b Qy + c) = b Q'y
 
-        Element rePart = out.getX();
-        Element imPart = out.getY();
+        Element re = out.getX();
+        Element im = out.getY();
 
-        rePart.set(c).sub(imPart.set(a).mul(Qx));
-        imPart.set(b).mul(Qy);
+        re.set(c).sub(im.set(a).mul(Qx));
+        im.set(b).mul(Qy);
     }
 
 

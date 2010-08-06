@@ -5,14 +5,14 @@ import it.unisa.dia.gas.jpbc.Element;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class DegreeTwoQuadraticElement<E extends Element> extends QuadraticElement<E> {
+public class DegreeTwoExtensionQuadraticElement<E extends Element> extends QuadraticElement<E> {
 
-    protected DegreeTwoQuadraticField field;
+    protected DegreeTwoExtensionQuadraticField field;
     protected Element e0, e1, e2;
 
 
 
-    public DegreeTwoQuadraticElement(DegreeTwoQuadraticField field) {
+    public DegreeTwoExtensionQuadraticElement(DegreeTwoExtensionQuadraticField field) {
         super(field);
         this.field = field;
 
@@ -24,7 +24,7 @@ public class DegreeTwoQuadraticElement<E extends Element> extends QuadraticEleme
         this.e2 = field.getTargetField().newElement();
     }
 
-    public DegreeTwoQuadraticElement(DegreeTwoQuadraticElement element) {
+    public DegreeTwoExtensionQuadraticElement(DegreeTwoExtensionQuadraticElement element) {
         super(element.field);
         this.field = element.field;
 
@@ -37,11 +37,11 @@ public class DegreeTwoQuadraticElement<E extends Element> extends QuadraticEleme
     }
 
 
-    public DegreeTwoQuadraticElement duplicate() {
-        return new DegreeTwoQuadraticElement(this);
+    public DegreeTwoExtensionQuadraticElement duplicate() {
+        return new DegreeTwoExtensionQuadraticElement(this);
     }
 
-    public DegreeTwoQuadraticElement square() {
+    public DegreeTwoExtensionQuadraticElement square() {
         e0.set(x).add(y).mul(e1.set(x).sub(y));
         e1.set(x).mul(y).twice()/*add(e1)*/;
 
@@ -71,7 +71,7 @@ public class DegreeTwoQuadraticElement<E extends Element> extends QuadraticEleme
          */
     }
 
-    public DegreeTwoQuadraticElement invert() {
+    public DegreeTwoExtensionQuadraticElement invert() {
         e0.set(x).square().add(e1.set(y).square()).invert();
 
         x.mul(e0);
@@ -99,8 +99,8 @@ public class DegreeTwoQuadraticElement<E extends Element> extends QuadraticEleme
         */
     }
 
-    public DegreeTwoQuadraticElement mul(Element e) {
-        DegreeTwoQuadraticElement element = (DegreeTwoQuadraticElement) e;
+    public DegreeTwoExtensionQuadraticElement mul(Element e) {
+        DegreeTwoExtensionQuadraticElement element = (DegreeTwoExtensionQuadraticElement) e;
 
         e0.set(x).add(y);
         e1.set(element.x).add(element.y);
@@ -184,7 +184,7 @@ public class DegreeTwoQuadraticElement<E extends Element> extends QuadraticEleme
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
-    public DegreeTwoQuadraticElement sqrt() {
+    public DegreeTwoExtensionQuadraticElement sqrt() {
         /*
         fq_data_ptr p = e->data;
         fq_data_ptr r = n->data;
@@ -227,7 +227,7 @@ public class DegreeTwoQuadraticElement<E extends Element> extends QuadraticEleme
         if (e == this)
             return true;
 
-        DegreeTwoQuadraticElement element = (DegreeTwoQuadraticElement) e;
+        DegreeTwoExtensionQuadraticElement element = (DegreeTwoExtensionQuadraticElement) e;
 
         return x.isEqual(element.x) && y.isEqual(element.y);
     }
