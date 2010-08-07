@@ -19,9 +19,9 @@ public class TypeA1PairingTest extends PairingTest {
 
     public void testOrthogonality() {
         CurveParams curveParams = getCurveParams();
-        BigInteger p0 = curveParams.getBigInteger("p0");
-        BigInteger p1 = curveParams.getBigInteger("p1");
-        BigInteger p2 = curveParams.getBigInteger("p2");
+        BigInteger p0 = curveParams.getBigInteger("n0");
+        BigInteger p1 = curveParams.getBigInteger("n1");
+        BigInteger p2 = curveParams.getBigInteger("n2");
 
         Element gen = pairing.getG1().newRandomElement().getImmutable();
         Element gen0 = gen.pow(p1.multiply(p2)).getImmutable();

@@ -68,9 +68,6 @@
                     method returns <code>true</code>.
                 </p>
 
-                <br/>
-                <br/>
-
                 <p>
                     The pairing is a bilinear map that takes two elements as input, one from <code>G1</code> and one from
                     <code>G2</code>, and outputs an element of <code>GT</code>.

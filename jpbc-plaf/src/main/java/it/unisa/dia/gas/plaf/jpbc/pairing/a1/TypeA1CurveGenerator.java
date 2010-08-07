@@ -44,18 +44,18 @@ public class TypeA1CurveGenerator implements CurveGenerator {
         CurveParams params = new CurveParams();
         params.put("type", "a1");
         params.put("p", p.toString());
+        params.put("n", order.toString());
         for (int i = 0; i < primes.length; i++) {
-            params.put("p"+ i, primes[i].toString());
+            params.put("n"+ i, primes[i].toString());
 
         }
-        params.put("n", order.toString());
         params.put("l", String.valueOf(l));
 
         return params;
     }
 
     public static void main(String[] args) {
-        TypeA1CurveGenerator generator = new TypeA1CurveGenerator(3, 512);
+        TypeA1CurveGenerator generator = new TypeA1CurveGenerator(3, 16);
         CurveParams curveParams = (CurveParams) generator.generate();
 
         System.out.println(curveParams.toString(" "));
