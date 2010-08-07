@@ -8,51 +8,52 @@
     </properties>
 
     <body>
-        <section name="Introduction">
-            <div id="downloadbox">
-                <!--<img src="./images/new.png" alt=""/> -->
-                <h5>Get jPBC 1.1.0 Now!!!</h5>
-                <span style="display: block; text-align: right; font-size: smaller">Released: April, 2010</span>
+        <div id="downloadbox">
+            <!--<img src="./images/new.png" alt=""/> -->
+            <h5>Get jPBC 1.1.0 Now!!!</h5>
+            <span style="display: block; text-align: right; font-size: smaller">Released: April, 2010</span>
 
-                <p>
-                    <a href="download.html">jPBC 1.1.0</a>
-                    <small>(distro 3.0 Mb - core 130 Kb)</small>
-                </p>
+            <p>
+                <a href="download.html">jPBC 1.1.0</a>
+                <small>(distro 3.0 Mb - core 130 Kb)</small>
+            </p>
 
-                <ul>
-                    <li>
-                        <a href="download.html#requirements">System Requirements</a>
-                    </li>
-                    <li>
-                        <a href="download.html#usage">jPBC Usage</a>
-                    </li>
+            <ul>
+                <li>
+                    <a href="download.html#requirements">System Requirements</a>
+                </li>
+                <li>
+                    <a href="download.html#usage">jPBC Usage</a>
+                </li>
 <!--
-                    <li>
-                        <a href="changes-report.html">Changes Report</a>
-                    </li>
+                <li>
+                    <a href="changes-report.html">Changes Report</a>
+                </li>
 -->
-                    <li>
-                        <a href="license.html">License (GPL)</a>
-                    </li>
-                    <li>
-                        <a href="contact.html">Contact. Chat with me.</a>
-                    </li>
-                </ul>
+                <li>
+                    <a href="license.html">License (GPL)</a>
+                </li>
+                <li>
+                    <a href="contact.html">Contact. Chat with me.</a>
+                </li>
+            </ul>
 
-                <div>
-                    <a href="http://sourceforge.net">
-                        <img style="border:1px solid black" src="http://sflogo.sourceforge.net/sflogo.php?group_id=178005&amp;type=1" width="88" height="31" alt="SourceForge.net Logo"/>
-                    </a>
+            <div>
+                <a href="http://sourceforge.net">
+                    <img style="border:1px solid black" src="http://sflogo.sourceforge.net/sflogo.php?group_id=178005&amp;type=1" width="88" height="31" alt="SourceForge.net Logo"/>
+                </a>
 
-          	        <a href="http://maven.apache.org/" title="Maven" >
-                        <img style="border:1px solid black" alt="Maven" src="./images/logos/maven-feather.png"/>
-                    </a>
+                  <a href="http://maven.apache.org/" title="Maven" >
+                    <img style="border:1px solid black" alt="Maven" src="./images/logos/maven-feather.png"/>
+                </a>
 
-                    <a href="http://crypto.stanford.edu/pbc">
-                      <img alt="PBC's" src="http://crypto.stanford.edu/pbc/pbclogo32x32.png"/>
-                   </a>
-                </div>
+                <a href="http://crypto.stanford.edu/pbc">
+                  <img alt="PBC's" src="http://crypto.stanford.edu/pbc/pbclogo32x32.png"/>
+               </a>
             </div>
+        </div>
+
+        <section name="Introduction">
 
             The Java Pairing Based Cryptography Library (jPBC) is:
             <ul>

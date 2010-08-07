@@ -24,7 +24,7 @@ public class JPBCCurveGeneratorPBCPairingTest extends PairingTest {
     }
 
     public void testTypeA1() {
-        CurveGenerator curveGenerator = new TypeA1CurveGenerator();
+        CurveGenerator curveGenerator = new TypeA1CurveGenerator(2, 512);
         initPairing(curveGenerator.generate());
         doTest();
     }

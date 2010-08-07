@@ -1,9 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing.a1;
 
 import it.unisa.dia.gas.jpbc.CurveGenerator;
-import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveField;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.util.BigIntegerUtils;
 
@@ -58,20 +55,10 @@ public class TypeA1CurveGenerator implements CurveGenerator {
     }
 
     public static void main(String[] args) {
-        TypeA1CurveGenerator generator = new TypeA1CurveGenerator(3, 128);
+        TypeA1CurveGenerator generator = new TypeA1CurveGenerator(3, 512);
         CurveParams curveParams = (CurveParams) generator.generate();
 
         System.out.println(curveParams.toString(" "));
-
-
-        Pairing pairing = new TypeA1Pairing(curveParams);
-
-        Element e1 = ((CurveField)pairing.getG1()).getGen().duplicate();
-        Element e2 = ((CurveField)pairing.getG1()).getGen().duplicate();
-
-        System.out.println(pairing.pairing(
-                e1.pow(curveParams.getBigInteger("p0").multiply(curveParams.getBigInteger("p2"))),
-                e2.pow(curveParams.getBigInteger("p1").multiply(curveParams.getBigInteger("p2")))));
     }
 
 }

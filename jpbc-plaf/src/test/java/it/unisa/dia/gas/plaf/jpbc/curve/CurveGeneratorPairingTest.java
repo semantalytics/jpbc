@@ -1,15 +1,10 @@
 package it.unisa.dia.gas.plaf.jpbc.curve;
 
-import it.unisa.dia.gas.jpbc.CurveGenerator;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.jpbc.PairingPreProcessing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
-import it.unisa.dia.gas.plaf.jpbc.pairing.a.TypeACurveGenerator;
-import it.unisa.dia.gas.plaf.jpbc.pairing.a1.TypeA1CurveGenerator;
-import it.unisa.dia.gas.plaf.jpbc.pairing.e.TypeECurveGenerator;
-import it.unisa.dia.gas.plaf.jpbc.pairing.f.TypeFCurveGenerator;
 import junit.framework.TestCase;
 
 import java.util.Map;
@@ -19,43 +14,6 @@ import java.util.Map;
  */
 public class CurveGeneratorPairingTest extends TestCase {
     protected Pairing pairing;
-
-
-    public void testTypeA() {
-        CurveGenerator curveGenerator = new TypeACurveGenerator(181, 603);
-        initPairing(curveGenerator.generate());
-        doTest();
-    }
-
-    public void testTypeA1() {
-        // Generate TypeA1 curve
-        CurveGenerator curveGenerator = new TypeA1CurveGenerator(2, 512);
-        initPairing(curveGenerator.generate());
-        doTest();
-    }
-
-/*
-    public void testTypeD() {
-        // Generate TypeD curve
-        CurveGenerator curveGenerator = new TypeDCurveGenerator(9563);
-        initPairing(curveGenerator.generate());
-        doTest();
-    }
-*/
-
-    public void testTypeE() {
-        // Generate TypeE curve
-        CurveGenerator curveGenerator = new TypeECurveGenerator(160, 1024);
-        initPairing(curveGenerator.generate());
-        doTest();
-    }
-
-    public void testTypeF() {
-        // Generate TypeE curve
-        CurveGenerator curveGenerator = new TypeFCurveGenerator(160);
-        initPairing(curveGenerator.generate());
-        doTest();
-    }
 
 
     protected void initPairing(Map curve) {
