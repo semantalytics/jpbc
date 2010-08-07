@@ -300,6 +300,7 @@ public class NaiveElement extends GenericElement {
     @Override
     public byte[] toBytes() {
         byte[] bytes = value.toByteArray();
+
         if (bytes.length > field.getLengthInBytes()) {
             if (bytes[0] == 0 && bytes.length == field.getLengthInBytes() + 1) {
                 // Remove it
