@@ -36,7 +36,7 @@ public class TypeA1CurveGenerator implements CurveGenerator {
         BigInteger n = order.multiply(BigIntegerUtils.FOUR);
 
         BigInteger p = n.subtract(BigInteger.ONE);
-        while (!p.isProbablePrime(20)){
+        while (!p.isProbablePrime(10)){
             p = p.add(n);
             l += 4;
         }
