@@ -50,8 +50,8 @@ import it.unisa.dia.gas.plaf.jpbc.crypto.ahibe.generators.AHIBESetupGenerator;
 
 <strong style="color:green">// Init the generator.</strong>
 AHIBESetupGenerationParameters setupGenerationParameters = new AHIBESetupGenerationParameters(
-        40,
-        10
+        40,     // bit length
+        10      // identity vector max length
 );
 AHIBESetupGenerator ahibeSetupGenerator = new AHIBESetupGenerator();
 ahibeSetupGenerator.init(setupGenerationParameters);
@@ -59,8 +59,10 @@ ahibeSetupGenerator.init(setupGenerationParameters);
 <strong style="color:green">// Generate the parameters.</strong>
 AsymmetricCipherKeyPair keyPair = ahibeSetupGenerator.generateKeyPair();
 
-AHIBEPublicKeyParameters publicKey = (AHIBEPublicKeyParameters) keyPair.getPublic();
-AHIBEMasterSecretKeyParameters masterSecretKey = (AHIBEMasterSecretKeyParameters) keyPair.getPrivate();                    
+AHIBEPublicKeyParameters publicKey =
+                    (AHIBEPublicKeyParameters) keyPair.getPublic();
+AHIBEMasterSecretKeyParameters masterSecretKey =
+                    (AHIBEMasterSecretKeyParameters) keyPair.getPrivate();
 
 <strong style="color:green">// Store the parameters in a file.</strong>
 FileOutputStream fileOutputStream = new FileOutputStream("ahibe_setup.params");
@@ -124,7 +126,8 @@ fileOutputStream.close();
                 <source>
 
 <strong style="color:green">// Init the generator.</strong>
-AHIBESecretKeyGenerationParameters secretKeyGenerationParameters = new AHIBESecretKeyGenerationParameters();
+AHIBESecretKeyGenerationParameters secretKeyGenerationParameters =
+                    new AHIBESecretKeyGenerationParameters();
 
 <strong style="color:green">// Load the key-pair from a file.</strong>
 fileInputStream = new FileInputStream("ahibe_secretkey.params");

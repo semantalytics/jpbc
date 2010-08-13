@@ -68,12 +68,14 @@
                     </p>
                 </li>
                 <li>
-                    a <strong style="color:red">Java Wrapper</strong> of the
-                    <a href="http://crypto.stanford.edu/pbc/">PBC</a>
-                    library so you can delegate all the computation to the C library.
-                    Look
-                    <a href="./docs/pbcwrapper.html">here</a>
-                    to know how to use the wrapper.
+                    <p>
+                        a <strong style="color:red">Java Wrapper</strong> of the
+                        <a href="http://crypto.stanford.edu/pbc/">PBC</a>
+                        library so you can delegate all the computation to the C library.
+                        Look
+                        <a href="./docs/pbcwrapper.html">here</a>
+                        to know how to use the wrapper.
+                    </p>
                 </li>
 
             </ul>

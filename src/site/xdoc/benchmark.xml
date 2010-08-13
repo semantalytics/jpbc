@@ -12,8 +12,8 @@
             <p>
                 The table below contains the output of the benchmark.xml ant script.
                 To execute the script call this from a console:
-                <source>ant -f benchmark.xml</source>
             </p>
+            <source>ant -f benchmark.xml</source>
 
 
             <p>
