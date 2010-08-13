@@ -42,6 +42,7 @@
 
             <item name="Curve Generators" href="/docs/curvegenerator.html">
                 <item name="Type A" href="/docs/curvegenerator.html#TypeA"/>
+                <item name="Type A1" href="/docs/curvegenerator.html#TypeA1"/>
                 <item name="Type D" href="/docs/curvegenerator.html#TypeD"/>
                 <item name="Type E" href="/docs/curvegenerator.html#TypeE"/>
                 <item name="Type F" href="/docs/curvegenerator.html#TypeF"/>
@@ -55,6 +56,7 @@
             <item name="Schemes" href="/schemes/schemes.html">
                 <item name="BLS Signature" href="/schemes/bls.html"/>
                 <item name="Hidden Vector Encryption" href="/schemes/hve.html"/>
+                <item name="Anonymous Hierarchical Identity Based Encryption" href="/schemes/ahibe.html"/>
                 <item name="Untraceable Tags" href="/schemes/ut.html"/>
             </item>
         </menu>

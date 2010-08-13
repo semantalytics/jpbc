@@ -110,8 +110,9 @@ sign0 -1
 sign1 -1
 </source>
 
+                <a name="TypeA1"/>
                 <p>
-                    Type A1 uses the same equation, but have different fields since the library is given r and cannot choose it.
+                    Type A1 uses the same equation, but have different fields.
                     It supports field of composite order.
                 </p>
 

@@ -1,0 +1,202 @@
+<!DOCTYPE document PUBLIC
+        "-//Apache Software Foundation//DTD XDOC 1.0//EN"
+        "http://maven.apache.org/dtd/xdoc_1_0.dtd">
+<document>
+    <properties>
+        <title>Java Pairing-Based Cryptography Library : Schemes - (AHIBE) Anonymous Hierarchical Identity Based Encryption</title>
+        <author email="decaro@dia.unisa.it">Angelo De Caro</author>
+    </properties>
+
+    <body>
+        <section name="Schemes - (AHIBE) Anonymous Hierarchical Identity Based Encryption">
+            <p>
+                Lewko and Waters [Eurocrypt 2010] presented a fully secure HIBE
+                with short ciphertexts.  In this paper we show how to modify
+                their construction to achieve anonymity.
+                We prove the security of our scheme under static (and generically secure)
+                assumptions formulated in composite order bilinear groups.
+
+                In addition, we present a
+                fully secure Anonymous IBE in the secret-key setting.
+                Secret-Key Anonymous IBE was implied by the work of
+                [Shen-Shi-Waters - TCC 2009] which can be shown secure
+                in the selective-id model.
+                No previous fully secure construction of secret-key Anonymous IBE is known.                
+            </p>
+
+            <p>
+                URL:
+                <a href="http://eprint.iacr.org/2010/197.pdf">
+                    http://eprint.iacr.org/2010/197.pdf
+                </a>
+            </p>
+
+            <p>
+                In this page we will see how to use
+                <strong style="color:red"><a href="#HVE">AHIBE</a></strong>,
+                in the context of the Bouncy Castle framework.
+            </p>
+        </section>
+
+        <a name="AHIBE"/>
+        <section name="AHIBE">
+            <p>
+                You will find all the sources into the jpbc-crypto module.
+            </p>
+
+            <subsection name="Generate and Store the Public Information">
+                <source>
+import it.unisa.dia.gas.plaf.jpbc.crypto.ahibe.generators.AHIBESetupGenerator;
+
+<strong style="color:green">// Init the generator.</strong>
+AHIBESetupGenerationParameters setupGenerationParameters = new AHIBESetupGenerationParameters(
+        40,
+        10
+);
+AHIBESetupGenerator ahibeSetupGenerator = new AHIBESetupGenerator();
+ahibeSetupGenerator.init(setupGenerationParameters);
+
+<strong style="color:green">// Generate the parameters.</strong>
+AsymmetricCipherKeyPair keyPair = ahibeSetupGenerator.generateKeyPair();
+
+AHIBEPublicKeyParameters publicKey = (AHIBEPublicKeyParameters) keyPair.getPublic();
+AHIBEMasterSecretKeyParameters masterSecretKey = (AHIBEMasterSecretKeyParameters) keyPair.getPrivate();                    
+
+<strong style="color:green">// Store the parameters in a file.</strong>
+FileOutputStream fileOutputStream = new FileOutputStream("ahibe_setup.params");
+
+ahibeSetupGenerator.store(fileOutputStream, utmaParameters);
+
+fileOutputStream.flush();
+fileOutputStream.close();
+                </source>
+            </subsection>
+
+            <subsection name="Load the Public Information">
+                <source>
+import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.generators.UTMAStrongParametersGenerator;
+import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params.UTMAStrongParameters;
+
+<strong style="color:green">// Init the generator.</strong>
+AHIBESetupGenerationParameters setupGenerationParameters = new AHIBESetupGenerationParameters();
+
+<strong style="color:green">// Load the parameters from a file.</strong>
+FileInputStream fileInputStream = new FileInputStream("ahibe_setup.params");
+
+AsymmetricCipherKeyPair keyPair = setupGenerationParameters.load(fileInputStream);
+
+fileInputStream.close();
+                </source>
+            </subsection>
+
+            <subsection name="Generate and Store a SecretKey">
+                <source>
+
+<strong style="color:green">// Setup and identity vector.</strong>
+Element[] ids = new Element[2];
+ids[0] = pairing.getZr().newRandomElement().getImmutable();
+ids[1] = pairing.getZr().newRandomElement().getImmutable();
+
+<strong style="color:green">// Init the generator.</strong>
+KeyGenerationParameters secretKeyGenerationParameters =
+        new AHIBESecretKeyGenerationParameters(
+                (AHIBEMasterSecretKeyParameters) masterKey.getPrivate(),
+                (AHIBEPublicKeyParameters) masterKey.getPublic(),
+                ids
+        );
+AHIBESecretKeyGenerator secretKeyGenerator = new AHIBESecretKeyGenerator();
+secretKeyGenerator.init(secretKeyGenerationParameters);
+
+<strong style="color:green">// Generate the secretKey.</strong>
+CipherParameters secretKey = secretKeyGenerator.generateKey();
+
+<strong style="color:green">// Store the secretKey.</strong>
+fileOutputStream = new FileOutputStream("ahibe_secretkey.params");
+
+secretKeyGenerator.store(fileOutputStream, secretKey);
+
+fileOutputStream.flush();
+fileOutputStream.close();
+                </source>
+            </subsection>
+
+            <subsection name="Load a SecretKey">
+                <source>
+
+<strong style="color:green">// Init the generator.</strong>
+AHIBESecretKeyGenerationParameters secretKeyGenerationParameters = new AHIBESecretKeyGenerationParameters();
+
+<strong style="color:green">// Load the key-pair from a file.</strong>
+fileInputStream = new FileInputStream("ahibe_secretkey.params");
+
+CipherParameters secretKey = secretKeyGenerationParameters.load(fileInputStream);
+
+fileInputStream.close();
+                </source>
+            </subsection>
+
+            <subsection name="Encrypt">
+                <source>
+<strong style="color:green">// Init the engine.</strong>
+AsymmetricBlockCipher engine = new MultiBlockAsymmetricBlockCipher(
+        new AHIBEEngine(),
+        new PKCS7Padding()
+);
+
+<strong style="color:green">// Encrypt</strong>
+String message = "Hello World!!!";
+byte[] messageAsBytes = message.getBytes();
+
+engine.init(true, new AHIBESEncryptionParameters(publicKey, ids));
+byte[] cipherText = engine.processBlock(messageAsBytes, 0, messageAsBytes.length);
+                </source>
+            </subsection>
+
+            <subsection name="Decrypt">
+                <source>
+import org.bouncycastle.crypto.AsymmetricBlockCipher;
+import it.unisa.dia.gas.plaf.crypto.engines.MultiBlockAsymmetricBlockCipher;
+
+<strong style="color:green">// Init the engine.</strong>
+AsymmetricBlockCipher engine = new MultiBlockAsymmetricBlockCipher(
+        new AHIBEEngine(),
+        new PKCS7Padding()
+);
+
+<strong style="color:green">// Decrypt</strong>
+engine.init(false, secretKey);
+byte[] plainText = engine.processBlock(cipherText, 0, cipherText.length);
+                </source>
+            </subsection>
+
+            <subsection name="Delegate">
+                <source>
+<strong style="color:green">// Setup and identity vector.</strong>
+Element id = pairing.getZr().newRandomElement().getImmutable();
+
+<strong style="color:green">// Init the generator.</strong>
+KeyGenerationParameters secretKeyGenerationParameters = new AHIBEDelegateSecretKeyGenerationParameters(
+                publicKey,
+                (AHIBESecretKeyParameters) secretKey,
+                id
+);
+AHIBESecretKeyGenerator secretKeyGenerator = new AHIBESecretKeyGenerator();
+secretKeyGenerator.init(secretKeyGenerationParameters);
+
+<strong style="color:green">// Generate the secretKey.</strong>
+CipherParameters secretKey = secretKeyGenerationParameters.generateKey();
+
+<strong style="color:green">// Store the secretKey.</strong>
+fileOutputStream = new FileOutputStream("ahibe_secretkey.params");
+
+secretKeyGenerator.store(fileOutputStream, secretKey);
+
+fileOutputStream.flush();
+fileOutputStream.close();
+                </source>
+            </subsection>
+
+        </section>
+
+    </body>
+</document>

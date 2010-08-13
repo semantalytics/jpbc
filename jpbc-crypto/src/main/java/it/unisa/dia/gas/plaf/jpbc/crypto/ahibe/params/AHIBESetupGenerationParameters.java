@@ -2,8 +2,6 @@ package it.unisa.dia.gas.plaf.jpbc.crypto.ahibe.params;
 
 import org.bouncycastle.crypto.KeyGenerationParameters;
 
-import java.security.SecureRandom;
-
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
@@ -13,8 +11,8 @@ public class AHIBESetupGenerationParameters extends KeyGenerationParameters {
     private int length;
 
 
-    public AHIBESetupGenerationParameters(SecureRandom random, int i, int bitLength, int length) {
-        super(random, i);
+    public AHIBESetupGenerationParameters(int bitLength, int length) {
+        super(null, 12);
         this.bitLength = bitLength;
         this.length = length;
     }

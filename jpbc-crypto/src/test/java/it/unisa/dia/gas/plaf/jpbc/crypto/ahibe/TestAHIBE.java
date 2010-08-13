@@ -12,8 +12,6 @@ import junit.framework.TestCase;
 import org.bouncycastle.crypto.*;
 import org.bouncycastle.crypto.paddings.ZeroBytePadding;
 
-import java.security.SecureRandom;
-
 /**
  * @author Angelo De Caro
  */
@@ -28,7 +26,7 @@ public class TestAHIBE extends TestCase {
         System.out.println("------------------------ Setup");
 
         AHIBESetupGenerationParameters setupGenerationParameters = new AHIBESetupGenerationParameters(
-                new SecureRandom(), 12, 32, 10
+                40, 10
         );
         AHIBESetupGenerator ahibeSetupGenerator = new AHIBESetupGenerator();
         ahibeSetupGenerator.init(setupGenerationParameters);
@@ -38,7 +36,7 @@ public class TestAHIBE extends TestCase {
         assertNotNull(keyPair);
 
         System.out.println(((AHIBEPublicKeyParameters) keyPair.getPublic()).getCurveParams());
-        
+
         System.out.println("------------------------ End\n");
 
         // ------------- KeyGen
@@ -84,10 +82,9 @@ public class TestAHIBE extends TestCase {
     }
 
 
-    protected CipherParameters keygen(AsymmetricCipherKeyPair masterKey, Element ...ids) {
+    protected CipherParameters keygen(AsymmetricCipherKeyPair masterKey, Element... ids) {
         KeyGenerationParameters secretKeyGenerationParameters =
                 new AHIBESecretKeyGenerationParameters(
-                        new SecureRandom(), 12,
                         (AHIBEMasterSecretKeyParameters) masterKey.getPrivate(),
                         (AHIBEPublicKeyParameters) masterKey.getPublic(),
                         ids
@@ -99,17 +96,16 @@ public class TestAHIBE extends TestCase {
 
     protected CipherParameters delegate(AsymmetricCipherKeyPair masterKey, CipherParameters secretKey, Element id) {
         KeyGenerationParameters secretKeyGenerationParameters = new AHIBEDelegateSecretKeyGenerationParameters(
-                        new SecureRandom(), 12,
-                        (AHIBEPublicKeyParameters) masterKey.getPublic(),
-                        (AHIBESecretKeyParameters) secretKey,
-                        id
+                (AHIBEPublicKeyParameters) masterKey.getPublic(),
+                (AHIBESecretKeyParameters) secretKey,
+                id
         );
         AHIBESecretKeyGenerator secretKeyGenerator = new AHIBESecretKeyGenerator();
         secretKeyGenerator.init(secretKeyGenerationParameters);
         return secretKeyGenerator.generateKey();
     }
 
-    protected byte[] encrypt(CipherParameters publicKey, String message, Element ...ids) {
+    protected byte[] encrypt(CipherParameters publicKey, String message, Element... ids) {
         byte[] messageAsBytes = message.getBytes();
         byte[] cipherText = new byte[0];
 
