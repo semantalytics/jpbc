@@ -15,6 +15,7 @@ public class NaiveField extends GenericField<NaiveElement> {
 
     public NaiveField(BigInteger order) {
         this.order = order;
+        
         this.fixedLengthInBytes = (order.bitLength() + 7) / 8;
     }
 
@@ -47,4 +48,5 @@ public class NaiveField extends GenericField<NaiveElement> {
     public int getLengthInBytes() {
         return fixedLengthInBytes;
     }
+    
 }

@@ -41,4 +41,5 @@ public class QuadraticField<F extends Field, E extends QuadraticElement> extends
     public int getLengthInBytes() {
         return fixedLengthInBytes;
     }
+    
 }

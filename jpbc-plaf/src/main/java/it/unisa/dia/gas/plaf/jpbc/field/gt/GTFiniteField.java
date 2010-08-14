@@ -37,4 +37,5 @@ public class GTFiniteField<F extends Field> extends GenericFieldOver<F, GTFinite
     public int getLengthInBytes() {
         return getTargetField().getLengthInBytes();
     }
+
 }

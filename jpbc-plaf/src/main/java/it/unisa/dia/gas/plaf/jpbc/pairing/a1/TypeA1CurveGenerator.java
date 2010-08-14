@@ -12,11 +12,11 @@ import java.util.Map;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class TypeA1CurveGenerator implements CurveGenerator {
-    protected int n, bits;
+    protected int numPrimes, bits;
 
 
-    public TypeA1CurveGenerator(int n, int bits) {
-        this.n = n;
+    public TypeA1CurveGenerator(int numPrimes, int bits) {
+        this.numPrimes = numPrimes;
         this.bits = bits;
     }
 
@@ -24,21 +24,33 @@ public class TypeA1CurveGenerator implements CurveGenerator {
     public Map generate() {
         SecureRandom secureRandom = new SecureRandom();
 
-        BigInteger[] primes = new BigInteger[n];
-        BigInteger order = BigInteger.ONE;
-        for (int i = 0; i < n; i++) {
-            primes[i] = BigIntegerUtils.generateSolinasPrime(bits, secureRandom);
-            order = order.multiply(primes[i]);
-        }
+        BigInteger[] primes = new BigInteger[numPrimes];
+        BigInteger order, n, p;
+        long l;
 
-        // If order is even, ideally check all even l, not just multiples of 4
-        long l = 4;
-        BigInteger n = order.multiply(BigIntegerUtils.FOUR);
+        while (true) {
+            while (true) {
+                order = BigInteger.ONE;
+                for (int i = 0; i < numPrimes; i++) {
+                    primes[i] = BigIntegerUtils.generateSolinasPrime(bits, secureRandom);
+                    order = order.multiply(primes[i]);
+                }
 
-        BigInteger p = n.subtract(BigInteger.ONE);
-        while (!p.isProbablePrime(10)){
-            p = p.add(n);
-            l += 4;
+                if ((order.bitLength() + 7) / 8 == order.bitLength() / 8)
+                    break;
+            }
+
+            // If order is even, ideally check all even l, not just multiples of 4
+            l = 4;
+            n = order.multiply(BigIntegerUtils.FOUR);
+
+            p = n.subtract(BigInteger.ONE);
+            while (!p.isProbablePrime(10)) {
+                p = p.add(n);
+                l += 4;
+            }
+            if ((p.bitLength() + 7) / 8 == p.bitLength() / 8)
+                break;
         }
 
         CurveParams params = new CurveParams();
@@ -46,7 +58,7 @@ public class TypeA1CurveGenerator implements CurveGenerator {
         params.put("p", p.toString());
         params.put("n", order.toString());
         for (int i = 0; i < primes.length; i++) {
-            params.put("n"+ i, primes[i].toString());
+            params.put("n" + i, primes[i].toString());
 
         }
         params.put("l", String.valueOf(l));

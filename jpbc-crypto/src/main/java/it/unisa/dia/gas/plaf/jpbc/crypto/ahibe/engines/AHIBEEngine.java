@@ -82,7 +82,7 @@ public class AHIBEEngine implements AsymmetricBlockCipher {
             return (pairing.getGT().getLengthInBytes() + (2 * pairing.getG1().getLengthInBytes()));
         }
 
-        return 1;
+        return byteLength;
     }
 
     /**

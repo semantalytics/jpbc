@@ -26,7 +26,7 @@ public class TestAHIBE extends TestCase {
         System.out.println("------------------------ Setup");
 
         AHIBESetupGenerationParameters setupGenerationParameters = new AHIBESetupGenerationParameters(
-                38,   // bit length
+                32,   // bit length
                 10    // identity vector max length
         );
         AHIBESetupGenerator ahibeSetupGenerator = new AHIBESetupGenerator();
@@ -63,23 +63,23 @@ public class TestAHIBE extends TestCase {
         byte[] ciphertext0 = encrypt(keyPair.getPublic(), message, ids[0]);
         byte[] plaintext0 = decrypt(sk0, ciphertext0);
 
-        assertEquals(message, new String(plaintext012));
-        assertEquals(message, new String(plaintext01));
-        assertEquals(message, new String(plaintext0));
+        assertEquals(message, new String(plaintext012).trim());
+        assertEquals(message, new String(plaintext01).trim());
+        assertEquals(message, new String(plaintext0).trim());
 
         // Delegate from sk01 to sk012
         CipherParameters sk01_012 = delegate(keyPair, sk01, ids[2]);
         plaintext012 = decrypt(sk01_012, ciphertext012);
-        assertEquals(message, new String(plaintext012));
+        assertEquals(message, new String(plaintext012).trim());
 
         // Delegate from sk0 to sk012
         CipherParameters sk0_01 = delegate(keyPair, sk0, ids[1]);
         plaintext01 = decrypt(sk0_01, ciphertext01);
-        assertEquals(message, new String(plaintext01));
+        assertEquals(message, new String(plaintext01).trim());
 
         CipherParameters sk0_012 = delegate(keyPair, sk0_01, ids[2]);
         plaintext012 = decrypt(sk0_012, ciphertext012);
-        assertEquals(message, new String(plaintext012));
+        assertEquals(message, new String(plaintext012).trim());
     }
 
 
