@@ -13,7 +13,7 @@
                 Elements of groups, rings and fields are accessible using the
                 <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Element.html">
                     <code>
-                        <strong style="color:red">it.unisa.dia.gas.jpbc.Element</strong>
+                        <font style="font-weight: bold;color:red">it.unisa.dia.gas.jpbc.Element</font>
                     </code>
                 </a>
 
@@ -38,23 +38,23 @@
                 </p>
 
                 <source>/* Sets an element to zero. */
-<strong style="color:green">element.setToZero();</strong>
+<font style="font-weight: bold;color:green">element.setToZero();</font>
                 </source>
 
                 <source>/* Sets an element to one. */
-<strong style="color:green">element.setToOne();</strong>
+<font style="font-weight: bold;color:green">element.setToOne();</font>
                 </source>
 
                 <source>/* If the element lies in a finite algebraic structure, assigns a uniformly random element to it. */
-<strong style="color:green">element.setToRandom();</strong>
+<font style="font-weight: bold;color:green">element.setToRandom();</font>
                 </source>
 
                 <source>/* Sets the element to an int. */
-<strong style="color:green">element.set(5);</strong>
+<font style="font-weight: bold;color:green">element.set(5);</font>
                 </source>
 
                 <source>/* Sets the element to a BigInteger. */
-<strong style="color:green">element.set(new BigInteger("126785438"));</strong>
+<font style="font-weight: bold;color:green">element.set(new BigInteger("126785438"));</font>
                 </source>
 
             </subsection>
@@ -74,30 +74,30 @@
 
                 <source>/* Performs the addition between element and a.*/
 Element a = element.getField().newElement(5);
-<strong style="color:green">element.add(a);</strong>
+<font style="font-weight: bold;color:green">element.add(a);</font>
                 </source>
 
                 <source>/* Performs the substraction between element and a.
 Element a = element.getField().newElement(5);
-<strong style="color:green">element.sub(a);</strong>
+<font style="font-weight: bold;color:green">element.sub(a);</font>
                 </source>
 
                 <source>/* Performs the multiplication between element and a. */
 Element a = element.getField().newElement(5);
-<strong style="color:green">element.mul(a);</strong>
+<font style="font-weight: bold;color:green">element.mul(a);</font>
                 </source>
 
                 <source>/* Performs the multiplication between element and an int. */
-<strong style="color:green">element.mul(5);</strong>
+<font style="font-weight: bold;color:green">element.mul(5);</font>
                 </source>
 
                 <source>/* Performs the multiplication between element and a BigInteger. */
-<strong style="color:green">element.mul(new BigInteger("5"));</strong>
+<font style="font-weight: bold;color:green">element.mul(new BigInteger("5"));</font>
                 </source>
 
                 <source>/* Performs the multiplication between element and z where z must be an element of a integer mod ring (i.e. Zn for some n). */
 Element z = pairing.getZr().newRandomElement();
-<strong style="color:green">element.mulZn(z);</strong>
+<font style="font-weight: bold;color:green">element.mulZn(z);</font>
                 </source>
             </subsection>
 
@@ -105,13 +105,13 @@ Element z = pairing.getZr().newRandomElement();
             <subsection name="Exponentiating Elements">
                 <source>
 /* Raises element to a BigInteger. */
-<strong style="color:green">element.pow(BigInteger.valueOf(5));</strong>
+<font style="font-weight: bold;color:green">element.pow(BigInteger.valueOf(5));</font>
                 </source>
 
                 <source>
 /* Raises element to a z which must be an element of a integer mod ring (i.e. Zn for some n). */
 Element z = pairing.getZr().newRandomElement();
-<strong style="color:green">element.mulZn(z);</strong>
+<font style="font-weight: bold;color:green">element.mulZn(z);</font>
                 </source>
 
                 <p>
@@ -120,19 +120,19 @@ Element z = pairing.getZr().newRandomElement();
                     the power.
                     <br/>
                     The interface to be used is
-                    <code><strong style="color:red">it.unisa.dia.gas.jpbc.ElementPowPreProcessing</strong></code>
+                    <code><font style="font-weight: bold;color:red">it.unisa.dia.gas.jpbc.ElementPowPreProcessing</font></code>
                 </p>
 
                 <source xml:space="preserve">/* Prepare element to be raised and store pre-processing information in ppp.
 element will be not modified in any way.*/
 
-<strong style="color:green">ElementPowPreProcessing ppp = element.pow();</strong>
+<font style="font-weight: bold;color:green">ElementPowPreProcessing ppp = element.pow();</font>
 
 /* Now let's raise using ppp which returns a new element which contains the result of the operation. */
 
-Element out = <strong style="color:green">ppp.pow(BigInteger.valueOf(5));</strong>
+Element out = <font style="font-weight: bold;color:green">ppp.pow(BigInteger.valueOf(5));</font>
 
-out = <strong style="color:green">ppp.pow(pairing.getZr().newRandomElement());</strong>
+out = <font style="font-weight: bold;color:green">ppp.pow(pairing.getZr().newRandomElement());</font>
                 </source>
 
             </subsection>
@@ -141,23 +141,23 @@ out = <strong style="color:green">ppp.pow(pairing.getZr().newRandomElement());</
             <subsection name="Comparing Elements">
                                 
                 <source>/* Returns true if the element is 1. */
-<strong style="color:green">element.isOne();</strong>
+<font style="font-weight: bold;color:green">element.isOne();</font>
                 </source>
 
                 <source>/* Returns true if the element is 0. */
-<strong style="color:green">element.isZero();</strong>
+<font style="font-weight: bold;color:green">element.isZero();</font>
                 </source>
 
                 <source>/* Returns 0 if a and b are the same, nonzero otherwise. */
-<strong style="color:green">a.compareTo(b);</strong>
+<font style="font-weight: bold;color:green">a.compareTo(b);</font>
                 </source>
 
                 <source>/* Returns true if this element is a perfect square (quadratic residue), false otherwise. */
-<strong style="color:green">element.isSqr();</strong>
+<font style="font-weight: bold;color:green">element.isSqr();</font>
                 </source>
 
                 <source>/* If this element is zero, returns 0. For a non zero value the behaviour depends on the algebraic structure. */
-<strong style="color:green">element.sign();</strong>
+<font style="font-weight: bold;color:green">element.sign();</font>
                 </source>
             </subsection>
 
@@ -166,20 +166,20 @@ out = <strong style="color:green">ppp.pow(pairing.getZr().newRandomElement());</
 
                 <source>/* Converts element to bytes. The number of bytes it will write can be determined
 calling getLengthInBytes(). */
-<strong style="color:green">byte[] bytes = element.toBytes();</strong>
+<font style="font-weight: bold;color:green">byte[] bytes = element.toBytes();</font>
                 </source>
 
                 <source>/* Reads element from the buffer source and returns the number of bytes read. */
-<strong style="color:green">element.setFromBytes(bytes);</strong>
+<font style="font-weight: bold;color:green">element.setFromBytes(bytes);</font>
                 </source>
 
                 <source>/* Reads element from the buffer source, starting from the passed offset,
 and returns the number of bytes read. */
-<strong style="color:green">element.setFromBytes(bytes, 13);</strong>
+<font style="font-weight: bold;color:green">element.setFromBytes(bytes, 13);</font>
                 </source>
 
                 <source>/* Sets element deterministically from the buffer source.*/
-<strong style="color:green">element.setFromHash(bytes, 0, bytes.length);</strong>
+<font style="font-weight: bold;color:green">element.setFromHash(bytes, 0, bytes.length);</font>
                 </source>
 
             </subsection>

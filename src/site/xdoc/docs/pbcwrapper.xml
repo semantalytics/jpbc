@@ -26,7 +26,7 @@
 
             <ol>
                 <li>
-                    <h4>Install PBC: </h4>
+                    <font style="font-weight: bold;color:red; font-size=17">Install PBC: </font>
                     <p>
                         Before compiling the shared library you have to install PBC. Look
                         <a href="http://crypto.stanford.edu/pbc/manual/ch01.html">here</a>
@@ -34,7 +34,7 @@
                     </p>
                 </li>
                 <li>
-                    <h4>Compile the Shared Library: </h4>
+                    <font style="font-weight: bold;color:red; font-size=17">Compile the Shared Library: </font>
                     <p>
                         Assuming you are using a unix environment. Starting from a jPBC distribution, go to the
                         <code>jpbc-pbc</code>

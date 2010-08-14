@@ -59,7 +59,7 @@
             <ul>
                 <li>
                     <p>
-                        a <strong style="color:red">Java Porting</strong> of the
+                        a <font style="font-weight: bold;color:red">Java Porting</font> of the
                         <a href="http://crypto.stanford.edu/pbc/">PBC</a>
                         library which is the Pairing-Based Cryptography Library written in C and
                         developed by
@@ -69,7 +69,7 @@
                 </li>
                 <li>
                     <p>
-                        a <strong style="color:red">Java Wrapper</strong> of the
+                        a <font style="font-weight: bold;color:red">Java Wrapper</font> of the
                         <a href="http://crypto.stanford.edu/pbc/">PBC</a>
                         library so you can delegate all the computation to the C library.
                         Look
@@ -83,23 +83,23 @@
             jPBC is composed by the following modules:
             <ul>
                 <li>
-                    <strong style="color:green">jpbc-api</strong> :
+                    <font style="font-weight: bold;color:green">jpbc-api</font> :
                     which contains the api exposed by jPBC.
                 </li>
 
                 <li>
-                    <strong style="color:green">jpbc-plaf</strong> :
+                    <font style="font-weight: bold;color:green">jpbc-plaf</font> :
                     which contains the default api's implementation. This module contains the PBC's Java Porting.
                 </li>
 
                 <li>
-                    <strong style="color:green">jpbc-pbc</strong> :
+                    <font style="font-weight: bold;color:green">jpbc-pbc</font> :
                     which contains the api's implementation to be used when PBC is choosen as computation engine.
                     This module contains the PBC's Java Wrapper.
                 </li>
 
                 <li>
-                    <strong style="color:green">jpbc-crypto</strong> :
+                    <font style="font-weight: bold;color:green">jpbc-crypto</font> :
                     which contains the implementation of some cryptosystems. Go
                     <a href="./schemes/schemes.html">here</a>
                     to start.

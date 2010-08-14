@@ -29,12 +29,12 @@
             <ol>
                 <li>
                     implement
-                    <strong style="color:red"><a href="#bls">BLS</a></strong>
+                    <font style="font-weight: bold;color:red"><a href="#bls">BLS</a></font>
                     using jPBC.
                 </li>
                 <li>
                     use
-                    <strong style="color:red"><a href="#blsBCF">BLS</a></strong>
+                    <font style="font-weight: bold;color:red"><a href="#blsBCF">BLS</a></font>
                     in the context of the Bouncy Castle framework.
                 </li>
             </ol>
@@ -60,7 +60,7 @@
                 <ol>
                     <li>
                         The
-                        <strong style="color:red">Private Key</strong>
+                        <font style="font-weight: bold;color:red">Private Key</font>
                         is
                         <span class="texhtml">
                             <i>x</i>;
@@ -68,7 +68,7 @@
                     </li>
                     <li>
                         the
-                        <strong style="color:red">Public Key</strong>
+                        <font style="font-weight: bold;color:red">Public Key</font>
                         is
                         <span class="texhtml">
                             <i>g</i>
@@ -86,20 +86,20 @@
                 <source xml:space="preserve">
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
-<strong style="color:green">// Init Pairings</strong>
+<font style="font-weight: bold;color:green">// Init Pairings</font>
 
 CurveParams curveParams = new CurveParams().load("curve.properties");
 Pairing pairing = PairingFactory.getPairing(curveParams);
 
-<strong style="color:green">// Generate system parameters</strong>
+<font style="font-weight: bold;color:green">// Generate system parameters</font>
 
 Element g = pairing.getG1().newRandomElement().getImmutable();
 
-<strong style="color:green">// Generate the secret key</strong>
+<font style="font-weight: bold;color:green">// Generate the secret key</font>
 
 Element x = pairing.getZr().newRandomElement();
 
-<strong style="color:green">// Generate the corresponding public key</strong>
+<font style="font-weight: bold;color:green">// Generate the corresponding public key</font>
 
 Element pk = g.powZn(x);
                 </source>
@@ -127,12 +127,12 @@ Element pk = g.powZn(x);
                     Using jPBC we have:
                 </p>
                 <source xml:space="preserve">
-<strong style="color:green">// Map the hash of the message m to some element of G1</strong>
+<font style="font-weight: bold;color:green">// Map the hash of the message m to some element of G1</font>
 
 byte[] hash = ... // Generate an hash from m (48-bit hash)
 Element h = pairing.getG1().newElement().setFromHash(hash, 0, hash.length);
 
-<strong style="color:green">// Generate the signature</strong>
+<font style="font-weight: bold;color:green">// Generate the signature</font>
 
 Element sig = h.powZn(x);
 </source>
@@ -163,12 +163,12 @@ Element sig = h.powZn(x);
                 </p>
                 <source xml:space="preserve">
 
-<strong style="color:green">// Map again the hash of the message m</strong>
+<font style="font-weight: bold;color:green">// Map again the hash of the message m</font>
 
 byte[] hash = ... // Generate an hash from m (48-bit hash)
 Element h = pairing.getG1().newElement().setFromHash(hash, 0, hash.length);
 
-<strong style="color:green">// Verify the signature</strong>
+<font style="font-weight: bold;color:green">// Verify the signature</font>
 
 Element temp1 = pairing.pairing(sig, g);
 Element temp2 = pairing.pairing(h, pk);
@@ -192,14 +192,14 @@ else
 import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.generators.UTMAStrongParametersGenerator;
 import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params.UTMAStrongParameters;
 
-<strong style="color:green">// Init the generator.</strong>
+<font style="font-weight: bold;color:green">// Init the generator.</font>
 BLSParametersGenerator parametersGenerator = new BLSParametersGenerator();
 parametersGenerator.init(curveParams);
 
-<strong style="color:green">// Generate the parameters.</strong>
+<font style="font-weight: bold;color:green">// Generate the parameters.</font>
 BLSParameters parameters = parametersGenerator.generateParameters();
 
-<strong style="color:green">// Store the parameters in a file.</strong>
+<font style="font-weight: bold;color:green">// Store the parameters in a file.</font>
 FileOutputStream fileOutputStream = new FileOutputStream("bls.params");
 
 parametersGenerator.store(fileOutputStream, parameters);
@@ -214,10 +214,10 @@ fileOutputStream.close();
 import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.generators.UTMAStrongParametersGenerator;
 import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params.UTMAStrongParameters;
 
-<strong style="color:green">// Init the generator.</strong>
+<font style="font-weight: bold;color:green">// Init the generator.</font>
 BLSParametersGenerator parametersGenerator = new BLSParametersGenerator();
 
-<strong style="color:green">// Load the parameters from a file.</strong>
+<font style="font-weight: bold;color:green">// Load the parameters from a file.</font>
 FileInputStream fileInputStream = new FileInputStream("utmas.params");
 
 BLSParameters parameters = parametersGenerator.load(fileInputStream);
@@ -232,14 +232,14 @@ import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.generators.UTMAStrongK
 import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params.UTMAStrongKeyGenerationParameters;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 
-<strong style="color:green">// Init the generator.</strong>
+<font style="font-weight: bold;color:green">// Init the generator.</font>
 BLSKeyPairGenerator keyPairGenerator = new BLSKeyPairGenerator();
 keyPairGenerator.init(new BLSKeyGenerationParameters(null, parameters));
 
-<strong style="color:green">// Generate the key-pair.</strong>
+<font style="font-weight: bold;color:green">// Generate the key-pair.</font>
 AsymmetricCipherKeyPair keyPair = keyPairGenerator.generateKeyPair();
 
-<strong style="color:green">// Store the key-pair.</strong>
+<font style="font-weight: bold;color:green">// Store the key-pair.</font>
 fileOutputStream = new FileOutputStream("bls_keypair.params");
 
 keyPairGenerator.store(fileOutputStream, keyPair);
@@ -255,10 +255,10 @@ import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.generators.UTMAStrongK
 import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params.UTMAStrongKeyGenerationParameters;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 
-<strong style="color:green">// Init the generator.</strong>
+<font style="font-weight: bold;color:green">// Init the generator.</font>
 BLSKeyPairGenerator keyPairGenerator = new BLSKeyPairGenerator();
 
-<strong style="color:green">// Load the key-pair from a file.</strong>
+<font style="font-weight: bold;color:green">// Load the key-pair from a file.</font>
 fileInputStream = new FileInputStream("bls_keypair.params");
 
 AsymmetricCipherKeyPair keyPair = keyPairGenerator.load(fileInputStream);

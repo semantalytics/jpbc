@@ -42,7 +42,7 @@
 
             <p>
                 In this page we will see how to use
-                <strong style="color:red"><a href="#HVE">HVE</a></strong>,
+                <font style="font-weight: bold;color:red"><a href="#HVE">HVE</a></font>,
                 in the context of the Bouncy Castle framework.
             </p>
         </section>

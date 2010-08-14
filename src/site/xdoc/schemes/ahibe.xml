@@ -33,7 +33,7 @@
 
             <p>
                 In this page we will see how to use
-                <strong style="color:red"><a href="#HVE">AHIBE</a></strong>,
+                <font style="font-weight: bold;color:red"><a href="#HVE">AHIBE</a></font>,
                 in the context of the Bouncy Castle framework.
             </p>
         </section>
@@ -48,7 +48,7 @@
                 <source>
 import it.unisa.dia.gas.plaf.jpbc.crypto.ahibe.generators.AHIBESetupGenerator;
 
-<strong style="color:green">// Init the generator.</strong>
+<font style="font-weight: bold;color:green">// Init the generator.</font>
 AHIBESetupGenerationParameters setupGenerationParameters = new AHIBESetupGenerationParameters(
         40,     // bit length
         10      // identity vector max length
@@ -56,7 +56,7 @@ AHIBESetupGenerationParameters setupGenerationParameters = new AHIBESetupGenerat
 AHIBESetupGenerator ahibeSetupGenerator = new AHIBESetupGenerator();
 ahibeSetupGenerator.init(setupGenerationParameters);
 
-<strong style="color:green">// Generate the parameters.</strong>
+<font style="font-weight: bold;color:green">// Generate the parameters.</font>
 AsymmetricCipherKeyPair keyPair = ahibeSetupGenerator.generateKeyPair();
 
 AHIBEPublicKeyParameters publicKey =
@@ -64,7 +64,7 @@ AHIBEPublicKeyParameters publicKey =
 AHIBEMasterSecretKeyParameters masterSecretKey =
                     (AHIBEMasterSecretKeyParameters) keyPair.getPrivate();
 
-<strong style="color:green">// Store the parameters in a file.</strong>
+<font style="font-weight: bold;color:green">// Store the parameters in a file.</font>
 FileOutputStream fileOutputStream = new FileOutputStream("ahibe_setup.params");
 
 ahibeSetupGenerator.store(fileOutputStream, utmaParameters);
@@ -79,10 +79,10 @@ fileOutputStream.close();
 import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.generators.UTMAStrongParametersGenerator;
 import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params.UTMAStrongParameters;
 
-<strong style="color:green">// Init the generator.</strong>
+<font style="font-weight: bold;color:green">// Init the generator.</font>
 AHIBESetupGenerationParameters setupGenerationParameters = new AHIBESetupGenerationParameters();
 
-<strong style="color:green">// Load the parameters from a file.</strong>
+<font style="font-weight: bold;color:green">// Load the parameters from a file.</font>
 FileInputStream fileInputStream = new FileInputStream("ahibe_setup.params");
 
 AsymmetricCipherKeyPair keyPair = setupGenerationParameters.load(fileInputStream);
@@ -94,12 +94,12 @@ fileInputStream.close();
             <subsection name="Generate and Store a SecretKey">
                 <source>
 
-<strong style="color:green">// Setup and identity vector.</strong>
+<font style="font-weight: bold;color:green">// Setup and identity vector.</font>
 Element[] ids = new Element[2];
 ids[0] = pairing.getZr().newRandomElement().getImmutable();
 ids[1] = pairing.getZr().newRandomElement().getImmutable();
 
-<strong style="color:green">// Init the generator.</strong>
+<font style="font-weight: bold;color:green">// Init the generator.</font>
 KeyGenerationParameters secretKeyGenerationParameters =
         new AHIBESecretKeyGenerationParameters(
                 (AHIBEMasterSecretKeyParameters) masterKey.getPrivate(),
@@ -109,10 +109,10 @@ KeyGenerationParameters secretKeyGenerationParameters =
 AHIBESecretKeyGenerator secretKeyGenerator = new AHIBESecretKeyGenerator();
 secretKeyGenerator.init(secretKeyGenerationParameters);
 
-<strong style="color:green">// Generate the secretKey.</strong>
+<font style="font-weight: bold;color:green">// Generate the secretKey.</font>
 CipherParameters secretKey = secretKeyGenerator.generateKey();
 
-<strong style="color:green">// Store the secretKey.</strong>
+<font style="font-weight: bold;color:green">// Store the secretKey.</font>
 fileOutputStream = new FileOutputStream("ahibe_secretkey.params");
 
 secretKeyGenerator.store(fileOutputStream, secretKey);
@@ -125,11 +125,11 @@ fileOutputStream.close();
             <subsection name="Load a SecretKey">
                 <source>
 
-<strong style="color:green">// Init the generator.</strong>
+<font style="font-weight: bold;color:green">// Init the generator.</font>
 AHIBESecretKeyGenerationParameters secretKeyGenerationParameters =
                     new AHIBESecretKeyGenerationParameters();
 
-<strong style="color:green">// Load the key-pair from a file.</strong>
+<font style="font-weight: bold;color:green">// Load the key-pair from a file.</font>
 fileInputStream = new FileInputStream("ahibe_secretkey.params");
 
 CipherParameters secretKey = secretKeyGenerationParameters.load(fileInputStream);
@@ -140,13 +140,13 @@ fileInputStream.close();
 
             <subsection name="Encrypt">
                 <source>
-<strong style="color:green">// Init the engine.</strong>
+<font style="font-weight: bold;color:green">// Init the engine.</font>
 AsymmetricBlockCipher engine = new MultiBlockAsymmetricBlockCipher(
         new AHIBEEngine(),
         new PKCS7Padding()
 );
 
-<strong style="color:green">// Encrypt</strong>
+<font style="font-weight: bold;color:green">// Encrypt</font>
 String message = "Hello World!!!";
 byte[] messageAsBytes = message.getBytes();
 
@@ -160,13 +160,13 @@ byte[] cipherText = engine.processBlock(messageAsBytes, 0, messageAsBytes.length
 import org.bouncycastle.crypto.AsymmetricBlockCipher;
 import it.unisa.dia.gas.plaf.crypto.engines.MultiBlockAsymmetricBlockCipher;
 
-<strong style="color:green">// Init the engine.</strong>
+<font style="font-weight: bold;color:green">// Init the engine.</font>
 AsymmetricBlockCipher engine = new MultiBlockAsymmetricBlockCipher(
         new AHIBEEngine(),
         new PKCS7Padding()
 );
 
-<strong style="color:green">// Decrypt</strong>
+<font style="font-weight: bold;color:green">// Decrypt</font>
 engine.init(false, secretKey);
 byte[] plainText = engine.processBlock(cipherText, 0, cipherText.length);
                 </source>
@@ -174,10 +174,10 @@ byte[] plainText = engine.processBlock(cipherText, 0, cipherText.length);
 
             <subsection name="Delegate">
                 <source>
-<strong style="color:green">// Setup and identity vector.</strong>
+<font style="font-weight: bold;color:green">// Setup and identity vector.</font>
 Element id = pairing.getZr().newRandomElement().getImmutable();
 
-<strong style="color:green">// Init the generator.</strong>
+<font style="font-weight: bold;color:green">// Init the generator.</font>
 KeyGenerationParameters secretKeyGenerationParameters = new AHIBEDelegateSecretKeyGenerationParameters(
                 publicKey,
                 (AHIBESecretKeyParameters) secretKey,
@@ -186,10 +186,10 @@ KeyGenerationParameters secretKeyGenerationParameters = new AHIBEDelegateSecretK
 AHIBESecretKeyGenerator secretKeyGenerator = new AHIBESecretKeyGenerator();
 secretKeyGenerator.init(secretKeyGenerationParameters);
 
-<strong style="color:green">// Generate the secretKey.</strong>
+<font style="font-weight: bold;color:green">// Generate the secretKey.</font>
 CipherParameters secretKey = secretKeyGenerationParameters.generateKey();
 
-<strong style="color:green">// Store the secretKey.</strong>
+<font style="font-weight: bold;color:green">// Store the secretKey.</font>
 fileOutputStream = new FileOutputStream("ahibe_secretkey.params");
 
 secretKeyGenerator.store(fileOutputStream, secretKey);

@@ -13,7 +13,7 @@
                 Before elements can be initialized and manipulated for cryptographic operations, an instance of the
                 <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Pairing.html">
                     <code>
-                        <strong style="color:red">it.unisa.dia.gas.jpbc.Pairing</strong>
+                        <font style="font-weight: bold;color:red">it.unisa.dia.gas.jpbc.Pairing</font>
                     </code>
                 </a>
                 interface must be obtained.
@@ -29,31 +29,31 @@
                 We use:
                 <ol>
                     <li>
-                        <strong style="color:red">
+                        <font style="font-weight: bold;color:red">
                             <code>G1</code>
-                        </strong>
+                        </font>
                         and
-                        <strong style="color:red">
+                        <font style="font-weight: bold;color:red">
                             <code>G2</code>
-                        </strong>
+                        </font>
                         to denote the
-                        <strong style="color:red">input</strong>
+                        <font style="font-weight: bold;color:red">input</font>
                         groups to the pairing and
                     </li>
                     <li>
-                        <strong style="color:red">
+                        <font style="font-weight: bold;color:red">
                             <code>GT</code>
-                        </strong>
+                        </font>
                         for the
-                        <strong style="color:red">output</strong>
+                        <font style="font-weight: bold;color:red">output</font>
                         group. (All have order r)
                     </li>
                     <li>
-                        <strong style="color:red">
+                        <font style="font-weight: bold;color:red">
                             <code>Zr</code>
-                        </strong>
+                        </font>
                         which means the
-                        <strong style="color:red">ring of integers</strong>
+                        <font style="font-weight: bold;color:red">ring of integers</font>
                         modulo r.
                     </li>
                 </ol>
@@ -78,16 +78,16 @@
                 The Pairing interface provides some methods to access the groups:
 
                 <source xml:space="preserve">/* Return G1 */
-Field G1 = <strong style="color:green">pairing.getG1();</strong>
+Field G1 = <font style="font-weight: bold;color:green">pairing.getG1();</font>
 
 /* Return G2 */
-Field G2 = <strong style="color:green">pairing.getG2();</strong>
+Field G2 = <font style="font-weight: bold;color:green">pairing.getG2();</font>
 
 /* Return GT */
-Field GT = <strong style="color:green">pairing.getGT();</strong>
+Field GT = <font style="font-weight: bold;color:green">pairing.getGT();</font>
 
 /* Return Zr */
-Field Zr = <strong style="color:green">pairing.getZr();</strong></source>
+Field Zr = <font style="font-weight: bold;color:green">pairing.getZr();</font></source>
             </subsection>
 
 
@@ -97,7 +97,7 @@ Field Zr = <strong style="color:green">pairing.getZr();</strong></source>
                     To create an instance of the
                     <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Pairing.html">
                         <code>
-                            <strong style="color:red">it.unisa.dia.gas.jpbc.Pairing</strong>
+                            <font style="font-weight: bold;color:red">it.unisa.dia.gas.jpbc.Pairing</font>
                         </code>
                     </a>
                     interface you can use the following:
@@ -106,19 +106,19 @@ Field Zr = <strong style="color:green">pairing.getZr();</strong></source>
                 <ol>
                     <li>
                         <p>
-                            <strong style="color:red">Java Porting</strong>
+                            <font style="font-weight: bold;color:red">Java Porting</font>
                             : you can use a factory. Each curve definition bring with it the curve's type used.
                             Using this information the factory chooses the right implementation.
                         </p>
                         <source>import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
 CurveParams curveParams = new CurveParams().load("curve.properties");
-Pairing pairing = <strong style="color:green">PairingFactory.getPairing(curveParams);</strong>
+Pairing pairing = <font style="font-weight: bold;color:green">PairingFactory.getPairing(curveParams);</font>
                         </source>
                     </li>
                     <li>
                         <p>
-                            <strong style="color:red">Java Wrapper</strong>
+                            <font style="font-weight: bold;color:red">Java Wrapper</font>
                             : which uses PBC to execute all the computations. Go
                             <a href="./pbcwrapper.html">here</a>
                             to see how to start with the wrapper.
@@ -126,7 +126,7 @@ Pairing pairing = <strong style="color:green">PairingFactory.getPairing(curvePar
                         <source>import it.unisa.dia.gas.plaf.jpbc.pbc.PBCPairing;
 
 CurveParams curveParams = new CurveParams().load("curve.properties");
-Pairing pairing = <strong style="color:green">new PBCPairing(curveParams);</strong>
+Pairing pairing = <font style="font-weight: bold;color:green">new PBCPairing(curveParams);</font>
                         </source>
                         <p>
                             You can still use the PairingFactory in this way:
@@ -135,8 +135,8 @@ Pairing pairing = <strong style="color:green">new PBCPairing(curveParams);</stro
 
 CurveParams curveParams = new CurveParams().load("curve.properties");
 // Ask to the PairingFactory to try to use the PBC wrapper when possible.
-<strong style="color:green">PairingFactory.getInstance().setUsePBCWhenPossible(true);</strong>
-Pairing pairing = <strong style="color:green">PairingFactory.getPairing(curveParams);</strong>
+<font style="font-weight: bold;color:green">PairingFactory.getInstance().setUsePBCWhenPossible(true);</font>
+Pairing pairing = <font style="font-weight: bold;color:green">PairingFactory.getPairing(curveParams);</font>
                         </source>
                     </li>
                 </ol>
@@ -171,7 +171,7 @@ Pairing pairing = <strong style="color:green">PairingFactory.getPairing(curvePar
                 <source>
 Element in1 = pairing.get<code>G1</code>().newRandomElement();
 Element in2 = pairing.get<code>G2</code>().newRandomElement();
-Element out = <strong style="color:green">pairing.pairing(in1, in2);</strong>
+Element out = <font style="font-weight: bold;color:green">pairing.pairing(in1, in2);</font>
                 </source>
 
                 <p>
@@ -180,7 +180,7 @@ Element out = <strong style="color:green">pairing.pairing(in1, in2);</strong>
                     the pairing.
                     <br/>
                     The reference interface is
-                    <code><strong style="color:red">it.unisa.dia.gas.jpbc.PairingPreProcessing</strong></code>
+                    <code><font style="font-weight: bold;color:red">it.unisa.dia.gas.jpbc.PairingPreProcessing</font></code>
                 </p>
 
                 <source xml:space="preserve">
@@ -188,14 +188,29 @@ Element out = <strong style="color:green">pairing.pairing(in1, in2);</strong>
    store the results of time-saving precomputation in ppp. */
 
 Element in1 = pairing.get<code>G1</code>().newRandomElement();
-<strong style="color:green">PairingPreProcessing ppp = pairing.pairing(in1);</strong>
+<font style="font-weight: bold;color:green">PairingPreProcessing ppp = pairing.pairing(in1);</font>
 
 /* Compute the pairing using in2 and the preprocessed information
    stored in ppp. The inputs to the pairing are the element
    previously used to initialize ppp and the element in2. */
 
 Element in2 = pairing.get<code>G2</code>().newRandomElement();
-Element out = <strong style="color:green">ppp.pairing(in2);</strong>
+Element out = <font style="font-weight: bold;color:green">ppp.pairing(in2);</font>
+                </source>
+
+                Furthermore, you can compute the product of pairings in one shot using
+                the following;
+
+                <source xml:space="preserve">
+Element in1[] = new Element[5];
+for (int i = 0; i &lt; 5; i++)
+    in1[i] = pairing.get<code>G1</code>().newRandomElement();
+
+Element in2[] = new Element[5];
+for (int i = 0; i &lt; 5; i++)
+    in2[i] = pairing.get<code>G2</code>().newRandomElement();
+
+Element out = <font style="font-weight: bold;color:green">pairing.pairing(in1, in2);</font>
                 </source>
             </subsection>
         </section>

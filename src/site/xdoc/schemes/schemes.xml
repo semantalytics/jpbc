@@ -24,24 +24,24 @@
 
             <ol>
                 <li>
-                    <strong style="color:red">
+                    <font style="font-weight: bold;color:red">
                         <a href="./bls.html">BLS Signature</a>
-                    </strong>: Boneh and Lynn and Shacham (BLS) Short Signatures Scheme.
+                    </font>: Boneh and Lynn and Shacham (BLS) Short Signatures Scheme.
                 </li>
                 <li>
-                    <strong style="color:red">
+                    <font style="font-weight: bold;color:red">
                         <a href="./hve.html">HVE</a>
-                    </strong>: Iovino and Persiano (HVE) Hidden Vector Encryption.
+                    </font>: Iovino and Persiano (HVE) Hidden Vector Encryption.
                 </li>
                 <li>
-                    <strong style="color:red">
+                    <font style="font-weight: bold;color:red">
                         <a href="ut.html">UT</a>
-                    </strong>: Blundo and De Caro and Persiano (UT) Untraceable Tags.
+                    </font>: Blundo and De Caro and Persiano (UT) Untraceable Tags.
                 </li>
                 <li>
-                    <strong style="color:red">
+                    <font style="font-weight: bold;color:red">
                         <a href="./ahibe.html">AHIBE</a>
-                    </strong>: De Caro and Iovino and Persiano (AHIBE) Anonymous Hierarchical Identity Based Encryption.
+                    </font>: De Caro and Iovino and Persiano (AHIBE) Anonymous Hierarchical Identity Based Encryption.
                 </li>
             </ol>
         </section>

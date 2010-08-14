@@ -17,7 +17,7 @@
                 finite field or elliptic curve group, represented by the
                 <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Field.html">
                     <code>
-                        <strong style="color:red">it.unisa.dia.gas.jpbc.Field</strong>
+                        <font style="font-weight: bold;color:red">it.unisa.dia.gas.jpbc.Field</font>
                     </code>
                 </a>
 
@@ -25,7 +25,7 @@
                 <br/>
 
                 Typically instances of that interface are accessed using the
-                <code><strong style="color:red">it.unisa.dia.gas.jpbc.Pairing</strong></code>
+                <code><font style="font-weight: bold;color:red">it.unisa.dia.gas.jpbc.Pairing</font></code>
                 interface. Go
                 <a href="./pairing.html">here</a>
                 to know how.
@@ -38,27 +38,27 @@
                 </p>
 
                 <source>/* Create a new element. */
-<strong style="color:green">Element element = field.newElement();</strong>
+<font style="font-weight: bold;color:green">Element element = field.newElement();</font>
                 </source>
 
                 <source>/* Create a new element whose value is zero. */
-<strong style="color:green">Element element = field.newZeroElement();</strong>
+<font style="font-weight: bold;color:green">Element element = field.newZeroElement();</font>
                 </source>
 
                 <source>/* Create a new element whose value is one. */
-<strong style="color:green">Element element = field.newOneElement();</strong>
+<font style="font-weight: bold;color:green">Element element = field.newOneElement();</font>
                 </source>
 
                 <source>/* Create a new random element. */
-<strong style="color:green">Element element = field.newRandomElement();</strong>
+<font style="font-weight: bold;color:green">Element element = field.newRandomElement();</font>
                 </source>
 
                 <source>/* Create a new element with a specified value. */
-<strong style="color:green">Element element = field.newElement(5);</strong>
+<font style="font-weight: bold;color:green">Element element = field.newElement(5);</font>
                 </source>
 
                 <source>/* Create a new element with a specified value. */
-<strong style="color:green">Element element = field.newElement(new BigInteger("5390843849083028490328"));</strong>
+<font style="font-weight: bold;color:green">Element element = field.newElement(new BigInteger("5390843849083028490328"));</font>
                 </source>
             </subsection>
 

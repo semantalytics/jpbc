@@ -33,7 +33,7 @@
 
             <p>
                 In this page we will see how to use the
-                <strong style="color:red"><a href="#strong">Strong Construction</a></strong>,
+                <font style="font-weight: bold;color:red"><a href="#strong">Strong Construction</a></font>,
                 in the context of the Bouncy Castle framework.
             </p>
 
@@ -51,14 +51,14 @@
 import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.generators.UTMAStrongParametersGenerator;
 import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params.UTMAStrongParameters;
 
-<strong style="color:green">// Init the generator.</strong>
+<font style="font-weight: bold;color:green">// Init the generator.</font>
 UTMAStrongParametersGenerator pubInfoGenerator = new UTMAStrongParametersGenerator();
 pubInfoGenerator.init(curveParams, new ElGamalParameters(p, g, l));
 
-<strong style="color:green">// Generate the parameters.</strong>
+<font style="font-weight: bold;color:green">// Generate the parameters.</font>
 UTMAStrongParameters utmaParameters = pubInfoGenerator.generateParameters();
 
-<strong style="color:green">// Store the parameters in a file.</strong>
+<font style="font-weight: bold;color:green">// Store the parameters in a file.</font>
 FileOutputStream fileOutputStream = new FileOutputStream("utmas.params");
 
 pubInfoGenerator.store(fileOutputStream, utmaParameters);
@@ -73,10 +73,10 @@ fileOutputStream.close();
 import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.generators.UTMAStrongParametersGenerator;
 import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params.UTMAStrongParameters;
 
-<strong style="color:green">// Init the generator.</strong>
+<font style="font-weight: bold;color:green">// Init the generator.</font>
 UTMAStrongParametersGenerator pubInfoGenerator = new UTMAStrongParametersGenerator();
 
-<strong style="color:green">// Load the parameters from a file.</strong>
+<font style="font-weight: bold;color:green">// Load the parameters from a file.</font>
 FileInputStream fileInputStream = new FileInputStream("utmas.params");
 
 UTMAStrongParameters utmaParameters = pubInfoGenerator.load(fileInputStream);
@@ -91,14 +91,14 @@ import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.generators.UTMAStrongK
 import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params.UTMAStrongKeyGenerationParameters;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 
-<strong style="color:green">// Init the generator.</strong>
+<font style="font-weight: bold;color:green">// Init the generator.</font>
 UTMAStrongKeyPairGenerator keyPairGenerator = new UTMAStrongKeyPairGenerator();
 keyPairGenerator.init(new UTMAStrongKeyGenerationParameters(new SecureRandom(), utmaParameters));
 
-<strong style="color:green">// Generate the key-pair.</strong>
+<font style="font-weight: bold;color:green">// Generate the key-pair.</font>
 AsymmetricCipherKeyPair keyPair = keyPairGenerator.generateKeyPair();
 
-<strong style="color:green">// Store the key-pair.</strong>
+<font style="font-weight: bold;color:green">// Store the key-pair.</font>
 fileOutputStream = new FileOutputStream("utmas_keypair.params");
 
 utmaStrongKeyPairGenerator.store(fileOutputStream, keyPair);
@@ -114,10 +114,10 @@ import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.generators.UTMAStrongK
 import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params.UTMAStrongKeyGenerationParameters;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 
-<strong style="color:green">// Init the generator.</strong>
+<font style="font-weight: bold;color:green">// Init the generator.</font>
 UTMAStrongKeyPairGenerator keyPairGenerator = new UTMAStrongKeyPairGenerator();
 
-<strong style="color:green">// Load the key-pair from a file.</strong>
+<font style="font-weight: bold;color:green">// Load the key-pair from a file.</font>
 fileInputStream = new FileInputStream("utmas_keypair.params");
 
 AsymmetricCipherKeyPair keyPair = utmaStrongKeyPairGenerator.load(fileInputStream);
@@ -132,13 +132,13 @@ import org.bouncycastle.crypto.AsymmetricBlockCipher;
 import it.unisa.dia.gas.plaf.crypto.engines.MultiBlockAsymmetricBlockCipher;
 import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.engines.UTMAStrongEngine;
 
-<strong style="color:green">// Init the engine.</strong>
+<font style="font-weight: bold;color:green">// Init the engine.</font>
 AsymmetricBlockCipher strongEngine = new MultiBlockAsymmetricBlockCipher(
         new UTMAStrongEngine(),
         new PKCS7Padding()
 );
 
-<strong style="color:green">// Encrypt</strong>
+<font style="font-weight: bold;color:green">// Encrypt</font>
 String message = "Hello World!!!";
 byte[] messageAsBytes = message.getBytes();
 
@@ -153,13 +153,13 @@ import org.bouncycastle.crypto.AsymmetricBlockCipher;
 import it.unisa.dia.gas.plaf.crypto.engines.MultiBlockAsymmetricBlockCipher;
 import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.engines.UTMAStrongEngine;
 
-<strong style="color:green">// Init the engine.</strong>
+<font style="font-weight: bold;color:green">// Init the engine.</font>
 AsymmetricBlockCipher strongEngine = new MultiBlockAsymmetricBlockCipher(
         new UTMAStrongEngine(),
         new PKCS7Padding()
 );
 
-<strong style="color:green">// Decrypt</strong>
+<font style="font-weight: bold;color:green">// Decrypt</font>
 strongEngine.init(false, keyPair.getPrivate());
 byte[] plainText = strongEngine.processBlock(cipherText, 0, cipherText.length);
                 </source>
@@ -169,11 +169,11 @@ byte[] plainText = strongEngine.processBlock(cipherText, 0, cipherText.length);
                 <source>
 import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.engines.UTMAStrongRandomizer;
 
-<strong style="color:green">// Init the engine.</strong>
+<font style="font-weight: bold;color:green">// Init the engine.</font>
 UTMAStrongRandomizer randomizer = new UTMAStrongRandomizer();
 randomizer.init(utmaParameters);
 
-<strong style="color:green">// Re-Randomize</strong>
+<font style="font-weight: bold;color:green">// Re-Randomize</font>
 cipherText = randomizer.processBlock(cipherText, 0, cipherText.length);
                 </source>
             </subsection>
