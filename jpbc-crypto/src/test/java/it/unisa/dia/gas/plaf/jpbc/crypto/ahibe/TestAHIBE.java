@@ -26,7 +26,8 @@ public class TestAHIBE extends TestCase {
         System.out.println("------------------------ Setup");
 
         AHIBESetupGenerationParameters setupGenerationParameters = new AHIBESetupGenerationParameters(
-                40, 10
+                38,   // bit length
+                10    // identity vector max length
         );
         AHIBESetupGenerator ahibeSetupGenerator = new AHIBESetupGenerator();
         ahibeSetupGenerator.init(setupGenerationParameters);

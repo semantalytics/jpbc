@@ -1,4 +1,3 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 #macro ( links $links )
@@ -71,6 +70,7 @@
       #set ( $collapse = "expanded" )
     #end
   #end
+
   <li class="$collapse">
     #if ( $item.img )
       #if ( ! ( $item.img.toLowerCase().startsWith("http") || $item.img.toLowerCase().startsWith("https") ) )
@@ -80,7 +80,6 @@
       #else
         <img src="$item.img" align="absbottom" style="border-width: 0"/>
       #end
-
     #end
 
     #if ( $alignedFileName == $currentItemHref )
