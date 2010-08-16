@@ -42,7 +42,6 @@ public class AHIBESetupGenerator implements AsymmetricCipherKeyPairGenerator {
 
         Element gen = pairing.getG1().newRandomElement().getImmutable();
         Element gen1 = gen.pow(n1.multiply(n2).multiply(n3)).getImmutable();
-        Element gen2 = gen.pow(n0.multiply(n2).multiply(n3)).getImmutable();
         Element gen3 = gen.pow(n0.multiply(n1).multiply(n3)).getImmutable();
         Element gen4 = gen.pow(n0.multiply(n1).multiply(n2)).getImmutable();
 
