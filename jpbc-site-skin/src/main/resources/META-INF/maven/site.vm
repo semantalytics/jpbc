@@ -302,6 +302,9 @@
     </div>  -->
     <div id="breadcrumbs">
       #publishDate( "left" $decoration.publishDate $decoration.version )
+      <div class="xcenter">
+        Hello World!!! $decoration.body.title    
+      </div>
       <div class="xright">
           #links( $decoration.body.links )
           | <a href="http://gas.dia.unisa.it/">GAS Lab</a>          

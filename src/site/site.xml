@@ -8,6 +8,8 @@
     </skin>
 
     <body>
+        <title>The Java Pairing Based Cryptography Library (jPBC)</title>
+
         <links>
             <item name="PBC" href="http://crypto.stanford.edu/pbc/"/>
             <item name="SF Project page" href="http://sourceforge.net/projects/jpbc/"/>
