@@ -113,7 +113,7 @@ public class Commitment implements LibertYung_qTMC {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see it.unisa.dia.gas.plaf.jpbc.crypto.commitment.ly.LibertYung_qTMC#qKeygen(int, int)
+	 * @see LibertYung_qTMC#qKeygen(int, int)
 	 */
 	public CommitmentKeys qKeygen(int q) {
 		CommitmentKeys commkey = new CommitmentKeys();
