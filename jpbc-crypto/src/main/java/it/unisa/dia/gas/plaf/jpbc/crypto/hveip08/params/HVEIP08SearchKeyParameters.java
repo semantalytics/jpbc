@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.plaf.jpbc.crypto.hve.params;
+package it.unisa.dia.gas.plaf.jpbc.crypto.hveip08.params;
 
 import it.unisa.dia.gas.jpbc.Element;
 
@@ -7,12 +7,12 @@ import java.util.List;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class HVESearchKeyParameters extends HVEKeyParameters {
+public class HVEIP08SearchKeyParameters extends HVEIP08KeyParameters {
     private List<Element> Y, L;
     private Element K;
 
 
-    public HVESearchKeyParameters(HVEParameters parameters, List<Element> Y, List<Element> L) {
+    public HVEIP08SearchKeyParameters(HVEIP08Parameters parameters, List<Element> Y, List<Element> L) {
         super(true, parameters);
 
         this.Y = Y;
@@ -20,7 +20,7 @@ public class HVESearchKeyParameters extends HVEKeyParameters {
         this.K = null;
     }
 
-    public HVESearchKeyParameters(HVEParameters parameters, Element k) {
+    public HVEIP08SearchKeyParameters(HVEIP08Parameters parameters, Element k) {
         super(true, parameters);
         K = k;
     }

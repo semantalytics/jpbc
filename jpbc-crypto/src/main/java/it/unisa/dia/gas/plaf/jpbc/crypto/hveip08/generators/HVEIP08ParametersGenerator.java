@@ -1,15 +1,15 @@
-package it.unisa.dia.gas.plaf.jpbc.crypto.hve.generators;
+package it.unisa.dia.gas.plaf.jpbc.crypto.hveip08.generators;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.plaf.jpbc.crypto.hve.params.HVEParameters;
+import it.unisa.dia.gas.plaf.jpbc.crypto.hveip08.params.HVEIP08Parameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class HVEParametersGenerator {
+public class HVEIP08ParametersGenerator {
     private CurveParams curveParams;
     private int[] attributeLengths;
 
@@ -34,10 +34,10 @@ public class HVEParametersGenerator {
     }
 
 
-    public HVEParameters generateParameters() {
+    public HVEIP08Parameters generateParameters() {
         Element g = pairing.getG1().newElement().setToRandom();
 
-        return new HVEParameters(curveParams, g.getImmutable(), attributeLengths);
+        return new HVEIP08Parameters(curveParams, g.getImmutable(), attributeLengths);
     }
 
 }

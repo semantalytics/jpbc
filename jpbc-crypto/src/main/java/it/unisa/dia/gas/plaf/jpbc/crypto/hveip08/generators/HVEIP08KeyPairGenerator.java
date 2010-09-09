@@ -1,11 +1,11 @@
-package it.unisa.dia.gas.plaf.jpbc.crypto.hve.generators;
+package it.unisa.dia.gas.plaf.jpbc.crypto.hveip08.generators;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.plaf.jpbc.crypto.hve.params.HVEKeyGenerationParameters;
-import it.unisa.dia.gas.plaf.jpbc.crypto.hve.params.HVEParameters;
-import it.unisa.dia.gas.plaf.jpbc.crypto.hve.params.HVEPrivateKeyParameters;
-import it.unisa.dia.gas.plaf.jpbc.crypto.hve.params.HVEPublicKeyParameters;
+import it.unisa.dia.gas.plaf.jpbc.crypto.hveip08.params.HVEIP08KeyGenerationParameters;
+import it.unisa.dia.gas.plaf.jpbc.crypto.hveip08.params.HVEIP08Parameters;
+import it.unisa.dia.gas.plaf.jpbc.crypto.hveip08.params.HVEIP08PrivateKeyParameters;
+import it.unisa.dia.gas.plaf.jpbc.crypto.hveip08.params.HVEIP08PublicKeyParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPairGenerator;
@@ -17,16 +17,16 @@ import java.util.List;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class HVEKeyPairGenerator implements AsymmetricCipherKeyPairGenerator {
-    private HVEKeyGenerationParameters param;
+public class HVEIP08KeyPairGenerator implements AsymmetricCipherKeyPairGenerator {
+    private HVEIP08KeyGenerationParameters param;
 
 
     public void init(KeyGenerationParameters param) {
-        this.param = (HVEKeyGenerationParameters) param;
+        this.param = (HVEIP08KeyGenerationParameters) param;
     }
 
     public AsymmetricCipherKeyPair generateKeyPair() {
-        HVEParameters parameters = param.getParameters();
+        HVEIP08Parameters parameters = param.getParameters();
 
         Pairing pairing = PairingFactory.getPairing(parameters.getCurveParams());
         Element g = parameters.getG();
@@ -71,8 +71,8 @@ public class HVEKeyPairGenerator implements AsymmetricCipherKeyPairGenerator {
         }
 
         return new AsymmetricCipherKeyPair(
-            new HVEPublicKeyParameters(parameters, Y.getImmutable(), T, V),
-            new HVEPrivateKeyParameters(parameters, y.getImmutable(), t, v)
+            new HVEIP08PublicKeyParameters(parameters, Y.getImmutable(), T, V),
+            new HVEIP08PrivateKeyParameters(parameters, y.getImmutable(), t, v)
         );
     }
 

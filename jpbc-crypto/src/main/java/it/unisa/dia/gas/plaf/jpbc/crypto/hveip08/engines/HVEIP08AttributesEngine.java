@@ -1,10 +1,10 @@
-package it.unisa.dia.gas.plaf.jpbc.crypto.hve.engines;
+package it.unisa.dia.gas.plaf.jpbc.crypto.hveip08.engines;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.plaf.jpbc.crypto.hve.params.HVEKeyParameters;
-import it.unisa.dia.gas.plaf.jpbc.crypto.hve.params.HVEPublicKeyParameters;
-import it.unisa.dia.gas.plaf.jpbc.crypto.hve.params.HVESearchKeyParameters;
+import it.unisa.dia.gas.plaf.jpbc.crypto.hveip08.params.HVEIP08KeyParameters;
+import it.unisa.dia.gas.plaf.jpbc.crypto.hveip08.params.HVEIP08PublicKeyParameters;
+import it.unisa.dia.gas.plaf.jpbc.crypto.hveip08.params.HVEIP08SearchKeyParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.AsymmetricBlockCipher;
 import org.bouncycastle.crypto.CipherParameters;
@@ -19,9 +19,9 @@ import java.util.List;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class HVEAttributesEngine implements AsymmetricBlockCipher {
+public class HVEIP08AttributesEngine implements AsymmetricBlockCipher {
 
-    private HVEKeyParameters key;
+    private HVEIP08KeyParameters key;
     private boolean forEncryption;
 
     private int n;
@@ -39,19 +39,19 @@ public class HVEAttributesEngine implements AsymmetricBlockCipher {
         if (param instanceof ParametersWithRandom) {
             ParametersWithRandom p = (ParametersWithRandom) param;
 
-            this.key = (HVEKeyParameters) p.getParameters();
+            this.key = (HVEIP08KeyParameters) p.getParameters();
         } else {
-            this.key = (HVEKeyParameters) param;
+            this.key = (HVEIP08KeyParameters) param;
         }
 
         this.forEncryption = forEncryption;
         if (forEncryption) {
-            if (!(key instanceof HVEPublicKeyParameters)) {
-                throw new IllegalArgumentException("HVEPublicKeyParameters are required for encryption.");
+            if (!(key instanceof HVEIP08PublicKeyParameters)) {
+                throw new IllegalArgumentException("HVEIP08PublicKeyParameters are required for encryption.");
             }
         } else {
-            if (!(key instanceof HVESearchKeyParameters)) {
-                throw new IllegalArgumentException("HVESearchKeyParameters are required for decryption.");
+            if (!(key instanceof HVEIP08SearchKeyParameters)) {
+                throw new IllegalArgumentException("HVEIP08SearchKeyParameters are required for decryption.");
             }
         }
 
@@ -112,7 +112,7 @@ public class HVEAttributesEngine implements AsymmetricBlockCipher {
             throw new DataLengthException("input too large for HVE cipher.\n");
         }
 
-        if (key instanceof HVESearchKeyParameters) {
+        if (key instanceof HVEIP08SearchKeyParameters) {
             // match
             // Convert bytes to Elements...
 
@@ -141,7 +141,7 @@ public class HVEAttributesEngine implements AsymmetricBlockCipher {
                 W.add(w);
             }
 
-            HVESearchKeyParameters searchKey = (HVESearchKeyParameters) key;
+            HVEIP08SearchKeyParameters searchKey = (HVEIP08SearchKeyParameters) key;
 
             Element result = omega.duplicate();
 
@@ -175,7 +175,7 @@ public class HVEAttributesEngine implements AsymmetricBlockCipher {
                 block = in;
             }
 
-            HVEPublicKeyParameters pub = (HVEPublicKeyParameters) key;
+            HVEIP08PublicKeyParameters pub = (HVEIP08PublicKeyParameters) key;
 
             Element s = pairing.getZr().newRandomElement().getImmutable();
 //        Element M = pairing.getGT().newOneElement();

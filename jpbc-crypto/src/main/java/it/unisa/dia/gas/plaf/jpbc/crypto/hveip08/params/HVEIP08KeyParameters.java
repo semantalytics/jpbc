@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.plaf.jpbc.crypto.hve.params;
+package it.unisa.dia.gas.plaf.jpbc.crypto.hveip08.params;
 
 import org.bouncycastle.crypto.params.AsymmetricKeyParameter;
 
@@ -7,17 +7,17 @@ import java.io.Serializable;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class HVEKeyParameters extends AsymmetricKeyParameter implements Serializable {
-    private HVEParameters parameters;
+public class HVEIP08KeyParameters extends AsymmetricKeyParameter implements Serializable {
+    private HVEIP08Parameters parameters;
 
 
-    public HVEKeyParameters(boolean isPrivate, HVEParameters parameters) {
+    public HVEIP08KeyParameters(boolean isPrivate, HVEIP08Parameters parameters) {
         super(isPrivate);
         this.parameters = parameters;
     }
 
 
-    public HVEParameters getParameters() {
+    public HVEIP08Parameters getParameters() {
         return parameters;
     }
 
@@ -25,9 +25,9 @@ public class HVEKeyParameters extends AsymmetricKeyParameter implements Serializ
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof HVEKeyParameters)) return false;
+        if (!(o instanceof HVEIP08KeyParameters)) return false;
 
-        HVEKeyParameters that = (HVEKeyParameters) o;
+        HVEIP08KeyParameters that = (HVEIP08KeyParameters) o;
 
         if (parameters != null ? !parameters.equals(that.parameters) : that.parameters != null) return false;
 

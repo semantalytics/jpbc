@@ -1,13 +1,13 @@
-package it.unisa.dia.gas.plaf.jpbc.crypto.hve;
+package it.unisa.dia.gas.plaf.jpbc.crypto.hveip08;
 
-import it.unisa.dia.gas.plaf.jpbc.crypto.hve.engines.HVEAttributesEngine;
-import it.unisa.dia.gas.plaf.jpbc.crypto.hve.generators.HVEKeyPairGenerator;
-import it.unisa.dia.gas.plaf.jpbc.crypto.hve.generators.HVEParametersGenerator;
-import it.unisa.dia.gas.plaf.jpbc.crypto.hve.generators.HVESearchKeyGenerator;
-import it.unisa.dia.gas.plaf.jpbc.crypto.hve.params.HVEKeyGenerationParameters;
-import it.unisa.dia.gas.plaf.jpbc.crypto.hve.params.HVEParameters;
-import it.unisa.dia.gas.plaf.jpbc.crypto.hve.params.HVEPrivateKeyParameters;
-import it.unisa.dia.gas.plaf.jpbc.crypto.hve.params.HVESearchKeyGenerationParameters;
+import it.unisa.dia.gas.plaf.jpbc.crypto.hveip08.engines.HVEIP08AttributesEngine;
+import it.unisa.dia.gas.plaf.jpbc.crypto.hveip08.generators.HVEIP08KeyPairGenerator;
+import it.unisa.dia.gas.plaf.jpbc.crypto.hveip08.generators.HVEIP08ParametersGenerator;
+import it.unisa.dia.gas.plaf.jpbc.crypto.hveip08.generators.HVEIP08SearchKeyGenerator;
+import it.unisa.dia.gas.plaf.jpbc.crypto.hveip08.params.HVEIP08KeyGenerationParameters;
+import it.unisa.dia.gas.plaf.jpbc.crypto.hveip08.params.HVEIP08Parameters;
+import it.unisa.dia.gas.plaf.jpbc.crypto.hveip08.params.HVEIP08PrivateKeyParameters;
+import it.unisa.dia.gas.plaf.jpbc.crypto.hveip08.params.HVEIP08SearchKeyGenerationParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import junit.framework.TestCase;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
@@ -22,7 +22,7 @@ public class TestHVE extends TestCase {
 
     public void testHVE() {
         // Generate HVE Paramaters
-        HVEParameters hveParameters = createHveParameters(new int[]{1, 7, 1, 4, 2, 1});
+        HVEIP08Parameters hveParameters = createHveParameters(new int[]{1, 7, 1, 4, 2, 1});
         // Generate an HVE KeyPair
         AsymmetricCipherKeyPair keyPair = generateKeyPair(hveParameters);
 
@@ -61,13 +61,13 @@ public class TestHVE extends TestCase {
     }
 
 
-    protected HVEParameters createHveParameters(int[] attributesSpec) {
+    protected HVEIP08Parameters createHveParameters(int[] attributesSpec) {
         // Carica i parametri della curva
         CurveParams curveParams = new CurveParams();
         curveParams.load(this.getClass().getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/crypto/a_181_603.properties"));
 
         // Inizializza il generatore.
-        HVEParametersGenerator generator = new HVEParametersGenerator();
+        HVEIP08ParametersGenerator generator = new HVEIP08ParametersGenerator();
 
 /*
         // Se hai tutti attributi di tipo binario...puoi usare il seguente init:
@@ -80,27 +80,27 @@ public class TestHVE extends TestCase {
         return generator.generateParameters();
     }
 
-    protected AsymmetricCipherKeyPair generateKeyPair(HVEParameters hveParameters) {
-        HVEKeyPairGenerator hveKeyPairGenerator = new HVEKeyPairGenerator();
-        hveKeyPairGenerator.init(new HVEKeyGenerationParameters(new SecureRandom(), hveParameters));
+    protected AsymmetricCipherKeyPair generateKeyPair(HVEIP08Parameters hveParameters) {
+        HVEIP08KeyPairGenerator hveKeyPairGenerator = new HVEIP08KeyPairGenerator();
+        hveKeyPairGenerator.init(new HVEIP08KeyGenerationParameters(new SecureRandom(), hveParameters));
 
         return hveKeyPairGenerator.generateKeyPair();
     }
 
     protected byte[] encryptAttributes(CipherParameters publicKey, byte[] attributes) {
-        HVEAttributesEngine hveAttributesEngine = new HVEAttributesEngine();
+        HVEIP08AttributesEngine hveAttributesEngine = new HVEIP08AttributesEngine();
         hveAttributesEngine.init(true, publicKey);
         return hveAttributesEngine.processBlock(attributes, 0, attributes.length);
     }
 
     protected CipherParameters generateSearchKey(CipherParameters privateKey, byte[] pattern) {
-        HVESearchKeyGenerator hveSearchKeyGenerator = new HVESearchKeyGenerator();
-        hveSearchKeyGenerator.init(new HVESearchKeyGenerationParameters((HVEPrivateKeyParameters) privateKey, pattern));
+        HVEIP08SearchKeyGenerator hveSearchKeyGenerator = new HVEIP08SearchKeyGenerator();
+        hveSearchKeyGenerator.init(new HVEIP08SearchKeyGenerationParameters((HVEIP08PrivateKeyParameters) privateKey, pattern));
         return hveSearchKeyGenerator.generateKey();
     }
 
     protected boolean matchAttributes(CipherParameters searchKey, byte[] attributesCT) {
-        HVEAttributesEngine hveAttributesEngine = new HVEAttributesEngine();
+        HVEIP08AttributesEngine hveAttributesEngine = new HVEIP08AttributesEngine();
         hveAttributesEngine.init(false, searchKey);
         return hveAttributesEngine.processBlock(attributesCT, 0, attributesCT.length)[0] == 0;
     }

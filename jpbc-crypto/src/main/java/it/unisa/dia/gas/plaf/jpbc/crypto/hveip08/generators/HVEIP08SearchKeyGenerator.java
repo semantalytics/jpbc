@@ -1,9 +1,9 @@
-package it.unisa.dia.gas.plaf.jpbc.crypto.hve.generators;
+package it.unisa.dia.gas.plaf.jpbc.crypto.hveip08.generators;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.plaf.jpbc.crypto.hve.params.HVESearchKeyGenerationParameters;
-import it.unisa.dia.gas.plaf.jpbc.crypto.hve.params.HVESearchKeyParameters;
+import it.unisa.dia.gas.plaf.jpbc.crypto.hveip08.params.HVEIP08SearchKeyGenerationParameters;
+import it.unisa.dia.gas.plaf.jpbc.crypto.hveip08.params.HVEIP08SearchKeyParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.KeyGenerationParameters;
@@ -14,12 +14,12 @@ import java.util.List;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class HVESearchKeyGenerator {
-    private HVESearchKeyGenerationParameters param;
+public class HVEIP08SearchKeyGenerator {
+    private HVEIP08SearchKeyGenerationParameters param;
     private byte[] attributePattern;
 
     public void init(KeyGenerationParameters param) {
-        this.param = (HVESearchKeyGenerationParameters) param;
+        this.param = (HVEIP08SearchKeyGenerationParameters) param;
         this.attributePattern = this.param.getAttributePattern();
     }
 
@@ -55,7 +55,7 @@ public class HVESearchKeyGenerator {
         Pairing pairing = PairingFactory.getPairing(param.getParameters().getParameters().getCurveParams());
 
         if (nonStarCount == 0) {
-            return new HVESearchKeyParameters(
+            return new HVEIP08SearchKeyParameters(
                     param.getParameters().getParameters(),
                     param.getParameters().getParameters().getG().powZn(param.getParameters().getY())
                     );            
@@ -121,7 +121,7 @@ public class HVESearchKeyGenerator {
                 }
             }
 
-            return new HVESearchKeyParameters(param.getParameters().getParameters(), Y, L);
+            return new HVEIP08SearchKeyParameters(param.getParameters().getParameters(), Y, L);
         }
 
 
