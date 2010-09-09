@@ -46,7 +46,7 @@
 
             <subsection name="Generate and Store the Public Information">
                 <source>
-import it.unisa.dia.gas.plaf.jpbc.crypto.ahibe.generators.AHIBESetupGenerator;
+import it.unisa.dia.gas.plaf.jpbc.crypto.ibe.dip10.generators.AHIBESetupGenerator;
 
 <font style="font-weight: bold;color:green">// Init the generator.</font>
 AHIBESetupGenerationParameters setupGenerationParameters = new AHIBESetupGenerationParameters(
