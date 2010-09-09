@@ -42,7 +42,6 @@
         <module>jpbc-plaf</module>
         <module>jpbc-pbc</module>
         <module>jpbc-crypto</module>
-        <module>jpbc-sandbox</module>
         <module>jpbc-site-skin</module>
     </modules>
 

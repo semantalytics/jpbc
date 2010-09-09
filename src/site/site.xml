@@ -57,9 +57,10 @@
         <menu name="Crypto">
             <item name="Schemes" href="/schemes/schemes.html">
                 <item name="BLS Signature" href="/schemes/bls.html"/>
-                <item name="Hidden Vector Encryption" href="/schemes/hve.html"/>
-                <item name="Anonymous Hierarchical Identity Based Encryption" href="/schemes/ahibe.html"/>
-                <item name="Untraceable Tags" href="/schemes/ut.html"/>
+                <item name="HVE [IP08]" href="/schemes/hveip08.html"/>
+                <!--<item name="HVE [DIP10]" href="/schemes/hveip08.html"/>-->
+                <item name="AHIVE [DIP10]" href="/schemes/ahibe.html"/>
+                <item name="Untraceable Tags [DBP09]" href="/schemes/ut.html"/>
             </item>
         </menu>
         

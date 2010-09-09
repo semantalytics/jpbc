@@ -106,7 +106,8 @@
                 </li>
 
             </ul>
-            In the jpbc distribution each module correspond to a directory where you will find the sources of the module and
+            In the jpbc distribution each module corresponds to a
+            directory where you will find the sources of the module and
             other stuff.
         </section>
     </body>

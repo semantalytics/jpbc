@@ -8,7 +8,7 @@
     </properties>
 
     <body>
-        <section name="Schemes - (HVE) Hidden Vector Encryption">
+        <section name="Schemes - (HVE) Hidden Vector Encryption [IP08]">
             Predicate encryption schemes are encryption schemes in which
             each ciphertext Ct is associated with a binary attribute vector
             x = (x1, ..., xn) and keys K are associated with predicates. A key K can
