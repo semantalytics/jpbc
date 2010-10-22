@@ -64,6 +64,9 @@ public class GenericElementPowPreProcessing implements ElementPowPreProcessing {
             return field.newOneElement();
         }
 
+        if (n.compareTo(field.getOrder()) > 0)
+            n.mod(field.getOrder());
+
         Element result = field.newOneElement();
         int numLookups = n.bitLength() / k + 1;
 

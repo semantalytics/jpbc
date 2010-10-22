@@ -1,8 +1,10 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing.a;
 
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.PairingPreProcessing;
 import it.unisa.dia.gas.jpbc.Point;
+import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveElement;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteElement;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteField;
 import it.unisa.dia.gas.plaf.jpbc.pairing.map.AbstractMillerPairingMap;
@@ -113,6 +115,80 @@ public class TypeATateProjectiveMillerPairingMap extends AbstractMillerPairingMa
         return new TypeATateProjectiveMillerPairingPreProcessing(in1);
     }
 
+    public Element pairing(Element[] in1, Element[] in2) {
+        // could save a couple of inversions by avoiding
+        // this function and rewriting lineStep() to handle projective coords
+        // convert V from weighted projective (Jacobian) to affine
+        // i.e. (X, Y, Z) --> (X/Z^2, Y/Z^3)
+        // also sets z to 1
+
+        Field refField = in1[0].getField();
+
+        CurveElement[] Vs = new CurveElement[in1.length];
+        CurveElement[] V1s = new CurveElement[in1.length];
+
+        Element z = pairing.Fq.newOneElement();
+        Element z2 = pairing.Fq.newOneElement();
+
+        for(int i=0; i< in1.length; i++){
+            Vs[i] = (CurveElement) in1[i].duplicate();
+            V1s[i] = (CurveElement) in1[i].getField().newElement();
+        }
+
+
+        // The coefficients of the line equation
+        Element a = pairing.Fq.newElement();
+        Element b = pairing.Fq.newElement();
+        Element c = pairing.Fq.newElement();
+        Element curveA = pairing.Fq.newOneElement();
+
+        Point f0 = pairing.Fq2.newElement();
+        Point f = pairing.Fq2.newOneElement();
+
+        // Temp element
+        Element e0 = pairing.Fq.newElement();
+
+        // Remember that r = 2^exp2 + sign1 * 2^exp1 + sign0 * 1 (Solinas prime)
+        int i = 0;
+        int n = pairing.exp1;
+        for (; i < n; i++) {
+            // f = f^2 g_V,V(Q)
+            // where g_V,V = tangent at V
+            f.square();
+            tangentStep(f0, a, b, c, Vs, curveA, e0, in2, f);
+            refField.twice(Vs);
+        }
+
+        Element f1;
+        if (pairing.sign1 < 0) {
+            for (int j = 0; j < V1s.length; j++) {
+                V1s[j].set(Vs[j]).negate();
+            }
+            f1 = f.duplicate().invert();
+        } else {
+            for (int j = 0; j < V1s.length; j++) {
+                V1s[j].set(Vs[j]);
+            }
+            f1 = f.duplicate();
+        }
+
+        n = pairing.exp2;
+        for (; i < n; i++) {
+            f.square();
+            tangentStep(f0, a, b, c, Vs, curveA, e0, in2, f);
+            refField.twice(Vs);
+        }
+
+        f.mul(f1);
+
+        lineStep(f0, a, b, c, Vs, V1s, e0, in2, f);
+
+        // Do final pow
+        Point out = pairing.Fq2.newElement();
+        tatePow(out, f, f0, pairing.phikOnr);
+
+        return new GTFiniteElement(this, (GTFiniteField) pairing.getGT(), out);
+    }
 
     final void tatePow(Point out, Point in, Point temp, BigInteger cofactor) {
         Element in1 = in.getY();

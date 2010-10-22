@@ -66,4 +66,11 @@ public abstract class PBCField implements Field {
         return fixedLengthInBytes;
     }
 
+    public Element[] twice(Element[] elements) {
+        return new Element[0];  //TODO
+    }
+
+    public Element[] add(Element[] e1, Element[] e2) {
+        return new Element[0];  //TODO
+    }
 }

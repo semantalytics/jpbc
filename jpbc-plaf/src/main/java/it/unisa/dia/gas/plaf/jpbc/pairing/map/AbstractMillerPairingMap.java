@@ -37,6 +37,38 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
         f.mul(f0);
     }
 
+    protected final void lineStep(Point<E> f0,
+                                  Element a, Element b, Element c,
+                                  Element[] Vs,
+                                  Element[] V1s,
+                                  Element e0,
+                                  Element[] Qs,
+                                  Element f) {
+        // computeLine(a, b, c, Vx, Vy, V1x, V1y, e0);
+        // a = -(V1y - Vy) / (V1x - Vx);
+        // b = 1;
+        // c = -(Vy + a * Vx);
+        //
+        // but we will multiply by V1x - Vx to avoid division, so
+        //
+        // a = -(V1y - Vy)
+        // b = V1x - Vx
+        // c = -(Vy b + a Vx);
+
+        for (int i = 0; i < Vs.length; i++) {
+            Point V = (Point) Vs[i];
+            Point V1 = (Point) V1s[i];
+            Point Q = (Point) Qs[i];
+
+            a.set(V.getY()).sub(V1.getY());
+            b.set(V1.getX()).sub(V.getX());
+            c.set(V.getX()).mul(V1.getY()).sub(e0.set(V.getY()).mul(V1.getX()));
+
+            millerStep(f0, a, b, c, (E) Q.getX(), (E) Q.getY());
+            f.mul(f0);
+        }
+    }
+
     protected final void tangentStep(Point<E> f0,
                                      Element a, Element b, Element c,
                                      Element Vx, Element Vy,
@@ -59,6 +91,35 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
 
         millerStep(f0, a, b, c, Qx, Qy);
         f.mul(f0);
+    }
+
+    protected final void tangentStep(Point<E> f0,
+                                     Element a, Element b, Element c,
+                                     Element[] Vs,
+                                     Element curveA,
+                                     Element e0,
+                                     Element[] Qs,
+                                     Element f) {
+        //computeTangent(a, b, c, Vx, Vy, curveA, e0);
+        //a = -slope_tangent(V.x, V.y);
+        //b = 1;
+        //c = -(V.y + aV.x);
+        //but we multiply by -2*V.y to avoid division so:
+        //a = -(3 Vx^2 + cc->a)
+        //b = 2 * Vy
+        //c = -(2 Vy^2 + a Vx);
+
+        for (int i = 0; i < Vs.length; i++) {
+            Point V = (Point) Vs[i];
+            Point Q = (Point) Qs[i];
+
+            a.set(V.getX()).square().mul(3).add(curveA).negate();
+            b.set(V.getY()).twice();
+            c.set(a).mul(V.getX()).add(e0.set(b).mul(V.getY())).negate();
+
+            millerStep(f0, a, b, c, (E) Q.getX(), (E) Q.getY());
+            f.mul(f0);
+        }
     }
 
     protected final void tangentStepProjective(Point<E> f0,

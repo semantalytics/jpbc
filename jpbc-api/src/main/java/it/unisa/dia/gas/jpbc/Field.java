@@ -86,4 +86,19 @@ public interface Field<E extends Element> {
      */
     int getLengthInBytes();
 
+    /**
+     *
+     * @param elements
+     * @return
+     * @sinse 1.1.0
+     */
+    E[] twice(E[] elements);
+
+    /**
+     *
+     * @return
+     * @sinse 1.1.0
+     */
+    E[] add(E[] e1, E[] e2);
+
 }

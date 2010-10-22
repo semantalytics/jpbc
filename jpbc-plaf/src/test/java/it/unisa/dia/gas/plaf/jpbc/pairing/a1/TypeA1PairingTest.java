@@ -15,6 +15,9 @@ public class TypeA1PairingTest extends PairingTest {
         CurveParams curveParams = new CurveParams();
         curveParams.load(this.getClass().getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pairing/a1/a1_3primes.properties"));
         return curveParams;
+
+/*        TypeA1CurveGenerator generator = new TypeA1CurveGenerator(3, 128);
+        return (CurveParams) generator.generate();*/
     }
 
     public void testOrthogonality() {
