@@ -1,5 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.pbc;
 
+import com.sun.jna.Pointer;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.MPZElementType;
@@ -32,7 +33,7 @@ public abstract class PBCField implements Field {
             this.order = new BigInteger(mpzOrder.toString(10));
         }
     }
-    
+
 
     public Element newZeroElement() {
         return newElement().setToZero();
@@ -67,10 +68,29 @@ public abstract class PBCField implements Field {
     }
 
     public Element[] twice(Element[] elements) {
-        return new Element[0];  //TODO
+        Pointer[] pointers = new Pointer[elements.length];
+        for (int i = 0; i < elements.length; i++) {
+            pointers[i] = ((PBCElement) elements[i]).getValue();
+        }
+
+        PBCLibraryProvider.getPbcLibrary().pbc_element_multi_double(pointers, pointers, elements.length);
+
+        return elements;
     }
 
     public Element[] add(Element[] a, Element[] b) {
-        return new Element[0];  //TODO
+        Pointer[] aPointers = new Pointer[a.length];
+        for (int i = 0; i <a.length; i++) {
+            aPointers[i] = ((PBCElement) a[i]).getValue();
+        }
+
+        Pointer[] bPointers = new Pointer[b.length];
+        for (int i = 0; i <b.length; i++) {
+            bPointers[i] = ((PBCElement) b[i]).getValue();
+        }
+
+        PBCLibraryProvider.getPbcLibrary().pbc_element_multi_add(aPointers, aPointers, bPointers, a.length);
+
+        return a;
     }
 }

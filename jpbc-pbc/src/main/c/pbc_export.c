@@ -402,6 +402,15 @@ void pbc_element_clear(element_t element) {
     element_clear(element);
 }
 
+void pbc_element_multi_double(element_t n[], element_t a[], int m) {
+    element_multi_double(n, a, m);
+}
+
+void pbc_element_multi_add(element_t n[], element_t a[], element_t b[], int m) {
+    element_multi_add(n, a, b, m);
+}
+
+
 
 void pbc_curve_x_coord(element_t out, element_t element) {
     // TODO: what happen to the memory used by out?

@@ -96,20 +96,6 @@ public class TypeATateAffineMillerPairingMap extends AbstractMillerPairingMap {
         return new GTFiniteElement(this, (GTFiniteField) pairing.getGT(), out);
     }
 
-    public void finalPow(Element element) {
-        Element t0, t1;
-        t0 = element.getField().newElement();
-        t1 = element.getField().newElement();
-
-        tatePow((Point) t0, (Point) element, (Point) t1, pairing.phikOnr);
-
-        element.set(t0);
-    }
-
-    public PairingPreProcessing pairingPreProcessing(Point in1) {
-        return new TypeAMillerAffinePairingPreProcessing(in1);
-    }
-
     public Element pairing(Element[] in1, Element[] in2) {
         // could save a couple of inversions by avoiding
         // this function and rewriting lineStep() to handle projective coords
@@ -184,6 +170,20 @@ public class TypeATateAffineMillerPairingMap extends AbstractMillerPairingMap {
         tatePow(out, f, f0, pairing.phikOnr);
 
         return new GTFiniteElement(this, (GTFiniteField) pairing.getGT(), out);
+    }
+
+    public void finalPow(Element element) {
+        Element t0, t1;
+        t0 = element.getField().newElement();
+        t1 = element.getField().newElement();
+
+        tatePow((Point) t0, (Point) element, (Point) t1, pairing.phikOnr);
+
+        element.set(t0);
+    }
+
+    public PairingPreProcessing pairingPreProcessing(Point in1) {
+        return new TypeAMillerAffinePairingPreProcessing(in1);
     }
 
 
