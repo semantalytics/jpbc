@@ -70,7 +70,7 @@ public abstract class PBCField implements Field {
         return new Element[0];  //TODO
     }
 
-    public Element[] add(Element[] e1, Element[] e2) {
+    public Element[] add(Element[] a, Element[] b) {
         return new Element[0];  //TODO
     }
 }

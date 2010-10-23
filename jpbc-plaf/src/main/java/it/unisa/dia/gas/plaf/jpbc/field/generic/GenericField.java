@@ -45,19 +45,20 @@ public abstract class GenericField<E extends Element> implements Field<E> {
         return e;
     }
 
-    public E[] twice(E[] elements) {
-        for (E element : elements) {
+    public Element[] twice(Element[] elements) {
+        for (Element element : elements) {
             element.twice();
         }
+
         return elements;
     }
 
-    public E[] add(E[] e1, E[] e2) {
-        for (int i = 0; i < e1.length; i++) {
-            e1[i].add(e2[i]);
+    public Element[] add(Element[] a, Element[] b) {
+        for (int i = 0; i < a.length; i++) {
+            a[i].add(b[i]);
         }
 
-        return e1;
+        return a;
     }
 
 }

@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.crypto.utils;
 
 import it.unisa.dia.gas.jpbc.Pairing;
+import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
@@ -19,8 +20,8 @@ public class PairingInfo {
         System.out.println("pairing.getG1().getLengthInBytes() = " + pairing.getG1().getLengthInBytes());
         System.out.println("pairing.getG2().getLengthInBytes() = " + pairing.getG2().getLengthInBytes());
         System.out.println("pairing.getGT().getLengthInBytes() = " + pairing.getGT().getLengthInBytes());
-        System.out.println("pairing.getG1().newElement().getLengthInBytesCompressed() = " + pairing.getG1().newElement().getLengthInBytesCompressed());
-        System.out.println("pairing.getG2().newElement().getLengthInBytesCompressed() = " + pairing.getG2().newElement().getLengthInBytesCompressed());
+        System.out.println("pairing.getG1().newElement().getLengthInBytesCompressed() = " + ((Point) pairing.getG1().newElement()).getLengthInBytesCompressed());
+        System.out.println("pairing.getG2().newElement().getLengthInBytesCompressed() = " + ((Point) pairing.getG2().newElement()).getLengthInBytesCompressed());
     }
 
 }

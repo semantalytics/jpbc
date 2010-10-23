@@ -1,15 +1,15 @@
-package it.unisa.dia.gas.plaf.jpbc.pairing.a1;
+package it.unisa.dia.gas.plaf.jpbc.pbc.pairing.a1;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
-import it.unisa.dia.gas.plaf.jpbc.pairing.PairingTest;
+import it.unisa.dia.gas.plaf.jpbc.pbc.pairing.PBCPairingTest;
 
 import java.math.BigInteger;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class TypeA1PairingTest extends PairingTest {
+public class PBCTypeA1PairingTest extends PBCPairingTest {
 
     protected CurveParams getCurveParams() {
         CurveParams curveParams = new CurveParams();
@@ -38,6 +38,8 @@ public class TypeA1PairingTest extends PairingTest {
         Element e01 = gen01.pow(pairing.getZr().newRandomElement().toBigInteger());
         Element e02 = gen02.pow(pairing.getZr().newRandomElement().toBigInteger());
         Element e12 = gen12.pow(pairing.getZr().newRandomElement().toBigInteger());
+
+        System.out.println("pairing.pairing(e0, e1) = " + pairing.pairing(e0, e1));
 
         assertEquals(true, pairing.pairing(e0, e1).isOne());
         assertEquals(true, pairing.pairing(e0, e2).isOne());

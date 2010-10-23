@@ -88,7 +88,7 @@ public class UTMAStrongRandomizer {
         // Get the second part
         ssEngine.init(false, parameters.getRPublicParameters().getRPrivateKey());
         byte[] pkBytes = ssEngine.processBlock(in, inOff + firstPartSize, inLen - firstPartSize);
-        Point pk = pairing.getG1().newElement();
+        Point pk = (Point) pairing.getG1().newElement();
         pk.setFromBytesCompressed(pkBytes);
 
         // Randomize the first part

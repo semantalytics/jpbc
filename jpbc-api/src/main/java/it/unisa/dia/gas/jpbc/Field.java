@@ -88,17 +88,20 @@ public interface Field<E extends Element> {
 
     /**
      *
+     *
      * @param elements
      * @return
      * @sinse 1.1.0
      */
-    E[] twice(E[] elements);
+    Element[] twice(Element[] elements);
 
     /**
      *
      * @return
      * @sinse 1.1.0
+     * @param a
+     * @param b
      */
-    E[] add(E[] e1, E[] e2);
+    Element[] add(Element[] a, Element[] b);
 
 }

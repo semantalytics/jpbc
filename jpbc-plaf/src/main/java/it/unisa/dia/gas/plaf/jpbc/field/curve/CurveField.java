@@ -192,8 +192,7 @@ public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElemen
         return element;
     }
 
-    @Override
-    public CurveElement[] twice(CurveElement[] elements) {
+    public Element[] twice(Element[] elements) {
         int i;
         int n = elements.length;
 
@@ -201,45 +200,45 @@ public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElemen
         Element e0, e1, e2;
         CurveElement q, r;
 
-        q = elements[0];
-        e0 = elements[0].getX().getField().newElement();
-        e1 = elements[0].getX().getField().newElement();
-        e2 = elements[0].getX().getField().newElement();
+        q = (CurveElement) elements[0];
+        e0 = q.getX().getField().newElement();
+        e1 = e0.duplicate();
+        e2 = e0.duplicate();
 
         for (i = 0; i < n; i++) {
-            q = elements[i];
-            r = elements[i];
+            q = (CurveElement) elements[i];
             table[i] = q.getY().getField().newElement();
 
             if (q.infFlag != 0) {
-                r.infFlag = 1;
+                q.infFlag = 1;
                 continue;
             }
+
             if (q.getY().isZero()) {
-                r.infFlag = 1;
+                q.infFlag = 1;
                 continue;
             }
         }
 
         //to compute 1/2y multi. see Cohen's GTM139 Algorithm 10.3.4
         for (i = 0; i < n; i++) {
-            q = elements[i];
+            q = (CurveElement) elements[i];
             table[i].set(q.getY()).twice();
             if (i > 0)
                 table[i].mul(table[i - 1]);
         }
-        e2.set(table[n-1]).invert();
+        e2.set(table[n - 1]).invert();
         for (i = n - 1; i > 0; i--) {
-            q = elements[i];
-            table[i].set(table[i-1]).mul(e2);
+            q = (CurveElement) elements[i];
+            table[i].set(table[i - 1]).mul(e2);
             e2.mul(q.getY()).twice(); //e2=e2*2y_j
         }
         table[0].set(e2); //e2 no longer used.
 
         for (i = 0; i < n; i++) {
-            q = elements[i];
-            r = elements[i];
-            if (r.infFlag != 0) continue;
+            q = (CurveElement) elements[i];
+            if (q.infFlag != 0)
+                continue;
 
             //e2=lambda = (3x^2 + a) / 2y
             e2.set(q.getX()).square().mul(3).add(a).mul(table[i]); //Recall that table[i]=1/2y_i
@@ -249,102 +248,89 @@ public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElemen
             e0.set(e2).square().sub(e1);
 
             //y1 = (x - x1)lambda - y
-            e1.set(q.getX()).sub(e0) .mul(e2).sub(q.getY());
+            e1.set(q.getX()).sub(e0).mul(e2).sub(q.getY());
 
-            r.getX().set(e0);
-            r.getY().set(e1);
-            r.infFlag = 0;
+            q.getX().set(e0);
+            q.getY().set(e1);
+            q.infFlag = 0;
         }
 
         return elements;
     }
 
 
-/*
-//compute c_i=a_i+b_i at one time.
-static void multi_add(element_ptr c[], element_ptr a[], element_ptr b[], int n){
- int i;
- element_t* table=malloc(sizeof(element_t)*n);  //a big problem?
- point_ptr p, q, r;
- element_t e0, e1, e2;
- curve_data_ptr cdp = a[0]->field->data;
+    public Element[] add(Element[] a, Element[] b) {
+        int n = a.length;
+        Element[] table = new Element[n];
+        CurveElement p, q, r;
+        Element e0, e1, e2;
 
- p = a[0]->data;
- q = b[0]->data;
- element_init(e0, p->x->field);
- element_init(e1, p->x->field);
- element_init(e2, p->x->field);
+        p = (CurveElement) a[0];
+        q = (CurveElement) b[0];
 
- element_init(table[0], p->x->field);
- element_sub(table[0], q->x, p->x);
- for(i=1; i<n; i++){
-   p = a[i]->data;
-   q = b[i]->data;
-   element_init(table[i], p->x->field);
-   element_sub(table[i], q->x, p->x);
-   element_mul(table[i], table[i], table[i-1]);
- }
- element_invert(e2, table[n-1]);
- for(i=n-1; i>0; i--){
-   p = a[i]->data;
-   q = b[i]->data;
-   element_mul(table[i], table[i-1], e2);
-   element_sub(e1, q->x, p->x);
-   element_mul(e2,e2,e1); //e2=e2*(x2_j-x1_j)
- }
- element_set(table[0],e2); //e2 no longer used.
+        e0 = p.getX().getField().newElement();
+        e1 = e0.duplicate();
+        e2 = e0.duplicate();
 
- for(i=0; i<n; i++){
-   p = a[i]->data;
-   q = b[i]->data;
-   r = c[i]->data;
-   if (p->inf_flag) {
-     curve_set(c[i], b[i]);
-     continue;
-   }
-   if (q->inf_flag) {
-     curve_set(c[i], a[i]);
-     continue;
-   }
-   if (!element_cmp(p->x, q->x)) { //a[i]=b[i]
-     if (!element_cmp(p->y, q->y)) {
-       if (element_is0(p->y)) {
-         r->inf_flag = 1;
-         continue;
-       } else {
-         double_no_check(r, p, cdp->a);
-         continue;
-       }
-     }
-     //points are inverses of each other
-     r->inf_flag = 1;
-     continue;
-   } else {
-     //lambda = (y2-y1)/(x2-x1)
-     element_sub(e2, q->y, p->y);
-     element_mul(e2, e2, table[i]);
-     //x3 = lambda^2 - x1 - x2
-     element_square(e0, e2);
-     element_sub(e0, e0, p->x);
-     element_sub(e0, e0, q->x);
-     //y3 = (x1-x3)lambda - y1
-     element_sub(e1, p->x, e0);
-     element_mul(e1, e1, e2);
-     element_sub(e1, e1, p->y);
-     element_set(r->x, e0);
-     element_set(r->y, e1);
-     r->inf_flag = 0;
-   }
- }
- element_clear(e0);
- element_clear(e1);
- element_clear(e2);
- for(i=0; i<n; i++){
-   element_clear(table[i]);
- }
- free(table);
-}
+        table[0] = q.getX().duplicate().sub(p.getX());
+        for (int i = 1; i < n; i++) {
+            p = (CurveElement) a[i];
+            q = (CurveElement) b[i];
 
-    */
+            table[i] = q.getX().duplicate().sub(p.getX()).mul(table[i-1]);
+        }
+        e2.set(table[n-1]).invert();
+        for (int i = n - 1; i > 0; i--) {
+            p = (CurveElement) a[i];
+            q = (CurveElement) b[i];
+
+            table[i].set(table[i-1]).mul(e2);
+            e1.set(q.getX()).sub(p.getX());
+            e2.mul(e1); //e2=e2*(x2_j-x1_j)
+        }
+        table[0].set(e2);  //e2 no longer used.
+
+        for (int i = 0; i < n; i++) {
+            p = (CurveElement) a[i];
+            q = (CurveElement) b[i];
+            if (p.infFlag != 0) {
+                a[i].set(b[i]);
+                continue;
+            }
+            if (q.infFlag != 0) {
+                continue;
+            }
+
+            if (p.getX().isEqual(q.getX())) { //a[i]=b[i]
+                if (p.getY().isEqual(q.getY())) {
+                    if (p.getY().isZero()) {
+                        p.infFlag = 1;
+                        continue;
+                    } else {
+                        p.twice();
+                        continue;
+                    }
+                }
+                //points are inverses of each other
+                p.infFlag = 1;
+                continue;
+            } else {
+                //lambda = (y2-y1)/(x2-x1)
+                e2.set(q.getY()).sub(p.getY()).mul(table[i]);
+
+                //x3 = lambda^2 - x1 - x2
+                e0.set(e2).square().sub(p.getX()).sub(q.getX());
+
+                //y3 = (x1-x3)lambda - y1
+                e1.set(p.getX()).sub(e0).mul(e2).sub(p.getY());
+
+                p.getX().set(e0);
+                p.getY().set(e1);
+                p.infFlag = 0;
+            }
+        }
+
+        return a;
+    }
 
 }

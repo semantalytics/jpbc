@@ -44,7 +44,7 @@ public class TypeA1TateAffineMillerPairingMap extends AbstractMillerPairingMap<E
         Point f = pairing.Fq2.newOneElement();
 
         //TODO: sliding NAF
-        for(int m = pairing.r.bitLength() - 2; m > 0; m--) {
+        for (int m = pairing.r.bitLength() - 2; m > 0; m--) {
             tangentStep(f0, a, b, c, Vx, Vy, curveA, e0, Qx, Qy, f);
             V.twice();
 
@@ -73,24 +73,15 @@ public class TypeA1TateAffineMillerPairingMap extends AbstractMillerPairingMap<E
         return new GTFiniteElement(this, (GTFiniteField) pairing.getGT(), out);
     }
 
-    public void finalPow(Element element) {
-        Element t0, t1;
-        t0 = element.getField().newElement();
-        t1 = element.getField().newElement();
-
-        tatePow((Point) t0, (Point) element, (Point) t1, pairing.phikonr);
-
-        element.set(t0);
-    }
-
     public Element pairing(Element[] in1, Element[] in2) {
         Field refField = in1[0].getField();
 
         CurveElement[] Vs = new CurveElement[in1.length];
 
-        for(int i=0; i< in1.length; i++){
+        for (int i = 0; i < in1.length; i++) {
             Vs[i] = (CurveElement) in1[i].duplicate();
         }
+
 
         Element a = pairing.Fp.newElement();
         Element b = pairing.Fp.newElement();
@@ -103,7 +94,7 @@ public class TypeA1TateAffineMillerPairingMap extends AbstractMillerPairingMap<E
         Point f = pairing.Fq2.newOneElement();
 
         //TODO: sliding NAF
-        for(int m = pairing.r.bitLength() - 2; m > 0; m--) {
+        for (int m = pairing.r.bitLength() - 2; m > 0; m--) {
             tangentStep(f0, a, b, c, Vs, curveA, e0, in2, f);
 
             refField.twice(Vs);
@@ -132,6 +123,17 @@ public class TypeA1TateAffineMillerPairingMap extends AbstractMillerPairingMap<E
 
         return new GTFiniteElement(this, (GTFiniteField) pairing.getGT(), out);
     }
+
+    public void finalPow(Element element) {
+        Element t0, t1;
+        t0 = element.getField().newElement();
+        t1 = element.getField().newElement();
+
+        tatePow((Point) t0, (Point) element, (Point) t1, pairing.phikonr);
+
+        element.set(t0);
+    }
+
 
     public Element tatePow(Element element) {
         Element t0, t1;
@@ -168,100 +170,6 @@ public class TypeA1TateAffineMillerPairingMap extends AbstractMillerPairingMap<E
         //we use Lucas sequences (see "Compressed Pairings", Scott and Barreto)
         lucasOdd(out, in, temp, cofactor);
     }
-
-
-    /*              TODO
-//in1, in2 are from E(F_q), out from F_q^2
-void a1_pairings_affine(element_ptr out, element_t in1[], element_t in2[],
-    int n_prod, pairing_t pairing) {
-  a1_pairing_data_ptr p = pairing->data;
-  element_t* V = malloc(sizeof(element_t)*n_prod);
-  element_t f, f0;
-  element_t a, b, c;
-  element_t e0;
-  int m, i;
-  element_ptr Px, Py;
-  element_ptr Qx, Qy;
-  element_ptr Vx, Vy;
-
-  void do_tangents(void) {
-    for(i=0; i<n_prod; i++){
-      Vx = curve_x_coord(V[i]);
-      Vy = curve_y_coord(V[i]);
-      Qx = curve_x_coord(in2[i]);
-      Qy = curve_y_coord(in2[i]);
-      compute_abc_tangent(a, b, c, Vx, Vy, e0);
-      a_miller_evalfn(f0, a, b, c, Qx, Qy);
-      element_mul(f, f, f0);
-    }
-  }
-
-  void do_lines(void) {
-    for(i=0; i<n_prod; i++){
-      Vx = curve_x_coord(V[i]);
-      Vy = curve_y_coord(V[i]);
-      Px = curve_x_coord(in1[i]);
-      Py = curve_y_coord(in1[i]);
-      Qx = curve_x_coord(in2[i]);
-      Qy = curve_y_coord(in2[i]);
-      compute_abc_line(a, b, c, Vx, Vy, Px, Py, e0);
-      a_miller_evalfn(f0, a, b, c, Qx, Qy);
-      element_mul(f, f, f0);
-    }
-  }
-
-  for(i=0; i<n_prod; i++){
-    element_init(V[i], p->Ep);
-    element_set(V[i], in1[i]);
-  }
-  element_init(f, p->Fp2);
-  element_init(f0, p->Fp2);
-  element_set1(f);
-  element_init(a, p->Fp);
-  element_init(b, p->Fp);
-  element_init(c, p->Fp);
-  element_init(e0, p->Fp);
-
-  m = mpz_sizeinbase(pairing->r, 2) - 2;
-
-  //TODO: sliding NAF
-  for(;;) {
-    do_tangents();
-    if (!m) break;
-    element_multi_double(V, V, n_prod);
-    if (mpz_tstbit(pairing->r, m)) {
-      do_lines();
-      element_multi_add(V, V, in1, n_prod);
-    }
-
-    m--;
-    element_square(f, f);
-  }
-
-  // Tate exponentiation.
-  // Simpler but slower:
-  //   element_pow_mpz(out, f, p->tateexp);
-  // Use this trick instead:
-  element_invert(f0, f);
-  element_neg(element_y(f), element_y(f));
-  element_mul(f, f, f0);
-  element_pow_mpz(out, f, pairing->phikonr);
-
-  // We could use this instead but p->h is small so this does not help much
-  // a_tateexp(out, f, f0, p->h);
-
-  element_clear(f);
-  element_clear(f0);
-  for(i=0; i<n_prod; i++){
-    element_clear(V[i]);
-  }
-  free(V);
-  element_clear(a);
-  element_clear(b);
-  element_clear(c);
-  element_clear(e0);
-}
-*/
 
 
     protected void millerStep(Point out, Element a, Element b, Element c, Element Qx, Element Qy) {

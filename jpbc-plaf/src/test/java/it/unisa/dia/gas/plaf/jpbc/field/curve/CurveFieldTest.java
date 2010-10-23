@@ -54,5 +54,45 @@ public class CurveFieldTest extends TestCase {
         assertEquals(true, one.isOne());
     }
 
+    public void testTwice() {
+        if (pairing == null)
+            return;
+
+        Element a = pairing.getG1().newElement().setToRandom();
+        Element b = pairing.getG1().newElement().setToRandom();
+
+        Element a_c = a.duplicate().twice();
+        Element b_c = b.duplicate().twice();
+
+        Element _a = a.duplicate();
+        Element _b = b.duplicate();
+
+        a.getField().twice(new Element[]{_a,_b});
+
+        assertEquals(true, a_c.isEqual(_a));
+        assertEquals(true, b_c.isEqual(_b));
+    }
+
+    public void testAdd() {
+        if (pairing == null)
+            return;
+
+        Element a = pairing.getG1().newElement().setToRandom();
+        Element b = pairing.getG1().newElement().setToRandom();
+        Element a1 = pairing.getG1().newElement().setToRandom();
+        Element b1 = pairing.getG1().newElement().setToRandom();
+
+        Element c = a.duplicate().add(b);
+        Element c1 = a1.duplicate().add(b1);
+
+        Element _c = a.duplicate();
+        Element _c1 = a1.duplicate();
+
+        a.getField().add(new Element[]{_c,_c1}, new Element[]{b,b1});
+
+        assertEquals(true, c.isEqual(_c));
+        assertEquals(true, c1.isEqual(_c1));
+    }
+
 
 }

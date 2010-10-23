@@ -26,7 +26,7 @@ public interface Pairing {
      * @return the G1 group.
      * @since 1.0.0
      */
-    Field<? extends Point> getG1();
+    Field getG1();
 
     /**
      * Return the G2 group.
@@ -34,7 +34,7 @@ public interface Pairing {
      * @return the G2 group.
      * @since 1.0.0
      */
-    Field<? extends Point> getG2();
+    Field getG2();
 
     /**
      * Return the GT group which is the group of rth roots of unity.
