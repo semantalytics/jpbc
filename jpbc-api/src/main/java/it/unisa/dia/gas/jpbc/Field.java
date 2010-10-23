@@ -87,20 +87,23 @@ public interface Field<E extends Element> {
     int getLengthInBytes();
 
     /**
+     * Computes the component-wise twice
+     * in one shot.
      *
-     *
-     * @param elements
-     * @return
-     * @sinse 1.1.0
+     * @param elements the vector of elements to be twiced.
+     * @return elements twiced.
+     * @since 1.1.0
      */
     Element[] twice(Element[] elements);
 
     /**
+     * Computes the component-wise addition between a and b
+     * in one shot.
      *
-     * @return
-     * @sinse 1.1.0
-     * @param a
-     * @param b
+     * @param a an array of elements of the field
+     * @param b another array of elements of the field to be added to a
+     * @return the vector a modified by adding b.
+     * @since 1.1.0
      */
     Element[] add(Element[] a, Element[] b);
 

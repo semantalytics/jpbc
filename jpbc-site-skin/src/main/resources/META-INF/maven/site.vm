@@ -303,7 +303,7 @@
     <div id="breadcrumbs">
       #publishDate( "left" $decoration.publishDate $decoration.version )
       <div class="xcenter">
-        Hello World!!! $decoration.body.title    
+        The Java Pairing Based Cryptography Library (jPBC)
       </div>
       <div class="xright">
           #links( $decoration.body.links )

@@ -3,16 +3,38 @@ package it.unisa.dia.gas.jpbc;
 import java.util.List;
 
 /**
+ * This element represents a polynomial through its coefficient.
+ *
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  * @since 1.0.0
- * TODO: write javadocs
  */
 public interface Polynomial<E extends Element> extends Element {
 
+    /**
+     * Returns the degree of this polynomial.
+     *
+     * @return the degree of this polynomial.
+     * @since 1.0.0
+     */
     int getDegree();
 
+    /**
+     * Returns the list of coefficients representing
+     * this polynomial.
+     *
+     * @return the list of coefficients representing
+     * this polynomial.
+     * @since 1.0.0
+     */
     List<E> getCoefficients();
 
+    /**
+     * Returns the coefficient at a specified position.
+     *
+     * @param index the position of the requested coefficient.
+     * @return the coefficient at a specified position.
+     * @since 1.0.0
+     */
     E getCoefficient(int index);
 
 }

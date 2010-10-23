@@ -18,7 +18,7 @@ public interface ElementPowPreProcessing extends PreProcessing {
     Element pow(BigInteger n);
 
     /**
-     * Compute the power to n, where n is an element of a ring Z_N  for some N,
+     * Compute the power to n, where n is an element of a ring Z_N for some N,
      * using the pre-processed information, 
      *
      * @param n the exponent of the power.
