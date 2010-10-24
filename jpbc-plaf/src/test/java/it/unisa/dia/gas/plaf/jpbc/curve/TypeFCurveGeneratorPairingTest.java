@@ -8,12 +8,9 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.f.TypeFCurveGenerator;
  */
 public class TypeFCurveGeneratorPairingTest extends CurveGeneratorPairingTest {
 
-    public void testTypeF() {
-        // Generate TypeF curve
-        CurveGenerator curveGenerator = new TypeFCurveGenerator(160);
-        
-        initPairing(curveGenerator.generate());
-        doTest();
+    @Override
+    protected CurveGenerator getCurveGenerator() {
+        return new TypeFCurveGenerator(160);
     }
 
 }

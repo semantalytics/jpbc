@@ -1,5 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.curve;
 
+import it.unisa.dia.gas.jpbc.CurveGenerator;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.jpbc.PairingPreProcessing;
@@ -7,17 +8,16 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import junit.framework.TestCase;
 
-import java.util.Map;
-
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class CurveGeneratorPairingTest extends TestCase {
+public abstract class CurveGeneratorPairingTest extends TestCase {
     protected Pairing pairing;
 
-
-    protected void initPairing(Map curve) {
-        pairing = PairingFactory.getPairing((CurveParams) curve);
+    @Override
+    protected void setUp() throws Exception {
+        CurveGenerator curveGenerator = getCurveGenerator();
+        pairing = PairingFactory.getPairing((CurveParams) curveGenerator.generate());
 
         assertNotNull(pairing.getG1());
         assertNotNull(pairing.getG2());
@@ -25,13 +25,10 @@ public class CurveGeneratorPairingTest extends TestCase {
         assertNotNull(pairing.getZr());
     }
 
-    protected void doTest() {
-        doPairing();
-        doPairingPreProcessing();
-        doPairingSymmetric();
-    }
 
-    protected void doPairing() {
+    protected abstract CurveGenerator getCurveGenerator();
+
+    protected void testPairing() {
         if (pairing == null)
             return;
 
@@ -73,7 +70,7 @@ public class CurveGeneratorPairingTest extends TestCase {
         assertTrue(x1.isEqual(x2));
     }
 
-    protected void doPairingPreProcessing() {
+    protected void testPairingPreProcessing() {
         if (pairing == null)
             return;
 
@@ -94,7 +91,7 @@ public class CurveGeneratorPairingTest extends TestCase {
         assertTrue(x1.isEqual(x2));
     }
 
-    protected void doPairingSymmetric() {
+    protected void testPairingSymmetric() {
         if (pairing == null)
             return;
 

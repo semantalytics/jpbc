@@ -8,11 +8,9 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.a1.TypeA1CurveGenerator;
  */
 public class TypeA1CurveGeneratorPairingTest extends CurveGeneratorPairingTest {
 
-    public void testTypeA1() {
-        // Generate TypeA1 curve
-        CurveGenerator curveGenerator = new TypeA1CurveGenerator(2, 512);
-        initPairing(curveGenerator.generate());
-        doTest();
+    @Override
+    protected CurveGenerator getCurveGenerator() {
+        return new TypeA1CurveGenerator(2, 512);
     }
 
 }
