@@ -59,17 +59,17 @@ public class PBCPairing implements Pairing {
     public Element pairing(Element in1, Element in2) {
         PBCElement out = (PBCElement) gTField.newElement();
 
-//        PBCLibraryProvider.getPbcLibrary().pbc_pairing_apply(
-//                out.getValue(),
-//                ((PBCElement) in1).getValue(),
-//                ((PBCElement) in2).getValue(),
-//                pairing
-//        );
-        PBCLibraryProvider.getPbcLibrary().pbc_element_pairing(
+        PBCLibraryProvider.getPbcLibrary().pbc_pairing_apply(
                 out.getValue(),
                 ((PBCElement) in1).getValue(),
-                ((PBCElement) in2).getValue()
+                ((PBCElement) in2).getValue(),
+                pairing
         );
+//        PBCLibraryProvider.getPbcLibrary().pbc_element_pairing(
+//                out.getValue(),
+//                ((PBCElement) in1).getValue(),
+//                ((PBCElement) in2).getValue()
+//        );
 
         return out;
     }
