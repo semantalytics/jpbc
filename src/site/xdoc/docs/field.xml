@@ -62,6 +62,25 @@
                 </source>
             </subsection>
 
+            <a name="arithmetic"/>
+            <subsection name="Element Arithmetic">
+                The addition and the multiplication functions perform addition and multiplication operations in rings and
+                fields. For groups of points on an elliptic curve, such as the G1 and G2 groups associated with
+                pairings, both addition and multiplication represent the group operation (and similarly both
+                <code>0</code>
+                and
+                <code>1</code>
+                represent the identity element).
+
+                In contrast, the GT group is currently implemented as a subgroup of a finite field, so only
+                multiplicative operations should be used for GT.
+
+                <source>/* Performs the addition between element and a.*/
+Element a = element.getField().newElement(5);
+<font style="font-weight: bold;color:green">element.add(a);</font>
+                </source>
+            </subsection>
+
         </section>
     </body>
 </document>

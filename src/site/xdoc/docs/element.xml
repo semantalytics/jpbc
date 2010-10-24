@@ -30,6 +30,7 @@
                 </p>
             </subsection>
 
+
             <a name="assigning"/>
             <subsection name="Assigning Elements">
                 <p>
@@ -57,6 +58,9 @@
 <font style="font-weight: bold;color:green">element.set(new BigInteger("126785438"));</font>
                 </source>
 
+                <source>/* Returns a duplicate of the element. */
+<font style="font-weight: bold;color:green">Element duplicate = element.duplicate();</font>
+                </source>
             </subsection>
 
             <a name="arithmetic"/>
@@ -73,17 +77,17 @@
                 multiplicative operations should be used for GT.
 
                 <source>/* Performs the addition between element and a.*/
-Element a = element.getField().newElement(5);
+Element a = element.getField().newRandomElement();
 <font style="font-weight: bold;color:green">element.add(a);</font>
                 </source>
 
                 <source>/* Performs the substraction between element and a.
-Element a = element.getField().newElement(5);
+Element a = element.getField().newRandomElement();
 <font style="font-weight: bold;color:green">element.sub(a);</font>
                 </source>
 
                 <source>/* Performs the multiplication between element and a. */
-Element a = element.getField().newElement(5);
+Element a = element.getField().newRandomElement();
 <font style="font-weight: bold;color:green">element.mul(a);</font>
                 </source>
 
@@ -95,9 +99,39 @@ Element a = element.getField().newElement(5);
 <font style="font-weight: bold;color:green">element.mul(new BigInteger("5"));</font>
                 </source>
 
-                <source>/* Performs the multiplication between element and z where z must be an element of a integer mod ring (i.e. Zn for some n). */
+                <source>/* Performs the multiplication between element and z
+where z must be an element of a integer mod ring (i.e. Zn for some n). */
 Element z = pairing.getZr().newRandomElement();
 <font style="font-weight: bold;color:green">element.mulZn(z);</font>
+                </source>
+
+                <source>/* Performs the division between element and a. */
+Element a = element.getField().newRandomElement();
+<font style="font-weight: bold;color:green">element.div(a);</font>
+                </source>
+
+                <source>/* Performs the doubling of the element. */
+<font style="font-weight: bold;color:green">element.twice();</font>
+                </source>
+
+                <source>/* Performs the halving of the element. */
+<font style="font-weight: bold;color:green">element.halve();</font>
+                </source>
+
+                <source>/* Performs the inversion of the element. */
+<font style="font-weight: bold;color:green">element.invert();</font>
+                </source>
+
+                <source>/* Performs the squaring of the element. */
+<font style="font-weight: bold;color:green">element.square();</font>
+                </source>
+
+                <source>/* Performs the negation of the element. */
+<font style="font-weight: bold;color:green">element.negate();</font>
+                </source>
+
+                <source>/* Performs the square root of the element. */
+<font style="font-weight: bold;color:green">element.sqrt();</font>
                 </source>
             </subsection>
 
@@ -111,7 +145,7 @@ Element z = pairing.getZr().newRandomElement();
                 <source>
 /* Raises element to a z which must be an element of a integer mod ring (i.e. Zn for some n). */
 Element z = pairing.getZr().newRandomElement();
-<font style="font-weight: bold;color:green">element.mulZn(z);</font>
+<font style="font-weight: bold;color:green">element.powZn(z);</font>
                 </source>
 
                 <p>
@@ -152,6 +186,10 @@ out = <font style="font-weight: bold;color:green">ppp.pow(pairing.getZr().newRan
 <font style="font-weight: bold;color:green">a.compareTo(b);</font>
                 </source>
 
+                <source>/* Returns true if a and b are the same, false otherwise. */
+<font style="font-weight: bold;color:green">a.isEqual(b);</font>
+                </source>
+
                 <source>/* Returns true if this element is a perfect square (quadratic residue), false otherwise. */
 <font style="font-weight: bold;color:green">element.isSqr();</font>
                 </source>
@@ -183,6 +221,24 @@ and returns the number of bytes read. */
                 </source>
 
             </subsection>
+
+
+            <a name="immutable"/>
+            <subsection name="Make Immutable">
+
+                <source>/* Returns <tt>true</tt> if this element is immutable, <tt>false</tt> otherwise. */
+<font style="font-weight: bold;color:green">element.isImmutable();</font>
+                </source>
+
+                <source>/* Returns the immutable version of the element.
+* When an element is immutable it means that every call to a method which modifies the value
+* of the element returns a new instance of the element and not the same one.
+*/
+<font style="font-weight: bold;color:green">Element immutable = element.getImmutable();</font>
+                </source>
+
+            </subsection>
+
         </section>
     </body>
 </document>

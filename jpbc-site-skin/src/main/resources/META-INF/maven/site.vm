@@ -302,14 +302,14 @@
     </div>  -->
     <div id="breadcrumbs">
       #publishDate( "left" $decoration.publishDate $decoration.version )
-      <div class="xcenter">
-        The Java Pairing Based Cryptography Library (jPBC)
-      </div>
       <div class="xright">
           #links( $decoration.body.links )
           | <a href="http://gas.dia.unisa.it/">GAS Lab</a>          
           #publishDate( "right" $decoration.publishDate $decoration.version )
       </div>
+        <div class="xcenter">
+          The Java Pairing Based Cryptography Library (jPBC)
+        </div>
       <div class="clear">
         <hr/>
       </div>

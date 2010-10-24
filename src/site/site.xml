@@ -39,6 +39,7 @@
                 <item name="Exponentiating" href="/docs/element.html#exponentiating"/>
                 <item name="Comparing" href="/docs/element.html#comparing"/>
                 <item name="Import/Export" href="/docs/element.html#io"/>
+                <item name="Immutable" href="/docs/element.html#immutable"/>
             </item>
 
             <item name="Curve Generators" href="/docs/curvegenerator.html">

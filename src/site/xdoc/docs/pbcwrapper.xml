@@ -10,8 +10,10 @@
     <body>
         <section name="PBC Wrapper">
             <p>
-                jPBC provides also a wrapper on PBC. In this way all the computations can be delegated directly to
-                PBC still using the same interfaces provided by jPBC. To know how to initialize the pairing using the wrapper
+                jPBC provides also a wrapper on PBC. In this way all the computations
+                can be delegated directly to
+                PBC still using the same interfaces provided by jPBC. To know how
+                to initialize the pairing using the wrapper
                 go
                 <a href="./pairing.html#initializing">here</a>.
                 <br/>
@@ -36,7 +38,8 @@
                 <li>
                     <font style="font-weight: bold;color:red; font-size=17">Compile the Shared Library: </font>
                     <p>
-                        Assuming you are using a unix environment. Starting from a jPBC distribution, go to the
+                        Assuming you are using a unix-like environment.
+                        Starting from a jPBC distribution, go to the
                         <code>jpbc-pbc</code>
                         folder and type in a shell the following:
                     </p>
