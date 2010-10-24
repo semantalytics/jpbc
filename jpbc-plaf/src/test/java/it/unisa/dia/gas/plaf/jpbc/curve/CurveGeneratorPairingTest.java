@@ -28,7 +28,7 @@ public abstract class CurveGeneratorPairingTest extends TestCase {
 
     protected abstract CurveGenerator getCurveGenerator();
 
-    protected void testPairing() {
+    public void testPairing() {
         if (pairing == null)
             return;
 
@@ -70,7 +70,7 @@ public abstract class CurveGeneratorPairingTest extends TestCase {
         assertTrue(x1.isEqual(x2));
     }
 
-    protected void testPairingPreProcessing() {
+    public void testPairingPreProcessing() {
         if (pairing == null)
             return;
 
@@ -91,7 +91,7 @@ public abstract class CurveGeneratorPairingTest extends TestCase {
         assertTrue(x1.isEqual(x2));
     }
 
-    protected void testPairingSymmetric() {
+    public void testPairingSymmetric() {
         if (pairing == null)
             return;
 
