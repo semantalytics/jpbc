@@ -410,6 +410,9 @@ void pbc_element_multi_add(element_t n[], element_t a[], element_t b[], int m) {
     element_multi_add(n, a, b, m);
 }
 
+void pbc_element_pairing(element_t out, element_t in1, element_t in2) {
+    element_pairing(out, in1, in2);
+}
 
 
 void pbc_curve_x_coord(element_t out, element_t element) {

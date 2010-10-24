@@ -49,6 +49,8 @@ public class JPBCCurveGeneratorPBCPairingTest extends PairingTest {
 
 
     protected void initPairing(Map curve) {
+        pairing = null;
+
         // Check for link library
         if (!PBCLibraryProvider.isAvailable())
             return;

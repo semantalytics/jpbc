@@ -140,6 +140,8 @@ public interface PBCLibrary extends Library {
 
     void pbc_element_multi_add(Pointer n[], Pointer a[], Pointer b[], int m);
 
+    void pbc_element_pairing(Pointer out, Pointer in1, Pointer in2);
+
 
     void pbc_curve_x_coord(Pointer out, Pointer element);
 
