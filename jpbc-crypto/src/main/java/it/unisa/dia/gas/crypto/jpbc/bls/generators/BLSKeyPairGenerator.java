@@ -1,11 +1,11 @@
-package it.unisa.dia.gas.plaf.jpbc.crypto.bls.generators;
+package it.unisa.dia.gas.crypto.jpbc.bls.generators;
 
+import it.unisa.dia.gas.crypto.jpbc.bls.params.BLSKeyGenerationParameters;
+import it.unisa.dia.gas.crypto.jpbc.bls.params.BLSParameters;
+import it.unisa.dia.gas.crypto.jpbc.bls.params.BLSPrivateKeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.bls.params.BLSPublicKeyParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.plaf.jpbc.crypto.bls.params.BLSKeyGenerationParameters;
-import it.unisa.dia.gas.plaf.jpbc.crypto.bls.params.BLSParameters;
-import it.unisa.dia.gas.plaf.jpbc.crypto.bls.params.BLSPrivateKeyParameters;
-import it.unisa.dia.gas.plaf.jpbc.crypto.bls.params.BLSPublicKeyParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPairGenerator;

@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.plaf.jpbc.crypto.bls.params;
+package it.unisa.dia.gas.crypto.jpbc.bls.params;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;

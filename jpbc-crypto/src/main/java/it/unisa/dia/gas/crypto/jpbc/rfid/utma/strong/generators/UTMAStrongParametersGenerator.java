@@ -6,7 +6,6 @@ import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params.UTMAStrongMaste
 import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params.UTMAStrongParameters;
 import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params.UTMAStrongPublicParameters;
 import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params.UTMAStrongRPublicParameters;
-import static it.unisa.dia.gas.plaf.jpbc.crypto.utils.IOUtils.*;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
@@ -22,6 +21,8 @@ import org.bouncycastle.crypto.params.ElGamalPublicKeyParameters;
 import java.io.*;
 import java.math.BigInteger;
 import java.security.SecureRandom;
+
+import static it.unisa.dia.gas.plaf.jpbc.crypto.utils.IOUtils.*;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
