@@ -48,8 +48,8 @@
 
             <subsection name="Generate and Store the Public Information">
                 <source>
-import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.generators.UTMAStrongParametersGenerator;
-import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params.UTMAStrongParameters;
+import UTMAStrongParametersGenerator;
+import UTMAStrongParameters;
 
 <font style="font-weight: bold;color:green">// Init the generator.</font>
 UTMAStrongParametersGenerator pubInfoGenerator = new UTMAStrongParametersGenerator();
@@ -70,8 +70,8 @@ fileOutputStream.close();
 
             <subsection name="Load the Public Information">
                 <source>
-import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.generators.UTMAStrongParametersGenerator;
-import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params.UTMAStrongParameters;
+import UTMAStrongParametersGenerator;
+import UTMAStrongParameters;
 
 <font style="font-weight: bold;color:green">// Init the generator.</font>
 UTMAStrongParametersGenerator pubInfoGenerator = new UTMAStrongParametersGenerator();
@@ -87,8 +87,8 @@ fileInputStream.close();
 
             <subsection name="Generate and Store a Key-Pair">
                 <source>
-import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.generators.UTMAStrongKeyPairGenerator;
-import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params.UTMAStrongKeyGenerationParameters;
+import UTMAStrongKeyPairGenerator;
+import UTMAStrongKeyGenerationParameters;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 
 <font style="font-weight: bold;color:green">// Init the generator.</font>
@@ -110,8 +110,8 @@ fileOutputStream.close();
 
             <subsection name="Load a Key-Pair">
                 <source>
-import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.generators.UTMAStrongKeyPairGenerator;
-import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params.UTMAStrongKeyGenerationParameters;
+import UTMAStrongKeyPairGenerator;
+import UTMAStrongKeyGenerationParameters;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 
 <font style="font-weight: bold;color:green">// Init the generator.</font>
@@ -130,7 +130,7 @@ fileInputStream.close();
                 <source>
 import org.bouncycastle.crypto.AsymmetricBlockCipher;
 import it.unisa.dia.gas.plaf.crypto.engines.MultiBlockAsymmetricBlockCipher;
-import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.engines.UTMAStrongEngine;
+import UTMAStrongEngine;
 
 <font style="font-weight: bold;color:green">// Init the engine.</font>
 AsymmetricBlockCipher strongEngine = new MultiBlockAsymmetricBlockCipher(
@@ -151,7 +151,7 @@ byte[] cipherText = strongEngine.processBlock(messageAsBytes, 0, messageAsBytes.
                 <source>
 import org.bouncycastle.crypto.AsymmetricBlockCipher;
 import it.unisa.dia.gas.plaf.crypto.engines.MultiBlockAsymmetricBlockCipher;
-import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.engines.UTMAStrongEngine;
+import UTMAStrongEngine;
 
 <font style="font-weight: bold;color:green">// Init the engine.</font>
 AsymmetricBlockCipher strongEngine = new MultiBlockAsymmetricBlockCipher(
@@ -167,7 +167,7 @@ byte[] plainText = strongEngine.processBlock(cipherText, 0, cipherText.length);
 
             <subsection name="Randomize">
                 <source>
-import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.engines.UTMAStrongRandomizer;
+import UTMAStrongRandomizer;
 
 <font style="font-weight: bold;color:green">// Init the engine.</font>
 UTMAStrongRandomizer randomizer = new UTMAStrongRandomizer();

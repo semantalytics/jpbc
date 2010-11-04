@@ -189,8 +189,8 @@ else
 
             <subsection name="Key Generation">
                 <source>
-import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.generators.UTMAStrongParametersGenerator;
-import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params.UTMAStrongParameters;
+import UTMAStrongParametersGenerator;
+import UTMAStrongParameters;
 
 <font style="font-weight: bold;color:green">// Init the generator.</font>
 BLSParametersGenerator parametersGenerator = new BLSParametersGenerator();
@@ -211,8 +211,8 @@ fileOutputStream.close();
 
             <subsection name="Load the Public Information">
                 <source>
-import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.generators.UTMAStrongParametersGenerator;
-import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params.UTMAStrongParameters;
+import UTMAStrongParametersGenerator;
+import UTMAStrongParameters;
 
 <font style="font-weight: bold;color:green">// Init the generator.</font>
 BLSParametersGenerator parametersGenerator = new BLSParametersGenerator();
@@ -228,8 +228,8 @@ fileInputStream.close();
 
             <subsection name="Generate and Store a Key-Pair">
                 <source>
-import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.generators.UTMAStrongKeyPairGenerator;
-import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params.UTMAStrongKeyGenerationParameters;
+import UTMAStrongKeyPairGenerator;
+import UTMAStrongKeyGenerationParameters;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 
 <font style="font-weight: bold;color:green">// Init the generator.</font>
@@ -251,8 +251,8 @@ fileOutputStream.close();
 
             <subsection name="Load a Key-Pair">
                 <source>
-import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.generators.UTMAStrongKeyPairGenerator;
-import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params.UTMAStrongKeyGenerationParameters;
+import UTMAStrongKeyPairGenerator;
+import UTMAStrongKeyGenerationParameters;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 
 <font style="font-weight: bold;color:green">// Init the generator.</font>

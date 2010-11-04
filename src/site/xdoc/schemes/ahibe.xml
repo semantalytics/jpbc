@@ -46,7 +46,7 @@
 
             <subsection name="Generate and Store the Public Information">
                 <source>
-import it.unisa.dia.gas.plaf.jpbc.crypto.ibe.dip10.generators.AHIBESetupGenerator;
+import AHIBESetupGenerator;
 
 <font style="font-weight: bold;color:green">// Init the generator.</font>
 AHIBESetupGenerationParameters setupGenerationParameters = new AHIBESetupGenerationParameters(
@@ -76,8 +76,8 @@ fileOutputStream.close();
 
             <subsection name="Load the Public Information">
                 <source>
-import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.generators.UTMAStrongParametersGenerator;
-import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params.UTMAStrongParameters;
+import UTMAStrongParametersGenerator;
+import UTMAStrongParameters;
 
 <font style="font-weight: bold;color:green">// Init the generator.</font>
 AHIBESetupGenerationParameters setupGenerationParameters = new AHIBESetupGenerationParameters();
