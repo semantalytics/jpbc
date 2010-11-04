@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.weak.params;
+package it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.params;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;

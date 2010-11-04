@@ -1,8 +1,8 @@
-package it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.weak.engines;
+package it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.engines;
 
+import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.params.UTMAWeakPublicKeyParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.weak.params.UTMAWeakPublicKeyParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.DataLengthException;

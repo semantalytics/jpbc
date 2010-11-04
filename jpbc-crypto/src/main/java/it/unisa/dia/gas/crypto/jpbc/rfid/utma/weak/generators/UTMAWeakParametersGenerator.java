@@ -1,10 +1,10 @@
-package it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.weak.generators;
+package it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.generators;
 
+import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.params.UTMAWeakMasterSecretKeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.params.UTMAWeakParameters;
+import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.params.UTMAWeakPublicParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.weak.params.UTMAWeakMasterSecretKeyParameters;
-import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.weak.params.UTMAWeakParameters;
-import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.weak.params.UTMAWeakPublicParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 

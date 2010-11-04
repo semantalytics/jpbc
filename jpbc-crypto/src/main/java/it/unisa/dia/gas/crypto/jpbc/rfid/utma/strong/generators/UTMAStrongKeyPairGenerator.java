@@ -1,5 +1,6 @@
-package it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.generators;
+package it.unisa.dia.gas.crypto.jpbc.rfid.utma.strong.generators;
 
+import it.unisa.dia.gas.crypto.jpbc.rfid.utma.strong.params.*;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
@@ -15,7 +16,7 @@ import org.bouncycastle.crypto.params.ElGamalPublicKeyParameters;
 import java.io.*;
 import java.math.BigInteger;
 
-import static it.unisa.dia.gas.plaf.jpbc.crypto.utils.IOUtils.*;
+import static it.unisa.dia.gas.crypto.jpbc.utils.IOUtils.*;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)

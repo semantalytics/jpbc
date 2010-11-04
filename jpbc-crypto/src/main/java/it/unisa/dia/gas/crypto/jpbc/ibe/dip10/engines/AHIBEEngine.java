@@ -1,11 +1,11 @@
-package it.unisa.dia.gas.plaf.jpbc.crypto.ibe.dip10.engines;
+package it.unisa.dia.gas.crypto.jpbc.ibe.dip10.engines;
 
+import it.unisa.dia.gas.crypto.jpbc.ibe.dip10.params.AHIBEPublicKeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.ibe.dip10.params.AHIBESEncryptionParameters;
+import it.unisa.dia.gas.crypto.jpbc.ibe.dip10.params.AHIBESecretKeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.ibe.dip10.params.AHIBEUtils;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.plaf.jpbc.crypto.ibe.dip10.params.AHIBEPublicKeyParameters;
-import it.unisa.dia.gas.plaf.jpbc.crypto.ibe.dip10.params.AHIBESEncryptionParameters;
-import it.unisa.dia.gas.plaf.jpbc.crypto.ibe.dip10.params.AHIBESecretKeyParameters;
-import it.unisa.dia.gas.plaf.jpbc.crypto.ibe.dip10.params.AHIBEUtils;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.AsymmetricBlockCipher;
 import org.bouncycastle.crypto.CipherParameters;

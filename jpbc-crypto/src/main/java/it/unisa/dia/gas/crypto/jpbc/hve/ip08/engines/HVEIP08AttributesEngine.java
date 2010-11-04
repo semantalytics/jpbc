@@ -1,10 +1,10 @@
-package it.unisa.dia.gas.plaf.jpbc.crypto.hve.ip08.engines;
+package it.unisa.dia.gas.crypto.jpbc.hve.ip08.engines;
 
+import it.unisa.dia.gas.crypto.jpbc.hve.ip08.params.HVEIP08KeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.hve.ip08.params.HVEIP08PublicKeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.hve.ip08.params.HVEIP08SearchKeyParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.plaf.jpbc.crypto.hve.ip08.params.HVEIP08KeyParameters;
-import it.unisa.dia.gas.plaf.jpbc.crypto.hve.ip08.params.HVEIP08PublicKeyParameters;
-import it.unisa.dia.gas.plaf.jpbc.crypto.hve.ip08.params.HVEIP08SearchKeyParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.AsymmetricBlockCipher;
 import org.bouncycastle.crypto.CipherParameters;

@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.plaf.jpbc.crypto.utils;
+package it.unisa.dia.gas.crypto.jpbc.utils;
 
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.jpbc.Point;

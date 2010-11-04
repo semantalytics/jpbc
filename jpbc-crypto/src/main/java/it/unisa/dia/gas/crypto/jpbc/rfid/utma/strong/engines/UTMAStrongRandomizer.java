@@ -1,9 +1,9 @@
-package it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.engines;
+package it.unisa.dia.gas.crypto.jpbc.rfid.utma.strong.engines;
 
+import it.unisa.dia.gas.crypto.jpbc.rfid.utma.strong.params.UTMAStrongParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.jpbc.Point;
-import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params.UTMAStrongParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.AsymmetricBlockCipher;
 import org.bouncycastle.crypto.CipherParameters;

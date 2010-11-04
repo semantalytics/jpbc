@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.strong.params;
+package it.unisa.dia.gas.crypto.jpbc.rfid.utma.strong.params;
 
 import org.bouncycastle.crypto.CipherParameters;
 
