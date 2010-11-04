@@ -25,23 +25,23 @@
             <ol>
                 <li>
                     <font style="font-weight: bold;color:red">
-                        <a href="./bls.html">BLS Signature</a>
-                    </font>: Boneh and Lynn and Shacham (BLS) Short Signatures Scheme.
+                        <a href="./bls.html">BLS</a>
+                    </font>: Boneh and Lynn and Shacham, (BLS) Short Signatures Scheme.
                 </li>
                 <li>
                     <font style="font-weight: bold;color:red">
-                        <a href="./hve.html">HVE</a>
-                    </font>: Iovino and Persiano (HVE) Hidden Vector Encryption.
+                        <a href="./hve_ip08.html">HVE</a>
+                    </font>: Iovino and Persiano, Hidden-Vector Encryption with Groups of Prime Order.
                 </li>
                 <li>
                     <font style="font-weight: bold;color:red">
-                        <a href="ut.html">UT</a>
-                    </font>: Blundo and De Caro and Persiano (UT) Untraceable Tags.
+                        <a href="ut_bdp10.html">UT</a>
+                    </font>: Blundo and De Caro and Persiano, Untraceable (RIFD) Tags based on Mild Assumptions.
                 </li>
                 <li>
                     <font style="font-weight: bold;color:red">
-                        <a href="./ahibe.html">AHIBE</a>
-                    </font>: De Caro and Iovino and Persiano (AHIBE) Anonymous Hierarchical Identity Based Encryption.
+                        <a href="./ahibe_dip10.html">AHIBE</a>
+                    </font>: De Caro and Iovino and Persiano (AHIBE), Fully Secure Anonymous HIBE and Secret-Key Anonymous IBE with Short Ciphertexts.
                 </li>
             </ol>
         </section>
