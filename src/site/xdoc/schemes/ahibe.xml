@@ -158,7 +158,7 @@ byte[] cipherText = engine.processBlock(messageAsBytes, 0, messageAsBytes.length
             <subsection name="Decrypt">
                 <source>
 import org.bouncycastle.crypto.AsymmetricBlockCipher;
-import it.unisa.dia.gas.plaf.crypto.engines.MultiBlockAsymmetricBlockCipher;
+import MultiBlockAsymmetricBlockCipher;
 
 <font style="font-weight: bold;color:green">// Init the engine.</font>
 AsymmetricBlockCipher engine = new MultiBlockAsymmetricBlockCipher(

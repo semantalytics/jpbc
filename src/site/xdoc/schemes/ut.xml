@@ -129,7 +129,7 @@ fileInputStream.close();
             <subsection name="Encrypt">
                 <source>
 import org.bouncycastle.crypto.AsymmetricBlockCipher;
-import it.unisa.dia.gas.plaf.crypto.engines.MultiBlockAsymmetricBlockCipher;
+import MultiBlockAsymmetricBlockCipher;
 import UTMAStrongEngine;
 
 <font style="font-weight: bold;color:green">// Init the engine.</font>
@@ -150,7 +150,7 @@ byte[] cipherText = strongEngine.processBlock(messageAsBytes, 0, messageAsBytes.
             <subsection name="Decrypt">
                 <source>
 import org.bouncycastle.crypto.AsymmetricBlockCipher;
-import it.unisa.dia.gas.plaf.crypto.engines.MultiBlockAsymmetricBlockCipher;
+import MultiBlockAsymmetricBlockCipher;
 import UTMAStrongEngine;
 
 <font style="font-weight: bold;color:green">// Init the engine.</font>

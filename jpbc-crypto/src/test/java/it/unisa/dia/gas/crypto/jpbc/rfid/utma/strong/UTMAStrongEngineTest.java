@@ -1,12 +1,12 @@
 package it.unisa.dia.gas.crypto.jpbc.rfid.utma.strong;
 
+import it.unisa.dia.gas.crypto.engines.MultiBlockAsymmetricBlockCipher;
 import it.unisa.dia.gas.crypto.jpbc.rfid.utma.strong.engines.UTMAStrongEngine;
 import it.unisa.dia.gas.crypto.jpbc.rfid.utma.strong.engines.UTMAStrongRandomizer;
 import it.unisa.dia.gas.crypto.jpbc.rfid.utma.strong.generators.UTMAStrongKeyPairGenerator;
 import it.unisa.dia.gas.crypto.jpbc.rfid.utma.strong.generators.UTMAStrongParametersGenerator;
 import it.unisa.dia.gas.crypto.jpbc.rfid.utma.strong.params.UTMAStrongKeyGenerationParameters;
 import it.unisa.dia.gas.crypto.jpbc.rfid.utma.strong.params.UTMAStrongParameters;
-import it.unisa.dia.gas.plaf.crypto.engines.MultiBlockAsymmetricBlockCipher;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import junit.framework.TestCase;
 import org.bouncycastle.crypto.AsymmetricBlockCipher;
