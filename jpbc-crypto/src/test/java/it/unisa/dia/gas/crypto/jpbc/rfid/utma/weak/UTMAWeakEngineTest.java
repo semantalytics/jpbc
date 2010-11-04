@@ -1,12 +1,12 @@
-package it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.weak;
+package it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak;
 
+import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.engines.UTMAWeakEngine;
+import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.engines.UTMAWeakRandomizer;
+import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.generators.UTMAWeakKeyPairGenerator;
+import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.generators.UTMAWeakParametersGenerator;
+import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.params.UTMAWeakKeyGenerationParameters;
+import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.params.UTMAWeakParameters;
 import it.unisa.dia.gas.plaf.crypto.engines.MultiBlockAsymmetricBlockCipher;
-import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.weak.engines.UTMAWeakEngine;
-import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.weak.engines.UTMAWeakRandomizer;
-import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.weak.generators.UTMAWeakKeyPairGenerator;
-import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.weak.generators.UTMAWeakParametersGenerator;
-import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.weak.params.UTMAWeakKeyGenerationParameters;
-import it.unisa.dia.gas.plaf.jpbc.crypto.rfid.utma.weak.params.UTMAWeakParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import junit.framework.TestCase;
 import org.bouncycastle.crypto.AsymmetricBlockCipher;

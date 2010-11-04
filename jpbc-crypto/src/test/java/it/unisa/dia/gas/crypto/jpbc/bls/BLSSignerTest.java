@@ -1,10 +1,10 @@
-package it.unisa.dia.gas.plaf.jpbc.crypto.bls;
+package it.unisa.dia.gas.crypto.jpbc.bls;
 
-import it.unisa.dia.gas.plaf.jpbc.crypto.bls.engines.BLSSigner;
-import it.unisa.dia.gas.plaf.jpbc.crypto.bls.generators.BLSKeyPairGenerator;
-import it.unisa.dia.gas.plaf.jpbc.crypto.bls.generators.BLSParametersGenerator;
-import it.unisa.dia.gas.plaf.jpbc.crypto.bls.params.BLSKeyGenerationParameters;
-import it.unisa.dia.gas.plaf.jpbc.crypto.bls.params.BLSParameters;
+import it.unisa.dia.gas.crypto.jpbc.bls.engines.BLSSigner;
+import it.unisa.dia.gas.crypto.jpbc.bls.generators.BLSKeyPairGenerator;
+import it.unisa.dia.gas.crypto.jpbc.bls.generators.BLSParametersGenerator;
+import it.unisa.dia.gas.crypto.jpbc.bls.params.BLSKeyGenerationParameters;
+import it.unisa.dia.gas.crypto.jpbc.bls.params.BLSParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import junit.framework.TestCase;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
