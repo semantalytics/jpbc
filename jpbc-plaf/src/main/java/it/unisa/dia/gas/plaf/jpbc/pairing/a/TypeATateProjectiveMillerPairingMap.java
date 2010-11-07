@@ -210,33 +210,33 @@ public class TypeATateProjectiveMillerPairingMap extends AbstractMillerPairingMa
         lucasOdd(out, in, temp, cofactor);
     }
 
-    final void twiceProjective(Element e0, Element e1, Element e2, Element e3, Element Vx, Element Vy, Element z, Element z2) {
-        e0.set(Vx).square().add(e1.set(e0).twice()).add(e1.set(z2).square());
+    final void twiceProjective(Element e0, Element a, Element b, Element c, Element Vx, Element Vy, Element z, Element z2) {
+        e0.set(Vx).square().add(a.set(e0).twice()).add(a.set(z2).square());
 
         z.mul(Vy).twice();
         z2.set(z).square();
 
-        e2.set(Vy).square();
-        e1.set(Vx).mul(e2).twice().twice();
+        b.set(Vy).square();
+        a.set(Vx).mul(b).twice().twice();
 
-        e3.set(e1).twice();
-        Vx.set(e0).square().sub(e3);
+        c.set(a).twice();
+        Vx.set(e0).square().sub(c);
 
-        e2.square().twice().twice().twice();
+        b.square().twice().twice().twice();
 
-        e1.sub(Vx);
-        e0.mul(e1);
-        Vy.set(e0).sub(e2);
+        a.sub(Vx);
+        e0.mul(a);
+        Vy.set(e0).sub(b);
 
         /*
         //e0 = 3x^2 + (cc->a) z^4
         //for this case a = 1
         element_square(e0, Vx);
         ////element_mul_si(e0, e0, 3);
-        element_double(e1, e0);
-        element_add(e0, e1, e0);
-        element_square(e1, z2);
-        element_add(e0, e0, e1);
+        element_double(a, e0);
+        element_add(e0, a, e0);
+        element_square(a, z2);
+        element_add(e0, e0, a);
 
         //z_out = 2 y z
         element_mul(z, Vy, z);
@@ -244,34 +244,34 @@ public class TypeATateProjectiveMillerPairingMap extends AbstractMillerPairingMa
         element_double(z, z);
         element_square(z2, z);
 
-        //e1 = 4 x y^2
-        element_square(e2, Vy);
-        element_mul(e1, Vx, e2);
-        //element_mul_si(e1, e1, 4);
-        element_double(e1, e1);
-        element_double(e1, e1);
+        //a = 4 x y^2
+        element_square(b, Vy);
+        element_mul(a, Vx, b);
+        //element_mul_si(a, a, 4);
+        element_double(a, a);
+        element_double(a, a);
 
-        //x_out = e0^2 - 2 e1
-        element_double(e3, e1);
+        //x_out = e0^2 - 2 a
+        element_double(c, a);
         element_square(Vx, e0);
-        element_sub(Vx, Vx, e3);
+        element_sub(Vx, Vx, c);
 
-        //e2 = 8y^4
-        element_square(e2, e2);
-        //element_mul_si(e2, e2, 8);
-        element_double(e2, e2);
-        element_double(e2, e2);
-        element_double(e2, e2);
+        //b = 8y^4
+        element_square(b, b);
+        //element_mul_si(b, b, 8);
+        element_double(b, b);
+        element_double(b, b);
+        element_double(b, b);
 
-        //y_out = e0(e1 - x_out) - e2
-        element_sub(e1, e1, Vx);
-        element_mul(e0, e0, e1);
-        element_sub(Vy, e0, e2);
+        //y_out = e0(a - x_out) - b
+        element_sub(a, a, Vx);
+        element_mul(e0, e0, a);
+        element_sub(Vy, e0, b);
         */
     }
 
 
-    protected void millerStep(Point out, Element a, Element b, Element c, Element Qx, Element Qy) {
+    protected final void millerStep(Point out, Element a, Element b, Element c, Element Qx, Element Qy) {
         // we will map Q via (x,y) --> (-x, iy)
         // hence:
         // Re(a Qx + b Qy + c) = -a Q'x + c and

@@ -6,6 +6,7 @@ import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.MPZElementType;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCLibraryProvider;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCPairingType;
+import it.unisa.dia.gas.plaf.jpbc.util.BigIntegerUtils;
 
 import java.math.BigInteger;
 
@@ -57,6 +58,10 @@ public abstract class PBCField implements Field {
 
     public BigInteger getOrder() {
         return order;
+    }
+
+    public boolean isOrderOdd() {
+        return BigIntegerUtils.isOdd(order);
     }
 
     public Element getNqr() {

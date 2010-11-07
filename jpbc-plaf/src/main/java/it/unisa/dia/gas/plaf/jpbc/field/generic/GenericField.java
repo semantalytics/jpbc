@@ -10,6 +10,8 @@ import java.math.BigInteger;
  */
 public abstract class GenericField<E extends Element> implements Field<E> {
 
+    protected boolean orderIsOdd = false;
+
     public E newElement(int value) {
         E e = newElement();
         e.set(value);
@@ -43,6 +45,10 @@ public abstract class GenericField<E extends Element> implements Field<E> {
         e.setToRandom();
 
         return e;
+    }
+
+    public boolean isOrderOdd() {
+        return false;
     }
 
     public Element[] twice(Element[] elements) {

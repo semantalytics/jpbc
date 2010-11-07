@@ -57,9 +57,9 @@
         <menu name="Crypto">
             <item name="Schemes" href="/schemes/schemes.html">
                 <item name="BLS Signature" href="/schemes/bls.html"/>
-                <item name="HVE [IP08]" href="/schemes/hveip08.html"/>
-                <item name="AHIVE [DIP10]" href="/schemes/ahibe.html"/>
-                <item name="Untraceable Tags [DBP09]" href="/schemes/ut.html"/>
+                <item name="HVE [IP08]" href="/schemes/hve_ip08.html"/>
+                <item name="AHIBE [DIP10]" href="/schemes/ahibe_dip10.html"/>
+                <item name="Untraceable Tags [DBP09]" href="/schemes/ut_bdp10.html"/>
             </item>
         </menu>
         

@@ -25,7 +25,7 @@ public class GTFiniteElement extends GenericElement {
         super(field);
 
         this.pairing = pairing;
-        this.value = value.duplicate();
+        this.value = value;
     }
 
     public GTFiniteElement(GTFiniteElement element) {
@@ -42,7 +42,7 @@ public class GTFiniteElement extends GenericElement {
     }
 
     public GTFiniteElement duplicate() {
-        return new GTFiniteElement(pairing, (GTFiniteField) field, value);
+        return new GTFiniteElement(pairing, (GTFiniteField) field, value.duplicate());
     }
 
     public GTFiniteElement set(Element value) {

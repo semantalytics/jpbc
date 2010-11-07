@@ -71,6 +71,13 @@ public interface Field<E extends Element> {
     BigInteger getOrder();
 
     /**
+     *
+     * @return
+     * @since 1.2.0
+     */
+    boolean isOrderOdd();
+
+    /**
      * Returns a quadratic non-residue in this field. It returns always the same element.
      *
      * @return a quadratic non-residue in this field.

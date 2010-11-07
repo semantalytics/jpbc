@@ -8,7 +8,6 @@ import it.unisa.dia.gas.jpbc.Element;
 public class DegreeTwoExtensionQuadraticElement<E extends Element> extends QuadraticElement<E> {
 
     protected DegreeTwoExtensionQuadraticField field;
-    protected Element e0, e1, e2;
 
 
 
@@ -18,10 +17,6 @@ public class DegreeTwoExtensionQuadraticElement<E extends Element> extends Quadr
 
         this.x = (E) field.getTargetField().newElement();
         this.y = (E) field.getTargetField().newElement();
-
-        this.e0 = field.getTargetField().newElement();
-        this.e1 = field.getTargetField().newElement();
-        this.e2 = field.getTargetField().newElement();
     }
 
     public DegreeTwoExtensionQuadraticElement(DegreeTwoExtensionQuadraticElement element) {
@@ -30,10 +25,6 @@ public class DegreeTwoExtensionQuadraticElement<E extends Element> extends Quadr
 
         this.x = (E) element.x.duplicate();
         this.y = (E) element.y.duplicate();
-
-        this.e0 = field.getTargetField().newElement();
-        this.e1 = field.getTargetField().newElement();
-        this.e2 = field.getTargetField().newElement();
     }
 
 
@@ -42,7 +33,10 @@ public class DegreeTwoExtensionQuadraticElement<E extends Element> extends Quadr
     }
 
     public DegreeTwoExtensionQuadraticElement square() {
-        e0.set(x).add(y).mul(e1.set(x).sub(y));
+        Element e0 = x.duplicate();
+        Element e1 = x.duplicate();
+
+        e0.add(y).mul(e1.sub(y));
         e1.set(x).mul(y).twice()/*add(e1)*/;
 
         x.set(e0);
@@ -72,7 +66,10 @@ public class DegreeTwoExtensionQuadraticElement<E extends Element> extends Quadr
     }
 
     public DegreeTwoExtensionQuadraticElement invert() {
-        e0.set(x).square().add(e1.set(y).square()).invert();
+        Element e0 = x.duplicate();
+        Element e1 = y.duplicate();
+
+        e0.square().add(e1.square()).invert();
 
         x.mul(e0);
         y.mul(e0.negate());
@@ -102,9 +99,11 @@ public class DegreeTwoExtensionQuadraticElement<E extends Element> extends Quadr
     public DegreeTwoExtensionQuadraticElement mul(Element e) {
         DegreeTwoExtensionQuadraticElement element = (DegreeTwoExtensionQuadraticElement) e;
 
-        e0.set(x).add(y);
-        e1.set(element.x).add(element.y);
-        e2.set(e0).mul(e1);
+        Element e0 = x.duplicate();
+        Element e1 = element.x.duplicate();
+        Element e2 = x.getField().newElement();
+
+        e2.set(e0.add(y)).mul(e1.add(element.y));
 
         e0.set(x).mul(element.x);
         e1.set(y).mul(element.y);

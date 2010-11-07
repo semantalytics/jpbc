@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.field.naive;
 
 import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericField;
+import it.unisa.dia.gas.plaf.jpbc.util.BigIntegerUtils;
 
 import java.math.BigInteger;
 
@@ -15,6 +16,7 @@ public class NaiveField extends GenericField<NaiveElement> {
 
     public NaiveField(BigInteger order) {
         this.order = order;
+        this.orderIsOdd = BigIntegerUtils.isOdd(order);
         
         this.fixedLengthInBytes = (order.bitLength() + 7) / 8;
     }

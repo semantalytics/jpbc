@@ -16,7 +16,6 @@ public class NaiveElement extends GenericElement {
 
     protected BigInteger value;
     protected BigInteger order;
-    protected boolean oddOrder;
     protected SecureRandom secureRandom;
 
     public NaiveElement(Field field) {
@@ -24,7 +23,6 @@ public class NaiveElement extends GenericElement {
 
         this.value = BigInteger.ZERO;
         this.order = field.getOrder();
-        this.oddOrder = BigIntegerUtils.isOdd(order);
     }
 
     public NaiveElement(Field field, BigInteger value) {
@@ -32,7 +30,6 @@ public class NaiveElement extends GenericElement {
 
         this.value = value;
         this.order = field.getOrder();
-        this.oddOrder = BigIntegerUtils.isOdd(order);
     }
 
     public NaiveElement(NaiveElement naiveElement) {
@@ -40,7 +37,6 @@ public class NaiveElement extends GenericElement {
 
         this.value = naiveElement.value;
         this.order = naiveElement.field.getOrder();
-        this.oddOrder = BigIntegerUtils.isOdd(order);
     }
 
 
@@ -54,10 +50,10 @@ public class NaiveElement extends GenericElement {
     }
 
     public NaiveElement set(Element value) {
-        if (this.field != value.getField()) {
             // TODO: we should import also the field...
+        //if (this.field != value.getField()) {
 //        this.field = element.field;
-        }
+        //}
         this.value = ((NaiveElement) value).value;
 
         return this;
@@ -319,7 +315,7 @@ public class NaiveElement extends GenericElement {
         if (isZero())
             return 0;
 
-        if (oddOrder) {
+        if (field.isOrderOdd()) {
             return BigIntegerUtils.isOdd(value) ? 1 : -1;
         } else {
             return value.add(value).compareTo(order);
