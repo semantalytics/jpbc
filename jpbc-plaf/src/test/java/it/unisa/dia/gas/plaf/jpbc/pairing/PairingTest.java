@@ -42,7 +42,7 @@ public abstract class PairingTest extends TestCase {
         x2 = pairing.pairing(zg, h);
         System.out.println("f(g^z, h) = " + x2);
 
-        assertTrue(x1.isEqual(x2));
+        assertEquals(true, x1.isEqual(x2));
 
         zh = h.duplicate().powZn(z);
 
@@ -51,7 +51,7 @@ public abstract class PairingTest extends TestCase {
         x2 = pairing.pairing(g, zh);
         System.out.println("f(g, h^z) = " + x2);
 
-        assertTrue(x1.isEqual(x2));
+        assertEquals(true, x1.isEqual(x2));
     }
 
     public void testPairingPreProcessing() {

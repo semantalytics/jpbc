@@ -211,63 +211,28 @@ public class TypeATateProjectiveMillerPairingMap extends AbstractMillerPairingMa
     }
 
     final void twiceProjective(Element e0, Element a, Element b, Element c, Element Vx, Element Vy, Element z, Element z2) {
+        // e0 = 3x^2 + cca z^4  (cca = 1)
         e0.set(Vx).square().add(a.set(e0).twice()).add(a.set(z2).square());
 
+        // z = 2 y z
         z.mul(Vy).twice();
         z2.set(z).square();
 
+        //a = 4 x y^2
         b.set(Vy).square();
         a.set(Vx).mul(b).twice().twice();
 
+        // x_out = e0^2 - 2 a
         c.set(a).twice();
         Vx.set(e0).square().sub(c);
 
+        //b = 8y^4
         b.square().twice().twice().twice();
 
+        //y_out = e0(a - x_out) - b
         a.sub(Vx);
         e0.mul(a);
         Vy.set(e0).sub(b);
-
-        /*
-        //e0 = 3x^2 + (cc->a) z^4
-        //for this case a = 1
-        element_square(e0, Vx);
-        ////element_mul_si(e0, e0, 3);
-        element_double(a, e0);
-        element_add(e0, a, e0);
-        element_square(a, z2);
-        element_add(e0, e0, a);
-
-        //z_out = 2 y z
-        element_mul(z, Vy, z);
-        ////element_mul_si(z, z, 2);
-        element_double(z, z);
-        element_square(z2, z);
-
-        //a = 4 x y^2
-        element_square(b, Vy);
-        element_mul(a, Vx, b);
-        //element_mul_si(a, a, 4);
-        element_double(a, a);
-        element_double(a, a);
-
-        //x_out = e0^2 - 2 a
-        element_double(c, a);
-        element_square(Vx, e0);
-        element_sub(Vx, Vx, c);
-
-        //b = 8y^4
-        element_square(b, b);
-        //element_mul_si(b, b, 8);
-        element_double(b, b);
-        element_double(b, b);
-        element_double(b, b);
-
-        //y_out = e0(a - x_out) - b
-        element_sub(a, a, Vx);
-        element_mul(e0, e0, a);
-        element_sub(Vy, e0, b);
-        */
     }
 
 

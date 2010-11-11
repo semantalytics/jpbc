@@ -143,13 +143,13 @@ public class TypeATateAffineMillerPairingMap extends AbstractMillerPairingMap {
         Element f1;
         Point V1 = pairing.Eq.newElement();
         if (pairing.sign1 < 0) {
-            for (int j = 0; j < V1s.length; j++) {
-                V1s[j].set(Vs[i]).negate();
+            for (Element V11 : V1s) {
+                V11.set(Vs[i]).negate();
             }
             f1 = f.duplicate().invert();
         } else {
-            for (int j = 0; j < V1s.length; j++) {
-                V1s[j].set(Vs[i]);
+            for (Element V11 : V1s) {
+                V11.set(Vs[i]);
             }
             f1 = f.duplicate();
         }

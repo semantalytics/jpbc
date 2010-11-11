@@ -15,6 +15,7 @@ import java.math.BigInteger;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class TypeAPairing extends AbstractPairing {
+    public static final String NAF_MILLER_PROJECTTIVE_METHOD = "naf-miller-projective";
     public static final String MILLER_PROJECTTIVE_METHOD = "miller-projective";
     public static final String MILLER_AFFINE_METHOD = "miller-affine";
 
@@ -111,9 +112,11 @@ public class TypeAPairing extends AbstractPairing {
 
 
     protected void initMap(CurveParams curveParams) {
-        String method = curveParams.getString("method", MILLER_PROJECTTIVE_METHOD);
+        String method = curveParams.getString("method", NAF_MILLER_PROJECTTIVE_METHOD);
 
-        if (MILLER_PROJECTTIVE_METHOD.equals(method))
+        if (NAF_MILLER_PROJECTTIVE_METHOD.endsWith(method)) {
+            pairingMap = new TypeATateNafProjectiveMillerPairingMap(this);
+        } else if (MILLER_PROJECTTIVE_METHOD.equals(method))
             pairingMap = new TypeATateProjectiveMillerPairingMap(this);
         else if (MILLER_AFFINE_METHOD.equals(method))
             pairingMap = new TypeATateAffineMillerPairingMap(this);

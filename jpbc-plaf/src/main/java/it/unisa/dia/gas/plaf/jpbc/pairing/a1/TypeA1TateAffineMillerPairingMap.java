@@ -64,7 +64,7 @@ public class TypeA1TateAffineMillerPairingMap extends AbstractMillerPairingMap<E
         f0.set(f).invert();
         f.getY().negate();
         f.mul(f0);
-        out.set(f).pow(pairing.phikonr);
+        out.set(f).pow(pairing.phikOnr);
 
         /* We could use this instead but p->h is small so this does not help much
         a_tateexp(out, f, f0, p->h);
@@ -115,7 +115,7 @@ public class TypeA1TateAffineMillerPairingMap extends AbstractMillerPairingMap<E
         f0.set(f).invert();
         f.getY().negate();
         f.mul(f0);
-        out.set(f).pow(pairing.phikonr);
+        out.set(f).pow(pairing.phikOnr);
 
         /* We could use this instead but p->h is small so this does not help much
         a_tateexp(out, f, f0, p->h);
@@ -129,7 +129,7 @@ public class TypeA1TateAffineMillerPairingMap extends AbstractMillerPairingMap<E
         t0 = element.getField().newElement();
         t1 = element.getField().newElement();
 
-        tatePow((Point) t0, (Point) element, (Point) t1, pairing.phikonr);
+        tatePow((Point) t0, (Point) element, (Point) t1, pairing.phikOnr);
 
         element.set(t0);
     }
@@ -140,7 +140,7 @@ public class TypeA1TateAffineMillerPairingMap extends AbstractMillerPairingMap<E
         t0 = element.getField().newElement();
         t1 = element.getField().newElement();
 
-        tatePow((Point) t0, (Point) element, (Point) t1, pairing.phikonr);
+        tatePow((Point) t0, (Point) element, (Point) t1, pairing.phikOnr);
 
         element.set(t0);
 

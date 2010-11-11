@@ -124,21 +124,20 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
 
     protected final void tangentStepProjective(Point<E> f0,
                                                Element a, Element b, Element c,
-                                               Element Vx, Element Vy,
-                                               Element z, Element z2,
+                                               Element Vx, Element Vy, Element z,
+                                               Element z2,
                                                Element e0,
                                                E Qx, E Qy,
                                                Element f) {
         // Compute the tangent line T (aX + bY + c) at point V = (Vx, Vy, z)
+
         a.set(z2).square();
         b.set(Vx).square();
-        a.add(b.add(e0.set(b).twice())).negate();
-
+        a.add( b.add(e0.set(b).twice()) ).negate();
         // Now:
         // a = -(3x^2 + cca z^4)     with cca = 1
 
         b.set(e0.set(Vy).twice()).mul(z2).mul(z);
-
         // Now:
         // b = 2 y z^3
 

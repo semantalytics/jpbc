@@ -15,20 +15,24 @@ import java.math.BigInteger;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class TypeA1Pairing extends AbstractPairing {
+    public static final String NAF_MILLER_PROJECTTIVE_METHOD = "naf-miller-projective";
+    public static final String MILLER_AFFINE_METHOD = "miller-affine";
+
+
     protected BigInteger r;
     protected BigInteger p;
     protected long l;
 
-    protected BigInteger phikonr;
+    protected BigInteger phikOnr;
 
     protected Field Fp;
     protected Field<? extends Point> Fq2;
     protected Field<? extends Point> Eq;
 
 
-    public TypeA1Pairing(CurveParams properties) {
-        initParams(properties);
-        initMap();
+    public TypeA1Pairing(CurveParams params) {
+        initParams(params);
+        initMap(params);
         initFields();
     }
 
@@ -55,7 +59,7 @@ public class TypeA1Pairing extends AbstractPairing {
         Fp = initFp(p);
 
         //k=2, hence phi_k(q) = q + 1, phikOnr = (q+1)/r
-        phikonr = BigInteger.valueOf(l);
+        phikOnr = BigInteger.valueOf(l);
 
         // Init Eq
         Eq = initEq();
@@ -75,7 +79,7 @@ public class TypeA1Pairing extends AbstractPairing {
     }
 
     protected Field<? extends Point> initEq() {
-        return new CurveField<Field>(Fp.newOneElement(), Fp.newZeroElement(), r, phikonr);
+        return new CurveField<Field>(Fp.newOneElement(), Fp.newZeroElement(), r, phikOnr);
     }
 
     protected Field<? extends Point> initFi() {
@@ -86,8 +90,16 @@ public class TypeA1Pairing extends AbstractPairing {
         return new GTFiniteField(r, pairingMap, field);
     }
 
-    protected void initMap() {
-        pairingMap = new TypeA1TateAffineMillerPairingMap(this);
+    protected void initMap(CurveParams curveParams) {
+        String method = curveParams.getString("method", NAF_MILLER_PROJECTTIVE_METHOD);
+
+        if (NAF_MILLER_PROJECTTIVE_METHOD.endsWith(method)) {
+            pairingMap = new TypeA1TateNafProjectiveMillerPairingMap(this);
+        } else if (MILLER_AFFINE_METHOD.equals(method))
+            pairingMap = new TypeA1TateAffineMillerPairingMap(this);
+        else
+            throw new IllegalArgumentException("Pairing method not recognized. Method = " + method);
+        pairingMap = new TypeA1TateNafProjectiveMillerPairingMap(this);
     }
 
 }

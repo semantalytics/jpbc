@@ -75,25 +75,6 @@ public class DegreeTwoExtensionQuadraticElement<E extends Element> extends Quadr
         y.mul(e0.negate());
 
         return this;
-
-        /*
-        fq_data_ptr p = a->data;
-        fq_data_ptr r = n->data;
-        element_t e0, e1;
-
-        element_init(e0, p->x->field);
-        element_init(e1, e0->field);
-        element_square(e0, p->x);
-        element_square(e1, p->y);
-        element_add(e0, e0, e1);
-        element_invert(e0, e0);
-        element_mul(r->x, p->x, e0);
-        element_neg(e0, e0);
-        element_mul(r->y, p->y, e0);
-
-        element_clear(e0);
-        element_clear(e1);
-        */
     }
 
     public DegreeTwoExtensionQuadraticElement mul(Element e) {
@@ -103,53 +84,25 @@ public class DegreeTwoExtensionQuadraticElement<E extends Element> extends Quadr
         Element e1 = element.x.duplicate();
         Element e2 = x.getField().newElement();
 
+        // e2 = (x+y) * (x1+y1)
         e2.set(e0.add(y)).mul(e1.add(element.y));
 
+        // e0 = x*x1
         e0.set(x).mul(element.x);
+        // e1 = y*y1
         e1.set(y).mul(element.y);
+        // e2 = (x+y)*(x1+y1) - x*x1
         e2.sub(e0);
 
+        // x = x*x1 - y*y1
         x.set(e0).sub(e1);
+        // y = (x+y)*(x1+y1)- x*x1 - y*y1
         y.set(e2).sub(e1);
 
-        /*
-        fq_data_ptr p = a->data;
-        fq_data_ptr q = b->data;
-        fq_data_ptr r = n->data;
-        element_t e0, e1, e2;
-
-        element_init(e0, p->x->field);
-        element_init(e1, e0->field);
-        element_init(e2, e0->field);
-        Naive way
-        element_mul(e0, p->x, q->x);
-        element_mul(e1, p->y, q->y);
-        element_sub(e0, e0, e1);
-        element_mul(e1, p->x, q->y);
-        element_mul(e2, p->y, q->x);
-        element_add(e1, e1, e2);
-        element_set(r->x, e0);
-        element_set(r->y, e1);
-
-        //Karatsuba:
-        element_add(e0, p->x, p->y);
-        element_add(e1, q->x, q->y);
-        element_mul(e2, e0, e1);
-        element_mul(e0, p->x, q->x);
-        element_sub(e2, e2, e0);
-        element_mul(e1, p->y, q->y);
-        element_sub(r->x, e0, e1);
-        element_sub(r->y, e2, e1);
-
-        element_clear(e0);
-        element_clear(e1);
-        element_clear(e2);
-        */
         return this;
     }
 
     public boolean isSqr() {
-
         /*
         //x + yi is a square <=> x^2 + y^2 is (in the base field)
 
