@@ -54,7 +54,7 @@ public class CurveFieldTest extends TestCase {
         assertEquals(true, one.isOne());
     }
 
-    /* TODO: reactive asap
+    /* TODO: reactive asap, PBC produces an invalid access memory...
     public void testTwice() {
         if (pairing == null)
             return;

@@ -190,7 +190,7 @@ public abstract class GenericElement implements Element {
         }
 
         int word = 0;               /* the word to look up. 0<word<base */
-        int wbits = 0;           /* # of bits so far in word. wbits<=k. */
+        int wbits = 0;              /* # of bits so far in word. wbits<=k. */
         int k = optimalPowWindowSize(n);
         List<Element> lookup = buildPowWindow(k);
         Element result = field.newElement().setToOne();
