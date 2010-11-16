@@ -8,9 +8,7 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.map.PairingMap;
  */
 public abstract class AbstractPairing implements Pairing {
 
-    protected Field<? extends Point> G1, G2;
-    protected Field GT, Zr;
-
+    protected Field G1, G2, GT, Zr;
     protected PairingMap pairingMap;
 
 
@@ -18,11 +16,11 @@ public abstract class AbstractPairing implements Pairing {
         return true;
     }
 
-    public Field<? extends Point> getG1() {
+    public Field getG1() {
         return G1;
     }
 
-    public Field<? extends Point> getG2() {
+    public Field getG2() {
         return G2;
     }
 
@@ -74,6 +72,8 @@ public abstract class AbstractPairing implements Pairing {
         return pairingMap.pairing(in1, in2);
     }
 
+
+
     public PairingMap getPairingMap() {
         return pairingMap;
     }
@@ -81,4 +81,5 @@ public abstract class AbstractPairing implements Pairing {
     public void setPairingMap(PairingMap pairingMap) {
         this.pairingMap = pairingMap;
     }
+
 }

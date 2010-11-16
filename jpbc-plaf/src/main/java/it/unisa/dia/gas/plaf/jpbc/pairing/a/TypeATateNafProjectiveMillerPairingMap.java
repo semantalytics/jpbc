@@ -38,16 +38,18 @@ public class TypeATateNafProjectiveMillerPairingMap extends AbstractMillerPairin
 
         Point u = pairing.Fq2.newElement();
         for (int i = r.length - 2; i >= 0; i--) {
-            encDbl(u, V, Q);
+            twice(u, V, Q);
             f.square().mul(u);
 
-            if (r[i] == 1) {
-                encAdd(u, V, P, Q);
-                f.mul(u);
-            }
-            if (r[i] == -1) {
-                encAdd(u, V, nP, Q);
-                f.mul(u);
+            switch (r[i]){
+                case 1:
+                    add(u, V, P, Q);
+                    f.mul(u);
+                    break;
+                case -1:
+                    add(u, V, nP, Q);
+                    f.mul(u);
+                    break;
             }
         }
 
@@ -81,7 +83,7 @@ public class TypeATateNafProjectiveMillerPairingMap extends AbstractMillerPairin
     }
 
     //used by tate pairing, point doubling in Jacobian coordinates, and return the value of f
-    final void encDbl(Point u, JacobPoint P, Point Q) {
+    final void twice(Point u, JacobPoint P, Point Q) {
         //if(P.isInfinity())
         //	return;
 
@@ -121,7 +123,7 @@ public class TypeATateNafProjectiveMillerPairingMap extends AbstractMillerPairin
 
 
     //used by Tate paring, add two point, save result in the first argument, return the value of f
-    final void encAdd(Point u, JacobPoint A, Point P, Point Q) {
+    final void add(Point u, JacobPoint A, Point P, Point Q) {
         Element x1 = A.getX();
         Element y1 = A.getY();
         Element z1 = A.getZ();
