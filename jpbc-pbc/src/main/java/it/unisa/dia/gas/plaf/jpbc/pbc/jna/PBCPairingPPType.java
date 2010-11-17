@@ -20,8 +20,10 @@ public class PBCPairingPPType extends Memory {
 
     @Override
     protected void finalize() {
-        PBCLibraryProvider.getPbcLibrary().pbc_pairing_pp_clear(this);
+        if (isValid()) {
+            PBCLibraryProvider.getPbcLibrary().pbc_pairing_pp_clear(this);
         
-        super.finalize();
+            super.finalize();
+        }
     }
 }

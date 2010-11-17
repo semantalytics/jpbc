@@ -37,10 +37,11 @@ public class MPZElementType extends Memory {
 
     @Override
     protected void finalize() {
-//        System.out.println("MPZElementType S: finalize!!");
-        GMPLibrary.INSTANCE.__gmpz_clear(this);
-        super.finalize();
-//        System.out.println("MPZElementType E: finalize!!");
+        if (isValid()) {
+            GMPLibrary.INSTANCE.__gmpz_clear(this);
+
+            super.finalize();
+        }
     }
 
 }
