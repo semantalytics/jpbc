@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.crypto.jpbc.ibe.dip10.params;
+package it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params;
 
 import org.bouncycastle.crypto.KeyGenerationParameters;
 

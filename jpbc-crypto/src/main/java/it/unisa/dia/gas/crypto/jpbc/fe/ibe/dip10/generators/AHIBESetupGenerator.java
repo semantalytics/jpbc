@@ -1,8 +1,8 @@
-package it.unisa.dia.gas.crypto.jpbc.ibe.dip10.generators;
+package it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.generators;
 
-import it.unisa.dia.gas.crypto.jpbc.ibe.dip10.params.AHIBEMasterSecretKeyParameters;
-import it.unisa.dia.gas.crypto.jpbc.ibe.dip10.params.AHIBEPublicKeyParameters;
-import it.unisa.dia.gas.crypto.jpbc.ibe.dip10.params.AHIBESetupGenerationParameters;
+import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params.AHIBEMasterSecretKeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params.AHIBEPublicKeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params.AHIBESetupGenerationParameters;
 import it.unisa.dia.gas.jpbc.CurveGenerator;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
