@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.crypto.jpbc.hve.ip08.params;
+package it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params;
 
 import org.bouncycastle.crypto.params.AsymmetricKeyParameter;
 

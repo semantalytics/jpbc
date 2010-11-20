@@ -1,9 +1,9 @@
-package it.unisa.dia.gas.crypto.jpbc.hve.ip08.generators;
+package it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators;
 
-import it.unisa.dia.gas.crypto.jpbc.hve.ip08.params.HVEIP08KeyGenerationParameters;
-import it.unisa.dia.gas.crypto.jpbc.hve.ip08.params.HVEIP08Parameters;
-import it.unisa.dia.gas.crypto.jpbc.hve.ip08.params.HVEIP08PrivateKeyParameters;
-import it.unisa.dia.gas.crypto.jpbc.hve.ip08.params.HVEIP08PublicKeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08KeyGenerationParameters;
+import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08Parameters;
+import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08PrivateKeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08PublicKeyParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
