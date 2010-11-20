@@ -1,9 +1,9 @@
-package it.unisa.dia.gas.crypto.jpbc.bls.generators;
+package it.unisa.dia.gas.crypto.jpbc.signature.bls.generators;
 
-import it.unisa.dia.gas.crypto.jpbc.bls.params.BLSKeyGenerationParameters;
-import it.unisa.dia.gas.crypto.jpbc.bls.params.BLSParameters;
-import it.unisa.dia.gas.crypto.jpbc.bls.params.BLSPrivateKeyParameters;
-import it.unisa.dia.gas.crypto.jpbc.bls.params.BLSPublicKeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.signature.bls.params.BLSKeyGenerationParameters;
+import it.unisa.dia.gas.crypto.jpbc.signature.bls.params.BLSParameters;
+import it.unisa.dia.gas.crypto.jpbc.signature.bls.params.BLSPrivateKeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.signature.bls.params.BLSPublicKeyParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
