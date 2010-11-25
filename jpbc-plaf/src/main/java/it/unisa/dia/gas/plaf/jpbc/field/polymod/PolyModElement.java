@@ -210,47 +210,47 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
                 add(p0);
 
                 return this;
-                /*
-                element_t *dst = res->data;
-                element_t *src = e->data;
-                polymod_field_data_ptr p = res->field->data;
-                element_t p0;
-                element_t c0, c2;
-                element_ptr c1, c3;
+            /*
+            element_t *dst = res->data;
+            element_t *src = e->data;
+            polymod_field_data_ptr p = res->field->data;
+            element_t p0;
+            element_t c0, c2;
+            element_ptr c1, c3;
 
-                element_init(p0, res->field);
-                element_init(c0, p->field);
-                element_init(c2, p->field);
+            element_init(p0, res->field);
+            element_init(c0, p->field);
+            element_init(c2, p->field);
 
-                c3 = p0->data;
-                c1 = c3 + 1;
+            c3 = p0->data;
+            c1 = c3 + 1;
 
-                element_mul(c3, src[0], src[1]);
-                element_mul(c1, src[0], src[2]);
-                element_square(dst[0], src[0]);
+            element_mul(c3, src[0], src[1]);
+            element_mul(c1, src[0], src[2]);
+            element_square(dst[0], src[0]);
 
-                element_mul(c2, src[1], src[2]);
-                element_square(c0, src[2]);
-                element_square(dst[2], src[1]);
+            element_mul(c2, src[1], src[2]);
+            element_square(c0, src[2]);
+            element_square(dst[2], src[1]);
 
-                element_add(dst[1], c3, c3);
+            element_add(dst[1], c3, c3);
 
-                element_add(c1, c1, c1);
-                element_add(dst[2], dst[2], c1);
+            element_add(c1, c1, c1);
+            element_add(dst[2], dst[2], c1);
 
-                polymod_const_mul(p0, c0, p->xpwr[1]);
-                element_add(res, res, p0);
+            polymod_const_mul(p0, c0, p->xpwr[1]);
+            element_add(res, res, p0);
 
-                element_add(c2, c2, c2);
-                polymod_const_mul(p0, c2, p->xpwr[0]);
-                element_add(res, res, p0);
+            element_add(c2, c2, c2);
+            polymod_const_mul(p0, c2, p->xpwr[0]);
+            element_add(res, res, p0);
 
-                element_printf("polymod_square_degree3 = %B\n", res);
+            element_printf("polymod_square_degree3 = %B\n", res);
 
-                element_clear(p0);
-                element_clear(c0);
-                element_clear(c2);
-                */
+            element_clear(p0);
+            element_clear(c0);
+            element_clear(c2);
+            */
 //            case 6:
             // TODO: port the PBC code
 //                throw new IllegalStateException("Not Implemented yet!!!");
@@ -335,27 +335,27 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
 //                System.out.println("mul = " + this);
 
                 return this;
-                /*
-                polymod_field_data_ptr p = res->field->data;
-                element_t *dst = res->data, *s1 = e->data, *s2 = f->data;
-                element_t c3, c4;
-                element_t p0;
+            /*
+            polymod_field_data_ptr p = res->field->data;
+            element_t *dst = res->data, *s1 = e->data, *s2 = f->data;
+            element_t c3, c4;
+            element_t p0;
 
-                element_init(p0, res->field);
-                element_init(c3, p->field);
-                element_init(c4, p->field);
+            element_init(p0, res->field);
+            element_init(c3, p->field);
+            element_init(c4, p->field);
 
-                kar_poly_2(dst, c3, c4, s1, s2, p0->data);
+            kar_poly_2(dst, c3, c4, s1, s2, p0->data);
 
-                polymod_const_mul(p0, c3, p->xpwr[0]);
-                element_add(res, res, p0);
-                polymod_const_mul(p0, c4, p->xpwr[1]);
-                element_add(res, res, p0);
+            polymod_const_mul(p0, c3, p->xpwr[0]);
+            element_add(res, res, p0);
+            polymod_const_mul(p0, c4, p->xpwr[1]);
+            element_add(res, res, p0);
 
-                element_clear(p0);
-                element_clear(c3);
-                element_clear(c4);
-                */
+            element_clear(p0);
+            element_clear(c3);
+            element_clear(c4);
+            */
 //            case 6:
             // TODO: port the PBC code
 //                throw new IllegalStateException("Not Implemented yet!!!");
@@ -674,6 +674,29 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
         return true;
     }
 
+    public int setFromBytes(byte[] source) {
+        return setFromBytes(source, 0);
+    }
+
+    public int setFromBytes(byte[] source, int offset) {
+        int len = offset;
+        for (int i = 0, size = coeff.size(); i < size; i++) {
+            len+=coeff.get(i).setFromBytes(source, len);
+        }
+        return len-offset;
+    }
+
+    public byte[] toBytes() {
+        byte[] buffer = new byte[field.getLengthInBytes()];
+        int targetLB = field.getTargetField().getLengthInBytes();
+
+        for (int len = 0, i = 0, size = coeff.size(); i < size; i++, len += targetLB) {
+            byte[] temp = coeff.get(i).toBytes();
+            System.arraycopy(temp, 0, buffer, len, targetLB);
+        }
+        return buffer;
+    }
+
     public BigInteger toBigInteger() {
         return coeff.get(0).toBigInteger();
     }
@@ -691,7 +714,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
     public boolean equals(Object obj) {
         if (obj instanceof PolyModElement)
             return isEqual((Element) obj);
-        return super.equals(obj);    
+        return super.equals(obj);
     }
 
     public PolyModElement<E> setFromPolyTruncate(PolyElement<E> element) {

@@ -170,7 +170,7 @@ public class CurveElement<E extends Element> extends GenericPointElement<E> {
     }
 
     public CurveElement mul(Element e) {
-        // Apply the Chord-TAngent Law of Composition
+        // Apply the Chord-Tangent Law of Composition
         // Consider P1 = this = (x1, y1);
         //          P2 = e = (x2, y2);
 

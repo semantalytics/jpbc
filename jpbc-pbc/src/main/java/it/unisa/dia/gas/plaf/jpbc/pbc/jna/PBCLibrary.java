@@ -2,6 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.pbc.jna;
 
 import com.sun.jna.Library;
 import com.sun.jna.Pointer;
+import it.unisa.dia.gas.plaf.jpbc.gmp.jna.MPZElementType;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)

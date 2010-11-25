@@ -1,9 +1,9 @@
 package it.unisa.dia.gas.plaf.jpbc.pbc.field;
 
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.plaf.jpbc.gmp.jna.MPZElementType;
 import it.unisa.dia.gas.plaf.jpbc.pbc.PBCElement;
 import it.unisa.dia.gas.plaf.jpbc.pbc.PBCField;
-import it.unisa.dia.gas.plaf.jpbc.pbc.jna.MPZElementType;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCElementType;
 import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCLibraryProvider;
 

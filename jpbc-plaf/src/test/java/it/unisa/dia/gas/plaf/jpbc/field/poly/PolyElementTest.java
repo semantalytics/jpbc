@@ -25,7 +25,18 @@ public class PolyElementTest extends TestCase {
         System.out.println("fac = " + fac);
     }
 */
+    public void testBytes(){
+        PolyField field = new PolyField(new NaiveField(BigInteger.valueOf(17)));
+        PolyElement source = field.newElement();
+        source.setToRandomMonic(5);
 
+        byte buffer[] = source.toBytes();
+        PolyElement target = field.newElement();
+        int len = target.setFromBytes(buffer);
+
+        assertEquals(true, source.isEqual(target));
+        assertEquals(buffer.length, len);
+    }
 
     public void testFindRoot() {
         PolyField field = new PolyField(new NaiveField(BigInteger.valueOf(17)));

@@ -323,7 +323,7 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
     public boolean isEqual(Element e) {
         if (this == e)
             return true;
-        
+
         PolyElement<E> element = (PolyElement<E>) e;
 
         int n = this.coeff.size();
@@ -337,6 +337,37 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
         }
 
         return true;
+    }
+
+    public byte[] toBytes() {
+        int count = coeff.size();
+        int targetLB = field.getTargetField().getLengthInBytes();
+        byte[] buffer = new byte[2 + (count * targetLB)];
+
+        buffer[0] = (byte) count;
+        buffer[1] = (byte) (count >> 8);
+
+        for (int len = 0, i = 0; i < count; i++, len += targetLB) {
+            byte[] temp = coeff.get(i).toBytes();
+            System.arraycopy(temp, 0, buffer, len, targetLB);
+        }
+
+        return buffer;
+    }
+
+    public int setFromBytes(byte[] source) {
+        return setFromBytes(source, 0);
+    }
+
+    @Override
+    public int setFromBytes(byte[] source, int offset) {
+        int len = offset;
+        int count = source[len] + source[len + 1] * 256;
+        len += 2;
+        for (int i = 0; i < count; i++) {
+            len += coeff.get(i).setFromBytes(source, len);
+        }
+        return len - offset;
     }
 
     public BigInteger toBigInteger() {
@@ -480,7 +511,7 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
 
         final BigInteger deg = BigInteger.valueOf(getDegree());
 
-        BigIntegerUtils.TrialDivide  trialDivide = new BigIntegerUtils.TrialDivide(null) {
+        BigIntegerUtils.TrialDivide trialDivide = new BigIntegerUtils.TrialDivide(null) {
             protected int fun(BigInteger factor, int multiplicity) {
                 BigInteger z = deg.divide(factor);
                 z = getField().getTargetField().getOrder().pow(z.intValue());
