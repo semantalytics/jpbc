@@ -29,10 +29,6 @@ int pbc_pairing_pp_sizeof() {
     return sizeof(pairing_pp_t);
 }
 
-int pbc_mpz_sizeof() {
-    return sizeof(mpz_t);
-}
-
 int pbc_element_pp_sizeof() {
     return sizeof(element_pp_t);
 }

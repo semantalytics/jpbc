@@ -7,8 +7,8 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.a1.TypeA1CurveGenerator;
 import it.unisa.dia.gas.plaf.jpbc.pairing.e.TypeECurveGenerator;
 import it.unisa.dia.gas.plaf.jpbc.pairing.f.TypeFCurveGenerator;
 import it.unisa.dia.gas.plaf.jpbc.pbc.PBCPairing;
-import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCLibraryProvider;
 import it.unisa.dia.gas.plaf.jpbc.pbc.pairing.PairingTest;
+import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.WrapperLibraryProvider;
 
 import java.util.Map;
 
@@ -52,7 +52,7 @@ public class JPBCCurveGeneratorPBCPairingTest extends PairingTest {
         pairing = null;
 
         // Check for link library
-        if (!PBCLibraryProvider.isAvailable())
+        if (!WrapperLibraryProvider.isAvailable())
             return;
 
         pairing = new PBCPairing((CurveParams) curve);

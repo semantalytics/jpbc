@@ -4,10 +4,10 @@ import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericElement;
 import it.unisa.dia.gas.plaf.jpbc.gmp.jna.GMPLibrary;
-import it.unisa.dia.gas.plaf.jpbc.gmp.jna.GMPLibraryProvider;
-import it.unisa.dia.gas.plaf.jpbc.gmp.jna.MPZElementType;
-import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCLibraryProvider;
+import it.unisa.dia.gas.plaf.jpbc.gmp.jna.GMPProvider;
 import it.unisa.dia.gas.plaf.jpbc.util.BigIntegerUtils;
+import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.MPZElementType;
+import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.WrapperLibraryProvider;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -16,7 +16,7 @@ import java.security.SecureRandom;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class MPZElement extends GenericElement {
-    static final GMPLibrary gmpLibrary = GMPLibraryProvider.getGmpLibrary();
+    static final GMPLibrary gmpLibrary = GMPProvider.getGmpLibrary();
 
 
     protected MPZElementType value;
@@ -212,7 +212,7 @@ public class MPZElement extends GenericElement {
 
     public MPZElement sub(Element element) {
         gmpLibrary.__gmpz_sub(value, value, ((MPZElement) element).value);
-        if (PBCLibraryProvider.getPbcLibrary().gmp_mpz_sign(value) < 0) {
+        if (WrapperLibraryProvider.getWrapperLibrary().gmp_mpz_sign(value) < 0) {
             gmpLibrary.__gmpz_add(value, value, order);
         }
 

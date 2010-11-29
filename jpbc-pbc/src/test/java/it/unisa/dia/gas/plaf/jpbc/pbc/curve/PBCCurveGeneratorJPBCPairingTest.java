@@ -2,8 +2,8 @@ package it.unisa.dia.gas.plaf.jpbc.pbc.curve;
 
 import it.unisa.dia.gas.jpbc.CurveGenerator;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
-import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCLibraryProvider;
 import it.unisa.dia.gas.plaf.jpbc.pbc.pairing.PairingTest;
+import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.WrapperLibraryProvider;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -13,7 +13,7 @@ public class PBCCurveGeneratorJPBCPairingTest extends PairingTest {
 
     public void testTypeA() {
         // Check for link library
-        if (!PBCLibraryProvider.isAvailable())
+        if (!WrapperLibraryProvider.isAvailable())
             return;
 
         CurveGenerator curveGenerator = new PBCTypeACurveGenerator(181, 603);
@@ -26,7 +26,7 @@ public class PBCCurveGeneratorJPBCPairingTest extends PairingTest {
 
     public void testTypeA1() {
         // Check for link library
-        if (!PBCLibraryProvider.isAvailable())
+        if (!WrapperLibraryProvider.isAvailable())
             return;
 
         CurveGenerator curveGenerator = new PBCTypeA1CurveGenerator();
@@ -39,7 +39,7 @@ public class PBCCurveGeneratorJPBCPairingTest extends PairingTest {
 
     public void testTypeD() {
         // Check for link library
-        if (!PBCLibraryProvider.isAvailable())
+        if (!WrapperLibraryProvider.isAvailable())
             return;
 
         CurveGenerator curveGenerator = new PBCTypeDCurveGenerator(9563);
@@ -52,7 +52,7 @@ public class PBCCurveGeneratorJPBCPairingTest extends PairingTest {
 
     public void testTypeE() {
         // Check for link library
-        if (!PBCLibraryProvider.isAvailable())
+        if (!WrapperLibraryProvider.isAvailable())
             return;
 
         CurveGenerator curveGenerator = new PBCTypeECurveGenerator(160, 1024);
@@ -65,7 +65,7 @@ public class PBCCurveGeneratorJPBCPairingTest extends PairingTest {
 
     public void testTypeF() {
         // Check for link library
-        if (!PBCLibraryProvider.isAvailable())
+        if (!WrapperLibraryProvider.isAvailable())
             return;
 
         CurveGenerator curveGenerator = new PBCTypeFCurveGenerator(160);
@@ -78,7 +78,7 @@ public class PBCCurveGeneratorJPBCPairingTest extends PairingTest {
 
     public void testTypeG() {
         // Check for link library
-        if (!PBCLibraryProvider.isAvailable())
+        if (!WrapperLibraryProvider.isAvailable())
             return;
 
         CurveGenerator curveGenerator = new PBCTypeGCurveGenerator(35707);

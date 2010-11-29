@@ -3,8 +3,8 @@ package it.unisa.dia.gas.plaf.jpbc.pbc.element;
 import it.unisa.dia.gas.plaf.jpbc.element.ElementPowPreProcessingTest;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pbc.PBCPairing;
-import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCLibraryProvider;
 import it.unisa.dia.gas.plaf.jpbc.pbc.pairing.PBCPairingTest;
+import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.WrapperLibraryProvider;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -12,7 +12,7 @@ import it.unisa.dia.gas.plaf.jpbc.pbc.pairing.PBCPairingTest;
 public class PBCElementPowPreProcessingTest extends ElementPowPreProcessingTest {
 
    protected void setUp() throws Exception {
-        if (PBCLibraryProvider.isAvailable())
+        if (WrapperLibraryProvider.isAvailable())
             pairing = new PBCPairing(getCurveParams());
         else
             pairing = null;

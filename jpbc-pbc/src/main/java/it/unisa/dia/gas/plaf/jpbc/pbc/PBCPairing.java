@@ -7,9 +7,9 @@ import it.unisa.dia.gas.plaf.jpbc.pbc.field.PBCG1Field;
 import it.unisa.dia.gas.plaf.jpbc.pbc.field.PBCG2Field;
 import it.unisa.dia.gas.plaf.jpbc.pbc.field.PBCGTField;
 import it.unisa.dia.gas.plaf.jpbc.pbc.field.PBCZrField;
-import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCLibraryProvider;
-import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCPairingPPType;
-import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCPairingType;
+import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.PBCPairingPPType;
+import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.PBCPairingType;
+import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.WrapperLibraryProvider;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -25,7 +25,7 @@ public class PBCPairing implements Pairing {
 
 
     public PBCPairing(CurveParams curveParams) {
-        if (!PBCLibraryProvider.isAvailable())
+        if (!WrapperLibraryProvider.isAvailable())
             throw new IllegalStateException("PBC support not available.");
 
         // Init pairing...
@@ -37,7 +37,7 @@ public class PBCPairing implements Pairing {
 
 
     public boolean isSymmetric() {
-        return PBCLibraryProvider.getPbcLibrary().pbc_pairing_is_symmetric(pairing) == 1;
+        return WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_is_symmetric(pairing) == 1;
     }
 
     public Field<? extends Point> getG1() {
@@ -59,13 +59,13 @@ public class PBCPairing implements Pairing {
     public Element pairing(Element in1, Element in2) {
         PBCElement out = (PBCElement) gTField.newElement();
 
-        PBCLibraryProvider.getPbcLibrary().pbc_pairing_apply(
+        WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_apply(
                 out.getValue(),
                 ((PBCElement) in1).getValue(),
                 ((PBCElement) in2).getValue(),
                 pairing
         );
-//        PBCLibraryProvider.getPbcLibrary().pbc_element_pairing(
+//        WrapperLibraryProvider.getWrapperLibrary().pbc_element_pairing(
 //                out.getValue(),
 //                ((PBCElement) in1).getValue(),
 //                ((PBCElement) in2).getValue()
@@ -87,7 +87,7 @@ public class PBCPairing implements Pairing {
             in2Pointers[i] = ((PBCElement) in2[i]).getValue();
         }
 
-        PBCLibraryProvider.getPbcLibrary().pbc_pairing_prod(
+        WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_prod(
                 out.getValue(),
                 in1Pointers,
                 in2Pointers,
@@ -101,7 +101,7 @@ public class PBCPairing implements Pairing {
     }
 
     public boolean isAlmostCoddh(Element a, Element b, Element c, Element d) {
-        return PBCLibraryProvider.getPbcLibrary().pbc_is_almost_coddh(
+        return WrapperLibraryProvider.getWrapperLibrary().pbc_is_almost_coddh(
                 ((PBCElement) a).getValue(),
                 ((PBCElement) b).getValue(),
                 ((PBCElement) c).getValue(),
@@ -139,7 +139,7 @@ public class PBCPairing implements Pairing {
 
         public Element pairing(Element in2) {
             PBCElement out = (PBCElement) gTField.newElement();
-            PBCLibraryProvider.getPbcLibrary().pbc_pairing_pp_apply(
+            WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_pp_apply(
                     out.value,
                     ((PBCElement) in2).value,
                     pairingPPType

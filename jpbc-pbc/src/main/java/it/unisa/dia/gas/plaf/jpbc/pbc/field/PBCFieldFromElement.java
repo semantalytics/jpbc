@@ -1,11 +1,11 @@
 package it.unisa.dia.gas.plaf.jpbc.pbc.field;
 
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.plaf.jpbc.gmp.jna.MPZElementType;
 import it.unisa.dia.gas.plaf.jpbc.pbc.PBCElement;
 import it.unisa.dia.gas.plaf.jpbc.pbc.PBCField;
-import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCElementType;
-import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCLibraryProvider;
+import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.MPZElementType;
+import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.PBCElementType;
+import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.WrapperLibraryProvider;
 
 import java.math.BigInteger;
 
@@ -20,17 +20,17 @@ public class PBCFieldFromElement extends PBCField {
         super(null);
 
         this.pbcElement = pbcElement;
-        this.fixedLengthInBytes = PBCLibraryProvider.getPbcLibrary().pbc_element_length_in_bytes(pbcElement);
+        this.fixedLengthInBytes = WrapperLibraryProvider.getWrapperLibrary().pbc_element_length_in_bytes(pbcElement);
 
         MPZElementType mpzOrder = new MPZElementType();
         mpzOrder.init();
-        PBCLibraryProvider.getPbcLibrary().pbc_field_order(pbcElement, mpzOrder);
+        WrapperLibraryProvider.getWrapperLibrary().pbc_field_order(pbcElement, mpzOrder);
         this.order = new BigInteger(mpzOrder.toString(10));
     }
 
     public Element newElement() {
         PBCElementType element = new PBCElementType();
-        PBCLibraryProvider.getPbcLibrary().pbc_element_init_same_as(element, pbcElement);
+        WrapperLibraryProvider.getWrapperLibrary().pbc_element_init_same_as(element, pbcElement);
 
         return new PBCElement(element, this);
     }

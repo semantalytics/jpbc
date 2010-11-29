@@ -1,6 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.pbc.curve;
 
-import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCLibraryProvider;
+import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.WrapperLibraryProvider;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -15,6 +15,6 @@ public class PBCTypeFCurveGenerator extends PBCCurveGenerator {
 
 
     protected void pbcGenerate(String fileName) {
-        PBCLibraryProvider.getPbcLibrary().pbc_curvegen_f(fileName, rbits);
+        WrapperLibraryProvider.getWrapperLibrary().pbc_curvegen_f(fileName, rbits);
     }
 }

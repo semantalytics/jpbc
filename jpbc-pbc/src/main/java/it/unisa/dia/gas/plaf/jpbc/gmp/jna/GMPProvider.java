@@ -5,7 +5,7 @@ import com.sun.jna.Native;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class GMPLibraryProvider {
+public class GMPProvider {
 
     private static GMPLibrary gmpLibrary;
 

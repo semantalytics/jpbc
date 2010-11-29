@@ -3,10 +3,10 @@ package it.unisa.dia.gas.plaf.jpbc.pbc;
 import com.sun.jna.Pointer;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.plaf.jpbc.gmp.jna.MPZElementType;
-import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCLibraryProvider;
-import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCPairingType;
 import it.unisa.dia.gas.plaf.jpbc.util.BigIntegerUtils;
+import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.MPZElementType;
+import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.PBCPairingType;
+import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.WrapperLibraryProvider;
 
 import java.math.BigInteger;
 
@@ -26,11 +26,11 @@ public abstract class PBCField implements Field {
         if (pairing != null) {
             PBCElement temp = (PBCElement) newElement();
 
-            this.fixedLengthInBytes = PBCLibraryProvider.getPbcLibrary().pbc_element_length_in_bytes(temp.value);
+            this.fixedLengthInBytes = WrapperLibraryProvider.getWrapperLibrary().pbc_element_length_in_bytes(temp.value);
 
             MPZElementType mpzOrder = new MPZElementType();
             mpzOrder.init();
-            PBCLibraryProvider.getPbcLibrary().pbc_field_order(temp.value, mpzOrder);
+            WrapperLibraryProvider.getWrapperLibrary().pbc_field_order(temp.value, mpzOrder);
             this.order = new BigInteger(mpzOrder.toString(10));
         }
     }
@@ -78,7 +78,7 @@ public abstract class PBCField implements Field {
             pointers[i] = ((PBCElement) elements[i]).getValue();
         }
 
-        PBCLibraryProvider.getPbcLibrary().pbc_element_multi_double(pointers, pointers, elements.length);
+        WrapperLibraryProvider.getWrapperLibrary().pbc_element_multi_double(pointers, pointers, elements.length);
 
         return elements;
     }
@@ -94,7 +94,7 @@ public abstract class PBCField implements Field {
             bPointers[i] = ((PBCElement) b[i]).getValue();
         }
 
-        PBCLibraryProvider.getPbcLibrary().pbc_element_multi_add(aPointers, aPointers, bPointers, a.length);
+        WrapperLibraryProvider.getWrapperLibrary().pbc_element_multi_add(aPointers, aPointers, bPointers, a.length);
 
         return a;
     }

@@ -2,7 +2,7 @@ package it.unisa.dia.gas.jpbc.benchmark;
 
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pbc.PairingFactory;
-import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCLibraryProvider;
+import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.WrapperLibraryProvider;
 
 import java.util.Arrays;
 
@@ -18,7 +18,7 @@ public class PBCBenchmark extends JPBCBenchmark {
 
     @Override
     public Benchmark benchmark(String[] curves) {
-        if (!PBCLibraryProvider.isAvailable())
+        if (!WrapperLibraryProvider.isAvailable())
             return null;
         return super.benchmark(curves);
     }

@@ -1,8 +1,8 @@
 package it.unisa.dia.gas.plaf.jpbc.gmp.field;
 
 import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericField;
-import it.unisa.dia.gas.plaf.jpbc.gmp.jna.MPZElementType;
 import it.unisa.dia.gas.plaf.jpbc.util.BigIntegerUtils;
+import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.MPZElementType;
 
 import java.math.BigInteger;
 

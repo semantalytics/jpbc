@@ -2,7 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.pbc.pairing;
 
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pbc.PBCPairing;
-import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCLibraryProvider;
+import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.WrapperLibraryProvider;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -27,7 +27,7 @@ public class PBCPairingTest extends PairingTest {
 
     
     protected void setUp() throws Exception {
-        if (PBCLibraryProvider.isAvailable()) {
+        if (WrapperLibraryProvider.isAvailable()) {
             pairing = new PBCPairing(getCurveParams());
 
             assertNotNull(pairing.getG1());
