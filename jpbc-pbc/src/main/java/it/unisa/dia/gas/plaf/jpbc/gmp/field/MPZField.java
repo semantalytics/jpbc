@@ -12,7 +12,7 @@ import java.math.BigInteger;
 public class MPZField extends GenericField<MPZElement> {
 
     protected BigInteger bigIntOrder;
-    protected MPZElementType order;
+    public MPZElementType order;
 
     public MPZElement nqr;
     protected int fixedLengthInBytes;

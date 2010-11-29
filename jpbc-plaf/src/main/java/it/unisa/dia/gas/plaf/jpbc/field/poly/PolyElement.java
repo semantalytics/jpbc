@@ -28,13 +28,13 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
     }
 
     public PolyElement<E> duplicate() {
-        PolyElement duplicated = new PolyElement(field);
+        PolyElement copy = new PolyElement(field);
 
         for (Element e : coeff) {
-            duplicated.coeff.add(e.duplicate());
+            copy.coeff.add(e.duplicate());
         }
 
-        return duplicated;
+        return copy;
     }
 
     public PolyElement<E> set(Element e) {

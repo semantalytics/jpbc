@@ -2,12 +2,15 @@
 #include <unistd.h>
 #include <time.h>
 #include <assert.h>
+#include <stdio.h>
+#include <math.h>
+
+#include <gmp.h>
+
 #include <pbc/pbc.h>
 #include <pbc/pbc_field.h>
 #include <pbc/pbc_pairing.h>
 #include <pbc/pbc_utils.h>
-#include <stdio.h>
-#include <math.h>
 
 // ==============
 // sizeof methods
@@ -458,4 +461,13 @@ void pbc_field_order(element_t element, mpz_t order) {
     //gmp_fprintf(stderr, "element->field->order = %Zd\n", element->field->order);
     mpz_set(order, element->field->order);
     //gmp_fprintf(stderr, "order = %Zd\n", order);
+}
+
+
+// ===
+// GMP
+// ===
+
+int gmp_mpz_sign(mpz_ptr value) {
+    return mpz_sgn(value);
 }

@@ -6,6 +6,7 @@ import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericElement;
 import it.unisa.dia.gas.plaf.jpbc.gmp.jna.GMPLibrary;
 import it.unisa.dia.gas.plaf.jpbc.gmp.jna.GMPLibraryProvider;
 import it.unisa.dia.gas.plaf.jpbc.gmp.jna.MPZElementType;
+import it.unisa.dia.gas.plaf.jpbc.pbc.jna.PBCLibraryProvider;
 import it.unisa.dia.gas.plaf.jpbc.util.BigIntegerUtils;
 
 import java.math.BigInteger;
@@ -20,7 +21,8 @@ public class MPZElement extends GenericElement {
 
     protected MPZElementType value;
 
-    protected BigInteger order;
+    protected BigInteger bigIntOrder;
+    protected MPZElementType order;
     protected SecureRandom secureRandom;
 
 
@@ -29,21 +31,24 @@ public class MPZElement extends GenericElement {
 
         this.value = new MPZElementType();
         this.value.init();
-        this.order = field.getOrder();
+        this.order = ((MPZField) field).order;
+        this.bigIntOrder = field.getOrder();
     }
 
     public MPZElement(Field field, BigInteger value) {
         super(field);
 
         this.value = MPZElementType.fromBigInteger(value);
-        this.order = field.getOrder();
+        this.order = ((MPZField) field).order;
+        this.bigIntOrder = field.getOrder();
     }
 
     public MPZElement(MPZElement element) {
         super(element.getField());
 
         this.value = element.value.duplicate();
-        this.order = element.field.getOrder();
+        this.order = ((MPZField) field).order;
+        this.bigIntOrder = field.getOrder();
     }
 
 
@@ -58,59 +63,50 @@ public class MPZElement extends GenericElement {
     }
 
     public MPZElement set(Element value) {
-            // TODO: we should import also the field...
-        //if (this.field != value.getField()) {
-//        this.field = element.field;
-        //}
-        this.value = ((MPZElement) value).value.duplicate();
+        gmpLibrary.__gmpz_set(this.value, ((MPZElement) value).value);
 
         return this;
     }
 
     public MPZElement set(int value) {
-//        gmpLibrary.__gmpz_set(this.value, value);
-//        gmpLibrary.__gmpz_mod(this.value);
+        gmpLibrary.__gmpz_set_ui(this.value, value);
+        gmpLibrary.__gmpz_mod(this.value, this.value, order);
 
         return this;
     }
 
     public MPZElement set(BigInteger value) {
         gmpLibrary.__gmpz_set_str(this.value, value.toString(), 10);
-//        gmpLibrary.__gmpz_mod(order);
+        gmpLibrary.__gmpz_mod(this.value, this.value, order);
 
         return this;
     }
 
     public boolean isZero() {
-        return BigInteger.ZERO.equals(value);
+        return gmpLibrary.__gmpz_cmp_ui(value, 0) == 0;
     }
 
     public boolean isOne() {
-        return BigInteger.ONE.equals(value);
+        return gmpLibrary.__gmpz_cmp_ui(value, 1) == 0;
     }
 
     public MPZElement twice() {
-//        gmpLibrary.__gmpz_add(value, value);
-//        gmpLibrary.__gmpz_mod(order);
-
-        return this;
-    }
-
-    public MPZElement mul(int z) {
-//        gmpLibrary.__gmpz_mul(value, z);
-//        gmpLibrary.__gmpz_mod(order);
+        gmpLibrary.__gmpz_mul_2exp(value, value, 1);
+        if (gmpLibrary.__gmpz_cmp(value, order) >= 0) {
+            gmpLibrary.__gmpz_sub(value, value, order);
+        }
 
         return this;
     }
 
     public MPZElement setToZero() {
-//        this.value = BigInteger.ZERO;
+        gmpLibrary.__gmpz_set_si(value, 0);
 
         return this;
     }
 
     public MPZElement setToOne() {
-//        this.value = BigInteger.ONE;
+        gmpLibrary.__gmpz_set_si(value, 1);
 
         return this;
     }
@@ -119,13 +115,13 @@ public class MPZElement extends GenericElement {
         if (secureRandom == null)
             secureRandom = new SecureRandom();
 
-//        this.value = new BigInteger(order.bitLength(), secureRandom).mod(order);
+        set(new BigInteger(bigIntOrder.bitLength(), secureRandom));
 
         return this;
     }
 
     public MPZElement setFromHash(byte[] source, int offset, int length) {
-        int i = 0, n, count = (order.bitLength() + 7) / 8;
+        int i = 0, n, count = (bigIntOrder.bitLength() + 7) / 8;
 
         byte[] buf = new byte[count];
         byte counter = 0;
@@ -155,13 +151,11 @@ public class MPZElement extends GenericElement {
         //mpz_import(z, count, 1, 1, 1, 0, buf);
         BigInteger z = new BigInteger(1, buf);
 
-        while (z.compareTo(order) > 0) {
+        while (z.compareTo(bigIntOrder) > 0) {
             z = z.divide(BigIntegerUtils.TWO);
         }
 
-//        this.value = z;
-
-        return this;
+        throw new IllegalStateException("Not implemented Yet!!!");
     }
 
     public int setFromBytes(byte[] source) {
@@ -169,64 +163,78 @@ public class MPZElement extends GenericElement {
     }
 
     public int setFromBytes(byte[] source, int offset) {
-//        value = new BigInteger(1, Utils.copyOf(source, offset, field.getLengthInBytes())).mod(order);
-
-        return field.getLengthInBytes();
+        throw new IllegalStateException("Not implemented Yet!!!");
     }
 
     public MPZElement square() {
-//        value = value.modPow(BigIntegerUtils.TWO, order);
-//        value = value.multiply(value).mod(order);
+        gmpLibrary.__gmpz_powm_ui(value, value, 2, order);
 
         return this;
     }
 
     public MPZElement invert() {
-//        value = value.modInverse(order);
+        gmpLibrary.__gmpz_invert(value, value, order);
 
         return this;
     }
 
     public MPZElement halve() {
-//        value = value.multiply(BigIntegerUtils.TWO.modInverse(order)).mod(order);
-
+        mul(new MPZElement(field).set(2).invert());
+//
+//        if (gmpLibrary.__gmpz_odd_p(value) != 0) {
+//            gmpLibrary.__gmpz_add(value, value, order);
+//            gmpLibrary.__gmpz_tdiv_q_2exp(value, value, 1);
+//        } else {
+//            gmpLibrary.__gmpz_tdiv_q_2exp(value, value, 1);
+//        }
+//
         return this;
     }
 
     public MPZElement negate() {
         if (isZero()) {
-//            value = BigInteger.ZERO;
-            return this;
+            gmpLibrary.__gmpz_set_ui(value, 0);
+        } else {
+            gmpLibrary.__gmpz_sub(value, order, value);
         }
-
-//        value = order.subtract(value);
-
         return this;
     }
 
     public MPZElement add(Element element) {
-//        gmpLibrary.__gmpz_add(value, ((MPZElement)element).value);
-//        gmpLibrary.__gmpz_mod(value);
+        gmpLibrary.__gmpz_add(value, value, ((MPZElement) element).value);
+
+        if (gmpLibrary.__gmpz_cmp(value, order) >= 0) {
+            gmpLibrary.__gmpz_sub(value, value, order);
+        }
 
         return this;
     }
 
     public MPZElement sub(Element element) {
-//        gmpLibrary.__gmpz_sub(value, ((MPZElement)element).value);
-//        gmpLibrary.__gmpz_mod(value);
+        gmpLibrary.__gmpz_sub(value, value, ((MPZElement) element).value);
+        if (PBCLibraryProvider.getPbcLibrary().gmp_mpz_sign(value) < 0) {
+            gmpLibrary.__gmpz_add(value, value, order);
+        }
 
         return this;
     }
 
     public MPZElement div(Element element) {
-//        value = value.multiply(((MPZElement)element).value.modInverse(order)).mod(order);
+        mul(element.duplicate().invert());
+
+        return this;
+    }
+
+    public MPZElement mul(int z) {
+        gmpLibrary.__gmpz_mul_si(value, value, z);
+        gmpLibrary.__gmpz_mod(value, value, order);
 
         return this;
     }
 
     public MPZElement mul(Element element) {
-//        gmpLibrary.__gmpz_mul(value, ((MPZElement)element).value);
-//        gmpLibrary.__gmpz_mod(value);
+        gmpLibrary.__gmpz_mul(value, value, ((MPZElement) element).value);
+        gmpLibrary.__gmpz_mod(value, value, order);
 
         return this;
     }
@@ -234,7 +242,7 @@ public class MPZElement extends GenericElement {
     public MPZElement mul(BigInteger n) {
 //        this.value = this.value.multiply(n).mod(order);
 
-        return this;
+        throw new IllegalStateException("Not implemented Yet!!!");
     }
 
     public MPZElement mulZn(Element z) {
@@ -242,8 +250,9 @@ public class MPZElement extends GenericElement {
     }
 
     public boolean isSqr() {
-//        return BigInteger.ZERO.equals(value) || BigIntegerUtils.legendre(value, order) == 1;
-        return false;
+        if (gmpLibrary.__gmpz_cmp_ui(value, 0) == 0)
+            return true;
+        return gmpLibrary.__gmpz_legendre(value, order) == 1;
     }
 
     public MPZElement sqrt() {
@@ -255,12 +264,12 @@ public class MPZElement extends GenericElement {
 
         // let q be the order of the field
         // q - 1 = 2^s t, for some t odd
-        BigInteger t = order.subtract(BigInteger.ONE);
+        BigInteger t = bigIntOrder.subtract(BigInteger.ONE);
         int s = BigIntegerUtils.scanOne(t, 0);
         t = t.divide(BigInteger.valueOf(2 << (s - 1)));
 
         BigInteger e = BigInteger.ZERO;
-        BigInteger orderMinusOne = order.subtract(BigInteger.ONE);
+        BigInteger orderMinusOne = bigIntOrder.subtract(BigInteger.ONE);
 
         for (int i = 2; i <= s; i++) {
             e0.set(gInv).pow(e);
@@ -288,7 +297,7 @@ public class MPZElement extends GenericElement {
 
 
     public MPZElement pow(BigInteger n) {
-//        this.value = this.value.modPow(n, order);
+        gmpLibrary.__gmpz_powm(value, value, MPZElementType.fromBigInteger(n), order);
 
         return this;
     }
@@ -298,13 +307,11 @@ public class MPZElement extends GenericElement {
     }
 
     public boolean isEqual(Element e) {
-//        return this == e || value.compareTo(((MPZElement) e).value) == 0;
-        return false;
-
+        return this == e || gmpLibrary.__gmpz_cmp(value, ((MPZElement) e).value) == 0;
     }
 
     public BigInteger toBigInteger() {
-        return new BigInteger(value.toString(10));
+        return value.toBigInteger();
     }
 
     @Override
@@ -323,29 +330,21 @@ public class MPZElement extends GenericElement {
 //            return result;
 //        }
 //        return bytes;
-        return null;
+        throw new IllegalStateException("Not implemented Yet!!!");
     }
 
     public int sign() {
-        if (isZero())
-            return 0;
-
-//        if (field.isOrderOdd()) {
-//            return BigIntegerUtils.isOdd(value) ? 1 : -1;
-//        } else {
-//            return value.add(value).compareTo(order);
-//        }
-        return 0;
+        throw new IllegalStateException("Not implemented Yet!!!");
     }
 
 
     public String toString() {
-        return (value != null) ? value.toString() : "<null>";
+        return value.toString(10);
     }
 
     public boolean equals(Object o) {
         if (o instanceof MPZElement)
-            return isEqual((Element) o);        
+            return isEqual((Element) o);
         return isEqual((MPZElement) o);
     }
 }

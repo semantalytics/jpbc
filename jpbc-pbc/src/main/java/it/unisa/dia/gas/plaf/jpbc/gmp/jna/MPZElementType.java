@@ -32,16 +32,26 @@ public class MPZElementType extends Memory {
         return GMPLibraryProvider.getGmpLibrary().__gmpz_get_str(null, base, this);
     }
 
+    public BigInteger toBigInteger() {
+        return new BigInteger(GMPLibraryProvider.getGmpLibrary().__gmpz_get_str(null, 10, this));
+    }
+
     public void setFromString(String s, int base) {
         GMPLibraryProvider.getGmpLibrary().__gmpz_set_str(this, s, base);
     }
 
     public MPZElementType duplicate() {
-        // TODO: finish implementation...
         MPZElementType copy = new MPZElementType();
         copy.init();
 
+        GMPLibraryProvider.getGmpLibrary().__gmpz_set(copy, this);
+
         return copy;
+    }
+
+    @Override
+    public String toString() {
+        return toString(10);
     }
 
     @Override

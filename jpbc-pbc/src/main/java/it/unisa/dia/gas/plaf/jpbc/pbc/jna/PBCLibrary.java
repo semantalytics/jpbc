@@ -186,4 +186,7 @@ public interface PBCLibrary extends Library {
     int pbc_curvegen_f(String fileName, int rbits);
 
     int pbc_curvegen_g(String fileName, int discriminant);
+
+    int gmp_mpz_sign(Pointer value);
+
 }
