@@ -9,19 +9,19 @@ import com.sun.jna.Pointer;
 public class PBCElementPPType extends Memory {
 
     public PBCElementPPType() {
-        super(PBCLibraryProvider.getPbcLibrary().pbc_element_pp_sizeof());
+        super(WrapperLibraryProvider.getWrapperLibrary().pbc_element_pp_sizeof());
     }
 
     public PBCElementPPType(Pointer element) {
         this();
         
-        PBCLibraryProvider.getPbcLibrary().pbc_element_pp_init(this, element);
+        WrapperLibraryProvider.getWrapperLibrary().pbc_element_pp_init(this, element);
     }
 
     @Override
     protected void finalize() {
         if (isValid()) {
-            PBCLibraryProvider.getPbcLibrary().pbc_element_pp_clear(this);
+            WrapperLibraryProvider.getWrapperLibrary().pbc_element_pp_clear(this);
 
             super.finalize();
         }

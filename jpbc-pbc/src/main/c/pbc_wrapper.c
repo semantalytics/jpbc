@@ -458,12 +458,3 @@ void pbc_field_order(element_t element, mpz_t order) {
     mpz_set(order, element->field->order);
     //gmp_fprintf(stderr, "order = %Zd\n", order);
 }
-
-
-// ===
-// GMP
-// ===
-
-int gmp_mpz_sign(mpz_ptr value) {
-    return mpz_sgn(value);
-}

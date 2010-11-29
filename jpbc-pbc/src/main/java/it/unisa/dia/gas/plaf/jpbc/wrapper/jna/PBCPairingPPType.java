@@ -9,19 +9,19 @@ import com.sun.jna.Pointer;
 public class PBCPairingPPType extends Memory {
 
     public PBCPairingPPType() {
-        super(PBCLibraryProvider.getPbcLibrary().pbc_pairing_pp_sizeof());
+        super(WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_pp_sizeof());
     }
 
 
     public PBCPairingPPType(Pointer element, Pointer pairing) {
         this();
-        PBCLibraryProvider.getPbcLibrary().pbc_pairing_pp_init(this, element, pairing);        
+        WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_pp_init(this, element, pairing);
     }
 
     @Override
     protected void finalize() {
         if (isValid()) {
-            PBCLibraryProvider.getPbcLibrary().pbc_pairing_pp_clear(this);
+            WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_pp_clear(this);
         
             super.finalize();
         }

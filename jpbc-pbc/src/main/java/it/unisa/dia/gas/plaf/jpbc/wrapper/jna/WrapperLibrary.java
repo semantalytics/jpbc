@@ -2,20 +2,21 @@ package it.unisa.dia.gas.plaf.jpbc.wrapper.jna;
 
 import com.sun.jna.Library;
 import com.sun.jna.Pointer;
-import it.unisa.dia.gas.plaf.jpbc.gmp.jna.MPZElementType;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public interface PBCLibrary extends Library {
+public interface WrapperLibrary extends Library {
+
+    int gmp_mpz_sizeof();
+
+
 
     int pbc_pairing_sizeof();
 
     int pbc_element_sizeof();
 
     int pbc_pairing_pp_sizeof();
-
-    int pbc_mpz_sizeof();
 
     int pbc_element_pp_sizeof();
 

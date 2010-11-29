@@ -11,23 +11,23 @@ public class PBCElementType extends Memory {
     }
 
     public PBCElementType() {
-        super(PBCLibraryProvider.getPbcLibrary().pbc_element_sizeof());
+        super(WrapperLibraryProvider.getWrapperLibrary().pbc_element_sizeof());
     }
 
     public PBCElementType(FieldType fieldType, PBCPairingType pairing) {
-        super(PBCLibraryProvider.getPbcLibrary().pbc_element_sizeof());
+        super(WrapperLibraryProvider.getWrapperLibrary().pbc_element_sizeof());
         switch (fieldType) {
             case G1:
-                PBCLibraryProvider.getPbcLibrary().pbc_element_init_G1(this, pairing);
+                WrapperLibraryProvider.getWrapperLibrary().pbc_element_init_G1(this, pairing);
                 break;
             case G2:
-                PBCLibraryProvider.getPbcLibrary().pbc_element_init_G2(this, pairing);
+                WrapperLibraryProvider.getWrapperLibrary().pbc_element_init_G2(this, pairing);
                 break;
             case GT:
-                PBCLibraryProvider.getPbcLibrary().pbc_element_init_GT(this, pairing);
+                WrapperLibraryProvider.getWrapperLibrary().pbc_element_init_GT(this, pairing);
                 break;
             case Zr:
-                PBCLibraryProvider.getPbcLibrary().pbc_element_init_Zr(this, pairing);
+                WrapperLibraryProvider.getWrapperLibrary().pbc_element_init_Zr(this, pairing);
                 break;
         }
     }
@@ -36,7 +36,7 @@ public class PBCElementType extends Memory {
     @Override
     protected void finalize() {
         if (isValid()) {
-            PBCLibraryProvider.getPbcLibrary().pbc_element_clear(this);
+            WrapperLibraryProvider.getWrapperLibrary().pbc_element_clear(this);
 
             super.finalize();
         }
