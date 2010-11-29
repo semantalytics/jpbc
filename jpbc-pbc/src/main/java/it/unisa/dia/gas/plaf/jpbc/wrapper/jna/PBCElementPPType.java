@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.plaf.jpbc.pbc.jna;
+package it.unisa.dia.gas.plaf.jpbc.wrapper.jna;
 
 import com.sun.jna.Memory;
 import com.sun.jna.Pointer;
