@@ -7,6 +7,7 @@ import it.unisa.dia.gas.plaf.jpbc.gmp.jna.GMPLibrary;
 import it.unisa.dia.gas.plaf.jpbc.gmp.jna.GMPProvider;
 import it.unisa.dia.gas.plaf.jpbc.util.BigIntegerUtils;
 import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.MPZElementType;
+import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.WrapperLibrary;
 import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.WrapperLibraryProvider;
 
 import java.math.BigInteger;
@@ -16,7 +17,8 @@ import java.security.SecureRandom;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class MPZElement extends GenericElement {
-    static final GMPLibrary gmpLibrary = GMPProvider.getGmpLibrary();
+    static final WrapperLibrary wrapper = WrapperLibraryProvider.getWrapperLibrary();
+    static final GMPLibrary gmp = GMPProvider.getGmpLibrary();
 
 
     protected MPZElementType value;
@@ -63,50 +65,46 @@ public class MPZElement extends GenericElement {
     }
 
     public MPZElement set(Element value) {
-        gmpLibrary.__gmpz_set(this.value, ((MPZElement) value).value);
+        gmp.__gmpz_set(this.value, ((MPZElement) value).value);
 
         return this;
     }
 
     public MPZElement set(int value) {
-        gmpLibrary.__gmpz_set_ui(this.value, value);
-        gmpLibrary.__gmpz_mod(this.value, this.value, order);
+        wrapper.gmp_set_ui(this.value, value, order);
 
         return this;
     }
 
     public MPZElement set(BigInteger value) {
-        gmpLibrary.__gmpz_set_str(this.value, value.toString(), 10);
-        gmpLibrary.__gmpz_mod(this.value, this.value, order);
+        gmp.__gmpz_set_str(this.value, value.toString(), 10);
+        gmp.__gmpz_mod(this.value, this.value, order);
 
         return this;
     }
 
     public boolean isZero() {
-        return gmpLibrary.__gmpz_cmp_ui(value, 0) == 0;
+        return gmp.__gmpz_cmp_ui(value, 0) == 0;
     }
 
     public boolean isOne() {
-        return gmpLibrary.__gmpz_cmp_ui(value, 1) == 0;
+        return gmp.__gmpz_cmp_ui(value, 1) == 0;
     }
 
     public MPZElement twice() {
-        gmpLibrary.__gmpz_mul_2exp(value, value, 1);
-        if (gmpLibrary.__gmpz_cmp(value, order) >= 0) {
-            gmpLibrary.__gmpz_sub(value, value, order);
-        }
+        wrapper.gmp_twice(value, order);
 
         return this;
     }
 
     public MPZElement setToZero() {
-        gmpLibrary.__gmpz_set_si(value, 0);
+        gmp.__gmpz_set_si(value, 0);
 
         return this;
     }
 
     public MPZElement setToOne() {
-        gmpLibrary.__gmpz_set_si(value, 1);
+        gmp.__gmpz_set_si(value, 1);
 
         return this;
     }
@@ -167,75 +165,47 @@ public class MPZElement extends GenericElement {
     }
 
     public MPZElement square() {
-        gmpLibrary.__gmpz_powm_ui(value, value, 2, order);
-
+        gmp.__gmpz_powm_ui(value, value, 2, order);
         return this;
     }
 
     public MPZElement invert() {
-        gmpLibrary.__gmpz_invert(value, value, order);
-
+        gmp.__gmpz_invert(value, value, order);
         return this;
     }
 
     public MPZElement halve() {
-        mul(new MPZElement(field).set(2).invert());
-//
-//        if (gmpLibrary.__gmpz_odd_p(value) != 0) {
-//            gmpLibrary.__gmpz_add(value, value, order);
-//            gmpLibrary.__gmpz_tdiv_q_2exp(value, value, 1);
-//        } else {
-//            gmpLibrary.__gmpz_tdiv_q_2exp(value, value, 1);
-//        }
-//
+        wrapper.gmp_halve(value, order);
         return this;
     }
 
     public MPZElement negate() {
-        if (isZero()) {
-            gmpLibrary.__gmpz_set_ui(value, 0);
-        } else {
-            gmpLibrary.__gmpz_sub(value, order, value);
-        }
+        wrapper.gmp_negate(value, order);
         return this;
     }
 
     public MPZElement add(Element element) {
-        gmpLibrary.__gmpz_add(value, value, ((MPZElement) element).value);
-
-        if (gmpLibrary.__gmpz_cmp(value, order) >= 0) {
-            gmpLibrary.__gmpz_sub(value, value, order);
-        }
-
+        wrapper.gmp_add(value, ((MPZElement) element).value, order);
         return this;
     }
 
     public MPZElement sub(Element element) {
-        gmpLibrary.__gmpz_sub(value, value, ((MPZElement) element).value);
-        if (WrapperLibraryProvider.getWrapperLibrary().gmp_mpz_sign(value) < 0) {
-            gmpLibrary.__gmpz_add(value, value, order);
-        }
-
+        wrapper.gmp_sub(value, ((MPZElement) element).value, order);
         return this;
     }
 
     public MPZElement div(Element element) {
         mul(element.duplicate().invert());
-
         return this;
     }
 
     public MPZElement mul(int z) {
-        gmpLibrary.__gmpz_mul_si(value, value, z);
-        gmpLibrary.__gmpz_mod(value, value, order);
-
+        wrapper.gmp_mul_ui(value, z, order);
         return this;
     }
 
     public MPZElement mul(Element element) {
-        gmpLibrary.__gmpz_mul(value, value, ((MPZElement) element).value);
-        gmpLibrary.__gmpz_mod(value, value, order);
-
+        wrapper.gmp_mul(value, ((MPZElement) element).value, order);
         return this;
     }
 
@@ -250,9 +220,9 @@ public class MPZElement extends GenericElement {
     }
 
     public boolean isSqr() {
-        if (gmpLibrary.__gmpz_cmp_ui(value, 0) == 0)
+        if (gmp.__gmpz_cmp_ui(value, 0) == 0)
             return true;
-        return gmpLibrary.__gmpz_legendre(value, order) == 1;
+        return gmp.__gmpz_legendre(value, order) == 1;
     }
 
     public MPZElement sqrt() {
@@ -297,7 +267,7 @@ public class MPZElement extends GenericElement {
 
 
     public MPZElement pow(BigInteger n) {
-        gmpLibrary.__gmpz_powm(value, value, MPZElementType.fromBigInteger(n), order);
+        gmp.__gmpz_powm(value, value, MPZElementType.fromBigInteger(n), order);
 
         return this;
     }
@@ -307,7 +277,7 @@ public class MPZElement extends GenericElement {
     }
 
     public boolean isEqual(Element e) {
-        return this == e || gmpLibrary.__gmpz_cmp(value, ((MPZElement) e).value) == 0;
+        return this == e || gmp.__gmpz_cmp(value, ((MPZElement) e).value) == 0;
     }
 
     public BigInteger toBigInteger() {

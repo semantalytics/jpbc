@@ -344,10 +344,10 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
         int targetLB = field.getTargetField().getLengthInBytes();
         byte[] buffer = new byte[2 + (count * targetLB)];
 
-        buffer[0] = (byte) count;
-        buffer[1] = (byte) (count >> 8);
+        buffer[0] = (byte) ((count >>> 8) & 0xFF);
+        buffer[1] = (byte) ((count >>> 0) & 0xFF);
 
-        for (int len = 0, i = 0; i < count; i++, len += targetLB) {
+        for (int len = 2, i = 0; i < count; i++, len += targetLB) {
             byte[] temp = coeff.get(i).toBytes();
             System.arraycopy(temp, 0, buffer, len, targetLB);
         }
@@ -362,7 +362,9 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
     @Override
     public int setFromBytes(byte[] source, int offset) {
         int len = offset;
-        int count = source[len] + source[len + 1] * 256;
+        int count = ((source[len] << 8) + (source[len+1] << 0));
+
+        ensureSize(count);
         len += 2;
         for (int i = 0; i < count; i++) {
             len += coeff.get(i).setFromBytes(source, len);

@@ -10,6 +10,21 @@ public interface WrapperLibrary extends Library {
 
     int gmp_mpz_sizeof();
 
+    void gmp_set_ui(Pointer out, int value, Pointer order);
+
+    void gmp_twice(Pointer out, Pointer order);
+
+    void gmp_add(Pointer out, Pointer in, Pointer order);
+
+    void gmp_sub(Pointer out, Pointer in, Pointer order);
+
+    void gmp_mul(Pointer out, Pointer in, Pointer order);
+
+    void gmp_mul_ui(Pointer out, int in, Pointer order);
+
+    void gmp_negate(Pointer out, Pointer order);
+
+    void gmp_halve(Pointer out, Pointer order);
 
 
     int pbc_pairing_sizeof();
