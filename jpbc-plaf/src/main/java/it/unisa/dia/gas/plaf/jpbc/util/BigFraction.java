@@ -84,8 +84,9 @@ public class BigFraction {
         return lhsNominator.compareTo(rhsNominator);
     }
 
-    public boolean equals(BigFraction rhs) {
-        return compareTo(rhs) == 0 ? true : false;
+    @Override
+    public boolean equals(Object obj) {
+        return (obj instanceof BigFraction) && compareTo((BigFraction) obj) == 0;
     }
 
     public static String toString(BigFraction f) {

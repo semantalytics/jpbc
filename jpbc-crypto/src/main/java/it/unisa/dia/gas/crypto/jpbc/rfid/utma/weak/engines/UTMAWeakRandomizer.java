@@ -33,10 +33,6 @@ public class UTMAWeakRandomizer {
             this.key = (UTMAWeakPublicKeyParameters) param;
         }
 
-        if (!(key instanceof UTMAWeakPublicKeyParameters)) {
-            throw new IllegalArgumentException("UTMAWeakPublicKeyParameters are required for encryption.");
-        }
-
         this.pairing = PairingFactory.getPairing(key.getParameters().getCurveParams());
     }
 

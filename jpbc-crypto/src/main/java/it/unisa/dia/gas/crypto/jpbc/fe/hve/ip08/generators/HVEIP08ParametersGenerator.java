@@ -6,6 +6,8 @@ import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
+import java.util.Arrays;
+
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
@@ -18,7 +20,7 @@ public class HVEIP08ParametersGenerator {
 
     public void init(CurveParams curveParams, int[] attributeLengths) {
         this.curveParams = curveParams;
-        this.attributeLengths = attributeLengths;
+        this.attributeLengths = Arrays.copyOf(attributeLengths, attributeLengths.length);
 
         this.pairing = PairingFactory.getPairing(curveParams);
     }

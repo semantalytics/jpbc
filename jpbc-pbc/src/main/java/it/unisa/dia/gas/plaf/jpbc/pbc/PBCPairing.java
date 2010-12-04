@@ -110,16 +110,6 @@ public class PBCPairing implements Pairing {
         ) == 1;
     }
 
-    @Override
-    protected void finalize() throws Throwable {
-        super.finalize();
-        
-        g1Field = null;
-        g2Field = null;
-        gTField = null;
-        zRField = null;
-    }
-
     protected void initFields() {
         g1Field = new PBCG1Field(pairing);
         g2Field = new PBCG2Field(pairing);

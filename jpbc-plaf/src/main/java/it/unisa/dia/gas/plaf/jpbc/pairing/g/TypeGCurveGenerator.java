@@ -54,7 +54,7 @@ public class TypeGCurveGenerator implements CurveGenerator {
             throw new IllegalArgumentException("D must be 43 or 67 mod 120 and positive.");
         }
 
-        BigInteger D15 = BigInteger.valueOf(discriminant * 15);
+        BigInteger D15 = BigInteger.valueOf(discriminant * 15l);
         if (BigIntegerUtils.isPerfectSquare(D15)) {
             // (the only squares that differ by 8 are 1 and 9,
             // which we get if U=V=1, D=3, but then l is not an integer)

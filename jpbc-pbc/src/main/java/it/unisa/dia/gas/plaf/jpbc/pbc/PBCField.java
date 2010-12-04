@@ -2,7 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.pbc;
 
 import com.sun.jna.Pointer;
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericField;
 import it.unisa.dia.gas.plaf.jpbc.util.BigIntegerUtils;
 import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.MPZElementType;
 import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.PBCPairingType;
@@ -13,7 +13,7 @@ import java.math.BigInteger;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public abstract class PBCField implements Field {
+public abstract class PBCField extends GenericField {
     protected PBCPairingType pairing;
 
     protected int fixedLengthInBytes;
@@ -35,26 +35,6 @@ public abstract class PBCField implements Field {
         }
     }
 
-
-    public Element newZeroElement() {
-        return newElement().setToZero();
-    }
-
-    public Element newOneElement() {
-        return newElement().setToOne();
-    }
-
-    public Element newRandomElement() {
-        return newElement().setToRandom();
-    }
-
-    public Element newElement(int value) {
-        return newElement(value);
-    }
-
-    public Element newElement(BigInteger value) {
-        return newElement(value);
-    }
 
     public BigInteger getOrder() {
         return order;

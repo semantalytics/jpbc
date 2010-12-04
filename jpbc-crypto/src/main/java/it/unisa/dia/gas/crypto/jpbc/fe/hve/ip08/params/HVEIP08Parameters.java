@@ -22,7 +22,7 @@ public class HVEIP08Parameters implements CipherParameters, Serializable {
     public HVEIP08Parameters(CurveParams curveParams, Element g, int[] attributeLengths) {
         this.curveParams = curveParams;
         this.g = g;
-        this.attributeLengths = attributeLengths;
+        this.attributeLengths = Arrays.copyOf(attributeLengths, attributeLengths.length);
         this.n = attributeLengths.length;
 
         this.length = 0;

@@ -3,6 +3,7 @@ package it.unisa.dia.gas.plaf.jpbc.pairing;
 import java.io.*;
 import java.math.BigInteger;
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 /**
@@ -116,8 +117,8 @@ public class CurveParams extends LinkedHashMap<String, String> {
     public String toString(String separator) {
         StringBuffer buffer = new StringBuffer();
 
-        for (String key : keySet()) {
-            buffer.append(key).append(separator).append(get(key)).append("\n");
+        for (Map.Entry<String, String> entry : entrySet()) {
+            buffer.append(entry.getKey()).append(separator).append(entry.getValue()).append("\n");
         }
 
         return buffer.toString();

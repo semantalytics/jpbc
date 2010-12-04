@@ -169,7 +169,7 @@ public class TypeA1TateNafProjectiveMillerPairingMap extends AbstractMillerPairi
     }
 
 
-    public class JacobPoint {
+    public static class JacobPoint {
 
         private Element x;
         private Element y;

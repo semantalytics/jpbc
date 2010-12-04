@@ -2,6 +2,8 @@ package it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params;
 
 import org.bouncycastle.crypto.KeyGenerationParameters;
 
+import java.util.Arrays;
+
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
@@ -15,7 +17,7 @@ public class HVEIP08SearchKeyGenerationParameters extends KeyGenerationParameter
         super(null, params.getParameters().getG().getField().getLengthInBytes());
 
         this.params = params;
-        this.attributePattern = attributePattern;
+        this.attributePattern = Arrays.copyOf(attributePattern, attributePattern.length);
     }
 
     public HVEIP08PrivateKeyParameters getParameters() {

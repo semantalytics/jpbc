@@ -127,9 +127,6 @@ public class TypeATateProjectiveMillerPairingMap extends AbstractMillerPairingMa
         CurveElement[] Vs = new CurveElement[in1.length];
         CurveElement[] V1s = new CurveElement[in1.length];
 
-        Element z = pairing.Fq.newOneElement();
-        Element z2 = pairing.Fq.newOneElement();
-
         for(int i=0; i< in1.length; i++){
             Vs[i] = (CurveElement) in1[i].duplicate();
             V1s[i] = (CurveElement) in1[i].getField().newElement();

@@ -108,14 +108,10 @@ public class TypeATateAffineMillerPairingMap extends AbstractMillerPairingMap {
         Element[] Vs = new Element[in1.length];
         Element[] V1s = new Element[in1.length];
 
-        Element z = pairing.Fq.newOneElement();
-        Element z2 = pairing.Fq.newOneElement();
-
         for(int i=0; i< in1.length; i++){
             Vs[i] = in1[i].duplicate();
             V1s[i] = in1[i].getField().newElement();
         }
-
 
         // The coefficients of the line equation
         Element a = pairing.Fq.newElement();
@@ -141,7 +137,6 @@ public class TypeATateAffineMillerPairingMap extends AbstractMillerPairingMap {
         }
 
         Element f1;
-        Point V1 = pairing.Eq.newElement();
         if (pairing.sign1 < 0) {
             for (Element V11 : V1s) {
                 V11.set(Vs[i]).negate();
