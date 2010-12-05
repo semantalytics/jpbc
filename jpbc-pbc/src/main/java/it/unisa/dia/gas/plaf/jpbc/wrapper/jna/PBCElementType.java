@@ -10,6 +10,9 @@ public class PBCElementType extends Memory {
         G1, G2, GT, Zr
     }
 
+    protected boolean cleaned = false;
+
+
     public PBCElementType() {
         super(WrapperLibraryProvider.getWrapperLibrary().pbc_element_sizeof());
     }
@@ -36,9 +39,14 @@ public class PBCElementType extends Memory {
     @Override
     protected void finalize() {
         if (isValid()) {
-            WrapperLibraryProvider.getWrapperLibrary().pbc_element_clear(this);
-
-            super.finalize();
+            synchronized (this) {
+                if (!cleaned) {
+                    WrapperLibraryProvider.getWrapperLibrary().pbc_element_clear(this);
+                    cleaned = true;
+                } else
+                    System.out.println("Element already cleaned!");
+            }
         }
+        super.finalize();
     }
 }

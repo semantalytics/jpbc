@@ -22,8 +22,7 @@ public class PBCPairingPPType extends Memory {
     protected void finalize() {
         if (isValid()) {
             WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_pp_clear(this);
-        
-            super.finalize();
         }
+        super.finalize();
     }
 }
