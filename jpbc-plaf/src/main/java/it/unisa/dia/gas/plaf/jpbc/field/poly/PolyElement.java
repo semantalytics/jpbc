@@ -144,36 +144,10 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
         removeLeadingZeroes();
 
         return this;
-        /*
-        int i, n, n1;
-        element_ptr big;
-
-        n = poly_coeff_count(f);
-        n1 = poly_coeff_count(g);
-        if (n > n1) {
-            big = f;
-            n = n1;
-            n1 = poly_coeff_count(f);
-        } else {
-            big = g;
-        }
-
-        poly_alloc(sum, n1);
-        for (i = 0; i < n; i++) {
-            element_add(poly_coeff(sum, i), poly_coeff(f, i), poly_coeff(g, i));
-        }
-        for (; i < n1; i++) {
-            element_set(poly_coeff(sum, i), poly_coeff(big, i));
-        }
-        poly_remove_leading_zeroes(sum);
-        */
     }
 
     public PolyElement<E> sub(Element e) {
         PolyElement<E> element = (PolyElement<E>) e;
-
-        // f io
-        // g è l'altro
 
         int i, n, n1;
 
@@ -247,43 +221,6 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
         set(prod);
 
         return this;
-
-        /*
-        static void poly_mul(element_ptr r, element_ptr f, element_ptr g)
-        poly_element_ptr pprod;
-        poly_element_ptr pf = f - > data;
-        poly_element_ptr pg = g - > data;
-        poly_field_data_ptr pdp = r - > field - > data;
-        int fcount = pf - > coeff - > count;
-        int gcount = pg - > coeff - > count;
-        int i, j, n;
-        element_t prod;
-        element_t e0;
-
-        if (!fcount || !gcount) {
-            element_set0(r);
-            return;
-        }
-        element_init(prod, r - > field);
-        pprod = prod - > data;
-        n = fcount + gcount - 1;
-        poly_alloc(prod, n);
-        element_init(e0, pdp - > field);
-        for (i = 0; i < n; i++) {
-            element_ptr x = pprod - > coeff - > item[i];
-            element_set0(x);
-            for (j = 0; j <= i; j++) {
-                if (j < fcount && i - j < gcount) {
-                    element_mul(e0, pf - > coeff - > item[j], pg - > coeff - > item[i - j]);
-                    element_add(x, x, e0);
-                }
-            }
-        }
-        poly_remove_leading_zeroes(prod);
-        element_set(r, prod);
-        element_clear(e0);
-        element_clear(prod);
-        */
     }
 
     public PolyElement<E> mul(int z) {
@@ -489,7 +426,6 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
      * @return
      */
     public boolean isIrriducible() {
-
         // 0, units are not irreducibles.
         // Assume coefficients are from a field.
         if (getDegree() <= 0)
@@ -522,7 +458,6 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
                     return 1;
 
                 g.setFromPolyMod(xpow);
-//                poly_gcd(g, f, g);
                 g.gcd(PolyElement.this);
                 return g.getDegree() != 0 ? 1 : 0;
             }
@@ -542,15 +477,14 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
     public PolyElement<E> gcd(PolyElement g) {
         PolyElement a = this.duplicate();
         PolyElement b = g.duplicate();
-        Element q = field.newElement();
         Element r = field.newElement();
 
         while (true) {
-            //TODO: don't care about q
-            PolyUtils.div(q, r, a, b);
+            PolyUtils.reminder(r, a, b);
 
             if (r.isZero())
                 break;
+
             a.set(b);
             b.set(r);
         }
@@ -629,7 +563,7 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
             }
         }
 
-//        fprintf(stderr, "findroot: found root\n");
+//        System.out.printf("findroot: found root\n");
         return (E) g.getCoefficient(0).negate();
     }
 

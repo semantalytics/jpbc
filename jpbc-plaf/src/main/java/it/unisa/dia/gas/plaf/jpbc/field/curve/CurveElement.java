@@ -145,18 +145,6 @@ public class CurveElement<E extends Element> extends GenericPointElement<E> {
         y.negate();
 
         return this;
-
-        /*
-        point_ptr r = c->data, p = a->data;
-
-        if (p->inf_flag) {
-        r->inf_flag = 1;
-        return;
-        }
-        r->inf_flag = 0;
-        element_set(r->x, p->x);
-        element_neg(r->y, p->y);
-        */
     }
 
     public CurveElement negate() {
@@ -198,7 +186,7 @@ public class CurveElement<E extends Element> extends GenericPointElement<E> {
             infFlag = 1;
             return this;
         } else {
-            // P1 != P2, so the slope of the line Lthrough P1 and P2 is
+            // P1 != P2, so the slope of the line L through P1 and P2 is
             // lambda = (y2-y1)/(x2-x1)
             Element lambda = element.y.duplicate().sub(y).mul(element.x.duplicate().sub(x).invert());
 
@@ -214,62 +202,6 @@ public class CurveElement<E extends Element> extends GenericPointElement<E> {
         }
 
         return this;
-
-        /*curve_data_ptr cdp = a->field->data;
-        point_ptr r = c->data, p = a->data, q = b->data;
-
-        if (p->inf_flag) {
-        curve_set(c, b);
-        return;
-        }
-        if (q->inf_flag) {
-        curve_set(c, a);
-        return;
-        }
-        if (!element_cmp(p->x, q->x)) {
-        if (!element_cmp(p->y, q->y)) {
-            if (element_is0(p->y)) {
-            r->inf_flag = 1;
-            return;
-            } else {
-            double_no_check(r, p, cdp->a);
-            return;
-            }
-        }
-        //points are inverses of each other
-        r->inf_flag = 1;
-        return;
-        } else {
-        element_t lambda, e0, e1;
-
-        element_init(lambda, cdp->field);
-        element_init(e0, cdp->field);
-        element_init(e1, cdp->field);
-
-        //lambda = (y2-y1)/(x2-x1)
-        element_sub(e0, q->x, p->x);
-        element_invert(e0, e0);
-        element_sub(lambda, q->y, p->y);
-        element_mul(lambda, lambda, e0);
-        //x3 = lambda^2 - x1 - x2
-        element_square(e0, lambda);
-        element_sub(e0, e0, p->x);
-        element_sub(e0, e0, q->x);
-        //y3 = (x1-x3)lambda - y1
-        element_sub(e1, p->x, e0);
-        element_mul(e1, e1, lambda);
-        element_sub(e1, e1, p->y);
-
-        element_set(r->x, e0);
-        element_set(r->y, e1);
-            r->inf_flag = 0;
-
-        element_clear(lambda);
-        element_clear(e0);
-        element_clear(e1);
-        }
-        */
-
     }
 
     public CurveElement mul(BigInteger n) {
@@ -347,11 +279,6 @@ public class CurveElement<E extends Element> extends GenericPointElement<E> {
             return 0;
 
         return y.sign();
-        /*
-        point_ptr p = e->data;
-        if (p->inf_flag) return 0;
-        return element_sign(p->y);
-        */
     }
 
 

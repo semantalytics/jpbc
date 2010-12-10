@@ -43,26 +43,6 @@ public class DegreeTwoExtensionQuadraticElement<E extends Element> extends Quadr
         y.set(e1);
 
         return this;
-
-        /*
-        fq_data_ptr p = a->data;
-        fq_data_ptr r = n->data;
-        element_t e0, e1;
-
-        element_init(e0, p->x->field);
-        element_init(e1, e0->field);
-        //Re(n) = x^2 - y^2 = (x+y)(x-y)
-        element_add(e0, p->x, p->y);
-        element_sub(e1, p->x, p->y);
-        element_mul(e0, e0, e1);
-        //Im(n) = 2xy
-        element_mul(e1, p->x, p->y);
-        element_add(e1, e1, e1);
-        element_set(r->x, e0);
-        element_set(r->y, e1);
-        element_clear(e0);
-        element_clear(e1);
-         */
     }
 
     public DegreeTwoExtensionQuadraticElement invert() {
@@ -119,60 +99,37 @@ public class DegreeTwoExtensionQuadraticElement<E extends Element> extends Quadr
         // (x^2 - A^2) / 4 is some quadratic residue, a contradiction
         // since this would imply x^2 - A^2 = -y^2 is also a quadratic residue,
         // but we know -1 is not a quadratic residue.
-        fq_data_ptr p = e->data;
-        element_t e0, e1;
-        int result;
-        element_init(e0, p->x->field);
-        element_init(e1, e0->field);
-        element_square(e0, p->x);
-        element_square(e1, p->y);
-        element_add(e0, e0, e1);
-        result = element_is_sqr(e0);
-        element_clear(e0);
-        element_clear(e1);
-        return result;
         */
-        
-        throw new IllegalStateException("Not Implemented yet!!!");
+        return x.duplicate().square().add(y.duplicate().square()).isSqr();
     }
 
     public DegreeTwoExtensionQuadraticElement sqrt() {
-        /*
-        fq_data_ptr p = e->data;
-        fq_data_ptr r = n->data;
-        element_t e0, e1, e2;
-
         //if (a+bi)^2 = x+yi then
         //2a^2 = x +- sqrt(x^2 + y^2)
         //(take the sign such that a exists) and 2ab = y
         //[thus 2b^2 = - (x -+ sqrt(x^2 + y^2))]
-        element_init(e0, p->x->field);
-        element_init(e1, e0->field);
-        element_init(e2, e0->field);
-        element_square(e0, p->x);
-        element_square(e1, p->y);
-        element_add(e0, e0, e1);
-        element_sqrt(e0, e0);
+        Element e0 = x.duplicate().square();
+        Element e1 = y.duplicate().square();
+        e0.add(e1).sqrt();
+
         //e0 = sqrt(x^2 + y^2)
-        element_add(e1, p->x, e0);
-        element_set_si(e2, 2);
-        element_invert(e2, e2);
-        element_mul(e1, e1, e2);
+        e1.set(x).add(e0);
+        Element e2 = x.getField().newElement().set(2).invert();
+        e1.mul(e2);
+
         //e1 = (x + sqrt(x^2 + y^2))/2
-        if (!element_is_sqr(e1)) {
-        element_sub(e1, e1, e0);
-        //e1 should be a square
+
+        if (e1.isSqr()) {
+            e1.sub(e0);
+            //e1 should be a square
         }
-        element_sqrt(e0, e1);
-        element_add(e1, e0, e0);
-        element_invert(e1, e1);
-        element_mul(r->y, p->y, e1);
-        element_set(r->x, e0);
-        element_clear(e0);
-        element_clear(e1);
-        element_clear(e2);
-        */
-        throw new IllegalStateException("Not Implemented yet!!!");
+        e0.set(e1).sqrt();
+        e1.set(e0).add(e0);
+        e1.invert();
+        y.mul(e1);
+        x.set(e0);
+
+        return this;
     }
 
     public boolean isEqual(Element e) {

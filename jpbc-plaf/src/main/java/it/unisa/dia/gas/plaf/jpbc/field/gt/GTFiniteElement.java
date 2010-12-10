@@ -36,7 +36,6 @@ public class GTFiniteElement extends GenericElement {
     }
 
     
-    @Override
     public GTFiniteElement getImmutable() {
         return new ImmutableGTFiniteElement(this);
     }

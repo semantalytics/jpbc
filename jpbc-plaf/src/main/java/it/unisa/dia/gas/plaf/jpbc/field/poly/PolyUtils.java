@@ -61,4 +61,41 @@ public class PolyUtils {
         rem.set(r);
     }
 
+    public static void reminder(Element rem, PolyElement a, PolyElement b) {
+        if (b.isZero())
+            throw new IllegalArgumentException("Division by zero!");
+
+        int n = b.getDegree();
+        int m = a.getDegree();
+
+        if (n > m) {
+            rem.set(a);
+
+            return;
+        }
+
+        int k = m - n;
+
+        PolyElement r = a.duplicate();
+        PolyElement q = a.getField().newElement();
+        q.ensureSize(k + 1);
+
+        Element temp = a.getField().getTargetField().newElement();
+        Element bn = b.getCoefficient(n).duplicate().invert();
+
+        while (k >= 0) {
+            Element qk = q.getCoefficient(k);
+            qk.set(bn).mul(r.getCoefficient(m));
+
+            for (int i = 0; i <= n; i++) {
+                temp.set(qk).mul(b.getCoefficient(i));
+                r.getCoefficient(i + k).sub(temp);
+            }
+            k--; m--;
+        }
+        r.removeLeadingZeroes();
+
+        rem.set(r);
+    }
+
 }

@@ -116,8 +116,6 @@ public class QuadraticElement<E extends Element> extends GenericPointElement<E> 
     }
 
     public QuadraticElement square() {
-//        System.out.println("fq_square (a) = " + this);
-
         Element e0 = x.duplicate().square();
         Element e1 = y.duplicate().square();
         e1.mul(field.getTargetField().getNqr());
@@ -128,27 +126,6 @@ public class QuadraticElement<E extends Element> extends GenericPointElement<E> 
         y.set(e1);
 
         return this;
-        /*
-            fq_data_ptr p = a->data;
-            fq_data_ptr r = n->data;
-            element_ptr nqr = fq_nqr(n->field);
-            element_t e0, e1;
-
-            element_init(e0, p->x->field);
-            element_init(e1, e0->field);
-            element_square(e0, p->x);
-            element_square(e1, p->y);
-            element_mul(e1, e1, nqr);
-            element_add(e0, e0, e1);
-            element_mul(e1, p->x, p->y);
-            //TODO: which is faster?
-            //element_add(e1, e1, e1);
-            element_double(e1, e1);
-            element_set(r->x, e0);
-            element_set(r->y, e1);
-            element_clear(e0);
-            element_clear(e1);
-         */
     }
 
     public QuadraticElement invert() {
@@ -162,26 +139,6 @@ public class QuadraticElement<E extends Element> extends GenericPointElement<E> 
         y.mul(e0);
 
         return this;
-        /*
-            fq_data_ptr p = a->data;
-            fq_data_ptr r = n->data;
-            element_ptr nqr = fq_nqr(n->field);
-            element_t e0, e1;
-
-            element_init(e0, p->x->field);
-            element_init(e1, e0->field);
-            element_square(e0, p->x);
-            element_square(e1, p->y);
-            element_mul(e1, e1, nqr);
-            element_sub(e0, e0, e1);
-            element_invert(e0, e0);
-            element_mul(r->x, p->x, e0);
-            element_neg(e0, e0);
-            element_mul(r->y, p->y, e0);
-
-            element_clear(e0);
-            element_clear(e1);
-        */
     }
 
     public QuadraticElement negate() {
@@ -212,57 +169,18 @@ public class QuadraticElement<E extends Element> extends GenericPointElement<E> 
     public QuadraticElement mul(Element e) {
         QuadraticElement element = (QuadraticElement) e;
 
-//        System.out.println("mul (a) = " + this);
-//        System.out.println("mul (b) = " + element);
-
-//        System.out.println("nqr = " + field.targetField.getNqr());
         Element e0 = x.duplicate().add(y);
         Element e1 = element.x.duplicate().add(element.y);
         Element e2 = e0.duplicate().mul(e1);
 
-//        System.out.println("e0 = " + e0);
-//        System.out.println("e1 = " + e1);
-//        System.out.println("e2 = " + e2);
-
         e0.set(x).mul(element.x);
         e1.set(y).mul(element.y);
         
-//        System.out.println("e0 = " + e0);
-//        System.out.println("e1 = " + e1);
-
         x.set(e1).mul(field.getTargetField().getNqr()).add(e0);
         e2.sub(e0);
         y.set(e2).sub(e1);
 
-//        System.out.println("mul (n) = " + this);
-        
         return this;
-        /*
-        fq_data_ptr p = a->data;    // element
-        fq_data_ptr q = b->data;
-        fq_data_ptr r = n->data;
-
-        element_ptr nqr = fq_nqr(n->field);
-        element_t e0, e1, e2;
-
-        element_init(e0, p->x->field);
-        element_init(e1, e0->field);
-        element_init(e2, e0->field);
-        //Karatsuba:
-        element_add(e0, p->x, p->y);
-        element_add(e1, q->x, q->y);
-        element_mul(e2, e0, e1);
-        element_mul(e0, p->x, q->x);
-        element_mul(e1, p->y, q->y);
-        element_mul(r->x, e1, nqr);
-        element_add(r->x, r->x, e0);
-        element_sub(e2, e2, e0);
-        element_sub(r->y, e2, e1);
-
-        element_clear(e0);
-        element_clear(e1);
-        element_clear(e2);
-        */
     }
 
     public QuadraticElement mul(BigInteger n) {
@@ -286,24 +204,6 @@ public class QuadraticElement<E extends Element> extends GenericPointElement<E> 
         e0.sub(e1);
 
         return e0.isSqr();
-
-/*
-        //x + y sqrt(nqr) is a square iff x^2 - nqr y^2 is (in the base field)
-        fq_data_ptr p = e->data;
-        element_t e0, e1;
-        element_ptr nqr = fq_nqr(e->field);
-        int result;
-        element_init(e0, p->x->field);
-        element_init(e1, e0->field);
-        element_square(e0, p->x);
-        element_square(e1, p->y);
-        element_mul(e1, e1, nqr);
-        element_sub(e0, e0, e1);
-        result = element_is_sqr(e0);
-        element_clear(e0);
-        element_clear(e1);
-        return result;
-*/
     }
 
     public QuadraticElement sqrt() {
@@ -327,43 +227,6 @@ public class QuadraticElement<E extends Element> extends GenericPointElement<E> 
         x.set(e0);
 
         return this;
-        /*
-        fq_data_ptr p = e->data;
-        fq_data_ptr r = n->data;
-        element_ptr nqr = fq_nqr(n->field);
-        element_t e0, e1, e2;
-
-        //if (a+b sqrt(nqr))^2 = x+y sqrt(nqr) then
-        //2a^2 = x +- sqrt(x^2 - nqr y^2)
-        //(take the sign which allows a to exist)
-        //and 2ab = y
-        element_init(e0, p->x->field);
-        element_init(e1, e0->field);
-        element_init(e2, e0->field);
-        element_square(e0, p->x);
-        element_square(e1, p->y);
-        element_mul(e1, e1, nqr);
-        element_sub(e0, e0, e1);
-        element_sqrt(e0, e0);
-        //e0 = sqrt(x^2 - nqr y^2)
-        element_add(e1, p->x, e0);
-        element_set_si(e2, 2);
-        element_invert(e2, e2);
-        element_mul(e1, e1, e2);
-        //e1 = (x + sqrt(x^2 - nqr y^2))/2
-        if (!element_is_sqr(e1)) {
-        element_sub(e1, e1, e0);
-        //e1 should be a square
-        }
-        element_sqrt(e0, e1);
-        element_add(e1, e0, e0);
-        element_invert(e1, e1);
-        element_mul(r->y, p->y, e1);
-        element_set(r->x, e0);
-        element_clear(e0);
-        element_clear(e1);
-        element_clear(e2);
-        */
     }
 
     public boolean isEqual(Element e) {
@@ -409,14 +272,6 @@ public class QuadraticElement<E extends Element> extends GenericPointElement<E> 
         if (res == 0)
             return y.sign();
         return res;
-
-        /*
-        int res;
-        fq_data_ptr r = n->data;
-        res = element_sign(r->x);
-        if (!res) return element_sign(r->y);
-        return res;
-        */
     }
 
 
