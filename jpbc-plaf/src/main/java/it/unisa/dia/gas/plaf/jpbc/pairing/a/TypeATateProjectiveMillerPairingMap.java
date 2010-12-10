@@ -102,12 +102,8 @@ public class TypeATateProjectiveMillerPairingMap extends AbstractMillerPairingMa
     }
 
     public void finalPow(Element element) {
-        Element t0, t1;
-        t0 = element.getField().newElement();
-        t1 = element.getField().newElement();
-
-        tatePow((Point) t0, (Point) element, (Point) t1, pairing.phikOnr);
-
+        Element t0 = element.getField().newElement();
+        tatePow((Point) t0, (Point) element, pairing.phikOnr);
         element.set(t0);
     }
 
@@ -187,6 +183,21 @@ public class TypeATateProjectiveMillerPairingMap extends AbstractMillerPairingMa
         return new GTFiniteElement(this, (GTFiniteField) pairing.getGT(), out);
     }
 
+
+    protected final void millerStep(Point out, Element a, Element b, Element c, Element Qx, Element Qy) {
+        // we will map Q via (x,y) --> (-x, iy)
+        // hence:
+        // Re(a Qx + b Qy + c) = -a Q'x + c and
+        // Im(a Qx + b Qy + c) = b Q'y
+
+        Element rePart = out.getX();
+        Element imPart = out.getY();
+
+        rePart.set(c).sub(imPart.set(a).mul(Qx));
+        imPart.set(b).mul(Qy);
+    }
+
+
     final void tatePow(Point out, Point in, Point temp, BigInteger cofactor) {
         Element in1 = in.getY();
         //simpler but slower:
@@ -196,6 +207,26 @@ public class TypeATateProjectiveMillerPairingMap extends AbstractMillerPairingMa
         //which is equivalent to the following
 
         temp.set(in).invert();
+        in1.negate();
+        in.mul(temp);
+
+        //2. Exponentiate by (q+1)/r
+
+        //Instead of:
+        //	element_pow_mpz(out, in, cofactor);
+        //we use Lucas sequences (see "Compressed Pairings", Scott and Barreto)
+        lucasOdd(out, in, temp, cofactor);
+    }
+
+    final void tatePow(Point out, Point in, BigInteger cofactor) {
+        Element in1 = in.getY();
+        //simpler but slower:
+        //element_pow_mpz(out, f, tateExp);
+
+        //1. Exponentiate by q-1
+        //which is equivalent to the following
+
+        Point temp = (Point) in.duplicate().invert();
         in1.negate();
         in.mul(temp);
 
@@ -230,20 +261,6 @@ public class TypeATateProjectiveMillerPairingMap extends AbstractMillerPairingMa
         a.sub(Vx);
         e0.mul(a);
         Vy.set(e0).sub(b);
-    }
-
-
-    protected final void millerStep(Point out, Element a, Element b, Element c, Element Qx, Element Qy) {
-        // we will map Q via (x,y) --> (-x, iy)
-        // hence:
-        // Re(a Qx + b Qy + c) = -a Q'x + c and
-        // Im(a Qx + b Qy + c) = b Q'y
-
-        Element rePart = out.getX();
-        Element imPart = out.getY();
-
-        rePart.set(c).sub(imPart.set(a).mul(Qx));
-        imPart.set(b).mul(Qy);
     }
 
 

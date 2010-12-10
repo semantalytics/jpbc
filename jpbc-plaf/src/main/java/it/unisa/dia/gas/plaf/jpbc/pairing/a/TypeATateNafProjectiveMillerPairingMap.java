@@ -20,11 +20,6 @@ public class TypeATateNafProjectiveMillerPairingMap extends AbstractMillerPairin
         this.pairing = pairing;
     }
 
-
-    @Override
-    protected void millerStep(Point out, Element a, Element b, Element c, Element Qx, Element Qy) {
-    }
-
     /**
      * in1, in2 are from E(F_q), out from F_q^2
      */
@@ -59,6 +54,12 @@ public class TypeATateNafProjectiveMillerPairingMap extends AbstractMillerPairin
     }
 
     public void finalPow(Element element) {
+        Element t0 = element.getField().newElement();
+        tatePow((Point) t0, (Point) element, pairing.phikOnr);
+        element.set(t0);
+    }
+
+    protected void millerStep(Point out, Element a, Element b, Element c, Element Qx, Element Qy) {
     }
 
 
@@ -82,7 +83,12 @@ public class TypeATateNafProjectiveMillerPairingMap extends AbstractMillerPairin
         lucasOdd(out, in, temp, cofactor);
     }
 
-    //used by tate pairing, point doubling in Jacobian coordinates, and return the value of f
+    /**
+     * used by tate pairing, point doubling in Jacobian coordinates, and return the value of f
+     * @param u
+     * @param P
+     * @param Q
+     */
     final void twice(Point u, JacobPoint P, Point Q) {
         //if(P.isInfinity())
         //	return;
@@ -122,7 +128,13 @@ public class TypeATateNafProjectiveMillerPairingMap extends AbstractMillerPairin
     }
 
 
-    //used by Tate paring, add two point, save result in the first argument, return the value of f
+    /**
+     * used by Tate paring, add two point, save result in the first argument, return the value of f
+     * @param u
+     * @param A
+     * @param P
+     * @param Q
+     */
     final void add(Point u, JacobPoint A, Point P, Point Q) {
         Element x1 = A.getX();
         Element y1 = A.getY();
