@@ -1,5 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params;
 
+import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtil;
 import it.unisa.dia.gas.jpbc.Element;
 import org.bouncycastle.crypto.CipherParameters;
 
@@ -15,7 +16,7 @@ public class AHIBESEncryptionParameters implements CipherParameters {
     public AHIBESEncryptionParameters(AHIBEPublicKeyParameters AHIBEPublicKeyParameters,
                                       Element[] ids) {
         this.ahivePublicKeyParameters = AHIBEPublicKeyParameters;
-        this.ids = ids;
+        this.ids = ElementUtil.cloneImmutably(ids);
     }
 
 

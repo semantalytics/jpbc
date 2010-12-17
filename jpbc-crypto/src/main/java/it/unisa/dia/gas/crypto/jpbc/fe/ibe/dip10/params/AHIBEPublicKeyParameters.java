@@ -1,8 +1,11 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params;
 
+import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtil;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import org.bouncycastle.crypto.CipherParameters;
+
+import java.util.Arrays;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -17,17 +20,19 @@ public class AHIBEPublicKeyParameters implements CipherParameters {
     private Element[] uElements;
     private Element omega;
 
+
     public AHIBEPublicKeyParameters(CurveParams curveParams,
                                     Element y1, Element y3, Element y4,
                                     Element t, Element[] uElements,
                                     Element omega) {
         this.curveParams = curveParams;
-        Y1 = y1;
-        Y3 = y3;
-        Y4 = y4;
-        this.t = t;
-        this.uElements = uElements;
-        this.omega = omega;
+
+        this.Y1 = y1.getImmutable();
+        this.Y3 = y3.getImmutable();
+        this.Y4 = y4.getImmutable();
+        this.t = t.getImmutable();
+        this.uElements = ElementUtil.cloneImmutably(uElements);
+        this.omega = omega.getImmutable();
     }
 
     
@@ -52,7 +57,7 @@ public class AHIBEPublicKeyParameters implements CipherParameters {
     }
 
     public Element[] getuElements() {
-        return uElements;
+        return Arrays.copyOf(uElements, uElements.length);
     }
 
     public Element getOmega() {

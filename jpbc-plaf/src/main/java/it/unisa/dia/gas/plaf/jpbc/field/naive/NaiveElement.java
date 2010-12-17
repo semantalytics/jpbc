@@ -42,6 +42,9 @@ public class NaiveElement extends GenericElement {
 
     @Override
     public Element getImmutable() {
+        if (isImmutable())
+            return this;
+
         return new ImmutableNaiveElement(this);
     }
 

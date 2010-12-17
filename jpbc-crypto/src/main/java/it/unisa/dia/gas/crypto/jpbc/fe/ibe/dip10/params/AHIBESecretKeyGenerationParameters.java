@@ -1,5 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params;
 
+import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtil;
 import it.unisa.dia.gas.jpbc.Element;
 import org.bouncycastle.crypto.KeyGenerationParameters;
 
@@ -17,10 +18,11 @@ public class AHIBESecretKeyGenerationParameters extends KeyGenerationParameters 
             AHIBEMasterSecretKeyParameters AHIBEMasterSecretKeyParameters,
             AHIBEPublicKeyParameters AHIBEPublicKeyParameters,
             Element[] ids) {
+
         super(null, 12);
         this.ahiveMasterSecretKeyParameters = AHIBEMasterSecretKeyParameters;
         this.ahivePublicKeyParameters = AHIBEPublicKeyParameters;
-        this.ids = ids;
+        this.ids = ElementUtil.cloneImmutably(ids);
     }
 
 

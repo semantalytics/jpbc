@@ -2,34 +2,105 @@ package it.unisa.dia.gas.jpbc.android.jpbcset;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import it.unisa.dia.gas.jpbc.android.jpbcset.benchmark.AndroidBenchmark;
+import it.unisa.dia.gas.jpbc.android.jpbcset.benchmark.Benchmark;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class JPBCSetActivity extends Activity {
+public class JPBCSetActivity extends Activity implements View.OnClickListener {
+    private static final String TAG = "JPBCSetActivity";
+
+    protected AndroidBenchmark androidBenchmark;
+
+    protected boolean running = false;
+
 
     /**
      * Called when the activity is first created.
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.i(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
+        this.androidBenchmark = new AndroidBenchmark(10);
 
-        final BLS bls = new BLS();
+        ((TextView) findViewById(R.id.status)).setText("");
+        findViewById(R.id.benchmark).setOnClickListener(this);
 
-        ((TextView) findViewById(R.id.result)).setText(bls.init());
-
-        ((Button) findViewById(R.id.bench)).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                ((TextView) findViewById(R.id.result)).setText("Benchmarking...");
-                ((TextView) findViewById(R.id.result)).setText(bls.init());
-            }
-        });
+        Log.i(TAG, "onCreate.finished");
     }
 
+    public void onClick(View view) {
+        Log.i(TAG, "onClick");
+
+        if (running) {
+            ((TextView) findViewById(R.id.status)).setText("Stopping...");
+
+            running = false;
+            stopBenchmark();
+
+            ((Button) findViewById(R.id.benchmark)).setText("Benchmark");
+            ((ProgressBar) findViewById(R.id.progress)).setIndeterminate(false);
+            ((ProgressBar) findViewById(R.id.progress)).setProgress(100);
+        } else {
+            ((ProgressBar) findViewById(R.id.progress)).setIndeterminate(true);
+            ((TextView) findViewById(R.id.status)).setText("Benchmarking...");
+            ((Button) findViewById(R.id.benchmark)).setText("Stop");
+
+            running = true;
+            benchmark();
+        }
+
+        Log.i(TAG, "onClick.finished");
+    }
+
+
+    protected void benchmark() {
+        Thread t = new Thread() {
+            public void run() {
+                Benchmark benchmark = androidBenchmark.benchmark(new String[]{
+                        "it/unisa/dia/gas/jpbc/android/jpbcset/benchmark/curves/a.properties"
+                });
+
+                //Send update to the main thread
+                messageHandler.sendMessage(
+                        Message.obtain(messageHandler, (benchmark != null) ? 0 : 1, benchmark));
+
+            }
+        };
+        t.start();
+    }
+
+    protected void stopBenchmark() {
+        androidBenchmark.stop();
+    }
+
+
+    // Instantiating the Handler associated with the main thread.
+    private Handler messageHandler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 0:
+                    ((TextView) findViewById(R.id.status)).setText("Benchmark Completed!");
+                    Log.i(TAG, ((Benchmark) msg.obj).toHTML());
+                    break;
+                case 1:
+                    ((TextView) findViewById(R.id.status)).setText("Benchmark Stopped!");
+                    break;
+            }
+        }
+
+    };
 }

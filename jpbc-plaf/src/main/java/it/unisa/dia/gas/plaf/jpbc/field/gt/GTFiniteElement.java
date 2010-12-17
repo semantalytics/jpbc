@@ -37,6 +37,9 @@ public class GTFiniteElement extends GenericElement {
 
     
     public GTFiniteElement getImmutable() {
+        if (isImmutable())
+            return this;
+
         return new ImmutableGTFiniteElement(this);
     }
 

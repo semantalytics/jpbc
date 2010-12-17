@@ -1,5 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params;
 
+import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtil;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import org.bouncycastle.crypto.CipherParameters;
@@ -19,13 +20,13 @@ public class AHIBESecretKeyParameters implements CipherParameters {
                                     Element k21, Element k22, Element[] e2s,
                                     Element[] ids) {
         this.curveParams = curveParams;
-        this.k11 = k11;
-        this.k12 = k12;
-        this.E1s = e1s;
-        this.k21 = k21;
-        this.k22 = k22;
-        this.E2s = e2s;
-        this.ids = ids;
+        this.k11 = k11.getImmutable();
+        this.k12 = k12.getImmutable();
+        this.E1s = ElementUtil.cloneImmutably(e1s);
+        this.k21 = k21.getImmutable();
+        this.k22 = k22.getImmutable();
+        this.E2s = ElementUtil.cloneImmutably(e2s);
+        this.ids = ElementUtil.cloneImmutably(ids);
     }
 
 

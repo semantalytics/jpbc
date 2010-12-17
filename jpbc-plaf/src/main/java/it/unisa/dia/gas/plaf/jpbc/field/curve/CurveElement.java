@@ -41,6 +41,9 @@ public class CurveElement<E extends Element> extends GenericPointElement<E> {
     }
 
     public Element getImmutable() {
+        if (isImmutable())
+            return this;
+
         return new ImmutableCurveElement<E>(this);
     }
 
@@ -252,7 +255,6 @@ public class CurveElement<E extends Element> extends GenericPointElement<E> {
     }
 
     public CurveElement setFromHash(byte[] source, int offset, int length) {
-
         infFlag = 0;
         x.setFromHash(source, offset, length);
 

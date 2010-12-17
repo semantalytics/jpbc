@@ -49,6 +49,9 @@ public class PBCElement implements Element {
     }
 
     public PBCElement getImmutable() {
+        if (isImmutable())
+            return this;
+
         return new ImmutablePBCElement(this);
     }
 
