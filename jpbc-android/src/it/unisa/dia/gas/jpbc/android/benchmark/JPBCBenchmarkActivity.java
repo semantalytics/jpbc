@@ -27,12 +27,12 @@ public class JPBCBenchmarkActivity extends Activity implements View.OnClickListe
     public void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "onCreate");
         super.onCreate(savedInstanceState);
-        setContentView(it.unisa.dia.gas.jpbc.android.jpbcset.R.layout.main);
+        setContentView(R.layout.main);
 
         this.androidBenchmark = new AndroidBenchmark(10);
 
-        ((TextView) findViewById(it.unisa.dia.gas.jpbc.android.jpbcset.R.id.status)).setText("");
-        findViewById(it.unisa.dia.gas.jpbc.android.jpbcset.R.id.benchmark).setOnClickListener(this);
+        ((TextView) findViewById(R.id.status)).setText("");
+        findViewById(R.id.benchmark).setOnClickListener(this);
 
         Log.i(TAG, "onCreate.finished");
     }
@@ -41,14 +41,14 @@ public class JPBCBenchmarkActivity extends Activity implements View.OnClickListe
         Log.i(TAG, "onClick");
 
         if (running) {
-            ((TextView) findViewById(it.unisa.dia.gas.jpbc.android.jpbcset.R.id.status)).setText("Stopping...");
+            ((TextView) findViewById(R.id.status)).setText("Stopping...");
 
             running = false;
             stopBenchmark();
         } else {
-            findViewById(it.unisa.dia.gas.jpbc.android.jpbcset.R.id.progress).setVisibility(View.VISIBLE);
-            ((TextView) findViewById(it.unisa.dia.gas.jpbc.android.jpbcset.R.id.status)).setText("Benchmarking...");
-            ((Button) findViewById(it.unisa.dia.gas.jpbc.android.jpbcset.R.id.benchmark)).setText("Stop");
+            findViewById(R.id.progress).setVisibility(View.VISIBLE);
+            ((TextView) findViewById(R.id.status)).setText("Benchmarking...");
+            ((Button) findViewById(R.id.benchmark)).setText("Stop");
 
             running = true;
             benchmark();
@@ -86,16 +86,16 @@ public class JPBCBenchmarkActivity extends Activity implements View.OnClickListe
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 0:
-                    ((TextView) findViewById(it.unisa.dia.gas.jpbc.android.jpbcset.R.id.status)).setText("Benchmark Completed!");
-                    ((Button) findViewById(it.unisa.dia.gas.jpbc.android.jpbcset.R.id.benchmark)).setText("Benchmark");
-                    findViewById(it.unisa.dia.gas.jpbc.android.jpbcset.R.id.progress).setVisibility(View.INVISIBLE);
+                    ((TextView) findViewById(R.id.status)).setText("Benchmark Completed!");
+                    ((Button) findViewById(R.id.benchmark)).setText("Benchmark");
+                    findViewById(R.id.progress).setVisibility(View.INVISIBLE);
 
                     Log.i(TAG, ((Benchmark) msg.obj).toHTML());
                     break;
                 case 1:
-                    ((TextView) findViewById(it.unisa.dia.gas.jpbc.android.jpbcset.R.id.status)).setText("Benchmark Stopped!");
-                    ((Button) findViewById(it.unisa.dia.gas.jpbc.android.jpbcset.R.id.benchmark)).setText("Benchmark");
-                    findViewById(it.unisa.dia.gas.jpbc.android.jpbcset.R.id.progress).setVisibility(View.INVISIBLE);
+                    ((TextView) findViewById(R.id.status)).setText("Benchmark Stopped!");
+                    ((Button) findViewById(R.id.benchmark)).setText("Benchmark");
+                    findViewById(R.id.progress).setVisibility(View.INVISIBLE);
                     break;
             }
         }

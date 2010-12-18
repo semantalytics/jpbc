@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package it.unisa.dia.gas.jpbc.android.jpbcset;
+package it.unisa.dia.gas.jpbc.android.benchmark;
 
 public final class R {
     public static final class attr {
