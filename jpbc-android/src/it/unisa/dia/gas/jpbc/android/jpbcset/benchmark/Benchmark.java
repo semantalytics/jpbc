@@ -44,7 +44,7 @@ public class Benchmark {
         return elementBenchmarks;
     }
 
-    
+
     public String toHTML() {
         StringBuffer buffer = new StringBuffer();
 
@@ -58,13 +58,13 @@ public class Benchmark {
         for (String curve : curves) {
             curve = curve.substring(curve.lastIndexOf('/')+1, curve.lastIndexOf('.'));
 
-            buffer.append("                        <th><strong style=\"color:green\">").append(curve).append("</strong></th>\n");
+            buffer.append("                        <th><font style=\"font-weight: bold;color:green\">").append(curve).append("</strong></th>\n");
         }
         buffer.append("                    </tr>\n");
 
         for (int row = 0; row < pairingBenchmarkNames.length; row++) {
             buffer.append("                    <tr>\n")
-                    .append("                        <th align=\"left\"><strong style=\"color:green\">").append(pairingBenchmarkNames[row]).append("</strong></th>\n");
+                    .append("                        <th align=\"left\"><font style=\"font-weight: bold;color:green\">").append(pairingBenchmarkNames[row]).append("</strong></th>\n");
             for (int col = 0; col < curves.length; col++) {
                 buffer.append("                        <td>").append(pairingBenchmarks[row][col]).append("</td>\n");
             }
@@ -74,7 +74,7 @@ public class Benchmark {
         for (int fieldIndex = 0; fieldIndex < fieldNames.length; fieldIndex++) {
             buffer.append("                    <tr>\n")
                     .append("                        <th align=\"left\">\n")
-                    .append("                            <strong style=\"color:black\">Element Pow (").append(fieldNames[fieldIndex]).append(")</strong>\n")
+                    .append("                            <font style=\"font-weight: bold;color:black\">Element Pow (").append(fieldNames[fieldIndex]).append(")</strong>\n")
                     .append("                        </th>\n")
                     .append("                        <td></td>\n")
                     .append("                        <td></td>\n")
@@ -84,7 +84,7 @@ public class Benchmark {
 
             for (int row = 0; row < elementBenchmarkNames.length; row++) {
                 buffer.append("                    <tr>\n")
-                        .append("                        <th align=\"left\"><strong style=\"color:green\">")
+                        .append("                        <th align=\"left\"><font style=\"font-weight: bold;color:green\">")
                         .append(elementBenchmarkNames[row])
                         .append("</strong></th>\n");
                 for (int col = 0; col < curves.length; col++) {
@@ -112,13 +112,13 @@ public class Benchmark {
         for (String curve : curves) {
             curve = curve.substring(curve.lastIndexOf('/')+1, curve.lastIndexOf('.'));
 
-            buffer.append("                        <th><strong style=\"color:green\">").append(curve).append("</strong></th>\n");
+            buffer.append("                        <th><font style=\"font-weight: bold;color:green\">").append(curve).append("</strong></th>\n");
         }
         buffer.append("                    </tr>\n");
 
         for (int row = 0; row < pairingBenchmarkNames.length; row++) {
             buffer.append("                    <tr>\n")
-                    .append("                        <th align=\"left\"><strong style=\"color:green\">").append(pairingBenchmarkNames[row]).append("</strong></th>\n");
+                    .append("                        <th align=\"left\"><font style=\"font-weight: bold;color:green\">").append(pairingBenchmarkNames[row]).append("</strong></th>\n");
             for (int col = 0; col < curves.length; col++) {
                 buffer.append("                        <td>").append(pairingBenchmarks[row][col]);
 
@@ -141,7 +141,7 @@ public class Benchmark {
         for (int fieldIndex = 0; fieldIndex < fieldNames.length; fieldIndex++) {
             buffer.append("                    <tr>\n")
                     .append("                        <th align=\"left\">\n")
-                    .append("                            <strong style=\"color:black\">Element Pow (").append(fieldNames[fieldIndex]).append(")</strong>\n")
+                    .append("                            <font style=\"font-weight: bold;color:black\">Element Pow (").append(fieldNames[fieldIndex]).append(")</strong>\n")
                     .append("                        </th>\n")
                     .append("                        <td></td>\n")
                     .append("                        <td></td>\n")
@@ -151,7 +151,7 @@ public class Benchmark {
 
             for (int row = 0; row < elementBenchmarkNames.length; row++) {
                 buffer.append("                    <tr>\n")
-                        .append("                        <th align=\"left\"><strong style=\"color:green\">")
+                        .append("                        <th align=\"left\"><font style=\"font-weight: bold;color:green\">")
                         .append(elementBenchmarkNames[row])
                         .append("</strong></th>\n");
                 for (int col = 0; col < curves.length; col++) {

@@ -7,7 +7,6 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import it.unisa.dia.gas.jpbc.android.jpbcset.benchmark.AndroidBenchmark;
 import it.unisa.dia.gas.jpbc.android.jpbcset.benchmark.Benchmark;
@@ -48,12 +47,8 @@ public class JPBCSetActivity extends Activity implements View.OnClickListener {
 
             running = false;
             stopBenchmark();
-
-            ((Button) findViewById(R.id.benchmark)).setText("Benchmark");
-            ((ProgressBar) findViewById(R.id.progress)).setIndeterminate(false);
-            ((ProgressBar) findViewById(R.id.progress)).setProgress(100);
         } else {
-            ((ProgressBar) findViewById(R.id.progress)).setIndeterminate(true);
+            findViewById(R.id.progress).setVisibility(View.VISIBLE);
             ((TextView) findViewById(R.id.status)).setText("Benchmarking...");
             ((Button) findViewById(R.id.benchmark)).setText("Stop");
 
@@ -94,10 +89,15 @@ public class JPBCSetActivity extends Activity implements View.OnClickListener {
             switch (msg.what) {
                 case 0:
                     ((TextView) findViewById(R.id.status)).setText("Benchmark Completed!");
+                    ((Button) findViewById(R.id.benchmark)).setText("Benchmark");
+                    findViewById(R.id.progress).setVisibility(View.INVISIBLE);
+
                     Log.i(TAG, ((Benchmark) msg.obj).toHTML());
                     break;
                 case 1:
                     ((TextView) findViewById(R.id.status)).setText("Benchmark Stopped!");
+                    ((Button) findViewById(R.id.benchmark)).setText("Benchmark");
+                    findViewById(R.id.progress).setVisibility(View.INVISIBLE);
                     break;
             }
         }

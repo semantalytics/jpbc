@@ -4,6 +4,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         xmlns:android="http://schemas.android.com/apk/res/android"
+        android:keepScreenOn="true"
         >
     <EditText
             android:id="@+id/widget32"
@@ -19,8 +20,7 @@
             android:id="@+id/progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:progress="0"
-            android:max="100"
+            android:visibility="invisible"
             android:indeterminate="false"
             android:layout_x="134px"
             android:layout_y="207px"
