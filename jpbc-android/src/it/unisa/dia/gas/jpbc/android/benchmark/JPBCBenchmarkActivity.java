@@ -7,6 +7,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 /**
@@ -43,14 +44,15 @@ public class JPBCBenchmarkActivity extends Activity implements View.OnClickListe
         if (running) {
             ((TextView) findViewById(R.id.status)).setText("Stopping...");
 
-            running = false;
             stopBenchmark();
         } else {
             findViewById(R.id.progress).setVisibility(View.VISIBLE);
             ((TextView) findViewById(R.id.status)).setText("Benchmarking...");
             ((Button) findViewById(R.id.benchmark)).setText("Stop");
 
-            running = true;
+            androidBenchmark.setIterations(
+                    Integer.valueOf(((EditText) findViewById(R.id.iterations)).getText().toString())
+            );
             benchmark();
         }
 
@@ -59,6 +61,7 @@ public class JPBCBenchmarkActivity extends Activity implements View.OnClickListe
 
 
     protected void benchmark() {
+        running = true;
         Thread t = new Thread() {
             public void run() {
                 Benchmark benchmark = androidBenchmark.benchmark(new String[]{
@@ -76,6 +79,7 @@ public class JPBCBenchmarkActivity extends Activity implements View.OnClickListe
 
     protected void stopBenchmark() {
         androidBenchmark.stop();
+        running = false;
     }
 
 

@@ -7,7 +7,7 @@
         android:keepScreenOn="true"
         >
     <EditText
-            android:id="@+id/widget32"
+            android:id="@+id/iterations"
             android:layout_width="109px"
             android:layout_height="36px"
             android:text="10"

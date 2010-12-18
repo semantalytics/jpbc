@@ -15,9 +15,9 @@ public final class R {
     }
     public static final class id {
         public static final int benchmark=0x7f050004;
+        public static final int iterations=0x7f050001;
         public static final int progress=0x7f050002;
         public static final int status=0x7f050005;
-        public static final int widget32=0x7f050001;
         public static final int widget33=0x7f050003;
         public static final int widget38=0x7f050000;
     }

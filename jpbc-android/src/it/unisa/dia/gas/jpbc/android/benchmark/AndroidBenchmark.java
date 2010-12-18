@@ -16,12 +16,12 @@ import java.math.BigInteger;
 public class AndroidBenchmark {
     private static final String TAG = "AndroidBenchmark";
 
-    protected int times;
+    protected int iterations;
     protected boolean running = false;
 
 
-    public AndroidBenchmark(int times) {
-        this.times = times;
+    public AndroidBenchmark(int iterations) {
+        this.iterations = iterations;
     }
 
 
@@ -39,7 +39,7 @@ public class AndroidBenchmark {
             Pairing pairing = getPairing(curves[col]);
 
             int t1 = 0, t2 = 0, t3 = 0;
-            for (int i = 0; i < times && running; i++) {
+            for (int i = 0; i < iterations && running; i++) {
                 Element g = pairing.getG1().newElement().setToRandom();
                 Element h = pairing.getG2().newElement().setToRandom();
 
@@ -64,9 +64,9 @@ public class AndroidBenchmark {
             if (!running)
                 return null;
 
-            pairingBenchmarks[0][col] = (double) t1 / times;
-            pairingBenchmarks[1][col] = (double) t2 / times;
-            pairingBenchmarks[2][col] = (double) t3 / times;
+            pairingBenchmarks[0][col] = (double) t1 / iterations;
+            pairingBenchmarks[1][col] = (double) t2 / iterations;
+            pairingBenchmarks[2][col] = (double) t3 / iterations;
             Log.i(TAG, "Finished.\n");
         }
 
@@ -90,7 +90,7 @@ public class AndroidBenchmark {
                 Log.i(TAG, "Field " + Benchmark.fieldNames[fieldIndex]);
 
                 long t1 = 0, t2 = 0,t3 = 0,t4 = 0, t5 = 0, t6 = 0, t7 = 0;
-                for (int i = 0; i < times && running; i++) {
+                for (int i = 0; i < iterations && running; i++) {
                     Element e1 = fields[fieldIndex].newRandomElement();
 
                     BigInteger n = pairing.getZr().newRandomElement().toBigInteger();
@@ -137,13 +137,13 @@ public class AndroidBenchmark {
                 if (!running)
                     return null;
 
-                elementBenchmarks[fieldIndex][0][col] = (double ) t1 / times;
-                elementBenchmarks[fieldIndex][1][col] = (double ) t2 / times;
-                elementBenchmarks[fieldIndex][2][col] = (double ) t3 / times;
-                elementBenchmarks[fieldIndex][3][col] = (double ) t4 / times;
-                elementBenchmarks[fieldIndex][4][col] = (double ) t5 / times;
-                elementBenchmarks[fieldIndex][5][col] = (double ) t6 / times;
-                elementBenchmarks[fieldIndex][6][col] = (double ) t7 / times;
+                elementBenchmarks[fieldIndex][0][col] = (double ) t1 / iterations;
+                elementBenchmarks[fieldIndex][1][col] = (double ) t2 / iterations;
+                elementBenchmarks[fieldIndex][2][col] = (double ) t3 / iterations;
+                elementBenchmarks[fieldIndex][3][col] = (double ) t4 / iterations;
+                elementBenchmarks[fieldIndex][4][col] = (double ) t5 / iterations;
+                elementBenchmarks[fieldIndex][5][col] = (double ) t6 / iterations;
+                elementBenchmarks[fieldIndex][6][col] = (double ) t7 / iterations;
                 Log.i(TAG, "Finished.\n");
             }
         }
@@ -179,5 +179,9 @@ public class AndroidBenchmark {
         Log.i(TAG, "Stop.\n");
 
         this.running = false;
+    }
+
+    public void setIterations(int iterations) {
+        this.iterations = iterations;
     }
 }
