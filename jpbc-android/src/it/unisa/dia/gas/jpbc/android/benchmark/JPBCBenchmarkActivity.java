@@ -62,7 +62,7 @@ public class JPBCBenchmarkActivity extends Activity implements View.OnClickListe
         Thread t = new Thread() {
             public void run() {
                 Benchmark benchmark = androidBenchmark.benchmark(new String[]{
-                        "it/unisa/dia/gas/jpbc/android/jpbcset/benchmark/curves/a.properties"
+                        "it/unisa/dia/gas/jpbc/android/benchmark/curves/a.properties"
                 });
 
                 //Send update to the main thread
