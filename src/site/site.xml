@@ -53,6 +53,8 @@
             </item>
 
             <item name="PBC Wrapper" href="/docs/pbcwrapper.html"/>
+
+            <item name="Android" href="/docs/android.html"/>
         </menu>
 
         <menu name="Crypto">

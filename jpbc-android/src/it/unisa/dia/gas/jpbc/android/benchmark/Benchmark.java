@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.jpbc.android.jpbcset.benchmark;
+package it.unisa.dia.gas.jpbc.android.benchmark;
 
 /**
  * Angelo De Caro (decaro@dia.unisa.it)

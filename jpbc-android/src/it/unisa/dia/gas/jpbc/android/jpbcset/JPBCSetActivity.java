@@ -8,8 +8,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import it.unisa.dia.gas.jpbc.android.jpbcset.benchmark.AndroidBenchmark;
-import it.unisa.dia.gas.jpbc.android.jpbcset.benchmark.Benchmark;
+import it.unisa.dia.gas.jpbc.android.benchmark.AndroidBenchmark;
+import it.unisa.dia.gas.jpbc.android.benchmark.Benchmark;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)

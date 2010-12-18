@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.jpbc.android.jpbcset.benchmark;
+package it.unisa.dia.gas.jpbc.android.benchmark;
 
 import android.util.Log;
 import it.unisa.dia.gas.jpbc.*;
