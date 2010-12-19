@@ -20,9 +20,9 @@ public class PBCElementPPType extends Memory {
 
     @Override
     protected void finalize() {
-        if (valid()) {
+        if (isValid()) {
             WrapperLibraryProvider.getWrapperLibrary().pbc_element_pp_clear(this);
+            peer = 0;
         }
-//        super.finalize();
     }
 }
