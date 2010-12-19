@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing.a1;
 
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.PairingPreProcessing;
 import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteElement;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteField;
@@ -14,15 +15,12 @@ import java.math.BigInteger;
  */
 public class TypeA1TateNafProjectiveMillerPairingMap extends AbstractMillerPairingMap {
     protected TypeA1Pairing pairing;
+    protected byte[] r;
 
 
     public TypeA1TateNafProjectiveMillerPairingMap(TypeA1Pairing pairing) {
         this.pairing = pairing;
-    }
-
-
-    @Override
-    protected void millerStep(Point out, Element a, Element b, Element c, Element Qx, Element Qy) {
+        this.r = BigIntegerUtils.naf(pairing.r, (byte) 2);
     }
 
     /**
@@ -30,24 +28,32 @@ public class TypeA1TateNafProjectiveMillerPairingMap extends AbstractMillerPairi
      */
     public Element pairing(Point P, Point Q) {
         Point f = pairing.Fq2.newOneElement();
+        Point u = pairing.Fq2.newElement();
 
         JacobPoint V = new JacobPoint(P.getX(), P.getY(), P.getX().getField().newOneElement());
         Point nP = (Point) P.duplicate().negate();
 
-        byte[] r = BigIntegerUtils.naf(pairing.r, (byte) 2);
+        Element a = pairing.Fp.newElement();
+        Element b = pairing.Fp.newElement();
+        Element c = pairing.Fp.newElement();
 
-        Point u = pairing.Fq2.newElement();
         for (int i = r.length - 2; i >= 0; i--) {
-            twice(u, V, Q);
+            twice(V, a, b, c);
+
+            millerStep(u, a, b, c, Q.getX(), Q.getY());
             f.square().mul(u);
 
-            switch (r[i]){
+            switch (r[i]) {
                 case 1:
-                    add(u, V, P, Q);
+                    add(V, P, a, b, c);
+
+                    millerStep(u, a, b, c, Q.getX(), Q.getY());
                     f.mul(u);
                     break;
                 case -1:
-                    add(u, V, nP, Q);
+                    add(V, nP, a, b, c);
+
+                    millerStep(u, a, b, c, Q.getX(), Q.getY());
                     f.mul(u);
                     break;
             }
@@ -59,7 +65,20 @@ public class TypeA1TateNafProjectiveMillerPairingMap extends AbstractMillerPairi
     }
 
     public void finalPow(Element element) {
+        Element t0 = element.getField().newElement();
+        tatePow((Point) t0, (Point) element, pairing.phikOnr);
+        element.set(t0);
     }
+
+    public PairingPreProcessing pairingPreProcessing(Point in1) {
+        return new TypeATateNafProjectiveMillerPairingPreProcessing(in1);
+    }
+
+    protected final void millerStep(Point out, Element a, Element b, Element c, Element Qx, Element Qy) {
+        out.getX().set(c).add(a.duplicate().mul((Qx)));
+        out.getY().set(b).mul(Qy);
+    }
+
 
 
     final void tatePow(Point out, Point in, BigInteger cofactor) {
@@ -82,14 +101,16 @@ public class TypeA1TateNafProjectiveMillerPairingMap extends AbstractMillerPairi
         lucasOdd(out, in, temp, cofactor);
     }
 
-    //used by tate pairing, point doubling in Jacobian coordinates, and return the value of f
-    final void twice(Point u, JacobPoint P, Point Q) {
-        //if(P.isInfinity())
+    /**
+     * used by tate pairing, point doubling in Jacobian coordinates, and return the value of f
+     */
+    final void twice(JacobPoint V, Element a, Element b, Element c) {
+        //if(V.isInfinity())
         //	return;
 
-        Element x = P.getX();
-        Element y = P.getY();
-        Element z = P.getZ();
+        Element x = V.getX();
+        Element y = V.getY();
+        Element z = V.getZ();
 
         //t1 = y^2
         Element t1 = y.duplicate().square();
@@ -112,21 +133,30 @@ public class TypeA1TateNafProjectiveMillerPairingMap extends AbstractMillerPairi
         //z3 = 2 y z
         Element z3 = y.duplicate().mul(z).twice();
 
-        P.setX(x3);
-        P.setY(y3);
-        P.setZ(z3);
+        V.setX(x3);
+        V.setY(y3);
+        V.setZ(z3);
+
+        b.set(z3.duplicate().mul(t4));
+//        a.set(Q.getX().duplicate().mul(t4).add(x).mul(t5));
+//        c.set(t1.twice());
+        a.set(t5).mul(t4);
+        c.set(t5).mul(x).sub(t1).sub(t1);
+
 
         // (2 y z * z^2 * Q.y)i - (2 y^2 - ((3 x^2 + a z^4) (z^2 Q.x + x)))
-        u.getX().set(t4.duplicate().mul(Q.getX()).add(x).mul(t5).sub(t1).sub(t1));
-        u.getY().set(z3.duplicate().mul(t4).mul(Q.getY()));
+        // (2 y z * z^2 * Q.y)i - (2 y^2 - ((3 x^2 + a z^4)x + (3 x^2 + a z^4)(z^2 Q.x)))
+//        u.getX().set(t4.duplicate().mul(Q.getX()).add(x).mul(t5).sub(t1).sub(t1));
+//        u.getY().set(z3.duplicate().mul(t4).mul(Q.getY()));
     }
 
-
-    //used by Tate paring, add two point, save result in the first argument, return the value of f
-    final void add(Point u, JacobPoint A, Point P, Point Q) {
-        Element x1 = A.getX();
-        Element y1 = A.getY();
-        Element z1 = A.getZ();
+    /**
+     * used by Tate paring, add two point, save result in the first argument, return the value of f
+     */
+    final void add(JacobPoint V, Point P, Element a, Element b, Element c) {
+        Element x1 = V.getX();
+        Element y1 = V.getY();
+        Element z1 = V.getZ();
 
         Element x = P.getX();
         Element y = P.getY();
@@ -159,100 +189,89 @@ public class TypeA1TateNafProjectiveMillerPairingMap extends AbstractMillerPairi
         //z3=z1t5
         Element z3 = z1.duplicate().mul(t5);
 
-        A.setX(x3);
-        A.setY(y3);
-        A.setZ(z3);
+        V.setX(x3);
+        V.setY(y3);
+        V.setZ(z3);
 
-        //z3 yq i -(z3Y-t6(xq+x))
-        u.getX().set(Q.getX().duplicate().add(x).mul(t6).sub(z3.duplicate().mul(y)));
-        u.getY().set(z3.duplicate().mul(Q.getY()));
+        a.set(t6);
+        b.set(z3);
+        c.set(t6).mul(x).sub(z3.duplicate().mul(y));
+
+        //(z3 Q.y)i -(z3 y - t6 (Q.x + x))
+//        u.getX().set(Q.getX().duplicate().add(x).mul(t6).sub(z3.duplicate().mul(y)));
+//        u.getY().set(z3.duplicate().mul(Q.getY()));
     }
 
 
-    public static class JacobPoint {
 
-        private Element x;
-        private Element y;
-        private Element z;
 
-        public JacobPoint(Element x, Element y, Element z) {
-            this.x = x;
-            this.y = y;
-            this.z = z;
+    public class TypeATateNafProjectiveMillerPairingPreProcessing implements PairingPreProcessing {
+        protected Point in1;
+        protected MillerPreProcessingInfo processingInfo;
+
+
+        public TypeATateNafProjectiveMillerPairingPreProcessing(Point P) {
+            JacobPoint V = new JacobPoint(P.getX(), P.getY(), P.getX().getField().newOneElement());
+            Point nP = (Point) P.duplicate().negate();
+
+            Element a = pairing.Fp.newElement();
+            Element b = pairing.Fp.newElement();
+            Element c = pairing.Fp.newElement();
+
+            // TODO: allocate just the necessary memory...analyze the  number of zero in r
+            processingInfo = new MillerPreProcessingInfo((r.length - 2) *2);
+
+            for (int i = r.length - 2; i >= 0; i--) {
+                twice(V, a, b, c);
+                processingInfo.addRow(a, b, c);
+
+                switch (r[i]) {
+                    case 1:
+                        add(V, P, a, b, c);
+                        processingInfo.addRow(a, b, c);
+
+                        break;
+                    case -1:
+                        add(V, nP, a, b, c);
+                        processingInfo.addRow(a, b, c);
+
+                        break;
+                }
+            }
         }
 
-        public Element getX() {
-            return this.x;
+        public Element pairing(Element in2) {
+            Point Q = (Point) in2;
+            Point f = pairing.Fq2.newOneElement();
+            Point u = pairing.Fq2.newElement();
+
+            for (int i = r.length - 2, coeffIndex = 0; i >= 0; i--) {
+                millerStep(u, processingInfo.coeff[coeffIndex][0], processingInfo.coeff[coeffIndex][1], processingInfo.coeff[coeffIndex][2], Q.getX(), Q.getY());
+                f.square().mul(u);
+
+                coeffIndex++;
+
+                switch (r[i]) {
+                    case 1:
+                        millerStep(u, processingInfo.coeff[coeffIndex][0], processingInfo.coeff[coeffIndex][1], processingInfo.coeff[coeffIndex][2], Q.getX(), Q.getY());
+                        f.mul(u);
+
+                        coeffIndex++;
+                        break;
+                    case -1:
+                        millerStep(u, processingInfo.coeff[coeffIndex][0], processingInfo.coeff[coeffIndex][1], processingInfo.coeff[coeffIndex][2], Q.getX(), Q.getY());
+                        f.mul(u);
+
+                        coeffIndex++;
+                        break;
+                }
+            }
+
+            Point out = pairing.Fq2.newElement();
+            tatePow(out, f, pairing.phikOnr);
+            return new GTFiniteElement(TypeA1TateNafProjectiveMillerPairingMap.this, (GTFiniteField) pairing.getGT(), out);
         }
-
-        public Element getY() {
-            return this.y;
-        }
-
-        public Element getZ() {
-            return this.z;
-        }
-
-        public boolean isInfinity() {
-            //return this.equals(JacobPoint.INFINITY);
-            return this.z.isZero();
-        }
-
-        @Override
-        public int hashCode() {
-            final int prime = 31;
-            int result = 1;
-            result = prime * result + ((x == null) ? 0 : x.hashCode());
-            result = prime * result + ((y == null) ? 0 : y.hashCode());
-            result = prime * result + ((z == null) ? 0 : z.hashCode());
-            return result;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (this == obj)
-                return true;
-            if (obj == null)
-                return false;
-            if (getClass() != obj.getClass())
-                return false;
-            JacobPoint other = (JacobPoint) obj;
-            if (x == null) {
-                if (other.x != null)
-                    return false;
-            } else if (!x.equals(other.x))
-                return false;
-            if (y == null) {
-                if (other.y != null)
-                    return false;
-            } else if (!y.equals(other.y))
-                return false;
-            if (z == null) {
-                if (other.z != null)
-                    return false;
-            } else if (!z.equals(other.z))
-                return false;
-            return true;
-        }
-
-        @Override
-        public String toString() {
-            return "[" + x + "," + y + "," + z + "]";
-        }
-
-        public void setX(Element newX) {
-            this.x = newX;
-        }
-
-        public void setY(Element newY) {
-            this.y = newY;
-        }
-
-        public void setZ(Element newZ) {
-            this.z = newZ;
-        }
-
-
     }
+
 
 }
