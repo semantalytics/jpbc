@@ -59,7 +59,7 @@ public class MPZElementType extends Memory {
         if (isValid()) {
             GMPProvider.getGmpLibrary().__gmpz_clear(this);
         }
-        super.finalize();
+//        super.finalize();
     }
 
 }

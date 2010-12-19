@@ -23,6 +23,6 @@ public class PBCPairingPPType extends Memory {
         if (isValid()) {
             WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_pp_clear(this);
         }
-        super.finalize();
+//        super.finalize();
     }
 }

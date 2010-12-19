@@ -18,6 +18,6 @@ public class PBCPairingType extends Memory {
         if (isValid()) {
             WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_clear(this);
         }
-        super.finalize();
+//        super.finalize();
     }
 }

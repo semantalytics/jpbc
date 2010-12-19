@@ -23,6 +23,6 @@ public class PBCElementPPType extends Memory {
         if (isValid()) {
             WrapperLibraryProvider.getWrapperLibrary().pbc_element_pp_clear(this);
         }
-        super.finalize();
+//        super.finalize();
     }
 }

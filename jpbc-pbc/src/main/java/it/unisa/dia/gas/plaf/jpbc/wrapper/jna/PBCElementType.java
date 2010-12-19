@@ -47,6 +47,6 @@ public class PBCElementType extends Memory {
                     System.out.println("Element already cleaned!");
             }
         }
-        super.finalize();
+//        super.finalize();
     }
 }
