@@ -22,7 +22,7 @@ public class PBCElementPPType extends Memory {
     protected void finalize() {
         if (isValid()) {
             WrapperLibraryProvider.getWrapperLibrary().pbc_element_pp_clear(this);
-            peer = 0;
+            super.finalize();
         }
     }
 }

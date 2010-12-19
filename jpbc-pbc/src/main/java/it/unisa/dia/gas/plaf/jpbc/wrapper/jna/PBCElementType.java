@@ -38,7 +38,7 @@ public class PBCElementType extends Memory {
     protected void finalize() {
         if (isValid()) {
             WrapperLibraryProvider.getWrapperLibrary().pbc_element_clear(this);
-            peer = 0;
+            super.finalize();
         }
     }
 }
