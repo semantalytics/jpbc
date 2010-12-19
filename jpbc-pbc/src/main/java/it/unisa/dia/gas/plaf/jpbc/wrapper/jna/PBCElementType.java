@@ -38,7 +38,7 @@ public class PBCElementType extends Memory {
 
     @Override
     protected void finalize() {
-        if (isValid()) {
+        if (valid()) {
             synchronized (this) {
                 if (!cleaned) {
                     WrapperLibraryProvider.getWrapperLibrary().pbc_element_clear(this);

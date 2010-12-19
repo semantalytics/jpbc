@@ -56,7 +56,7 @@ public class MPZElementType extends Memory {
 
     @Override
     protected void finalize() {
-        if (isValid()) {
+        if (valid()) {
             GMPProvider.getGmpLibrary().__gmpz_clear(this);
         }
 //        super.finalize();
