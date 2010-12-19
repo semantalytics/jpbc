@@ -274,8 +274,7 @@ public class TypeATateProjectiveMillerPairingMap extends AbstractMillerPairingMa
 
             int i, n;
 
-            processingInfo = new MillerPreProcessingInfo();
-            processingInfo.coeff = new Element[pairing.exp2 + 1][3];
+            processingInfo = new MillerPreProcessingInfo(pairing.exp2 + 1);
 
             Point V = (Point) in1.duplicate();
             Point V1 = pairing.Eq.newElement();
@@ -324,23 +323,21 @@ public class TypeATateProjectiveMillerPairingMap extends AbstractMillerPairingMa
             Point f = pairing.Fq2.newOneElement();
             Point out = pairing.Fq2.newElement();
 
-            n = pairing.exp1;
-            for (i = 0; i < n; i++) {
+            for (i = 0, n = pairing.exp1; i < n; i++) {
                 f.square();
                 millerStep(f0, processingInfo.coeff[i][0], processingInfo.coeff[i][1], processingInfo.coeff[i][2], Qx, Qy);
                 f.mul(f0);
             }
+
             if (pairing.sign1 < 0) {
                 out.set(f).invert();
             } else {
                 out.set(f);
             }
-            n = pairing.exp2;
-            for (; i < n; i++) {
+
+            for (n = pairing.exp2; i < n; i++) {
                 f.square();
-
                 millerStep(f0, processingInfo.coeff[i][0], processingInfo.coeff[i][1], processingInfo.coeff[i][2], Qx, Qy);
-
                 f.mul(f0);
             }
 

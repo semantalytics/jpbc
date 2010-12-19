@@ -242,8 +242,7 @@ public class TypeATateAffineMillerPairingMap extends AbstractMillerPairingMap {
 
             int i, n;
 
-            processingInfo = new MillerPreProcessingInfo();
-            processingInfo.coeff = new Element[pairing.exp2 + 1][3];
+            processingInfo = new MillerPreProcessingInfo(pairing.exp2 + 1);
 
             Point V = (Point) in1.duplicate();
             Point V1 = pairing.Eq.newElement();

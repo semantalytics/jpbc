@@ -372,6 +372,10 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
         public int numRow = 0;
         public Element[][] coeff;
 
+        public MillerPreProcessingInfo(int size) {
+            this.coeff = new Element[size][3];
+        }
+
         public void addRow(Element a, Element b, Element c) {
             coeff[numRow][0] = a.duplicate();
             coeff[numRow][1] = b.duplicate();

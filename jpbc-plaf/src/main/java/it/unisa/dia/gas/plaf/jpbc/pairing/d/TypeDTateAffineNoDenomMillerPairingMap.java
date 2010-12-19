@@ -254,8 +254,7 @@ public class TypeDTateAffineNoDenomMillerPairingMap extends AbstractMillerPairin
             Element temp = pairing.Fq.newElement();
 
             int m = pairing.r.bitLength() - 2;
-            processingInfo = new MillerPreProcessingInfo();
-            processingInfo.coeff = new Element[2 * m][3];
+            processingInfo = new MillerPreProcessingInfo(2 * m);
 
             for (; m > 0; m--) {
                 computeTangent(processingInfo, a, b, c, Zx, Zy, curveA, temp);
