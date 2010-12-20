@@ -9,6 +9,8 @@
         <pathelement location="${basedir}/jars/jpbc-api-1.0.0.jar"/>
         <pathelement location="${basedir}/jars/jpbc-plaf-1.0.0.jar"/>
         <pathelement location="${basedir}/jars/jpbc-pbc-1.0.0.jar"/>
+
+        <pathelement location="${basedir}/jars/jna-3.2.5.jar"/>
     </path>
 
     <!-- Curve Generators -->
