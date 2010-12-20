@@ -1,13 +1,12 @@
 package it.unisa.dia.gas.jpbc.benchmark;
 
-import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.jpbc.PairingPreProcessing;
+import it.unisa.dia.gas.jpbc.*;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.Arrays;
 
 /**
@@ -60,7 +59,6 @@ public class JPBCBenchmark {
             System.out.printf("finished.\n");
         }
 
-        /*
         // Element Pow Benchmarks
         System.out.println("Element Pow Benchmark...");
 
@@ -135,7 +133,6 @@ public class JPBCBenchmark {
                 System.out.printf("finished.\n");
             }
         }
-        */
 
         return benchmark;
     }

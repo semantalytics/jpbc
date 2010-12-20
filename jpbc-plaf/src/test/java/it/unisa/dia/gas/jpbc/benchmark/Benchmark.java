@@ -44,7 +44,7 @@ public class Benchmark {
         return elementBenchmarks;
     }
 
-    
+
     public String toHTML() {
         StringBuffer buffer = new StringBuffer();
 
@@ -75,12 +75,11 @@ public class Benchmark {
             buffer.append("                    <tr>\n")
                     .append("                        <th align=\"left\">\n")
                     .append("                            <font style=\"font-weight: bold;color:black\">Element Pow (").append(fieldNames[fieldIndex]).append(")</strong>\n")
-                    .append("                        </th>\n")
-                    .append("                        <td></td>\n")
-                    .append("                        <td></td>\n")
-                    .append("                        <td></td>\n")
-                    .append("                        <td></td>\n")
-                    .append("                    </tr>\n");
+                    .append("                        </th>\n");
+            for (int col = 0; col < curves.length; col++) {
+                buffer.append("                        <td></td>\n");
+            }
+            buffer.append("                    </tr>\n");
 
             for (int row = 0; row < elementBenchmarkNames.length; row++) {
                 buffer.append("                    <tr>\n")
@@ -142,12 +141,11 @@ public class Benchmark {
             buffer.append("                    <tr>\n")
                     .append("                        <th align=\"left\">\n")
                     .append("                            <font style=\"font-weight: bold;color:black\">Element Pow (").append(fieldNames[fieldIndex]).append(")</strong>\n")
-                    .append("                        </th>\n")
-                    .append("                        <td></td>\n")
-                    .append("                        <td></td>\n")
-                    .append("                        <td></td>\n")
-                    .append("                        <td></td>\n")
-                    .append("                    </tr>\n");
+                    .append("                        </th>\n");
+            for (int col = 0; col < curves.length; col++) {
+                buffer.append("                        <td></td>\n");
+            }
+            buffer.append("                    </tr>\n");
 
             for (int row = 0; row < elementBenchmarkNames.length; row++) {
                 buffer.append("                    <tr>\n")
