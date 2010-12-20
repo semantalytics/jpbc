@@ -398,11 +398,7 @@ int pbc_element_from_bytes(element_t e, unsigned char *data) {
 }
 
 void pbc_element_clear(element_t element) {
-    printf("pbc_element_clear\n");
-    if (element != NULL)
-        element_clear(element);
-    else
-        printf("null element\n");
+    element_clear(element);
 }
 
 void pbc_element_multi_double(element_t n[], element_t a[], int m) {
