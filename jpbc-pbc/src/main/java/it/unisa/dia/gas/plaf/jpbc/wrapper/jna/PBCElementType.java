@@ -36,6 +36,7 @@ public class PBCElementType extends Memory {
 
     @Override
     protected void finalize() {
+        //System.out.println("PBCElementType.finalize");
         if (isValid()) {
             WrapperLibraryProvider.getWrapperLibrary().pbc_element_clear(this);
             super.finalize();
