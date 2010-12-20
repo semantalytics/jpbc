@@ -14,7 +14,7 @@ public class ElementUtil {
 
         for (int i = 0; i < target.length; i++) {
             Element uElement = target[i];
-            if (!uElement.isImmutable())
+            if (uElement != null && !uElement.isImmutable())
                 target[i] = target[i].getImmutable();
         }
 

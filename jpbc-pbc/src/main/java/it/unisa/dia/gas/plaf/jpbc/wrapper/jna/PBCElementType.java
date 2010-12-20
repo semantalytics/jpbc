@@ -35,6 +35,7 @@ public class PBCElementType extends Memory {
                 WrapperLibraryProvider.getWrapperLibrary().pbc_element_init_Zr(this, pairing);
                 break;
         }
+
         pairing.addElement();
     }
 
