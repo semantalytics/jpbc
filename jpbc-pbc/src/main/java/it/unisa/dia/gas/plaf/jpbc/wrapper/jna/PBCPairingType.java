@@ -16,7 +16,6 @@ public class PBCPairingType extends Memory {
 
     @Override
     protected void finalize() {
-        System.out.println("PBCPairingType.finalize("+ size + ")");
         if (size <= 0 && isValid()) {
             WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_clear(this);
             super.finalize();
