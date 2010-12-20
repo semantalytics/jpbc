@@ -10,6 +10,8 @@ public class PBCElementType extends Memory {
         G1, G2, GT, Zr
     }
 
+    protected PBCPairingType pairing;
+
 
     public PBCElementType() {
         super(WrapperLibraryProvider.getWrapperLibrary().pbc_element_sizeof());
@@ -17,6 +19,7 @@ public class PBCElementType extends Memory {
 
     public PBCElementType(FieldType fieldType, PBCPairingType pairing) {
         super(WrapperLibraryProvider.getWrapperLibrary().pbc_element_sizeof());
+        this.pairing = pairing;
         switch (fieldType) {
             case G1:
                 WrapperLibraryProvider.getWrapperLibrary().pbc_element_init_G1(this, pairing);
@@ -36,10 +39,11 @@ public class PBCElementType extends Memory {
 
     @Override
     protected void finalize() {
-        //System.out.println("PBCElementType.finalize");
+        System.out.println("PBCElementType.finalize");
         if (isValid()) {
             WrapperLibraryProvider.getWrapperLibrary().pbc_element_clear(this);
             super.finalize();
+            pairing = null;
         }
     }
 }

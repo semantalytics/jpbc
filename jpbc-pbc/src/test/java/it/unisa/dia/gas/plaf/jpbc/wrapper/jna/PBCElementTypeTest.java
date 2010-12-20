@@ -10,6 +10,17 @@ import java.util.Random;
  */
 public class PBCElementTypeTest extends TestCase {
 
+    @Override
+    protected void tearDown() throws Exception {
+        System.out.println("gc");
+        System.gc();
+        try {
+            Thread.sleep(60000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+    }
+
     public void test() {
         PBCPairingType pbcPairingType = new PBCPairingType(
                 new CurveParams().load(PBCElementTypeTest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pbc/pairing/a_181_603.properties")).toString(" ")
@@ -19,7 +30,7 @@ public class PBCElementTypeTest extends TestCase {
         Random random = new Random();
         for (int i = 0; i < 10000; i++) {
             int field = random.nextInt(4);
-            System.out.println("field = " + field);
+//            System.out.println("field = " + field);
             PBCElementType pbcElementType = null;
             switch (field) {
                 case 0:
@@ -47,15 +58,7 @@ public class PBCElementTypeTest extends TestCase {
                     );
                     break;
             }
-            System.out.println("pbcElementType = " + pbcElementType);
-        }
-
-        System.out.println("gc");
-        System.gc();
-        try {
-            Thread.sleep(60000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//            System.out.println("pbcElementType = " + pbcElementType);
         }
     }
 }
