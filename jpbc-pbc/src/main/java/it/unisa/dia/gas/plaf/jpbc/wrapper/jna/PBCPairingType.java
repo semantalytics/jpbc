@@ -6,6 +6,7 @@ import com.sun.jna.Memory;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class PBCPairingType extends Memory {
+    private int size = 0;
 
     public PBCPairingType(String buf) {
         super(WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_sizeof());
@@ -15,10 +16,19 @@ public class PBCPairingType extends Memory {
 
     @Override
     protected void finalize() {
-        System.out.println("PBCPairingType.finalize");
-        if (isValid()) {
+        System.out.println("PBCPairingType.finalize("+ size + ")");
+        if (size <= 0 && isValid()) {
             WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_clear(this);
             super.finalize();
-        }
+        } else
+            throw new IllegalStateException("Cannot be finalized!!!");
+    }
+
+    public void addElement() {
+        size++;
+    }
+
+    public void removeElement() {
+        size--;
     }
 }

@@ -19,6 +19,7 @@ public class PBCElementType extends Memory {
 
     public PBCElementType(FieldType fieldType, PBCPairingType pairing) {
         super(WrapperLibraryProvider.getWrapperLibrary().pbc_element_sizeof());
+
         this.pairing = pairing;
         switch (fieldType) {
             case G1:
@@ -34,16 +35,20 @@ public class PBCElementType extends Memory {
                 WrapperLibraryProvider.getWrapperLibrary().pbc_element_init_Zr(this, pairing);
                 break;
         }
+        pairing.addElement();
     }
 
+    public PBCPairingType getPairing() {
+        return pairing;
+    }
 
     @Override
     protected void finalize() {
-        System.out.println("PBCElementType.finalize");
+//        System.out.println("PBCElementType.finalize " +  pairing.getIndex());
         if (isValid()) {
             WrapperLibraryProvider.getWrapperLibrary().pbc_element_clear(this);
             super.finalize();
-            pairing = null;
+            pairing.removeElement();
         }
     }
 }
