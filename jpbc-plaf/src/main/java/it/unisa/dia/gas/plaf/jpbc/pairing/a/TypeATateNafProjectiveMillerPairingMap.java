@@ -102,7 +102,7 @@ public class TypeATateNafProjectiveMillerPairingMap extends AbstractMillerPairin
     }
 
     /**
-     * used by tate pairing, point doubling in Jacobian coordinates, and return the value of f
+     * point doubling in Jacobian coordinates
      */
     final void twice(JacobPoint V, Element a, Element b, Element c) {
         //if(V.isInfinity())
@@ -119,39 +119,27 @@ public class TypeATateNafProjectiveMillerPairingMap extends AbstractMillerPairin
         Element t2 = x.duplicate().mul(t1).twice().twice();
 
         //t4 = z^2
-        Element t4 = z.duplicate().square();
+        b.set(z).square();
 
         //t5 = 3 x^2 + a t4^2 = 3 x^2 + a z^4
-        Element t5 = x.duplicate().square().mul(3).add(t4.duplicate().square());
+        a.set(x).square().mul(3).add(b.duplicate().square());
+        c.set(a).mul(x).sub(t1).sub(t1);
 
         //x3 = (3 x^2 + a z^4)^2 - 2 (4 x y^2)
-        Element x3 = t5.duplicate().square().sub(t2.duplicate().twice());
-
-        //y3 = 3 x^2 + a z^4 (4 x y^2 - x3) - 8 y^4
-        Element y3 = t5.duplicate().mul(t2.duplicate().sub(x3)).sub(t1.duplicate().square().twice().twice().twice());
 
         //z3 = 2 y z
-        Element z3 = y.duplicate().mul(z).twice();
+        z.mul(y).twice();
 
-        V.setX(x3);
-        V.setY(y3);
-        V.setZ(z3);
+        //y3 = 3 x^2 + a z^4 (4 x y^2 - x3) - 8 y^4
+        V.setX(a.duplicate().square().sub(t2.duplicate().twice()));
+        V.setY(a.duplicate().mul(t2.duplicate().sub(V.getX())).sub(t1.duplicate().square().twice().twice().twice()));
 
-        b.set(z3.duplicate().mul(t4));
-//        a.set(Q.getX().duplicate().mul(t4).add(x).mul(t5));
-//        c.set(t1.twice());
-        a.set(t5).mul(t4);
-        c.set(t5).mul(x).sub(t1).sub(t1);
-
-
-        // (2 y z * z^2 * Q.y)i - (2 y^2 - ((3 x^2 + a z^4) (z^2 Q.x + x)))
-        // (2 y z * z^2 * Q.y)i - (2 y^2 - ((3 x^2 + a z^4)x + (3 x^2 + a z^4)(z^2 Q.x)))
-//        u.getX().set(t4.duplicate().mul(Q.getX()).add(x).mul(t5).sub(t1).sub(t1));
-//        u.getY().set(z3.duplicate().mul(t4).mul(Q.getY()));
+        a.mul(b);
+        b.mul(z);
     }
 
     /**
-     * used by Tate paring, add two point, save result in the first argument, return the value of f
+     * add two point, save result in the first argument
      */
     final void add(JacobPoint V, Point P, Element a, Element b, Element c) {
         Element x1 = V.getX();

@@ -43,19 +43,19 @@ public class AndroidBenchmark {
                 Element g = pairing.getG1().newElement().setToRandom();
                 Element h = pairing.getG2().newElement().setToRandom();
 
-                long start = System.currentTimeMillis();
+                long start = System.nanoTime();
                 pairing.pairing(g, h);
-                long end = System.currentTimeMillis();
+                long end = System.nanoTime();
                 t1 += (end - start);
 
-                start = System.currentTimeMillis();
+                start = System.nanoTime();
                 PairingPreProcessing ppp = pairing.pairing(g);
-                end = System.currentTimeMillis();
+                end = System.nanoTime();
                 t2 += (end - start);
 
-                start = System.currentTimeMillis();
+                start = System.nanoTime();
                 ppp.pairing(h);
-                end = System.currentTimeMillis();
+                end = System.nanoTime();
                 t3 += (end - start);
 
                 System.gc();
@@ -64,9 +64,9 @@ public class AndroidBenchmark {
             if (!running)
                 return null;
 
-            pairingBenchmarks[0][col] = (double) t1 / iterations;
-            pairingBenchmarks[1][col] = (double) t2 / iterations;
-            pairingBenchmarks[2][col] = (double) t3 / iterations;
+            pairingBenchmarks[0][col] = (double) t1 / iterations / 1000000d;
+            pairingBenchmarks[1][col] = (double) t2 / iterations / 1000000d;
+            pairingBenchmarks[2][col] = (double) t3 / iterations / 1000000d;
             Log.i(TAG, "Finished.\n");
         }
 
@@ -89,46 +89,46 @@ public class AndroidBenchmark {
             for (int fieldIndex = 0; fieldIndex < fields.length && running; fieldIndex++) {
                 Log.i(TAG, "Field " + Benchmark.fieldNames[fieldIndex]);
 
-                long t1 = 0, t2 = 0,t3 = 0,t4 = 0, t5 = 0, t6 = 0, t7 = 0;
+                long t1 = 0, t2 = 0, t3 = 0, t4 = 0, t5 = 0, t6 = 0, t7 = 0;
                 for (int i = 0; i < iterations && running; i++) {
                     Element e1 = fields[fieldIndex].newRandomElement();
 
                     BigInteger n = pairing.getZr().newRandomElement().toBigInteger();
                     Element n1 = pairing.getZr().newRandomElement();
 
-                    long start = System.currentTimeMillis();
+                    long start = System.nanoTime();
                     e1.duplicate().pow(n);
-                    long end = System.currentTimeMillis();
+                    long end = System.nanoTime();
                     t1 += (end - start);
 
-                    start = System.currentTimeMillis();
+                    start = System.nanoTime();
                     e1.duplicate().powZn(n1);
-                    end = System.currentTimeMillis();
+                    end = System.nanoTime();
                     t2 += (end - start);
 
-                    start = System.currentTimeMillis();
+                    start = System.nanoTime();
                     ElementPowPreProcessing ppp = e1.pow();
-                    end = System.currentTimeMillis();
+                    end = System.nanoTime();
                     t3 += (end - start);
 
-                    start = System.currentTimeMillis();
+                    start = System.nanoTime();
                     ppp.pow(n);
-                    end = System.currentTimeMillis();
+                    end = System.nanoTime();
                     t4 += (end - start);
 
-                    start = System.currentTimeMillis();
+                    start = System.nanoTime();
                     ppp.powZn(n1);
-                    end = System.currentTimeMillis();
+                    end = System.nanoTime();
                     t5 += (end - start);
 
-                    start = System.currentTimeMillis();
+                    start = System.nanoTime();
                     e1.duplicate().mul(n);
-                    end = System.currentTimeMillis();
+                    end = System.nanoTime();
                     t6 += (end - start);
 
-                    start = System.currentTimeMillis();
+                    start = System.nanoTime();
                     e1.setToRandom();
-                    end = System.currentTimeMillis();
+                    end = System.nanoTime();
                     t7 += (end - start);
 
                     System.gc();
@@ -137,13 +137,13 @@ public class AndroidBenchmark {
                 if (!running)
                     return null;
 
-                elementBenchmarks[fieldIndex][0][col] = (double ) t1 / iterations;
-                elementBenchmarks[fieldIndex][1][col] = (double ) t2 / iterations;
-                elementBenchmarks[fieldIndex][2][col] = (double ) t3 / iterations;
-                elementBenchmarks[fieldIndex][3][col] = (double ) t4 / iterations;
-                elementBenchmarks[fieldIndex][4][col] = (double ) t5 / iterations;
-                elementBenchmarks[fieldIndex][5][col] = (double ) t6 / iterations;
-                elementBenchmarks[fieldIndex][6][col] = (double ) t7 / iterations;
+                elementBenchmarks[fieldIndex][0][col] = (double) t1 / iterations / 1000000d;
+                elementBenchmarks[fieldIndex][1][col] = (double) t2 / iterations / 1000000d;
+                elementBenchmarks[fieldIndex][2][col] = (double) t3 / iterations / 1000000d;
+                elementBenchmarks[fieldIndex][3][col] = (double) t4 / iterations / 1000000d;
+                elementBenchmarks[fieldIndex][4][col] = (double) t5 / iterations / 1000000d;
+                elementBenchmarks[fieldIndex][5][col] = (double) t6 / iterations / 1000000d;
+                elementBenchmarks[fieldIndex][6][col] = (double) t7 / iterations / 1000000d;
                 Log.i(TAG, "Finished.\n");
             }
         }
