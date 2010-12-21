@@ -10,6 +10,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
@@ -97,7 +102,23 @@ public class JPBCBenchmarkActivity extends Activity implements View.OnClickListe
                     ((Button) findViewById(R.id.benchmark)).setText("Benchmark");
                     findViewById(R.id.progress).setVisibility(View.INVISIBLE);
 
-                    Log.i(TAG, ((Benchmark) msg.obj).toHTML());
+                    // Store benchmark output
+                    PrintStream out = null;
+                    try {
+                        File file = new File("benchmark.out");
+                        out = new PrintStream(new FileOutputStream(file));
+                        out.print(((Benchmark) msg.obj).toHTML());
+                        out.flush();
+
+                        ((TextView) findViewById(R.id.status)).setText("Benchmark Stored!");
+                    } catch (FileNotFoundException e) {
+                        Log.e(TAG, e.getMessage(), e);
+
+                        ((TextView) findViewById(R.id.status)).setText("Failed to store Benchmark!");
+                    } finally {
+                        if (out != null)
+                            out.close();
+                    }
                     break;
                 case 1:
                     ((TextView) findViewById(R.id.status)).setText("Benchmark Stopped!");
