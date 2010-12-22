@@ -38,19 +38,17 @@ public class JPBCBenchmark {
                 long start = System.nanoTime();
                 pairing.pairing(g, h);
                 long end = System.nanoTime();
-                t1 += (end - start);
+                t1 += Math.abs((end - start));
 
                 start = System.nanoTime();
                 PairingPreProcessing ppp = pairing.pairing(g);
                 end = System.nanoTime();
-                t2 += (end - start);
+                t2 += Math.abs((end - start));
 
                 start = System.nanoTime();
                 ppp.pairing(h);
                 end = System.nanoTime();
-                t3 += (end - start);
-
-                System.gc();
+                t3 += Math.abs((end - start));
             }
 
             pairingBenchmarks[0][col] = (double) t1 / times / 1000000d;
@@ -88,39 +86,37 @@ public class JPBCBenchmark {
                     long start = System.nanoTime();
                     e1.duplicate().pow(n);
                     long end = System.nanoTime();
-                    t1 += (end - start);
+                    t1 += Math.abs((end - start));
 
                     start = System.nanoTime();
                     e1.duplicate().powZn(n1);
                     end = System.nanoTime();
-                    t2 += (end - start);
+                    t2 += Math.abs((end - start));
 
                     start = System.nanoTime();
                     ElementPowPreProcessing ppp = e1.pow();
                     end = System.nanoTime();
-                    t3 += (end - start);
+                    t3 += Math.abs((end - start));
 
                     start = System.nanoTime();
                     ppp.pow(n);
                     end = System.nanoTime();
-                    t4 += (end - start);
+                    t4 += Math.abs((end - start));
 
                     start = System.nanoTime();
                     ppp.powZn(n1);
                     end = System.nanoTime();
-                    t5 += (end - start);
+                    t5 += Math.abs((end - start));
 
                     start = System.nanoTime();
                     e1.duplicate().mul(n);
                     end = System.nanoTime();
-                    t6 += (end - start);
+                    t6 += Math.abs((end - start));
 
                     start = System.nanoTime();
                     e1.setToRandom();
                     end = System.nanoTime();
-                    t7 += (end - start);
-
-                    System.gc();
+                    t7 += Math.abs((end - start));
                 }
 
                 elementBenchmarks[fieldIndex][0][col] = (double ) t1 / times / 1000000d;
