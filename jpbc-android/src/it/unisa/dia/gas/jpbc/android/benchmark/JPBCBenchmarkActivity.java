@@ -1,7 +1,9 @@
 package it.unisa.dia.gas.jpbc.android.benchmark;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -105,12 +107,23 @@ public class JPBCBenchmarkActivity extends Activity implements View.OnClickListe
                     // Store benchmark output
                     PrintStream out = null;
                     try {
-                        File file = new File("benchmark.out");
-                        out = new PrintStream(new FileOutputStream(file));
+                        String state = Environment.getExternalStorageState();
+                        String where;
+
+                        if (Environment.MEDIA_MOUNTED.equals(state)) {
+                            // Store data in the external storage
+                            where = "(out)";
+                            File file = new File(Environment.getExternalStorageDirectory(), "benchmark.out");
+                            out = new PrintStream(new FileOutputStream(file));
+                        } else {
+                            // Store date in the internal storage
+                            where = "(in)";
+                            out = new PrintStream(openFileOutput("benchmark.out", Context.MODE_WORLD_READABLE));
+                        }
                         out.print(((Benchmark) msg.obj).toHTML());
                         out.flush();
 
-                        ((TextView) findViewById(R.id.status)).setText("Benchmark Stored!");
+                        ((TextView) findViewById(R.id.status)).setText("Benchmark Stored! " + where);
                     } catch (FileNotFoundException e) {
                         Log.e(TAG, e.getMessage(), e);
 
