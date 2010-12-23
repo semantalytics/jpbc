@@ -35,25 +35,25 @@ public class JPBCBenchmark {
                 Element g = pairing.getG1().newElement().setToRandom();
                 Element h = pairing.getG2().newElement().setToRandom();
 
-                long start = System.nanoTime();
+                long start = System.currentTimeMillis();
                 pairing.pairing(g, h);
-                long end = System.nanoTime();
+                long end = System.currentTimeMillis();
                 t1 += Math.abs((end - start));
 
-                start = System.nanoTime();
+                start = System.currentTimeMillis();
                 PairingPreProcessing ppp = pairing.pairing(g);
-                end = System.nanoTime();
+                end = System.currentTimeMillis();
                 t2 += Math.abs((end - start));
 
-                start = System.nanoTime();
+                start = System.currentTimeMillis();
                 ppp.pairing(h);
-                end = System.nanoTime();
+                end = System.currentTimeMillis();
                 t3 += Math.abs((end - start));
             }
 
-            pairingBenchmarks[0][col] = (double) t1 / times / 1000000d;
-            pairingBenchmarks[1][col] = (double) t2 / times / 1000000d;
-            pairingBenchmarks[2][col] = (double) t3 / times / 1000000d;
+            pairingBenchmarks[0][col] = (double) t1 / times;
+            pairingBenchmarks[1][col] = (double) t2 / times;
+            pairingBenchmarks[2][col] = (double) t3 / times;
             System.out.printf("finished.\n");
         }
 
@@ -83,49 +83,49 @@ public class JPBCBenchmark {
                     BigInteger n = pairing.getZr().newRandomElement().toBigInteger();
                     Element n1 = pairing.getZr().newRandomElement();
 
-                    long start = System.nanoTime();
+                    long start = System.currentTimeMillis();
                     e1.duplicate().pow(n);
-                    long end = System.nanoTime();
+                    long end = System.currentTimeMillis();
                     t1 += Math.abs((end - start));
 
-                    start = System.nanoTime();
+                    start = System.currentTimeMillis();
                     e1.duplicate().powZn(n1);
-                    end = System.nanoTime();
+                    end = System.currentTimeMillis();
                     t2 += Math.abs((end - start));
 
-                    start = System.nanoTime();
+                    start = System.currentTimeMillis();
                     ElementPowPreProcessing ppp = e1.pow();
-                    end = System.nanoTime();
+                    end = System.currentTimeMillis();
                     t3 += Math.abs((end - start));
 
-                    start = System.nanoTime();
+                    start = System.currentTimeMillis();
                     ppp.pow(n);
-                    end = System.nanoTime();
+                    end = System.currentTimeMillis();
                     t4 += Math.abs((end - start));
 
-                    start = System.nanoTime();
+                    start = System.currentTimeMillis();
                     ppp.powZn(n1);
-                    end = System.nanoTime();
+                    end = System.currentTimeMillis();
                     t5 += Math.abs((end - start));
 
-                    start = System.nanoTime();
+                    start = System.currentTimeMillis();
                     e1.duplicate().mul(n);
-                    end = System.nanoTime();
+                    end = System.currentTimeMillis();
                     t6 += Math.abs((end - start));
 
-                    start = System.nanoTime();
+                    start = System.currentTimeMillis();
                     e1.setToRandom();
-                    end = System.nanoTime();
+                    end = System.currentTimeMillis();
                     t7 += Math.abs((end - start));
                 }
 
-                elementBenchmarks[fieldIndex][0][col] = (double ) t1 / times / 1000000d;
-                elementBenchmarks[fieldIndex][1][col] = (double ) t2 / times / 1000000d;
-                elementBenchmarks[fieldIndex][2][col] = (double ) t3 / times / 1000000d;
-                elementBenchmarks[fieldIndex][3][col] = (double ) t4 / times / 1000000d;
-                elementBenchmarks[fieldIndex][4][col] = (double ) t5 / times / 1000000d;
-                elementBenchmarks[fieldIndex][5][col] = (double ) t6 / times / 1000000d;
-                elementBenchmarks[fieldIndex][6][col] = (double ) t7 / times / 1000000d;
+                elementBenchmarks[fieldIndex][0][col] = (double ) t1 / times;
+                elementBenchmarks[fieldIndex][1][col] = (double ) t2 / times;
+                elementBenchmarks[fieldIndex][2][col] = (double ) t3 / times;
+                elementBenchmarks[fieldIndex][3][col] = (double ) t4 / times;
+                elementBenchmarks[fieldIndex][4][col] = (double ) t5 / times;
+                elementBenchmarks[fieldIndex][5][col] = (double ) t6 / times;
+                elementBenchmarks[fieldIndex][6][col] = (double ) t7 / times;
                 System.out.printf("finished.\n");
             }
         }

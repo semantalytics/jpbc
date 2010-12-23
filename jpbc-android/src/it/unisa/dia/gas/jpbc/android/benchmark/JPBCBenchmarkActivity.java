@@ -1,7 +1,10 @@
 package it.unisa.dia.gas.jpbc.android.benchmark;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -24,25 +27,34 @@ public class JPBCBenchmarkActivity extends Activity implements View.OnClickListe
     private static final String TAG = "JPBCBenchmarkActivity";
 
     protected AndroidBenchmark androidBenchmark;
-
     protected boolean running = false;
 
+    protected BroadcastReceiver batteryLevelReceiver;
 
     /**
      * Called when the activity is first created.
      */
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "onCreate");
+
+        // Init UI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-
-        this.androidBenchmark = new AndroidBenchmark(10);
 
         ((TextView) findViewById(R.id.status)).setText("");
         findViewById(R.id.benchmark).setOnClickListener(this);
 
+        // Init the rest
+        initBenchmark();
+        initBatteryMonitor();
+
         Log.i(TAG, "onCreate.finished");
+    }
+
+    protected void onStop() {
+        unregisterReceiver(batteryLevelReceiver);
+
+        super.onStop();
     }
 
     public void onClick(View view) {
@@ -67,6 +79,10 @@ public class JPBCBenchmarkActivity extends Activity implements View.OnClickListe
     }
 
 
+    protected void initBenchmark() {
+        this.androidBenchmark = new AndroidBenchmark(10);
+    }
+
     protected void benchmark() {
         running = true;
         Thread t = new Thread() {
@@ -90,6 +106,24 @@ public class JPBCBenchmarkActivity extends Activity implements View.OnClickListe
     protected void stopBenchmark() {
         androidBenchmark.stop();
         running = false;
+    }
+
+    protected void initBatteryMonitor() {
+        batteryLevelReceiver = new BroadcastReceiver() {
+            public void onReceive(Context context, Intent intent) {
+
+                int rawlevel = intent.getIntExtra("level", -1);
+                int scale = intent.getIntExtra("scale", -1);
+                int level = -1;
+                if (rawlevel >= 0 && scale > 0) {
+                    level = (rawlevel * 100) / scale;
+                }
+
+                //batterLevel.setText("Battery Level Remaining: " + level + "%");
+            }
+        };
+        IntentFilter batteryLevelFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+        registerReceiver(batteryLevelReceiver, batteryLevelFilter);
     }
 
 
