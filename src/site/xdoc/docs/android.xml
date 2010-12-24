@@ -9,7 +9,9 @@
 
     <body>
         <section name="Android">
-            JPBC (the porting) runs out of box on android. Download the following apk
+            JPBC (the porting) runs out of box on android.
+            Download the following
+            <a href="../android/jpbc-android.apk">apk</a>
             to benchmark jpbc on your terminal.
             One the benchmark is finished the results can be found
             on the external memory in a file called "benchmark.out".

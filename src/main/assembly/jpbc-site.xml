@@ -20,4 +20,27 @@
         </fileSet>
     </fileSets>
 
+    <files>
+        <file>
+            <source>./out/production/jpbc-android/jpbc-android.apk</source>
+            <outputDirectory>site/android</outputDirectory>
+        </file>
+        <file>
+            <source>jpbc.iml</source>
+            <outputDirectory>.</outputDirectory>
+        </file>
+        <file>
+            <source>benchmark.xml</source>
+            <outputDirectory>.</outputDirectory>
+        </file>
+        <file>
+            <source>curvegen.xml</source>
+            <outputDirectory>.</outputDirectory>
+        </file>
+        <file>
+            <source>./src/main/assembly/jpbc-distro.xml</source>
+            <outputDirectory>./src/main/assembly/</outputDirectory>
+        </file>
+    </files>
+
 </assembly>
