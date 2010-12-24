@@ -60,7 +60,7 @@ public class AndroidBenchmark {
             }
 
             if (!running)
-                return null;
+                return benchmark;
 
             pairingBenchmarks[0][col] = (double) t1 / iterations;
             pairingBenchmarks[1][col] = (double) t2 / iterations;
@@ -131,7 +131,7 @@ public class AndroidBenchmark {
                 }
 
                 if (!running)
-                    return null;
+                    return benchmark;
 
                 elementBenchmarks[fieldIndex][0][col] = (double) t1 / iterations;
                 elementBenchmarks[fieldIndex][1][col] = (double) t2 / iterations;

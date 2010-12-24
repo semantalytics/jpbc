@@ -30,6 +30,7 @@ public class JPBCBenchmarkActivity extends Activity implements View.OnClickListe
     protected boolean running = false;
 
     protected BroadcastReceiver batteryLevelReceiver;
+    protected int maxBattery = Integer.MIN_VALUE, minBattery = Integer.MAX_VALUE;
 
     /**
      * Called when the activity is first created.
@@ -114,12 +115,18 @@ public class JPBCBenchmarkActivity extends Activity implements View.OnClickListe
 
                 int rawlevel = intent.getIntExtra("level", -1);
                 int scale = intent.getIntExtra("scale", -1);
-                int level = -1;
+
                 if (rawlevel >= 0 && scale > 0) {
-                    level = (rawlevel * 100) / scale;
+                    int level = (rawlevel * 100) / scale;
+//                batterLevel.setText("Battery Level Remaining: " + level + "%");
+                    Log.i(TAG, "Battery Level Remaining: " + level + "%");
+
+                    if (level > maxBattery)
+                        maxBattery = level;
+                    if (level < minBattery)
+                        minBattery = level;
                 }
 
-                //batterLevel.setText("Battery Level Remaining: " + level + "%");
             }
         };
         IntentFilter batteryLevelFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
@@ -137,35 +144,6 @@ public class JPBCBenchmarkActivity extends Activity implements View.OnClickListe
                     ((TextView) findViewById(R.id.status)).setText("Benchmark Completed!");
                     ((Button) findViewById(R.id.benchmark)).setText("Benchmark");
                     findViewById(R.id.progress).setVisibility(View.INVISIBLE);
-
-                    // Store benchmark output
-                    PrintStream out = null;
-                    try {
-                        String state = Environment.getExternalStorageState();
-                        String where;
-
-                        if (Environment.MEDIA_MOUNTED.equals(state)) {
-                            // Store data in the external storage
-                            where = "(out)";
-                            File file = new File(Environment.getExternalStorageDirectory(), "benchmark.out");
-                            out = new PrintStream(new FileOutputStream(file));
-                        } else {
-                            // Store date in the internal storage
-                            where = "(in)";
-                            out = new PrintStream(openFileOutput("benchmark.out", Context.MODE_WORLD_READABLE));
-                        }
-                        out.print(((Benchmark) msg.obj).toHTML());
-                        out.flush();
-
-                        ((TextView) findViewById(R.id.status)).setText("Benchmark Stored! " + where);
-                    } catch (FileNotFoundException e) {
-                        Log.e(TAG, e.getMessage(), e);
-
-                        ((TextView) findViewById(R.id.status)).setText("Failed to store Benchmark!");
-                    } finally {
-                        if (out != null)
-                            out.close();
-                    }
                     break;
                 case 1:
                     ((TextView) findViewById(R.id.status)).setText("Benchmark Stopped!");
@@ -173,6 +151,41 @@ public class JPBCBenchmarkActivity extends Activity implements View.OnClickListe
                     findViewById(R.id.progress).setVisibility(View.INVISIBLE);
                     break;
             }
+
+            // Store anyway the benchmark even if they are partial.
+
+            // Store benchmark output
+            PrintStream out = null;
+            try {
+                String state = Environment.getExternalStorageState();
+                String where;
+
+                if (Environment.MEDIA_MOUNTED.equals(state)) {
+                    // Store data in the external storage
+                    where = "(out)";
+                    File file = new File(Environment.getExternalStorageDirectory(), "benchmark.out");
+                    out = new PrintStream(new FileOutputStream(file));
+                } else {
+                    // Store date in the internal storage
+                    where = "(in)";
+                    out = new PrintStream(openFileOutput("benchmark.out", Context.MODE_WORLD_READABLE));
+                }
+
+                // Write batteries level
+
+                out.print(((Benchmark) msg.obj).toHTML());
+                out.flush();
+
+                ((TextView) findViewById(R.id.status)).setText("Benchmark Stored! " + where);
+            } catch (FileNotFoundException e) {
+                Log.e(TAG, e.getMessage(), e);
+
+                ((TextView) findViewById(R.id.status)).setText("Failed to store Benchmark!");
+            } finally {
+                if (out != null)
+                    out.close();
+            }
+
         }
 
     };

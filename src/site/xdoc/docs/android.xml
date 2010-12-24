@@ -9,8 +9,13 @@
 
     <body>
         <section name="Android">
-            JPBC runs out of box on android. Download the following apk
+            JPBC (the porting) runs out of box on android. Download the following apk
             to benchmark jpbc on your terminal.
+            One the benchmark is finished the results can be found
+            on the external memory in a file called "benchmark.out".
+            If you don’t mind it sending me the results, with a description
+            of the characteristic of the terminal used, please
+            <a href="./contact.html">contact</a> me.
         </section>
     </body>
 </document>
