@@ -22,10 +22,6 @@
 
     <files>
         <file>
-            <source>./out/production/jpbc-android/jpbc-android.apk</source>
-            <outputDirectory>site/android</outputDirectory>
-        </file>
-        <file>
             <source>jpbc.iml</source>
             <outputDirectory>.</outputDirectory>
         </file>
