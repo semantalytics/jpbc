@@ -137,7 +137,7 @@
                     Intel(R) Core(TM)2 Quad CPU Q6600 @ 2.40GHz, 3 GB Ram, Ubuntu 10.04
                 </li>
                 <li>
-                    <a href="#testbed1">TestBed 2</a>:
+                    <a href="#testbed2">TestBed 2</a>:
                     iMac Intel(R) Core(TM) 2 Duo @ 2.66GHz, 4 GB Ram, MacOSX 10.6.5
                 </li>
                 <!--<li>-->
@@ -647,30 +647,30 @@
             <subsection name="Machine Configuration">
 
                 <source>cat /proc/cpuinfo
-                    processor : 0
-                    vendor_id : GenuineIntel
-                    cpu family : 6
-                    model : 15
-                    model name : Intel(R) Core(TM)2 Quad CPU Q6600 @ 2.40GHz
-                    stepping : 11
-                    cpu MHz : 1596.000
-                    cache size : 4096 KB
-                    cpu cores : 4
-                    apicid : 0
-                    initial apicid : 0
-                    fpu : yes
-                    fpu_exception : yes
-                    cpuid level : 10
-                    wp : yes
-                    flags : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36
-                    clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx lm constant_tsc
-                    arch_perfmon pebs bts rep_good pni dtes64 monitor ds_cpl vmx est tm2
-                    ssse3 cx16 xtpr pdcm lahf_lm tpr_shadow vnmi flexpriority
-                    bogomips : 4800.38
-                    clflush size : 64
-                    cache_alignment : 64
-                    address sizes : 36 bits physical, 48 bits virtual
-                    power management:
+processor : 0
+vendor_id : GenuineIntel
+cpu family : 6
+model : 15
+model name : Intel(R) Core(TM)2 Quad CPU Q6600 @ 2.40GHz
+stepping : 11
+cpu MHz : 1596.000
+cache size : 4096 KB
+cpu cores : 4
+apicid : 0
+initial apicid : 0
+fpu : yes
+fpu_exception : yes
+cpuid level : 10
+wp : yes
+flags : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36
+clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx lm constant_tsc
+arch_perfmon pebs bts rep_good pni dtes64 monitor ds_cpl vmx est tm2
+ssse3 cx16 xtpr pdcm lahf_lm tpr_shadow vnmi flexpriority
+bogomips : 4800.38
+clflush size : 64
+cache_alignment : 64
+address sizes : 36 bits physical, 48 bits virtual
+power management:
                 </source>
 
             </subsection>
@@ -1172,7 +1172,7 @@
             </subsection>
 
             <subsection name="Machine Configuration">
-Model Name: iMac
+                <source>Model Name: iMac
 Model Identifier: iMac8.1
 Processor Name: Intel Core 2 Duo
 Processos Speed: 2.66 GHz
@@ -1181,6 +1181,8 @@ Total Number of Cores: 2
 L2 Cache: 6 MB
 Memory: 4GB
 Bus Speed: 1.07 GHz
+                </source>
+
             </subsection>
 
         </section>
