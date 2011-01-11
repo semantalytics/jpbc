@@ -31,15 +31,13 @@ public class TypeA1Pairing extends AbstractPairing {
     protected Field<? extends Point> Fq2;
     protected Field<? extends Point> Eq;
 
-    protected Random random;
-
 
     public TypeA1Pairing(CurveParams params) {
         this(new SecureRandom(), params);
     }
 
     public TypeA1Pairing(Random random, CurveParams params) {
-        this.random = random;
+        super(random);
 
         initParams(params);
         initMap(params);

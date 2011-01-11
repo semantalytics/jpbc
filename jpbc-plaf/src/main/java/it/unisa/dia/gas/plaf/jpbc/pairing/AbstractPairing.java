@@ -3,6 +3,9 @@ package it.unisa.dia.gas.plaf.jpbc.pairing;
 import it.unisa.dia.gas.jpbc.*;
 import it.unisa.dia.gas.plaf.jpbc.pairing.map.PairingMap;
 
+import java.security.SecureRandom;
+import java.util.Random;
+
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
@@ -10,6 +13,16 @@ public abstract class AbstractPairing implements Pairing {
 
     protected Field G1, G2, GT, Zr;
     protected PairingMap pairingMap;
+    protected Random random;
+
+
+    protected AbstractPairing(Random random) {
+        this.random = random;
+    }
+
+    protected AbstractPairing() {
+        this(new SecureRandom());
+    }
 
 
     public boolean isSymmetric() {

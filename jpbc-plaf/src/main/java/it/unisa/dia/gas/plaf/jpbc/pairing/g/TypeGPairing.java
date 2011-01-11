@@ -42,15 +42,14 @@ public class TypeGPairing extends AbstractPairing {
     protected PolyModField Fqd;
     protected CurveField Eq, Etwist;
 
-    protected Random random;
-
 
     public TypeGPairing(CurveParams curveParams) {
         this(new SecureRandom(), curveParams);
     }
 
     public TypeGPairing(Random random, CurveParams curveParams) {
-        this.random = random;
+        super(random);
+
         this.curveParams = curveParams;
 
         initParams();

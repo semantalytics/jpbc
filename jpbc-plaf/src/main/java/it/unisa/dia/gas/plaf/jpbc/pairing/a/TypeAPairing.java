@@ -39,11 +39,9 @@ public class TypeAPairing extends AbstractPairing {
     protected Field<? extends Point> Fq2;
     protected Field<? extends Point> Eq;
 
-    protected Random random;
-
 
     public TypeAPairing(Random random, CurveParams params) {
-        this.random = random;
+        super(random);
 
         initParams(params);
         initMap(params);

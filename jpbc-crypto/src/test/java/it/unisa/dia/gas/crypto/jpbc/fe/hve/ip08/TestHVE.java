@@ -29,9 +29,9 @@ public class TestHVE extends TestCase {
         // Encrypts attributes
 
         // Nell'altro caso i byte necessari a memorizzare tutti
-        //gli attributi sono di più. Ce ne vogliono, sempre seguendo lo schema
+        //gli attributi sono di piï¿½. Ce ne vogliono, sempre seguendo lo schema
         //precedente,
-        // 1+7+1+4+2+1 = 16 e quindi un esempio può essere:
+        // 1+7+1+4+2+1 = 16 e quindi un esempio puï¿½ essere:
         byte[] attributes = new byte[]{
                 0,                        // attributo 0
                 1, 0, 1, 0, 0, 1, 1,      // attributo 1
