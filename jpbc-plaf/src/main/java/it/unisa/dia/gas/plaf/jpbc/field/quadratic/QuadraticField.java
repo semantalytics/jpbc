@@ -4,6 +4,7 @@ import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericFieldOver;
 
 import java.math.BigInteger;
+import java.util.Random;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -12,8 +13,9 @@ public class QuadraticField<F extends Field, E extends QuadraticElement> extends
     protected BigInteger order;
     protected int fixedLengthInBytes;
 
-    public QuadraticField(F targetField) {
-        super(targetField);
+
+    public QuadraticField(Random random, F targetField) {
+        super(random, targetField);
 
         this.order = targetField.getOrder().multiply(targetField.getOrder());
 

@@ -16,7 +16,9 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.util.BigIntegerUtils;
 
 import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.List;
+import java.util.Random;
 
 
 /// <author>  Angelo De Caro (angelo.decaro@gmail.com)
@@ -43,15 +45,21 @@ public class TypeFPairing extends AbstractPairing {
     protected PolyModField Fq12;
     protected CurveField Eq, Etwist;
 
+    protected Random random;
+
 
     public TypeFPairing(CurveParams curveParams) {
+        this(new SecureRandom(), curveParams);
+    }
+
+    public TypeFPairing(Random random, CurveParams curveParams) {
+        this.random = random;
         this.curveParams = curveParams;
 
         initParams();
         initMap();
         initFields();
     }
-
 
     public boolean isSymmetric() {
         return false;
@@ -152,30 +160,30 @@ public class TypeFPairing extends AbstractPairing {
     }
 
     protected CurveField initEq() {
-        return new CurveField(Fq.newElement(), Fq.newElement().set(b), r, null);
+        return new CurveField(random, Fq.newElement(), Fq.newElement().set(b), r, null);
     }
 
     protected CurveField initEqMap() {
         Point tmp = (Point) Fq2.newElement();
         tmp.getX().set(Fq.newElement().set(alpha0).negate().mul(b));
         tmp.getY().set(Fq.newElement().set(alpha1).negate().mul(b));
-        return new CurveField(Fq2.newElement(), tmp, r, null);
+        return new CurveField(random, Fq2.newElement(), tmp, r, null);
     }
 
     protected PolyField initPoly() {
-        return new PolyField(Fq2);
+        return new PolyField(random, Fq2);
     }
 
     protected PolyModField initPolyMod(PolyElement irred) {
-        return new PolyModField(irred);
+        return new PolyModField(random, irred);
     }
 
     protected QuadraticField initQuadratic() {
-        return new QuadraticField(Fq);
+        return new QuadraticField(random, Fq);
     }
 
     protected Field initGT() {
-        return new GTFiniteField(r, pairingMap, Fq12);
+        return new GTFiniteField(random, r, pairingMap, Fq12);
     }
 
     protected void initMap() {

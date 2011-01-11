@@ -7,7 +7,6 @@ import it.unisa.dia.gas.plaf.jpbc.util.BigIntegerUtils;
 import it.unisa.dia.gas.plaf.jpbc.util.Utils;
 
 import java.math.BigInteger;
-import java.security.SecureRandom;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -16,7 +15,7 @@ public class NaiveElement extends GenericElement {
 
     protected BigInteger value;
     protected BigInteger order;
-    protected SecureRandom secureRandom;
+
 
     public NaiveElement(Field field) {
         super(field);
@@ -108,10 +107,7 @@ public class NaiveElement extends GenericElement {
     }
 
     public NaiveElement setToRandom() {
-        if (secureRandom == null)
-            secureRandom = new SecureRandom();
-
-        this.value = new BigInteger(order.bitLength(), secureRandom).mod(order);
+        this.value = new BigInteger(order.bitLength(), field.getRandom()).mod(order);
 
         return this;
     }

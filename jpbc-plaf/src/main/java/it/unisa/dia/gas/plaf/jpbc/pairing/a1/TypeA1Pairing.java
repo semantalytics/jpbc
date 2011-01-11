@@ -10,6 +10,8 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.AbstractPairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 
 import java.math.BigInteger;
+import java.security.SecureRandom;
+import java.util.Random;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -29,14 +31,20 @@ public class TypeA1Pairing extends AbstractPairing {
     protected Field<? extends Point> Fq2;
     protected Field<? extends Point> Eq;
 
+    protected Random random;
+
 
     public TypeA1Pairing(CurveParams params) {
+        this(new SecureRandom(), params);
+    }
+
+    public TypeA1Pairing(Random random, CurveParams params) {
+        this.random = random;
+
         initParams(params);
         initMap(params);
         initFields();
     }
-
-
 
     protected void initParams(CurveParams curveParams) {
         // validate the type
@@ -79,15 +87,15 @@ public class TypeA1Pairing extends AbstractPairing {
     }
 
     protected Field<? extends Point> initEq() {
-        return new CurveField<Field>(Fp.newOneElement(), Fp.newZeroElement(), r, phikOnr);
+        return new CurveField<Field>(random, Fp.newOneElement(), Fp.newZeroElement(), r, phikOnr);
     }
 
     protected Field<? extends Point> initFi() {
-        return new DegreeTwoExtensionQuadraticField<Field>(Fp);
+        return new DegreeTwoExtensionQuadraticField<Field>(random, Fp);
     }
 
     protected Field initGT(Field field) {
-        return new GTFiniteField(r, pairingMap, field);
+        return new GTFiniteField(random, r, pairingMap, field);
     }
 
     protected void initMap(CurveParams curveParams) {

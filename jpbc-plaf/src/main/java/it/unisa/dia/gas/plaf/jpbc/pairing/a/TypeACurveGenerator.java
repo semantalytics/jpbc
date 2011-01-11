@@ -10,23 +10,30 @@ import it.unisa.dia.gas.plaf.jpbc.util.BigIntegerUtils;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class TypeACurveGenerator implements CurveGenerator {
+    protected Random random;
     protected int rbits, qbits;
     protected boolean generateCurveFieldGen;
 
 
-    public TypeACurveGenerator(int rbits, int qbits) {
-        this(rbits, qbits, false);
-    }
-
-    public TypeACurveGenerator(int rbits, int qbits, boolean generateCurveFieldGen) {
+    public TypeACurveGenerator(Random random, int rbits, int qbits, boolean generateCurveFieldGen) {
+        this.random = random;
         this.rbits = rbits;
         this.qbits = qbits;
         this.generateCurveFieldGen = generateCurveFieldGen;
+    }
+
+    public TypeACurveGenerator(int rbits, int qbits) {
+        this(new SecureRandom(), rbits, qbits, false);
+    }
+
+    public TypeACurveGenerator(int rbits, int qbits, boolean generateCurveFieldGen) {
+        this(new SecureRandom(), rbits, qbits, generateCurveFieldGen);
     }
 
 
@@ -39,7 +46,6 @@ public class TypeACurveGenerator implements CurveGenerator {
         int exp1=0, exp2=0;
         int sign0=0, sign1=0;
 
-        SecureRandom random = new SecureRandom();
         do {
             // r is picked to be a Solinas prime, that is,
             // r has the form 2a +- 2b +- 1 for some integers 0 < b < a.
@@ -112,7 +118,7 @@ public class TypeACurveGenerator implements CurveGenerator {
 
         if (generateCurveFieldGen) {
             Field Fq = new NaiveField(q);
-            CurveField curveField = new CurveField<Field>(Fq.newOneElement(), Fq.newZeroElement(), r, h);
+            CurveField curveField = new CurveField<Field>(random, Fq.newOneElement(), Fq.newZeroElement(), r, h);
             params.put("genNoCofac", new BigInteger(curveField.getGenNoCofac().toBytes()).toString());
             
         }

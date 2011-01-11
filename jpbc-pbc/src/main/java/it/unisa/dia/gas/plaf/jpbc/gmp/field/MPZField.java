@@ -5,6 +5,7 @@ import it.unisa.dia.gas.plaf.jpbc.util.BigIntegerUtils;
 import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.MPZElementType;
 
 import java.math.BigInteger;
+import java.util.Random;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -18,7 +19,9 @@ public class MPZField extends GenericField<MPZElement> {
     protected int fixedLengthInBytes;
 
 
-    public MPZField(BigInteger order) {
+    public MPZField(Random random, BigInteger order) {
+        super(random);
+
         this.bigIntOrder = order;
         this.order = MPZElementType.fromBigInteger(order);
         this.orderIsOdd = BigIntegerUtils.isOdd(order);
@@ -26,8 +29,8 @@ public class MPZField extends GenericField<MPZElement> {
         this.fixedLengthInBytes = (order.bitLength() + 7) / 8;
     }
 
-    public MPZField(BigInteger order, BigInteger nqr) {
-        this(order);
+    public MPZField(Random random, BigInteger order, BigInteger nqr) {
+        this(random, order);
         if (nqr != null)
             this.nqr = newElement().set(nqr);
     }

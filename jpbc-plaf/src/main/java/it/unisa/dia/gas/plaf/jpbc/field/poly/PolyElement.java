@@ -435,7 +435,7 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
         if (getDegree() == 1)
             return true;
 
-        PolyModField rxmod = new PolyModField(this);
+        PolyModField rxmod = new PolyModField(field.getRandom(), this);
 
         final PolyModElement xpow = rxmod.newElement();
 
@@ -501,7 +501,7 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
      */
     public E findRoot() {
         // Compute gcd(x^q - x, poly)
-        PolyModField<Field> fpxmod = new PolyModField<Field>(this);
+        PolyModField<Field> fpxmod = new PolyModField<Field>(field.getRandom(), this);
 
         PolyModElement p = fpxmod.newElement();
         Polynomial x = fpxmod.newElement();
@@ -542,7 +542,7 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
                     g.set(fac).makeMonic();
                     break;
                 } else {
-                    fpxmod = new PolyModField<Field>(g, null);
+                    fpxmod = new PolyModField<Field>(field.getRandom(), g, null);
 
                     p = fpxmod.newElement();
                     p.setFromPolyTruncate(r);

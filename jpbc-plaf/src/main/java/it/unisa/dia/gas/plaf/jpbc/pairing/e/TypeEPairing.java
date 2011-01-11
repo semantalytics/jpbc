@@ -9,6 +9,8 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.AbstractPairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 
 import java.math.BigInteger;
+import java.security.SecureRandom;
+import java.util.Random;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -31,13 +33,20 @@ public class TypeEPairing extends AbstractPairing {
     protected Field Fq;
     protected Field<? extends Point> Eq;
 
+    protected Random random;
+
 
     public TypeEPairing(CurveParams properties) {
+        this(new SecureRandom(), properties);
+    }
+
+    public TypeEPairing(Random random, CurveParams properties) {
+        this.random = random;
+
         initParams(properties);
         initMap();
         initFields();
     }
-
 
     protected void initParams(CurveParams curveParams) {
         // validate the type
@@ -88,12 +97,13 @@ public class TypeEPairing extends AbstractPairing {
     }
 
     protected CurveField<Field> initEq() {
-        return new CurveField<Field>(Fq.newElement().set(a), Fq.newElement().set(b),
+        return new CurveField<Field>(random,
+                                     Fq.newElement().set(a), Fq.newElement().set(b),
                                      r, h);
     }
 
     protected Field initGT() {
-        return new GTFiniteField(r, pairingMap, Fq);
+        return new GTFiniteField(random, r, pairingMap, Fq);
     }
 
 

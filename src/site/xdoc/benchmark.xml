@@ -10,7 +10,7 @@
     <body>
         <section name="Benchmark">
             <p>
-                The table below contains the output of the benchmark.xml ant script.
+                The tables below contain the output of the benchmark.xml ant script.
                 To execute the script call this from a console:
             </p>
             <source>ant -f benchmark.xml</source>
@@ -129,7 +129,7 @@
             </table>
 
             <p>
-                We have executed the benchmark on the following testbed.
+                We have executed the benchmark on the following testbeds.
             </p>
             <ol>
                 <li>
@@ -140,16 +140,16 @@
                     <a href="#testbed2">TestBed 2</a>:
                     iMac Intel(R) Core(TM) 2 Duo @ 2.66GHz, 4 GB Ram, MacOSX 10.6.5
                 </li>
-                <!--<li>-->
-                <!--<a href="#testbed2">TestBed 3</a>:-->
-                <!--HTC Desire HD A9191, Android 2.2-->
-                <!--</li>-->
+                <li>
+                    <a href="#testbed3">TestBed 3</a>:
+                    HTC Desire HD A9191, Android 2.2. (Porting only)
+                </li>
             </ol>
 
 
         </section>
 
-        <a name="testbed1"/>
+        <a name="testbed2"/>
         <section name="Testbed 1">
 
             <subsection name="Benchmark">
@@ -1181,6 +1181,287 @@ Total Number of Cores: 2
 L2 Cache: 6 MB
 Memory: 4GB
 Bus Speed: 1.07 GHz
+                </source>
+
+            </subsection>
+
+        </section>
+
+        <a name="testbed3"/>
+        <section name="Testbed 3">
+
+            <subsection name="Benchmark">
+                <table>
+                    <tr>
+                        <th>Benchmark - Average Time (ms)</th>
+                        <th>Pairing Type</th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th><font style="font-weight: bold;color:green">a</font></th>
+                        <th><font style="font-weight: bold;color:green">d159</font></th>
+                        <th><font style="font-weight: bold;color:green">d201</font></th>
+                        <th><font style="font-weight: bold;color:green">d224</font></th>
+                    </tr>
+                    <tr>
+                        <th align="left"><font style="font-weight: bold;color:green">Pairing#pairing(in1, in2)</font></th>
+                        <td>491.2 </td>
+                        <td>3593.3 </td>
+                        <td>4265.8 </td>
+                        <td>5187.4 </td>
+                    </tr>
+                    <tr>
+                        <th align="left"><font style="font-weight: bold;color:green">Pairing#pairing(in1)</font></th>
+                        <td>262.3 </td>
+                        <td>264.0 </td>
+                        <td>312.7 </td>
+                        <td>403.9 </td>
+                    </tr>
+                    <tr>
+                        <th align="left"><font style="font-weight: bold;color:green">PairingPreProcessing#pairing(in2)</font></th>
+                        <td>245.4 </td>
+                        <td>3364.8 </td>
+                        <td>4019.0 </td>
+                        <td>4908.9 </td>
+                    </tr>
+                    <tr>
+                        <th align="left">
+                            <font style="font-weight: bold;color:black">Element Pow (G1)</font>
+                        </th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th align="left"><font style="font-weight: bold;color:green">Element#pow(BigInteger)</font></th>
+                        <td>258.0 </td>
+                        <td>149.9 </td>
+                        <td>182.3 </td>
+                        <td>237.6 </td>
+                    </tr>
+                    <tr>
+                        <th align="left"><font style="font-weight: bold;color:green">Element#powZn(Element)</font></th>
+                        <td>260.6 </td>
+                        <td>144.8 </td>
+                        <td>174.0 </td>
+                        <td>212.7 </td>
+                    </tr>
+                    <tr>
+                        <th align="left"><font style="font-weight: bold;color:green">Element#pow</font></th>
+                        <td>1229.2 </td>
+                        <td>617.0 </td>
+                        <td>784.3 </td>
+                        <td>1002.3 </td>
+                    </tr>
+                    <tr>
+                        <th align="left"><font style="font-weight: bold;color:green">ElementPowPreProcessing#pow(BigInteger)</font></th>
+                        <td>34.1 </td>
+                        <td>19.9 </td>
+                        <td>17.3 </td>
+                        <td>26.3 </td>
+                    </tr>
+                    <tr>
+                        <th align="left"><font style="font-weight: bold;color:green">ElementPowPreProcessing#powZn(Element)</font></th>
+                        <td>29.9 </td>
+                        <td>17.8 </td>
+                        <td>22.2 </td>
+                        <td>31.0 </td>
+                    </tr>
+                    <tr>
+                        <th align="left"><font style="font-weight: bold;color:green">Element#mul(BigInteger)</font></th>
+                        <td>265.6 </td>
+                        <td>135.3 </td>
+                        <td>172.7 </td>
+                        <td>212.0 </td>
+                    </tr>
+                    <tr>
+                        <th align="left"><font style="font-weight: bold;color:green">Element#setToRandom</font></th>
+                        <td>810.5 </td>
+                        <td>134.8 </td>
+                        <td>183.3 </td>
+                        <td>225.1 </td>
+                    </tr>
+                    <tr>
+                        <th align="left">
+                            <font style="font-weight: bold;color:black">Element Pow (G2)</font>
+                        </th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th align="left"><font style="font-weight: bold;color:green">Element#pow(BigInteger)</font></th>
+                        <td>262.9 </td>
+                        <td>2119.5 </td>
+                        <td>2505.3 </td>
+                        <td>3123.7 </td>
+                    </tr>
+                    <tr>
+                        <th align="left"><font style="font-weight: bold;color:green">Element#powZn(Element)</font></th>
+                        <td>256.8 </td>
+                        <td>2110.5 </td>
+                        <td>2483.9 </td>
+                        <td>3086.6 </td>
+                    </tr>
+                    <tr>
+                        <th align="left"><font style="font-weight: bold;color:green">Element#pow</font></th>
+                        <td>1223.6 </td>
+                        <td>10093.7 </td>
+                        <td>12131.5 </td>
+                        <td>15054.1 </td>
+                    </tr>
+                    <tr>
+                        <th align="left"><font style="font-weight: bold;color:green">ElementPowPreProcessing#pow(BigInteger)</font></th>
+                        <td>37.4 </td>
+                        <td>300.5 </td>
+                        <td>365.9 </td>
+                        <td>458.0 </td>
+                    </tr>
+                    <tr>
+                        <th align="left"><font style="font-weight: bold;color:green">ElementPowPreProcessing#powZn(Element)</font></th>
+                        <td>35.5 </td>
+                        <td>320.4 </td>
+                        <td>370.7 </td>
+                        <td>487.0 </td>
+                    </tr>
+                    <tr>
+                        <th align="left"><font style="font-weight: bold;color:green">Element#mul(BigInteger)</font></th>
+                        <td>250.9 </td>
+                        <td>2326.5 </td>
+                        <td>2738.7 </td>
+                        <td>3412.2 </td>
+                    </tr>
+                    <tr>
+                        <th align="left"><font style="font-weight: bold;color:green">Element#setToRandom</font></th>
+                        <td>804.0 </td>
+                        <td>6836.8 </td>
+                        <td>8874.2 </td>
+                        <td>9981.0 </td>
+                    </tr>
+                    <tr>
+                        <th align="left">
+                            <font style="font-weight: bold;color:black">Element Pow (GT)</font>
+                        </th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th align="left"><font style="font-weight: bold;color:green">Element#pow(BigInteger)</font></th>
+                        <td>71.5 </td>
+                        <td>1246.6 </td>
+                        <td>1458.9 </td>
+                        <td>1803.3 </td>
+                    </tr>
+                    <tr>
+                        <th align="left"><font style="font-weight: bold;color:green">Element#powZn(Element)</font></th>
+                        <td>75.3 </td>
+                        <td>1247.0 </td>
+                        <td>1467.5 </td>
+                        <td>1827.3 </td>
+                    </tr>
+                    <tr>
+                        <th align="left"><font style="font-weight: bold;color:green">Element#pow</font></th>
+                        <td>539.8 </td>
+                        <td>7816.6 </td>
+                        <td>9350.7 </td>
+                        <td>11522.4 </td>
+                    </tr>
+                    <tr>
+                        <th align="left"><font style="font-weight: bold;color:green">ElementPowPreProcessing#pow(BigInteger)</font></th>
+                        <td>20.8 </td>
+                        <td>235.9 </td>
+                        <td>275.3 </td>
+                        <td>355.8 </td>
+                    </tr>
+                    <tr>
+                        <th align="left"><font style="font-weight: bold;color:green">ElementPowPreProcessing#powZn(Element)</font></th>
+                        <td>19.8 </td>
+                        <td>250.4 </td>
+                        <td>288.1 </td>
+                        <td>371.0 </td>
+                    </tr>
+                    <tr>
+                        <th align="left"><font style="font-weight: bold;color:green">Element#mul(BigInteger)</font></th>
+                        <td>78.8 </td>
+                        <td>1329.9 </td>
+                        <td>1600.6 </td>
+                        <td>1967.7 </td>
+                    </tr>
+                    <tr>
+                        <th align="left"><font style="font-weight: bold;color:green">Element#setToRandom</font></th>
+                        <td>58.9 </td>
+                        <td>619.2 </td>
+                        <td>866.6 </td>
+                        <td>862.7 </td>
+                    </tr>
+                    <tr>
+                        <th align="left">
+                            <font style="font-weight: bold;color:black">Element Pow (Zr)</font>
+                        </th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th align="left"><font style="font-weight: bold;color:green">Element#pow(BigInteger)</font></th>
+                        <td>0.5 </td>
+                        <td>0.2 </td>
+                        <td>0.5 </td>
+                        <td>0.3 </td>
+                    </tr>
+                    <tr>
+                        <th align="left"><font style="font-weight: bold;color:green">Element#powZn(Element)</font></th>
+                        <td>1.3 </td>
+                        <td>1.7 </td>
+                        <td>1.8 </td>
+                        <td>0.7 </td>
+                    </tr>
+                    <tr>
+                        <th align="left"><font style="font-weight: bold;color:green">Element#pow</font></th>
+                        <td>65.1 </td>
+                        <td>67.8 </td>
+                        <td>77.1 </td>
+                        <td>102.4 </td>
+                    </tr>
+                    <tr>
+                        <th align="left"><font style="font-weight: bold;color:green">ElementPowPreProcessing#pow(BigInteger)</font></th>
+                        <td>1.3 </td>
+                        <td>1.1 </td>
+                        <td>2.2 </td>
+                        <td>4.8 </td>
+                    </tr>
+                    <tr>
+                        <th align="left"><font style="font-weight: bold;color:green">ElementPowPreProcessing#powZn(Element)</font></th>
+                        <td>2.8 </td>
+                        <td>6.1 </td>
+                        <td>5.3 </td>
+                        <td>2.0 </td>
+                    </tr>
+                    <tr>
+                        <th align="left"><font style="font-weight: bold;color:green">Element#mul(BigInteger)</font></th>
+                        <td>0.0 </td>
+                        <td>0.5 </td>
+                        <td>0.0 </td>
+                        <td>0.0 </td>
+                    </tr>
+                    <tr>
+                        <th align="left"><font style="font-weight: bold;color:green">Element#setToRandom</font></th>
+                        <td>0.2 </td>
+                        <td>0.1 </td>
+                        <td>0.3 </td>
+                        <td>0.1 </td>
+                    </tr>
+                </table>
+            </subsection>
+
+            <subsection name="Machine Configuration">
+
+                <source>HTC Desire HD A9191
                 </source>
 
             </subsection>

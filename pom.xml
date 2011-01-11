@@ -43,6 +43,7 @@
         <module>jpbc-pbc</module>
         <module>jpbc-crypto</module>
         <module>jpbc-site-skin</module>
+        <!--<module>jpbc-android</module>-->
     </modules>
 
     <repositories>

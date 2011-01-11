@@ -47,7 +47,7 @@ public class JPBCBenchmarkActivity extends Activity implements View.OnClickListe
 
         // Init the rest
         initBenchmark();
-        initBatteryMonitor();
+//        initBatteryMonitor();
 
         Log.i(TAG, "onCreate.finished");
     }

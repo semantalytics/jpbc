@@ -9,14 +9,14 @@ import it.unisa.dia.gas.jpbc.Point;
  */
 public abstract class GenericPointElement<E extends Element> extends GenericElement implements Point<E> {
 
-    protected FieldOver field;
+    protected GenericFieldOver field;
     protected E x, y;
 
 
     protected GenericPointElement(FieldOver field) {
         super(field);
         
-        this.field = field;
+        this.field = (GenericFieldOver) field;
     }
 
 

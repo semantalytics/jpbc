@@ -6,14 +6,12 @@ import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericPointElement;
 import it.unisa.dia.gas.plaf.jpbc.util.BigIntegerUtils;
 
 import java.math.BigInteger;
-import java.security.SecureRandom;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class CurveElement<E extends Element> extends GenericPointElement<E> {
     protected int infFlag;
-    protected SecureRandom random;
     protected CurveField curveField;
 
 
@@ -99,11 +97,8 @@ public class CurveElement<E extends Element> extends GenericPointElement<E> {
     }
 
     public CurveElement setToRandom() {
-        if (random == null)
-            random = new SecureRandom();
-
         BigInteger order = field.getTargetField().getOrder();
-        set(getField().gen).mul(new BigInteger(order.bitLength(), random).mod(order));
+        set(getField().gen).mul(new BigInteger(order.bitLength(), field.getRandom()).mod(order));
 
         return this;
     }

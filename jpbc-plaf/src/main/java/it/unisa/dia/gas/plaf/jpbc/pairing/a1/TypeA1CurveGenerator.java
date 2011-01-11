@@ -7,23 +7,28 @@ import it.unisa.dia.gas.plaf.jpbc.util.BigIntegerUtils;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class TypeA1CurveGenerator implements CurveGenerator {
+    protected Random random;
     protected int numPrimes, bits;
 
 
-    public TypeA1CurveGenerator(int numPrimes, int bits) {
+    public TypeA1CurveGenerator(Random random, int numPrimes, int bits) {
+        this.random = random;
         this.numPrimes = numPrimes;
         this.bits = bits;
     }
 
+    public TypeA1CurveGenerator(int numPrimes, int bits) {
+        this(new SecureRandom(), numPrimes, bits);
+    }
+
 
     public Map generate() {
-        SecureRandom secureRandom = new SecureRandom();
-
         BigInteger[] primes = new BigInteger[numPrimes];
         BigInteger order, n, p;
         long l;
@@ -32,7 +37,7 @@ public class TypeA1CurveGenerator implements CurveGenerator {
             while (true) {
                 order = BigInteger.ONE;
                 for (int i = 0; i < numPrimes; i++) {
-                    primes[i] = BigIntegerUtils.generateSolinasPrime(bits, secureRandom);
+                    primes[i] = BigIntegerUtils.generateSolinasPrime(bits, random);
                     order = order.multiply(primes[i]);
                 }
 

@@ -21,6 +21,8 @@ public abstract class PBCField extends GenericField {
 
 
     protected PBCField(PBCPairingType pairing) {
+        super(null);
+
         this.pairing = pairing;
 
         if (pairing != null) {

@@ -5,13 +5,14 @@ import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericFieldOver;
 
 import java.math.BigInteger;
+import java.util.Random;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElement> {
 
-    public static <F extends Field> CurveField<F> newCurveFieldJ(Element j, BigInteger order, BigInteger cofac) {
+    public static <F extends Field> CurveField<F> newCurveFieldJ(Random random, Element j, BigInteger order, BigInteger cofac) {
         // Assumes j != 0, 1728
 
         Element a, b;
@@ -26,7 +27,7 @@ public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElemen
         //a = 3 j / (1728 - j)
         a.add(b);
 
-        return new CurveField<F>(a, b, order, cofac);
+        return new CurveField<F>(random, a, b, order, cofac);
     }
 
     protected Element a, b;
@@ -40,8 +41,8 @@ public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElemen
     protected BigInteger quotient_cmp = null;
 
 
-    public CurveField(Element a, Element b, BigInteger order, BigInteger cofac) {
-        super((F) a.getField());
+    public CurveField(Random random, Element a, Element b, BigInteger order, BigInteger cofac) {
+        super(random, (F) a.getField());
 
         this.a = a;
         this.b = b;
@@ -51,10 +52,10 @@ public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElemen
         initGen();
     }
 
+    public CurveField(Random random, Element a, Element b, BigInteger order, BigInteger cofac, BigInteger genNoCofac) {
+        super(random, (F) a.getField());
 
-    public CurveField(Element a, Element b, BigInteger order, BigInteger cofac, BigInteger genNoCofac) {
-        super((F) a.getField());
-
+        this.random = random;
         this.a = a;
         this.b = b;
         this.order = order;
@@ -63,8 +64,8 @@ public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElemen
         initGen(genNoCofac);
     }
 
-    public CurveField(Element b, BigInteger order, BigInteger cofac) {
-        this(b.getField().newZeroElement(), b, order, cofac);
+    public CurveField(Random random, Element b, BigInteger order, BigInteger cofac) {
+        this(random, b.getField().newZeroElement(), b, order, cofac);
     }
 
 

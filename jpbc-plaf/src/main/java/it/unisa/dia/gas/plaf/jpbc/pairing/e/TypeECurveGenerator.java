@@ -10,23 +10,28 @@ import it.unisa.dia.gas.plaf.jpbc.util.BigIntegerUtils;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class TypeECurveGenerator implements CurveGenerator {
+    protected Random random;
     protected int rBits, qBits;
 
 
-    public TypeECurveGenerator(int rBits, int qBits) {
+    public TypeECurveGenerator(Random random, int rBits, int qBits) {
+        this.random = random;
         this.rBits = rBits;
         this.qBits = qBits;
     }
 
+    public TypeECurveGenerator(int rBits, int qBits) {
+        this(new SecureRandom(), rBits, qBits);
+    }
+
     
     public Map generate() {
-        SecureRandom secureRandom = new SecureRandom();
-
         // 3 takes 2 bits to represent
         BigInteger q;
         BigInteger r;
@@ -46,7 +51,7 @@ public class TypeECurveGenerator implements CurveGenerator {
         do {
             r = BigInteger.ZERO;
 
-            if (secureRandom.nextInt(Integer.MAX_VALUE) % 2 != 0) {
+            if (random.nextInt(Integer.MAX_VALUE) % 2 != 0) {
                 exp2 = rBits - 1;
                 sign1 = 1;
             } else {
@@ -55,7 +60,7 @@ public class TypeECurveGenerator implements CurveGenerator {
             }
             r = r.setBit(exp2);
 
-            exp1 = (secureRandom.nextInt(Integer.MAX_VALUE) % (exp2 - 1)) + 1;
+            exp1 = (random.nextInt(Integer.MAX_VALUE) % (exp2 - 1)) + 1;
 
             //use q as a temp variable
             q = BigInteger.ZERO.setBit(exp1);
@@ -66,7 +71,7 @@ public class TypeECurveGenerator implements CurveGenerator {
                 r = r.subtract(q);
             }
 
-            if (secureRandom.nextInt(Integer.MAX_VALUE) % 2 != 0) {
+            if (random.nextInt(Integer.MAX_VALUE) % 2 != 0) {
                 sign0 = 1;
                 r = r.add(BigInteger.ONE);
             } else {
@@ -94,7 +99,7 @@ public class TypeECurveGenerator implements CurveGenerator {
         } while (!found);
 
         Field Fq = new NaiveField(q);
-        CurveField curveField = new CurveField(Fq.newZeroElement(), Fq.newOneElement(), n, null);
+        CurveField curveField = new CurveField(random, Fq.newZeroElement(), Fq.newOneElement(), n, null);
 
         // We may need to twist it.
         // Pick a random point P and twist the curve if P has the wrong order.

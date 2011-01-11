@@ -12,12 +12,12 @@ import java.util.List;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public abstract class GenericElement implements Element {
-    protected Field field;
+    protected GenericField field;
     protected boolean immutable = false;
 
 
     public GenericElement(Field field) {
-        this.field = field;
+        this.field = (GenericField) field;
     }
 
 

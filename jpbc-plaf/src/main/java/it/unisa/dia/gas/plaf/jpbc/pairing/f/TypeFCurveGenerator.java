@@ -13,7 +13,9 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.util.BigIntegerUtils;
 
 import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -21,11 +23,17 @@ import java.util.Map;
  * for some b \in F_q.
  */
 public class TypeFCurveGenerator implements CurveGenerator {
+    protected Random random;
     protected int rBits; // The number of bits in r, the order of the subgroup G1
 
 
-    public TypeFCurveGenerator(int rBits) {
+    public TypeFCurveGenerator(Random random, int rBits) {
+        this.random = random;
         this.rBits = rBits;
+    }
+
+    public TypeFCurveGenerator(int rBits) {
+        this(new SecureRandom(), rBits);
     }
 
 
@@ -67,17 +75,17 @@ public class TypeFCurveGenerator implements CurveGenerator {
         for (; ;) {
             e1.setToRandom();
 
-            Field curveField = new CurveField(e1, r, null);
+            Field curveField = new CurveField(random, e1, r, null);
             Element point = curveField.newRandomElement().mul(r);
             if (point.isZero())
                 break;
         }
         b = e1.toBigInteger();
 
-        Field Fq2 = new QuadraticField(Fq);
+        Field Fq2 = new QuadraticField(random, Fq);
         BigInteger beta = Fq.getNqr().toBigInteger();
 
-        PolyField Fq2x = new PolyField(Fq2);
+        PolyField Fq2x = new PolyField(random, Fq2);
         PolyElement<Point> f = Fq2x.newElement();
 
         // Find an irreducible polynomial of the form f = x^6 + alpha.
@@ -97,7 +105,7 @@ public class TypeFCurveGenerator implements CurveGenerator {
         //if not, it's the wrong twist: replace alpha with alpha^5
         e1 = Fq2.newElement().set(b).mul(f.getCoefficient(0)).negate();
 
-        Field curveField = new CurveField(e1, r, null);
+        Field curveField = new CurveField(random, e1, r, null);
         Element point = curveField.newRandomElement();
 
         //I'm not sure what the #E'(F_q^2) is, but

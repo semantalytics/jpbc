@@ -4,6 +4,8 @@ import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericFieldOver;
 
 import java.math.BigInteger;
+import java.security.SecureRandom;
+import java.util.Random;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -11,10 +13,13 @@ import java.math.BigInteger;
 public class PolyField<F extends Field> extends GenericFieldOver<F, PolyElement> {
 
 
-    public PolyField(Field targetField) {
-        super((F) targetField);
+    public PolyField(Random random, Field targetField) {
+        super(random, (F) targetField);
     }
-    
+
+    public PolyField(F targetField) {
+        super(new SecureRandom(), targetField);
+    }
 
     public PolyElement newElement() {
         return new PolyElement(this);

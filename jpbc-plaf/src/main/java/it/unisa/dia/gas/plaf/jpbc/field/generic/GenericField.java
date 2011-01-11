@@ -4,6 +4,7 @@ import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
 
 import java.math.BigInteger;
+import java.util.Random;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -11,6 +12,13 @@ import java.math.BigInteger;
 public abstract class GenericField<E extends Element> implements Field<E> {
 
     protected boolean orderIsOdd = false;
+    protected Random random;
+
+
+    protected GenericField(Random random) {
+        this.random = random;
+    }
+
 
     public E newElement(int value) {
         E e = newElement();
@@ -67,4 +75,7 @@ public abstract class GenericField<E extends Element> implements Field<E> {
         return a;
     }
 
+    public Random getRandom() {
+        return random;
+    }
 }

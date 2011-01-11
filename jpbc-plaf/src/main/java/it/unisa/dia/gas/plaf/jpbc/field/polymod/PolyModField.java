@@ -7,6 +7,7 @@ import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyElement;
 
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -21,12 +22,12 @@ public class PolyModField<F extends Field> extends GenericFieldOver<F, PolyModEl
     protected PolyModElement[] xpwr;
 
 
-    public PolyModField(PolyElement irreduciblePoly) {
-        this(irreduciblePoly, null);
+    public PolyModField(Random random, PolyElement irreduciblePoly) {
+        this(random, irreduciblePoly, null);
     }
 
-    public PolyModField(PolyElement irreduciblePoly, BigInteger nqr) {
-        super((F) irreduciblePoly.getField().getTargetField());
+    public PolyModField(Random random, PolyElement irreduciblePoly, BigInteger nqr) {
+        super(random, (F) irreduciblePoly.getField().getTargetField());
 
         this.irreduciblePoly = irreduciblePoly;
         this.n = irreduciblePoly.getDegree();

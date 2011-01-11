@@ -15,9 +15,11 @@ import it.unisa.dia.gas.plaf.jpbc.util.HilbertPolyGenerator;
 import it.unisa.dia.gas.plaf.jpbc.util.PellEquation;
 
 import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -30,15 +32,26 @@ public class TypeDCurveGenerator implements CurveGenerator {
     protected BigInteger D3;
     protected int bitLimit;
 
+    protected Random random;
+
+
+    public TypeDCurveGenerator(int discriminant, Random random) {
+        this();
+        this.discriminant = discriminant;
+        this.random = random;
+    }
 
     public TypeDCurveGenerator(int discriminant) {
         this();
+        this.random = new SecureRandom();
         setDiscriminant(discriminant);
     }
 
     public TypeDCurveGenerator() {
+        this.random = new SecureRandom();
         this.bitLimit = 500;
     }
+
 
 
     public Map generate() {
@@ -221,14 +234,14 @@ public class TypeDCurveGenerator implements CurveGenerator {
         compute_cm_curve(param);
 
         Field<? extends Element> Fq = new NaiveField(param.getBigInteger("q"));
-        PolyField Fqx = new PolyField<Field>(Fq);
+        PolyField Fqx = new PolyField<Field>(random, Fq);
 
         PolyElement irred = Fqx.newElement();
         do {
             irred.setToRandomMonic(3);
         } while (!irred.isIrriducible());
 
-        PolyModField Fqd = new PolyModField<Field>(irred, null);
+        PolyModField Fqd = new PolyModField<Field>(random, irred, null);
 
         // find a quadratic nonresidue of Fqd lying in Fq
         PolyModElement nqr = Fqd.newElement();
@@ -252,7 +265,7 @@ public class TypeDCurveGenerator implements CurveGenerator {
      */
     protected void compute_cm_curve(CurveParams param) {
         NaiveField fp = new NaiveField(param.getBigInteger("q"));
-        PolyField fpx = new PolyField(fp);
+        PolyField fpx = new PolyField(random, fp);
 
         // Init Hilbert Poly Element and find a root
         PolyElement hp = fpx.newElement().setFromCoefficientMonic(new HilbertPolyGenerator(param.getInt("D")).getHilbertPoly());
@@ -261,7 +274,7 @@ public class TypeDCurveGenerator implements CurveGenerator {
             throw new IllegalStateException("No root for hilbert polynomial");
 
         // The root is the j-invariant of the desired curve.
-        CurveField cc = CurveField.newCurveFieldJ(root, param.getBigInteger("n"), null);
+        CurveField cc = CurveField.newCurveFieldJ(new SecureRandom(), root, param.getBigInteger("n"), null);
 
         // We may need to twist it.
         // Pick a random point P and twist the curve if it has the wrong order.

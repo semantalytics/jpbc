@@ -20,7 +20,7 @@ public class MPZFieldTypeAPairingTest extends TypeAPairingTest {
             pairing = new TypeAPairing(curveParams) {
                 @Override
                 protected Field initFp(BigInteger order) {
-                    return new MPZField(order);
+                    return new MPZField(random, order);
                 }
             };
 
