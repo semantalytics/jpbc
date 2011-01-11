@@ -33,6 +33,7 @@
       <sourceFolder url="file://$MODULE_DIR$/target/generated-sources/combined-resources" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/target/generated-sources/r" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
       <excludeFolder url="file://$MODULE_DIR$/target/classes" />
       <excludeFolder url="file://$MODULE_DIR$/target/javadoc-bundle-options" />
       <excludeFolder url="file://$MODULE_DIR$/target/maven-archiver" />
