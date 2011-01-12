@@ -8,35 +8,33 @@ import java.util.Arrays;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class HHVEIP08SearchKeyGenerationParameters extends KeyGenerationParameters {
-
-    private HHVEIP08PrivateKeyParameters params;
-    private int[] attributesPattern;
+    private HHVEIP08PrivateKeyParameters privateKey;
+    private int[] pattern;
     private boolean allStar;
 
 
-    public HHVEIP08SearchKeyGenerationParameters(HHVEIP08PrivateKeyParameters params, int... attributesPattern) {
-        super(null, params.getParameters().getG().getField().getLengthInBytes());
+    public HHVEIP08SearchKeyGenerationParameters(HHVEIP08PrivateKeyParameters privateKey, int... pattern) {
+        super(null, privateKey.getParameters().getG().getField().getLengthInBytes());
 
-        this.params = params;
-        this.attributesPattern = Arrays.copyOf(attributesPattern, attributesPattern.length);
+        this.privateKey = privateKey;
+        this.pattern = Arrays.copyOf(pattern, pattern.length);
 
         int numStar = 0;
-        for (int i = 0; i < attributesPattern.length; i++) {
-            int patter = attributesPattern[i];
+        for (int i = 0; i < pattern.length; i++) {
+            int patter = pattern[i];
 
             if (patter < 0)
                 numStar++;
         }
-        allStar = (numStar == attributesPattern.length);
+        allStar = (numStar == pattern.length);
     }
 
-
-    public HHVEIP08PrivateKeyParameters getParameters() {
-        return params;
+    public HHVEIP08PrivateKeyParameters getPrivateKey() {
+        return privateKey;
     }
 
-    public int[] getAttributesPattern() {
-        return Arrays.copyOf(attributesPattern, attributesPattern.length);
+    public int[] getPattern() {
+        return Arrays.copyOf(pattern, pattern.length);
     }
 
     public boolean isAllStar() {
@@ -44,10 +42,10 @@ public class HHVEIP08SearchKeyGenerationParameters extends KeyGenerationParamete
     }
 
     public boolean isStarAt(int index) {
-        return attributesPattern[index] < 0;
+        return pattern[index] < 0;
     }
 
     public int getPatternAt(int index) {
-        return attributesPattern[index];
+        return pattern[index];
     }
 }

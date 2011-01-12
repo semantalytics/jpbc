@@ -31,7 +31,6 @@ public class HHVEIP08KeyPairGenerator implements AsymmetricCipherKeyPairGenerato
         Pairing pairing = PairingFactory.getPairing(parameters.getCurveParams());
         Element g = parameters.getG();
         int n = parameters.getN();
-        int[] attributeLengths = parameters.getAttributeLengths();
 
         // Init Y
         Element y = pairing.getZr().newElement().setToRandom();
@@ -46,7 +45,7 @@ public class HHVEIP08KeyPairGenerator implements AsymmetricCipherKeyPairGenerato
 
         for (int i = 0; i < n ; i++) {
 
-            int howMany = 1 << attributeLengths[i];
+            int howMany = parameters.getAttributeNumAt(i);
             List<Element> T_i = new ArrayList<Element>();
             List<Element> t_i = new ArrayList<Element>();
 

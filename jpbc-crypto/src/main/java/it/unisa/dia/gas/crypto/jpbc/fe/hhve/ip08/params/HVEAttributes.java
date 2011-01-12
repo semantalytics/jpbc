@@ -1,17 +1,62 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.hhve.ip08.params;
 
+import java.io.*;
+
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class HVEAttributes {
 
-    public static byte[] attributesPatternToByte(int... attributesPattern) {
-        byte[] result = new byte[attributesPattern.length];
-        for (int i = 0; i < attributesPattern.length; i++) {
-            result[i] = (byte) attributesPattern[i];
-        }
+    public static byte[] attributesToByteArray(HHVEIP08Parameters parameters, int[] attributes) {
+        ByteArrayOutputStream result = new ByteArrayOutputStream();
+        DataOutputStream os = new DataOutputStream(result);
 
-        return result;
+        try {
+            for (int i = 0; i < parameters.getN(); i++) {
+                switch (parameters.getAttributeLengthInBytesAt(i)) {
+                    case 1:
+                        os.writeByte((byte) attributes[i]);
+                        break;
+                    case 2:
+                        os.writeShort((short) attributes[i]);
+                        break;
+                    case 4:
+                        os.writeInt(attributes[i]);
+                        break;
+                    default:
+                        throw new IllegalArgumentException("bytes length per attribute cannot be larger than 4.");
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return result.toByteArray();
     }
 
+    public static int[] byteArrayToAttributes(HHVEIP08Parameters parameters, byte[] buffer) {
+        DataInputStream is = new DataInputStream(new ByteArrayInputStream(buffer));
+
+        try {
+            int[] result = new int[parameters.getN()];
+            for (int i = 0; i < result.length; i++) {
+                switch (parameters.getAttributeLengthInBytesAt(i)) {
+                    case 1:
+                        result[i] = is.readUnsignedByte();
+                        break;
+                    case 2:
+                        result[i] = is.readUnsignedShort();
+                        break;
+                    case 4:
+                        result[i] = is.readInt();
+                        break;
+                    default:
+                        throw new IllegalArgumentException("bytes length per attribute cannot be larger than 4.");
+                }
+            }
+
+            return result;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

@@ -26,6 +26,46 @@ public class TestHHVE extends TestCase {
                         enc(keyPair.getPublic(),     0, 8,  0, 3,  2, 1)
                 )
         );
+
+        assertEquals(true,
+                test(
+                        keyGen(keyPair.getPrivate(), -1, -1, -1, -1, -1, -1),
+                        enc(keyPair.getPublic(),     0, 8,  0, 3,  2, 1)
+                )
+        );
+
+        assertEquals(true,
+                test(
+                        delegate(
+                                keyPair.getPublic(),
+                                keyGen(keyPair.getPrivate(), -1, -1, -1, -1, -1, -1),
+                                0, 8, 0, 3, -1, 1
+                        ),
+                        enc(keyPair.getPublic(),     0, 8,  0, 3,  2, 1)
+                )
+        );
+
+        assertEquals(true,
+                test(
+                        delegate(
+                                keyPair.getPublic(),
+                                keyGen(keyPair.getPrivate(), 0, 8, -1, 3, -1, 1),
+                                0, 8, 0, 3, -1, 1
+                        ),
+                        enc(keyPair.getPublic(),     0, 8,  0, 3,  2, 1)
+                )
+        );
+    }
+
+    private CipherParameters delegate(CipherParameters publicKey, CipherParameters searchKey, int... attributesPattern) {
+        HHVEIP08SearchKeyGenerator generator = new HHVEIP08SearchKeyGenerator();
+        generator.init(new HHVEIP08DelegateSecretKeyGenerationParameters(
+                (HHVEIP08PublicKeyParameters) publicKey,
+                (HHVEIP08SearchKeyParameters) searchKey,
+                attributesPattern)
+        );
+
+        return generator.generateKey();
     }
 
 
@@ -46,18 +86,21 @@ public class TestHHVE extends TestCase {
         return generator.generateKeyPair();
     }
 
-    protected byte[] enc(CipherParameters publicKey, int... attributesPattern) {
-        byte[] attributes = HVEAttributes.attributesPatternToByte(attributesPattern) ;
+    protected byte[] enc(CipherParameters publicKey, int... attributes) {
+        byte[] attrs = HVEAttributes.attributesToByteArray(
+                ((HHVEIP08PublicKeyParameters)publicKey).getParameters(),
+                attributes
+        );
 
         HHVEIP08AttributesEngine engine = new HHVEIP08AttributesEngine();
         engine.init(true, publicKey);
 
-        return engine.processBlock(attributes, 0, attributes.length);
+        return engine.processBlock(attrs, 0, attrs.length);
     }
 
-    protected CipherParameters keyGen(CipherParameters privateKey, int... attributesPattern) {
+    protected CipherParameters keyGen(CipherParameters privateKey, int... pattern) {
         HHVEIP08SearchKeyGenerator generator = new HHVEIP08SearchKeyGenerator();
-        generator.init(new HHVEIP08SearchKeyGenerationParameters((HHVEIP08PrivateKeyParameters) privateKey, attributesPattern));
+        generator.init(new HHVEIP08SearchKeyGenerationParameters((HHVEIP08PrivateKeyParameters) privateKey, pattern));
 
         return generator.generateKey();
     }

@@ -14,20 +14,29 @@ public class HHVEIP08Parameters implements CipherParameters, Serializable {
     private CurveParams curveParams;
     private Element g;
     private int[] attributeLengths;
+    private int[] attributeLengthsInBytes;
+    private int[] attributeNums;
     private int n;
 
-    private int length;
+    private int attributesLengthInBytes;
 
 
     public HHVEIP08Parameters(CurveParams curveParams, Element g, int[] attributeLengths) {
         this.curveParams = curveParams;
         this.g = g;
-        this.attributeLengths = Arrays.copyOf(attributeLengths, attributeLengths.length);
         this.n = attributeLengths.length;
+        this.attributeLengths = Arrays.copyOf(attributeLengths, attributeLengths.length);
 
-        this.length = 0;
-        for (int attributeLength : attributeLengths) {
-            length += Math.ceil((Math.log(attributeLength)/Math.log( 2 )+1) / 8);
+        this.attributesLengthInBytes = 0;
+        this.attributeLengthsInBytes = new int[n];
+        this.attributeNums = new int[n];
+        for (int i = 0; i < attributeLengths.length; i++) {
+            int attributeLength = attributeLengths[i];
+
+            attributeLengthsInBytes[i] = (int) Math.ceil((Math.log(attributeLength)/Math.log( 2 )+1) / 8);
+            attributesLengthInBytes += attributeLengthsInBytes[i];
+
+            attributeNums[i] = (int) Math.pow(2, attributeLength);
         }
     }
 
@@ -43,40 +52,15 @@ public class HHVEIP08Parameters implements CipherParameters, Serializable {
         return n;
     }
 
-    public int[] getAttributeLengths() {
-        return attributeLengths;
+    public int getAttributesLengthInBytes() {
+        return attributesLengthInBytes;
     }
 
-    public int getAttributeLengthAt(int index) {
-        return attributeLengths[index];
+    public int getAttributeLengthInBytesAt(int index) {
+        return attributeLengthsInBytes[index];
     }
 
-    public int getLength() {
-        return length;
-    }
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        HHVEIP08Parameters that = (HHVEIP08Parameters) o;
-
-        if (n != that.n) return false;
-        if (!Arrays.equals(attributeLengths, that.attributeLengths)) return false;
-        if (!curveParams.equals(that.curveParams)) return false;
-        if (!g.equals(that.g)) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = curveParams.hashCode();
-        result = 31 * result + g.hashCode();
-        result = 31 * result + Arrays.hashCode(attributeLengths);
-        result = 31 * result + n;
-        return result;
+    public int getAttributeNumAt(int index) {
+        return attributeNums[index];
     }
 }

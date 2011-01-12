@@ -47,32 +47,12 @@ public class HVEIP08Parameters implements CipherParameters, Serializable {
         return attributeLengths;
     }
 
+    public int[] getLengthsInBytes() {
+        return new int[0];  //To change body of created methods use File | Settings | File Templates.
+    }
+
     public int getLength() {
         return length;
     }
 
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        HVEIP08Parameters that = (HVEIP08Parameters) o;
-
-        if (n != that.n) return false;
-        if (!Arrays.equals(attributeLengths, that.attributeLengths)) return false;
-        if (!curveParams.equals(that.curveParams)) return false;
-        if (!g.equals(that.g)) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = curveParams.hashCode();
-        result = 31 * result + g.hashCode();
-        result = 31 * result + Arrays.hashCode(attributeLengths);
-        result = 31 * result + n;
-        return result;
-    }
 }
