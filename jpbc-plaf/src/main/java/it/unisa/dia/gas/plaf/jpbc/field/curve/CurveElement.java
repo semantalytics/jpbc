@@ -220,10 +220,10 @@ public class CurveElement<E extends Element> extends GenericPointElement<E> {
 
         CurveElement element = (CurveElement) e;
 
-        if (curveField.quotient_cmp != null) {
+        if (curveField.quotientCmp != null) {
             // If we're working with a quotient group we must account for different
             // representatives of the same coset.
-            return this.duplicate().div(element).pow(curveField.quotient_cmp).isOne();
+            return this.duplicate().div(element).pow(curveField.quotientCmp).isOne();
         }
 
         return isEqual(element);

@@ -128,7 +128,7 @@ public class TypeDPairing extends AbstractPairing {
             tateExp = Fqk.getOrder().subtract(BigInteger.ONE).divide(r);
         }
 
-        // init Etwist
+        // init etwist
         Etwist = initEqMap().twist();
 
         // ndonr temporarily holds the trace.
@@ -138,7 +138,7 @@ public class TypeDPairing extends AbstractPairing {
         ndonr = ndonr.negate();
         ndonr = BigIntegerUtils.pbc_mpz_curve_order_extn(q, ndonr, d);
         ndonr = ndonr.divide(r);
-        Etwist.setQuotient_cmp(ndonr);
+        Etwist.setQuotientCmp(ndonr);
 
         nqrInverse = Fqd.getNqr().duplicate().invert();
         nqrInverseSquare = nqrInverse.duplicate().square();

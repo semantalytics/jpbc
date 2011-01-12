@@ -121,7 +121,7 @@ public class TypeGPairing extends AbstractPairing {
         ndonr = ndonr.negate();
         ndonr = BigIntegerUtils.pbc_mpz_curve_order_extn(q, ndonr, 5);
         ndonr = ndonr.divide(r);
-        Etwist.setQuotient_cmp(ndonr);
+        Etwist.setQuotientCmp(ndonr);
 
         // Compute phi(k)/r = (q^4 - q^3 + ... + 1)/r.
         phikOnr = BigInteger.ONE;

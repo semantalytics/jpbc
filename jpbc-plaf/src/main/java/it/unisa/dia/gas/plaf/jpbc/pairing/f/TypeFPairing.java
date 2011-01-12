@@ -20,10 +20,9 @@ import java.security.SecureRandom;
 import java.util.List;
 import java.util.Random;
 
-
-/// <author>  Angelo De Caro (angelo.decaro@gmail.com)
-
-/// </author>
+/**
+ * @author Angelo De Caro (angelo.decaro@gmail.com)
+ */
 public class TypeFPairing extends AbstractPairing {
     protected CurveParams curveParams;
 
@@ -43,7 +42,7 @@ public class TypeFPairing extends AbstractPairing {
     protected Field Fq, Fq2x;
     protected Field Fq2;
     protected PolyModField Fq12;
-    protected CurveField Eq, Etwist;
+    protected CurveField Eq, etwist;
 
 
     public TypeFPairing(CurveParams curveParams) {
@@ -115,17 +114,17 @@ public class TypeFPairing extends AbstractPairing {
         Eq = initEq();
 
         // Initialize the curve Y^2 = X^3 - alpha0 b - alpha1 sqrt(beta) b.
-        Etwist = initEqMap();
+        etwist = initEqMap();
 
         // ndonr temporarily holds the trace.
         BigInteger ndonr = q.subtract(r).add(BigInteger.ONE);
 
-        // TODO: We can use a smaller quotient_cmp, but I have to figure out
+        // TODO: We can use a smaller quotientCmp, but I have to figure out
         // BN curves again.
         ndonr = BigIntegerUtils.pbc_mpz_curve_order_extn(q, ndonr, 12);
         ndonr = ndonr.divide(r);
         ndonr = ndonr.divide(r);
-        Etwist.setQuotient_cmp(ndonr);
+        etwist.setQuotientCmp(ndonr);
 
         /*
             For k = 12, the final exponent becomes
@@ -150,7 +149,7 @@ public class TypeFPairing extends AbstractPairing {
 
         // Init G1, G2, GT
         G1 = Eq;
-        G2 = Etwist;
+        G2 = etwist;
         GT = initGT();
     }
 

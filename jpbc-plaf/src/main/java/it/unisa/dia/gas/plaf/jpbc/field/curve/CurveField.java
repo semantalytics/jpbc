@@ -34,11 +34,11 @@ public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElemen
     protected CurveElement gen, genNoCofac;
     protected BigInteger order, cofac;
 
-    // A non-NULL quotient_cmp means we are working with the quotient group of
-    // order #E / quotient_cmp, and the points are actually coset
-    // representatives. Thus for a comparison, we must multiply by quotient_cmp
+    // A non-NULL quotientCmp means we are working with the quotient group of
+    // order #E / quotientCmp, and the points are actually coset
+    // representatives. Thus for a comparison, we must multiply by quotientCmp
     // before comparing.
-    protected BigInteger quotient_cmp = null;
+    protected BigInteger quotientCmp = null;
 
 
     public CurveField(Random random, Element a, Element b, BigInteger order, BigInteger cofac) {
@@ -117,12 +117,12 @@ public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElemen
         return b;
     }
 
-    public BigInteger getQuotient_cmp() {
-        return quotient_cmp;
+    public BigInteger getQuotientCmp() {
+        return quotientCmp;
     }
 
-    public void setQuotient_cmp(BigInteger quotient_cmp) {
-        this.quotient_cmp = quotient_cmp;
+    public void setQuotientCmp(BigInteger quotientCmp) {
+        this.quotientCmp = quotientCmp;
     }
 
     /**
