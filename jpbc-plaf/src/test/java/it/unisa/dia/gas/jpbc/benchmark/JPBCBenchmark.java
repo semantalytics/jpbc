@@ -51,6 +51,11 @@ public class JPBCBenchmark {
                 t3 += Math.abs((end - start));
             }
 
+            System.gc();
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {}
+
             pairingBenchmarks[0][col] = (double) t1 / times;
             pairingBenchmarks[1][col] = (double) t2 / times;
             pairingBenchmarks[2][col] = (double) t3 / times;
@@ -127,7 +132,14 @@ public class JPBCBenchmark {
                 elementBenchmarks[fieldIndex][5][col] = (double ) t6 / times;
                 elementBenchmarks[fieldIndex][6][col] = (double ) t7 / times;
                 System.out.printf("finished.\n");
+
+
+                System.gc();
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {}
             }
+
         }
 
         return benchmark;
