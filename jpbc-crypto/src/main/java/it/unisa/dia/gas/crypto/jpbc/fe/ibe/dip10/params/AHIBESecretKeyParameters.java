@@ -5,6 +5,8 @@ import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import org.bouncycastle.crypto.CipherParameters;
 
+import java.util.Arrays;
+
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
@@ -20,6 +22,7 @@ public class AHIBESecretKeyParameters implements CipherParameters {
                                     Element k21, Element k22, Element[] e2s,
                                     Element[] ids) {
         this.curveParams = curveParams;
+
         this.k11 = k11.getImmutable();
         this.k12 = k12.getImmutable();
         this.E1s = ElementUtil.cloneImmutably(e1s);
@@ -51,14 +54,26 @@ public class AHIBESecretKeyParameters implements CipherParameters {
     }
 
     public Element[] getE1s() {
-        return E1s;
+        return Arrays.copyOf(E1s, E1s.length);
+    }
+
+    public Element getE1At(int index) {
+        return E1s[index];
     }
 
     public Element[] getE2s() {
-        return E2s;
+        return Arrays.copyOf(E2s, E2s.length);
+    }
+
+    public Element getE2At(int index) {
+        return E2s[index];
     }
 
     public Element[] getIds() {
-        return ids;
+        return Arrays.copyOf(ids, ids.length);
+    }
+
+    public int getE1Length() {
+        return E1s.length;
     }
 }

@@ -56,7 +56,7 @@ public abstract class GenericField<E extends Element> implements Field<E> {
     }
 
     public boolean isOrderOdd() {
-        return false;
+        return orderIsOdd;
     }
 
     public Element[] twice(Element[] elements) {

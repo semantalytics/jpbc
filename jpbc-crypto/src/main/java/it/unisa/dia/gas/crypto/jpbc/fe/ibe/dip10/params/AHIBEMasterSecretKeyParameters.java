@@ -13,8 +13,8 @@ public class AHIBEMasterSecretKeyParameters implements CipherParameters {
 
 
     public AHIBEMasterSecretKeyParameters(Element x1, Element alpha) {
-        X1 = x1;
-        this.alpha = alpha;
+        this.X1 = x1.getImmutable();
+        this.alpha = alpha.getImmutable();
     }
 
     public Element getX1() {

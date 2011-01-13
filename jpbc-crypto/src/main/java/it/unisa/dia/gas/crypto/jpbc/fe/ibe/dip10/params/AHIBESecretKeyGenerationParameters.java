@@ -4,13 +4,15 @@ import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtil;
 import it.unisa.dia.gas.jpbc.Element;
 import org.bouncycastle.crypto.KeyGenerationParameters;
 
+import java.util.Arrays;
+
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class AHIBESecretKeyGenerationParameters extends KeyGenerationParameters {
 
-    private AHIBEMasterSecretKeyParameters ahiveMasterSecretKeyParameters;
-    private AHIBEPublicKeyParameters ahivePublicKeyParameters;
+    private AHIBEMasterSecretKeyParameters masterSecretKey;
+    private AHIBEPublicKeyParameters publicKey;
     private Element[] ids;
 
 
@@ -20,21 +22,29 @@ public class AHIBESecretKeyGenerationParameters extends KeyGenerationParameters 
             Element[] ids) {
 
         super(null, 12);
-        this.ahiveMasterSecretKeyParameters = AHIBEMasterSecretKeyParameters;
-        this.ahivePublicKeyParameters = AHIBEPublicKeyParameters;
+        this.masterSecretKey = AHIBEMasterSecretKeyParameters;
+        this.publicKey = AHIBEPublicKeyParameters;
         this.ids = ElementUtil.cloneImmutably(ids);
     }
 
 
     public AHIBEMasterSecretKeyParameters getMasterSecretKey() {
-        return ahiveMasterSecretKeyParameters;
+        return masterSecretKey;
     }
 
     public AHIBEPublicKeyParameters getPublicKey() {
-        return ahivePublicKeyParameters;
+        return publicKey;
+    }
+
+    public Element getIdAt(int index) {
+        return ids[index];
     }
 
     public Element[] getIds() {
-        return ids;
+        return Arrays.copyOf(ids, ids.length);
+    }
+
+    public int getLength() {
+        return ids.length;
     }
 }

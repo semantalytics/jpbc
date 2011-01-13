@@ -17,7 +17,7 @@ import java.security.SecureRandom;
  */
 public class TestHHVE extends TestCase {
 
-    public void testHVE() {
+    public void testHHVE() {
         AsymmetricCipherKeyPair keyPair = setup(genParam(1, 7, 1, 4, 2, 1));
 
         assertEquals(true,

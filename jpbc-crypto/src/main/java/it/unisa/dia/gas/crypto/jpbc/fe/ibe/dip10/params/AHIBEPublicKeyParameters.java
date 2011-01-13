@@ -17,13 +17,13 @@ public class AHIBEPublicKeyParameters implements CipherParameters {
     private Element Y3;
     private Element Y4;
     private Element t;
-    private Element[] uElements;
+    private Element[] us;
     private Element omega;
 
 
     public AHIBEPublicKeyParameters(CurveParams curveParams,
                                     Element y1, Element y3, Element y4,
-                                    Element t, Element[] uElements,
+                                    Element t, Element[] us,
                                     Element omega) {
         this.curveParams = curveParams;
 
@@ -31,7 +31,7 @@ public class AHIBEPublicKeyParameters implements CipherParameters {
         this.Y3 = y3.getImmutable();
         this.Y4 = y4.getImmutable();
         this.t = t.getImmutable();
-        this.uElements = ElementUtil.cloneImmutably(uElements);
+        this.us = ElementUtil.cloneImmutably(us);
         this.omega = omega.getImmutable();
     }
 
@@ -56,11 +56,19 @@ public class AHIBEPublicKeyParameters implements CipherParameters {
         return t;
     }
 
-    public Element[] getuElements() {
-        return Arrays.copyOf(uElements, uElements.length);
+    public Element[] getUs() {
+        return Arrays.copyOf(us, us.length);
     }
 
     public Element getOmega() {
         return omega;
+    }
+
+    public Element getUAt(int index) {
+        return us[index];
+    }
+
+    public int getLength() {
+        return us.length;
     }
 }

@@ -1,7 +1,7 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.engines;
 
+import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params.AHIBEEncryptionParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params.AHIBEPublicKeyParameters;
-import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params.AHIBESEncryptionParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params.AHIBESecretKeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params.AHIBEUtils;
 import it.unisa.dia.gas.jpbc.Element;
@@ -43,11 +43,11 @@ public class AHIBEEngine implements AsymmetricBlockCipher {
 
         this.forEncryption = forEncryption;
         if (forEncryption) {
-            if (!(key instanceof AHIBESEncryptionParameters)) {
-                throw new IllegalArgumentException("AHIBESEncryptionParameters are required for encryption.");
+            if (!(key instanceof AHIBEEncryptionParameters)) {
+                throw new IllegalArgumentException("AHIBEEncryptionParameters are required for encryption.");
             }
 
-            this.pairing = PairingFactory.getPairing(((AHIBESEncryptionParameters) key).getPublicKey().getCurveParams());
+            this.pairing = PairingFactory.getPairing(((AHIBEEncryptionParameters) key).getPublicKey().getCurveParams());
         } else {
             if (!(key instanceof AHIBESecretKeyParameters)) {
                 throw new IllegalArgumentException("AHIBESecretKeyParameters are required for decryption.");
@@ -159,7 +159,7 @@ public class AHIBEEngine implements AsymmetricBlockCipher {
             System.out.println(new String(block).trim());
 
             // Compute ciphertext
-            AHIBESEncryptionParameters encParams = (AHIBESEncryptionParameters) key;
+            AHIBEEncryptionParameters encParams = (AHIBEEncryptionParameters) key;
             AHIBEPublicKeyParameters pk = encParams.getPublicKey();
 
             Element s = pairing.getZr().newRandomElement();
@@ -167,10 +167,8 @@ public class AHIBEEngine implements AsymmetricBlockCipher {
             Element C0 = M.mul(pk.getOmega().powZn(s));
 
             Element C1 = pairing.getG1().newOneElement();
-            Element[] ids = encParams.getIds();
-            Element[] us = pk.getuElements();
-            for (int i = 0; i < ids.length; i++) {
-                C1.mul(us[i].powZn(ids[i]));
+            for (int i = 0; i < encParams.getLength(); i++) {
+                C1.mul(pk.getUAt(i).powZn(encParams.getIdAt(i)));
             }
             C1.mul(pk.getT()).powZn(s).mul(AHIBEUtils.randomIn(pairing, pk.getY4()));
 

@@ -15,9 +15,10 @@ public class AHIBEDelegateSecretKeyGenerationParameters extends KeyGenerationPar
 
     public AHIBEDelegateSecretKeyGenerationParameters(AHIBEPublicKeyParameters publicKey, AHIBESecretKeyParameters secretKey, Element id) {
         super(null, 12);
+
         this.publicKey = publicKey;
         this.secretKey = secretKey;
-        this.id = id;
+        this.id = id.getImmutable();
     }
 
     public AHIBEPublicKeyParameters getPublicKey() {
