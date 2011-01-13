@@ -47,10 +47,6 @@ public class HVEIP08Parameters implements CipherParameters, Serializable {
         return attributeLengths;
     }
 
-    public int[] getLengthsInBytes() {
-        return new int[0];  //To change body of created methods use File | Settings | File Templates.
-    }
-
     public int getLength() {
         return length;
     }

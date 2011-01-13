@@ -20,6 +20,7 @@ public class HVEAttributes {
                     case 2:
                         os.writeShort((short) attributes[i]);
                         break;
+                    case 3:
                     case 4:
                         os.writeInt(attributes[i]);
                         break;

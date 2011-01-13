@@ -52,7 +52,7 @@ public class TestHHVE extends TestCase {
                                 keyGen(keyPair.getPrivate(), 0, 8, -1, 3, -1, 1),
                                 0, 8, 0, 3, -1, 1
                         ),
-                        enc(keyPair.getPublic(),     0, 8,  0, 3,  2, 1)
+                        enc(keyPair.getPublic(), 0, 8,  0, 3,  2, 1)
                 )
         );
     }
