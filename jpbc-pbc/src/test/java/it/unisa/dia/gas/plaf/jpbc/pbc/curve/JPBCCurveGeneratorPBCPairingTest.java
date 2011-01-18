@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.pbc.curve;
 
 import it.unisa.dia.gas.jpbc.CurveGenerator;
+import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pairing.a.TypeACurveGenerator;
 import it.unisa.dia.gas.plaf.jpbc.pairing.a1.TypeA1CurveGenerator;
@@ -9,8 +10,6 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.f.TypeFCurveGenerator;
 import it.unisa.dia.gas.plaf.jpbc.pbc.PBCPairing;
 import it.unisa.dia.gas.plaf.jpbc.pbc.pairing.PairingTest;
 import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.WrapperLibraryProvider;
-
-import java.util.Map;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -48,13 +47,14 @@ public class JPBCCurveGeneratorPBCPairingTest extends PairingTest {
     }
 
 
-    protected void initPairing(Map curve) {
+    protected void initPairing(CurveParameters curve) {
         pairing = null;
 
         // Check for link library
         if (!WrapperLibraryProvider.isAvailable())
             return;
 
+        //TODO: remove that cast if possible
         pairing = new PBCPairing((CurveParams) curve);
 
         assertNotNull(pairing.getG1());

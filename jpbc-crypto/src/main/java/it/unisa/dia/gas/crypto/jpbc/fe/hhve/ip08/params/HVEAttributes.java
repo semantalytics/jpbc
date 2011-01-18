@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.hhve.ip08.params;
 
 import java.io.*;
+import java.util.Random;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -59,5 +60,14 @@ public class HVEAttributes {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static int[] randomBinaryAttributes(Random random, int n) {
+        int[] attrs = new int[n];
+
+        for (int i = 0; i < attrs.length; i++)
+            attrs[i] = random.nextBoolean() ? 1 : 0;
+
+        return attrs;
     }
 }

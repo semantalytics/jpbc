@@ -1,5 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing;
 
+import it.unisa.dia.gas.jpbc.CurveParameters;
+
 import java.io.*;
 import java.math.BigInteger;
 import java.util.LinkedHashMap;
@@ -10,7 +12,7 @@ import java.util.StringTokenizer;
  * TODO: introduce immutable...
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class CurveParams extends LinkedHashMap<String, String> {
+public class CurveParams extends LinkedHashMap<String, String> implements CurveParameters {
 
 
     public CurveParams() {
@@ -27,6 +29,15 @@ public class CurveParams extends LinkedHashMap<String, String> {
             throw new IllegalArgumentException("Cannot find value for the following key : " + key);
 
         return Long.parseLong(value);
+    }
+
+
+    public String getString(String key) {
+        String value = get(key);
+        if (value == null)
+            throw new IllegalArgumentException("Cannot find value for the following key : " + key);
+
+        return value;
     }
 
     public int getInt(String key) {

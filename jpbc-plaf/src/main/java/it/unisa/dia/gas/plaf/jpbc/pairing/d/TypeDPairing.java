@@ -1,9 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing.d;
 
-import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.jpbc.Point;
-import it.unisa.dia.gas.jpbc.Polynomial;
+import it.unisa.dia.gas.jpbc.*;
 import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveField;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteField;
 import it.unisa.dia.gas.plaf.jpbc.field.naive.NaiveField;
@@ -13,7 +10,6 @@ import it.unisa.dia.gas.plaf.jpbc.field.polymod.PolyModElement;
 import it.unisa.dia.gas.plaf.jpbc.field.polymod.PolyModField;
 import it.unisa.dia.gas.plaf.jpbc.field.quadratic.QuadraticField;
 import it.unisa.dia.gas.plaf.jpbc.pairing.AbstractPairing;
-import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.util.BigIntegerUtils;
 
 import java.math.BigInteger;
@@ -25,7 +21,7 @@ import java.util.Random;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class TypeDPairing extends AbstractPairing {
-    protected CurveParams curveParams;
+    protected CurveParameters curveParams;
 
     protected int k;
 
@@ -42,7 +38,7 @@ public class TypeDPairing extends AbstractPairing {
     protected CurveField Eq, Etwist;
 
 
-    public TypeDPairing(Random random, CurveParams curveParams) {
+    public TypeDPairing(Random random, CurveParameters curveParams) {
         super(random);
 
         this.curveParams = curveParams;
@@ -52,7 +48,7 @@ public class TypeDPairing extends AbstractPairing {
         initFields();
     }
 
-    public TypeDPairing(CurveParams curveParams) {
+    public TypeDPairing(CurveParameters curveParams) {
         this(new SecureRandom(), curveParams);
     }
 
@@ -64,7 +60,7 @@ public class TypeDPairing extends AbstractPairing {
 
     protected void initParams() {
         // validate the type
-        String type = curveParams.getType();
+        String type = curveParams.getString("type");
         if (type == null || !"d".equalsIgnoreCase(type))
             throw new IllegalArgumentException("Type not valid. Found '" + type + "'. Expected 'd'.");
 

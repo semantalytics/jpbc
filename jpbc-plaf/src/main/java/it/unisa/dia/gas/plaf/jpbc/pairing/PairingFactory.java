@@ -1,5 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing;
 
+import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.a.TypeAPairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.a1.TypeA1Pairing;
@@ -23,19 +24,19 @@ public class PairingFactory {
         return INSTANCE;
     }
 
-    public static Pairing getPairing(CurveParams curveParams) {
+    public static Pairing getPairing(CurveParameters curveParams) {
         return getInstance().initPairing(curveParams);
     }
 
 
-    private boolean usePBCWhenPossible = false;
+    private boolean usePBCWhenPossible = true;
     private boolean reuseIstance = true;
 
     private Class pbcPairingFactoryClass = null;
     private Method getPairingMethod;
     private Throwable pbcPairingFailure;
 
-    private Map<CurveParams, Pairing> instances;
+    private Map<CurveParameters, Pairing> instances;
 
     public PairingFactory() {
         // Try to load jpbc-pbc factory
@@ -45,11 +46,11 @@ public class PairingFactory {
         } catch (Exception e) {
             pbcPairingFailure = e;
         }
-        this.instances = new HashMap<CurveParams, Pairing>();
+        this.instances = new HashMap<CurveParameters, Pairing>();
     }
 
 
-    public Pairing initPairing(CurveParams curveParams) {
+    public Pairing initPairing(CurveParameters curveParams) {
         if (curveParams == null)
             throw new IllegalArgumentException("curveParams cannot be null.");
 
@@ -60,7 +61,7 @@ public class PairingFactory {
             }
         }
 
-        String type = curveParams.getType();
+        String type = curveParams.getString("type");
 
         Pairing pairing;
         if (reuseIstance) {

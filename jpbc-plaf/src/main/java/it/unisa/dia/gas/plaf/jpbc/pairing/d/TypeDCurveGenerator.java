@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing.d;
 
 import it.unisa.dia.gas.jpbc.CurveGenerator;
+import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveField;
@@ -18,7 +19,6 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 /**
@@ -54,7 +54,7 @@ public class TypeDCurveGenerator implements CurveGenerator {
 
 
 
-    public Map generate() {
+    public CurveParameters generate() {
         if (curves == null || curves.length == 0)
             throw new IllegalStateException("Cannot find valid curves. Try another discriminant.");
 

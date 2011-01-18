@@ -1,12 +1,12 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing.e;
 
+import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveField;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteField;
 import it.unisa.dia.gas.plaf.jpbc.field.naive.NaiveField;
 import it.unisa.dia.gas.plaf.jpbc.pairing.AbstractPairing;
-import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -34,11 +34,11 @@ public class TypeEPairing extends AbstractPairing {
     protected Field<? extends Point> Eq;
 
 
-    public TypeEPairing(CurveParams properties) {
+    public TypeEPairing(CurveParameters properties) {
         this(new SecureRandom(), properties);
     }
 
-    public TypeEPairing(Random random, CurveParams properties) {
+    public TypeEPairing(Random random, CurveParameters properties) {
         super(random);
 
         initParams(properties);
@@ -46,9 +46,9 @@ public class TypeEPairing extends AbstractPairing {
         initFields();
     }
 
-    protected void initParams(CurveParams curveParams) {
+    protected void initParams(CurveParameters curveParams) {
         // validate the type
-        String type = curveParams.get("type");
+        String type = curveParams.getString("type");
         if (type == null || !"e".equalsIgnoreCase(type))
             throw new IllegalArgumentException("Type not valid. Found '" + type + "'. Expected 'e'.");
 

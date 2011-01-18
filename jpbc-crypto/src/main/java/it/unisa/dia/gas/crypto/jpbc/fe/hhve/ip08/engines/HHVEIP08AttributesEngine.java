@@ -5,6 +5,7 @@ import it.unisa.dia.gas.crypto.jpbc.fe.hhve.ip08.params.HHVEIP08PublicKeyParamet
 import it.unisa.dia.gas.crypto.jpbc.fe.hhve.ip08.params.HHVEIP08SearchKeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.hhve.ip08.params.HVEAttributes;
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.AsymmetricBlockCipher;
@@ -117,10 +118,6 @@ public class HHVEIP08AttributesEngine implements AsymmetricBlockCipher {
 
             int offset = inOff;
 
-            // load omega...
-//            Element omega = pairing.getGT().newElement();
-//            offset += omega.setFromBytes(in, offset);
-
             // load C0...
             Element C0 = pairing.getG1().newElement();
             offset += C0.setFromBytes(in, offset);
@@ -154,7 +151,6 @@ public class HHVEIP08AttributesEngine implements AsymmetricBlockCipher {
 
             HHVEIP08SearchKeyParameters searchKey = (HHVEIP08SearchKeyParameters) key;
 
-//            Element result = omega.duplicate();
             Element result = pairing.getGT().newOneElement();
 
             if (searchKey.isAllStar()) {
@@ -193,12 +189,10 @@ public class HHVEIP08AttributesEngine implements AsymmetricBlockCipher {
             int[] attributes = HVEAttributes.byteArrayToAttributes(key.getParameters(), block);
 
             HHVEIP08PublicKeyParameters pub = (HHVEIP08PublicKeyParameters) key;
+            ElementPowPreProcessing powG = pub.getParameters().getPowG();
 
             Element s = pairing.getZr().newRandomElement().getImmutable();
-//        Element M = pairing.getGT().newOneElement();
-
-//            Element omega = pub.getY().powZn(s.negate())/*.mul(M)*/;
-            Element C0 = pub.getParameters().getG().powZn(s);
+            Element C0 = powG.powZn(s);
 
             List<Element> elements = new ArrayList<Element>();
 
@@ -212,8 +206,8 @@ public class HHVEIP08AttributesEngine implements AsymmetricBlockCipher {
                 // Compute the elements for the position
                 elements.add(pub.getTAt(i, j).powZn(sMinusSi));
                 elements.add(pub.getVAt(i, j).powZn(si));
-                elements.add(pub.getParameters().getG().powZn(sMinusSi));
-                elements.add(pub.getParameters().getG().powZn(si));
+                elements.add(powG.powZn(sMinusSi));
+                elements.add(powG.powZn(si));
             }
 
             // Move to byte array
@@ -221,7 +215,6 @@ public class HHVEIP08AttributesEngine implements AsymmetricBlockCipher {
             try {
                 outputStream = new ByteArrayOutputStream(getOutputBlockSize());
 
-//                outputStream.write(omega.toBytes());
                 outputStream.write(C0.toBytes());
                 for (Element element : elements)
                     outputStream.write(element.toBytes());

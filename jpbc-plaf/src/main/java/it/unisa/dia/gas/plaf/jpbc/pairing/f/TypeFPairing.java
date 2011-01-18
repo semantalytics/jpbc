@@ -1,5 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing.f;
 
+import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Point;
@@ -12,7 +13,6 @@ import it.unisa.dia.gas.plaf.jpbc.field.polymod.PolyModElement;
 import it.unisa.dia.gas.plaf.jpbc.field.polymod.PolyModField;
 import it.unisa.dia.gas.plaf.jpbc.field.quadratic.QuadraticField;
 import it.unisa.dia.gas.plaf.jpbc.pairing.AbstractPairing;
-import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.util.BigIntegerUtils;
 
 import java.math.BigInteger;
@@ -24,7 +24,7 @@ import java.util.Random;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class TypeFPairing extends AbstractPairing {
-    protected CurveParams curveParams;
+    protected CurveParameters curveParams;
 
     protected int k;
 
@@ -45,11 +45,11 @@ public class TypeFPairing extends AbstractPairing {
     protected CurveField Eq, etwist;
 
 
-    public TypeFPairing(CurveParams curveParams) {
+    public TypeFPairing(CurveParameters curveParams) {
         this(new SecureRandom(), curveParams);
     }
 
-    public TypeFPairing(Random random, CurveParams curveParams) {
+    public TypeFPairing(Random random, CurveParameters curveParams) {
         super(random);
 
         this.curveParams = curveParams;
@@ -66,7 +66,7 @@ public class TypeFPairing extends AbstractPairing {
 
     protected void initParams() {
         // validate the type
-        String type = curveParams.get("type");
+        String type = curveParams.getString("type");
         if (type == null || !type.equalsIgnoreCase("f"))
             throw new IllegalArgumentException("Type not valid. Found '" + type + "'. Expected 'f'.");
 

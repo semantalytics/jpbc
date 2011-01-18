@@ -14,11 +14,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import it.unisa.dia.gas.jpbc.Pairing;
+import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
+import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
+import java.io.*;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -45,12 +45,31 @@ public class JPBCBenchmarkActivity extends Activity implements View.OnClickListe
         ((TextView) findViewById(R.id.status)).setText("");
         findViewById(R.id.benchmark).setOnClickListener(this);
 
+        CurveParams curveParams = getCurveParams("it/unisa/dia/gas/jpbc/android/benchmark/curves/d840347-175-161.param");
+        Pairing pairing = PairingFactory.getPairing(curveParams);
+
         // Init the rest
         initBenchmark();
 //        initBatteryMonitor();
 
         Log.i(TAG, "onCreate.finished");
     }
+
+    protected CurveParams getCurveParams(String curve) {
+           CurveParams curveParams = new CurveParams();
+
+           try {
+               File curveFile = new File(curve);
+               if (curveFile.exists()) {
+                       curveParams.load(curveFile.toURI().toURL().openStream());
+               } else
+                   curveParams.load(getClass().getClassLoader().getResourceAsStream(curve));
+               } catch (IOException e) {
+                   throw new IllegalArgumentException(e);
+               }
+
+           return curveParams;
+       }
 
     protected void onStop() {
         unregisterReceiver(batteryLevelReceiver);

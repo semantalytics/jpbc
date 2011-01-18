@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing.a;
 
 import it.unisa.dia.gas.jpbc.CurveGenerator;
+import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveField;
 import it.unisa.dia.gas.plaf.jpbc.field.naive.NaiveField;
@@ -9,7 +10,6 @@ import it.unisa.dia.gas.plaf.jpbc.util.BigIntegerUtils;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.util.Map;
 import java.util.Random;
 
 /**
@@ -37,7 +37,7 @@ public class TypeACurveGenerator implements CurveGenerator {
     }
 
 
-    public Map generate() {
+    public CurveParameters generate() {
         boolean found = false;
 
         BigInteger q;

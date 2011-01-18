@@ -1,5 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing.a1;
 
+import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveField;
@@ -7,7 +8,6 @@ import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteField;
 import it.unisa.dia.gas.plaf.jpbc.field.naive.NaiveField;
 import it.unisa.dia.gas.plaf.jpbc.field.quadratic.DegreeTwoExtensionQuadraticField;
 import it.unisa.dia.gas.plaf.jpbc.pairing.AbstractPairing;
-import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -32,11 +32,11 @@ public class TypeA1Pairing extends AbstractPairing {
     protected Field<? extends Point> Eq;
 
 
-    public TypeA1Pairing(CurveParams params) {
+    public TypeA1Pairing(CurveParameters params) {
         this(new SecureRandom(), params);
     }
 
-    public TypeA1Pairing(Random random, CurveParams params) {
+    public TypeA1Pairing(Random random, CurveParameters params) {
         super(random);
 
         initParams(params);
@@ -44,9 +44,9 @@ public class TypeA1Pairing extends AbstractPairing {
         initFields();
     }
 
-    protected void initParams(CurveParams curveParams) {
+    protected void initParams(CurveParameters curveParams) {
         // validate the type
-        String type = curveParams.get("type");
+        String type = curveParams.getString("type");
         if (type == null || !"a1".equalsIgnoreCase(type))
             throw new IllegalArgumentException("Type not valid. Found '" + type + "'. Expected 'a1'.");
 
@@ -96,7 +96,7 @@ public class TypeA1Pairing extends AbstractPairing {
         return new GTFiniteField(random, r, pairingMap, field);
     }
 
-    protected void initMap(CurveParams curveParams) {
+    protected void initMap(CurveParameters curveParams) {
         String method = curveParams.getString("method", NAF_MILLER_PROJECTTIVE_METHOD);
 
         if (NAF_MILLER_PROJECTTIVE_METHOD.endsWith(method)) {

@@ -1,7 +1,8 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.hhve.ip08.params;
 
+import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
+import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
 import org.bouncycastle.crypto.CipherParameters;
 
 import java.io.Serializable;
@@ -11,8 +12,10 @@ import java.util.Arrays;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class HHVEIP08Parameters implements CipherParameters, Serializable {
-    private CurveParams curveParams;
+    private CurveParameters curveParams;
     private Element g;
+    private ElementPowPreProcessing powG;
+
     private int[] attributeLengths;
     private int[] attributeLengthsInBytes;
     private int[] attributeNums;
@@ -21,9 +24,10 @@ public class HHVEIP08Parameters implements CipherParameters, Serializable {
     private int attributesLengthInBytes;
 
 
-    public HHVEIP08Parameters(CurveParams curveParams, Element g, int[] attributeLengths) {
+    public HHVEIP08Parameters(CurveParameters curveParams, Element g, int[] attributeLengths) {
         this.curveParams = curveParams;
         this.g = g;
+        this.powG = g.pow();
         this.n = attributeLengths.length;
         this.attributeLengths = Arrays.copyOf(attributeLengths, attributeLengths.length);
 
@@ -40,12 +44,16 @@ public class HHVEIP08Parameters implements CipherParameters, Serializable {
         }
     }
 
-    public CurveParams getCurveParams() {
+    public CurveParameters getCurveParams() {
         return curveParams;
     }
 
     public Element getG() {
         return g;
+    }
+
+    public ElementPowPreProcessing getPowG() {
+        return powG;
     }
 
     public int getN() {

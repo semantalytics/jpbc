@@ -1,19 +1,19 @@
 package it.unisa.dia.gas.plaf.jpbc.pbc.curve;
 
 import it.unisa.dia.gas.jpbc.CurveGenerator;
+import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Map;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public abstract class PBCCurveGenerator implements CurveGenerator {
 
-    public Map generate() {
+    public CurveParameters generate() {
         pbcGenerate("jpbc_pbc_params.prm");
 
         CurveParams curveParams;
