@@ -6,6 +6,7 @@ import it.unisa.dia.gas.crypto.jpbc.fe.hhve.ip08.generators.HHVEIP08ParametersGe
 import it.unisa.dia.gas.crypto.jpbc.fe.hhve.ip08.generators.HHVEIP08SearchKeyGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.hhve.ip08.params.*;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
+import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
 
@@ -16,10 +17,17 @@ import java.util.Random;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class HHVEBenchmark {
+    private boolean usePBC;
+    private int numAttributes;
 
+
+    public HHVEBenchmark(boolean usePBC, int numAttributes) {
+        this.usePBC = usePBC;
+        this.numAttributes = numAttributes;
+    }
 
     public void benchmark() {
-        int numAttributes = 10;
+        PairingFactory.getInstance().setUsePBCWhenPossible(usePBC);
         AsymmetricCipherKeyPair keyPair = setup(genParam(numAttributes));
 
         int iter = 10;
@@ -116,7 +124,7 @@ public class HHVEBenchmark {
 
 
     public static void main(String[] args) {
-        HHVEBenchmark benchmark = new HHVEBenchmark();
+        HHVEBenchmark benchmark = new HHVEBenchmark(Boolean.parseBoolean(args[0]), Integer.parseInt(args[1]));
         benchmark.benchmark();
     }
 

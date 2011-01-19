@@ -12,6 +12,7 @@
 
         <pathelement location="${basedir}/jars/test/jpbc-plaf-1.1.0-tests.jar"/>
         <pathelement location="${basedir}/jars/test/jpbc-pbc-1.1.0-tests.jar"/>
+        <pathelement location="${basedir}/jars/test/jpbc-crypto-1.1.0-tests.jar"/>
 
         <pathelement location="${basedir}/jars/jna-3.2.5.jar"/>
     </path>
@@ -33,6 +34,20 @@
             <arg value="${basedir}/params/benchmark/e.properties"/>
             <arg value="${basedir}/params/benchmark/f.properties"/>
             <arg value="${basedir}/params/benchmark/g149.properties"/>
+            <classpath>
+                <path refid="runtime.classpath"/>
+            </classpath>
+        </java>
+
+    </target>
+
+    <target name="hhve">
+
+        <echo message="BaseDir = ${basedir}"/>
+
+        <java fork="true" classname="it.unisa.dia.gas.crypto.jpbc.fe.hhve.ip08.HHVEBenchmark">
+            <arg value="true"/>
+            <arg value="10"/>
             <classpath>
                 <path refid="runtime.classpath"/>
             </classpath>
