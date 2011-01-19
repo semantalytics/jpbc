@@ -26,7 +26,7 @@ public class JPBCBenchmark {
         double[][] pairingBenchmarks = benchmark.getPairingBenchmarks();
 
         for (int col = 0; col < curves.length; col++) {
-            System.out.printf("Curve = %s...", curves[col]);
+            System.out.printf("Curve = %s...\n", curves[col]);
             printStatMemory();
 
             Pairing pairing = getPairing(curves[col]);
@@ -173,7 +173,7 @@ public class JPBCBenchmark {
     }
 
     protected void printStatMemory() {
-        System.out.printf("maxMemory = %d, freeMemor = %d, totalMemory = %d\n",
+        System.out.printf("Memory. Max = %d, Free = %d, Total = %d\n",
                 Runtime.getRuntime().maxMemory(),
                 Runtime.getRuntime().freeMemory(),
                 Runtime.getRuntime().totalMemory());
