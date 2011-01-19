@@ -21,6 +21,7 @@ public class PolyField<F extends Field> extends GenericFieldOver<F, PolyElement>
         super(new SecureRandom(), targetField);
     }
 
+
     public PolyElement newElement() {
         return new PolyElement(this);
     }

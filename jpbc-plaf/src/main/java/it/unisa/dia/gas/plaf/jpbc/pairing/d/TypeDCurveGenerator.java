@@ -233,7 +233,7 @@ public class TypeDCurveGenerator implements CurveGenerator {
     protected void d_param_from_cm(CurveParams param) {
         compute_cm_curve(param);
 
-        Field<? extends Element> Fq = new NaiveField(param.getBigInteger("q"));
+        Field<? extends Element> Fq = new NaiveField(random, param.getBigInteger("q"));
         PolyField Fqx = new PolyField<Field>(random, Fq);
 
         PolyElement irred = Fqx.newElement();
@@ -264,7 +264,7 @@ public class TypeDCurveGenerator implements CurveGenerator {
      * @param param
      */
     protected void compute_cm_curve(CurveParams param) {
-        NaiveField fp = new NaiveField(param.getBigInteger("q"));
+        NaiveField fp = new NaiveField(random,param.getBigInteger("q"));
         PolyField fpx = new PolyField(random, fp);
 
         // Init Hilbert Poly Element and find a root

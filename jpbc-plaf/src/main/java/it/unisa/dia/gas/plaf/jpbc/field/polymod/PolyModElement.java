@@ -301,7 +301,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
     }
 
     public PolyModElement<E> sqrt() {
-        PolyField polyField = new PolyField(field);
+        PolyField polyField = new PolyField(field.getRandom(), field);
 
         PolyElement f = polyField.newElement();
         PolyElement r = polyField.newElement();

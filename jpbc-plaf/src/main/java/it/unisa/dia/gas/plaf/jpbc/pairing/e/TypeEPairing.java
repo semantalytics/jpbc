@@ -91,7 +91,7 @@ public class TypeEPairing extends AbstractPairing {
 
 
     protected Field initFp(BigInteger order) {
-        return new NaiveField(order);
+        return new NaiveField(random, order);
     }
 
     protected CurveField<Field> initEq() {

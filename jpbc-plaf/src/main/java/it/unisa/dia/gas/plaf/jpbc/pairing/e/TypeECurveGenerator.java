@@ -98,7 +98,7 @@ public class TypeECurveGenerator implements CurveGenerator {
             }
         } while (!found);
 
-        Field Fq = new NaiveField(q);
+        Field Fq = new NaiveField(random, q);
         CurveField curveField = new CurveField(random, Fq.newZeroElement(), Fq.newOneElement(), n, null);
 
         // We may need to twist it.

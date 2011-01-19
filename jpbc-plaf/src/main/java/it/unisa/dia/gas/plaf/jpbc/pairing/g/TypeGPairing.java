@@ -145,7 +145,7 @@ public class TypeGPairing extends AbstractPairing {
     }
 
     protected Field initFp(BigInteger order) {
-        return new NaiveField(order);
+        return new NaiveField(random, order);
     }
 
     protected CurveField initEq() {

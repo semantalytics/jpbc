@@ -117,7 +117,7 @@ public class TypeACurveGenerator implements CurveGenerator {
         params.put("sign1", String.valueOf(sign1));
 
         if (generateCurveFieldGen) {
-            Field Fq = new NaiveField(q);
+            Field Fq = new NaiveField(random, q);
             CurveField curveField = new CurveField<Field>(random, Fq.newOneElement(), Fq.newZeroElement(), r, h);
             params.put("genNoCofac", new BigInteger(curveField.getGenNoCofac().toBytes()).toString());
             

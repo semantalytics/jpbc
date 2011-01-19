@@ -66,7 +66,7 @@ public class TypeFCurveGenerator implements CurveGenerator {
         }
 
         // Compute b
-        Field Fq = new NaiveField(q);
+        Field Fq = new NaiveField(random, q);
         Element e1 = Fq.newElement();
         for (; ;) {
             e1.setToRandom();
