@@ -3,9 +3,9 @@ package it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.generators;
 import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.params.UTMAWeakMasterSecretKeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.params.UTMAWeakParameters;
 import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.params.UTMAWeakPublicParameters;
+import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
 /**
@@ -13,12 +13,12 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
  */
 public class UTMAWeakParametersGenerator {
 
-    private CurveParams curveParams;
+    private CurveParameters curveParams;
 
     private Pairing pairing;
 
 
-    public void init(CurveParams curveParams) {
+    public void init(CurveParameters curveParams) {
         this.curveParams = curveParams;
         this.pairing = PairingFactory.getPairing(curveParams);
     }

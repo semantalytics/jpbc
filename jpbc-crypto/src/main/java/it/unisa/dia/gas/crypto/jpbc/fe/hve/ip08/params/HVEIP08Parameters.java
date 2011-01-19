@@ -1,7 +1,7 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params;
 
+import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import org.bouncycastle.crypto.CipherParameters;
 
 import java.io.Serializable;
@@ -11,7 +11,7 @@ import java.util.Arrays;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class HVEIP08Parameters implements CipherParameters, Serializable {
-    private CurveParams curveParams;
+    private CurveParameters curveParams;
     private Element g;
     private int[] attributeLengths;
     private int n;
@@ -19,7 +19,7 @@ public class HVEIP08Parameters implements CipherParameters, Serializable {
     private int length;
 
 
-    public HVEIP08Parameters(CurveParams curveParams, Element g, int[] attributeLengths) {
+    public HVEIP08Parameters(CurveParameters curveParams, Element g, int[] attributeLengths) {
         this.curveParams = curveParams;
         this.g = g;
         this.attributeLengths = Arrays.copyOf(attributeLengths, attributeLengths.length);
@@ -31,7 +31,7 @@ public class HVEIP08Parameters implements CipherParameters, Serializable {
         }
     }
 
-    public CurveParams getCurveParams() {
+    public CurveParameters getCurveParams() {
         return curveParams;
     }
 

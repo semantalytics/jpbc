@@ -1,8 +1,8 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params;
 
 import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtil;
+import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import org.bouncycastle.crypto.CipherParameters;
 
 import java.util.Arrays;
@@ -11,13 +11,13 @@ import java.util.Arrays;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class AHIBESecretKeyParameters implements CipherParameters {
-    private CurveParams curveParams;
+    private CurveParameters curveParams;
     private Element k11, k12;
     private Element k21, k22;
     private Element[] E1s, E2s;
     private Element[] ids;
 
-    public AHIBESecretKeyParameters(CurveParams curveParams,
+    public AHIBESecretKeyParameters(CurveParameters curveParams,
             Element k11, Element k12, Element[] e1s,
                                     Element k21, Element k22, Element[] e2s,
                                     Element[] ids) {
@@ -33,7 +33,7 @@ public class AHIBESecretKeyParameters implements CipherParameters {
     }
 
 
-    public CurveParams getCurveParams() {
+    public CurveParameters getCurveParams() {
         return curveParams;
     }
 

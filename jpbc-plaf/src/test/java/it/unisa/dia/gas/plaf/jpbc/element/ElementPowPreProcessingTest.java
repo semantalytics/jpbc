@@ -1,9 +1,9 @@
 package it.unisa.dia.gas.plaf.jpbc.element;
 
+import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
 import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import junit.framework.TestCase;
 
@@ -50,9 +50,9 @@ public abstract class ElementPowPreProcessingTest extends TestCase {
 
     @Override
     protected void setUp() throws Exception {
-        pairing = PairingFactory.getPairing(getCurveParams());
+        pairing = PairingFactory.getPairing(getCurveParameters());
     }
 
-    protected abstract CurveParams getCurveParams();
+    protected abstract CurveParameters getCurveParameters();
 
 }

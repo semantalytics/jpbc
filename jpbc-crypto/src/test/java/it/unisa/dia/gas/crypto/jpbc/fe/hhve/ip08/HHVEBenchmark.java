@@ -70,11 +70,11 @@ public class HHVEBenchmark {
     }
 
     protected HHVEIP08Parameters genParam(int n) {
-        CurveParams curveParams = new CurveParams();
-        curveParams.load(this.getClass().getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/crypto/a_181_603.properties"));
-
         HHVEIP08ParametersGenerator generator = new HHVEIP08ParametersGenerator();
-        generator.init(curveParams, n);
+        generator.init(
+                new CurveParams().load(this.getClass().getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/crypto/a_181_603.properties")),
+                n
+        );
 
         return generator.generateParameters();
     }

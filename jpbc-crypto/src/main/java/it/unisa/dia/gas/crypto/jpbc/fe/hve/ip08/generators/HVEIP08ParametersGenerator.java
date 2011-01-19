@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators;
 
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08Parameters;
+import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
@@ -12,7 +13,7 @@ import java.util.Arrays;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class HVEIP08ParametersGenerator {
-    private CurveParams curveParams;
+    private CurveParameters curveParams;
     private int[] attributeLengths;
 
     private Pairing pairing;

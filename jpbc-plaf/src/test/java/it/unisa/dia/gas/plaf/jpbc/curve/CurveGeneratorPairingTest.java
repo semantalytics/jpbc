@@ -4,7 +4,6 @@ import it.unisa.dia.gas.jpbc.CurveGenerator;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.jpbc.PairingPreProcessing;
-import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import junit.framework.TestCase;
 
@@ -17,7 +16,7 @@ public abstract class CurveGeneratorPairingTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         CurveGenerator curveGenerator = getCurveGenerator();
-        pairing = PairingFactory.getPairing((CurveParams) curveGenerator.generate());
+        pairing = PairingFactory.getPairing(curveGenerator.generate());
 
         assertNotNull(pairing.getG1());
         assertNotNull(pairing.getG2());

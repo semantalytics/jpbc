@@ -4,6 +4,7 @@ import it.unisa.dia.gas.crypto.jpbc.rfid.utma.strong.params.UTMAStrongMasterSecr
 import it.unisa.dia.gas.crypto.jpbc.rfid.utma.strong.params.UTMAStrongParameters;
 import it.unisa.dia.gas.crypto.jpbc.rfid.utma.strong.params.UTMAStrongPublicParameters;
 import it.unisa.dia.gas.crypto.jpbc.rfid.utma.strong.params.UTMAStrongRPublicParameters;
+import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
@@ -29,7 +30,7 @@ import static it.unisa.dia.gas.crypto.jpbc.utils.IOUtils.*;
  */
 public class UTMAStrongParametersGenerator {
 
-    private CurveParams curveParams;
+    private CurveParameters curveParams;
     private AsymmetricCipherKeyPairGenerator rKeyPairGenerator;
 
     private Pairing pairing;
@@ -44,14 +45,14 @@ public class UTMAStrongParametersGenerator {
     }
     
 
-    public void init(CurveParams curveParams, KeyGenerationParameters keyGenerationParameters) {
+    public void init(CurveParameters curveParams, KeyGenerationParameters keyGenerationParameters) {
         this.curveParams = curveParams;
         this.pairing = PairingFactory.getPairing(curveParams);
 
         rKeyPairGenerator.init(keyGenerationParameters);
     }
 
-    public void init(CurveParams curveParams, ElGamalParameters elGamalParameters) {
+    public void init(CurveParameters curveParams, ElGamalParameters elGamalParameters) {
         this.curveParams = curveParams;
         this.pairing = PairingFactory.getPairing(curveParams);
 

@@ -1,7 +1,7 @@
 package it.unisa.dia.gas.crypto.jpbc.rfid.utma.strong.params;
 
+import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import org.bouncycastle.crypto.CipherParameters;
 
 import java.io.Serializable;
@@ -10,7 +10,7 @@ import java.io.Serializable;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class UTMAStrongPublicParameters implements CipherParameters, Serializable {
-    private CurveParams curveParams;
+    private CurveParameters curveParams;
     private Element g;
     private Element g0, g1;
     private Element omega;
@@ -19,7 +19,7 @@ public class UTMAStrongPublicParameters implements CipherParameters, Serializabl
     private CipherParameters rPublicKey;
 
 
-    public UTMAStrongPublicParameters(CurveParams curveParams,
+    public UTMAStrongPublicParameters(CurveParameters curveParams,
                                       Element g, Element g0, Element g1, Element omega, Element T1, Element T2, Element T3,
                                       CipherParameters rPublicKey) {
         this.curveParams = curveParams;
@@ -35,7 +35,7 @@ public class UTMAStrongPublicParameters implements CipherParameters, Serializabl
     }
 
 
-    public CurveParams getCurveParams() {
+    public CurveParameters getCurveParams() {
         return curveParams;
     }
 
