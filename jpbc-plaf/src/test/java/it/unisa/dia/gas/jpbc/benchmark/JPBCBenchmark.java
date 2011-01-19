@@ -27,6 +27,7 @@ public class JPBCBenchmark {
 
         for (int col = 0; col < curves.length; col++) {
             System.out.printf("Curve = %s...", curves[col]);
+            printStatMemory();
 
             Pairing pairing = getPairing(curves[col]);
 
@@ -51,10 +52,12 @@ public class JPBCBenchmark {
                 t3 += Math.abs((end - start));
             }
 
+            printStatMemory();
             System.gc();
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {}
+            printStatMemory();
 
             pairingBenchmarks[0][col] = (double) t1 / times;
             pairingBenchmarks[1][col] = (double) t2 / times;
@@ -69,6 +72,7 @@ public class JPBCBenchmark {
 
         for (int col = 0; col < curves.length; col++) {
             System.out.printf("Curve = %s\n", curves[col]);
+            printStatMemory();
 
             Pairing pairing = getPairing(curves[col]);
             Field[] fields = new Field[]{
@@ -80,6 +84,7 @@ public class JPBCBenchmark {
 
             for (int fieldIndex = 0; fieldIndex < fields.length; fieldIndex++) {
                 System.out.printf("Field %s...", Benchmark.fieldNames[fieldIndex]);
+                printStatMemory();
 
                 long t1 = 0, t2 = 0,t3 = 0,t4 = 0, t5 = 0, t6 = 0, t7 = 0;
                 for (int i = 0; i < times; i++) {
@@ -131,16 +136,18 @@ public class JPBCBenchmark {
                 elementBenchmarks[fieldIndex][4][col] = (double ) t5 / times;
                 elementBenchmarks[fieldIndex][5][col] = (double ) t6 / times;
                 elementBenchmarks[fieldIndex][6][col] = (double ) t7 / times;
-                System.out.printf("finished.\n");
 
-
+                printStatMemory();
                 System.gc();
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {}
+                printStatMemory();
+                System.out.printf("finished.\n");
             }
 
         }
+        printStatMemory();
 
         return benchmark;
     }
@@ -165,6 +172,12 @@ public class JPBCBenchmark {
         return PairingFactory.getPairing(getCurveParams(curve));
     }
 
+    protected void printStatMemory() {
+        System.out.printf("maxMemory = %d, freeMemor = %d, totalMemory = %d\n",
+                Runtime.getRuntime().maxMemory(),
+                Runtime.getRuntime().freeMemory(),
+                Runtime.getRuntime().totalMemory());
+    }
 
     public static void main(String[] args) {
         PairingFactory.getInstance().setUsePBCWhenPossible(false);
