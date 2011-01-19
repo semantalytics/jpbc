@@ -11,14 +11,14 @@ import java.math.BigInteger;
  */
 public class TypeA1PairingTest extends PairingTest {
 
-    protected CurveParams getCurveParams() {
+    protected CurveParams getCurveParameters() {
         CurveParams curveParams = new CurveParams();
         curveParams.load(this.getClass().getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pairing/a1/a1_3primes.properties"));
         return curveParams;
     }
 
     public void testOrthogonality() {
-        CurveParams curveParams = getCurveParams();
+        CurveParams curveParams = getCurveParameters();
         BigInteger p0 = curveParams.getBigInteger("n0");
         BigInteger p1 = curveParams.getBigInteger("n1");
         BigInteger p2 = curveParams.getBigInteger("n2");

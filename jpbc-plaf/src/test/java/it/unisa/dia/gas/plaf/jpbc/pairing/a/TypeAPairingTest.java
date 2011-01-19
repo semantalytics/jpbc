@@ -8,7 +8,7 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.PairingTest;
  */
 public class TypeAPairingTest extends PairingTest {
 
-    protected CurveParams getCurveParams() {
+    protected CurveParams getCurveParameters() {
         CurveParams curveParams = new CurveParams();
         curveParams.load(this.getClass().getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pairing/a/a_181_603.properties"));
         return curveParams;

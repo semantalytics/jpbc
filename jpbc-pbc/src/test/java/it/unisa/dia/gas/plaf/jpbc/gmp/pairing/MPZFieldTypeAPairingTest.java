@@ -15,7 +15,7 @@ public class MPZFieldTypeAPairingTest extends TypeAPairingTest {
 
     @Override
     protected void setUp() throws Exception {
-        CurveParams curveParams = getCurveParams();
+        CurveParams curveParams = getCurveParameters();
         if (curveParams != null) {
             pairing = new TypeAPairing(curveParams) {
                 @Override

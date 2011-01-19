@@ -1,5 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing;
 
+import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.jpbc.PairingPreProcessing;
@@ -140,9 +141,9 @@ public abstract class PairingTest extends TestCase {
 
     @Override
     protected void setUp() throws Exception {
-        CurveParams curveParams = getCurveParams();
-        if (curveParams != null) {
-            pairing = PairingFactory.getPairing(curveParams);
+        CurveParameters curveParameters = getCurveParameters();
+        if (curveParameters != null) {
+            pairing = PairingFactory.getPairing(curveParameters);
 
             assertNotNull(pairing.getG1());
             assertNotNull(pairing.getG2());
@@ -152,6 +153,6 @@ public abstract class PairingTest extends TestCase {
             pairing = null;
     }
 
-    protected abstract CurveParams getCurveParams();
+    protected abstract CurveParameters getCurveParameters();
 
 }

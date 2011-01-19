@@ -21,7 +21,7 @@ public class BBSKeyPairGenerator implements AsymmetricCipherKeyPairGenerator {
     public AsymmetricCipherKeyPair generateKeyPair() {
         BBSParameters parameters = param.getParameters();
 
-//        Pairing pairing = PairingFactory.getPairing(parameters.getCurveParams());
+//        Pairing pairing = PairingFactory.getPairing(parameters.getCurveParameters());
 //
 //        int i;
 //
