@@ -55,7 +55,7 @@ public class JPBCBenchmark {
             printStatMemory();
             System.gc();
             try {
-                Thread.sleep(1000);
+                Thread.sleep(60000);
             } catch (InterruptedException e) {}
             printStatMemory();
 
@@ -140,7 +140,7 @@ public class JPBCBenchmark {
                 printStatMemory();
                 System.gc();
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(60000);
                 } catch (InterruptedException e) {}
                 printStatMemory();
                 System.out.printf("finished.\n");
