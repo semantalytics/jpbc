@@ -83,7 +83,7 @@ public class JPBCBenchmark {
             };
 
             for (int fieldIndex = 0; fieldIndex < fields.length; fieldIndex++) {
-                System.out.printf("Field %s...", Benchmark.fieldNames[fieldIndex]);
+                System.out.printf("Field %s...\n", Benchmark.fieldNames[fieldIndex]);
                 printStatMemory();
 
                 long t1 = 0, t2 = 0,t3 = 0,t4 = 0, t5 = 0, t6 = 0, t7 = 0;
@@ -187,10 +187,13 @@ public class JPBCBenchmark {
 
         System.out.printf("JPBC Benchmark.\n");
         System.out.printf("#Times = %s\n", args[0]);
+        System.out.printf("They will be used the following curves...\n");
         for (String curve : curves) {
             System.out.printf("Curve = %s\n", curve);
         }
-        System.out.printf("Results: \n %s\n", benchmark.benchmark(curves).toHTML());
+        System.out.printf("Benchmarking now!\n");
+        Benchmark bench = benchmark.benchmark(curves);
+        System.out.printf("Results: \n %s\n", bench.toHTML());
         System.out.printf("JPBC Benchmark. Finished.\n");
     }
 }

@@ -29,7 +29,7 @@ public class PairingFactory {
     }
 
 
-    private boolean usePBCWhenPossible = true;
+    private boolean usePBCWhenPossible = false;
     private boolean reuseIstance = true;
 
     private Class pbcPairingFactoryClass = null;

@@ -19,12 +19,13 @@ public class HHVEBenchmark {
 
 
     public void benchmark() {
-        AsymmetricCipherKeyPair keyPair = setup(genParam(30));
+        int numAttributes = 10;
+        AsymmetricCipherKeyPair keyPair = setup(genParam(numAttributes));
 
         int iter = 10;
         int sumEnc = 0, sumDec = 0;
         for (int i = 0; i < iter; i++) {
-            int[] attributes = HVEAttributes.randomBinaryAttributes(new Random(), 30);
+            int[] attributes = HVEAttributes.randomBinaryAttributes(new Random(), numAttributes);
 
             long start = System.currentTimeMillis();
             byte[] ciphertext = enc(keyPair.getPublic(), attributes);
