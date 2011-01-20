@@ -323,7 +323,7 @@ public class BigIntegerUtils {
      * @param n
      * @return
      */
-    public static BigInteger pbc_mpz_trace_n(BigInteger q, BigInteger trace, int n) {
+    public static BigInteger traceN(BigInteger q, BigInteger trace, int n) {
         BigInteger c2 = TWO;
         BigInteger c1 = trace;
         for (int i = 2; i <= n; i++) {

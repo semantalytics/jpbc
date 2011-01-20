@@ -289,9 +289,9 @@ public class TypeDCurveGenerator implements CurveGenerator {
             // Compute order of curve in F_q^k.
             // n = q - t + 1 hence t = q - n + 1
             BigInteger z = param.getBigInteger("q").subtract(param.getBigInteger("n")).add(BigInteger.ONE);
-            z = BigIntegerUtils.pbc_mpz_trace_n(param.getBigInteger("q"),
-                                                z,
-                                                param.getInt("k"));
+            z = BigIntegerUtils.traceN(param.getBigInteger("q"),
+                    z,
+                    param.getInt("k"));
 
             BigInteger nk = param.getBigInteger("q").pow(param.getInt("k"));
             z = z.subtract(BigInteger.ONE);

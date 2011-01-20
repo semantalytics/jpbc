@@ -18,19 +18,19 @@ import java.security.SecureRandom;
 public class TestHHVE extends TestCase {
 
     public void testHHVE() {
-        AsymmetricCipherKeyPair keyPair = setup(genParam(1, 7, 1, 4, 2, 1));
+        AsymmetricCipherKeyPair keyPair = setup(genParam(1, 3, 1, 3, 2, 1));
 
         assertEquals(true,
                 test(
-                        keyGen(keyPair.getPrivate(), 0, 8, -1, 3, -1, 1),
-                        enc(keyPair.getPublic(),     0, 8,  0, 3,  2, 1)
+                        keyGen(keyPair.getPrivate(), 0, 7, -1, 3, -1, 1),
+                        enc(keyPair.getPublic(),     0, 7,  0, 3,  2, 1)
                 )
         );
 
         assertEquals(true,
                 test(
                         keyGen(keyPair.getPrivate(), -1, -1, -1, -1, -1, -1),
-                        enc(keyPair.getPublic(),     0, 8,  0, 3,  2, 1)
+                        enc(keyPair.getPublic(),     0, 7,  0, 3,  2, 1)
                 )
         );
 
@@ -39,9 +39,9 @@ public class TestHHVE extends TestCase {
                         delegate(
                                 keyPair.getPublic(),
                                 keyGen(keyPair.getPrivate(), -1, -1, -1, -1, -1, -1),
-                                0, 8, 0, 3, -1, 1
+                                0, 7, 0, 3, -1, 1
                         ),
-                        enc(keyPair.getPublic(),     0, 8,  0, 3,  2, 1)
+                        enc(keyPair.getPublic(),     0, 7,  0, 3,  2, 1)
                 )
         );
 
@@ -49,10 +49,10 @@ public class TestHHVE extends TestCase {
                 test(
                         delegate(
                                 keyPair.getPublic(),
-                                keyGen(keyPair.getPrivate(), 0, 8, -1, 3, -1, 1),
-                                0, 8, 0, 3, -1, 1
+                                keyGen(keyPair.getPrivate(), 0, 7, -1, 3, -1, 1),
+                                0, 7, 0, 3, -1, 1
                         ),
-                        enc(keyPair.getPublic(), 0, 8,  0, 3,  2, 1)
+                        enc(keyPair.getPublic(), 0, 7,  0, 3,  2, 1)
                 )
         );
     }

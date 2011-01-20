@@ -71,19 +71,6 @@ public abstract class GenericElement implements Element {
     public Element sub(Element element) {
         add(element.duplicate().negate());
         return this;
-
-        /*
-        if (c != a) {
-            element_neg(c, b);
-            element_add(c, c, a);
-        } else {
-            element_t tmp;
-            element_init(tmp, a - > field);
-            element_neg(tmp, b);
-            element_add(c, tmp, a);
-            element_clear(tmp);
-        }
-        */
     }
 
     public Element div(Element element) {
@@ -94,14 +81,6 @@ public abstract class GenericElement implements Element {
         mul(field.newElement().set(z));
 
         return this;
-
-        /*
-        element_t e0;
-        element_init(e0, r->field);
-        element_set_si(e0, n);
-        element_mul(r, a, e0);
-        element_clear(e0);
-        */
     }
 
     public Element sqrt() {

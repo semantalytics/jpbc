@@ -31,13 +31,13 @@ public class TypeA1PairingTest extends PairingTest {
         Element gen02 = gen.pow(p1).getImmutable();
         Element gen12 = gen.pow(p0).getImmutable();
 
-        Element e0 = gen0.pow(pairing.getZr().newRandomElement().toBigInteger());
-        Element e1 = gen1.pow(pairing.getZr().newRandomElement().toBigInteger());
-        Element e2 = gen2.pow(pairing.getZr().newRandomElement().toBigInteger());
+        Element e0 = gen0.powZn(pairing.getZr().newRandomElement());
+        Element e1 = gen1.powZn(pairing.getZr().newRandomElement());
+        Element e2 = gen2.powZn(pairing.getZr().newRandomElement());
 
-        Element e01 = gen01.pow(pairing.getZr().newRandomElement().toBigInteger());
-        Element e02 = gen02.pow(pairing.getZr().newRandomElement().toBigInteger());
-        Element e12 = gen12.pow(pairing.getZr().newRandomElement().toBigInteger());
+        Element e01 = gen01.powZn(pairing.getZr().newRandomElement());
+        Element e02 = gen02.powZn(pairing.getZr().newRandomElement());
+        Element e12 = gen12.powZn(pairing.getZr().newRandomElement());
 
         assertEquals(true, pairing.pairing(e0, e1).isOne());
         assertEquals(true, pairing.pairing(e0, e2).isOne());

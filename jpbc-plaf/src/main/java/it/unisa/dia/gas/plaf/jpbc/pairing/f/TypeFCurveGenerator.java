@@ -110,7 +110,7 @@ public class TypeFCurveGenerator implements CurveGenerator {
         //(n_12 / r^2)P != O for some (in fact most) P in E'(F_q^6)
         BigInteger z0 = q.pow(12).add(BigInteger.ONE);
 
-        BigInteger z1 = BigIntegerUtils.pbc_mpz_trace_n(q, t, 12);
+        BigInteger z1 = BigIntegerUtils.traceN(q, t, 12);
         z1 = z0.subtract(z1);
         z0 = r.multiply(r);
         z1 = z1.divide(z0);
@@ -121,9 +121,6 @@ public class TypeFCurveGenerator implements CurveGenerator {
             f.getCoefficient(0).pow(z0);
         }
 
-        BigInteger alpha0 = f.getCoefficient(0).getX().toBigInteger();
-        BigInteger alpha1 = f.getCoefficient(0).getY().toBigInteger();
-
         // Store parameters
         CurveParams params = new CurveParams();
         params.put("type", "f");
@@ -131,8 +128,8 @@ public class TypeFCurveGenerator implements CurveGenerator {
         params.put("r", r.toString());
         params.put("b", b.toString());
         params.put("beta", beta.toString());
-        params.put("alpha0", alpha0.toString());
-        params.put("alpha1", alpha1.toString());
+        params.put("alpha0", f.getCoefficient(0).getX().toBigInteger().toString());
+        params.put("alpha1", f.getCoefficient(0).getY().toBigInteger().toString());
 
         return params;
     }
