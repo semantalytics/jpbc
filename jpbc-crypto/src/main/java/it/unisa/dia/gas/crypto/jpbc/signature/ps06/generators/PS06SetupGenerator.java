@@ -2,8 +2,8 @@ package it.unisa.dia.gas.crypto.jpbc.signature.ps06.generators;
 
 import it.unisa.dia.gas.crypto.jpbc.signature.ps06.params.PS06MasterSecretKeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.signature.ps06.params.PS06Parameters;
-import it.unisa.dia.gas.crypto.jpbc.signature.ps06.params.PS06PublicKeyGenerationParameters;
 import it.unisa.dia.gas.crypto.jpbc.signature.ps06.params.PS06PublicKeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.signature.ps06.params.PS06SetupGenerationParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
@@ -16,11 +16,11 @@ import org.bouncycastle.crypto.KeyGenerationParameters;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class PS06SetupGenerator implements AsymmetricCipherKeyPairGenerator {
-    private PS06PublicKeyGenerationParameters param;
+    private PS06SetupGenerationParameters param;
 
 
     public void init(KeyGenerationParameters param) {
-        this.param = (PS06PublicKeyGenerationParameters) param;
+        this.param = (PS06SetupGenerationParameters) param;
     }
 
     public AsymmetricCipherKeyPair generateKeyPair() {

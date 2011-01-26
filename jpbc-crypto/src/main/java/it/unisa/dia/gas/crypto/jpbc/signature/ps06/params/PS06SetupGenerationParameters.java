@@ -8,11 +8,11 @@ import java.security.SecureRandom;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class PS06PublicKeyGenerationParameters extends KeyGenerationParameters {
+public class PS06SetupGenerationParameters extends KeyGenerationParameters {
 
     private PS06Parameters params;
 
-    public PS06PublicKeyGenerationParameters(SecureRandom random, PS06Parameters params) {
+    public PS06SetupGenerationParameters(SecureRandom random, PS06Parameters params) {
         super(random, params.getG().getField().getLengthInBytes());
 
         this.params = params;

@@ -30,7 +30,7 @@ public class PS06SignerTest extends TestCase {
 
         // setup -> (public key, master secret key)
         PS06SetupGenerator setup = new PS06SetupGenerator();
-        setup.init(new PS06PublicKeyGenerationParameters(null, parameters));
+        setup.init(new PS06SetupGenerationParameters(null, parameters));
         AsymmetricCipherKeyPair keyPair = setup.generateKeyPair();
 
         // extract -> secret key for identity "01001101"
