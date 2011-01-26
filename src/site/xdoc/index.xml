@@ -80,21 +80,21 @@
 
             </ul>
 
-            jPBC is composed by the following modules:
+            jPBC consists of the following modules:
             <ul>
                 <li>
                     <font style="font-weight: bold;color:green">jpbc-api</font> :
-                    which contains the api exposed by jPBC.
+                    which contains the API exposed by jPBC.
                 </li>
 
                 <li>
                     <font style="font-weight: bold;color:green">jpbc-plaf</font> :
-                    which contains the default api's implementation. This module contains the PBC's Java Porting.
+                    which contains the default API's implementation. This module contains the PBC's Java Porting.
                 </li>
 
                 <li>
                     <font style="font-weight: bold;color:green">jpbc-pbc</font> :
-                    which contains the api's implementation to be used when PBC is choosen as computation engine.
+                    which contains the API's implementation to be used when PBC is chosen as computation engine.
                     This module contains the PBC's Java Wrapper.
                 </li>
 
@@ -106,7 +106,7 @@
                 </li>
 
             </ul>
-            In the jpbc distribution each module corresponds to a
+            In the jPBC distribution package each module corresponds to a
             directory where you will find the sources of the module and
             other stuff.
         </section>

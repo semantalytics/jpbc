@@ -17,7 +17,7 @@
                 go
                 <a href="./pairing.html#initializing">here</a>.
                 <br/>
-                To do that you need to compile a shared library written in C. jPBC provide you a
+                To use the wrapper you need to compile a shared library written in C. jPBC provides a
                 <a href="http://www.cmake.org/">cmake</a>
                 style build configuration.
             </p>

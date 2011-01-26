@@ -19,7 +19,7 @@
 
             <p>
                 The followings links will point you to some web-pages which describe the implemented cryptosystems
-                in a simplified way to give you some hits on how to do crypto-things using jPBC.
+                in a simplified way to give you some hits on how to do crypto-stuff by using jPBC.
             </p>
 
             <a name="fe"/>
@@ -43,7 +43,7 @@
                 <ol>
                     <li>
                         <font style="font-weight: bold;color:red">
-                            <a href="./bls.html">[BLS'01]</a>
+                            <a href="./ss_bls01.html">[BLS'01]</a>
                         </font>: D. Boneh, B. Lynn, and H. Shacham., Short signatures from the Weil pairing.
                     </li>
                     <li>

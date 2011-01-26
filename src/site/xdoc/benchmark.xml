@@ -11,7 +11,7 @@
         <section name="Benchmark">
             <p>
                 The tables below contain the output of the benchmark.xml ant script.
-                To execute the script call this from a console:
+                To execute the script use th followig command:
             </p>
             <source>ant -f benchmark.xml</source>
 

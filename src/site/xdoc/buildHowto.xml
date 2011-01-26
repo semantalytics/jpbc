@@ -14,7 +14,7 @@
                 <p>
                     You can obtain the sources of jPBC by
                     <a href="./download.html">downloading</a>
-                    a distro package or
+                    a distro package or by
                     <a href="source-repository.html">checking out</a>
                     the latest head from the repository.
                 </p>
@@ -34,7 +34,7 @@
                 </p>
                 <source>mvn clean package install</source>
                 <p>
-                    To build the binary and the source distribution simply type :
+                    To build the binary and the source distribution simply type:
                 </p>
                 <source>mvn -Ddistro clean package install assembly:assembly</source>
             </subsection>

@@ -10,8 +10,9 @@
     <body>
         <section name="Curve Generators">
             <p>
-                Pairings are initialized from pairing parameters. Depending on the type of pairing, you must choose the right generator.
-                A generator is a instance of the
+                Pairings are initialized from pairing parameters.
+                Depending on the type of pairing, you must choose the right generator.
+                A generator is an instance of the
                 <code>
                     <a href="../java-docs/api/it/unisa/dia/gas/jpbc/CurveGenerator.html">
                         <font style="font-weight: bold;color:red">it.unisa.dia.gas.jpbc.CurveGenerator</font>
@@ -30,7 +31,7 @@
 CurveGenerator curveGenerator = ...
 
 // Generate the parameters...
-Map curveParams = <font style="font-weight: bold;color:green">curveGenerator.generate();</font>
+CurveParameters params = <font style="font-weight: bold;color:green">curveGenerator.generate();</font>
 
 // Print them on the screen...
 System.out.println(params); 
@@ -41,7 +42,11 @@ System.out.println(params);
                 <code>
                     <font style="font-weight: bold;color:green">it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams</font>
                 </code>
-                which provides useful methods to print and load parameters.
+                which implements the interface
+                <code>
+                    <font style="font-weight: bold;color:green">it.unisa.dia.gas.jpbc.CurveParameters</font>
+                </code>
+                and provides useful methods to print and load parameters.
             </p>
 
             <p>
