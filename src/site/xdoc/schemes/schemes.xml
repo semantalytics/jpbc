@@ -26,7 +26,7 @@
                 <li>
                     <font style="font-weight: bold;color:red">
                         <a href="./bls.html">BLS</a>
-                    </font>: Boneh and Lynn and Shacham, (BLS) Short Signatures Scheme.
+                    </font>: Boneh and Lynn and Shacham, Short Signatures Scheme.
                 </li>
                 <li>
                     <font style="font-weight: bold;color:red">
@@ -41,7 +41,12 @@
                 <li>
                     <font style="font-weight: bold;color:red">
                         <a href="./ahibe_dip10.html">AHIBE</a>
-                    </font>: De Caro and Iovino and Persiano (AHIBE), Fully Secure Anonymous HIBE and Secret-Key Anonymous IBE with Short Ciphertexts.
+                    </font>: De Caro and Iovino and Persiano , Fully Secure Anonymous HIBE and Secret-Key Anonymous IBE with Short Ciphertexts.
+                </li>
+                <li>
+                    <font style="font-weight: bold;color:red">
+                        <a href="./ibs_ps06.html">IBS</a>
+                    </font>: Kenneth G. Paterson and Jacob C. N. Schuldt, Efficient Identity-based Signatures Secure in the Standard Model.
                 </li>
             </ol>
         </section>
