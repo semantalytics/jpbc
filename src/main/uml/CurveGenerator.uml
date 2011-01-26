@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>it.unisa.dia.gas.jpbc.CurveGenerator</OriginalElement>
+  <nodes>
+    <node x="156.0" y="206.0">it.unisa.dia.gas.jpbc.CurveGenerator</node>
+    <node x="301.0" y="308.0">it.unisa.dia.gas.plaf.jpbc.pairing.a1.TypeA1CurveGenerator</node>
+    <node x="319.0" y="91.0">it.unisa.dia.gas.plaf.jpbc.pairing.a.TypeACurveGenerator</node>
+    <node x="19.0" y="44.0">it.unisa.dia.gas.plaf.jpbc.pairing.f.TypeFCurveGenerator</node>
+    <node x="2.0" y="288.0">it.unisa.dia.gas.plaf.jpbc.pairing.e.TypeECurveGenerator</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="it.unisa.dia.gas.plaf.jpbc.pairing.e.TypeECurveGenerator" target="it.unisa.dia.gas.jpbc.CurveGenerator">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="it.unisa.dia.gas.plaf.jpbc.pairing.a.TypeACurveGenerator" target="it.unisa.dia.gas.jpbc.CurveGenerator">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="it.unisa.dia.gas.plaf.jpbc.pairing.f.TypeFCurveGenerator" target="it.unisa.dia.gas.jpbc.CurveGenerator">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="it.unisa.dia.gas.plaf.jpbc.pairing.a1.TypeA1CurveGenerator" target="it.unisa.dia.gas.jpbc.CurveGenerator">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="273.0" y="213.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Methods</Category>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

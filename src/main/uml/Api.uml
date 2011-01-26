@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>it.unisa.dia.gas.jpbc.Pairing</OriginalElement>
+  <nodes>
+    <node x="21.0" y="21.0">it.unisa.dia.gas.jpbc.Element</node>
+    <node x="192.0" y="906.0">it.unisa.dia.gas.jpbc.Field</node>
+    <node x="446.0" y="126.0">it.unisa.dia.gas.jpbc.ElementPowPreProcessing</node>
+    <node x="546.0" y="459.0">it.unisa.dia.gas.jpbc.PairingPreProcessing</node>
+    <node x="504.0" y="670.0">it.unisa.dia.gas.jpbc.Pairing</node>
+    <node x="618.0" y="289.0">it.unisa.dia.gas.jpbc.PreProcessing</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="it.unisa.dia.gas.jpbc.PairingPreProcessing" target="it.unisa.dia.gas.jpbc.Element">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="it.unisa.dia.gas.jpbc.Element" target="it.unisa.dia.gas.jpbc.Field">
+      <point x="5.178617234160299" y="0.0" />
+      <point x="5.178617234160214" y="0.0" />
+    </edge>
+    <edge source="it.unisa.dia.gas.jpbc.Element" target="it.unisa.dia.gas.jpbc.ElementPowPreProcessing">
+      <point x="-2.9234486485018465" y="-4.056284999796333" />
+      <point x="-2.9234486485018554" y="-4.056284999796333" />
+    </edge>
+    <edge source="it.unisa.dia.gas.jpbc.Pairing" target="it.unisa.dia.gas.jpbc.PairingPreProcessing">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="it.unisa.dia.gas.jpbc.ElementPowPreProcessing" target="it.unisa.dia.gas.jpbc.Element">
+      <point x="8.551544085719286" y="0.0" />
+      <point x="8.551544085719286" y="0.0" />
+    </edge>
+    <edge source="it.unisa.dia.gas.jpbc.PairingPreProcessing" target="it.unisa.dia.gas.jpbc.PreProcessing">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="it.unisa.dia.gas.jpbc.Pairing" target="it.unisa.dia.gas.jpbc.Field">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="it.unisa.dia.gas.jpbc.Field" target="it.unisa.dia.gas.jpbc.Element">
+      <point x="-4.827543506225936" y="1.301853945531434" />
+      <point x="-4.827543506225936" y="1.301853945531434" />
+    </edge>
+    <edge source="it.unisa.dia.gas.jpbc.Element" target="it.unisa.dia.gas.jpbc.Element">
+      <point x="-71.0" y="-422.0" />
+      <point x="92.0" y="6.0" />
+      <point x="86.0" y="0.0" />
+      <point x="6.0" y="0.0" />
+      <point x="0.0" y="6.0" />
+      <point x="0.0" y="226.0" />
+      <point x="6.0" y="232.0" />
+      <point x="-142.0" y="-211.0" />
+    </edge>
+    <edge source="it.unisa.dia.gas.jpbc.ElementPowPreProcessing" target="it.unisa.dia.gas.jpbc.PreProcessing">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="it.unisa.dia.gas.jpbc.Pairing" target="it.unisa.dia.gas.jpbc.Element">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.5155737704918033" x="397.0" y="600.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Methods</Category>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>public</VISIBILITY>
+</Diagram>
+

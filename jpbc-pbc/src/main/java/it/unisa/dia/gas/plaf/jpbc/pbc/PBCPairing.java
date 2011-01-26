@@ -1,7 +1,9 @@
 package it.unisa.dia.gas.plaf.jpbc.pbc;
 
 import com.sun.jna.Pointer;
-import it.unisa.dia.gas.jpbc.*;
+import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.PairingPreProcessing;
+import it.unisa.dia.gas.plaf.jpbc.pairing.AbstractPairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pbc.field.PBCG1Field;
 import it.unisa.dia.gas.plaf.jpbc.pbc.field.PBCG2Field;
@@ -14,14 +16,9 @@ import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.WrapperLibraryProvider;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class PBCPairing implements Pairing {
+public class PBCPairing extends AbstractPairing {
 
     protected PBCPairingType pairing;
-
-    protected PBCG1Field g1Field;
-    protected PBCG2Field g2Field;
-    protected PBCGTField gTField;
-    protected PBCZrField zRField;
 
 
     public PBCPairing(CurveParams curveParams) {
@@ -40,24 +37,8 @@ public class PBCPairing implements Pairing {
         return WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_is_symmetric(pairing) == 1;
     }
 
-    public Field<? extends Point> getG1() {
-        return g1Field;
-    }
-
-    public Field<? extends Point> getG2() {
-        return g2Field;
-    }
-
-    public Field getGT() {
-        return gTField;
-    }
-
-    public Field getZr() {
-        return zRField;
-    }
-
     public Element pairing(Element in1, Element in2) {
-        PBCElement out = (PBCElement) gTField.newElement();
+        PBCElement out = (PBCElement) GT.newElement();
 
         WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_apply(
                 out.getValue(),
@@ -75,7 +56,7 @@ public class PBCPairing implements Pairing {
     }
 
     public Element pairing(Element[] in1, Element[] in2) {
-        PBCElement out = (PBCElement) gTField.newElement();
+        PBCElement out = (PBCElement) GT.newElement();
 
         Pointer[] in1Pointers = new Pointer[in1.length];
         for (int i = 0; i <in1.length; i++) {
@@ -110,11 +91,12 @@ public class PBCPairing implements Pairing {
         ) == 1;
     }
 
+
     protected void initFields() {
-        g1Field = new PBCG1Field(pairing);
-        g2Field = new PBCG2Field(pairing);
-        gTField = new PBCGTField(pairing);
-        zRField = new PBCZrField(pairing);
+        G1 = new PBCG1Field(pairing);
+        G2 = new PBCG2Field(pairing);
+        GT = new PBCGTField(pairing);
+        Zr = new PBCZrField(pairing);
     }
 
 
@@ -128,7 +110,7 @@ public class PBCPairing implements Pairing {
 
 
         public Element pairing(Element in2) {
-            PBCElement out = (PBCElement) gTField.newElement();
+            PBCElement out = (PBCElement) GT.newElement();
             WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_pp_apply(
                     out.value,
                     ((PBCElement) in2).value,

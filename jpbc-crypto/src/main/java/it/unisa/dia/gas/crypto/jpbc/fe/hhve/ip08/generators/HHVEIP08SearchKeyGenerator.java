@@ -1,5 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.hhve.ip08.generators;
 
+import it.unisa.dia.gas.crypto.engines.CipherParametersGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.hhve.ip08.params.*;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
@@ -14,7 +15,7 @@ import java.util.List;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class HHVEIP08SearchKeyGenerator {
+public class HHVEIP08SearchKeyGenerator implements CipherParametersGenerator {
     private KeyGenerationParameters params;
     private int[] pattern;
 
