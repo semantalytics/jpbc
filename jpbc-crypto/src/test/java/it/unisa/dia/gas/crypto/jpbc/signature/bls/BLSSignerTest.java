@@ -23,17 +23,17 @@ public class BLSSignerTest extends TestCase {
         byte[] message = "Hello World!!!".getBytes();
 
         // Generate public parameters
-        BLSParametersGenerator parametersGenerator = new BLSParametersGenerator();
-        parametersGenerator.init(curveParams);
-        BLSParameters parameters = parametersGenerator.generateParameters();
+        BLSParametersGenerator setup = new BLSParametersGenerator();
+        setup.init(curveParams);
+        BLSParameters parameters = setup.generateParameters();
 
         // Generate a key-pair
         BLSKeyPairGenerator keyPairGenerator = new BLSKeyPairGenerator();
         keyPairGenerator.init(new BLSKeyGenerationParameters(null, parameters));
         AsymmetricCipherKeyPair keyPair = keyPairGenerator.generateKeyPair();
 
-        BLSSigner blsSigner = new BLSSigner(new SHA256Digest());
 
+        BLSSigner blsSigner = new BLSSigner(new SHA256Digest());
         // Sign
         blsSigner.init(true, keyPair.getPrivate());
         blsSigner.update(message, 0, message.length);
