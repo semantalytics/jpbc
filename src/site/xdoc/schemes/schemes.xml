@@ -25,28 +25,28 @@
             <ol>
                 <li>
                     <font style="font-weight: bold;color:red">
-                        <a href="./bls.html">BLS</a>
-                    </font>: Boneh and Lynn and Shacham, Short Signatures Scheme.
+                        <a href="./bls.html">[BLS'01]</a>
+                    </font>: D. Boneh, B. Lynn, and H. Shacham., Short signatures from the Weil pairing.
                 </li>
                 <li>
                     <font style="font-weight: bold;color:red">
-                        <a href="./hve_ip08.html">HVE</a>
-                    </font>: Iovino and Persiano, Hidden-Vector Encryption with Groups of Prime Order.
+                        <a href="./hve_ip08.html">[IP'08]'</a>
+                    </font>: V. Iovino and G. Persiano, Hidden-Vector Encryption with Groups of Prime Order.
                 </li>
                 <li>
                     <font style="font-weight: bold;color:red">
-                        <a href="ut_bdp10.html">UT</a>
-                    </font>: Blundo and De Caro and Persiano, Untraceable (RIFD) Tags based on Mild Assumptions.
+                        <a href="ut_bdp10.html">[BDP'10]</a>
+                    </font>: C. Blundo and A. De Caro and G. Persiano, Untraceable (RIFD) Tags based on Mild Assumptions.
                 </li>
                 <li>
                     <font style="font-weight: bold;color:red">
-                        <a href="./ahibe_dip10.html">AHIBE</a>
-                    </font>: De Caro and Iovino and Persiano , Fully Secure Anonymous HIBE and Secret-Key Anonymous IBE with Short Ciphertexts.
+                        <a href="./ahibe_dip10.html">[DIP'10]</a>
+                    </font>: A. De Caro and V. Iovino and G. Persiano, Fully Secure Anonymous HIBE and Secret-Key Anonymous IBE with Short Ciphertexts.
                 </li>
                 <li>
                     <font style="font-weight: bold;color:red">
-                        <a href="./ibs_ps06.html">IBS</a>
-                    </font>: Kenneth G. Paterson and Jacob C. N. Schuldt, Efficient Identity-based Signatures Secure in the Standard Model.
+                        <a href="./ibs_ps06.html">[IBS'06]</a>
+                    </font>: K. G. Paterson and J. C. N. Schuldt, Efficient Identity-based Signatures Secure in the Standard Model.
                 </li>
             </ol>
         </section>

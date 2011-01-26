@@ -58,11 +58,17 @@
 
         <menu name="Crypto">
             <item name="Schemes" href="/schemes/schemes.html">
-                <item name="BLS Signature" href="/schemes/bls.html"/>
-                <item name="HVE [IP'08]" href="/schemes/hve_ip08.html"/>
-                <item name="AHIBE [DIP'10]" href="/schemes/ahibe_dip10.html"/>
-                <item name="Untraceable Tags [DBP'09]" href="/schemes/ut_bdp10.html"/>
-                <item name="IBS [PS'06]" href="/schemes/ibs_ps06.html"/>
+                <item name="Functional Encryption">
+                    <item name="HVE [IP'08]" href="/schemes/hve_ip08.html"/>
+                    <item name="AHIBE [DIP'10]" href="/schemes/ahibe_dip10.html"/>
+                </item>
+                <item name="Signature Scheme">
+                    <item name="SS [BLS'01]" href="/schemes/bls.html"/>
+                    <item name="IBS [PS'06]" href="/schemes/ibs_ps06.html"/>
+                </item>
+                <item name="Encryption Scheme">
+                    <item name="UT [DBP'09]" href="/schemes/ut_bdp10.html"/>
+                </item>
             </item>
         </menu>
         
