@@ -22,33 +22,48 @@
                 in a simplified way to give you some hits on how to do crypto-things using jPBC.
             </p>
 
-            <ol>
-                <li>
-                    <font style="font-weight: bold;color:red">
-                        <a href="./bls.html">[BLS'01]</a>
-                    </font>: D. Boneh, B. Lynn, and H. Shacham., Short signatures from the Weil pairing.
-                </li>
-                <li>
-                    <font style="font-weight: bold;color:red">
-                        <a href="./hve_ip08.html">[IP'08]'</a>
-                    </font>: V. Iovino and G. Persiano, Hidden-Vector Encryption with Groups of Prime Order.
-                </li>
-                <li>
-                    <font style="font-weight: bold;color:red">
-                        <a href="ut_bdp10.html">[BDP'10]</a>
-                    </font>: C. Blundo and A. De Caro and G. Persiano, Untraceable (RIFD) Tags based on Mild Assumptions.
-                </li>
-                <li>
-                    <font style="font-weight: bold;color:red">
-                        <a href="./ahibe_dip10.html">[DIP'10]</a>
-                    </font>: A. De Caro and V. Iovino and G. Persiano, Fully Secure Anonymous HIBE and Secret-Key Anonymous IBE with Short Ciphertexts.
-                </li>
-                <li>
-                    <font style="font-weight: bold;color:red">
-                        <a href="./ibs_ps06.html">[IBS'06]</a>
-                    </font>: K. G. Paterson and J. C. N. Schuldt, Efficient Identity-based Signatures Secure in the Standard Model.
-                </li>
-            </ol>
+            <a name="fe"/>
+            <subsection name="Functional Encryption Schemes">
+                <ol>
+                    <li>
+                        <font style="font-weight: bold;color:red">
+                            <a href="./hve_ip08.html">[IP'08]'</a>
+                        </font>: V. Iovino and G. Persiano, Hidden-Vector Encryption with Groups of Prime Order.
+                    </li>
+                    <li>
+                        <font style="font-weight: bold;color:red">
+                            <a href="./ahibe_dip10.html">[DIP'10]</a>
+                        </font>: A. De Caro and V. Iovino and G. Persiano, Fully Secure Anonymous HIBE and Secret-Key Anonymous IBE with Short Ciphertexts.
+                    </li>
+                </ol>
+            </subsection>
+
+            <a name="ss"/>
+            <subsection name="Signature Schemes">
+                <ol>
+                    <li>
+                        <font style="font-weight: bold;color:red">
+                            <a href="./bls.html">[BLS'01]</a>
+                        </font>: D. Boneh, B. Lynn, and H. Shacham., Short signatures from the Weil pairing.
+                    </li>
+                    <li>
+                        <font style="font-weight: bold;color:red">
+                            <a href="./ibs_ps06.html">[IBS'06]</a>
+                        </font>: K. G. Paterson and J. C. N. Schuldt, Efficient Identity-based Signatures Secure in the Standard Model.
+                    </li>
+                </ol>
+            </subsection>
+
+            <a name="es"/>
+            <subsection name="Encryption Schemes">
+                <ol>
+                    <li>
+                        <font style="font-weight: bold;color:red">
+                            <a href="ut_bdp10.html">[BDP'10]</a>
+                        </font>: C. Blundo and A. De Caro and G. Persiano, Untraceable (RIFD) Tags based on Mild Assumptions.
+                    </li>
+                </ol>
+            </subsection>
         </section>
     </body>
 </document>

@@ -3,56 +3,53 @@
         "http://maven.apache.org/dtd/xdoc_1_0.dtd">
 <document>
     <properties>
-        <title>Java Pairing-Based Cryptography Library : Schemes - (HVE) Hidden Vector Encryption</title>
+        <title>Java Pairing-Based Cryptography Library : Schemes - Hidden-Vector Encryption with Groups of Prime Order</title>
         <author email="decaro@dia.unisa.it">Angelo De Caro</author>
     </properties>
 
     <body>
-        <section name="Schemes - (HVE) Hidden Vector Encryption [IP08]">
-            Predicate encryption schemes are encryption schemes in which
-            each ciphertext Ct is associated with a binary attribute vector
-            x = (x1, ..., xn) and keys K are associated with predicates. A key K can
-            decrypt a ciphertext Ct if and only if the attribute vector of the
-            cipher-text satisfies the predicate of the key. Predicate encryption schemes can
-            be used to implement fine-grained access control on encrypted data and
-            to perform search on encrypted data.
-            Hidden vector encryption schemes [Boneh and Waters - TCC 2007] are
-            encryption schemes in which each ciphertext Ct is associated with a
-            binary vector x = (x1, ..., xn) and each key K is associated with binary
-            vector y = (y1, ..., yn) with "don't care" entries (denoted with *). Key
-            K can decrypt ciphertext Ct if and only if x and y agree for all i for
-            which yi != *.
-            Hidden vector encryption schemes are an important type of predicate
-            encryption schemes as they can be used to construct more sophisticated
-            predicate encryption schemes (supporting for example range and subset
-            queries).
-            We give a construction for hidden-vector encryption from standard
-            complexity assumptions on bilinear groups of prime order. Previous
-            constructions were in bilinear groups of composite order and thus resulted
-            in less efficient schemes. Our construction is both payload-hiding and
-            attribute-hiding meaning that also the privacy of the attribute vector,
-            besides privacy of the cleartext, is guaranteed.
+        <section name="Hidden-Vector Encryption with Groups of Prime Order">
+            <subsection name="Authors">
+                V. Iovino and G. Persiano
+            </subsection>
 
-            <p>
-                URL:
+            <subsection name="Abstract">
+                Predicate encryption schemes are encryption schemes in which
+                each ciphertext Ct is associated with a binary attribute vector
+                x = (x1, ..., xn) and keys K are associated with predicates. A key K can
+                decrypt a ciphertext Ct if and only if the attribute vector of the
+                cipher-text satisfies the predicate of the key. Predicate encryption schemes can
+                be used to implement fine-grained access control on encrypted data and
+                to perform search on encrypted data.
+                Hidden vector encryption schemes [Boneh and Waters - TCC 2007] are
+                encryption schemes in which each ciphertext Ct is associated with a
+                binary vector x = (x1, ..., xn) and each key K is associated with binary
+                vector y = (y1, ..., yn) with "don't care" entries (denoted with *). Key
+                K can decrypt ciphertext Ct if and only if x and y agree for all i for
+                which yi != *.
+                Hidden vector encryption schemes are an important type of predicate
+                encryption schemes as they can be used to construct more sophisticated
+                predicate encryption schemes (supporting for example range and subset
+                queries).
+                We give a construction for hidden-vector encryption from standard
+                complexity assumptions on bilinear groups of prime order. Previous
+                constructions were in bilinear groups of composite order and thus resulted
+                in less efficient schemes. Our construction is both payload-hiding and
+                attribute-hiding meaning that also the privacy of the attribute vector,
+                besides privacy of the cleartext, is guaranteed.
+            </subsection>
+
+            <subsection name="URL">
                 <a href="http://eprint.iacr.org/2009/380.pdf">
                     http://eprint.iacr.org/2009/380.pdf
                 </a>
-            </p>
-
-            <p>
-                In this page we will see how to use
-                <font style="font-weight: bold;color:red"><a href="#HVE">HVE</a></font>,
-                in the context of the Bouncy Castle framework.
-            </p>
+            </subsection>
         </section>
 
-        <a name="HVE"/>
-        <section name="HVE">
+        <section name="Implementation">
             <p>
                 You will find all the sources into the jpbc-crypto module.
             </p>
-
         </section>
 
     </body>

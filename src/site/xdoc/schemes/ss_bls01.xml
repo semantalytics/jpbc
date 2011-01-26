@@ -26,26 +26,9 @@
                 intractability of the computational Diffie-Hellman problem.
             </subsection>
 
-            <p>
-                In this page we will see how to:
-            </p>
-            <ol>
-                <li>
-                    implement
-                    <font style="font-weight: bold;color:red"><a href="#bls">BLS</a></font>
-                    using jPBC.
-                </li>
-                <li>
-                    use
-                    <font style="font-weight: bold;color:red"><a href="#blsBCF">BLS</a></font>
-                    in the context of the Bouncy Castle framework.
-                </li>
-            </ol>
-
         </section>
 
-        <a name="bls"/>
-        <section name="BLS">
+        <section name="Implementation">
 
             <subsection name="Key Generation">
                 <p>
@@ -184,7 +167,6 @@ else
             </subsection>
         </section>
 
-        <a name="blsBCF"/>
         <section name="BLS under BouncyCastle">
             <p>
                 You will find all the sources into the jpbc-crypto module.

@@ -3,13 +3,16 @@
         "http://maven.apache.org/dtd/xdoc_1_0.dtd">
 <document>
     <properties>
-        <title>Java Pairing-Based Cryptography Library : Schemes - Untraceable (RIFD) Tags based on Mild Assumptions</title>
+        <title>Java Pairing-Based Cryptography Library : Untraceable (RIFD) Tags based on Mild Assumptions</title>
         <author email="decaro@dia.unisa.it">Angelo De Caro</author>
     </properties>
 
     <body>
-        <section name="Schemes - Untraceable (RIFD) Tags based on Mild Assumptions">
-            <p>
+        <section name="Untraceable (RIFD) Tags based on Mild Assumptions">
+            <subsection name="Authors">
+
+            </subsection>
+            <subsection name="Abstact">
                 Radio frequency identification (RFID) chips have been widely deployed in
                 large-scale systems such as inventory control and supply chain management.
                 While RFID technology has much advantage, however it may create new
@@ -22,26 +25,15 @@
                 and is ''efficiently falsifiable'' in the sense that its problem
                 instances are stated non-interactively and concisely (i.e., independently
                 of the number of adversarial queries and other large quantities).
-            </p>
-
-            <p>
-                URL:
+            </subsection>
+            <subsection name="URL">
                 <a href="http://eprint.iacr.org/2009/380.pdf">
                     http://eprint.iacr.org/2009/380.pdf
                 </a>
-            </p>
-
-            <p>
-                In this page we will see how to use the
-                <font style="font-weight: bold;color:red"><a href="#strong">Strong Construction</a></font>,
-                in the context of the Bouncy Castle framework.
-            </p>
-
+            </subsection>
         </section>
 
-        <a name="strong"/>
-        <section name="Strong Construction">
-
+        <section name="Implementation">
             <p>
                 You will find all the sources into the jpbc-crypto module.
             </p>

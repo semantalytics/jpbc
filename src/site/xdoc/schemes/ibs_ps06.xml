@@ -37,8 +37,7 @@
                 attribute-hiding meaning that also the privacy of the attribute vector,
                 besides privacy of the cleartext, is guaranteed.
             </subsection>
-            <subsection name="url">
-                URL:
+            <subsection name="URL">
                 <a href="http://eprint.iacr.org/2009/380.pdf">
                     http://eprint.iacr.org/2009/380.pdf
                 </a>

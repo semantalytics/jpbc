@@ -10,6 +10,7 @@ import junit.framework.TestCase;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.CryptoException;
+import org.bouncycastle.crypto.Digest;
 import org.bouncycastle.crypto.digests.SHA256Digest;
 
 /**
@@ -21,11 +22,11 @@ public class PS06SignerTest extends TestCase {
         CurveParams curveParams = new CurveParams();
         curveParams.load(PS06SignerTest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/crypto/a_181_603.properties"));
 
-        byte[] message = "Hello World!!!".getBytes();
+        Digest digest = new SHA256Digest();
 
         // generate public parameters
         PS06ParametersGenerator parametersGenerator = new PS06ParametersGenerator();
-        parametersGenerator.init(curveParams, 14, 256);
+        parametersGenerator.init(curveParams, 256, 256);
         PS06Parameters parameters = parametersGenerator.generateParameters();
 
         // setup -> (public key, master secret key)
@@ -40,9 +41,10 @@ public class PS06SignerTest extends TestCase {
 
 
         // sign and verify
-        PS06Signer PS06Signer = new PS06Signer(new SHA256Digest());
+        PS06Signer PS06Signer = new PS06Signer(digest);
 
         // sign
+        byte[] message = "Hello World!!!".getBytes();
         PS06Signer.init(true, new PS06SignParameters((PS06SecretKeyParameters) sk01001101));
         PS06Signer.update(message, 0, message.length);
         byte[] sig = null;
@@ -62,4 +64,5 @@ public class PS06SignerTest extends TestCase {
         PS06Signer.update(message, 0, message.length);
         assertFalse(PS06Signer.verifySignature(sig));
     }
+
 }
