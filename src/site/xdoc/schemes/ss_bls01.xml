@@ -14,18 +14,18 @@
             </subsection>
 
             <subsection name="Abstract">
-                <a href="http://en.wikipedia.org/wiki/BLS_(cryptography)">[wikipedia]</a>
-                In cryptography, the Boneh-Lynn-Shacham signature scheme allows a user to verify that a
-                signer is authentic. The scheme uses a pairing function for verification and
-                signatures are group elements in some elliptic curve.
-                Working in an elliptic curve provides defense against index calculus attacks
-                against allowing shorter signatures than FDH signatures. Signatures are often
-                referred to as short signatures, BLS short signatures, or simply BLS signatures.
-                The signature scheme is provably secure (that is, the scheme is existentially unforgeable
-                under adaptive chosen-message attacks) assuming both the existence of random oracles and the
-                intractability of the computational Diffie-Hellman problem.
+                We introduce a short signature scheme based on the Computational Diffie-Hellman assumption on certain
+                elliptic and hyper-elliptic curves. For standard security parameters, the signature length is about
+                half that of a DSA signature with a similar level of security. Our short signature scheme is designed
+                for systems where signatures are typed in by a human or are sent over a low-bandwidth channel. We survey
+                a number of properties of our signature scheme such as signature aggregation and batch verification.
             </subsection>
 
+            <subsection name="URL">
+                <a href="http://crypto.stanford.edu/~dabo/abstracts/weilsigs.html">
+                    http://crypto.stanford.edu/~dabo/abstracts/weilsigs.html
+                </a>
+            </subsection>
         </section>
 
         <section name="Implementation">
