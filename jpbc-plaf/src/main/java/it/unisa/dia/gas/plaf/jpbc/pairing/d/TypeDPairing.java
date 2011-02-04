@@ -10,6 +10,7 @@ import it.unisa.dia.gas.plaf.jpbc.field.polymod.PolyModElement;
 import it.unisa.dia.gas.plaf.jpbc.field.polymod.PolyModField;
 import it.unisa.dia.gas.plaf.jpbc.field.quadratic.QuadraticField;
 import it.unisa.dia.gas.plaf.jpbc.pairing.AbstractPairing;
+import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.util.BigIntegerUtils;
 
 import java.math.BigInteger;
@@ -57,6 +58,16 @@ public class TypeDPairing extends AbstractPairing {
         return false;
     }
 
+
+    public CurveParams saveTwist() {
+        CurveParams params = (CurveParams) curveParams;
+
+        params.putBytes("twist.a", Etwist.getA().toBytes());
+        params.putBytes("twist.b", Etwist.getB().toBytes());
+        params.putBytes("twist.gen", Etwist.getGen().toBytes());
+
+        return params;
+    }
 
     protected void initParams() {
         // validate the type
@@ -125,7 +136,17 @@ public class TypeDPairing extends AbstractPairing {
         }
 
         // init etwist
-        Etwist = initEqMap().twist();
+        if (curveParams.containsKey("twist.a")) {
+            // load the twist
+            Element twistA = Fqd.newElement();
+            twistA.setFromBytes(curveParams.getBytes("twist.a"));
+            Element twistB = Fqd.newElement();
+            twistB.setFromBytes(curveParams.getBytes("twist.b"));
+
+            Etwist = new CurveField(random, twistA, twistB, r, curveParams.getBytes("twist.gen"));
+        } else {
+            Etwist = initEqMap().twist();
+        }
 
         // ndonr temporarily holds the trace.
         BigInteger ndonr = q.subtract(n).add(BigInteger.ONE) ;
@@ -154,7 +175,7 @@ public class TypeDPairing extends AbstractPairing {
     }
 
     protected CurveField initEqMap() {
-        return new CurveField(random, Fqd.newElement().map(Eq.getA()), Fqd.newElement().map(Eq.getB()), r, null);
+        return new CurveField(random, Fqd.newElement().map(Eq.getA()), Fqd.newElement().map(Eq.getB()), r);
     }
 
     protected PolyField initPoly() {

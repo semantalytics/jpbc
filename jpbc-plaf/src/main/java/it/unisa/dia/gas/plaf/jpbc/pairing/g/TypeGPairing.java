@@ -153,7 +153,7 @@ public class TypeGPairing extends AbstractPairing {
     }
 
     protected CurveField initEqMap() {
-        return new CurveField(random, Fqd.newElement().map(Eq.getA()), Fqd.newElement().map(Eq.getB()), r, null);
+        return new CurveField(random, Fqd.newElement().map(Eq.getA()), Fqd.newElement().map(Eq.getB()), r);
     }
 
     protected PolyField initPoly() {

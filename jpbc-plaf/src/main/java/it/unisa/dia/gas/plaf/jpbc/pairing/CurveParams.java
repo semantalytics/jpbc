@@ -23,22 +23,11 @@ public class CurveParams extends LinkedHashMap<String, String> implements CurveP
         return get("type");
     }
 
-    public long getLong(String key) {
-        String value = get(key);
-        if (value == null)
-            throw new IllegalArgumentException("Cannot find value for the following key : " + key);
 
-        return Long.parseLong(value);
+    public boolean containsKey(String key) {
+        return super.containsKey(key);
     }
 
-
-    public String getString(String key) {
-        String value = get(key);
-        if (value == null)
-            throw new IllegalArgumentException("Cannot find value for the following key : " + key);
-
-        return value;
-    }
 
     public int getInt(String key) {
         String value = get(key);
@@ -46,6 +35,30 @@ public class CurveParams extends LinkedHashMap<String, String> implements CurveP
             throw new IllegalArgumentException("Cannot find value for the following key : " + key);
 
         return Integer.parseInt(value);
+    }
+
+    public int getInt(String key, int defaultValue) {
+        String value = get(key);
+        if (value == null)
+            return defaultValue;
+
+        return Integer.parseInt(value);
+    }
+
+    public long getLong(String key) {
+            String value = get(key);
+            if (value == null)
+                throw new IllegalArgumentException("Cannot find value for the following key : " + key);
+
+            return Long.parseLong(value);
+        }
+
+    public long getLong(String key, long defaultValue) {
+        String value = get(key);
+        if (value == null)
+            return defaultValue;
+
+        return Long.parseLong(value);
     }
 
     public BigInteger getBigInteger(String key) {
@@ -64,6 +77,14 @@ public class CurveParams extends LinkedHashMap<String, String> implements CurveP
         return new BigInteger(value);
     }
 
+    public String getString(String key) {
+        String value = get(key);
+        if (value == null)
+            throw new IllegalArgumentException("Cannot find value for the following key : " + key);
+
+        return value;
+    }
+
     public String getString(String key, String defaultValue) {
         String value = get(key);
         if (value == null)
@@ -71,6 +92,15 @@ public class CurveParams extends LinkedHashMap<String, String> implements CurveP
 
         return value;
     }
+
+    public byte[] getBytes(String key) {
+        return getString(key).getBytes();
+    }
+
+    public void putBytes(String key, byte[] bytes) {
+        put(key, new String(bytes));
+    }
+
 
     public CurveParams load(InputStream inputStream) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -125,6 +155,7 @@ public class CurveParams extends LinkedHashMap<String, String> implements CurveP
         return this;
     }
 
+
     public String toString(String separator) {
         StringBuffer buffer = new StringBuffer();
 
@@ -135,7 +166,6 @@ public class CurveParams extends LinkedHashMap<String, String> implements CurveP
         return buffer.toString();
     }
 
-    
     public String toString() {
         return toString(" ");
     }

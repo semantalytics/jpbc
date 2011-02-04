@@ -45,7 +45,7 @@
 
         <echo message="BaseDir = ${basedir}"/>
 
-        <java fork="true" classname="it.unisa.dia.gas.crypto.jpbc.fe.hhve.ip08.HHVEBenchmark">
+        <java fork="true" classname="it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.HHVEBenchmark">
             <arg value="true"/>
             <arg value="10"/>
             <classpath>

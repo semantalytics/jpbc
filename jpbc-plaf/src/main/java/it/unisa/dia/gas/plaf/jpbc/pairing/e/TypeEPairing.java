@@ -86,7 +86,7 @@ public class TypeEPairing extends AbstractPairing {
         G2 = G1;
         GT = initGT();
 
-        R = Eq.getGenNoCofac().duplicate();
+        R = (Point) Eq.getGenNoCofac().duplicate();
     }
 
 

@@ -34,7 +34,6 @@ public class TypeDCurveGenerator implements CurveGenerator {
 
     protected Random random;
 
-
     public TypeDCurveGenerator(int discriminant, Random random) {
         this();
         this.discriminant = discriminant;
@@ -51,6 +50,7 @@ public class TypeDCurveGenerator implements CurveGenerator {
         this.random = new SecureRandom();
         this.bitLimit = 500;
     }
+
 
 
 
@@ -105,7 +105,6 @@ public class TypeDCurveGenerator implements CurveGenerator {
             }
         }
     }
-
 
     /**
      * Finds all the feasible curve for the current discriminant.

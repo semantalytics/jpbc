@@ -105,7 +105,6 @@ public class TypeA1Pairing extends AbstractPairing {
             pairingMap = new TypeA1TateAffineMillerPairingMap(this);
         else
             throw new IllegalArgumentException("Pairing method not recognized. Method = " + method);
-        pairingMap = new TypeA1TateNafProjectiveMillerPairingMap(this);
     }
 
 }

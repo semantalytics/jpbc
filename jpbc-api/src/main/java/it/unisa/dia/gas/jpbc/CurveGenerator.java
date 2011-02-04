@@ -13,7 +13,7 @@ public interface CurveGenerator {
      * Generates the curve parameters.
      *
      * @return a map with all the necessary parameters.
-     * @since 1.2.0
+     * @since 1.0.0
      */
     CurveParameters generate();
 

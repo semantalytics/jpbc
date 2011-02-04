@@ -31,7 +31,7 @@ public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElemen
     }
 
     protected Element a, b;
-    protected CurveElement gen, genNoCofac;
+    protected Element gen, genNoCofac;
     protected BigInteger order, cofac;
 
     // A non-NULL quotientCmp means we are working with the quotient group of
@@ -40,6 +40,20 @@ public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElemen
     // before comparing.
     protected BigInteger quotientCmp = null;
 
+
+    public CurveField(Random random, Element a, Element b, BigInteger order) {
+        this(random, a, b, order, (BigInteger) null);
+    }
+
+    public CurveField(Random random, Element a, Element b, BigInteger order, byte[] gen) {
+        super(random, (F) a.getField());
+
+        this.a = a;
+        this.b = b;
+        this.order = order;
+        this.gen = newElement();
+        this.gen.setFromBytes(gen);
+    }
 
     public CurveField(Random random, Element a, Element b, BigInteger order, BigInteger cofac) {
         super(random, (F) a.getField());
@@ -67,6 +81,7 @@ public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElemen
     public CurveField(Random random, Element b, BigInteger order, BigInteger cofac) {
         this(random, b.getField().newZeroElement(), b, order, cofac);
     }
+
 
 
     public CurveElement newElement() {
@@ -144,16 +159,17 @@ public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElemen
         return this;
     }
 
-    public CurveElement getGenNoCofac() {
+    public Element getGenNoCofac() {
         return genNoCofac;
     }
 
-    public CurveElement getGen() {
+    public Element getGen() {
         return gen;
     }
 
     protected void initGen() {
         genNoCofac = getCurveRandomNoCofacSolvefory();
+
         if (cofac != null) {
             gen = genNoCofac.duplicate().mul(cofac);
         } else {

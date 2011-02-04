@@ -13,6 +13,10 @@ public class TypeDPairingTest extends PairingTest {
         curveParams.load(this.getClass().getClassLoader().getResourceAsStream(
                 "it/unisa/dia/gas/plaf/jpbc/pairing/d/d_9563.properties"
         ));
+
+        TypeDPairing pairing = new TypeDPairing(curveParams);
+        curveParams = pairing.saveTwist();
+
         return curveParams;
     }
 
