@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.crypto.jpbc.signature.bls.params;
+package it.unisa.dia.gas.crypto.jpbc.signature.bls01.params;
 
 import org.bouncycastle.crypto.params.AsymmetricKeyParameter;
 

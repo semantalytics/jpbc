@@ -1,6 +1,6 @@
-package it.unisa.dia.gas.crypto.jpbc.signature.bls.generators;
+package it.unisa.dia.gas.crypto.jpbc.signature.bls01.generators;
 
-import it.unisa.dia.gas.crypto.jpbc.signature.bls.params.BLSParameters;
+import it.unisa.dia.gas.crypto.jpbc.signature.bls01.params.BLSParameters;
 import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;

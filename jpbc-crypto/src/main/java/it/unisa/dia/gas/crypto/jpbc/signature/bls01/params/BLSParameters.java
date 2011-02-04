@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.crypto.jpbc.signature.bls.params;
+package it.unisa.dia.gas.crypto.jpbc.signature.bls01.params;
 
 import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
