@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.crypto.jpbc.fe.hhve.ip08.params;
+package it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params;
 
 import java.io.*;
 import java.util.Random;

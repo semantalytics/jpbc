@@ -1,10 +1,10 @@
-package it.unisa.dia.gas.crypto.jpbc.fe.hhve.ip08;
+package it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08;
 
-import it.unisa.dia.gas.crypto.jpbc.fe.hhve.ip08.engines.HHVEIP08AttributesEngine;
-import it.unisa.dia.gas.crypto.jpbc.fe.hhve.ip08.generators.HHVEIP08KeyPairGenerator;
-import it.unisa.dia.gas.crypto.jpbc.fe.hhve.ip08.generators.HHVEIP08ParametersGenerator;
-import it.unisa.dia.gas.crypto.jpbc.fe.hhve.ip08.generators.HHVEIP08SearchKeyGenerator;
-import it.unisa.dia.gas.crypto.jpbc.fe.hhve.ip08.params.*;
+import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.engines.HHVEIP08AttributesEngine;
+import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HHVEIP08KeyPairGenerator;
+import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HHVEIP08ParametersGenerator;
+import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HHVEIP08SearchKeyGenerator;
+import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.*;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
@@ -97,7 +97,7 @@ public class HHVEBenchmark {
 
     protected byte[] enc(CipherParameters publicKey, int... attributes) {
         byte[] attrs = HVEAttributes.attributesToByteArray(
-                ((HHVEIP08PublicKeyParameters)publicKey).getParameters(),
+                ((HHVEIP08PublicKeyParameters) publicKey).getParameters(),
                 attributes
         );
 

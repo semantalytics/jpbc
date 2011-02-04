@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.crypto.jpbc.utils;
 
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.Pairing;
 
 import java.util.Arrays;
 
@@ -20,5 +21,8 @@ public class ElementUtil {
 
         return target;
     }
-    
+
+    public static Element randomIn(Pairing pairing, Element generator) {
+        return generator.powZn(pairing.getZr().newRandomElement());
+    }
 }

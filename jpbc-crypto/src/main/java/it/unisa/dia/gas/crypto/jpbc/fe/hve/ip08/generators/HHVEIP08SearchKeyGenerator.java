@@ -1,7 +1,7 @@
-package it.unisa.dia.gas.crypto.jpbc.fe.hhve.ip08.generators;
+package it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators;
 
 import it.unisa.dia.gas.crypto.engines.CipherParametersGenerator;
-import it.unisa.dia.gas.crypto.jpbc.fe.hhve.ip08.params.*;
+import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.*;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
 import it.unisa.dia.gas.jpbc.Pairing;

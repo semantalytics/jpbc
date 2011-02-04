@@ -3,7 +3,7 @@ package it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.engines;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params.AHIBEEncryptionParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params.AHIBEPublicKeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params.AHIBESecretKeyParameters;
-import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params.AHIBEUtils;
+import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtil;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
@@ -170,9 +170,9 @@ public class AHIBEEngine implements AsymmetricBlockCipher {
             for (int i = 0; i < encParams.getLength(); i++) {
                 C1.mul(pk.getUAt(i).powZn(encParams.getIdAt(i)));
             }
-            C1.mul(pk.getT()).powZn(s).mul(AHIBEUtils.randomIn(pairing, pk.getY4()));
+            C1.mul(pk.getT()).powZn(s).mul(ElementUtil.randomIn(pairing, pk.getY4()));
 
-            Element C2 = pk.getY1().powZn(s).mul(AHIBEUtils.randomIn(pairing, pk.getY4()));
+            Element C2 = pk.getY1().powZn(s).mul(ElementUtil.randomIn(pairing, pk.getY4()));
 
             // Convert the Elements to byte arrays
             ByteArrayOutputStream bytes = new ByteArrayOutputStream(getOutputBlockSize());
