@@ -45,6 +45,10 @@ public class VectorElement<E extends Element> extends GenericVectorElement<E> {
         return new VectorElement(field, duplicatedCoeff);
     }
 
+    public Element getImmutable() {
+        return new ImmutableVectorElement<E>(this);
+    }
+
     public VectorElement<E> set(Element e) {
         VectorElement<E> element = (VectorElement<E>) e;
 
@@ -203,7 +207,11 @@ public class VectorElement<E extends Element> extends GenericVectorElement<E> {
     }
 
     public VectorElement<E> powZn(Element e) {
-        throw new IllegalStateException("Not implemented yet!!!");
+        for (int i = 0; i < field.n; i++) {
+            coeff.get(i).powZn(e);
+        }
+
+        return this;
     }
 
     public VectorElement<E> sqrt() {

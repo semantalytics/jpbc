@@ -1,64 +1,59 @@
-package it.unisa.dia.gas.plaf.jpbc.field.curve;
+package it.unisa.dia.gas.plaf.jpbc.field.vector;
 
 import it.unisa.dia.gas.jpbc.Element;
 
 import java.math.BigInteger;
 
 /**
- * TODO: even x and y must be immutable!!!
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class ImmutableCurveElement<E extends Element> extends CurveElement<E> {
+public class ImmutableVectorElement<E extends Element> extends VectorElement<E> {
+    
+    public ImmutableVectorElement(VectorElement element) {
+        super(element.field);
+        this.field = element.field;
 
-    public ImmutableCurveElement(CurveElement curveElement) {
-        super(curveElement);
-
+        // TODO: init in a better way!!!
+        this.coeff.clear();
+        for (int i = 0; i < field.n; i++) {
+            coeff.add((E) element.getAt(i).getImmutable());
+        }
+        
         this.immutable = true;
     }
 
-
     @Override
-    public E getX() {
-        return super.getX();    
-    }
-
-    @Override
-    public E getY() {
-        return super.getY();
-    }
-
-    @Override
-    public CurveElement set(Element e) {
+    public VectorElement set(Element e) {
         return duplicate().set(e);    
     }
 
     @Override
-    public CurveElement set(int value) {
+    public VectorElement set(int value) {
         return duplicate().set(value);    
     }
 
     @Override
-    public CurveElement set(BigInteger value) {
+    public VectorElement set(BigInteger value) {
         return duplicate().set(value);    
     }
 
     @Override
-    public CurveElement twice() {
+    public VectorElement twice() {
         return duplicate().twice();    
     }
 
     @Override
-    public CurveElement setToZero() {
+    public VectorElement setToZero() {
         return duplicate().setToZero();    
     }
 
     @Override
-    public CurveElement setToOne() {
+    public VectorElement setToOne() {
         return duplicate().setToOne();    
     }
 
     @Override
-    public CurveElement setToRandom() {
+    public VectorElement setToRandom() {
         return duplicate().setToRandom();    
     }
 
@@ -68,68 +63,48 @@ public class ImmutableCurveElement<E extends Element> extends CurveElement<E> {
     }
 
     @Override
-    public CurveElement square() {
+    public VectorElement square() {
         return duplicate().square();    
     }
 
     @Override
-    public CurveElement invert() {
+    public VectorElement invert() {
         return duplicate().invert();    
     }
 
     @Override
-    public CurveElement negate() {
+    public VectorElement negate() {
         return duplicate().negate();    
     }
 
     @Override
-    public CurveElement add(Element e) {
+    public VectorElement add(Element e) {
         return duplicate().add(e);    
     }
 
     @Override
-    public CurveElement mul(Element e) {
+    public VectorElement mul(Element e) {
         return duplicate().mul(e);    
     }
 
     @Override
-    public CurveElement mul(BigInteger n) {
+    public VectorElement mul(BigInteger n) {
         return duplicate().mul(n);    
     }
 
     @Override
-    public CurveElement mulZn(Element e) {
-        return duplicate().mulZn(e);    
+    public VectorElement mulZn(Element e) {
+        return (VectorElement) duplicate().mulZn(e);
     }
 
     @Override
-    public CurveElement powZn(Element e) {
+    public VectorElement powZn(Element e) {
         return duplicate().powZn(e);    
     }
 
     @Override
-    public CurveElement setFromHash(byte[] source, int offset, int length) {
+    public VectorElement setFromHash(byte[] source, int offset, int length) {
         return duplicate().setFromHash(source, offset, length);    
-    }
-
-    @Override
-    public int setFromBytesCompressed(byte[] source) {
-        return duplicate().setFromBytesCompressed(source);    
-    }
-
-    @Override
-    public int setFromBytesCompressed(byte[] source, int offset) {
-        return duplicate().setFromBytesCompressed(source, offset);    
-    }
-
-    @Override
-    public int setFromBytesX(byte[] source) {
-        return duplicate().setFromBytesX(source);    
-    }
-
-    @Override
-    public int setFromBytesX(byte[] source, int offset) {
-        return duplicate().setFromBytesX(source, offset);    
     }
 
     @Override
@@ -148,23 +123,23 @@ public class ImmutableCurveElement<E extends Element> extends CurveElement<E> {
     }
 
     @Override
-    public Element sub(Element element) {
+    public VectorElement sub(Element element) {
         return duplicate().sub(element);    
     }
 
     @Override
     public Element div(Element element) {
-        return duplicate().div(element);    
+        return duplicate().div(element);
     }
 
     @Override
-    public Element mul(int z) {
+    public VectorElement mul(int z) {
         return duplicate().mul(z);    
     }
 
     @Override
-    public Element sqrt() {
+    public VectorElement sqrt() {
         return duplicate().sqrt();    
     }
-
+    
 }

@@ -10,12 +10,13 @@ import java.util.Random;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class VectorField<F extends Field> extends GenericFieldOver<F, VectorElement> {
-    protected int n;
+    protected int n, lenInBytes;
 
 
     public VectorField(Random random, F targetField, int n) {
         super(random, targetField);
         this.n = n;
+        this.lenInBytes = n * targetField.getLengthInBytes();
     }
 
 
@@ -32,7 +33,7 @@ public class VectorField<F extends Field> extends GenericFieldOver<F, VectorElem
     }
 
     public int getLengthInBytes() {
-        throw new IllegalStateException("Not implemented yet!!!");
+        return lenInBytes;
     }
 
     public int getN() {
