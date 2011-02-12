@@ -7,17 +7,17 @@ import java.io.Serializable;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class IPOT10KeyParameters extends AsymmetricKeyParameter implements Serializable {
-    private IPOT10Parameters parameters;
+public class IPLOSTW10KeyParameters extends AsymmetricKeyParameter implements Serializable {
+    private IPLOSTW10Parameters parameters;
 
 
-    public IPOT10KeyParameters(boolean isPrivate, IPOT10Parameters parameters) {
+    public IPLOSTW10KeyParameters(boolean isPrivate, IPLOSTW10Parameters parameters) {
         super(isPrivate);
         this.parameters = parameters;
     }
 
 
-    public IPOT10Parameters getParameters() {
+    public IPLOSTW10Parameters getParameters() {
         return parameters;
     }
 
@@ -25,9 +25,9 @@ public class IPOT10KeyParameters extends AsymmetricKeyParameter implements Seria
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof IPOT10KeyParameters)) return false;
+        if (!(o instanceof IPLOSTW10KeyParameters)) return false;
 
-        IPOT10KeyParameters that = (IPOT10KeyParameters) o;
+        IPLOSTW10KeyParameters that = (IPLOSTW10KeyParameters) o;
 
         if (parameters != null ? !parameters.equals(that.parameters) : that.parameters != null) return false;
 

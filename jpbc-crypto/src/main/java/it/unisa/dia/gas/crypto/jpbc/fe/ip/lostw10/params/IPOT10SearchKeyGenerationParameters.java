@@ -10,18 +10,18 @@ import java.util.Arrays;
  */
 public class IPOT10SearchKeyGenerationParameters extends KeyGenerationParameters {
 
-    private IPOT10PrivateKeyParameters params;
+    private IPLOSTW10PrivateKeyParameters params;
     private Element[] y;
 
 
-    public IPOT10SearchKeyGenerationParameters(IPOT10PrivateKeyParameters params, Element[] y) {
+    public IPOT10SearchKeyGenerationParameters(IPLOSTW10PrivateKeyParameters params, Element[] y) {
         super(null, params.getParameters().getG().getField().getLengthInBytes());
 
         this.params = params;
         this.y = Arrays.copyOf(y, y.length);
     }
 
-    public IPOT10PrivateKeyParameters getParameters() {
+    public IPLOSTW10PrivateKeyParameters getParameters() {
         return params;
     }
 

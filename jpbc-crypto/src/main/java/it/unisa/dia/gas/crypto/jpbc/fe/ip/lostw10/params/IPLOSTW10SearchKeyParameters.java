@@ -7,12 +7,12 @@ import java.util.List;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class IPOT10SearchKeyParameters extends IPOT10KeyParameters {
+public class IPLOSTW10SearchKeyParameters extends IPLOSTW10KeyParameters {
     private List<Element> Y, L;
     private Element K;
 
 
-    public IPOT10SearchKeyParameters(IPOT10Parameters parameters, List<Element> Y, List<Element> L) {
+    public IPLOSTW10SearchKeyParameters(IPLOSTW10Parameters parameters, List<Element> Y, List<Element> L) {
         super(true, parameters);
 
         this.Y = Y;
@@ -20,7 +20,7 @@ public class IPOT10SearchKeyParameters extends IPOT10KeyParameters {
         this.K = null;
     }
 
-    public IPOT10SearchKeyParameters(IPOT10Parameters parameters, Element k) {
+    public IPLOSTW10SearchKeyParameters(IPLOSTW10Parameters parameters, Element k) {
         super(true, parameters);
         K = k;
     }

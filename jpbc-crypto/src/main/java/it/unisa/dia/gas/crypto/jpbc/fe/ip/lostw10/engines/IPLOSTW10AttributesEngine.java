@@ -1,8 +1,8 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.engines;
 
-import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPOT10KeyParameters;
-import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPOT10PublicKeyParameters;
-import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPOT10SearchKeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10KeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10PublicKeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10SearchKeyParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
@@ -15,9 +15,9 @@ import org.bouncycastle.crypto.params.ParametersWithRandom;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class IPOT10AttributesEngine implements AsymmetricBlockCipher {
+public class IPLOSTW10AttributesEngine implements AsymmetricBlockCipher {
 
-    private IPOT10KeyParameters key;
+    private IPLOSTW10KeyParameters key;
     private boolean forEncryption;
 
     private int n;
@@ -36,19 +36,19 @@ public class IPOT10AttributesEngine implements AsymmetricBlockCipher {
         if (param instanceof ParametersWithRandom) {
             ParametersWithRandom p = (ParametersWithRandom) param;
 
-            this.key = (IPOT10KeyParameters) p.getParameters();
+            this.key = (IPLOSTW10KeyParameters) p.getParameters();
         } else {
-            this.key = (IPOT10KeyParameters) param;
+            this.key = (IPLOSTW10KeyParameters) param;
         }
 
         this.forEncryption = forEncryption;
         if (forEncryption) {
-            if (!(key instanceof IPOT10PublicKeyParameters)) {
-                throw new IllegalArgumentException("IPOT10PublicKeyParameters are required for encryption.");
+            if (!(key instanceof IPLOSTW10PublicKeyParameters)) {
+                throw new IllegalArgumentException("IPLOSTW10PublicKeyParameters are required for encryption.");
             }
         } else {
-            if (!(key instanceof IPOT10SearchKeyParameters)) {
-                throw new IllegalArgumentException("IPOT10SearchKeyParameters are required for decryption.");
+            if (!(key instanceof IPLOSTW10SearchKeyParameters)) {
+                throw new IllegalArgumentException("IPLOSTW10SearchKeyParameters are required for decryption.");
             }
         }
 
@@ -112,14 +112,14 @@ public class IPOT10AttributesEngine implements AsymmetricBlockCipher {
             throw new DataLengthException("input too large for HVE cipher.\n");
         }
 
-        if (key instanceof IPOT10SearchKeyParameters) {
+        if (key instanceof IPLOSTW10SearchKeyParameters) {
             // match
             // Convert bytes to Elements...
 
             Element c1 = productPairing.getG1().newElement();
             c1.setFromBytes(in, inOff);
 
-            IPOT10SearchKeyParameters searchKey = (IPOT10SearchKeyParameters) key;
+            IPLOSTW10SearchKeyParameters searchKey = (IPLOSTW10SearchKeyParameters) key;
 
             Element result = productPairing.pairing(c1, searchKey.getK());
 
@@ -146,7 +146,7 @@ public class IPOT10AttributesEngine implements AsymmetricBlockCipher {
                 offset += x[i].setFromBytes(block, offset);
             }
 
-            IPOT10PublicKeyParameters pub = (IPOT10PublicKeyParameters) key;
+            IPLOSTW10PublicKeyParameters pub = (IPLOSTW10PublicKeyParameters) key;
 
             Element delta1 = pairing.getZr().newRandomElement();
             Element delta2 = pairing.getZr().newRandomElement();

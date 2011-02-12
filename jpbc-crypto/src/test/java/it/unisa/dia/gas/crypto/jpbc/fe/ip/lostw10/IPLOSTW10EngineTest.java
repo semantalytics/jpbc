@@ -1,10 +1,10 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10;
 
 import it.unisa.dia.gas.crypto.engines.MultiBlockAsymmetricBlockCipher;
-import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.engines.IPOT10Engine;
-import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators.IPOT10KeyPairGenerator;
-import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators.IPOT10ParametersGenerator;
-import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators.IPOT10SearchKeyGenerator;
+import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.engines.IPLOSTW10Engine;
+import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators.IPLOSTW10KeyPairGenerator;
+import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators.IPLOSTW10ParametersGenerator;
+import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators.IPLOSTW10SearchKeyGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.*;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
@@ -22,7 +22,7 @@ import java.security.SecureRandom;
 /**
  * @author Angelo De Caro
  */
-public class IPOT10EngineTest extends TestCase {
+public class IPLOSTW10EngineTest extends TestCase {
 
     public void testIPOT10AttributesEngine() {
         // Setup
@@ -30,7 +30,7 @@ public class IPOT10EngineTest extends TestCase {
 
         // Encrypt
         Pairing pairing = PairingFactory.getPairing(
-                ((IPOT10PublicKeyParameters) keyPair.getPublic()).getParameters().getCurveParams()
+                ((IPLOSTW10PublicKeyParameters) keyPair.getPublic()).getParameters().getCurveParams()
         );
         String message = "Hello World";   // Message
 
@@ -61,8 +61,8 @@ public class IPOT10EngineTest extends TestCase {
     }
 
 
-    protected IPOT10Parameters createParameters(int n) {
-        return new IPOT10ParametersGenerator().init(
+    protected IPLOSTW10Parameters createParameters(int n) {
+        return new IPLOSTW10ParametersGenerator().init(
                 new CurveParams().load(
                         this.getClass().getClassLoader().getResourceAsStream(
                                 "it/unisa/dia/gas/plaf/jpbc/crypto/a_181_603.properties")
@@ -71,9 +71,9 @@ public class IPOT10EngineTest extends TestCase {
         ).generateParameters();
     }
 
-    protected AsymmetricCipherKeyPair setup(IPOT10Parameters parameters) {
-        IPOT10KeyPairGenerator setup = new IPOT10KeyPairGenerator();
-        setup.init(new IPOT10KeyGenerationParameters(
+    protected AsymmetricCipherKeyPair setup(IPLOSTW10Parameters parameters) {
+        IPLOSTW10KeyPairGenerator setup = new IPLOSTW10KeyPairGenerator();
+        setup.init(new IPLOSTW10KeyGenerationParameters(
                 new SecureRandom(),
                 parameters
         ));
@@ -88,7 +88,7 @@ public class IPOT10EngineTest extends TestCase {
         try {
             // Init the engine
             AsymmetricBlockCipher engine = new MultiBlockAsymmetricBlockCipher(
-                    new IPOT10Engine(),
+                    new IPLOSTW10Engine(),
                     new ZeroBytePadding()
             );
             engine.init(true, publicKey);
@@ -108,9 +108,9 @@ public class IPOT10EngineTest extends TestCase {
     
     protected CipherParameters keyGen(CipherParameters privateKey, Element[] y) {
         // Init the Generator
-        IPOT10SearchKeyGenerator keyGen = new IPOT10SearchKeyGenerator();
+        IPLOSTW10SearchKeyGenerator keyGen = new IPLOSTW10SearchKeyGenerator();
         keyGen.init(new IPOT10SearchKeyGenerationParameters(
-                (IPOT10PrivateKeyParameters) privateKey,
+                (IPLOSTW10PrivateKeyParameters) privateKey,
                 y
         ));
 
@@ -124,7 +124,7 @@ public class IPOT10EngineTest extends TestCase {
         try {
             // Init the engine
             AsymmetricBlockCipher engine = new MultiBlockAsymmetricBlockCipher(
-                    new IPOT10Engine(),
+                    new IPLOSTW10Engine(),
                     new ZeroBytePadding()
             );
             engine.init(false, searchKey);

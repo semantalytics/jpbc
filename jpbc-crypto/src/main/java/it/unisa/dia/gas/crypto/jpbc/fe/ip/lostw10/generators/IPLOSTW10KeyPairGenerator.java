@@ -1,9 +1,9 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators;
 
-import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPOT10KeyGenerationParameters;
-import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPOT10Parameters;
-import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPOT10PrivateKeyParameters;
-import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPOT10PublicKeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10KeyGenerationParameters;
+import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10Parameters;
+import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10PrivateKeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10PublicKeyParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.jpbc.Vector;
@@ -18,16 +18,16 @@ import static it.unisa.dia.gas.plaf.jpbc.util.ElementUtils.*;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class IPOT10KeyPairGenerator implements AsymmetricCipherKeyPairGenerator {
-    private IPOT10KeyGenerationParameters param;
+public class IPLOSTW10KeyPairGenerator implements AsymmetricCipherKeyPairGenerator {
+    private IPLOSTW10KeyGenerationParameters param;
 
 
     public void init(KeyGenerationParameters param) {
-        this.param = (IPOT10KeyGenerationParameters) param;
+        this.param = (IPLOSTW10KeyGenerationParameters) param;
     }
 
     public AsymmetricCipherKeyPair generateKeyPair() {
-        IPOT10Parameters parameters = param.getParameters();
+        IPLOSTW10Parameters parameters = param.getParameters();
 
         Pairing pairing = PairingFactory.getPairing(parameters.getCurveParams());
         Element g = parameters.getG();
@@ -81,8 +81,8 @@ public class IPOT10KeyPairGenerator implements AsymmetricCipherKeyPairGenerator 
         Bstar[n + 1] = tempBstar[N-2];
 
         return new AsymmetricCipherKeyPair(
-            new IPOT10PublicKeyParameters(parameters, B, sigma),
-            new IPOT10PrivateKeyParameters(parameters, Bstar)
+            new IPLOSTW10PublicKeyParameters(parameters, B, sigma),
+            new IPLOSTW10PrivateKeyParameters(parameters, Bstar)
         );
     }
 

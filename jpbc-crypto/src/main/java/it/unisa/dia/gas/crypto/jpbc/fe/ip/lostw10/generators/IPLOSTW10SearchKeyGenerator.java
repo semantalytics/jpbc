@@ -1,8 +1,8 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators;
 
-import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPOT10PrivateKeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10PrivateKeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10SearchKeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPOT10SearchKeyGenerationParameters;
-import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPOT10SearchKeyParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
@@ -12,7 +12,7 @@ import org.bouncycastle.crypto.KeyGenerationParameters;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class IPOT10SearchKeyGenerator {
+public class IPLOSTW10SearchKeyGenerator {
     private IPOT10SearchKeyGenerationParameters param;
     private Pairing pairing;
     private int n;
@@ -24,7 +24,7 @@ public class IPOT10SearchKeyGenerator {
     }
 
     public CipherParameters generateKey() {
-        IPOT10PrivateKeyParameters secretKey = param.getParameters();
+        IPLOSTW10PrivateKeyParameters secretKey = param.getParameters();
 
         Element sigma = pairing.getZr().newRandomElement();
         Element eta = pairing.getZr().newRandomElement();
@@ -37,7 +37,7 @@ public class IPOT10SearchKeyGenerator {
                 .add(secretKey.getBStarAt(n))
                 .add(secretKey.getBStarAt(n + 1).mulZn(eta));
 
-        return new IPOT10SearchKeyParameters(param.getParameters().getParameters(), k);
+        return new IPLOSTW10SearchKeyParameters(param.getParameters().getParameters(), k);
     }
 
 }

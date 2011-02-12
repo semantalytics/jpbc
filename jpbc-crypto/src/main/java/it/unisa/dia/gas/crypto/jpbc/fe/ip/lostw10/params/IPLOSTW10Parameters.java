@@ -9,13 +9,13 @@ import java.io.Serializable;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class IPOT10Parameters implements CipherParameters, Serializable {
+public class IPLOSTW10Parameters implements CipherParameters, Serializable {
     private CurveParameters curveParams;
     private Element g;
     private int n;
 
 
-    public IPOT10Parameters(CurveParameters curveParams, Element g, int n) {
+    public IPLOSTW10Parameters(CurveParameters curveParams, Element g, int n) {
         this.curveParams = curveParams;
         this.g = g.getImmutable();
         this.n = n;
