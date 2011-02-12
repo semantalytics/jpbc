@@ -1,9 +1,9 @@
-package it.unisa.dia.gas.crypto.jpbc.fe.ip.ot10.generators;
+package it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators;
 
-import it.unisa.dia.gas.crypto.jpbc.fe.ip.ot10.params.IPOT10KeyGenerationParameters;
-import it.unisa.dia.gas.crypto.jpbc.fe.ip.ot10.params.IPOT10Parameters;
-import it.unisa.dia.gas.crypto.jpbc.fe.ip.ot10.params.IPOT10PrivateKeyParameters;
-import it.unisa.dia.gas.crypto.jpbc.fe.ip.ot10.params.IPOT10PublicKeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPOT10KeyGenerationParameters;
+import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPOT10Parameters;
+import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPOT10PrivateKeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPOT10PublicKeyParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.jpbc.Vector;

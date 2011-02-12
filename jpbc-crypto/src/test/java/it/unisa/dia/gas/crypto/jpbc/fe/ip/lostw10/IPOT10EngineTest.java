@@ -1,11 +1,11 @@
-package it.unisa.dia.gas.crypto.jpbc.fe.ip.ot10;
+package it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10;
 
 import it.unisa.dia.gas.crypto.engines.MultiBlockAsymmetricBlockCipher;
-import it.unisa.dia.gas.crypto.jpbc.fe.ip.ot10.engines.IPOT10Engine;
-import it.unisa.dia.gas.crypto.jpbc.fe.ip.ot10.generators.IPOT10KeyPairGenerator;
-import it.unisa.dia.gas.crypto.jpbc.fe.ip.ot10.generators.IPOT10ParametersGenerator;
-import it.unisa.dia.gas.crypto.jpbc.fe.ip.ot10.generators.IPOT10SearchKeyGenerator;
-import it.unisa.dia.gas.crypto.jpbc.fe.ip.ot10.params.*;
+import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.engines.IPOT10Engine;
+import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators.IPOT10KeyPairGenerator;
+import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators.IPOT10ParametersGenerator;
+import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators.IPOT10SearchKeyGenerator;
+import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.*;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
@@ -27,12 +27,14 @@ public class IPOT10EngineTest extends TestCase {
     public void testIPOT10AttributesEngine() {
         // Setup
         AsymmetricCipherKeyPair keyPair = setup(createParameters(2));
-        Pairing pairing = PairingFactory.getPairing(((IPOT10PublicKeyParameters) keyPair.getPublic()).getParameters().getCurveParams());
 
         // Encrypt
-        String message = "Hello World";
+        Pairing pairing = PairingFactory.getPairing(
+                ((IPOT10PublicKeyParameters) keyPair.getPublic()).getParameters().getCurveParams()
+        );
+        String message = "Hello World";   // Message
 
-        Element[] x = new Element[2];
+        Element[] x = new Element[2];     // Attributes
         x[0] = pairing.getZr().newOneElement();
         x[1] = pairing.getZr().newZeroElement();
 
@@ -49,7 +51,7 @@ public class IPOT10EngineTest extends TestCase {
         assertEquals(message, new String(decrypt(searchKey, ciphertext)).trim());
 
         // Gen non-matching SearchKey
-        y[0] = pairing.getZr().newElement().set(5);
+        y[0] = pairing.getZr().newElement(5);
         y[1] = pairing.getZr().newOneElement();
 
         searchKey = keyGen(keyPair.getPrivate(), y);
@@ -61,7 +63,10 @@ public class IPOT10EngineTest extends TestCase {
 
     protected IPOT10Parameters createParameters(int n) {
         return new IPOT10ParametersGenerator().init(
-                new CurveParams().load(this.getClass().getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/crypto/a_181_603.properties")),
+                new CurveParams().load(
+                        this.getClass().getClassLoader().getResourceAsStream(
+                                "it/unisa/dia/gas/plaf/jpbc/crypto/a_181_603.properties")
+                ),
                 n
         ).generateParameters();
     }
@@ -81,11 +86,14 @@ public class IPOT10EngineTest extends TestCase {
         byte[] cipherText = new byte[0];
 
         try {
+            // Init the engine
             AsymmetricBlockCipher engine = new MultiBlockAsymmetricBlockCipher(
                     new IPOT10Engine(),
                     new ZeroBytePadding()
             );
             engine.init(true, publicKey);
+
+            // Encrypt
             cipherText = engine.processBlock(messageAsBytes, 0, messageAsBytes.length);
 
             assertNotNull(cipherText);
@@ -99,11 +107,14 @@ public class IPOT10EngineTest extends TestCase {
     }
     
     protected CipherParameters keyGen(CipherParameters privateKey, Element[] y) {
+        // Init the Generator
         IPOT10SearchKeyGenerator keyGen = new IPOT10SearchKeyGenerator();
         keyGen.init(new IPOT10SearchKeyGenerationParameters(
-                (IPOT10PrivateKeyParameters) privateKey, y
+                (IPOT10PrivateKeyParameters) privateKey,
+                y
         ));
-        
+
+        // Generate the key
         return keyGen.generateKey();
     }
     
@@ -111,13 +122,18 @@ public class IPOT10EngineTest extends TestCase {
     protected byte[] decrypt(CipherParameters searchKey, byte[] ciphertext) {
         byte[] plainText = new byte[0];
         try {
+            // Init the engine
             AsymmetricBlockCipher engine = new MultiBlockAsymmetricBlockCipher(
                     new IPOT10Engine(),
                     new ZeroBytePadding()
             );
-            // Decrypt
             engine.init(false, searchKey);
+
+            // Decrypt
             plainText = engine.processBlock(ciphertext, 0, ciphertext.length);
+
+            assertNotNull(plainText);
+            assertNotSame(0, plainText.length);
         } catch (InvalidCipherTextException e) {
             e.printStackTrace();
             fail(e.getMessage());

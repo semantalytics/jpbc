@@ -61,6 +61,7 @@
                 <item name="Functional Encryption" href="/schemes/schemes.html#fe">
                     <item name="HVE [IP'08]" href="/schemes/hve_ip08.html"/>
                     <item name="AHIBE [DIP'10]" href="/schemes/ahibe_dip10.html"/>
+                    <item name="IP [LOSTW'10]" href="/schemes/ip_lostw10.html"/>
                 </item>
                 <item name="Signature" href="/schemes/schemes.html#ss">
                     <item name="SS [BLS'01]" href="/schemes/ss_bls01.html"/>

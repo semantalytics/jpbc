@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.crypto.jpbc.fe.ip.ot10.params;
+package it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params;
 
 import org.bouncycastle.crypto.KeyGenerationParameters;
 

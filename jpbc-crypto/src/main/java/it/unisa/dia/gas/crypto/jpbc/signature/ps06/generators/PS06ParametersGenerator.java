@@ -15,12 +15,14 @@ public class PS06ParametersGenerator {
     private int nU, nM;
 
 
-    public void init(CurveParameters curveParams, int nU, int nM) {
+    public PS06ParametersGenerator init(CurveParameters curveParams, int nU, int nM) {
         this.curveParams = curveParams;
         this.nU = nU;
         this.nM = nM;
 
         this.pairing = PairingFactory.getPairing(curveParams);
+
+        return this;
     }
 
     public PS06Parameters generateParameters() {

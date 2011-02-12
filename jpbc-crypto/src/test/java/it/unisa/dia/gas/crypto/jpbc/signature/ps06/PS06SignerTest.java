@@ -10,7 +10,6 @@ import junit.framework.TestCase;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.CryptoException;
-import org.bouncycastle.crypto.Digest;
 import org.bouncycastle.crypto.digests.SHA256Digest;
 
 /**
@@ -19,50 +18,75 @@ import org.bouncycastle.crypto.digests.SHA256Digest;
 public class PS06SignerTest extends TestCase {
 
     public void testSignerEngine() {
-        CurveParams curveParams = new CurveParams();
-        curveParams.load(PS06SignerTest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/crypto/a_181_603.properties"));
+        // Setup -> (Public Key, Master Secret Key)
+        AsymmetricCipherKeyPair keyPair = setup(createParameters(256, 256));
 
-        Digest digest = new SHA256Digest();
+        // Extract -> Secret Key for Identity "01001101"
+        CipherParameters secretKey = extract(keyPair, "01001101");
 
-        // generate public parameters
-        PS06ParametersGenerator parametersGenerator = new PS06ParametersGenerator();
-        parametersGenerator.init(curveParams, 256, 256);
-        PS06Parameters parameters = parametersGenerator.generateParameters();
+        // Sign
+        String message = "Hello World!!!";
+        byte[] signature = sign(message, secretKey);
 
-        // setup -> (public key, master secret key)
+        // verify with the same identity
+        assertTrue(verify(keyPair.getPublic(), message, "01001101", signature));
+
+        // verify with another identity
+        assertFalse(verify(keyPair.getPublic(), message, "01001100", signature));
+    }
+
+    protected PS06Parameters createParameters(int nU, int nM) {
+        // Generate Public Parameters
+        return new PS06ParametersGenerator().init(
+                new CurveParams().load(
+                        this.getClass().getClassLoader().getResourceAsStream(
+                                "it/unisa/dia/gas/plaf/jpbc/crypto/a_181_603.properties"
+                        )
+                ),
+                nU,
+                nM).generateParameters();
+
+    }
+
+    protected AsymmetricCipherKeyPair setup(PS06Parameters parameters) {
         PS06SetupGenerator setup = new PS06SetupGenerator();
         setup.init(new PS06SetupGenerationParameters(null, parameters));
-        AsymmetricCipherKeyPair keyPair = setup.generateKeyPair();
 
-        // extract -> secret key for identity "01001101"
+        return setup.generateKeyPair();
+    }
+
+
+    protected CipherParameters extract(AsymmetricCipherKeyPair keyPair, String identity) {
         PS06SecretKeyGenerator extract = new PS06SecretKeyGenerator();
-        extract.init(new PS06SecretKeyGenerationParameters(keyPair, "01001101"));
-        CipherParameters sk01001101 = extract.generateKey();
+        extract.init(new PS06SecretKeyGenerationParameters(keyPair, identity));
 
+        return extract.generateKey();
+    }
 
-        // sign and verify
-        PS06Signer PS06Signer = new PS06Signer(digest);
+    protected byte[] sign(String message, CipherParameters secretKey) {
+        byte[] bytes = message.getBytes();
 
-        // sign
-        byte[] message = "Hello World!!!".getBytes();
-        PS06Signer.init(true, new PS06SignParameters((PS06SecretKeyParameters) sk01001101));
-        PS06Signer.update(message, 0, message.length);
-        byte[] sig = null;
+        PS06Signer signer = new PS06Signer(new SHA256Digest());
+        signer.init(true, new PS06SignParameters((PS06SecretKeyParameters) secretKey));
+        signer.update(bytes, 0, bytes.length);
+
+        byte[] signature = null;
         try {
-            sig = PS06Signer.generateSignature();
+            signature = signer.generateSignature();
         } catch (CryptoException e) {
             fail(e.getMessage());
         }
 
-        // verify
-        PS06Signer.init(false, new PS06VerifyParameters((PS06PublicKeyParameters) keyPair.getPublic(), "01001101"));
-        PS06Signer.update(message, 0, message.length);
-        assertTrue(PS06Signer.verifySignature(sig));
-
-        // verify
-        PS06Signer.init(false, new PS06VerifyParameters((PS06PublicKeyParameters) keyPair.getPublic(), "01001100"));
-        PS06Signer.update(message, 0, message.length);
-        assertFalse(PS06Signer.verifySignature(sig));
+        return signature;
     }
 
+    protected boolean verify(CipherParameters publicKey, String message, String identity, byte[] signature) {
+        byte[] bytes = message.getBytes();
+
+        PS06Signer signer = new PS06Signer(new SHA256Digest());
+        signer.init(false, new PS06VerifyParameters((PS06PublicKeyParameters) publicKey, identity));
+        signer.update(bytes, 0, bytes.length);
+
+        return signer.verifySignature(signature);
+    }
 }
