@@ -55,11 +55,20 @@ public class ProductPairing implements Pairing {
     }
 
     public Element pairing(Element[] in1, Element[] in2) {
-        throw new IllegalStateException("Not implemented yet!!!");
+        Element out = pairing(in1[0], in2[0]);
+
+        for(int i = 1; i < in1.length; i++)
+            out.mul(pairing(in1[i], in2[i]));
+
+        return out;
     }
 
-    public PairingPreProcessing pairing(Element in1) {
-        throw new IllegalStateException("Not implemented yet!!!");
+    public PairingPreProcessing pairing(final Element in1) {
+        return new PairingPreProcessing() {
+            public Element pairing(Element in2) {
+                return ProductPairing.this.pairing(in1, in2);
+            }
+        };
     }
 
     public boolean isAlmostCoddh(Element a, Element b, Element c, Element d) {

@@ -7,7 +7,7 @@ import it.unisa.dia.gas.jpbc.Point;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public interface PairingMap extends PairingPreProcessing {
+public interface PairingMap {
 
     Element pairing(Point in1, Point in2);
 

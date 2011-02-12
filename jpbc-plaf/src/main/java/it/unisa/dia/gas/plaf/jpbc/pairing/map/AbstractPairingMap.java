@@ -21,14 +21,12 @@ public abstract class AbstractPairingMap implements PairingMap {
         return out;
     }
 
-    public PairingPreProcessing pairingPreProcessing(Point in1) {
-        this.in1 = in1;
-
-        return this;
-    }
-
-    public Element pairing(Element in2) {
-        return pairing(in1, (Point) in2);
+    public PairingPreProcessing pairingPreProcessing(final Point in1) {
+        return new PairingPreProcessing() {
+            public Element pairing(Element in2) {
+                return AbstractPairingMap.this.pairing(in1, (Point) in2);
+            }
+        };
     }
 
     public boolean isAlmostCoddh(Element a, Element b, Element c, Element d) {
