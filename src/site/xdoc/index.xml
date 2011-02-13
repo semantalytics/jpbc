@@ -10,11 +10,11 @@
     <body>
         <div id="downloadbox">
             <!--<img src="./images/new.png" alt=""/> -->
-            <h5>Get jPBC 1.1.0 Now!!!</h5>
+            <h5>Get jPBC 1.2.0 Now!!!</h5>
             <span style="display: block; text-align: right; font-size: smaller">Released: November, 2010</span>
 
             <p>
-                <a href="download.html">jPBC 1.1.0</a>
+                <a href="download.html">jPBC 1.2.0</a>
                 <small>(distro 3.0 Mb - core 130 Kb)</small>
             </p>
 

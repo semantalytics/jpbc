@@ -125,9 +125,9 @@ public class AHIBEDIP10Engine implements AsymmetricBlockCipher {
             Element C2 = pairing.getG1().newElement();
             offset += C2.setFromBytes(in, offset);
 
-            System.out.println("C0 = " + C0);
-            System.out.println("C1 = " + C1);
-            System.out.println("C2 = " + C2);
+//            System.out.println("C0 = " + C0);
+//            System.out.println("C1 = " + C1);
+//            System.out.println("C2 = " + C2);
 
             AHIBEDIP10SecretKeyParameters sk = (AHIBEDIP10SecretKeyParameters) key;
 
@@ -135,8 +135,8 @@ public class AHIBEDIP10Engine implements AsymmetricBlockCipher {
 
             Element M = C0.mul(pairing.pairing(sk.getK12(), C2).mul(pairing.pairing(sk.getK11(), C1).invert()).invert());
 
-            System.out.println("T = " + T);
-            System.out.println("M = " + M);
+//            System.out.println("T = " + T);
+//            System.out.println("M = " + M);
 
             return M.toBytes();
         } else {
@@ -155,8 +155,8 @@ public class AHIBEDIP10Engine implements AsymmetricBlockCipher {
             Element M = pairing.getGT().newElement();
             M.setFromBytes(block);
 
-            System.out.println(new String(M.toBytes()).trim());
-            System.out.println(new String(block).trim());
+//            System.out.println(new String(M.toBytes()).trim());
+//            System.out.println(new String(block).trim());
 
             // Compute ciphertext
             AHIBEDIP10EncryptionParameters encParams = (AHIBEDIP10EncryptionParameters) key;
@@ -177,9 +177,9 @@ public class AHIBEDIP10Engine implements AsymmetricBlockCipher {
             // Convert the Elements to byte arrays
             ByteArrayOutputStream bytes = new ByteArrayOutputStream(getOutputBlockSize());
 
-            System.out.println("C0 = " + C0);
-            System.out.println("C1 = " + C1);
-            System.out.println("C2 = " + C2);
+//            System.out.println("C0 = " + C0);
+//            System.out.println("C1 = " + C1);
+//            System.out.println("C2 = " + C2);
 
             try {
                 bytes.write(C0.toBytes());

@@ -189,8 +189,8 @@ public class UHIBELW11Engine implements AsymmetricBlockCipher {
                 bytes.write(C.toBytes());
                 bytes.write(C0.toBytes());
 
-                System.out.println("C = " + C);
-                System.out.println("C0 = " + C0);
+//                System.out.println("C = " + C);
+//                System.out.println("C0 = " + C0);
 
                 for (int i = 0; i < idsNumber; i++) {
                     Element t = pairing.getZr().newRandomElement();

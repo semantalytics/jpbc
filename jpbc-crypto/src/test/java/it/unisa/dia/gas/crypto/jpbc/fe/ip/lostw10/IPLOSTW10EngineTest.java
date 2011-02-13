@@ -45,19 +45,13 @@ public class IPLOSTW10EngineTest extends TestCase {
         y[0] = pairing.getZr().newZeroElement();
         y[1] = pairing.getZr().newOneElement();
 
-        CipherParameters searchKey = keyGen(keyPair.getPrivate(), y);
-
-        // Search
-        assertEquals(message, new String(decrypt(searchKey, ciphertext)).trim());
+        assertEquals(message, decrypt(keyGen(keyPair.getPrivate(), y), ciphertext));
 
         // Gen non-matching SearchKey
         y[0] = pairing.getZr().newElement(5);
         y[1] = pairing.getZr().newOneElement();
 
-        searchKey = keyGen(keyPair.getPrivate(), y);
-
-        // Search
-        assertNotSame(message, new String(decrypt(searchKey, ciphertext)).trim());
+        assertNotSame(message, decrypt(keyGen(keyPair.getPrivate(), y), ciphertext));
     }
 
 
@@ -119,7 +113,7 @@ public class IPLOSTW10EngineTest extends TestCase {
     }
     
     
-    protected byte[] decrypt(CipherParameters searchKey, byte[] ciphertext) {
+    protected String decrypt(CipherParameters searchKey, byte[] ciphertext) {
         byte[] plainText = new byte[0];
         try {
             // Init the engine
@@ -139,7 +133,7 @@ public class IPLOSTW10EngineTest extends TestCase {
             fail(e.getMessage());
         }
 
-        return plainText;
+        return new String(plainText).trim();
     }
     
     

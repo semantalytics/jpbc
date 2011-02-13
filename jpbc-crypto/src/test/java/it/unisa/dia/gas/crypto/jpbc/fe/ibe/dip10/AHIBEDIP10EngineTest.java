@@ -20,64 +20,48 @@ import org.bouncycastle.crypto.paddings.ZeroBytePadding;
  */
 public class AHIBEDIP10EngineTest extends TestCase {
 
-    protected Pairing pairing;
-
 
     public void testAHIBE() {
+        // Setup
         AsymmetricCipherKeyPair keyPair = setup(32, 10);
 
+        // KeyGen
         Pairing pairing = PairingFactory.getPairing(((AHIBEDIP10PublicKeyParameters) keyPair.getPublic()).getCurveParams());
-
         Element[] ids = new Element[3];
         ids[0] = pairing.getZr().newRandomElement().getImmutable();
         ids[1] = pairing.getZr().newRandomElement().getImmutable();
         ids[2] = pairing.getZr().newRandomElement().getImmutable();
 
-        // KeyGen
-        CipherParameters sk0 = keygen(keyPair, ids[0]);
-        CipherParameters sk01 = keygen(keyPair, ids[0], ids[1]);
-        CipherParameters sk012 = keygen(keyPair, ids[0], ids[1], ids[2]);
+        CipherParameters sk0 = keyGen(keyPair, ids[0]);
+        CipherParameters sk01 = keyGen(keyPair, ids[0], ids[1]);
+        CipherParameters sk012 = keyGen(keyPair, ids[0], ids[1], ids[2]);
 
-        // Enc-Dec
+        // Encryption/Decryption
         String message = "H";
-        byte[] ciphertext012 = encrypt(keyPair.getPublic(), message, ids[0], ids[1], ids[2]);
-        byte[] plaintext012 = decrypt(sk012, ciphertext012);
+        byte[] ciphertext0 = encrypt(keyPair.getPublic(), message, ids[0]);
+        assertEquals(message, decrypt(sk0, ciphertext0));
 
         byte[] ciphertext01 = encrypt(keyPair.getPublic(), message, ids[0], ids[1]);
-        byte[] plaintext01 = decrypt(sk01, ciphertext01);
+        assertEquals(message, decrypt(sk01, ciphertext01));
 
-        byte[] ciphertext0 = encrypt(keyPair.getPublic(), message, ids[0]);
-        byte[] plaintext0 = decrypt(sk0, ciphertext0);
+        byte[] ciphertext012 = encrypt(keyPair.getPublic(), message, ids[0], ids[1], ids[2]);
+        assertEquals(message, decrypt(sk012, ciphertext012));
 
-        assertEquals(message, new String(plaintext012).trim());
-        assertEquals(message, new String(plaintext01).trim());
-        assertEquals(message, new String(plaintext0).trim());
-
-        // Delegate from sk01 to sk012
-        CipherParameters sk01_012 = delegate(keyPair, sk01, ids[2]);
-        plaintext012 = decrypt(sk01_012, ciphertext012);
-        assertEquals(message, new String(plaintext012).trim());
-
-        // Delegate from sk0 to sk01
-        CipherParameters sk0_01 = delegate(keyPair, sk0, ids[1]);
-        plaintext01 = decrypt(sk0_01, ciphertext01);
-        assertEquals(message, new String(plaintext01).trim());
-
-        // Delegate from sk0_01 to sk012
-        CipherParameters sk0_012 = delegate(keyPair, sk0_01, ids[2]);
-        plaintext012 = decrypt(sk0_012, ciphertext012);
-        assertEquals(message, new String(plaintext012).trim());
+        // Delegation/Decryption
+        assertEquals(message, decrypt(delegate(keyPair, sk0, ids[1]), ciphertext01));
+        assertEquals(message, decrypt(delegate(keyPair, sk01, ids[2]), ciphertext012));
+        assertEquals(message, decrypt(delegate(keyPair, delegate(keyPair, sk0, ids[1]), ids[2]), ciphertext012));
     }
 
 
     protected AsymmetricCipherKeyPair setup(int bitLength, int length) {
-        AHIBEDIP10SetupGenerator generator = new AHIBEDIP10SetupGenerator();
-        generator.init(new AHIBEDIP10SetupGenerationParameters(bitLength, length));
+        AHIBEDIP10SetupGenerator setup = new AHIBEDIP10SetupGenerator();
+        setup.init(new AHIBEDIP10SetupGenerationParameters(bitLength, length));
 
-        return generator.generateKeyPair();
+        return setup.generateKeyPair();
     }
 
-    protected CipherParameters keygen(AsymmetricCipherKeyPair masterKey, Element... ids) {
+    protected CipherParameters keyGen(AsymmetricCipherKeyPair masterKey, Element... ids) {
         AHIBEDIP10SecretKeyGenerator generator = new AHIBEDIP10SecretKeyGenerator();
         generator.init(new AHIBEDIP10SecretKeyGenerationParameters(
                 (AHIBEDIP10MasterSecretKeyParameters) masterKey.getPrivate(),
@@ -100,8 +84,8 @@ public class AHIBEDIP10EngineTest extends TestCase {
     }
 
     protected byte[] encrypt(CipherParameters publicKey, String message, Element... ids) {
-        byte[] messageAsBytes = message.getBytes();
-        byte[] cipherText = new byte[0];
+        byte[] bytes = message.getBytes();
+        byte[] ciphertext = new byte[0];
 
         try {
             AsymmetricBlockCipher engine = new MultiBlockAsymmetricBlockCipher(
@@ -109,19 +93,19 @@ public class AHIBEDIP10EngineTest extends TestCase {
                     new ZeroBytePadding()
             );
             engine.init(true, new AHIBEDIP10EncryptionParameters((AHIBEDIP10PublicKeyParameters) publicKey, ids));
-            cipherText = engine.processBlock(messageAsBytes, 0, messageAsBytes.length);
+            ciphertext = engine.processBlock(bytes, 0, bytes.length);
 
-            assertNotNull(cipherText);
-            assertNotSame(0, cipherText.length);
+            assertNotNull(ciphertext);
+            assertNotSame(0, ciphertext.length);
         } catch (InvalidCipherTextException e) {
             e.printStackTrace();
             fail(e.getMessage());
         }
 
-        return cipherText;
+        return ciphertext;
     }
 
-    protected byte[] decrypt(CipherParameters secretKey, byte[] cipherText) {
+    protected String decrypt(CipherParameters secretKey, byte[] cipherText) {
         byte[] plainText = new byte[0];
         try {
             AsymmetricBlockCipher engine = new MultiBlockAsymmetricBlockCipher(
@@ -131,12 +115,14 @@ public class AHIBEDIP10EngineTest extends TestCase {
             // Decrypt
             engine.init(false, secretKey);
             plainText = engine.processBlock(cipherText, 0, cipherText.length);
+
+            assertNotNull(plainText);
+            assertNotSame(0, plainText.length);
         } catch (InvalidCipherTextException e) {
             e.printStackTrace();
             fail(e.getMessage());
         }
 
-        return plainText;
+        return new String(plainText).trim();
     }
 }
-

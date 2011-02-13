@@ -24,10 +24,13 @@ public class IPLOSTW10AttributesEngineTest extends TestCase {
     public void testIPOT10AttributesEngine() {
         // Setup
         AsymmetricCipherKeyPair keyPair = setup(createParameters(2));
-        Pairing pairing = PairingFactory.getPairing(((IPLOSTW10PublicKeyParameters) keyPair.getPublic()).getParameters().getCurveParams());
 
         // Encrypt
-        Element[] x = new Element[2];
+        Pairing pairing = PairingFactory.getPairing(
+                ((IPLOSTW10PublicKeyParameters) keyPair.getPublic()).getParameters().getCurveParams()
+        );
+
+        Element[] x = new Element[2];     // Attributes
         x[0] = pairing.getZr().newOneElement();
         x[1] = pairing.getZr().newZeroElement();
 
@@ -38,19 +41,13 @@ public class IPLOSTW10AttributesEngineTest extends TestCase {
         y[0] = pairing.getZr().newZeroElement();
         y[1] = pairing.getZr().newOneElement();
 
-        CipherParameters searchKey = keyGen(keyPair.getPrivate(), y);
-
-        // Search
-        assertTrue(test(searchKey, ciphertext));
+        assertTrue(test(keyGen(keyPair.getPrivate(), y), ciphertext));
 
         // Gen non-matching SearchKey
-        y[0] = pairing.getZr().newElement().set(5);
+        y[0] = pairing.getZr().newElement(5);
         y[1] = pairing.getZr().newOneElement();
 
-        searchKey = keyGen(keyPair.getPrivate(), y);
-
-        // Search
-        assertFalse(test(searchKey, ciphertext));
+        assertFalse(test(keyGen(keyPair.getPrivate(), y), ciphertext));
     }
 
 

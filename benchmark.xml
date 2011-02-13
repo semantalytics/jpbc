@@ -6,13 +6,13 @@
     <dirname property="basedir" file="${ant.file}"/>
 
     <path id="runtime.classpath">
-        <pathelement location="${basedir}/jars/jpbc-api-1.1.0.jar"/>
-        <pathelement location="${basedir}/jars/jpbc-plaf-1.1.0.jar"/>
-        <pathelement location="${basedir}/jars/jpbc-pbc-1.1.0.jar"/>
+        <pathelement location="${basedir}/jars/jpbc-api-1.2.0.jar"/>
+        <pathelement location="${basedir}/jars/jpbc-plaf-1.2.0.jar"/>
+        <pathelement location="${basedir}/jars/jpbc-pbc-1.2.0.jar"/>
 
-        <pathelement location="${basedir}/jars/test/jpbc-plaf-1.1.0-tests.jar"/>
-        <pathelement location="${basedir}/jars/test/jpbc-pbc-1.1.0-tests.jar"/>
-        <pathelement location="${basedir}/jars/test/jpbc-crypto-1.1.0-tests.jar"/>
+        <pathelement location="${basedir}/jars/test/jpbc-plaf-1.2.0-tests.jar"/>
+        <pathelement location="${basedir}/jars/test/jpbc-pbc-1.2.0-tests.jar"/>
+        <pathelement location="${basedir}/jars/test/jpbc-crypto-1.2.0-tests.jar"/>
 
         <pathelement location="${basedir}/jars/jna-3.2.5.jar"/>
     </path>

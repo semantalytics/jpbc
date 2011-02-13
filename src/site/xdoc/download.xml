@@ -39,7 +39,7 @@
 
                         <tr valign="top">
                             <td>jPBC</td>
-                            <td>1.1.0</td>
+                            <td>1.2.0</td>
                             <td>November 2010</td>
                             <td>Stable</td>
                             <td>
@@ -51,19 +51,6 @@
                             </td>
                         </tr>
 
-                        <tr valign="top">
-                            <td>jPBC</td>
-                            <td>1.0.0</td>
-                            <td>October 2009</td>
-                            <td>Stable</td>
-                            <td>
-                                <em>
-                                    <a href="http://sourceforge.net/projects/jpbc/files/">
-                                        Download
-                                    </a>
-                                </em>
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
 
@@ -116,24 +103,24 @@
             <subsection name="Usage">
                 <ol type="1">
                     <li>Unzip
-                        <tt>jpbc-1.1.0.zip</tt>
-                        to the directory you wish to unzip jPBC 1.1.0.
+                        <tt>jpbc-1.2.0.zip</tt>
+                        to the directory you wish to unzip jPBC 1.2.0.
                     </li>
                     <li>To use jPBC add to your classpath
                         <ol type="1">
                             <li>
-                                <font style="font-weight: bold;color:red"><tt>jpbc_1.1.0-api.jar</tt></font>
+                                <font style="font-weight: bold;color:red"><tt>jpbc_1.2.0-api.jar</tt></font>
                                 and
                             </li>
 
                             <li>
-                                <font style="font-weight: bold;color:red"><tt>jpbc_1.1.0-plaf.jar</tt></font>.
+                                <font style="font-weight: bold;color:red"><tt>jpbc_1.2.0-plaf.jar</tt></font>.
                             </li>
                         </ol>
                         To use the wrapper include also
                         <ol>
                             <li>
-                                <font style="font-weight: bold;color:green"><tt>jpbc_1.1.0-pbc.jar</tt></font>
+                                <font style="font-weight: bold;color:green"><tt>jpbc_1.2.0-pbc.jar</tt></font>
                                 and
                             </li>
 
@@ -152,7 +139,7 @@
                         include also
                         <ol>
                             <li>
-                                <font style="font-weight: bold;color:green"><tt>jpbc_1.1.0-crypto.jar</tt></font>
+                                <font style="font-weight: bold;color:green"><tt>jpbc_1.2.0-crypto.jar</tt></font>
                                 and
                             </li>
                             <li>

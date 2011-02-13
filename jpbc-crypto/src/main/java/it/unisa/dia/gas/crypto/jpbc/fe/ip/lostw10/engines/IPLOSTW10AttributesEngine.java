@@ -123,7 +123,7 @@ public class IPLOSTW10AttributesEngine implements AsymmetricBlockCipher {
 
             Element result = productPairing.pairing(c1, searchKey.getK());
 
-            System.out.println("result = " + result);
+//            System.out.println("result = " + result);
 
             return new byte[]{(byte) (result.isOne() ? 0 : 1)};
         } else {

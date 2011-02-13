@@ -28,252 +28,82 @@
             </subsection>
         </section>
 
-        <section name="Implementation">
+        <section name="Usage">
+            <pre>
 
-            <subsection name="Key Generation">
-                <p>
-                    The key generation algorithm selects a random integer
-                    <span class="texhtml">
-                        <i>x</i>
-                    </span>
-                    in
-                    <span class="emphasis">
-                        <em>Zr</em>
-                    </span>.
-
-                </p>
-
-                <ol>
-                    <li>
-                        The
-                        <font style="font-weight: bold;color:red">Private Key</font>
-                        is
-                        <span class="texhtml">
-                            <i>x</i>;
-                        </span>
-                    </li>
-                    <li>
-                        the
-                        <font style="font-weight: bold;color:red">Public Key</font>
-                        is
-                        <span class="texhtml">
-                            <i>g</i>
-                            <sup>
-                                <i>x</i>
-                            </sup>.
-                        </span>
-                    </li>
-                </ol>
-
-                <p>
-                    Let's see how to do that using jPBC:
-                </p>
-
-                <source xml:space="preserve">
-import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
-
-<font style="font-weight: bold;color:green">// Init Pairings</font>
-
-CurveParams curveParams = new CurveParams().load("curve.properties");
-Pairing pairing = PairingFactory.getPairing(curveParams);
-
-<font style="font-weight: bold;color:green">// Generate system parameters</font>
-
-Element g = pairing.getG1().newRandomElement().getImmutable();
-
-<font style="font-weight: bold;color:green">// Generate the secret key</font>
-
-Element x = pairing.getZr().newRandomElement();
-
-<font style="font-weight: bold;color:green">// Generate the corresponding public key</font>
-
-Element pk = g.powZn(x);
-                </source>
-            </subsection>
-
-            <subsection name="Signing">
-                <p>
-                    Given the private key
-                    <span class="texhtml">
-                        <i>x</i>
-                    </span>, and some message
-                    <span class="texhtml">
-                        <i>m</i>
-                    </span>, first we compute the hash of the message and then we map the hash to some element
-                    <i>h</i> of  G1. We output the signature
-                    <span class="texhtml">sig =
-                        <i>h</i>
-                        <sup>
-                            <i>x</i>
-                        </sup>
-                    </span>.
-                </p>
-
-                <p>
-                    Using jPBC we have:
-                </p>
-                <source xml:space="preserve">
-<font style="font-weight: bold;color:green">// Map the hash of the message m to some element of G1</font>
-
-byte[] hash = ... // Generate an hash from m (48-bit hash)
-Element h = pairing.getG1().newElement().setFromHash(hash, 0, hash.length);
-
-<font style="font-weight: bold;color:green">// Generate the signature</font>
-
-Element sig = h.powZn(x);
-</source>
-            </subsection>
-
-            <subsection name="Verification">
-                <p>
-                    Given a signature
-                    <span class="texhtml">sig</span>
-                    and a public key
-                    <span class="texhtml">
-                        <i>g</i>
-                        <sup>
-                            <i>x</i>
-                        </sup>
-                    </span>, we verify that
-                    <span class="texhtml"><i>e</i>(sig, <i>g</i>) =<i>e</i>(h,
-                        <i>g</i>
-                        <sup>
-                            <i>x</i>
-                        </sup>
-                        )
-                    </span>.
-                </p>
-
-                <p>
-                    Again using jPBC::
-                </p>
-                <source xml:space="preserve">
-
-<font style="font-weight: bold;color:green">// Map again the hash of the message m</font>
-
-byte[] hash = ... // Generate an hash from m (48-bit hash)
-Element h = pairing.getG1().newElement().setFromHash(hash, 0, hash.length);
-
-<font style="font-weight: bold;color:green">// Verify the signature</font>
-
-Element temp1 = pairing.pairing(sig, g);
-Element temp2 = pairing.pairing(h, pk);
-
-if (temp1.isEqual(temp2))
-    System.out.println("The signature is valid.");
-else
-    System.out.println("The signature is NOT valid.");
-                </source>
-            </subsection>
-        </section>
-
-        <section name="BLS under BouncyCastle">
-            <p>
-                You will find all the sources into the jpbc-crypto module.
-            </p>
-
-            <subsection name="Key Generation">
-                <source>
-import UTMAStrongParametersGenerator;
-import UTMAStrongParameters;
-
-<font style="font-weight: bold;color:green">// Init the generator.</font>
-BLSParametersGenerator parametersGenerator = new BLSParametersGenerator();
-parametersGenerator.init(curveParams);
-
-<font style="font-weight: bold;color:green">// Generate the parameters.</font>
-BLSParameters parameters = parametersGenerator.generateParameters();
-
-<font style="font-weight: bold;color:green">// Store the parameters in a file.</font>
-FileOutputStream fileOutputStream = new FileOutputStream("bls.params");
-
-parametersGenerator.store(fileOutputStream, parameters);
-
-fileOutputStream.flush();
-fileOutputStream.close();
-                </source>
-            </subsection>
-
-            <subsection name="Load the Public Information">
-                <source>
-import UTMAStrongParametersGenerator;
-import UTMAStrongParameters;
-
-<font style="font-weight: bold;color:green">// Init the generator.</font>
-BLSParametersGenerator parametersGenerator = new BLSParametersGenerator();
-
-<font style="font-weight: bold;color:green">// Load the parameters from a file.</font>
-FileInputStream fileInputStream = new FileInputStream("utmas.params");
-
-BLSParameters parameters = parametersGenerator.load(fileInputStream);
-
-fileInputStream.close();
-                </source>
-            </subsection>
-
-            <subsection name="Generate and Store a Key-Pair">
-                <source>
-import UTMAStrongKeyPairGenerator;
-import UTMAStrongKeyGenerationParameters;
-import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
-
-<font style="font-weight: bold;color:green">// Init the generator.</font>
-BLSKeyPairGenerator keyPairGenerator = new BLSKeyPairGenerator();
-keyPairGenerator.init(new BLSKeyGenerationParameters(null, parameters));
-
-<font style="font-weight: bold;color:green">// Generate the key-pair.</font>
-AsymmetricCipherKeyPair keyPair = keyPairGenerator.generateKeyPair();
-
-<font style="font-weight: bold;color:green">// Store the key-pair.</font>
-fileOutputStream = new FileOutputStream("bls_keypair.params");
-
-keyPairGenerator.store(fileOutputStream, keyPair);
-
-fileOutputStream.flush();
-fileOutputStream.close();
-                </source>
-            </subsection>
-
-            <subsection name="Load a Key-Pair">
-                <source>
-import UTMAStrongKeyPairGenerator;
-import UTMAStrongKeyGenerationParameters;
-import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
-
-<font style="font-weight: bold;color:green">// Init the generator.</font>
-BLSKeyPairGenerator keyPairGenerator = new BLSKeyPairGenerator();
-
-<font style="font-weight: bold;color:green">// Load the key-pair from a file.</font>
-fileInputStream = new FileInputStream("bls_keypair.params");
-
-AsymmetricCipherKeyPair keyPair = keyPairGenerator.load(fileInputStream);
-
-fileInputStream.close();
-                </source>
-            </subsection>
-
-            <subsection name="Signing">
-                <source xml:space="preserve">
-BLSSigner blsSigner = new BLSSigner(new SHA256Digest());
-
-// Sign
-blsSigner.init(true, keyPair.getPrivate());
-blsSigner.update(message, 0, message.length);
-byte[] sig = null;
-try {
-    sig = blsSigner.generateSignature();
-} catch (CryptoException e) {
-    fail(e.getMessage());
-}
-                </source>
-            </subsection>
-
-            <subsection name="Verification">
-                <source>
-blsSigner.init(false, keyPair.getPublic());
-assertTrue(blsSigner.verifySignature(sig));
-                </source>
-            </subsection>
+            <a name="l1"><span class="ln">1    </span></a><span class="s0">package </span><span class="s1">it.unisa.dia.gas.crypto.jpbc.signature.bls01;
+            <a name="l2"><span class="ln">2    </span></a>
+            <a name="l3"><span class="ln">3    </span></a></span><span class="s0">import </span><span class="s1">it.unisa.dia.gas.crypto.jpbc.signature.bls01.engines.BLS01Signer;
+            <a name="l4"><span class="ln">4    </span></a></span><span class="s0">import </span><span class="s1">it.unisa.dia.gas.crypto.jpbc.signature.bls01.generators.BLS01KeyPairGenerator;
+            <a name="l5"><span class="ln">5    </span></a></span><span class="s0">import </span><span class="s1">it.unisa.dia.gas.crypto.jpbc.signature.bls01.generators.BLS01ParametersGenerator;
+            <a name="l6"><span class="ln">6    </span></a></span><span class="s0">import </span><span class="s1">it.unisa.dia.gas.crypto.jpbc.signature.bls01.params.BLS01KeyGenerationParameters;
+            <a name="l7"><span class="ln">7    </span></a></span><span class="s0">import </span><span class="s1">it.unisa.dia.gas.crypto.jpbc.signature.bls01.params.BLS01Parameters;
+            <a name="l8"><span class="ln">8    </span></a></span><span class="s0">import </span><span class="s1">it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
+            <a name="l9"><span class="ln">9    </span></a></span><span class="s0">import </span><span class="s1">junit.framework.TestCase;
+            <a name="l10"><span class="ln">10   </span></a></span><span class="s0">import </span><span class="s1">org.bouncycastle.crypto.AsymmetricCipherKeyPair;
+            <a name="l11"><span class="ln">11   </span></a></span><span class="s0">import </span><span class="s1">org.bouncycastle.crypto.CipherParameters;
+            <a name="l12"><span class="ln">12   </span></a></span><span class="s0">import </span><span class="s1">org.bouncycastle.crypto.CryptoException;
+            <a name="l13"><span class="ln">13   </span></a></span><span class="s0">import </span><span class="s1">org.bouncycastle.crypto.digests.SHA256Digest;
+            <a name="l14"><span class="ln">14   </span></a>
+            <a name="l15"><span class="ln">15   </span></a></span><span class="s2">/**
+            <a name="l16"><span class="ln">16   </span></a> * </span><span class="s3">@author </span><span class="s2">Angelo De Caro (angelo.decaro@gmail.com)
+            <a name="l17"><span class="ln">17   </span></a> */</span><span class="s1">
+            <a name="l18"><span class="ln">18   </span></a></span><span class="s0">public class </span><span class="s1">BLS01SignerTest </span><span class="s0">extends </span><span class="s1">TestCase {
+            <a name="l19"><span class="ln">19   </span></a>
+            <a name="l20"><span class="ln">20   </span></a>    </span><span class="s0">public void </span><span class="s1">testSignerEngine() {
+            <a name="l21"><span class="ln">21   </span></a>        </span><span class="s2">// Setup</span><span class="s1">
+            <a name="l22"><span class="ln">22   </span></a>        AsymmetricCipherKeyPair keyPair = keyGen(setup(
+            <a name="l23"><span class="ln">23   </span></a>                </span><span class="s0">new </span><span class="s1">CurveParams().load(BLS01SignerTest.</span><span class="s0">class</span><span class="s1">.getClassLoader().getResourceAsStream(</span><span class="s4">&quot;it/unisa/dia/gas/plaf/jpbc/crypto/a_181_603.properties&quot;</span><span class="s1">))
+            <a name="l24"><span class="ln">24   </span></a>        ));
+            <a name="l25"><span class="ln">25   </span></a>
+            <a name="l26"><span class="ln">26   </span></a>        </span><span class="s2">// Test</span><span class="s1">
+            <a name="l27"><span class="ln">27   </span></a>        String message = </span><span class="s4">&quot;Hello World!&quot;</span><span class="s1">;
+            <a name="l28"><span class="ln">28   </span></a>        assertTrue(verify(sign(message, keyPair.getPrivate()), message, keyPair.getPublic()));
+            <a name="l29"><span class="ln">29   </span></a>    }
+            <a name="l30"><span class="ln">30   </span></a>
+            <a name="l31"><span class="ln">31   </span></a>
+            <a name="l32"><span class="ln">32   </span></a>    </span><span class="s0">protected </span><span class="s1">BLS01Parameters setup(CurveParams curveParams) {
+            <a name="l33"><span class="ln">33   </span></a>        BLS01ParametersGenerator setup = </span><span class="s0">new </span><span class="s1">BLS01ParametersGenerator();
+            <a name="l34"><span class="ln">34   </span></a>        setup.init(curveParams);
+            <a name="l35"><span class="ln">35   </span></a>
+            <a name="l36"><span class="ln">36   </span></a>        </span><span class="s0">return </span><span class="s1">setup.generateParameters();
+            <a name="l37"><span class="ln">37   </span></a>    }
+            <a name="l38"><span class="ln">38   </span></a>
+            <a name="l39"><span class="ln">39   </span></a>    </span><span class="s0">protected </span><span class="s1">AsymmetricCipherKeyPair keyGen(BLS01Parameters parameters) {
+            <a name="l40"><span class="ln">40   </span></a>        BLS01KeyPairGenerator keyGen = </span><span class="s0">new </span><span class="s1">BLS01KeyPairGenerator();
+            <a name="l41"><span class="ln">41   </span></a>        keyGen.init(</span><span class="s0">new </span><span class="s1">BLS01KeyGenerationParameters(</span><span class="s0">null</span><span class="s1">, parameters));
+            <a name="l42"><span class="ln">42   </span></a>
+            <a name="l43"><span class="ln">43   </span></a>        </span><span class="s0">return </span><span class="s1">keyGen.generateKeyPair();
+            <a name="l44"><span class="ln">44   </span></a>    }
+            <a name="l45"><span class="ln">45   </span></a>
+            <a name="l46"><span class="ln">46   </span></a>    </span><span class="s0">protected byte</span><span class="s1">[] sign(String message, CipherParameters privateKey) {
+            <a name="l47"><span class="ln">47   </span></a>        </span><span class="s0">byte</span><span class="s1">[] bytes = message.getBytes();
+            <a name="l48"><span class="ln">48   </span></a>
+            <a name="l49"><span class="ln">49   </span></a>        BLS01Signer signer = </span><span class="s0">new </span><span class="s1">BLS01Signer(</span><span class="s0">new </span><span class="s1">SHA256Digest());
+            <a name="l50"><span class="ln">50   </span></a>        signer.init(</span><span class="s0">true</span><span class="s1">, privateKey);
+            <a name="l51"><span class="ln">51   </span></a>        signer.update(bytes, </span><span class="s5">0</span><span class="s1">, bytes.length);
+            <a name="l52"><span class="ln">52   </span></a>
+            <a name="l53"><span class="ln">53   </span></a>        </span><span class="s0">byte</span><span class="s1">[] signature = </span><span class="s0">null</span><span class="s1">;
+            <a name="l54"><span class="ln">54   </span></a>        </span><span class="s0">try </span><span class="s1">{
+            <a name="l55"><span class="ln">55   </span></a>            signature = signer.generateSignature();
+            <a name="l56"><span class="ln">56   </span></a>        } </span><span class="s0">catch </span><span class="s1">(CryptoException e) {
+            <a name="l57"><span class="ln">57   </span></a>            fail(e.getMessage());
+            <a name="l58"><span class="ln">58   </span></a>        }
+            <a name="l59"><span class="ln">59   </span></a>        </span><span class="s0">return </span><span class="s1">signature;
+            <a name="l60"><span class="ln">60   </span></a>    }
+            <a name="l61"><span class="ln">61   </span></a>
+            <a name="l62"><span class="ln">62   </span></a>    </span><span class="s0">protected boolean </span><span class="s1">verify(</span><span class="s0">byte</span><span class="s1">[] signature, String message, CipherParameters publicKey) {
+            <a name="l63"><span class="ln">63   </span></a>        </span><span class="s0">byte</span><span class="s1">[] bytes = message.getBytes();
+            <a name="l64"><span class="ln">64   </span></a>
+            <a name="l65"><span class="ln">65   </span></a>        BLS01Signer signer = </span><span class="s0">new </span><span class="s1">BLS01Signer(</span><span class="s0">new </span><span class="s1">SHA256Digest());
+            <a name="l66"><span class="ln">66   </span></a>        signer.init(</span><span class="s0">false</span><span class="s1">, publicKey);
+            <a name="l67"><span class="ln">67   </span></a>        signer.update(bytes, </span><span class="s5">0</span><span class="s1">, bytes.length);
+            <a name="l68"><span class="ln">68   </span></a>
+            <a name="l69"><span class="ln">69   </span></a>        </span><span class="s0">return </span><span class="s1">signer.verifySignature(signature);
+            <a name="l70"><span class="ln">70   </span></a>    }
+            <a name="l71"><span class="ln">71   </span></a>
+            <a name="l72"><span class="ln">72   </span></a>}
+            <a name="l73"><span class="ln">73   </span></a></span></pre>
         </section>
     </body>
 </document>

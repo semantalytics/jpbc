@@ -27,6 +27,11 @@
                 <ol>
                     <li>
                         <font style="font-weight: bold;color:red">
+                            <a href="./uhibe_lw11.html">[LW'11]</a>
+                        </font>: A. Lewko and B. Waters, Unbounded HIBE and Attribute-Based Encryption.
+                    </li>
+                    <li>
+                        <font style="font-weight: bold;color:red">
                             <a href="./ip_lostw10.html">[LOSTW'10]</a>
                         </font>: A. Lewko and T. Okamoto and A. Sahai and K. Takashima and B. Waters, Fully Secure Functional Encryption: Attribute-Based Encryption and (Hierarchical) Inner Product Encryption.
                     </li>
@@ -60,7 +65,7 @@
             </subsection>
 
             <a name="es"/>
-            <subsection name="Encryption Schemes">
+            <subsection name="Other">
                 <ol>
                     <li>
                         <font style="font-weight: bold;color:red">

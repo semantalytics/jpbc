@@ -38,7 +38,7 @@ public class PS06SecretKeyGenerator implements CipherParametersGenerator {
             if (identity.charAt(i) == '1')
                 idEncoding = idEncoding.mul(pk.getUAt(i));
         }
-        System.out.println("idEncoding = " + idEncoding);
+//        System.out.println("idEncoding = " + idEncoding);
 
         Element d1 = msk.getMsk().mul(idEncoding.powZn(r)).getImmutable();
         Element d2 = g.powZn(r).getImmutable();

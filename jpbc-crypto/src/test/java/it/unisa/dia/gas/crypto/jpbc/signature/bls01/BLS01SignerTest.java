@@ -8,6 +8,7 @@ import it.unisa.dia.gas.crypto.jpbc.signature.bls01.params.BLS01Parameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import junit.framework.TestCase;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
+import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.CryptoException;
 import org.bouncycastle.crypto.digests.SHA256Digest;
 
@@ -17,36 +18,55 @@ import org.bouncycastle.crypto.digests.SHA256Digest;
 public class BLS01SignerTest extends TestCase {
 
     public void testSignerEngine() {
-        CurveParams curveParams = new CurveParams();
-        curveParams.load(BLS01SignerTest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/crypto/a_181_603.properties"));
+        // Setup
+        AsymmetricCipherKeyPair keyPair = keyGen(setup(
+                new CurveParams().load(BLS01SignerTest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/crypto/a_181_603.properties"))
+        ));
 
-        byte[] message = "Hello World!!!".getBytes();
+        // Test
+        String message = "Hello World!";
+        assertTrue(verify(sign(message, keyPair.getPrivate()), message, keyPair.getPublic()));
+    }
 
-        // Generate public parameters
+
+    protected BLS01Parameters setup(CurveParams curveParams) {
         BLS01ParametersGenerator setup = new BLS01ParametersGenerator();
         setup.init(curveParams);
-        BLS01Parameters parameters = setup.generateParameters();
 
-        // Generate a key-pair
-        BLS01KeyPairGenerator keyPairGenerator = new BLS01KeyPairGenerator();
-        keyPairGenerator.init(new BLS01KeyGenerationParameters(null, parameters));
-        AsymmetricCipherKeyPair keyPair = keyPairGenerator.generateKeyPair();
+        return setup.generateParameters();
+    }
 
+    protected AsymmetricCipherKeyPair keyGen(BLS01Parameters parameters) {
+        BLS01KeyPairGenerator keyGen = new BLS01KeyPairGenerator();
+        keyGen.init(new BLS01KeyGenerationParameters(null, parameters));
 
-        BLS01Signer blsSigner = new BLS01Signer(new SHA256Digest());
-        // Sign
-        blsSigner.init(true, keyPair.getPrivate());
-        blsSigner.update(message, 0, message.length);
-        byte[] sig = null;
+        return keyGen.generateKeyPair();
+    }
+
+    protected byte[] sign(String message, CipherParameters privateKey) {
+        byte[] bytes = message.getBytes();
+
+        BLS01Signer signer = new BLS01Signer(new SHA256Digest());
+        signer.init(true, privateKey);
+        signer.update(bytes, 0, bytes.length);
+
+        byte[] signature = null;
         try {
-            sig = blsSigner.generateSignature();
+            signature = signer.generateSignature();
         } catch (CryptoException e) {
             fail(e.getMessage());
         }
-
-        // Verify
-        blsSigner.init(false, keyPair.getPublic());
-        blsSigner.update(message, 0, message.length);
-        assertTrue(blsSigner.verifySignature(sig));
+        return signature;
     }
+
+    protected boolean verify(byte[] signature, String message, CipherParameters publicKey) {
+        byte[] bytes = message.getBytes();
+
+        BLS01Signer signer = new BLS01Signer(new SHA256Digest());
+        signer.init(false, publicKey);
+        signer.update(bytes, 0, bytes.length);
+
+        return signer.verifySignature(signature);
+    }
+
 }
