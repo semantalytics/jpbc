@@ -1,6 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.engines;
 
-import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.params.UTMAWeakPublicKeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.params.UTMAWeakPublicParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
@@ -16,7 +16,7 @@ import java.io.IOException;
  */
 public class UTMAWeakRandomizer {
 
-    private UTMAWeakPublicKeyParameters key;
+    private UTMAWeakPublicParameters key;
     private Pairing pairing;
 
     /**
@@ -28,12 +28,12 @@ public class UTMAWeakRandomizer {
         if (param instanceof ParametersWithRandom) {
             ParametersWithRandom p = (ParametersWithRandom) param;
 
-            this.key = (UTMAWeakPublicKeyParameters) p.getParameters();
+            this.key = (UTMAWeakPublicParameters) p.getParameters();
         } else {
-            this.key = (UTMAWeakPublicKeyParameters) param;
+            this.key = (UTMAWeakPublicParameters) param;
         }
 
-        this.pairing = PairingFactory.getPairing(key.getParameters().getCurveParams());
+        this.pairing = PairingFactory.getPairing(key.getCurveParams());
     }
 
     /**
@@ -127,9 +127,9 @@ public class UTMAWeakRandomizer {
     private Element[] star(Element[] ct, Element r, Element r2, Element r3) {
         ct[0].powZn(r);
         ct[1].powZn(r);
-        ct[2] = ct[2].powZn(r).mul(key.getParameters().getT2().powZn(r2));
-        ct[3] = ct[3].powZn(r).mul(key.getParameters().getT3().powZn(r3));
-        ct[4] = ct[4].powZn(r).mul(key.getParameters().getT1().powZn(r2.duplicate().add(r3).negate()));
+        ct[2] = ct[2].powZn(r).mul(key.getT2().powZn(r2));
+        ct[3] = ct[3].powZn(r).mul(key.getT3().powZn(r3));
+        ct[4] = ct[4].powZn(r).mul(key.getT1().powZn(r2.duplicate().add(r3).negate()));
 
         return ct;
     }

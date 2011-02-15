@@ -7,10 +7,12 @@ import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.generators.UTMAWeakKeyPairGen
 import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.generators.UTMAWeakParametersGenerator;
 import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.params.UTMAWeakKeyGenerationParameters;
 import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.params.UTMAWeakParameters;
+import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.params.UTMAWeakPublicParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import junit.framework.TestCase;
 import org.bouncycastle.crypto.AsymmetricBlockCipher;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
+import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.InvalidCipherTextException;
 import org.bouncycastle.crypto.paddings.PKCS7Padding;
 
@@ -21,84 +23,80 @@ import java.security.SecureRandom;
  */
 public class UTMAWeakEngineTest extends TestCase {
 
-    public void testEngineEncryptDecrypt() {
-        // Generate public info
+    public void testEngine() {
+        UTMAWeakParameters parameters = createParameters();
 
-        UTMAWeakParametersGenerator utmaWeakParametersGenerator = new UTMAWeakParametersGenerator();
-        utmaWeakParametersGenerator.init(getCurveParamas());
-        UTMAWeakParameters utmaParameters =  utmaWeakParametersGenerator.generateParameters();
-
-        UTMAWeakKeyPairGenerator utmaWeakKeyPairGenerator = new UTMAWeakKeyPairGenerator();
-        utmaWeakKeyPairGenerator.init(new UTMAWeakKeyGenerationParameters(new SecureRandom(), utmaParameters));
-        AsymmetricCipherKeyPair keyPair = utmaWeakKeyPairGenerator.generateKeyPair();
+        AsymmetricCipherKeyPair keyPair = setup(parameters);
 
         String message = "Hello World!!!";
-        byte[] messageAsBytes = message.getBytes();
 
+        assertEquals(message, decrypt(keyPair.getPrivate(), encrypt(keyPair.getPublic(), message)));
+
+        assertEquals(
+                message,
+                decrypt(keyPair.getPrivate(),
+                        randomize(
+                                parameters.getPublicParameters(),
+                                encrypt(keyPair.getPublic(), message)
+                        )
+                )
+        );
+    }
+
+
+    protected UTMAWeakParameters createParameters() {
+        UTMAWeakParametersGenerator generator = new UTMAWeakParametersGenerator();
+        generator.init(getCurveParamas());
+        return generator.generateParameters();
+    }
+
+    protected AsymmetricCipherKeyPair setup(UTMAWeakParameters parameters) {
+        UTMAWeakKeyPairGenerator setup = new UTMAWeakKeyPairGenerator();
+        setup.init(new UTMAWeakKeyGenerationParameters(new SecureRandom(), parameters));
+
+        return setup.generateKeyPair();
+    }
+
+    protected byte[] encrypt(CipherParameters publicKey, String message) {
+        byte[] bytes = message.getBytes();
         try {
-            AsymmetricBlockCipher weakEngine = new MultiBlockAsymmetricBlockCipher(
+            AsymmetricBlockCipher engine = new MultiBlockAsymmetricBlockCipher(
                     new UTMAWeakEngine(),
                     new PKCS7Padding()
             );
 
-            // Encrypt
-            weakEngine.init(true, keyPair.getPublic());
-            byte[] cipherText = weakEngine.processBlock(messageAsBytes, 0, messageAsBytes.length);
-
-            // Decrypt
-            weakEngine.init(false, keyPair.getPrivate());
-            byte[] plainText = weakEngine.processBlock(cipherText, 0, cipherText.length);
-
-            assertEquals(message, new String(plainText));
+            engine.init(true, publicKey);
+            return engine.processBlock(bytes, 0, bytes.length);
         } catch (InvalidCipherTextException e) {
             e.printStackTrace();
             fail(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
-    public void testEngineEncryptRandomizeDecrypt() {
-        // Generate public info
-
-        UTMAWeakParametersGenerator utmaWeakParametersGenerator = new UTMAWeakParametersGenerator();
-        utmaWeakParametersGenerator.init(getCurveParamas());
-        UTMAWeakParameters utmaParameters =  utmaWeakParametersGenerator.generateParameters();
-
-        UTMAWeakKeyPairGenerator utmaWeakKeyPairGenerator = new UTMAWeakKeyPairGenerator();
-        utmaWeakKeyPairGenerator.init(new UTMAWeakKeyGenerationParameters(new SecureRandom(), utmaParameters));
-        AsymmetricCipherKeyPair keyPair = utmaWeakKeyPairGenerator.generateKeyPair();
-
-        String message = "Hello World!!!";
-        byte[] messageAsBytes = message.getBytes();
-
+    protected String decrypt(CipherParameters privateKey, byte[] ciphertext) {
         try {
-            AsymmetricBlockCipher weakEngine = new MultiBlockAsymmetricBlockCipher(
+            AsymmetricBlockCipher engine = new MultiBlockAsymmetricBlockCipher(
                     new UTMAWeakEngine(),
                     new PKCS7Padding()
             );
 
-            // Encrypt
-            weakEngine.init(true, keyPair.getPublic());
-            byte[] cipherText = weakEngine.processBlock(messageAsBytes, 0, messageAsBytes.length);
-
-            // Randomize
-            UTMAWeakRandomizer randomizer = new UTMAWeakRandomizer();
-            randomizer.init(keyPair.getPublic());
-            for (int i = 0; i < 10; i++) {
-                cipherText = randomizer.processBlock(cipherText, 0, cipherText.length);
-            }
-
-            // Decrypt
-            weakEngine.init(false, keyPair.getPrivate());
-            byte[] plainText = weakEngine.processBlock(cipherText, 0, cipherText.length);
-
-            assertEquals(message, new String(plainText));
+            engine.init(false, privateKey);
+            return new String(engine.processBlock(ciphertext, 0, ciphertext.length)).trim();
         } catch (InvalidCipherTextException e) {
             e.printStackTrace();
             fail(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
-    
+    protected byte[] randomize(UTMAWeakPublicParameters publicParameters,
+                               byte[] ciphertext) {
+        UTMAWeakRandomizer randomizer = new UTMAWeakRandomizer();
+        randomizer.init(publicParameters);
+
+        return randomizer.processBlock(ciphertext, 0, ciphertext.length);
+    }
 
     protected CurveParams getCurveParamas() {
         CurveParams curveParams = new CurveParams();

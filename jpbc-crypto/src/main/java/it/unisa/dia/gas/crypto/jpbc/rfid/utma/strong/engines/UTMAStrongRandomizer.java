@@ -1,6 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc.rfid.utma.strong.engines;
 
-import it.unisa.dia.gas.crypto.jpbc.rfid.utma.strong.params.UTMAStrongParameters;
+import it.unisa.dia.gas.crypto.jpbc.rfid.utma.strong.params.UTMAStrongRandomizeParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.jpbc.Point;
@@ -18,7 +18,7 @@ import java.io.ByteArrayOutputStream;
  */
 public class UTMAStrongRandomizer {
 
-    private UTMAStrongParameters parameters;
+    private UTMAStrongRandomizeParameters parameters;
     private AsymmetricBlockCipher ssEngine;
     private Pairing pairing;
 
@@ -37,14 +37,14 @@ public class UTMAStrongRandomizer {
     /**
      * initialise the UTMA engine.
      *
-     * @param param         the necessary UTMA parameters parameters.
+     * @param param the necessary UTMA parameters parameters.
      */
     public void init(CipherParameters param) {
-        if (!(param instanceof UTMAStrongParameters)) {
-            throw new IllegalArgumentException("UTMAStrongParameters are required for encryption.");
+        if (!(param instanceof UTMAStrongRandomizeParameters)) {
+            throw new IllegalArgumentException("UTMAStrongRandomizeParameters are required for encryption.");
         }
 
-        this.parameters = (UTMAStrongParameters) param;
+        this.parameters = (UTMAStrongRandomizeParameters) param;
         this.pairing = PairingFactory.getPairing(parameters.getPublicParameters().getCurveParams());
         this.ssEngine.init(true, parameters.getPublicParameters().getRPublicKey());
         this.firstPartSize = (pairing.getGT().getLengthInBytes() + (4  * pairing.getG1().getLengthInBytes()));
