@@ -209,6 +209,11 @@ div.clear hr {
     font-size: 15px;
 }
 
+.share {
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
 .ln {
     color: rgb(0, 0, 0);
     font-weight: normal;
