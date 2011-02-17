@@ -73,14 +73,14 @@ div.clear hr {
 }
 
 #leftColumn {
-    width: 170px;
+    width: 180px;
     float: left;
     overflow: auto;
 }
 
 #bodyColumn {
     margin-right: 1.5em;
-    margin-left: 197px;
+    margin-left: 200px;
 }
 
 #legend {
@@ -207,4 +207,29 @@ div.clear hr {
     margin: 0px;
     padding: 0px;
     font-size: 15px;
+}
+
+.ln {
+    color: rgb(0, 0, 0);
+    font-weight: normal;
+    font-style: normal;
+}
+
+.s0 {
+    color: rgb(0, 0, 128);
+    font-weight: bold;
+}
+
+.s1 {
+}
+
+.s2 {
+    color: rgb(128, 128, 128);
+    font-style: italic;
+}
+
+.s3 {
+    color: rgb(128, 128, 128);
+    font-weight: bold;
+    font-style: italic;
 }

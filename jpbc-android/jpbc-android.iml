@@ -57,6 +57,7 @@
     <orderEntry type="library" scope="PROVIDED" name="Android 2.2 Platform" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="Android 2.2 Platform" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="Android 2.2 Platform" level="application" />
+    <orderEntry type="library" name="Android 2.2 Platform" level="application" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">
