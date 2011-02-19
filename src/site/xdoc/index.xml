@@ -8,8 +8,8 @@
     </properties>
 
     <body>
+        <div style="clear:right;visibility:hidden"/>
         <div id="downloadbox">
-            <!--<img src="./images/new.png" alt=""/> -->
             <h5>Get jPBC 1.2.0 Now!!!</h5>
             <span style="display: block; text-align: right; font-size: smaller">Released: November, 2010</span>
 
@@ -25,11 +25,6 @@
                 <li>
                     <a href="download.html#usage">jPBC Usage</a>
                 </li>
-<!--
-                <li>
-                    <a href="changes-report.html">Changes Report</a>
-                </li>
--->
                 <li>
                     <a href="license.html">License (LGPL)</a>
                 </li>
