@@ -48,14 +48,14 @@ div.clear hr {
 }
 
 .addthis_button {
-    position:absolute;
-    margin-top:-1px;
+    position: absolute;
+    margin-top: -2px;
 }
 
 .xright, #bannerRight img {
     float: right;
     text-shadow: #7CFC00;
-    width:335px;
+    width: 360px;
 }
 
 .xcenter {
@@ -80,8 +80,7 @@ div.clear hr {
 
 #leftColumn {
     width: 190px;
-    float: left;
-    /*overflow: auto;*/
+    float: left; /*overflow: auto;*/
 }
 
 #bodyColumn {
