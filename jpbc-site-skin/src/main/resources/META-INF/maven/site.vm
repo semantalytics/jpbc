@@ -317,15 +317,8 @@
     <div class="xright">
         <div class="share">
             <!-- AddThis Button BEGIN -->
-            <div class="addthis_toolbox addthis_default_style ">
-            <a href="http://www.addthis.com/bookmark.php?v=250&amp;username=xa-4d6027734c5aa287" class="addthis_button_compact">Share</a>
-            <span class="addthis_separator">|</span>
-            <a class="addthis_button_preferred_1"></a>
-            <a class="addthis_button_preferred_2"></a>
-            <a class="addthis_button_preferred_3"></a>
-            <a class="addthis_button_preferred_4"></a>
-            </div>
-            <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#username=xa-4d6027734c5aa287"></script>
+            <a class="addthis_button" href="http://www.addthis.com/bookmark.php?v=250&amp;username=xa-4d60deb101a7e912"><img src="http://s7.addthis.com/static/btn/v2/lg-share-en.gif" width="125" height="16" alt="Bookmark and Share" style="border:0"/></a>
+            <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#username=xa-4d60deb101a7e912"></script>
             <!-- AddThis Button END -->
         </div>
     </div>
@@ -338,6 +331,7 @@
       </div>
     </div>
     <div id="bodyColumn">
+      <div style="clear:right;visibility:hidden"/>
       <div id="contentBox">
         $bodyContent
       </div>
