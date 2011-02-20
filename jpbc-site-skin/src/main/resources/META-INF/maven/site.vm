@@ -304,7 +304,7 @@
       #publishDate( "left" $decoration.publishDate $decoration.version )
       <div class="xright">
           #links( $decoration.body.links )
-          | <a href="http://gas.dia.unisa.it/">GAS Lab</a>          
+          | <a href="http://gas.dia.unisa.it/">GAS Lab</a>
           #publishDate( "right" $decoration.publishDate $decoration.version )
       </div>
         <div class="xcenter">
@@ -314,14 +314,7 @@
         <hr/>
       </div>
     </div>
-    <div class="xright">
-        <div class="share">
-            <!-- AddThis Button BEGIN -->
-            <a class="addthis_button" href="http://www.addthis.com/bookmark.php?v=250&amp;username=xa-4d60deb101a7e912"><img src="http://s7.addthis.com/static/btn/v2/lg-share-en.gif" width="125" height="16" alt="Bookmark and Share" style="border:0"/></a>
-            <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#username=xa-4d60deb101a7e912"></script>
-            <!-- AddThis Button END -->
-        </div>
-    </div>
+
     <div id="leftColumn">
       <div id="navcolumn">
        #publishDate( "navigation-top" $decoration.publishDate $decoration.version )
@@ -333,6 +326,17 @@
     <div id="bodyColumn">
       <div style="clear:right;visibility:hidden"></div>
       <div id="contentBox">
+          <div class="xright">
+              <div class="share">
+                  <!-- AddThis Button BEGIN -->
+                  <a class="addthis_button" href="http://www.addthis.com/bookmark.php?v=250&amp;username=xa-4d60deb101a7e912"><img src="http://s7.addthis.com/static/btn/v2/lg-share-en.gif" width="125" height="16" alt="Bookmark and Share" style="border:0"/></a>
+                  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#username=xa-4d60deb101a7e912"></script>
+                  <!-- AddThis Button END -->
+              </div>
+          </div>
+          <div class="clear">
+              <hr/>
+          </div>
         $bodyContent
       </div>
     </div>
