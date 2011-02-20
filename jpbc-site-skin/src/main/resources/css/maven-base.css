@@ -47,9 +47,15 @@ div.clear hr {
     text-shadow: #7CFC00;
 }
 
+.addthis_button {
+    position:absolute;
+    margin-top:-1px;
+}
+
 .xright, #bannerRight img {
     float: right;
     text-shadow: #7CFC00;
+    width:335px;
 }
 
 .xcenter {
