@@ -73,14 +73,14 @@ div.clear hr {
 }
 
 #leftColumn {
-    width: 180px;
+    width: 190px;
     float: left;
-    overflow: auto;
+    /*overflow: auto;*/
 }
 
 #bodyColumn {
     margin-right: 1.5em;
-    margin-left: 200px;
+    margin-left: 210px;
 }
 
 #legend {
