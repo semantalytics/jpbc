@@ -331,7 +331,7 @@
       </div>
     </div>
     <div id="bodyColumn">
-      <div style="clear:right;visibility:hidden"/>
+      <div style="clear:right;visibility:hidden"></div>
       <div id="contentBox">
         $bodyContent
       </div>
