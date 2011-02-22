@@ -26,10 +26,7 @@ public class UHIBELW11EngineTest extends TestCase {
 
         // KeyGen
         Pairing pairing = PairingFactory.getPairing(((UHIBELW11PublicKeyParameters) keyPair.getPublic()).getCurveParams());
-        Element[] ids = new Element[3];
-        ids[0] = pairing.getZr().newRandomElement().getImmutable();
-        ids[1] = pairing.getZr().newRandomElement().getImmutable();
-        ids[2] = pairing.getZr().newRandomElement().getImmutable();
+        Element[] ids = map(pairing, "angelo", "de caro", "unisa");
 
         CipherParameters sk0 = keyGen(keyPair, ids[0]);
         CipherParameters sk01 = keyGen(keyPair, ids[0], ids[1]);
@@ -59,6 +56,15 @@ public class UHIBELW11EngineTest extends TestCase {
 
         return setup.generateKeyPair();
     }
+
+    protected Element[] map(Pairing pairing, String... ids) {
+        Element[] elements = new Element[ids.length];
+        for (int i = 0; i < elements.length; i++) {
+            elements[i] = pairing.getZr().newRandomElement();
+        }
+        return elements;
+    }
+
 
     protected CipherParameters keyGen(AsymmetricCipherKeyPair masterKey, Element... ids) {
         UHIBELW11SecretKeyGenerator generator = new UHIBELW11SecretKeyGenerator();
