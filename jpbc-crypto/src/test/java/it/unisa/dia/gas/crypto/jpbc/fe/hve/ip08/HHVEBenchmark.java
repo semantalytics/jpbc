@@ -1,9 +1,9 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08;
 
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.engines.HHVEIP08AttributesEngine;
-import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HHVEIP08KeyPairGenerator;
-import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HHVEIP08ParametersGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HHVEIP08SearchKeyGenerator;
+import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08KeyPairGenerator;
+import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08ParametersGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.*;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
@@ -59,7 +59,7 @@ public class HHVEBenchmark {
     private CipherParameters delegate(CipherParameters publicKey, CipherParameters searchKey, int... attributesPattern) {
         HHVEIP08SearchKeyGenerator generator = new HHVEIP08SearchKeyGenerator();
         generator.init(new HHVEIP08DelegateSecretKeyGenerationParameters(
-                (HHVEIP08PublicKeyParameters) publicKey,
+                (HVEIP08PublicKeyParameters) publicKey,
                 (HHVEIP08SearchKeyParameters) searchKey,
                 attributesPattern)
         );
@@ -68,18 +68,18 @@ public class HHVEBenchmark {
     }
 
 
-    protected HHVEIP08Parameters genParam(int... attributeLengths) {
+    protected HVEIP08Parameters genParam(int... attributeLengths) {
         CurveParams curveParams = new CurveParams();
         curveParams.load(this.getClass().getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/crypto/a_181_603.properties"));
 
-        HHVEIP08ParametersGenerator generator = new HHVEIP08ParametersGenerator();
+        HVEIP08ParametersGenerator generator = new HVEIP08ParametersGenerator();
         generator.init(curveParams, attributeLengths);
 
         return generator.generateParameters();
     }
 
-    protected HHVEIP08Parameters genParam(int n) {
-        HHVEIP08ParametersGenerator generator = new HHVEIP08ParametersGenerator();
+    protected HVEIP08Parameters genParam(int n) {
+        HVEIP08ParametersGenerator generator = new HVEIP08ParametersGenerator();
         generator.init(
                 new CurveParams().load(this.getClass().getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/crypto/a_181_603.properties")),
                 n
@@ -88,16 +88,16 @@ public class HHVEBenchmark {
         return generator.generateParameters();
     }
 
-    protected AsymmetricCipherKeyPair setup(HHVEIP08Parameters hveParameters) {
-        HHVEIP08KeyPairGenerator generator = new HHVEIP08KeyPairGenerator();
-        generator.init(new HHVEIP08KeyGenerationParameters(new SecureRandom(), hveParameters));
+    protected AsymmetricCipherKeyPair setup(HVEIP08Parameters hveParameters) {
+        HVEIP08KeyPairGenerator generator = new HVEIP08KeyPairGenerator();
+        generator.init(new HVEIP08KeyGenerationParameters(new SecureRandom(), hveParameters));
 
         return generator.generateKeyPair();
     }
 
     protected byte[] enc(CipherParameters publicKey, int... attributes) {
         byte[] attrs = HVEAttributes.attributesToByteArray(
-                ((HHVEIP08PublicKeyParameters) publicKey).getParameters(),
+                ((HVEIP08PublicKeyParameters) publicKey).getParameters(),
                 attributes
         );
 
@@ -109,7 +109,7 @@ public class HHVEBenchmark {
 
     protected CipherParameters keyGen(CipherParameters privateKey, int... pattern) {
         HHVEIP08SearchKeyGenerator generator = new HHVEIP08SearchKeyGenerator();
-        generator.init(new HHVEIP08SearchKeyGenerationParameters((HHVEIP08PrivateKeyParameters) privateKey, pattern));
+        generator.init(new HVEIP08SearchKeyGenerationParameters((HVEIP08PrivateKeyParameters) privateKey, pattern));
 
         return generator.generateKey();
     }

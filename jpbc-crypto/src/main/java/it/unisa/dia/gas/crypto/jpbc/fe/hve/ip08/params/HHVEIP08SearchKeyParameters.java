@@ -7,14 +7,14 @@ import java.util.List;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class HHVEIP08SearchKeyParameters extends HHVEIP08KeyParameters {
+public class HHVEIP08SearchKeyParameters extends HVEIP08KeyParameters {
     private int[] pattern;
     private Element[] Y, L;
     private List<List<Element>> SY, SL;
     private Element K;
     private boolean allStar;
 
-    public HHVEIP08SearchKeyParameters(HHVEIP08Parameters parameters,
+    public HHVEIP08SearchKeyParameters(HVEIP08Parameters parameters,
                                        int[] pattern,
                                        Element[] Y, Element[] L,
                                        List<List<Element>> SY,
@@ -31,14 +31,14 @@ public class HHVEIP08SearchKeyParameters extends HHVEIP08KeyParameters {
         this.K = null;
     }
 
-    public HHVEIP08SearchKeyParameters(HHVEIP08Parameters parameters, Element k) {
+    public HHVEIP08SearchKeyParameters(HVEIP08Parameters parameters, Element k) {
         super(true, parameters);
 
         this.K = k;
         this.allStar = true;
     }
 
-    public HHVEIP08SearchKeyParameters(HHVEIP08Parameters parameters,
+    public HHVEIP08SearchKeyParameters(HVEIP08Parameters parameters,
                                        Element[] Y, Element[] L,
                                        List<List<Element>> SY,
                                        List<List<Element>> SL) {

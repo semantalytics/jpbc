@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params;
 
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
 
 import java.util.List;
 
@@ -9,10 +10,12 @@ import java.util.List;
  */
 public class HVEIP08PublicKeyParameters extends HVEIP08KeyParameters {
     private Element Y;
-    private List<List<Element>> T, V;
+    private List<List<ElementPowPreProcessing>> T, V;
 
-
-    public HVEIP08PublicKeyParameters(HVEIP08Parameters parameters, Element Y, List<List<Element>> T, List<List<Element>> V) {
+    public HVEIP08PublicKeyParameters(HVEIP08Parameters parameters,
+                                      Element Y,
+                                      List<List<ElementPowPreProcessing>> T,
+                                      List<List<ElementPowPreProcessing>> V) {
         super(false, parameters);
 
         this.Y = Y;
@@ -26,11 +29,11 @@ public class HVEIP08PublicKeyParameters extends HVEIP08KeyParameters {
         return Y;
     }
 
-    public List<List<Element>> getT() {
-        return T;
+    public ElementPowPreProcessing getTAt(int row, int col) {
+        return T.get(row).get(col);
     }
 
-    public List<List<Element>> getV() {
-        return V;
+    public ElementPowPreProcessing getVAt(int row, int col) {
+        return V.get(row).get(col);
     }
 }

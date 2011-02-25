@@ -22,8 +22,8 @@ public class HHVEIP08SearchKeyGenerator implements CipherParametersGenerator {
     public void init(KeyGenerationParameters params) {
         this.params = params;
 
-        if (params instanceof HHVEIP08SearchKeyGenerationParameters) {
-            HHVEIP08SearchKeyGenerationParameters param = (HHVEIP08SearchKeyGenerationParameters) params;
+        if (params instanceof HVEIP08SearchKeyGenerationParameters) {
+            HVEIP08SearchKeyGenerationParameters param = (HVEIP08SearchKeyGenerationParameters) params;
 
             pattern = param.getPattern();
 
@@ -51,11 +51,9 @@ public class HHVEIP08SearchKeyGenerator implements CipherParametersGenerator {
 
     public CipherParameters generateKey() {
         //TODO: verify that param is dirrent from null...
-
-
-        if (params instanceof HHVEIP08SearchKeyGenerationParameters) {
-            HHVEIP08SearchKeyGenerationParameters param = (HHVEIP08SearchKeyGenerationParameters) params;
-            HHVEIP08PrivateKeyParameters privateKey = param.getPrivateKey();
+        if (params instanceof HVEIP08SearchKeyGenerationParameters) {
+            HVEIP08SearchKeyGenerationParameters param = (HVEIP08SearchKeyGenerationParameters) params;
+            HVEIP08PrivateKeyParameters privateKey = param.getPrivateKey();
 
             Pairing pairing = PairingFactory.getPairing(privateKey.getParameters().getCurveParams());
             int n = privateKey.getParameters().getN();
@@ -110,7 +108,7 @@ public class HHVEIP08SearchKeyGenerator implements CipherParametersGenerator {
         } else {
             HHVEIP08DelegateSecretKeyGenerationParameters param = (HHVEIP08DelegateSecretKeyGenerationParameters) params;
 
-            HHVEIP08PublicKeyParameters publicKey = param.getPublicKey();
+            HVEIP08PublicKeyParameters publicKey = param.getPublicKey();
             HHVEIP08SearchKeyParameters searchKey = param.getSearchKey();
 
             Pairing pairing = PairingFactory.getPairing(publicKey.getParameters().getCurveParams());

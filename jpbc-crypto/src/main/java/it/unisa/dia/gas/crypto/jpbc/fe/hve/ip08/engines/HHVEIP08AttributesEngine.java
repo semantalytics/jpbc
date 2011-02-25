@@ -1,9 +1,9 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.engines;
 
-import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HHVEIP08KeyParameters;
-import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HHVEIP08PublicKeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HHVEIP08SearchKeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEAttributes;
+import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08KeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08PublicKeyParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
 import it.unisa.dia.gas.jpbc.Pairing;
@@ -23,11 +23,11 @@ import java.util.List;
  */
 public class HHVEIP08AttributesEngine implements AsymmetricBlockCipher {
 
-    private HHVEIP08KeyParameters key;
+    private HVEIP08KeyParameters key;
     private boolean forEncryption;
 
     private int n;
-    private int attributesLengthInBytes;
+    private int inBytes, outBytes;
     private Pairing pairing;
 
     /**
@@ -40,15 +40,15 @@ public class HHVEIP08AttributesEngine implements AsymmetricBlockCipher {
         if (param instanceof ParametersWithRandom) {
             ParametersWithRandom p = (ParametersWithRandom) param;
 
-            this.key = (HHVEIP08KeyParameters) p.getParameters();
+            this.key = (HVEIP08KeyParameters) p.getParameters();
         } else {
-            this.key = (HHVEIP08KeyParameters) param;
+            this.key = (HVEIP08KeyParameters) param;
         }
 
         this.forEncryption = forEncryption;
         if (forEncryption) {
-            if (!(key instanceof HHVEIP08PublicKeyParameters)) {
-                throw new IllegalArgumentException("HHVEIP08PublicKeyParameters are required for encryption.");
+            if (!(key instanceof HVEIP08PublicKeyParameters)) {
+                throw new IllegalArgumentException("HVEIP08PublicKeyParameters are required for encryption.");
             }
         } else {
             if (!(key instanceof HHVEIP08SearchKeyParameters)) {
@@ -56,9 +56,11 @@ public class HHVEIP08AttributesEngine implements AsymmetricBlockCipher {
             }
         }
 
-        this.n = key.getParameters().getN();
-        this.attributesLengthInBytes = key.getParameters().getAttributesLengthInBytes();
         this.pairing = PairingFactory.getPairing(key.getParameters().getCurveParams());
+
+        this.n = key.getParameters().getN();
+        this.inBytes = key.getParameters().getAttributesLengthInBytes();
+        this.outBytes = pairing.getGT().getLengthInBytes() + (4 * n + 1) * pairing.getG1().getLengthInBytes();
     }
 
     /**
@@ -70,10 +72,10 @@ public class HHVEIP08AttributesEngine implements AsymmetricBlockCipher {
      */
     public int getInputBlockSize() {
         if (forEncryption) {
-            return attributesLengthInBytes;
+            return inBytes;
         }
 
-        return pairing.getGT().getLengthInBytes() + (4 * n + 1) * pairing.getG1().getLengthInBytes();
+        return outBytes;
     }
 
     /**
@@ -85,7 +87,7 @@ public class HHVEIP08AttributesEngine implements AsymmetricBlockCipher {
      */
     public int getOutputBlockSize() {
         if (forEncryption) {
-            return pairing.getGT().getLengthInBytes() + (4 * n + 1) * pairing.getG1().getLengthInBytes();
+            return outBytes;
         }
 
         return 1;
@@ -106,7 +108,7 @@ public class HHVEIP08AttributesEngine implements AsymmetricBlockCipher {
             throw new IllegalStateException("HVE engine not initialised");
         }
 
-        int maxLength = forEncryption ? attributesLengthInBytes : getInputBlockSize();
+        int maxLength = forEncryption ? inBytes : getInputBlockSize();
 
         if (inLen > maxLength) {
             throw new DataLengthException("input too large for HVE cipher.\n");
@@ -114,8 +116,11 @@ public class HHVEIP08AttributesEngine implements AsymmetricBlockCipher {
 
         if (key instanceof HHVEIP08SearchKeyParameters) {
             // match
-            // Convert bytes to Elements...
+            HHVEIP08SearchKeyParameters searchKey = (HHVEIP08SearchKeyParameters) key;
+            if (searchKey.isAllStar())
+                return new byte[]{0};
 
+            // Convert bytes to Elements...
             int offset = inOff;
 
             // load C0...
@@ -149,35 +154,27 @@ public class HHVEIP08AttributesEngine implements AsymmetricBlockCipher {
                 gs.add(gsi);
             }
 
-            HHVEIP08SearchKeyParameters searchKey = (HHVEIP08SearchKeyParameters) key;
-
             Element result = pairing.getGT().newOneElement();
-
-            if (searchKey.isAllStar()) {
-//                result.mul(pairing.pairing(C0, searchKey.getK()));
-            } else {
-                for (int i = 0; i < searchKey.getParameters().getN(); i++) {
-                    if (searchKey.isStar(i)) {
-                        result.mul(
-                                pairing.pairing(gsm.get(i), searchKey.getYAt(i))
-                        ).mul(
-                                pairing.pairing(gs.get(i), searchKey.getLAt(i))
-                        );
-                    } else {
-                        result.mul(
-                                pairing.pairing(X.get(i), searchKey.getYAt(i))
-                        ).mul(
-                                pairing.pairing(W.get(i), searchKey.getLAt(i))
-                        );
-                    }
+            for (int i = 0; i < searchKey.getParameters().getN(); i++) {
+                if (searchKey.isStar(i)) {
+                    result.mul(
+                            pairing.pairing(gsm.get(i), searchKey.getYAt(i))
+                    ).mul(
+                            pairing.pairing(gs.get(i), searchKey.getLAt(i))
+                    );
+                } else {
+                    result.mul(
+                            pairing.pairing(X.get(i), searchKey.getYAt(i))
+                    ).mul(
+                            pairing.pairing(W.get(i), searchKey.getLAt(i))
+                    );
                 }
             }
-
-            return new byte[]{(byte) (pairing.getGT().newOneElement().isEqual(result) ? 0 : 1)};
+            return new byte[]{(byte) (result.isOne() ? 0 : 1)};
         } else {
             // encryption
-            if (inLen > attributesLengthInBytes || inLen < attributesLengthInBytes)
-                throw new DataLengthException("input must be of size " + attributesLengthInBytes);
+            if (inLen > inBytes || inLen < inBytes)
+                throw new DataLengthException("input must be of size " + inBytes);
 
             byte[] block;
             if (inOff != 0 || inLen != in.length) {
@@ -188,7 +185,7 @@ public class HHVEIP08AttributesEngine implements AsymmetricBlockCipher {
             }
             int[] attributes = HVEAttributes.byteArrayToAttributes(key.getParameters(), block);
 
-            HHVEIP08PublicKeyParameters pub = (HHVEIP08PublicKeyParameters) key;
+            HVEIP08PublicKeyParameters pub = (HVEIP08PublicKeyParameters) key;
             ElementPowPreProcessing powG = pub.getParameters().getPowG();
 
             Element s = pairing.getZr().newRandomElement().getImmutable();

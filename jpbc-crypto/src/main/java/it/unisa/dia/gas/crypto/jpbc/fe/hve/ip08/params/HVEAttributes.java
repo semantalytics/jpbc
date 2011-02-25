@@ -8,7 +8,7 @@ import java.util.Random;
  */
 public class HVEAttributes {
 
-    public static byte[] attributesToByteArray(HHVEIP08Parameters parameters, int[] attributes) {
+    public static byte[] attributesToByteArray(HVEIP08Parameters parameters, int[] attributes) {
         ByteArrayOutputStream result = new ByteArrayOutputStream();
         DataOutputStream os = new DataOutputStream(result);
 
@@ -35,7 +35,7 @@ public class HVEAttributes {
         return result.toByteArray();
     }
 
-    public static int[] byteArrayToAttributes(HHVEIP08Parameters parameters, byte[] buffer) {
+    public static int[] byteArrayToAttributes(HVEIP08Parameters parameters, byte[] buffer) {
         DataInputStream is = new DataInputStream(new ByteArrayInputStream(buffer));
 
         try {

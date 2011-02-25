@@ -9,12 +9,12 @@ import java.util.Arrays;
  */
 public class HHVEIP08DelegateSecretKeyGenerationParameters extends KeyGenerationParameters {
 
-    private HHVEIP08PublicKeyParameters publicKey;
+    private HVEIP08PublicKeyParameters publicKey;
     private HHVEIP08SearchKeyParameters searchKey;
     private int[] pattern;
 
 
-    public HHVEIP08DelegateSecretKeyGenerationParameters(HHVEIP08PublicKeyParameters publicKey, HHVEIP08SearchKeyParameters searchKey, int... pattern) {
+    public HHVEIP08DelegateSecretKeyGenerationParameters(HVEIP08PublicKeyParameters publicKey, HHVEIP08SearchKeyParameters searchKey, int... pattern) {
         super(null, 12);
         this.publicKey = publicKey;
         this.searchKey = searchKey;
@@ -22,7 +22,7 @@ public class HHVEIP08DelegateSecretKeyGenerationParameters extends KeyGeneration
     }
 
 
-    public HHVEIP08PublicKeyParameters getPublicKey() {
+    public HVEIP08PublicKeyParameters getPublicKey() {
         return publicKey;
     }
 

@@ -26,11 +26,12 @@ public class HVEIP08PrivateKeyParameters extends HVEIP08KeyParameters {
         return y;
     }
 
-    public List<List<Element>> getT() {
-        return t;
+    public Element getTAt(int row, int col) {
+        return t.get(row).get(col);
     }
 
-    public List<List<Element>> getV() {
-        return v;
+    public Element getVAt(int row, int col) {
+        return v.get(row).get(col);
     }
+
 }
