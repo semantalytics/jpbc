@@ -25,8 +25,10 @@ import java.security.SecureRandom;
 public class IPLOSTW10EngineTest extends TestCase {
 
     public void testIPOT10AttributesEngine() {
+        int n = 2;
+
         // Setup
-        AsymmetricCipherKeyPair keyPair = setup(createParameters(2));
+        AsymmetricCipherKeyPair keyPair = setup(createParameters(n));
 
         // Encrypt
         Pairing pairing = PairingFactory.getPairing(
@@ -34,22 +36,17 @@ public class IPLOSTW10EngineTest extends TestCase {
         );
         String message = "Hello World";   // Message
 
-        Element[] x = new Element[2];     // Attributes
-        x[0] = pairing.getZr().newOneElement();
-        x[1] = pairing.getZr().newZeroElement();
+        Element[] x = getCanonicalVector(pairing, n, 0);
 
         byte[] ciphertext = encrypt(keyPair.getPublic(), message, x);
 
         // Gen matching SearchKey
-        Element[] y = new Element[2];
-        y[0] = pairing.getZr().newZeroElement();
-        y[1] = pairing.getZr().newOneElement();
+        Element[] y = getCanonicalVector(pairing, n, 1);
 
         assertEquals(message, decrypt(keyGen(keyPair.getPrivate(), y), ciphertext));
 
         // Gen non-matching SearchKey
         y[0] = pairing.getZr().newElement(5);
-        y[1] = pairing.getZr().newOneElement();
 
         assertNotSame(message, decrypt(keyGen(keyPair.getPrivate(), y), ciphertext));
     }
@@ -63,6 +60,14 @@ public class IPLOSTW10EngineTest extends TestCase {
                 ),
                 n
         ).generateParameters();
+    }
+
+    protected Element[] getCanonicalVector(Pairing pairing, int length, int index) {
+        Element[] elements = new Element[length];
+        for (int i = 0; i < elements.length; i++) {
+            elements[i] = (i == index) ? pairing.getZr().newOneElement() : pairing.getZr().newZeroElement();
+        }
+        return elements;
     }
 
     protected AsymmetricCipherKeyPair setup(IPLOSTW10Parameters parameters) {
