@@ -39,29 +39,29 @@ public class HVEIP08KeyPairGenerator implements AsymmetricCipherKeyPairGenerator
         Element Y = pairing.pairing(g, g).powZn(y);
 
         // Init
-        List<List<ElementPowPreProcessing>> T = new ArrayList<List<ElementPowPreProcessing>>(n);
+        List<List<Element>> T = new ArrayList<List<Element>>(n);
         List<List<Element>> t = new ArrayList<List<Element>>(n);
 
-        List<List<ElementPowPreProcessing>> V = new ArrayList<List<ElementPowPreProcessing>>(n);
+        List<List<Element>> V = new ArrayList<List<Element>>(n);
         List<List<Element>> v = new ArrayList<List<Element>>(n);
 
         for (int i = 0; i < n ; i++) {
 
             int howMany = parameters.getAttributeNumAt(i);
-            List<ElementPowPreProcessing> T_i = new ArrayList<ElementPowPreProcessing>();
+            List<Element> T_i = new ArrayList<Element>();
             List<Element> t_i = new ArrayList<Element>();
 
-            List<ElementPowPreProcessing> V_i = new ArrayList<ElementPowPreProcessing>();
+            List<Element> V_i = new ArrayList<Element>();
             List<Element> v_i = new ArrayList<Element>();
 
             for (int j = 0; j < howMany; j++) {
                 Element t_j = pairing.getZr().newElement().setToRandom();
-                T_i.add(powG.powZn(t_j).pow());
-                t_i.add(t_j);
+                T_i.add(powG.powZn(t_j).getImmutable());
+                t_i.add(t_j.getImmutable());
 
                 Element v_j = pairing.getZr().newElement().setToRandom();
-                V_i.add(powG.powZn(v_j).pow());
-                v_i.add(v_j);
+                V_i.add(powG.powZn(v_j).getImmutable());
+                v_i.add(v_j.getImmutable());
             }
 
             T.add(T_i);

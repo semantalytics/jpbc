@@ -55,6 +55,25 @@ public class HHVEIP08SearchKeyParameters extends HVEIP08KeyParameters {
         this.allStar = true;
     }
 
+    public HHVEIP08SearchKeyParameters(HVEIP08Parameters parameters,
+                                       Element[] Y, Element[] L,
+                                       List<List<Element>> SY,
+                                       List<List<Element>> SL,
+                                       Element K) {
+        super(true, parameters);
+
+        this.Y = Y;
+        this.L = L;
+        this.SY = SY;
+        this.SL = SL;
+        this.K = K;
+
+        this.pattern = new int[parameters.getN()];
+        for (int i = 0; i < pattern.length; i++)
+            pattern[i] = -1;
+        this.allStar = true;
+    }
+
     public Element getK() {
         return K;
     }

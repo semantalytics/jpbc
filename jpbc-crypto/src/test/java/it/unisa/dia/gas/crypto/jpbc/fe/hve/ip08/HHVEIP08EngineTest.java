@@ -1,71 +1,77 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08;
 
-import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.engines.HHVEIP08AttributesEngine;
-import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HHVEIP08AttributesOnlySearchKeyGenerator;
+import it.unisa.dia.gas.crypto.engines.MultiBlockAsymmetricBlockCipher;
+import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.engines.HHVEIP08Engine;
+import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HHVEIP08SearchKeyGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08KeyPairGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08ParametersGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.*;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import junit.framework.TestCase;
+import org.bouncycastle.crypto.AsymmetricBlockCipher;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
+import org.bouncycastle.crypto.InvalidCipherTextException;
+import org.bouncycastle.crypto.paddings.ZeroBytePadding;
 
 import java.security.SecureRandom;
 
 /**
  * @author Angelo De Caro
  */
-public class HHVEIP08AttributesEngineTest extends TestCase {
+public class HHVEIP08EngineTest extends TestCase {
 
     public void testHHVE() {
         AsymmetricCipherKeyPair keyPair = setup(genParam(1, 3, 1, 3, 2, 1));
 
-        assertEquals(true,
-                test(
+        String message = "Hello World!!!";
+
+        assertEquals(message,
+                decrypt(
                         keyGen(keyPair.getPrivate(), 0, 7, -1, 3, -1, 1),
-                        enc(keyPair.getPublic(),     0, 7,  0, 3,  2, 1)
+                        enc(keyPair.getPublic(), message, 0, 7, 0, 3, 2, 1)
                 )
         );
 
-        assertEquals(false,
-                test(
+        assertNotSame(message,
+                decrypt(
                         keyGen(keyPair.getPrivate(), 0, 5, -1, 3, -1, 1),
-                        enc(keyPair.getPublic(),     0, 7,  0, 3,  2, 1)
+                        enc(keyPair.getPublic(), message, 0, 7, 0, 3, 2, 1)
                 )
         );
 
-        assertEquals(true,
-                test(
+        assertEquals(message,
+                decrypt(
                         keyGen(keyPair.getPrivate(), -1, -1, -1, -1, -1, -1),
-                        enc(keyPair.getPublic(),     0, 7,  0, 3,  2, 1)
+                        enc(keyPair.getPublic(), message, 0, 7, 0, 3, 2, 1)
                 )
         );
 
-        assertEquals(true,
-                test(
+        assertEquals(message,
+                decrypt(
                         delegate(
                                 keyPair.getPublic(),
                                 keyGen(keyPair.getPrivate(), -1, -1, -1, -1, -1, -1),
                                 0, 7, 0, 3, -1, 1
                         ),
-                        enc(keyPair.getPublic(),     0, 7,  0, 3,  2, 1)
+                        enc(keyPair.getPublic(), message, 0, 7, 0, 3, 2, 1)
                 )
         );
 
-        assertEquals(true,
-                test(
+        assertEquals(message,
+                decrypt(
                         delegate(
                                 keyPair.getPublic(),
                                 keyGen(keyPair.getPrivate(), 0, 7, -1, 3, -1, 1),
                                 0, 7, 0, 3, -1, 1
                         ),
-                        enc(keyPair.getPublic(), 0, 7,  0, 3,  2, 1)
+                        enc(keyPair.getPublic(), message, 0, 7, 0, 3, 2, 1)
                 )
         );
     }
 
     private CipherParameters delegate(CipherParameters publicKey, CipherParameters searchKey, int... attributesPattern) {
-        HHVEIP08AttributesOnlySearchKeyGenerator generator = new HHVEIP08AttributesOnlySearchKeyGenerator();
+        HHVEIP08SearchKeyGenerator generator = new HHVEIP08SearchKeyGenerator();
         generator.init(new HHVEIP08DelegateSecretKeyGenerationParameters(
                 (HVEIP08PublicKeyParameters) publicKey,
                 (HHVEIP08SearchKeyParameters) searchKey,
@@ -93,30 +99,53 @@ public class HHVEIP08AttributesEngineTest extends TestCase {
         return generator.generateKeyPair();
     }
 
-    protected byte[] enc(CipherParameters publicKey, int... attributes) {
-        byte[] attrs = HVEAttributes.attributesToByteArray(
-                ((HVEIP08PublicKeyParameters)publicKey).getParameters(),
-                attributes
-        );
+    protected byte[] enc(CipherParameters publicKey, String message, int... attributes) {
+        byte[] bytes = message.getBytes();
 
-        HHVEIP08AttributesEngine engine = new HHVEIP08AttributesEngine();
-        engine.init(true, publicKey);
+        byte[] ciphertext = new byte[0];
+        try {
+            AsymmetricBlockCipher engine = new MultiBlockAsymmetricBlockCipher(
+                    new HHVEIP08Engine(),
+                    new ZeroBytePadding()
+            );
+            engine.init(true, new HVEIP08EncryptionParameters((HVEIP08PublicKeyParameters) publicKey, attributes));
+            ciphertext = engine.processBlock(bytes, 0, bytes.length);
 
-        return engine.processBlock(attrs, 0, attrs.length);
+            assertNotNull(ciphertext);
+            assertNotSame(0, ciphertext.length);
+        } catch (InvalidCipherTextException e) {
+            e.printStackTrace();
+            fail(e.getMessage());
+        }
+        return ciphertext;
     }
 
     protected CipherParameters keyGen(CipherParameters privateKey, int... pattern) {
-        HHVEIP08AttributesOnlySearchKeyGenerator generator = new HHVEIP08AttributesOnlySearchKeyGenerator();
+        HHVEIP08SearchKeyGenerator generator = new HHVEIP08SearchKeyGenerator();
         generator.init(new HVEIP08SearchKeyGenerationParameters((HVEIP08PrivateKeyParameters) privateKey, pattern));
 
         return generator.generateKey();
     }
 
-    protected boolean test(CipherParameters searchKey, byte[] ct) {
-        HHVEIP08AttributesEngine engine = new HHVEIP08AttributesEngine();
-        engine.init(false, searchKey);
+    protected String decrypt(CipherParameters searchKey, byte[] ct) {
+        byte[] plainText = new byte[0];
+        try {
+            AsymmetricBlockCipher engine = new MultiBlockAsymmetricBlockCipher(
+                    new HHVEIP08Engine(),
+                    new ZeroBytePadding()
+            );
+            // Decrypt
+            engine.init(false, searchKey);
+            plainText = engine.processBlock(ct, 0, ct.length);
 
-        return engine.processBlock(ct, 0, ct.length)[0] == 0;
+            assertNotNull(plainText);
+            assertNotSame(0, plainText.length);
+        } catch (InvalidCipherTextException e) {
+            e.printStackTrace();
+            fail(e.getMessage());
+        }
+
+        return new String(plainText).trim();
     }
 
 }

@@ -16,14 +16,24 @@ import java.security.SecureRandom;
  * @author Angelo De Caro
  */
 public class HVEIP08AttributesEngineTest extends TestCase {
+    HVEIP08AttributesEngine engine;
 
     public void testHVE() {
+        engine = new HVEIP08AttributesEngine();
+
         AsymmetricCipherKeyPair keyPair = setup(genParam(1, 3, 1, 3, 2, 1));
 
         assertEquals(true,
                 test(
                         keyGen(keyPair.getPrivate(), 0, 7, -1, 3, -1, 1),
                         enc(keyPair.getPublic(),     0, 7,  0, 3,  2, 1)
+                )
+        );
+
+        assertEquals(false,
+                test(
+                        keyGen(keyPair.getPrivate(), 0, 6, 0, 3, 2, 1),
+                        enc(keyPair.getPublic(),     0, 7, 0, 3, 2, 1)
                 )
         );
 
@@ -36,10 +46,18 @@ public class HVEIP08AttributesEngineTest extends TestCase {
 
         assertEquals(true,
                 test(
+                        keyGen(keyPair.getPrivate(), 0, 7, -1, 3, -1, 1),
+                        enc(keyPair.getPublic(),     0, 7,  0, 3,  2, 1)
+                )
+        );
+
+        assertEquals(true,
+                test(
                         keyGen(keyPair.getPrivate(), -1, -1, -1, -1, -1, -1),
                         enc(keyPair.getPublic(),     0, 7,  0, 3,  2, 1)
                 )
         );
+
     }
 
 
@@ -67,7 +85,6 @@ public class HVEIP08AttributesEngineTest extends TestCase {
                 attributes
         );
 
-        HVEIP08AttributesEngine engine = new HVEIP08AttributesEngine();
         engine.init(true, publicKey);
 
         return engine.processBlock(attrs, 0, attrs.length);
@@ -83,7 +100,6 @@ public class HVEIP08AttributesEngineTest extends TestCase {
     }
 
     protected boolean test(CipherParameters searchKey, byte[] ct) {
-        HVEIP08AttributesEngine engine = new HVEIP08AttributesEngine();
         engine.init(false, searchKey);
 
         return engine.processBlock(ct, 0, ct.length)[0] == 0;

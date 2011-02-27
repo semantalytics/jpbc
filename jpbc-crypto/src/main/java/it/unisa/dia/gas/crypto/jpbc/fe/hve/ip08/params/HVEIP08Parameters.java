@@ -26,7 +26,7 @@ public class HVEIP08Parameters implements CipherParameters, Serializable {
 
     public HVEIP08Parameters(CurveParameters curveParams, Element g, int[] attributeLengths) {
         this.curveParams = curveParams;
-        this.g = g;
+        this.g = g.getImmutable();
         this.powG = g.pow();
         this.n = attributeLengths.length;
         this.attributeLengths = Arrays.copyOf(attributeLengths, attributeLengths.length);
@@ -58,6 +58,10 @@ public class HVEIP08Parameters implements CipherParameters, Serializable {
 
     public int getN() {
         return n;
+    }
+
+    public int[] getAttributeLengths() {
+        return Arrays.copyOf(attributeLengths, attributeLengths.length);
     }
 
     public int getAttributesLengthInBytes() {

@@ -87,5 +87,16 @@ public class IOUtils {
         }
     }
 
+    public static byte[] merge(byte[]... arrays) {
+        try {
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            for (byte[] array : arrays) {
+                out.write(array);
+            }
+            return out.toByteArray();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }

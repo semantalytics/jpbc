@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class HHVEIP08SearchKeyGenerator implements CipherParametersGenerator {
+public class HHVEIP08AttributesOnlySearchKeyGenerator implements CipherParametersGenerator {
     private KeyGenerationParameters params;
     private int[] pattern;
 
@@ -58,14 +58,14 @@ public class HHVEIP08SearchKeyGenerator implements CipherParametersGenerator {
             Pairing pairing = PairingFactory.getPairing(privateKey.getParameters().getCurveParams());
             int n = privateKey.getParameters().getN();
 
-            // generate a_is
+            // generate a_i's which sum up to zero
             Element a[] = new Element[n];
             Element sum = pairing.getZr().newElement().setToZero();
             for (int i = 0; i < n - 1; i++) {
                 a[i] = pairing.getZr().newElement().setToRandom();
                 sum.add(a[i]);
             }
-            a[n - 1] = param.getPrivateKey().getY().sub(sum);
+            a[n - 1] = sum.negate();
 
             // generate key elements
             ElementPowPreProcessing g = privateKey.getParameters().getPowG();
@@ -98,8 +98,9 @@ public class HHVEIP08SearchKeyGenerator implements CipherParametersGenerator {
             }
 
             if (param.isAllStar())
+//                        privateKey.getParameters().getG().powZn(privateKey.getY())
                 return new HHVEIP08SearchKeyParameters(
-                        privateKey.getParameters(), Y, L, SY, SL, privateKey.getParameters().getG().powZn(privateKey.getY())
+                        privateKey.getParameters(), Y, L, SY, SL
                 );
             else
                 return new HHVEIP08SearchKeyParameters(privateKey.getParameters(), pattern, Y, L, SY, SL);
@@ -111,7 +112,7 @@ public class HHVEIP08SearchKeyGenerator implements CipherParametersGenerator {
 
             Pairing pairing = PairingFactory.getPairing(publicKey.getParameters().getCurveParams());
             int n = publicKey.getParameters().getN();
-//            Element z = pairing.getZr().newRandomElement();   TODO
+            Element z = pairing.getZr().newRandomElement();
 
             // generate key elements
             Element[] Y = new Element[n];
@@ -122,28 +123,28 @@ public class HHVEIP08SearchKeyGenerator implements CipherParametersGenerator {
             for (int i = 0; i < n; i++) {
                 if (searchKey.isStar(i) && param.isStarAt(i)) {
                     // Copy
-                    Y[i] = searchKey.getYAt(i)/*.powZn(z)*/.getImmutable();
-                    L[i] = searchKey.getLAt(i)/*.powZn(z)*/.getImmutable();
+                    Y[i] = searchKey.getYAt(i).powZn(z).getImmutable();
+                    L[i] = searchKey.getLAt(i).powZn(z).getImmutable();
 
                     List<Element> SYList = new ArrayList<Element>();
                     List<Element> SLList = new ArrayList<Element>();
                     for (int j = 0, size = param.getPublicKey().getParameters().getAttributeNumAt(i); j < size; j++) {
-                        SYList.add(searchKey.getSYAt(i, j)/*.powZn(z)*/.getImmutable());
-                        SLList.add(searchKey.getSLAt(i, j)/*.powZn(z)*/.getImmutable());
+                        SYList.add(searchKey.getSYAt(i, j).powZn(z).getImmutable());
+                        SLList.add(searchKey.getSLAt(i, j).powZn(z).getImmutable());
                     }
                     SY.add(SYList);
                     SL.add(SLList);
                 } else if (searchKey.getPatternAt(i) == param.getPatternAt(i)) {
                     // copy
-                    Y[i] = searchKey.getYAt(i)/*.powZn(z)*/.getImmutable();
-                    L[i] = searchKey.getLAt(i)/*.powZn(z)*/.getImmutable();
+                    Y[i] = searchKey.getYAt(i).powZn(z).getImmutable();
+                    L[i] = searchKey.getLAt(i).powZn(z).getImmutable();
 
                     SY.add(null);
                     SL.add(null);
                 } else if (searchKey.isStar(i) && !param.isStarAt(i)) {
                     // set
-                    Y[i] = searchKey.getSYAt(i, param.getPatternAt(i))/*.powZn(z)*/.getImmutable();
-                    L[i] = searchKey.getSLAt(i, param.getPatternAt(i))/*.powZn(z)*/.getImmutable();
+                    Y[i] = searchKey.getSYAt(i, param.getPatternAt(i)).powZn(z).getImmutable();
+                    L[i] = searchKey.getSLAt(i, param.getPatternAt(i)).powZn(z).getImmutable();
 
                     SY.add(null);
                     SL.add(null);

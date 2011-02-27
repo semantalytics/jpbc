@@ -1,7 +1,7 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08;
 
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.engines.HHVEIP08AttributesEngine;
-import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HHVEIP08SearchKeyGenerator;
+import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HHVEIP08AttributesOnlySearchKeyGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08KeyPairGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08ParametersGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.*;
@@ -57,7 +57,7 @@ public class HHVEBenchmark {
     }
 
     private CipherParameters delegate(CipherParameters publicKey, CipherParameters searchKey, int... attributesPattern) {
-        HHVEIP08SearchKeyGenerator generator = new HHVEIP08SearchKeyGenerator();
+        HHVEIP08AttributesOnlySearchKeyGenerator generator = new HHVEIP08AttributesOnlySearchKeyGenerator();
         generator.init(new HHVEIP08DelegateSecretKeyGenerationParameters(
                 (HVEIP08PublicKeyParameters) publicKey,
                 (HHVEIP08SearchKeyParameters) searchKey,
@@ -108,7 +108,7 @@ public class HHVEBenchmark {
     }
 
     protected CipherParameters keyGen(CipherParameters privateKey, int... pattern) {
-        HHVEIP08SearchKeyGenerator generator = new HHVEIP08SearchKeyGenerator();
+        HHVEIP08AttributesOnlySearchKeyGenerator generator = new HHVEIP08AttributesOnlySearchKeyGenerator();
         generator.init(new HVEIP08SearchKeyGenerationParameters((HVEIP08PrivateKeyParameters) privateKey, pattern));
 
         return generator.generateKey();

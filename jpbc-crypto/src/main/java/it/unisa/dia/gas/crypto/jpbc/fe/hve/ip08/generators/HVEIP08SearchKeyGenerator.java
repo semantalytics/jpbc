@@ -15,8 +15,8 @@ import org.bouncycastle.crypto.KeyGenerationParameters;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class HVEIP08SearchKeyGenerator {
-    private HVEIP08SearchKeyGenerationParameters param;
-    private int[] pattern;
+    protected HVEIP08SearchKeyGenerationParameters param;
+    protected int[] pattern;
 
     public void init(KeyGenerationParameters param) {
         this.param = (HVEIP08SearchKeyGenerationParameters) param;
@@ -33,7 +33,7 @@ public class HVEIP08SearchKeyGenerator {
     public CipherParameters generateKey() {
         HVEIP08PrivateKeyParameters privateKey = param.getPrivateKey();
         if (param.isAllStar())
-            return new HVEIP08SearchKeyParameters(privateKey.getParameters(), null);
+            return new HVEIP08SearchKeyParameters(privateKey.getParameters());
 
         Pairing pairing = PairingFactory.getPairing(privateKey.getParameters().getCurveParams());
 

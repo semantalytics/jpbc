@@ -60,7 +60,7 @@ public class HHVEIP08AttributesEngine implements AsymmetricBlockCipher {
 
         this.n = key.getParameters().getN();
         this.inBytes = key.getParameters().getAttributesLengthInBytes();
-        this.outBytes = pairing.getGT().getLengthInBytes() + (4 * n + 1) * pairing.getG1().getLengthInBytes();
+        this.outBytes = (4 * n + 1) * pairing.getG1().getLengthInBytes();
     }
 
     /**
