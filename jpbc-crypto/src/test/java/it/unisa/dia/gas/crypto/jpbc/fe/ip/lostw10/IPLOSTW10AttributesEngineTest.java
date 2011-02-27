@@ -78,7 +78,7 @@ public class IPLOSTW10AttributesEngineTest extends TestCase {
     
     protected CipherParameters keyGen(CipherParameters privateKey, Element[] y) {
         IPLOSTW10SearchKeyGenerator keyGen = new IPLOSTW10SearchKeyGenerator();
-        keyGen.init(new IPOT10SearchKeyGenerationParameters(
+        keyGen.init(new IPLOSTW10SearchKeyGenerationParameters(
                 (IPLOSTW10PrivateKeyParameters) privateKey, y
         ));
         

@@ -85,7 +85,7 @@ public class IPLOSTW10EngineTest extends TestCase {
                     new IPLOSTW10Engine(),
                     new ZeroBytePadding()
             );
-            engine.init(true, publicKey);
+            engine.init(true, new IPLOSTW10EncryptionParameters((IPLOSTW10PublicKeyParameters) publicKey, x));
 
             // Encrypt
             cipherText = engine.processBlock(messageAsBytes, 0, messageAsBytes.length);
@@ -103,7 +103,7 @@ public class IPLOSTW10EngineTest extends TestCase {
     protected CipherParameters keyGen(CipherParameters privateKey, Element[] y) {
         // Init the Generator
         IPLOSTW10SearchKeyGenerator keyGen = new IPLOSTW10SearchKeyGenerator();
-        keyGen.init(new IPOT10SearchKeyGenerationParameters(
+        keyGen.init(new IPLOSTW10SearchKeyGenerationParameters(
                 (IPLOSTW10PrivateKeyParameters) privateKey,
                 y
         ));

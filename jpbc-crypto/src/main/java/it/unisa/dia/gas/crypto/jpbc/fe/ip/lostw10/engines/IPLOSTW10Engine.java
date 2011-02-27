@@ -1,5 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.engines;
 
+import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10EncryptionParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10KeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10PublicKeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10SearchKeyParameters;
@@ -25,7 +26,7 @@ public class IPLOSTW10Engine implements AsymmetricBlockCipher {
 
     private int n;
     private int N;
-    private int inLen, outLen, decOutLen;
+    private int inLen, outLen;
     private Pairing pairing;
     private Pairing productPairing;
 
@@ -46,8 +47,8 @@ public class IPLOSTW10Engine implements AsymmetricBlockCipher {
 
         this.forEncryption = forEncryption;
         if (forEncryption) {
-            if (!(key instanceof IPLOSTW10PublicKeyParameters)) {
-                throw new IllegalArgumentException("IPLOSTW10PublicKeyParameters are required for encryption.");
+            if (!(key instanceof IPLOSTW10EncryptionParameters)) {
+                throw new IllegalArgumentException("IPLOSTW10EncryptionParameters are required for encryption.");
             }
         } else {
             if (!(key instanceof IPLOSTW10SearchKeyParameters)) {
@@ -60,9 +61,8 @@ public class IPLOSTW10Engine implements AsymmetricBlockCipher {
         this.pairing = PairingFactory.getPairing(key.getParameters().getCurveParams());
         this.productPairing = new ProductPairing(null, pairing, N);
 
-        this.inLen = pairing.getGT().getLengthInBytes() + n * pairing.getZr().getLengthInBytes();
+        this.inLen = pairing.getGT().getLengthInBytes();
         this.outLen = pairing.getGT().getLengthInBytes() + N * pairing.getG1().getLengthInBytes();
-        this.decOutLen = pairing.getGT().getLengthInBytes();
     }
 
     /**
@@ -92,7 +92,7 @@ public class IPLOSTW10Engine implements AsymmetricBlockCipher {
             return outLen;
         }
 
-        return decOutLen;
+        return inLen;
     }
 
     /**
@@ -150,26 +150,20 @@ public class IPLOSTW10Engine implements AsymmetricBlockCipher {
             Element m = pairing.getGT().newElement();
             offset += m.setFromBytes(block, offset);
 
-            // load attributes
-            Element[] x = new Element[n];
-            for (int i = 0; i < n; i++) {
-                x[i] = pairing.getZr().newElement();
-                offset += x[i].setFromBytes(block, offset);
-            }
-
-            IPLOSTW10PublicKeyParameters pub = (IPLOSTW10PublicKeyParameters) key;
+            IPLOSTW10EncryptionParameters encKey = (IPLOSTW10EncryptionParameters) key;
+            IPLOSTW10PublicKeyParameters pub = encKey.getPublicKey();
 
             Element delta1 = pairing.getZr().newRandomElement();
             Element delta2 = pairing.getZr().newRandomElement();
             Element eta = pairing.getZr().newRandomElement();
 
-            Element c1 = pub.getBAt(0).mulZn(x[0]);
+            Element c1 = pub.getBAt(0).mulZn(encKey.getXAt(0));
             for (int i = 1; i < n; i++) {
-                c1.add(pub.getBAt(i).mulZn(x[i]));
+                c1.add(pub.getBAt(i).mulZn(encKey.getXAt(i)));
             }
             c1.mulZn(delta1)
                     .add(pub.getBAt(n)).mulZn(eta)
-                    .add(pub.getBAt(n+1).mulZn(delta2));
+                    .add(pub.getBAt(n + 1).mulZn(delta2));
 
             Element c2 = pub.getSigma().powZn(eta).mul(m);
 

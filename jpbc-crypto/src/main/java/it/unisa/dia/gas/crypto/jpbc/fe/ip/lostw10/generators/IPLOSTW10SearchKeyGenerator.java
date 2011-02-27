@@ -1,8 +1,8 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators;
 
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10PrivateKeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10SearchKeyGenerationParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10SearchKeyParameters;
-import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPOT10SearchKeyGenerationParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
@@ -13,12 +13,12 @@ import org.bouncycastle.crypto.KeyGenerationParameters;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class IPLOSTW10SearchKeyGenerator {
-    private IPOT10SearchKeyGenerationParameters param;
+    private IPLOSTW10SearchKeyGenerationParameters param;
     private Pairing pairing;
     private int n;
 
     public void init(KeyGenerationParameters param) {
-        this.param = (IPOT10SearchKeyGenerationParameters) param;
+        this.param = (IPLOSTW10SearchKeyGenerationParameters) param;
         this.n = this.param.getParameters().getParameters().getN();
         this.pairing = PairingFactory.getPairing(this.param.getParameters().getParameters().getCurveParams());
     }
