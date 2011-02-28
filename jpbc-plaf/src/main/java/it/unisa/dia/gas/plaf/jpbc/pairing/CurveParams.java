@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing;
 
 import it.unisa.dia.gas.jpbc.CurveParameters;
+import it.unisa.dia.gas.plaf.jpbc.util.Base64;
 
 import java.io.*;
 import java.math.BigInteger;
@@ -94,11 +95,15 @@ public class CurveParams extends LinkedHashMap<String, String> implements CurveP
     }
 
     public byte[] getBytes(String key) {
-        return getString(key).getBytes();
+        try {
+            return Base64.decode(getString(key));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void putBytes(String key, byte[] bytes) {
-        put(key, new String(bytes));
+        put(key, Base64.encodeBytes(bytes, 0, bytes.length));
     }
 
 

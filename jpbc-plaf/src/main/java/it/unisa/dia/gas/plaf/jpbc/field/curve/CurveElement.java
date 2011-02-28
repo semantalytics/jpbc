@@ -278,9 +278,8 @@ public class CurveElement<E extends Element> extends GenericPointElement<E> {
         return y.sign();
     }
 
-
     public String toString() {
-        return String.format("{x=%s,y=%s,infFlag=%d}", x, y, infFlag);
+        return String.format("%s,%s,%d", x, y, infFlag);
     }
 
     public boolean equals(Object obj) {

@@ -321,9 +321,8 @@ public class NaiveElement extends GenericElement {
         }
     }
 
-
     public String toString() {
-        return (value != null) ? value.toString() : "<null>";
+        return value.toString();
     }
 
     public boolean equals(Object o) {

@@ -62,9 +62,9 @@ public class TypeDPairing extends AbstractPairing {
     public CurveParams saveTwist() {
         CurveParams params = (CurveParams) curveParams;
 
-        params.putBytes("twist.a", Etwist.getA().toBytes());
-        params.putBytes("twist.b", Etwist.getB().toBytes());
-        params.putBytes("twist.gen", Etwist.getGen().toBytes());
+        params.put("twist.a", Etwist.getA().toString());
+        params.put("twist.b", Etwist.getB().toString());
+        params.put("twist.gen", Etwist.getGen().toString());
 
         return params;
     }
