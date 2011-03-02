@@ -3,8 +3,6 @@ package it.unisa.dia.gas.crypto.jpbc.utils;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.Arrays;
 
 /**
@@ -39,19 +37,6 @@ public class ElementUtil {
         }
 
         return result;
-    }
-
-    public static byte[] aggregateBytes(byte[]... bytesArray) {
-        // TODO: precompute the length
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        try {
-            for (byte[] bytes : bytesArray) {
-                out.write(bytes);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return out.toByteArray();
     }
 
 

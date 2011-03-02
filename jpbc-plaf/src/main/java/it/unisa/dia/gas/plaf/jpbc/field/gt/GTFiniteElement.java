@@ -48,15 +48,21 @@ public class GTFiniteElement extends GenericElement {
     }
 
     public GTFiniteElement set(Element value) {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        this.value.set(((GTFiniteElement) value).value);
+
+        return this;
     }
 
     public GTFiniteElement set(int value) {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        this.value.set(value);
+
+        return this;
     }
 
     public GTFiniteElement set(BigInteger value) {
-        throw new IllegalStateException("Not implemented yet!!!");
+        this.value.set(value);
+
+        return this;
     }
 
     public boolean isZero() {

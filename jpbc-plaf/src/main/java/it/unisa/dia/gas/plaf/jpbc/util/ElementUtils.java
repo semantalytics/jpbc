@@ -8,6 +8,20 @@ import it.unisa.dia.gas.jpbc.Field;
  */
 public class ElementUtils {
 
+    public static void print(Element[][] matrix) {
+        int n = matrix.length;
+        int m = matrix[0].length;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                System.out.print(matrix[i][j] + ", ");
+
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+
     public static Element[][] invert(Element[][] matrix) {
         int n = matrix.length;
 
@@ -74,7 +88,6 @@ public class ElementUtils {
 
         return res;
     }
-
 
 
     private static Element[][] invertArray(Element[][] D, int n) {

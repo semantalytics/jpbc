@@ -299,7 +299,7 @@ public class NaiveElement extends GenericElement {
         if (bytes.length > field.getLengthInBytes()) {
             if (bytes[0] == 0 && bytes.length == field.getLengthInBytes() + 1) {
                 // Remove it
-                bytes = BigIntegerUtils.copyOfRange(bytes, 1, bytes.length);
+                bytes = Utils.copyOfRange(bytes, 1, bytes.length);
             } else
                 throw new IllegalStateException("result has more than FixedLengthInBytes.");
         } else if (bytes.length < field.getLengthInBytes()) {

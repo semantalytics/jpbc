@@ -140,6 +140,7 @@ public class TypeACurveGenerator implements CurveGenerator {
         CurveParams curveParams = (CurveParams) generator.generate();
 
         System.out.println(curveParams.toString(" "));
+
     }
 
 }
