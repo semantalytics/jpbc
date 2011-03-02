@@ -15,7 +15,7 @@
     <orderEntry type="module" module-name="jpbc-plaf" />
     <orderEntry type="module" module-name="jpbc-pbc" />
     <orderEntry type="library" name="Maven: net.java.dev.jna:jna:3.2.5" level="project" />
-    <orderEntry type="library" name="Maven: bouncycastle:bcprov-jdk16:140" level="project" />
+    <orderEntry type="library" name="Maven: org.bouncycastle:bcprov-jdk16:1.46" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:3.8.1" level="project" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">

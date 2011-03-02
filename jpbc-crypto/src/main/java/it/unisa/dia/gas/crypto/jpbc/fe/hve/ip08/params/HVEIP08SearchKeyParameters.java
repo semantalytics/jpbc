@@ -60,13 +60,6 @@ public class HVEIP08SearchKeyParameters extends HVEIP08KeyParameters {
         return pattern[index];
     }
 
-    public int getNumNonStar() {
-        if (allStar)
-            return 0;
-        else
-            return Y.length;
-    }
-
     public int[] getPattern() {
         return Arrays.copyOf(pattern, pattern.length);
     }
