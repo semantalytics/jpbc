@@ -1,9 +1,9 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08;
 
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.engines.HVEIP08AttributesEngine;
+import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08AttributesOnlySearchKeyGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08KeyPairGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08ParametersGenerator;
-import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08SearchKeyGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.*;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
@@ -24,10 +24,13 @@ public class HVEIP08Benchmark {
 
     public void benchmark(int maxNumAttributes, int numDifferentPattern, int numIterations,
                           int upperBoundSingleAttribute,
-                          boolean usePBC, boolean preProcessPK, boolean preProcessSK) {
+                          boolean usePBC,
+                          boolean preProcessPK,
+                          boolean preProcessMSK,
+                          boolean preProcessSearchKey) {
         System.out.printf(
-                "Benchmark [upperBoundSingleAttribute = %d, usePBC = %s, preProcessPK = %s, preProcessSK = %s]\n",
-                upperBoundSingleAttribute, usePBC, preProcessPK, preProcessSK
+                "Benchmark [upperBoundSingleAttribute = %d, usePBC = %s, preProcessPK = %s, preProcessMSK = %s, preProcessSearchKey = %s]\n",
+                upperBoundSingleAttribute, usePBC, preProcessPK, preProcessMSK, preProcessSearchKey
         );
         searchEngine = new HVEIP08AttributesEngine();
         encEngine = new HVEIP08AttributesEngine();
@@ -35,10 +38,10 @@ public class HVEIP08Benchmark {
         PairingFactory.getInstance().setUsePBCWhenPossible(usePBC);
 
         for (int n = 5; n <= maxNumAttributes; n += 5) {
-            System.out.printf("\tn = %d", n);
-
             int elapsedSearch = 0;
             int elapsedEnc = 0;
+            int elapsedKeyGen = 0;
+            int elapsedPreProcessSearchKey = 0;
 
             for (int j = 0; j < numDifferentPattern; j++) {
                 int[] pattern = randomPattern(n, upperBoundSingleAttribute);
@@ -47,19 +50,29 @@ public class HVEIP08Benchmark {
                 AsymmetricCipherKeyPair keyPair = setup(genParam(pattern));
                 if (preProcessPK)
                     ((HVEIP08PublicKeyParameters) keyPair.getPublic()).preProcess();
+                if (preProcessMSK)
+                    ((HVEIP08PrivateKeyParameters) keyPair.getPublic()).preProcess();
 
                 // Test matching key/ct
                 int[] searchAttr = getSearchAttribute(pattern);
 
+                long start = System.currentTimeMillis();
                 CipherParameters searchKey = keyGen(keyPair.getPrivate(), searchAttr);
-                if (preProcessSK)
+                long end = System.currentTimeMillis();
+                elapsedKeyGen += (end - start);
+
+                if (preProcessSearchKey) {
+                    start = System.currentTimeMillis();
                     ((HVEIP08SearchKeyParameters) searchKey).preProcess();
+                    end = System.currentTimeMillis();
+                    elapsedPreProcessSearchKey += (end - start);
+                }
                 searchEngine.init(false, searchKey);
 
                 for (int i = 0; i < numIterations; i++) {
-                    long start = System.currentTimeMillis();
+                    start = System.currentTimeMillis();
                     byte[] ct = enc(keyPair.getPublic(), getAttributeVector(pattern, searchAttr));
-                    long end = System.currentTimeMillis();
+                    end = System.currentTimeMillis();
                     elapsedEnc += (end - start);
 
                     start = System.currentTimeMillis();
@@ -70,9 +83,11 @@ public class HVEIP08Benchmark {
             }
 
             System.out.printf(
-                    "%d %f %f\n",
+                    "%d %f %f %f %f\n",
                     n,
                     (((double) elapsedEnc) / (numDifferentPattern * numIterations)),
+                    (((double) elapsedKeyGen) / (numDifferentPattern * numIterations)),
+                    (((double) elapsedPreProcessSearchKey) / (numDifferentPattern * numIterations)),
                     (((double) elapsedSearch) / (numDifferentPattern * numIterations))
             );
 
@@ -161,7 +176,7 @@ public class HVEIP08Benchmark {
     }
 
     protected CipherParameters keyGen(CipherParameters privateKey, int... pattern) {
-        HVEIP08SearchKeyGenerator generator = new HVEIP08SearchKeyGenerator();
+        HVEIP08AttributesOnlySearchKeyGenerator generator = new HVEIP08AttributesOnlySearchKeyGenerator();
         generator.init(new HVEIP08SearchKeyGenerationParameters(
                 (HVEIP08PrivateKeyParameters) privateKey, pattern)
         );
@@ -192,13 +207,13 @@ public class HVEIP08Benchmark {
                 Integer.parseInt(args[1]),
                 Integer.parseInt(args[2]),
                 Integer.parseInt(args[3]),
-                false, false, false);
+                false, false, false, false);
         benchmark.benchmark(
                 Integer.parseInt(args[0]),
                 Integer.parseInt(args[1]),
                 Integer.parseInt(args[2]),
                 Integer.parseInt(args[3]),
-                true, true, true);
+                true, true, true, true);
     }
 
 }

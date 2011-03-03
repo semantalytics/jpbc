@@ -2,6 +2,7 @@ package it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params;
 
 import it.unisa.dia.gas.jpbc.Element;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,6 +11,10 @@ import java.util.List;
 public class HVEIP08PrivateKeyParameters extends HVEIP08KeyParameters {
     private Element y;
     private List<List<Element>> t,v;
+
+    private List<List<Element>> preT, preV;
+    private boolean preProcessed = false;
+
 
 
     public HVEIP08PrivateKeyParameters(HVEIP08Parameters parameters, Element y, List<List<Element>> t, List<List<Element>> v) {
@@ -32,6 +37,40 @@ public class HVEIP08PrivateKeyParameters extends HVEIP08KeyParameters {
 
     public Element getVAt(int row, int col) {
         return v.get(row).get(col);
+    }
+
+    public Element getPreTAt(int row, int col) {
+        return preT.get(row).get(col);
+    }
+
+    public Element getPreVAt(int row, int col) {
+        return preV.get(row).get(col);
+    }
+
+    public void preProcess() {
+        int  n = getParameters().getN();
+
+        preT = new ArrayList<List<Element>>(n);
+        preV = new ArrayList<List<Element>>(n);
+        for (int i = 0; i < n; i++) {
+            int attributeNum = getParameters().getAttributeNumAt(i);
+
+            List<Element> listT = new ArrayList<Element>(attributeNum);
+            List<Element> listV = new ArrayList<Element>(attributeNum);
+            for (int j = 0; j < attributeNum; j++) {
+                listT.add(getTAt(i, j).invert());
+                listV.add(getVAt(i, j).invert());
+            }
+
+            preT.add(listT);
+            preV.add(listV);
+        }
+        preProcessed = true;
+    }
+
+
+    public boolean isPreProcessed() {
+        return preProcessed;
     }
 
 }

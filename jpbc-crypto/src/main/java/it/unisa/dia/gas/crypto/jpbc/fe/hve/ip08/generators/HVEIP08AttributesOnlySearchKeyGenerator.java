@@ -14,7 +14,7 @@ import org.bouncycastle.crypto.KeyGenerationParameters;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class HVEIP08SearchKeyGenerator {
+public class HVEIP08AttributesOnlySearchKeyGenerator {
     protected HVEIP08SearchKeyGenerationParameters param;
     protected int[] pattern;
 
@@ -47,7 +47,6 @@ public class HVEIP08SearchKeyGenerator {
             a[i] = pairing.getZr().newElement().setToRandom();
             sum.add(a[i]);
         }
-//                a[numNonStar - 1] = param.getPrivateKey().getY().sub(sum);
         a[numNonStar - 1] = sum.negate();
 
         // generate key elements
@@ -56,14 +55,27 @@ public class HVEIP08SearchKeyGenerator {
         Element[] Y = new Element[n];
         Element[] L = new Element[n];
 
-        for (int i = 0, j=0; i < n; i++) {
-            if (param.isStarAt(i)) {
-                Y[i] = null;
-                L[i] = null;
-            } else {
-                Y[i] = g.powZn(a[j].duplicate().div(privateKey.getTAt(i, param.getPatternAt(i)))).getImmutable();
-                L[i] = g.powZn(a[j].duplicate().div(privateKey.getVAt(i, param.getPatternAt(i)))).getImmutable();
-                j++;
+        if (privateKey.isPreProcessed()) {
+            for (int i = 0, j=0; i < n; i++) {
+                if (param.isStarAt(i)) {
+                    Y[i] = null;
+                    L[i] = null;
+                } else {
+                    Y[i] = g.powZn(a[j].duplicate().mul(privateKey.getPreTAt(i, param.getPatternAt(i)))).getImmutable();
+                    L[i] = g.powZn(a[j].duplicate().mul(privateKey.getPreVAt(i, param.getPatternAt(i)))).getImmutable();
+                    j++;
+                }
+            }
+        } else {
+            for (int i = 0, j=0; i < n; i++) {
+                if (param.isStarAt(i)) {
+                    Y[i] = null;
+                    L[i] = null;
+                } else {
+                    Y[i] = g.powZn(a[j].duplicate().div(privateKey.getTAt(i, param.getPatternAt(i)))).getImmutable();
+                    L[i] = g.powZn(a[j].duplicate().div(privateKey.getVAt(i, param.getPatternAt(i)))).getImmutable();
+                    j++;
+                }
             }
         }
 

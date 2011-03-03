@@ -1,9 +1,9 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08;
 
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.engines.HVEIP08AttributesEngine;
+import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08AttributesOnlySearchKeyGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08KeyPairGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08ParametersGenerator;
-import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08SearchKeyGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.*;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import junit.framework.TestCase;
@@ -91,7 +91,7 @@ public class HVEIP08AttributesEngineTest extends TestCase {
     }
 
     protected CipherParameters keyGen(CipherParameters privateKey, int... pattern) {
-        HVEIP08SearchKeyGenerator generator = new HVEIP08SearchKeyGenerator();
+        HVEIP08AttributesOnlySearchKeyGenerator generator = new HVEIP08AttributesOnlySearchKeyGenerator();
         generator.init(new HVEIP08SearchKeyGenerationParameters(
                 (HVEIP08PrivateKeyParameters) privateKey, pattern)
         );

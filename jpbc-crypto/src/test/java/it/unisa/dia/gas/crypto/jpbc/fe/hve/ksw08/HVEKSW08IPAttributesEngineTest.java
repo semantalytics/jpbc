@@ -1,6 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.hve.ksw08;
 
-import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08SearchKeyGenerator;
+import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08AttributesOnlySearchKeyGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08PrivateKeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08SearchKeyGenerationParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators.IPLOSTW10KeyPairGenerator;
@@ -81,7 +81,7 @@ public class HVEKSW08IPAttributesEngineTest extends TestCase {
     }
 
     protected CipherParameters keyGen(CipherParameters privateKey, int... pattern) {
-        HVEIP08SearchKeyGenerator generator = new HVEIP08SearchKeyGenerator();
+        HVEIP08AttributesOnlySearchKeyGenerator generator = new HVEIP08AttributesOnlySearchKeyGenerator();
         generator.init(new HVEIP08SearchKeyGenerationParameters(
                 (HVEIP08PrivateKeyParameters) privateKey, pattern)
         );
