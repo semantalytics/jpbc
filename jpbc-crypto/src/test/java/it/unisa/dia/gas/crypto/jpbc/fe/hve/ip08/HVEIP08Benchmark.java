@@ -163,7 +163,7 @@ public class HVEIP08Benchmark {
 
     protected HVEIP08Parameters genParam(int... attributeLengths) {
         CurveParams curveParams = new CurveParams();
-        curveParams.load(this.getClass().getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/crypto/a_181_603.properties"));
+        curveParams.load(this.getClass().getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/crypto/a_160_512.properties"));
 
         HVEIP08ParametersGenerator generator = new HVEIP08ParametersGenerator();
         generator.init(curveParams, attributeLengths);
