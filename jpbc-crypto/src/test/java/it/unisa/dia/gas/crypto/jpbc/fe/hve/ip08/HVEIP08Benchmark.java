@@ -51,7 +51,7 @@ public class HVEIP08Benchmark {
                 if (preProcessPK)
                     ((HVEIP08PublicKeyParameters) keyPair.getPublic()).preProcess();
                 if (preProcessMSK)
-                    ((HVEIP08PrivateKeyParameters) keyPair.getPublic()).preProcess();
+                    ((HVEIP08PrivateKeyParameters) keyPair.getPrivate()).preProcess();
 
                 // Test matching key/ct
                 int[] searchAttr = getSearchAttribute(pattern);
