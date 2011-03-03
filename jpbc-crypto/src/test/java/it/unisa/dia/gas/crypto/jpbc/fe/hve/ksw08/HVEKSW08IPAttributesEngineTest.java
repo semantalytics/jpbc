@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.crypto.jpbc.fe.hve.ksw08.hve;
+package it.unisa.dia.gas.crypto.jpbc.fe.hve.ksw08;
 
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08SearchKeyGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08PrivateKeyParameters;
