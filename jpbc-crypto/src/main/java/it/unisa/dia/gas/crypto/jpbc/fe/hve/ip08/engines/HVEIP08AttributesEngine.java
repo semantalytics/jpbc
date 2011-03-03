@@ -141,13 +141,25 @@ public class HVEIP08AttributesEngine implements AsymmetricBlockCipher {
             }
 
             Element result = pairing.getGT().newOneElement();
-            for (int i = 0; i < searchKey.getParameters().getN(); i++) {
-                if (!searchKey.isStar(i)) {
-                    result.mul(
-                            pairing.pairing(X.get(i), searchKey.getYAt(i))
-                    ).mul(
-                            pairing.pairing(W.get(i), searchKey.getLAt(i))
-                    );
+            if (searchKey.isPreProcessed()) {
+                for (int i = 0; i < searchKey.getParameters().getN(); i++) {
+                    if (!searchKey.isStar(i)) {
+                        result.mul(
+                                searchKey.getPreYAt(i).pairing(X.get(i))
+                        ).mul(
+                                searchKey.getPreLAt(i).pairing(W.get(i))
+                        );
+                    }
+                }
+            } else {
+                for (int i = 0; i < searchKey.getParameters().getN(); i++) {
+                    if (!searchKey.isStar(i)) {
+                        result.mul(
+                                pairing.pairing(searchKey.getYAt(i), X.get(i))
+                        ).mul(
+                                pairing.pairing(searchKey.getLAt(i), W.get(i))
+                        );
+                    }
                 }
             }
             return new byte[]{(byte) (result.isOne() ? 0 : 1)};

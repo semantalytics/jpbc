@@ -1,6 +1,9 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params;
 
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.Pairing;
+import it.unisa.dia.gas.jpbc.PairingPreProcessing;
+import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
 import java.util.Arrays;
 
@@ -12,6 +15,9 @@ public class HVEIP08SearchKeyParameters extends HVEIP08KeyParameters {
     private Element[] Y, L;
     private Element K;
     private boolean allStar;
+
+    private PairingPreProcessing[] preY, preL;
+    private boolean preProcessed = false;
 
 
     public HVEIP08SearchKeyParameters(HVEIP08Parameters parameters) {
@@ -68,7 +74,34 @@ public class HVEIP08SearchKeyParameters extends HVEIP08KeyParameters {
         return allStar;
     }
 
+    public PairingPreProcessing getPreYAt(int index) {
+        return preY[index];
+    }
+
+    public PairingPreProcessing getPreLAt(int index) {
+        return preL[index];
+    }
+
     public void preProcess() {
-        //To change body of created methods use File | Settings | File Templates.
+        Pairing pairing = PairingFactory.getPairing(getParameters().getCurveParams());
+        int  n = getParameters().getN();
+
+        preY = new PairingPreProcessing[n];
+        preL = new PairingPreProcessing[n];
+        for (int i = 0; i < n; i++) {
+            Element Y = getYAt(i);
+            Element L = getLAt(i);
+
+            preY[i] = Y != null ? pairing.pairing(Y) : null;
+            preL[i] = L != null ? pairing.pairing(L) : null;
+
+        }
+
+        preProcessed = true;
+    }
+
+
+    public boolean isPreProcessed() {
+        return preProcessed;
     }
 }
