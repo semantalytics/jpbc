@@ -35,7 +35,7 @@ public class HVEIP08Benchmark {
         PairingFactory.getInstance().setUsePBCWhenPossible(usePBC);
 
         for (int n = 5; n <= maxNumAttributes; n += 5) {
-            System.out.printf("\tn = %d\n", n);
+            System.out.printf("\tn = %d", n);
 
             int elapsedSearch = 0;
             int elapsedEnc = 0;
@@ -44,23 +44,12 @@ public class HVEIP08Benchmark {
                 int[] pattern = randomPattern(n, upperBoundSingleAttribute);
 
                 // Print pattern
-//                System.out.printf("\t\tPattern = [");
-//                for (int i = 0; i < pattern.length; i++) {
-//                    System.out.printf("%d, ", pattern[i]);
-//                }
-//                System.out.printf("]\n");
                 AsymmetricCipherKeyPair keyPair = setup(genParam(pattern));
                 if (preProcessPK)
                     ((HVEIP08PublicKeyParameters) keyPair.getPublic()).preProcess();
 
                 // Test matching key/ct
                 int[] searchAttr = getSearchAttribute(pattern);
-                // Print searchAttr
-//                System.out.printf("\t\tSearch  = [");
-//                for (int i = 0; i < searchAttr.length; i++) {
-//                    System.out.printf("%d, ", searchAttr[i]);
-//                }
-//                System.out.printf("]\n");
 
                 CipherParameters searchKey = keyGen(keyPair.getPrivate(), searchAttr);
                 if (preProcessSK)
@@ -68,7 +57,6 @@ public class HVEIP08Benchmark {
                 searchEngine.init(false, searchKey);
 
                 for (int i = 0; i < numIterations; i++) {
-
                     long start = System.currentTimeMillis();
                     byte[] ct = enc(keyPair.getPublic(), getAttributeVector(pattern, searchAttr));
                     long end = System.currentTimeMillis();
@@ -82,7 +70,8 @@ public class HVEIP08Benchmark {
             }
 
             System.out.printf(
-                    "\t\t\t[Enc = %f, Test = %f]\n",
+                    "%d %f %f\n",
+                    n,
                     (((double) elapsedEnc) / (numDifferentPattern * numIterations)),
                     (((double) elapsedSearch) / (numDifferentPattern * numIterations))
             );
@@ -110,12 +99,7 @@ public class HVEIP08Benchmark {
         int[] attrs = new int[pattern.length];
 
         for (int i = 0; i < attrs.length; i++) {
-//            if (random.nextDouble() < 0.0d)
-//                attrs[i] = -1;
-//            else {
-                attrs[i] = random.nextInt((int) Math.pow(2, pattern[i]));
-//            }
-
+            attrs[i] = random.nextInt((int) Math.pow(2, pattern[i]));
         }
 
         return attrs;
