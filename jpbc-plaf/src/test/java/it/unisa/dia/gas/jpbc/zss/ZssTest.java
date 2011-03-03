@@ -27,49 +27,25 @@ public class ZssTest extends TestCase {
         if (pairing == null)
             return;
         
-        long time1, time2;
-
         Element P, Ppub, x, S, H, t1, t2, t3, t4;
-
-        System.out.printf("ZSS short signature schema\n");
-        System.out.printf("KEYGEN\n");
 
         x = pairing.getZr().newRandomElement();
         P = pairing.getG1().newRandomElement();
 
         Ppub = P.duplicate().mulZn(x);
 
-        System.out.println("P = " + P);
-        System.out.println("x = " + x);
-        System.out.println("Ppub = " + Ppub);
-
-        System.out.printf("SIGN\n");
         byte[] source = "Message".getBytes();
 
         H = pairing.getZr().newElement().setFromHash(source, 0, source.length);
-//            H = pairing.getZr().newElement().setToRandom();
         t1 = pairing.getZr().newElement().set(H).add(x).invert();
         S = pairing.getG1().newElement().set(P).mulZn(t1);
 
-        System.out.printf("Signature of message \"Message\" is:\n");
-        System.out.println("S = " + S);
-
-        System.out.printf("VERIFY\n");
-//            H.setFromHash("Message".getBytes());
-//            H = pairing.getZr().newElement().setToOne();
         t2 = pairing.getG1().newElement().set(P).mulZn(H).add(Ppub);
 
-        time1 = System.currentTimeMillis();
         t3 = pairing.pairing(t2, S);
         t4 = pairing.pairing(P, P);
-        time2 = System.currentTimeMillis();
-
-        System.out.println("e(H(m)P + Ppub, S) = " + t3);
-        System.out.println("e(P, P) = " + t4);
 
         assertTrue(t3.isEqual(t4));
-
-        System.out.printf("All time = %d\n", time2 - time1);
      }
 
 }

@@ -49,10 +49,8 @@ public class PolyElementTest extends TestCase {
                 BigInteger.valueOf(1),
         };
         element.setFromCoefficientMonic(coeff);
-        System.out.println("poly = " + element);
 
         Element root = element.findRoot();
-        System.out.println("root = " + root);
 
         BigInteger rootInt = root.toBigInteger();
 

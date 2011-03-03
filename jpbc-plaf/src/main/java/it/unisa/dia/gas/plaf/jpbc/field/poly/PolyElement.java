@@ -510,7 +510,7 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
         PolyElement g = field.newElement();
 
         x.getCoefficient(1).setToOne();
-        System.out.printf("findroot: degree %d...\n", this.getDegree());
+//        System.out.printf("findroot: degree %d...\n", this.getDegree());
 
         p.set(x).pow(q).sub(x);
         g.setFromPolyMod(p).gcd(this).makeMonic();

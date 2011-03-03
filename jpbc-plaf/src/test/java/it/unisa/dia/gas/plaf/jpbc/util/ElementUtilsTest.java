@@ -10,6 +10,7 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 
 /**
+ * @todo: make this test reasonable!
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class ElementUtilsTest extends TestCase {
@@ -42,8 +43,6 @@ public class ElementUtilsTest extends TestCase {
         A[3][3] = pairing.getZr().newElement(8);
 
         ElementUtils.transpose(A);
-
-        System.out.println("A = " + A);
     }
 
     public void testInvert() throws Exception {
@@ -70,6 +69,5 @@ public class ElementUtilsTest extends TestCase {
         Element[][] inverted = ElementUtils.invert(A);
 
         Element[][] identity = ElementUtils.multiply(A, inverted);
-        System.out.println("A = " + A);
     }
 }
