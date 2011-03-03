@@ -44,11 +44,11 @@ public class HVEIP08Benchmark {
                 int[] pattern = randomPattern(n, upperBoundSingleAttribute);
 
                 // Print pattern
-                System.out.printf("\t\tPattern = [");
-                for (int i = 0; i < pattern.length; i++) {
-                    System.out.printf("%d, ", pattern[i]);
-                }
-                System.out.printf("]\n");
+//                System.out.printf("\t\tPattern = [");
+//                for (int i = 0; i < pattern.length; i++) {
+//                    System.out.printf("%d, ", pattern[i]);
+//                }
+//                System.out.printf("]\n");
                 AsymmetricCipherKeyPair keyPair = setup(genParam(pattern));
                 if (preProcessPK)
                     ((HVEIP08PublicKeyParameters) keyPair.getPublic()).preProcess();
@@ -56,11 +56,11 @@ public class HVEIP08Benchmark {
                 // Test matching key/ct
                 int[] searchAttr = getSearchAttribute(pattern);
                 // Print searchAttr
-                System.out.printf("\t\tSearch  = [");
-                for (int i = 0; i < searchAttr.length; i++) {
-                    System.out.printf("%d, ", searchAttr[i]);
-                }
-                System.out.printf("]\n");
+//                System.out.printf("\t\tSearch  = [");
+//                for (int i = 0; i < searchAttr.length; i++) {
+//                    System.out.printf("%d, ", searchAttr[i]);
+//                }
+//                System.out.printf("]\n");
 
                 CipherParameters searchKey = keyGen(keyPair.getPrivate(), searchAttr);
                 if (preProcessSK)
@@ -110,11 +110,11 @@ public class HVEIP08Benchmark {
         int[] attrs = new int[pattern.length];
 
         for (int i = 0; i < attrs.length; i++) {
-            if (random.nextDouble() < 0.3)
-                attrs[i] = -1;
-            else {
+//            if (random.nextDouble() < 0.0d)
+//                attrs[i] = -1;
+//            else {
                 attrs[i] = random.nextInt((int) Math.pow(2, pattern[i]));
-            }
+//            }
 
         }
 
