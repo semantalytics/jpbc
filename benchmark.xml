@@ -55,4 +55,40 @@
 
     </target>
 
+    <target name="HVEIP08Benchmark">
+
+        <echo message="BaseDir = ${basedir}"/>
+
+        <java fork="true" classname="it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.HVEIP08Benchmark">
+            <arg value="100"/>
+            <arg value="10"/>
+            <arg value="10"/>
+            <arg value="1"/>
+            <classpath>
+                <path refid="runtime.classpath"/>
+            </classpath>
+        </java>
+
+        <java fork="true" classname="it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.HVEIP08Benchmark">
+            <arg value="100"/>
+            <arg value="10"/>
+            <arg value="10"/>
+            <arg value="4"/>
+            <classpath>
+                <path refid="runtime.classpath"/>
+            </classpath>
+        </java>
+
+        <java fork="true" classname="it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.HVEIP08Benchmark">
+            <arg value="100"/>
+            <arg value="10"/>
+            <arg value="10"/>
+            <arg value="8"/>
+            <classpath>
+                <path refid="runtime.classpath"/>
+            </classpath>
+        </java>
+
+    </target>
+
 </project>

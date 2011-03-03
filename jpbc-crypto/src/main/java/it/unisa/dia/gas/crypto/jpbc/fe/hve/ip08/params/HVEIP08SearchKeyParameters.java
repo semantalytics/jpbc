@@ -67,4 +67,8 @@ public class HVEIP08SearchKeyParameters extends HVEIP08KeyParameters {
     public boolean isAllStar() {
         return allStar;
     }
+
+    public void preProcess() {
+        //To change body of created methods use File | Settings | File Templates.
+    }
 }

@@ -37,7 +37,8 @@ public class HVEIP08Parameters implements CipherParameters, Serializable {
         for (int i = 0; i < attributeLengths.length; i++) {
             int attributeLength = attributeLengths[i];
 
-            attributeLengthsInBytes[i] = (int) Math.ceil((Math.log(attributeLength)/Math.log( 2 )+1) / 8);
+            // Optimize this...
+            attributeLengthsInBytes[i] = attributeLength / 8 + 1;
             attributesLengthInBytes += attributeLengthsInBytes[i];
 
             attributeNums[i] = (int) Math.pow(2, attributeLength);

@@ -168,19 +168,32 @@ public class HVEIP08AttributesEngine implements AsymmetricBlockCipher {
             HVEIP08PublicKeyParameters pub = (HVEIP08PublicKeyParameters) key;
 
             Element s = pairing.getZr().newRandomElement().getImmutable();
-            Element C0 = pub.getParameters().getG().powZn(s);
+            Element C0 = pub.getParameters().getPowG().powZn(s);
 
             List<Element> elements = new ArrayList<Element>();
 
-            for (int i = 0; i < n; i++) {
-                Element si = pairing.getZr().newElement().setToRandom();
-                Element sMinusSi = s.sub(si);
+            if (pub.isPreProcessed()) {
+                for (int i = 0; i < n; i++) {
+                    Element si = pairing.getZr().newElement().setToRandom();
+                    Element sMinusSi = s.sub(si);
 
-                int j = attributes[i];
+                    int j = attributes[i];
 
-                // Populate elements
-                elements.add(pub.getTAt(i, j).powZn(sMinusSi));  // X_i
-                elements.add(pub.getVAt(i, j).powZn(si));        // W_i
+                    // Populate elements
+                    elements.add(pub.getPreTAt(i, j).powZn(sMinusSi));  // X_i
+                    elements.add(pub.getPreVAt(i, j).powZn(si));        // W_i
+                }
+            } else {
+                for (int i = 0; i < n; i++) {
+                    Element si = pairing.getZr().newElement().setToRandom();
+                    Element sMinusSi = s.sub(si);
+
+                    int j = attributes[i];
+
+                    // Populate elements
+                    elements.add(pub.getTAt(i, j).powZn(sMinusSi));  // X_i
+                    elements.add(pub.getVAt(i, j).powZn(si));        // W_i
+                }
             }
 
             // Convert the Elements to byte arrays
