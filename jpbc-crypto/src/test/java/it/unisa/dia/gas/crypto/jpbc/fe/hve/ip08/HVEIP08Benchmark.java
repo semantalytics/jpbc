@@ -100,9 +100,7 @@ public class HVEIP08Benchmark {
             if (upperBound == 1)
                 patter[i] = 1;
             else {
-                patter[i] = random.nextInt(upperBound);
-                if (patter[i] == 0)
-                    patter[i] = 1;
+                patter[i] = random.nextInt(upperBound) + 1;
             }
         }
         return patter;
