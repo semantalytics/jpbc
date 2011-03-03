@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.crypto.jpbc.fe.ip.ksw08.hve.params;
+package it.unisa.dia.gas.crypto.jpbc.fe.hve.ksw08.params;
 
 import it.unisa.dia.gas.jpbc.Field;
 import org.bouncycastle.crypto.CipherParameters;

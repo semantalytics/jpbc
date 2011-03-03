@@ -1,6 +1,6 @@
-package it.unisa.dia.gas.crypto.jpbc.fe.ip.ksw08.hve.engines;
+package it.unisa.dia.gas.crypto.jpbc.fe.hve.ksw08.engines;
 
-import it.unisa.dia.gas.crypto.jpbc.fe.ip.ksw08.hve.params.HVEKSW08IPEncryptionParameters;
+import it.unisa.dia.gas.crypto.jpbc.fe.hve.ksw08.params.HVEKSW08IPEncryptionParameters;
 import it.unisa.dia.gas.jpbc.Field;
 import org.bouncycastle.crypto.AsymmetricBlockCipher;
 import org.bouncycastle.crypto.CipherParameters;
