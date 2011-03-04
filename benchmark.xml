@@ -66,6 +66,38 @@
             <arg value="5"/>
             <arg value="5"/>
             <arg value="1"/>
+            <arg value="false"/>
+            <arg value="false"/>
+            <arg value="false"/>
+            <arg value="false"/>
+            <classpath>
+                <path refid="runtime.classpath"/>
+            </classpath>
+        </java>
+
+        <java fork="true" classname="it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.HVEIP08Benchmark">
+            <arg value="100"/>
+            <arg value="5"/>
+            <arg value="5"/>
+            <arg value="1"/>
+            <arg value="false"/>
+            <arg value="true"/>
+            <arg value="true"/>
+            <arg value="true"/>
+            <classpath>
+                <path refid="runtime.classpath"/>
+            </classpath>
+        </java>
+
+        <java fork="true" classname="it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.HVEIP08Benchmark">
+            <arg value="100"/>
+            <arg value="5"/>
+            <arg value="5"/>
+            <arg value="1"/>
+            <arg value="true"/>
+            <arg value="true"/>
+            <arg value="true"/>
+            <arg value="true"/>
             <classpath>
                 <path refid="runtime.classpath"/>
             </classpath>
