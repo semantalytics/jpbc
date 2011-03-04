@@ -207,13 +207,10 @@ public class HVEIP08Benchmark {
                 Integer.parseInt(args[1]),
                 Integer.parseInt(args[2]),
                 Integer.parseInt(args[3]),
-                false, false, false, false);
-        benchmark.benchmark(
-                Integer.parseInt(args[0]),
-                Integer.parseInt(args[1]),
-                Integer.parseInt(args[2]),
-                Integer.parseInt(args[3]),
-                true, true, true, false);
+                Boolean.parseBoolean(args[4]),
+                Boolean.parseBoolean(args[5]),
+                Boolean.parseBoolean(args[6]),
+                Boolean.parseBoolean(args[7]));
     }
 
 
