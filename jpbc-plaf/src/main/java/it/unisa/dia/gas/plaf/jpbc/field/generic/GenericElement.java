@@ -148,7 +148,7 @@ public abstract class GenericElement implements Element {
         lookupSize = 1 << k;
         lookup = new ArrayList<Element>(lookupSize);
 
-        lookup.add(field.newElement().setToOne());
+        lookup.add(field.newOneElement());
         for (s = 1; s < lookupSize; s++) {
             lookup.add(lookup.get(s - 1).duplicate().mul(this));
         }

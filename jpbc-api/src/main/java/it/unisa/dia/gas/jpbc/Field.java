@@ -71,9 +71,11 @@ public interface Field<E extends Element> {
     BigInteger getOrder();
 
     /**
-     * TODO: add comment...
+     * Returns <tt>true></tt> if the order is odd,
+     * false otherwise.
      *
-     * @return
+     * @return <tt>true></tt> if the order is odd,
+     * false otherwise.
      * @since 1.2.0
      */
     boolean isOrderOdd();

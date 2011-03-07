@@ -28,6 +28,14 @@ public class PBCCurvePointElement extends PBCElement implements Point {
         return new ImmutablePBCCurvePointElement(this);
     }
 
+    public int getLength() {
+        return 2;
+    }
+
+    public Element getAt(int index) {
+        return (index == 0) ? getX() : getY();
+    }
+
     public Element getX() {
         PBCElementType dest = new PBCElementType();
         WrapperLibraryProvider.getWrapperLibrary().pbc_curve_x_coord(dest, this.value);

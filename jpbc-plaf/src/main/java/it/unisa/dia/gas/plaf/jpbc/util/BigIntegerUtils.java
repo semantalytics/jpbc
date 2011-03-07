@@ -27,18 +27,18 @@ public class BigIntegerUtils {
         return bigInteger.testBit(0);
     }
 
-    //windowed naf form of BigInteger k, w is the window size
-    public static byte[] naf(BigInteger k, byte w) {
+    //windowed naf form of BigInteger n, k is the window size
+    public static byte[] naf(BigInteger n, byte k) {
         // The window NAF is at most 1 element longer than the binary
-        // representation of the integer k. byte can be used instead of short or
+        // representation of the integer n. byte can be used instead of short or
         // int unless the window width is larger than 8. For larger width use
         // short or int. However, a width of more than 8 is not efficient for
         // m = log2(q) smaller than 2305 Bits. Note: Values for m larger than
         // 1000 Bits are currently not used in practice.
-        byte[] wnaf = new byte[k.bitLength() + 1];
+        byte[] wnaf = new byte[n.bitLength() + 1];
 
         // 2^width as short and BigInteger
-        short pow2wB = (short) (1 << w);
+        short pow2wB = (short) (1 << k);
         BigInteger pow2wBI = BigInteger.valueOf(pow2wB);
 
         int i = 0;
@@ -46,29 +46,29 @@ public class BigIntegerUtils {
         // The actual length of the WNAF
         int length = 0;
 
-        // while k >= 1
-        while (k.signum() > 0) {
-            // if k is odd
-            if (k.testBit(0)) {
-                // k mod 2^width
-                BigInteger remainder = k.mod(pow2wBI);
+        // while n >= 1
+        while (n.signum() > 0) {
+            // if n is odd
+            if (n.testBit(0)) {
+                // n mod 2^width
+                BigInteger remainder = n.mod(pow2wBI);
 
                 // if remainder > 2^(width - 1) - 1
-                if (remainder.testBit(w - 1)) {
+                if (remainder.testBit(k - 1)) {
                     wnaf[i] = (byte) (remainder.intValue() - pow2wB);
                 } else {
                     wnaf[i] = (byte) remainder.intValue();
                 }
                 // wnaf[i] is now in [-2^(width-1), 2^(width-1)-1]
 
-                k = k.subtract(BigInteger.valueOf(wnaf[i]));
+                n = n.subtract(BigInteger.valueOf(wnaf[i]));
                 length = i;
             } else {
                 wnaf[i] = 0;
             }
 
-            // k = k/2
-            k = k.shiftRight(1);
+            // n = n/2
+            n = n.shiftRight(1);
             i++;
         }
 

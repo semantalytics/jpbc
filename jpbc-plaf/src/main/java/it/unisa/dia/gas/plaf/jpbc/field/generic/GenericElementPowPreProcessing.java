@@ -18,12 +18,12 @@ public class GenericElementPowPreProcessing implements ElementPowPreProcessing {
     protected Element table[][];
 
 
-    public GenericElementPowPreProcessing(Element source, int k) {
-        this.field = source.getField();
+    public GenericElementPowPreProcessing(Element g, int k) {
+        this.field = g.getField();
         this.bits = field.getOrder().bitLength();
         this.k = k;
 
-        initTable(source);
+        initTable(g);
     }
 
     public Element pow(BigInteger n) {
@@ -38,18 +38,18 @@ public class GenericElementPowPreProcessing implements ElementPowPreProcessing {
     /**
      * build k-bit base table for n-bit exponentiation w/ base a
      *
-     * @param source an element
+     * @param g an element
      */
-    protected void initTable(Element source) {
+    protected void initTable(Element g) {
         int lookupSize = 1 << k;
 
         numLookups = bits / k + 1;
         table = new Element[numLookups][lookupSize];
 
-        Element multiplier = source.duplicate();
+        Element multiplier = g.duplicate();
 
         for (int i = 0; i < numLookups; i++) {
-            table[i][0] = source.getField().newOneElement();
+            table[i][0] = field.newOneElement();
 
             for (int j = 1; j < lookupSize; j++) {
                 table[i][j] = multiplier.duplicate().mul(table[i][j - 1]);

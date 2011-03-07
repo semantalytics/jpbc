@@ -27,6 +27,8 @@
         <echo message="Starting Benchmarks..."/>
 
         <java fork="true" classname="it.unisa.dia.gas.jpbc.benchmark.ComparisonBenchmark">
+            <jvmarg value="-Xms512"/>
+            <jvmarg value="-Xmx1024"/>
             <arg value="1000"/>
             <arg value="${basedir}/params/benchmark/a.properties"/>
             <arg value="${basedir}/params/benchmark/a1.properties"/>
@@ -48,6 +50,8 @@
         <echo message="BaseDir = ${basedir}"/>
 
         <java fork="true" classname="it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.HHVEBenchmark">
+            <jvmarg value="-Xms512"/>
+            <jvmarg value="-Xmx1024"/>
             <arg value="true"/>
             <arg value="10"/>
             <classpath>
@@ -62,6 +66,9 @@
         <echo message="BaseDir = ${basedir}"/>
 
         <java fork="true" classname="it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.HVEIP08Benchmark">
+            <jvmarg value="-Xms512"/>
+            <jvmarg value="-Xmx1024"/>
+            <arg value="it/unisa/dia/gas/plaf/jpbc/crypto/a_160_512.properties"/>
             <arg value="100"/>
             <arg value="5"/>
             <arg value="5"/>
@@ -76,6 +83,9 @@
         </java>
 
         <java fork="true" classname="it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.HVEIP08Benchmark">
+            <jvmarg value="-Xms512"/>
+            <jvmarg value="-Xmx1024"/>
+            <arg value="it/unisa/dia/gas/plaf/jpbc/crypto/a_160_512.properties"/>
             <arg value="100"/>
             <arg value="5"/>
             <arg value="5"/>
@@ -90,6 +100,26 @@
         </java>
 
         <java fork="true" classname="it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.HVEIP08Benchmark">
+            <jvmarg value="-Xms512"/>
+            <jvmarg value="-Xmx1024"/>
+            <arg value="it/unisa/dia/gas/plaf/jpbc/crypto/a_160_512.properties"/>
+            <arg value="100"/>
+            <arg value="5"/>
+            <arg value="5"/>
+            <arg value="1"/>
+            <arg value="true"/>
+            <arg value="false"/>
+            <arg value="false"/>
+            <arg value="false"/>
+            <classpath>
+                <path refid="runtime.classpath"/>
+            </classpath>
+        </java>
+
+        <java fork="true" classname="it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.HVEIP08Benchmark">
+            <jvmarg value="-Xms512"/>
+            <jvmarg value="-Xmx1024"/>
+            <arg value="it/unisa/dia/gas/plaf/jpbc/crypto/a_160_512.properties"/>
             <arg value="100"/>
             <arg value="5"/>
             <arg value="5"/>
@@ -102,6 +132,7 @@
                 <path refid="runtime.classpath"/>
             </classpath>
         </java>
+
     </target>
 
 </project>

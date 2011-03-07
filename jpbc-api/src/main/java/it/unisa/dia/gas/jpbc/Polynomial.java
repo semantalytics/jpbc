@@ -8,7 +8,7 @@ import java.util.List;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  * @since 1.0.0
  */
-public interface Polynomial<E extends Element> extends Element {
+public interface Polynomial<E extends Element> extends Element, Vector {
 
     /**
      * Returns the degree of this polynomial.

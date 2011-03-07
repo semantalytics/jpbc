@@ -22,15 +22,16 @@ public class HVEIP08Benchmark {
     protected HVEIP08AttributesEngine encEngine;
     protected Random random = new SecureRandom();
 
-    public void benchmark(int maxNumAttributes, int numDifferentPattern, int numIterations,
+    public void benchmark(String curve,
+                          int maxNumAttributes, int numDifferentPattern, int numIterations,
                           int upperBoundSingleAttribute,
                           boolean usePBC,
                           boolean preProcessPK,
                           boolean preProcessMSK,
                           boolean preProcessSearchKey) {
         System.out.printf(
-                "Benchmark [upperBoundSingleAttribute = %d, usePBC = %s, preProcessPK = %s, preProcessMSK = %s, preProcessSearchKey = %s]\n",
-                upperBoundSingleAttribute, usePBC, preProcessPK, preProcessMSK, preProcessSearchKey
+                "Benchmark [\n\t\tcurve = %s, \n\t\tupperBoundSingleAttribute = %d, \n\t\tusePBC = %s, \n\t\tpreProcessPK = %s, \n\t\tpreProcessMSK = %s, \n\t\tpreProcessSearchKey = %s\n]\n",
+                curve, upperBoundSingleAttribute, usePBC, preProcessPK, preProcessMSK, preProcessSearchKey
         );
         searchEngine = new HVEIP08AttributesEngine();
         encEngine = new HVEIP08AttributesEngine();
@@ -47,7 +48,7 @@ public class HVEIP08Benchmark {
                 int[] pattern = randomPattern(n, upperBoundSingleAttribute);
 
                 // Print pattern
-                AsymmetricCipherKeyPair keyPair = setup(genParam(pattern));
+                AsymmetricCipherKeyPair keyPair = setup(genParam(curve, pattern));
                 if (preProcessPK)
                     ((HVEIP08PublicKeyParameters) keyPair.getPublic()).preProcess();
                 if (preProcessMSK)
@@ -158,9 +159,9 @@ public class HVEIP08Benchmark {
         return attrs;
     }
 
-    protected HVEIP08Parameters genParam(int... attributeLengths) {
+    protected HVEIP08Parameters genParam(String curve, int... attributeLengths) {
         CurveParams curveParams = new CurveParams();
-        curveParams.load(this.getClass().getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/crypto/a_160_512.properties"));
+        curveParams.load(this.getClass().getClassLoader().getResourceAsStream(curve));
 
         HVEIP08ParametersGenerator generator = new HVEIP08ParametersGenerator();
         generator.init(curveParams, attributeLengths);
@@ -203,14 +204,15 @@ public class HVEIP08Benchmark {
     public static void main(String[] args) {
         HVEIP08Benchmark benchmark = new HVEIP08Benchmark();
         benchmark.benchmark(
-                Integer.parseInt(args[0]),
+                args[0],
                 Integer.parseInt(args[1]),
                 Integer.parseInt(args[2]),
                 Integer.parseInt(args[3]),
-                Boolean.parseBoolean(args[4]),
+                Integer.parseInt(args[4]),
                 Boolean.parseBoolean(args[5]),
                 Boolean.parseBoolean(args[6]),
-                Boolean.parseBoolean(args[7]));
+                Boolean.parseBoolean(args[7]),
+                Boolean.parseBoolean(args[8]));
     }
 
 

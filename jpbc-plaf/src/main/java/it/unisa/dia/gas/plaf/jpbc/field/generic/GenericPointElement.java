@@ -3,11 +3,12 @@ package it.unisa.dia.gas.plaf.jpbc.field.generic;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.FieldOver;
 import it.unisa.dia.gas.jpbc.Point;
+import it.unisa.dia.gas.jpbc.Vector;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public abstract class GenericPointElement<E extends Element> extends GenericElement implements Point<E> {
+public abstract class GenericPointElement<E extends Element> extends GenericElement implements Point<E>, Vector<E> {
 
     protected GenericFieldOver field;
     protected E x, y;
@@ -19,6 +20,14 @@ public abstract class GenericPointElement<E extends Element> extends GenericElem
         this.field = (GenericFieldOver) field;
     }
 
+
+    public int getLength() {
+        return 2;
+    }
+
+    public E getAt(int index) {
+        return (index == 0) ? x : y;
+    }
 
     public E getX() {
         return x;

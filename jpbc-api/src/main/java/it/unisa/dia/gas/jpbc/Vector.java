@@ -19,8 +19,4 @@ public interface Vector<E extends Element> extends Element {
      */
     E getAt(int index);
 
-    /**
-     * @since 1.2.0
-     */
-    E[] toArray();
 }

@@ -24,10 +24,6 @@ public abstract class GenericVectorElement<E extends Element> extends GenericEle
     }
 
 
-    public E[] toArray() {
-        throw new IllegalStateException("Not implemented yet!!!");
-    }
-
     public E getAt(int index) {
         return coeff.get(index);
     }

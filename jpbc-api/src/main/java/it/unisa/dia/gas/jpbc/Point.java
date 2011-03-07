@@ -7,7 +7,7 @@ package it.unisa.dia.gas.jpbc;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  * @since 1.0.0
  */
-public interface Point<E extends Element> extends Element {
+public interface Point<E extends Element> extends Element, Vector<E> {
 
     /**              
      * Returns the x-coordinate.
