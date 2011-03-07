@@ -5,7 +5,7 @@ import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08EncryptionParamete
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08KeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08PublicKeyParameters;
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
+import it.unisa.dia.gas.jpbc.ElementPow;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.AsymmetricBlockCipher;
@@ -201,7 +201,7 @@ public class HHVEIP08Engine implements AsymmetricBlockCipher {
 
             // Encrypt
             HVEIP08PublicKeyParameters pub = encKey.getPublicKey();
-            ElementPowPreProcessing powG = pub.getParameters().getPowG();
+            ElementPow powG = pub.getParameters().getElementPowG();
 
             Element s = pairing.getZr().newRandomElement().getImmutable();
 
@@ -219,8 +219,8 @@ public class HHVEIP08Engine implements AsymmetricBlockCipher {
                 int j = attributes[i];
 
                 // Compute the elements for the position
-                elements.add(pub.getTAt(i, j).powZn(sMinusSi));
-                elements.add(pub.getVAt(i, j).powZn(si));
+                elements.add(pub.getElementPowTAt(i, j).powZn(sMinusSi));
+                elements.add(pub.getElementPowVAt(i, j).powZn(si));
                 elements.add(powG.powZn(sMinusSi));
                 elements.add(powG.powZn(si));
             }

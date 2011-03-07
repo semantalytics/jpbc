@@ -6,7 +6,7 @@ import java.math.BigInteger;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  * @since 1.0.0
  */
-public interface ElementPowPreProcessing extends PreProcessing {
+public interface ElementPowPreProcessing extends ElementPow, PreProcessing {
 
     /**
      * Compute the power to n using the pre-processed information.

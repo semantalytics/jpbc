@@ -48,8 +48,9 @@ public class HVEIP08PrivateKeyParameters extends HVEIP08KeyParameters {
     }
 
     public void preProcess() {
-        int  n = getParameters().getN();
+        getParameters().preProcess();
 
+        int  n = getParameters().getN();
         preT = new ArrayList<List<Element>>(n);
         preV = new ArrayList<List<Element>>(n);
         for (int i = 0; i < n; i++) {

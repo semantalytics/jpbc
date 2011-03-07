@@ -11,7 +11,7 @@ import java.math.BigInteger;
  * @see Field
  * @since 1.0.0
  */
-public interface Element {
+public interface Element extends ElementPow {
 
     /**
      * Returns the field to which this element lie.

@@ -2,6 +2,7 @@ package it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params;
 
 import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.ElementPow;
 import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
 import org.bouncycastle.crypto.CipherParameters;
 
@@ -22,6 +23,8 @@ public class HVEIP08Parameters implements CipherParameters, Serializable {
     private int n;
 
     private int attributesLengthInBytes;
+
+    private boolean preProcessed = false;
 
 
     public HVEIP08Parameters(CurveParameters curveParams, Element g, int[] attributeLengths) {
@@ -53,8 +56,8 @@ public class HVEIP08Parameters implements CipherParameters, Serializable {
         return g;
     }
 
-    public ElementPowPreProcessing getPowG() {
-        return powG;
+    public ElementPow getElementPowG() {
+        return (preProcessed) ? powG : g;
     }
 
     public int getN() {
@@ -76,4 +79,15 @@ public class HVEIP08Parameters implements CipherParameters, Serializable {
     public int getAttributeNumAt(int index) {
         return attributeNums[index];
     }
+
+    public void preProcess() {
+        this.powG = g.pow();
+
+        preProcessed = true;
+    }
+
+    public boolean isPreProcessed() {
+        return preProcessed;
+    }
+
 }

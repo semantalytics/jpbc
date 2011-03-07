@@ -5,7 +5,7 @@ import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08Parameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08PrivateKeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08PublicKeyParameters;
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
+import it.unisa.dia.gas.jpbc.ElementPow;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
@@ -31,7 +31,7 @@ public class HVEIP08KeyPairGenerator implements AsymmetricCipherKeyPairGenerator
 
         Pairing pairing = PairingFactory.getPairing(parameters.getCurveParams());
         Element g = parameters.getG();
-        ElementPowPreProcessing powG = parameters.getPowG();
+        ElementPow powG = parameters.getElementPowG();
         int n = parameters.getN();
 
         // Init Y

@@ -4,7 +4,7 @@ import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08PrivateKeyParamete
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08SearchKeyGenerationParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08SearchKeyParameters;
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
+import it.unisa.dia.gas.jpbc.ElementPow;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.CipherParameters;
@@ -50,7 +50,7 @@ public class HVEIP08AttributesOnlySearchKeyGenerator {
         a[numNonStar - 1] = sum.negate();
 
         // generate key elements
-        ElementPowPreProcessing g = privateKey.getParameters().getPowG();
+        ElementPow g = privateKey.getParameters().getElementPowG();
 
         Element[] Y = new Element[n];
         Element[] L = new Element[n];

@@ -21,7 +21,7 @@ public class HVEKSW08IPAttributesEngine implements AsymmetricBlockCipher {
     protected byte[] zero, one;
     protected int lenInBytes;
 
-    protected int inBytes;
+    protected int inLen;
 
     public HVEKSW08IPAttributesEngine(AsymmetricBlockCipher ip) {
         this.ip = ip;
@@ -40,7 +40,7 @@ public class HVEKSW08IPAttributesEngine implements AsymmetricBlockCipher {
             this.n = encParam.getN();
             this.Zr = encParam.getZr();
             this.lenInBytes = Zr.getLengthInBytes();
-            this.inBytes = n * lenInBytes;
+            this.inLen = n * lenInBytes;
 
             this.zero = Zr.newZeroElement().toBytes();
             this.one = Zr.newOneElement().toBytes();
@@ -52,11 +52,17 @@ public class HVEKSW08IPAttributesEngine implements AsymmetricBlockCipher {
     }
 
     public int getInputBlockSize() {
+        if (forEncryption)
+            return inLen;
+
         return ip.getInputBlockSize();
     }
 
     public int getOutputBlockSize() {
-        return ip.getOutputBlockSize();
+        if (forEncryption)
+            return ip.getOutputBlockSize();
+
+        return 1;
     }
 
     public byte[] processBlock(byte[] bytes, int inOff, int inLen) throws InvalidCipherTextException {
@@ -64,7 +70,7 @@ public class HVEKSW08IPAttributesEngine implements AsymmetricBlockCipher {
             HVEKSW08IPEncryptionParameters encParam = (HVEKSW08IPEncryptionParameters) cipherParameters;
 
             // Move from hve to ip
-            byte[] input = new byte[inBytes * 2];
+            byte[] input = new byte[this.inLen * 2];
             int offset = 0;
 
             for (int i = 0; i < n; i++) {
@@ -74,6 +80,8 @@ public class HVEKSW08IPAttributesEngine implements AsymmetricBlockCipher {
                     offset += one.length;
 
                     System.arraycopy(bytes, inOff, input, offset, lenInBytes);
+                    offset += lenInBytes;
+
                     inOff += lenInBytes;
                 } else {
                     // This is a star

@@ -3,7 +3,7 @@ package it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators;
 import it.unisa.dia.gas.crypto.engines.CipherParametersGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.*;
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
+import it.unisa.dia.gas.jpbc.ElementPow;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.CipherParameters;
@@ -68,7 +68,7 @@ public class HHVEIP08SearchKeyGenerator implements CipherParametersGenerator {
             a[n - 1] = param.getPrivateKey().getY().sub(sum);
 
             // generate key elements
-            ElementPowPreProcessing g = privateKey.getParameters().getPowG();
+            ElementPow g = privateKey.getParameters().getElementPowG();
 
             Element[] Y = new Element[n];
             Element[] L = new Element[n];
