@@ -5,6 +5,7 @@ import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.PairingPreProcessing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.AbstractPairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
+import it.unisa.dia.gas.plaf.jpbc.pairing.map.AbstractMillerPairingPreProcessing;
 import it.unisa.dia.gas.plaf.jpbc.pbc.field.PBCG1Field;
 import it.unisa.dia.gas.plaf.jpbc.pbc.field.PBCG2Field;
 import it.unisa.dia.gas.plaf.jpbc.pbc.field.PBCGTField;
@@ -100,7 +101,7 @@ public class PBCPairing extends AbstractPairing {
     }
 
 
-    public class PBCPairingPreProcessing implements PairingPreProcessing {
+    public class PBCPairingPreProcessing extends AbstractMillerPairingPreProcessing {
         protected PBCPairingPPType pairingPPType;
 
 
@@ -119,5 +120,6 @@ public class PBCPairing extends AbstractPairing {
 
             return out;
         }
+
     }
 }

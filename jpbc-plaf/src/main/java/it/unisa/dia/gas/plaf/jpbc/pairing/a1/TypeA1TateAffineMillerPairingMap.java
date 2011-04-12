@@ -18,6 +18,8 @@ public class TypeA1TateAffineMillerPairingMap extends AbstractMillerPairingMap<E
 
 
     public TypeA1TateAffineMillerPairingMap(TypeA1Pairing pairing) {
+        super(pairing);
+
         this.pairing = pairing;
     }
 
@@ -184,4 +186,5 @@ public class TypeA1TateAffineMillerPairingMap extends AbstractMillerPairingMap<E
         rePart.set(c).sub(imPart.set(a).mul(Qx));
         imPart.set(b).mul(Qy);
     }
+
 }

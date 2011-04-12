@@ -2,6 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.pairing.product;
 
 import it.unisa.dia.gas.jpbc.*;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorField;
+import it.unisa.dia.gas.plaf.jpbc.pairing.map.AbstractMillerPairingPreProcessing;
 
 import java.util.Random;
 
@@ -64,11 +65,15 @@ public class ProductPairing implements Pairing {
     }
 
     public PairingPreProcessing pairing(final Element in1) {
-        return new PairingPreProcessing() {
+        return new AbstractMillerPairingPreProcessing() {
             public Element pairing(Element in2) {
                 return ProductPairing.this.pairing(in1, in2);
             }
         };
+    }
+
+    public PairingPreProcessing pairing(byte[] source) {
+        throw new IllegalStateException("Not implemented yet!!!");
     }
 
     public boolean isAlmostCoddh(Element a, Element b, Element c, Element d) {

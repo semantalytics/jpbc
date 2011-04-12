@@ -62,7 +62,7 @@ public abstract class GenericElement implements Element {
     }
 
     public ElementPowPreProcessing pow() {
-        return new GenericElementPowPreProcessing(this, 5);
+        return new GenericElementPowPreProcessing(this, GenericElementPowPreProcessing.DEFAULT_K);
     }
 
     public Element halve() {

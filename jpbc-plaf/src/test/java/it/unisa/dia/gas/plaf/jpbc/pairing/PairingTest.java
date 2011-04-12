@@ -60,6 +60,27 @@ public abstract class PairingTest extends TestCase {
         assertTrue(x1.isEqual(x2));
     }
 
+    public void testPairingPreProcessingBytes() {
+        if (pairing == null)
+            return;
+
+        Element g, h;
+        Element x1, x2;
+
+        g = pairing.getG1().newElement().setToRandom();
+        h = pairing.getG2().newElement().setToRandom();
+
+        PairingPreProcessing ppp1 = pairing.pairing(g);
+        PairingPreProcessing ppp2 = pairing.pairing(ppp1.toBytes());
+
+        x1 = ppp1.pairing(h);
+        x2 = ppp2.pairing(h);
+
+        assertTrue(x1.isEqual(x2));
+    }
+
+
+
     public void testPairingSymmetric() {
         if (pairing == null)
             return;

@@ -1,5 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params;
 
+import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtil;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.jpbc.PairingPreProcessing;
@@ -27,7 +28,7 @@ public class HVEIP08SearchKeyParameters extends HVEIP08KeyParameters {
     public HVEIP08SearchKeyParameters(HVEIP08Parameters parameters, Element k) {
         super(true, parameters);
 
-        this.K = k;
+        this.K = (k != null) ? k.getImmutable() : null;
         this.pattern = new int[parameters.getN()];
         for (int i = 0; i < pattern.length; i++)
             pattern[i] = -1;
@@ -37,9 +38,9 @@ public class HVEIP08SearchKeyParameters extends HVEIP08KeyParameters {
     public HVEIP08SearchKeyParameters(HVEIP08Parameters parameters, int[] pattern, Element[] Y, Element[] L) {
         super(true, parameters);
 
-        this.pattern = pattern;
-        this.Y = Y;
-        this.L = L;
+        this.pattern = Arrays.copyOf(pattern, pattern.length);
+        this.Y = ElementUtil.cloneImmutably(Y);
+        this.L = ElementUtil.cloneImmutably(L);
 
         this.allStar = false;
         this.K = null;

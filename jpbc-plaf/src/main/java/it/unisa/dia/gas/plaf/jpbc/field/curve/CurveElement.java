@@ -81,7 +81,16 @@ public class CurveElement<E extends Element> extends GenericPointElement<E> {
     }
 
     public CurveElement twice() {
-        return mul(this);
+        if (infFlag != 0)
+            return this;
+
+        if (y.isZero()) {
+            infFlag = 1;
+            return this;
+        } else {
+            twiceInternal();
+            return this;
+        }
     }
 
     public CurveElement setToZero() {

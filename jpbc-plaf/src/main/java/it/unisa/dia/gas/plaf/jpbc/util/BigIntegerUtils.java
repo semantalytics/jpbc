@@ -78,7 +78,6 @@ public class BigIntegerUtils {
         byte[] wnafShort = new byte[length];
         System.arraycopy(wnaf, 0, wnafShort, 0, length);
         return wnafShort;
-
     }
 
 

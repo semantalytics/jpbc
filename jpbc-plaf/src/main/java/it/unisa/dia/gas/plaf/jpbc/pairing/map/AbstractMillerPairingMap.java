@@ -1,14 +1,19 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing.map;
 
-import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.jpbc.Point;
+import it.unisa.dia.gas.jpbc.*;
 
+import java.io.*;
 import java.math.BigInteger;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public abstract class AbstractMillerPairingMap<E extends Element> extends AbstractPairingMap {
+
+
+    protected AbstractMillerPairingMap(Pairing pairing) {
+        super(pairing);
+    }
 
 
     protected final void lineStep(Point<E> f0,
@@ -133,7 +138,7 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
 
         a.set(z2).square();
         b.set(Vx).square();
-        a.add( b.add(e0.set(b).twice()) ).negate();
+        a.add(b.add(e0.set(b).twice())).negate();
         // Now:
         // a = -(3x^2 + cca z^4)     with cca = 1
 
@@ -339,7 +344,7 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
         v1.set(t1);
 
         int j = cofactor.bitLength() - 1;
-        for (; ;) {
+        for (; ; ) {
             if (j == 0) {
                 v1.mul(v0).sub(t1);
                 v0.square().sub(t0);
@@ -370,17 +375,57 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
 
     public static class MillerPreProcessingInfo {
         public int numRow = 0;
-        public Element[][] coeff;
+        public Element[][] table;
 
         public MillerPreProcessingInfo(int size) {
-            this.coeff = new Element[size][3];
+            this.table = new Element[size][3];
+        }
+
+        public MillerPreProcessingInfo(Pairing pairing, byte[] source) {
+            try {
+                DataInputStream in = new DataInputStream(new ByteArrayInputStream(source));
+                this.numRow = in.readInt();
+
+                int offset = 4;
+                this.table = new Element[numRow][3];
+                Field field = ((FieldOver) pairing.getG1()).getTargetField();
+                for (int i = 0; i < numRow; i++) {
+                    table[i][0] = field.newElement();
+                    offset += table[i][0].setFromBytes(source, offset);
+
+                    table[i][1] = field.newElement();
+                    offset += table[i][1].setFromBytes(source, offset);
+
+                    table[i][2] = field.newElement();
+                    offset += table[i][2].setFromBytes(source, offset);
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         public void addRow(Element a, Element b, Element c) {
-            coeff[numRow][0] = a.duplicate();
-            coeff[numRow][1] = b.duplicate();
-            coeff[numRow][2] = c.duplicate();
+            table[numRow][0] = a.duplicate();
+            table[numRow][1] = b.duplicate();
+            table[numRow][2] = c.duplicate();
             numRow++;
+        }
+
+        public byte[] toBytes() {
+            try {
+                ByteArrayOutputStream bOut = new ByteArrayOutputStream(table[0][0].getField().getLengthInBytes() * numRow * 3);
+                DataOutputStream out = new DataOutputStream(bOut);
+
+                out.writeInt(numRow);
+                for (int i = 0; i < numRow; i++)  {
+                    for (Element element : table[i]) {
+                        out.write(element.toBytes());
+                    }
+                }
+                return bOut.toByteArray();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

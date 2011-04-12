@@ -47,6 +47,22 @@ public abstract class ElementPowPreProcessingTest extends TestCase {
         assertTrue(r1.isEqual(r2));
     }
 
+    public void testPowPreProcessingBytes() {
+        if (pairing == null)
+            return;
+
+        Element e1 = pairing.getG1().newElement().setToRandom();
+
+        ElementPowPreProcessing ppp1 = e1.pow();
+        ElementPowPreProcessing ppp2 = e1.getField().pow(ppp1.toBytes());
+
+        Element n = pairing.getZr().newElement().setToRandom();
+
+        Element r1 = ppp1.powZn(n);
+        Element r2 = ppp2.powZn(n);
+
+        assertTrue(r1.isEqual(r2));
+    }
 
     @Override
     protected void setUp() throws Exception {

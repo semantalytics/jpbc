@@ -8,6 +8,7 @@ import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveElement;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteElement;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteField;
 import it.unisa.dia.gas.plaf.jpbc.pairing.map.AbstractMillerPairingMap;
+import it.unisa.dia.gas.plaf.jpbc.pairing.map.AbstractMillerPairingPreProcessing;
 
 import java.math.BigInteger;
 
@@ -19,6 +20,8 @@ public class TypeATateProjectiveMillerPairingMap extends AbstractMillerPairingMa
 
 
     public TypeATateProjectiveMillerPairingMap(TypeAPairing pairing) {
+        super(pairing);
+
         this.pairing = pairing;
     }
 
@@ -107,7 +110,7 @@ public class TypeATateProjectiveMillerPairingMap extends AbstractMillerPairingMa
         element.set(t0);
     }
 
-    public PairingPreProcessing pairingPreProcessing(Point in1) {
+    public PairingPreProcessing pairing(Point in1) {
         return new TypeATateProjectiveMillerPairingPreProcessing(in1);
     }
 
@@ -183,6 +186,9 @@ public class TypeATateProjectiveMillerPairingMap extends AbstractMillerPairingMa
         return new GTFiniteElement(this, (GTFiniteField) pairing.getGT(), out);
     }
 
+    public PairingPreProcessing pairing(byte[] source) {
+        return new TypeATateProjectiveMillerPairingPreProcessing(source);
+    }
 
     protected final void millerStep(Point out, Element a, Element b, Element c, Element Qx, Element Qy) {
         // we will map Q via (x,y) --> (-x, iy)
@@ -264,17 +270,14 @@ public class TypeATateProjectiveMillerPairingMap extends AbstractMillerPairingMa
     }
 
 
-    public class TypeATateProjectiveMillerPairingPreProcessing implements PairingPreProcessing {
-        protected Point in1;
-        protected MillerPreProcessingInfo processingInfo;
+    public class TypeATateProjectiveMillerPairingPreProcessing extends AbstractMillerPairingPreProcessing {
 
+        public TypeATateProjectiveMillerPairingPreProcessing(byte[] source) {
+            super(pairing, source);
+        }
 
         public TypeATateProjectiveMillerPairingPreProcessing(Point in1) {
-            this.in1 = in1;
-
-            int i, n;
-
-            processingInfo = new MillerPreProcessingInfo(pairing.exp2 + 1);
+            super(in1, pairing.exp2 + 1);
 
             Point V = (Point) in1.duplicate();
             Point V1 = pairing.Eq.newElement();
@@ -291,7 +294,7 @@ public class TypeATateProjectiveMillerPairingMap extends AbstractMillerPairingMa
             Element curveA = pairing.Fq.newOneElement();
             Element temp = pairing.Fq.newElement();
 
-            n = pairing.exp1;
+            int n = pairing.exp1, i;
             for (i = 0; i < n; i++) {
                 computeTangent(processingInfo, a, b, c, Vx, Vy, curveA, temp);
                 V.twice();
@@ -325,7 +328,7 @@ public class TypeATateProjectiveMillerPairingMap extends AbstractMillerPairingMa
 
             for (i = 0, n = pairing.exp1; i < n; i++) {
                 f.square();
-                millerStep(f0, processingInfo.coeff[i][0], processingInfo.coeff[i][1], processingInfo.coeff[i][2], Qx, Qy);
+                millerStep(f0, processingInfo.table[i][0], processingInfo.table[i][1], processingInfo.table[i][2], Qx, Qy);
                 f.mul(f0);
             }
 
@@ -337,12 +340,12 @@ public class TypeATateProjectiveMillerPairingMap extends AbstractMillerPairingMa
 
             for (n = pairing.exp2; i < n; i++) {
                 f.square();
-                millerStep(f0, processingInfo.coeff[i][0], processingInfo.coeff[i][1], processingInfo.coeff[i][2], Qx, Qy);
+                millerStep(f0, processingInfo.table[i][0], processingInfo.table[i][1], processingInfo.table[i][2], Qx, Qy);
                 f.mul(f0);
             }
 
             f.mul(out);
-            millerStep(f0, processingInfo.coeff[i][0], processingInfo.coeff[i][1], processingInfo.coeff[i][2], Qx, Qy);
+            millerStep(f0, processingInfo.table[i][0], processingInfo.table[i][1], processingInfo.table[i][2], Qx, Qy);
             f.mul(f0);
 
             tatePow(out, f, f0, pairing.phikOnr);

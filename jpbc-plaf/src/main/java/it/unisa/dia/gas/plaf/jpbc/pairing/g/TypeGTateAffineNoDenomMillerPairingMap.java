@@ -16,6 +16,8 @@ public class TypeGTateAffineNoDenomMillerPairingMap extends AbstractMillerPairin
 
 
     public TypeGTateAffineNoDenomMillerPairingMap(TypeGPairing pairing) {
+        super(pairing);
+
         this.pairing = pairing;
     }
 

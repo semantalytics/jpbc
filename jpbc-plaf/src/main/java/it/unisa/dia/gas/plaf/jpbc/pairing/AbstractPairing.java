@@ -61,7 +61,11 @@ public abstract class AbstractPairing implements Pairing {
         if (!G1.equals(in1.getField()))
             throw new IllegalArgumentException("pairing 1st input mismatch");
 
-        return pairingMap.pairingPreProcessing((Point) in1);
+        return pairingMap.pairing((Point) in1);
+    }
+
+    public PairingPreProcessing pairing(byte[] source) {
+        return pairingMap.pairing(source);
     }
 
     public boolean isAlmostCoddh(Element a, Element b, Element c, Element d) {

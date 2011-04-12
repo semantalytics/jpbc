@@ -1,7 +1,10 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params;
 
+import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtil;
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.plaf.jpbc.util.ElementUtils;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -21,9 +24,9 @@ public class HHVEIP08SearchKeyParameters extends HVEIP08KeyParameters {
                                        List<List<Element>> SL) {
         super(true, parameters);
 
-        this.pattern = pattern;
-        this.Y = Y;
-        this.L = L;
+        this.pattern = Arrays.copyOf(pattern, pattern.length);
+        this.Y = ElementUtil.cloneImmutably(Y);
+        this.L = ElementUtil.cloneImmutably(L);
         this.SY = SY;
         this.SL = SL;
 
@@ -34,7 +37,7 @@ public class HHVEIP08SearchKeyParameters extends HVEIP08KeyParameters {
     public HHVEIP08SearchKeyParameters(HVEIP08Parameters parameters, Element k) {
         super(true, parameters);
 
-        this.K = k;
+        this.K = (k != null) ? k.getImmutable() : null;
         this.allStar = true;
     }
 
@@ -44,8 +47,8 @@ public class HHVEIP08SearchKeyParameters extends HVEIP08KeyParameters {
                                        List<List<Element>> SL) {
         super(true, parameters);
 
-        this.Y = Y;
-        this.L = L;
+        this.Y = ElementUtil.cloneImmutably(Y);
+        this.L = ElementUtil.cloneImmutably(L);
         this.SY = SY;
         this.SL = SL;
 
@@ -59,14 +62,14 @@ public class HHVEIP08SearchKeyParameters extends HVEIP08KeyParameters {
                                        Element[] Y, Element[] L,
                                        List<List<Element>> SY,
                                        List<List<Element>> SL,
-                                       Element K) {
+                                       Element k) {
         super(true, parameters);
 
-        this.Y = Y;
-        this.L = L;
+        this.Y = ElementUtil.cloneImmutably(Y);
+        this.L = ElementUtil.cloneImmutably(L);
         this.SY = SY;
         this.SL = SL;
-        this.K = K;
+        this.K = (k != null) ? k.getImmutable() : null;
 
         this.pattern = new int[parameters.getN()];
         for (int i = 0; i < pattern.length; i++)

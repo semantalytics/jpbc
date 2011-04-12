@@ -7,6 +7,7 @@ import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteElement;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteField;
 import it.unisa.dia.gas.plaf.jpbc.field.polymod.PolyModElement;
 import it.unisa.dia.gas.plaf.jpbc.pairing.map.AbstractMillerPairingMap;
+import it.unisa.dia.gas.plaf.jpbc.pairing.map.AbstractMillerPairingPreProcessing;
 
 import java.util.List;
 
@@ -18,6 +19,8 @@ public class TypeDTateAffineNoDenomMillerPairingMap extends AbstractMillerPairin
 
 
     public TypeDTateAffineNoDenomMillerPairingMap(TypeDPairing pairing) {
+        super(pairing);
+
         this.pairing = pairing;
     }
 
@@ -55,8 +58,12 @@ public class TypeDTateAffineNoDenomMillerPairingMap extends AbstractMillerPairin
         element.set(tatePow(element));
     }
 
-    public PairingPreProcessing pairingPreProcessing(Point in1) {
+    public PairingPreProcessing pairing(Point in1) {
         return new TypeDMillerNoDenomAffinePairingPreProcessing(in1);
+    }
+
+    public PairingPreProcessing pairing(byte[] source) {
+        return new TypeDMillerNoDenomAffinePairingPreProcessing(source);
     }
 
     public boolean isAlmostCoddh(Element a, Element b, Element c, Element d) {
@@ -231,38 +238,35 @@ public class TypeDTateAffineNoDenomMillerPairingMap extends AbstractMillerPairin
     }
 
 
-    public class TypeDMillerNoDenomAffinePairingPreProcessing implements PairingPreProcessing {
-        protected Point in1;
-        protected MillerPreProcessingInfo processingInfo;
+    public class TypeDMillerNoDenomAffinePairingPreProcessing extends AbstractMillerPairingPreProcessing {
 
+        public TypeDMillerNoDenomAffinePairingPreProcessing(byte[] source) {
+            super(pairing, source);
+        }
 
         public TypeDMillerNoDenomAffinePairingPreProcessing(Point in1) {
-            this.in1 = in1;
+            super(in1, (pairing.r.bitLength() - 2) * 2);
 
-            Point P = in1;
-            Element Px = P.getX();
-            Element Py = P.getY();
+            Element Px = in1.getX();
+            Element Py = in1.getY();
 
-            Point Z = (Point) P.duplicate();
+            Point Z = (Point) in1.duplicate();
             Element Zx = Z.getX();
             Element Zy = Z.getY();
 
             Element a = pairing.Fq.newElement();
             Element b = pairing.Fq.newElement();
             Element c = pairing.Fq.newElement();
-            Element curveA = ((CurveField) P.getField()).getA();
+            Element curveA = ((CurveField) in1.getField()).getA();
             Element temp = pairing.Fq.newElement();
 
-            int m = pairing.r.bitLength() - 2;
-            processingInfo = new MillerPreProcessingInfo(2 * m);
-
-            for (; m > 0; m--) {
+            for (int m = pairing.r.bitLength() - 2; m > 0; m--) {
                 computeTangent(processingInfo, a, b, c, Zx, Zy, curveA, temp);
                 Z.twice();
 
                 if (pairing.r.testBit(m)) {
                     computeLine(processingInfo, a, b, c, Zx, Zy, Px, Py, temp);
-                    Z.add(P);
+                    Z.add(in1);
                 }
             }
             computeTangent(processingInfo, a, b, c, Zx, Zy, curveA, temp);
@@ -282,19 +286,19 @@ public class TypeDTateAffineNoDenomMillerPairingMap extends AbstractMillerPairin
             int row = 0;
 
             for (int m = pairing.r.bitLength() - 2; m > 0; m--) {
-                millerStep(f0, processingInfo.coeff[row][0], processingInfo.coeff[row][1], processingInfo.coeff[row][2], Qx, Qy);
+                millerStep(f0, processingInfo.table[row][0], processingInfo.table[row][1], processingInfo.table[row][2], Qx, Qy);
                 out.mul(f0);
                 row++;
 
                 if (pairing.r.testBit(m)) {
-                    millerStep(f0, processingInfo.coeff[row][0], processingInfo.coeff[row][1], processingInfo.coeff[row][2], Qx, Qy);
+                    millerStep(f0, processingInfo.table[row][0], processingInfo.table[row][1], processingInfo.table[row][2], Qx, Qy);
                     out.mul(f0);
                     row++;
                 }
 
                 out.square();
             }
-            millerStep(f0, processingInfo.coeff[row][0], processingInfo.coeff[row][1], processingInfo.coeff[row][2], Qx, Qy);
+            millerStep(f0, processingInfo.table[row][0], processingInfo.table[row][1], processingInfo.table[row][2], Qx, Qy);
             out.mul(f0);
 
             return new GTFiniteElement(

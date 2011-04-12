@@ -7,4 +7,13 @@ package it.unisa.dia.gas.jpbc;
  * @since 1.0.0
  */
 public interface PreProcessing {
+
+    /**
+     * Converts the proprocessing information to bytes.
+     *
+     * @return the bytes written.
+     * @since 1.2.0
+     */
+    byte[] toBytes();
+
 }

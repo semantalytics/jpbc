@@ -130,7 +130,8 @@ public interface Element extends ElementPow {
     int setFromBytes(byte[] source, int offset);
 
     /**
-     * Converts this element to bytes. The number of bytes it will write can be determined calling getLengthInBytes().
+     * Converts this element to bytes. The number of bytes it will
+     * write can be determined calling getLengthInBytes().
      *
      * @return the bytes written.
      * @since 1.0.0

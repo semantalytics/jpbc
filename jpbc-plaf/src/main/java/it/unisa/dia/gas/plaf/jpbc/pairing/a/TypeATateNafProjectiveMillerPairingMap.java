@@ -6,6 +6,7 @@ import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteElement;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteField;
 import it.unisa.dia.gas.plaf.jpbc.pairing.map.AbstractMillerPairingMap;
+import it.unisa.dia.gas.plaf.jpbc.pairing.map.AbstractMillerPairingPreProcessing;
 import it.unisa.dia.gas.plaf.jpbc.util.BigIntegerUtils;
 
 import java.math.BigInteger;
@@ -19,6 +20,8 @@ public class TypeATateNafProjectiveMillerPairingMap extends AbstractMillerPairin
 
 
     public TypeATateNafProjectiveMillerPairingMap(TypeAPairing pairing) {
+        super(pairing);
+
         this.pairing = pairing;
         this.r = BigIntegerUtils.naf(pairing.r, (byte) 2);
     }
@@ -70,9 +73,14 @@ public class TypeATateNafProjectiveMillerPairingMap extends AbstractMillerPairin
         element.set(t0);
     }
 
-    public PairingPreProcessing pairingPreProcessing(Point in1) {
+    public PairingPreProcessing pairing(Point in1) {
         return new TypeATateNafProjectiveMillerPairingPreProcessing(in1);
     }
+
+    public PairingPreProcessing pairing(byte[] source) {
+        return new TypeATateNafProjectiveMillerPairingPreProcessing(source);
+    }
+
 
     protected final void millerStep(Point out, Element a, Element b, Element c, Element Qx, Element Qy) {
         out.getX().set(c).add(a.duplicate().mul((Qx)));
@@ -192,22 +200,22 @@ public class TypeATateNafProjectiveMillerPairingMap extends AbstractMillerPairin
 
 
 
+    public class TypeATateNafProjectiveMillerPairingPreProcessing extends AbstractMillerPairingPreProcessing {
 
-    public class TypeATateNafProjectiveMillerPairingPreProcessing implements PairingPreProcessing {
-        protected Point in1;
-        protected MillerPreProcessingInfo processingInfo;
+        public TypeATateNafProjectiveMillerPairingPreProcessing(byte[] source) {
+            super(pairing, source);
+        }
 
+        public TypeATateNafProjectiveMillerPairingPreProcessing(Point in1) {
+            // TODO: allocate just the necessary memory...analyze the  number of zero in r
+            super(in1, (r.length - 2) * 2);
 
-        public TypeATateNafProjectiveMillerPairingPreProcessing(Point P) {
-            JacobPoint V = new JacobPoint(P.getX(), P.getY(), P.getX().getField().newOneElement());
-            Point nP = (Point) P.duplicate().negate();
+            JacobPoint V = new JacobPoint(in1.getX(), in1.getY(), in1.getX().getField().newOneElement());
+            Point nP = (Point) in1.duplicate().negate();
 
             Element a = pairing.Fq.newElement();
             Element b = pairing.Fq.newElement();
             Element c = pairing.Fq.newElement();
-
-            // TODO: allocate just the necessary memory...analyze the  number of zero in r
-            processingInfo = new MillerPreProcessingInfo((r.length - 2) *2);
 
             for (int i = r.length - 2; i >= 0; i--) {
                 twice(V, a, b, c);
@@ -215,7 +223,7 @@ public class TypeATateNafProjectiveMillerPairingMap extends AbstractMillerPairin
 
                 switch (r[i]) {
                     case 1:
-                        add(V, P, a, b, c);
+                        add(V, in1, a, b, c);
                         processingInfo.addRow(a, b, c);
 
                         break;
@@ -234,20 +242,20 @@ public class TypeATateNafProjectiveMillerPairingMap extends AbstractMillerPairin
             Point u = pairing.Fq2.newElement();
 
             for (int i = r.length - 2, coeffIndex = 0; i >= 0; i--) {
-                millerStep(u, processingInfo.coeff[coeffIndex][0], processingInfo.coeff[coeffIndex][1], processingInfo.coeff[coeffIndex][2], Q.getX(), Q.getY());
+                millerStep(u, processingInfo.table[coeffIndex][0], processingInfo.table[coeffIndex][1], processingInfo.table[coeffIndex][2], Q.getX(), Q.getY());
                 f.square().mul(u);
 
                 coeffIndex++;
 
                 switch (r[i]) {
                     case 1:
-                        millerStep(u, processingInfo.coeff[coeffIndex][0], processingInfo.coeff[coeffIndex][1], processingInfo.coeff[coeffIndex][2], Q.getX(), Q.getY());
+                        millerStep(u, processingInfo.table[coeffIndex][0], processingInfo.table[coeffIndex][1], processingInfo.table[coeffIndex][2], Q.getX(), Q.getY());
                         f.mul(u);
 
                         coeffIndex++;
                         break;
                     case -1:
-                        millerStep(u, processingInfo.coeff[coeffIndex][0], processingInfo.coeff[coeffIndex][1], processingInfo.coeff[coeffIndex][2], Q.getX(), Q.getY());
+                        millerStep(u, processingInfo.table[coeffIndex][0], processingInfo.table[coeffIndex][1], processingInfo.table[coeffIndex][2], Q.getX(), Q.getY());
                         f.mul(u);
 
                         coeffIndex++;
@@ -260,6 +268,5 @@ public class TypeATateNafProjectiveMillerPairingMap extends AbstractMillerPairin
             return new GTFiniteElement(TypeATateNafProjectiveMillerPairingMap.this, (GTFiniteField) pairing.getGT(), out);
         }
     }
-
 
 }

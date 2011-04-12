@@ -24,7 +24,7 @@ public class HVEIP08PublicKeyParameters extends HVEIP08KeyParameters {
                                       List<List<Element>> V) {
         super(false, parameters);
 
-        this.Y = Y;
+        this.Y = Y.getImmutable();
 
         this.T = T;
         this.V = V;

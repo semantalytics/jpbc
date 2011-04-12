@@ -12,7 +12,7 @@ import java.util.Random;
  */
 public class NaiveField extends GenericField<NaiveElement> {
     protected BigInteger order;
-    public NaiveElement nqr;
+    public NaiveElement nqr; //TODO: remove public
     protected int fixedLengthInBytes;
 
 

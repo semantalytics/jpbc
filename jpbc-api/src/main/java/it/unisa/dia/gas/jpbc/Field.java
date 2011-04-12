@@ -117,4 +117,11 @@ public interface Field<E extends Element> {
      */
     Element[] add(Element[] a, Element[] b);
 
+    /**
+     * TODO:
+     * @param source
+     * @return
+     * @since 1.2.0
+     */
+    ElementPowPreProcessing pow(byte[] source);
 }

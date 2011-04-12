@@ -20,7 +20,7 @@ public class HVEIP08PrivateKeyParameters extends HVEIP08KeyParameters {
     public HVEIP08PrivateKeyParameters(HVEIP08Parameters parameters, Element y, List<List<Element>> t, List<List<Element>> v) {
         super(true, parameters);
 
-        this.y = y;
+        this.y = y.getImmutable();
 
         this.t = t;
         this.v = v;

@@ -3,9 +3,11 @@ package it.unisa.dia.gas.jpbc;
 import java.math.BigInteger;
 
 /**
+ * Represents the set of parameters describing an elliptic curve.
+ *
  * @author Angelo De Caro (angelo.decaro@gmail.com)
- * @todo: add javadocs
  * @since 1.2.0
+ * TODO: continue to add javadocs.
  */
 public interface CurveParameters {
 

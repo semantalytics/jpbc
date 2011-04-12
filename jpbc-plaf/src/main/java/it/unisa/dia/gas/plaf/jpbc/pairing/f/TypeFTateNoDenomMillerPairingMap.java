@@ -12,6 +12,8 @@ public class TypeFTateNoDenomMillerPairingMap extends AbstractMillerPairingMap {
 
 
     public TypeFTateNoDenomMillerPairingMap(TypeFPairing pairing) {
+        super(pairing);
+
         this.pairingData = pairing;
     }
 

@@ -15,6 +15,8 @@ public class TypeETateProjectiveMillerPairingMap extends AbstractPairingMap {
 
 
     public TypeETateProjectiveMillerPairingMap(TypeEPairing pairing) {
+        super(pairing);
+
         this.pairing = pairing;
     }
 

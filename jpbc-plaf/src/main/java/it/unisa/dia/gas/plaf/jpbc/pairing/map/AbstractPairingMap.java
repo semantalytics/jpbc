@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing.map;
 
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.jpbc.PairingPreProcessing;
 import it.unisa.dia.gas.jpbc.Point;
 
@@ -9,7 +10,11 @@ import it.unisa.dia.gas.jpbc.Point;
  */
 public abstract class AbstractPairingMap implements PairingMap {
 
-    protected Point in1;
+    protected Pairing pairing;
+
+    protected AbstractPairingMap(Pairing pairing) {
+        this.pairing = pairing;
+    }
 
 
     public Element pairing(Element[] in1, Element[] in2) {
@@ -21,12 +26,12 @@ public abstract class AbstractPairingMap implements PairingMap {
         return out;
     }
 
-    public PairingPreProcessing pairingPreProcessing(final Point in1) {
-        return new PairingPreProcessing() {
-            public Element pairing(Element in2) {
-                return AbstractPairingMap.this.pairing(in1, (Point) in2);
-            }
-        };
+    public PairingPreProcessing pairing(final Point in1) {
+        return new DefaultPairingPreProcessing(in1);
+    }
+
+    public PairingPreProcessing pairing(byte[] source) {
+        return new DefaultPairingPreProcessing(source);
     }
 
     public boolean isAlmostCoddh(Element a, Element b, Element c, Element d) {
@@ -52,6 +57,29 @@ public abstract class AbstractPairingMap implements PairingMap {
 
         z.setToOne();
         z2.setToOne();
+    }
+
+
+    public class DefaultPairingPreProcessing implements PairingPreProcessing {
+        protected Point in1;
+
+        public DefaultPairingPreProcessing(Point in1) {
+            this.in1 = in1;
+        }
+
+        public DefaultPairingPreProcessing(byte[] source) {
+            this.in1 = (Point) pairing.getG1().newElement();
+            this.in1.setFromBytes(source);
+        }
+
+        public Element pairing(Element in2) {
+            return AbstractPairingMap.this.pairing(in1, (Point) in2);
+        }
+
+        public byte[] toBytes() {
+            return in1.toBytes();
+        }
+
     }
 
 }

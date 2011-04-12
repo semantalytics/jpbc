@@ -37,4 +37,8 @@ public class PBCElementPowPreProcessing implements ElementPowPreProcessing {
 
         return result;
     }
+
+    public byte[] toBytes() {
+        throw new IllegalArgumentException("Not Implemented yet!!!");
+    }
 }

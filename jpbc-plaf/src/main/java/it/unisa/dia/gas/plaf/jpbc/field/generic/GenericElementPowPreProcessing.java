@@ -4,12 +4,16 @@ import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
 import it.unisa.dia.gas.jpbc.Field;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.math.BigInteger;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class GenericElementPowPreProcessing implements ElementPowPreProcessing {
+    public static final int DEFAULT_K = 5;
+
     protected Field field;
 
     protected int k;
@@ -26,14 +30,52 @@ public class GenericElementPowPreProcessing implements ElementPowPreProcessing {
         initTable(g);
     }
 
+    public GenericElementPowPreProcessing(Field field, int k, byte[] source) {
+        this.field = field;
+        this.bits = field.getOrder().bitLength();
+        this.k = k;
+
+        initTableFromBytes(source);
+    }
+
     public Element pow(BigInteger n) {
-         return powBaseTable(n);
-     }
+        return powBaseTable(n);
+    }
 
-     public Element powZn(Element n) {
-         return pow(n.toBigInteger());
-     }
+    public Element powZn(Element n) {
+        return pow(n.toBigInteger());
+    }
 
+    public byte[] toBytes() {
+        try {
+            ByteArrayOutputStream out = new ByteArrayOutputStream(
+                    field.getLengthInBytes() * table.length * table[0].length
+            );
+            for (Element[] row : table) {
+                for (Element element : row) {
+                    out.write(element.toBytes());
+                }
+            }
+            return out.toByteArray();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    protected void initTableFromBytes(byte[] source) {
+        int lookupSize = 1 << k;
+        numLookups = bits / k + 1;
+        table = new Element[numLookups][lookupSize];
+
+        int offset = 0;
+        for (int i = 0; i < numLookups; i++) {
+            for (int j = 0; j < lookupSize; j++) {
+                table[i][j] = field.newElement();
+                offset += table[i][j].setFromBytes(source, offset);
+            }
+        }
+    }
 
     /**
      * build k-bit base table for n-bit exponentiation w/ base a
@@ -81,7 +123,7 @@ public class GenericElementPowPreProcessing implements ElementPowPreProcessing {
             }
 
         }
-        
+
         return result;
     }
 

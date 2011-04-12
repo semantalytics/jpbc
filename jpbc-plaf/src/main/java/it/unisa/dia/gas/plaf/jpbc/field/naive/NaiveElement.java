@@ -176,6 +176,7 @@ public class NaiveElement extends GenericElement {
     }
 
     public NaiveElement halve() {
+        // TODO: avoid multiple computation of BigIntegerUtils.TWO.modInverse(order)
         value = value.multiply(BigIntegerUtils.TWO.modInverse(order)).mod(order);
 
         return this;

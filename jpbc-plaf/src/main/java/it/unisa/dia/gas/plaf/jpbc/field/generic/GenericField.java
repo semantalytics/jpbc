@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.field.generic;
 
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
 import it.unisa.dia.gas.jpbc.Field;
 
 import java.math.BigInteger;
@@ -73,6 +74,10 @@ public abstract class GenericField<E extends Element> implements Field<E> {
         }
 
         return a;
+    }
+
+    public ElementPowPreProcessing pow(byte[] source) {
+        return new GenericElementPowPreProcessing(this, GenericElementPowPreProcessing.DEFAULT_K, source);
     }
 
     public Random getRandom() {
