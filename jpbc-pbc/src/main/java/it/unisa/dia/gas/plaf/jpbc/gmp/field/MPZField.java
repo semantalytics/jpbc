@@ -1,5 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.gmp.field;
 
+import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
 import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericField;
 import it.unisa.dia.gas.plaf.jpbc.util.BigIntegerUtils;
 import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.MPZElementType;
@@ -59,4 +60,8 @@ public class MPZField extends GenericField<MPZElement> {
         return fixedLengthInBytes;
     }
 
+    @Override
+    public ElementPowPreProcessing pow(byte[] source) {
+        throw new IllegalStateException("Not Implemented yet!!!");
+    }
 }
