@@ -10,9 +10,12 @@ import it.unisa.dia.gas.plaf.jpbc.pbc.field.PBCG1Field;
 import it.unisa.dia.gas.plaf.jpbc.pbc.field.PBCG2Field;
 import it.unisa.dia.gas.plaf.jpbc.pbc.field.PBCGTField;
 import it.unisa.dia.gas.plaf.jpbc.pbc.field.PBCZrField;
+import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.PBCElementPPType;
 import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.PBCPairingPPType;
 import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.PBCPairingType;
 import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.WrapperLibraryProvider;
+
+import java.util.Arrays;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -82,6 +85,10 @@ public class PBCPairing extends AbstractPairing {
         return new PBCPairingPreProcessing(in1);
     }
 
+    public PairingPreProcessing pairing(byte[] source) {
+        return new PBCPairingPreProcessing(source);
+    }
+
     public boolean isAlmostCoddh(Element a, Element b, Element c, Element d) {
         return WrapperLibraryProvider.getWrapperLibrary().pbc_is_almost_coddh(
                 ((PBCElement) a).getValue(),
@@ -101,14 +108,20 @@ public class PBCPairing extends AbstractPairing {
     }
 
 
-    public class PBCPairingPreProcessing extends AbstractMillerPairingPreProcessing {
+    public class PBCPairingPreProcessing implements PairingPreProcessing {
         protected PBCPairingPPType pairingPPType;
 
+        protected Pointer in1;
 
-        public PBCPairingPreProcessing(Element g1) {
-            pairingPPType = new PBCPairingPPType(((PBCElement) g1).value, pairing);
+
+        public PBCPairingPreProcessing(Element in1) {
+            this.in1 = ((PBCElement) in1).value;
+            this.pairingPPType = new PBCPairingPPType(this.in1, pairing);
         }
 
+        public PBCPairingPreProcessing(byte[] source) {
+            fromBytes(source);
+        }
 
         public Element pairing(Element in2) {
             PBCElement out = (PBCElement) GT.newElement();
@@ -119,6 +132,20 @@ public class PBCPairing extends AbstractPairing {
             );
 
             return out;
+        }
+
+        public byte[] toBytes() {
+            byte[] bytes = new byte[WrapperLibraryProvider.getWrapperLibrary().pbc_element_length_in_bytes(this.in1)];
+            WrapperLibraryProvider.getWrapperLibrary().pbc_element_to_bytes(bytes, this.in1);
+            return bytes;
+        }
+
+        public void fromBytes(byte[] source) {
+            PBCElement tmep = (PBCElement) getG1().newElement();
+            tmep.setFromBytes(source);
+
+            this.in1 = tmep.value;
+            this.pairingPPType = new PBCPairingPPType(this.in1, pairing);
         }
 
     }

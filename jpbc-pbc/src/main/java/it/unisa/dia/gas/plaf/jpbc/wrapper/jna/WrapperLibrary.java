@@ -173,6 +173,10 @@ public interface WrapperLibrary extends Library {
 
     void pbc_element_pp_pow_zn(Pointer out, Pointer power, Pointer p);
 
+//    int pbc_element_pp_length(Pointer p);
+
+//    void pbc_element_pp_to_bytes(byte[] data, Pointer p);
+
 
     void pbc_field_order(Pointer e, Pointer order);
 

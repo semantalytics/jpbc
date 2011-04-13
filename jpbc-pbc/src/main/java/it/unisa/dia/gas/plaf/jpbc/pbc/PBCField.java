@@ -2,6 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.pbc;
 
 import com.sun.jna.Pointer;
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
 import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericField;
 import it.unisa.dia.gas.plaf.jpbc.util.BigIntegerUtils;
 import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.MPZElementType;
@@ -79,5 +80,9 @@ public abstract class PBCField extends GenericField {
         WrapperLibraryProvider.getWrapperLibrary().pbc_element_multi_add(aPointers, aPointers, bPointers, a.length);
 
         return a;
+    }
+
+    public ElementPowPreProcessing pow(byte[] source) {
+        return new PBCElementPowPreProcessing(this, source);
     }
 }

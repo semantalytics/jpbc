@@ -449,6 +449,35 @@ void pbc_element_pp_pow_zn(element_t out, element_t power, element_pp_t p) {
     element_pp_pow_zn(out, power, p);
 }
 
+/*
+int pbc_element_pp_length(element_pp_t p) {
+    struct element_base_table *base_table = p->data;
+
+    int lookup_size = 1 << base_table->k;
+    int length = element_length_in_bytes(base_table->table[0][0]);
+
+    return length * base_table->num_lookups * lookup_size;
+}
+
+void pbc_element_pp_to_bytes(unsigned char *data, element_pp_t p) {
+    struct element_base_table *base_table = p->data;
+
+    int lookup_size = 1 << base_table->k;
+    element_t *lookup;
+    int i, j;
+    int offset = 0;
+    element_t **epp = base_table->table;
+    int length = element_length_in_bytes(epp[0][0]);
+
+    for (i = 0; i < base_table->num_lookups; i++) {
+        lookup = epp[i];
+        for (j = 0; j < lookup_size; j++) {
+            offset += element_to_bytes(data[offset], lookup[j]);
+        }
+    }
+}
+*/
+
 // =============
 // field methods
 // =============

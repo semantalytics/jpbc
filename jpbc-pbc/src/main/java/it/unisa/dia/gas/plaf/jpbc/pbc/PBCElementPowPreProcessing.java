@@ -17,10 +17,20 @@ public class PBCElementPowPreProcessing implements ElementPowPreProcessing {
     protected Field field;
     protected PBCElementPPType elementPPType;
 
+    protected Pointer element;
+
 
     public PBCElementPowPreProcessing(Field field, Pointer element) {
         this.field = field;
         this.elementPPType = new PBCElementPPType(element);
+
+        this.element = element;
+    }
+
+    public PBCElementPowPreProcessing(Field field, byte[] source) {
+        this.field = field;
+
+        fromBytes(source);
     }
 
 
@@ -39,6 +49,16 @@ public class PBCElementPowPreProcessing implements ElementPowPreProcessing {
     }
 
     public byte[] toBytes() {
-        throw new IllegalArgumentException("Not Implemented yet!!!");
+        byte[] bytes = new byte[WrapperLibraryProvider.getWrapperLibrary().pbc_element_length_in_bytes(element)];
+        WrapperLibraryProvider.getWrapperLibrary().pbc_element_to_bytes(bytes, element);
+        return bytes;
+    }
+
+    public void fromBytes(byte[] source) {
+        PBCElement temp = (PBCElement) field.newElement();
+        temp.setFromBytes(source);
+
+        this.element = temp.value;
+        this.elementPPType = new PBCElementPPType(this.element);
     }
 }
