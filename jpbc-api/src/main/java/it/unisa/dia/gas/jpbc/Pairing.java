@@ -92,6 +92,14 @@ public interface Pairing {
     PairingPreProcessing pairing(byte[] source);
 
     /**
+     * TODO
+     * @param source
+     * @return
+     * @since 1.2.0
+     */
+    PairingPreProcessing pairing(byte[] source, int offset);
+
+    /**
      * Returns true given (g, g^x, h, h^x) or (g, g^x, h, h^-x)
      * order is important: a, b are from G1, c, d are from G2
      *

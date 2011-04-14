@@ -82,8 +82,8 @@ public class TypeA1TateNafProjectiveMillerPairingMap extends AbstractMillerPairi
         out.getY().set(b).mul(Qy);
     }
 
-    public PairingPreProcessing pairing(byte[] source) {
-        return new TypeATateNafProjectiveMillerPairingPreProcessing(source);
+    public PairingPreProcessing pairing(byte[] source, int offset) {
+        return new TypeATateNafProjectiveMillerPairingPreProcessing(source, offset);
     }
 
     final void tatePow(Point out, Point in, BigInteger cofactor) {
@@ -210,8 +210,8 @@ public class TypeA1TateNafProjectiveMillerPairingMap extends AbstractMillerPairi
 
     public class TypeATateNafProjectiveMillerPairingPreProcessing extends AbstractMillerPairingPreProcessing {
 
-        public TypeATateNafProjectiveMillerPairingPreProcessing(byte[] source) {
-            super(pairing, source);
+        public TypeATateNafProjectiveMillerPairingPreProcessing(byte[] source, int offset) {
+            super(pairing, source, offset);
         }
 
         public TypeATateNafProjectiveMillerPairingPreProcessing(Point in1) {

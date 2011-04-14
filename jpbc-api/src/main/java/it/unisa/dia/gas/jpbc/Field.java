@@ -124,4 +124,12 @@ public interface Field<E extends Element> {
      * @since 1.2.0
      */
     ElementPowPreProcessing pow(byte[] source);
+
+    /**
+     * TODO:
+     * @param source
+     * @return
+     * @since 1.2.0
+     */
+    ElementPowPreProcessing pow(byte[] source, int offset);
 }

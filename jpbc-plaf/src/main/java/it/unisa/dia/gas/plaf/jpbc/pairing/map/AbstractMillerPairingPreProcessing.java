@@ -21,8 +21,8 @@ public abstract class AbstractMillerPairingPreProcessing implements PairingPrePr
         this.processingInfo = new AbstractMillerPairingMap.MillerPreProcessingInfo(processingInfoSize);
     }
 
-    protected AbstractMillerPairingPreProcessing(Pairing pairing, byte[] source) {
-        this.processingInfo = new AbstractMillerPairingMap.MillerPreProcessingInfo(pairing, source);
+    protected AbstractMillerPairingPreProcessing(Pairing pairing, byte[] source, int offset) {
+        this.processingInfo = new AbstractMillerPairingMap.MillerPreProcessingInfo(pairing, source, offset);
     }
 
     public byte[] toBytes() {

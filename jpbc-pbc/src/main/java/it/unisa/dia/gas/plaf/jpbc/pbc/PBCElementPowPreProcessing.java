@@ -27,10 +27,10 @@ public class PBCElementPowPreProcessing implements ElementPowPreProcessing {
         this.element = element;
     }
 
-    public PBCElementPowPreProcessing(Field field, byte[] source) {
+    public PBCElementPowPreProcessing(Field field, byte[] source, int offset) {
         this.field = field;
 
-        fromBytes(source);
+        fromBytes(source, offset);
     }
 
 
@@ -54,9 +54,9 @@ public class PBCElementPowPreProcessing implements ElementPowPreProcessing {
         return bytes;
     }
 
-    public void fromBytes(byte[] source) {
+    public void fromBytes(byte[] source, int offset) {
         PBCElement temp = (PBCElement) field.newElement();
-        temp.setFromBytes(source);
+        temp.setFromBytes(source, offset);
 
         this.element = temp.value;
         this.elementPPType = new PBCElementPPType(this.element);

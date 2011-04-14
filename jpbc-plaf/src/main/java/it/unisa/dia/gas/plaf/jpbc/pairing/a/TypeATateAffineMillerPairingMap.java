@@ -184,8 +184,8 @@ public class TypeATateAffineMillerPairingMap extends AbstractMillerPairingMap {
         return new TypeAMillerAffinePairingPreProcessing(in1);
     }
 
-    public PairingPreProcessing pairing(byte[] source) {
-        return new TypeAMillerAffinePairingPreProcessing(source);
+    public PairingPreProcessing pairing(byte[] source, int offset) {
+        return new TypeAMillerAffinePairingPreProcessing(source, offset);
     }
 
     public Element tatePow(Element element) {
@@ -240,8 +240,8 @@ public class TypeATateAffineMillerPairingMap extends AbstractMillerPairingMap {
 
     public class TypeAMillerAffinePairingPreProcessing extends AbstractMillerPairingPreProcessing {
 
-        public TypeAMillerAffinePairingPreProcessing(byte[] source) {
-            super(pairing, source);
+        public TypeAMillerAffinePairingPreProcessing(byte[] source, int offset) {
+            super(pairing, source, offset);
         }
 
         public TypeAMillerAffinePairingPreProcessing(Point in1) {

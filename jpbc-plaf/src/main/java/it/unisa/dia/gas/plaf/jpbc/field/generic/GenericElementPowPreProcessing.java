@@ -30,12 +30,12 @@ public class GenericElementPowPreProcessing implements ElementPowPreProcessing {
         initTable(g);
     }
 
-    public GenericElementPowPreProcessing(Field field, int k, byte[] source) {
+    public GenericElementPowPreProcessing(Field field, int k, byte[] source, int offset) {
         this.field = field;
         this.bits = field.getOrder().bitLength();
         this.k = k;
 
-        initTableFromBytes(source);
+        initTableFromBytes(source, offset);
     }
 
     public Element pow(BigInteger n) {
@@ -63,12 +63,11 @@ public class GenericElementPowPreProcessing implements ElementPowPreProcessing {
     }
 
 
-    protected void initTableFromBytes(byte[] source) {
+    protected void initTableFromBytes(byte[] source, int offset) {
         int lookupSize = 1 << k;
         numLookups = bits / k + 1;
         table = new Element[numLookups][lookupSize];
 
-        int offset = 0;
         for (int i = 0; i < numLookups; i++) {
             for (int j = 0; j < lookupSize; j++) {
                 table[i][j] = field.newElement();

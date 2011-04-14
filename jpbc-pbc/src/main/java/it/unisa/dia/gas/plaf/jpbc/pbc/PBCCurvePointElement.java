@@ -28,7 +28,7 @@ public class PBCCurvePointElement extends PBCElement implements Point {
         return new ImmutablePBCCurvePointElement(this);
     }
 
-    public int getLength() {
+    public int getSize() {
         return 2;
     }
 

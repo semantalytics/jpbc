@@ -62,8 +62,8 @@ public class TypeDTateAffineNoDenomMillerPairingMap extends AbstractMillerPairin
         return new TypeDMillerNoDenomAffinePairingPreProcessing(in1);
     }
 
-    public PairingPreProcessing pairing(byte[] source) {
-        return new TypeDMillerNoDenomAffinePairingPreProcessing(source);
+    public PairingPreProcessing pairing(byte[] source, int offset) {
+        return new TypeDMillerNoDenomAffinePairingPreProcessing(source, offset);
     }
 
     public boolean isAlmostCoddh(Element a, Element b, Element c, Element d) {
@@ -240,8 +240,8 @@ public class TypeDTateAffineNoDenomMillerPairingMap extends AbstractMillerPairin
 
     public class TypeDMillerNoDenomAffinePairingPreProcessing extends AbstractMillerPairingPreProcessing {
 
-        public TypeDMillerNoDenomAffinePairingPreProcessing(byte[] source) {
-            super(pairing, source);
+        public TypeDMillerNoDenomAffinePairingPreProcessing(byte[] source, int offset) {
+            super(pairing, source, offset);
         }
 
         public TypeDMillerNoDenomAffinePairingPreProcessing(Point in1) {

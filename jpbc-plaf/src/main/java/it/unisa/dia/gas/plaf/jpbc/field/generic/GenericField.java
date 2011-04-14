@@ -77,7 +77,11 @@ public abstract class GenericField<E extends Element> implements Field<E> {
     }
 
     public ElementPowPreProcessing pow(byte[] source) {
-        return new GenericElementPowPreProcessing(this, GenericElementPowPreProcessing.DEFAULT_K, source);
+        return new GenericElementPowPreProcessing(this, GenericElementPowPreProcessing.DEFAULT_K, source, 0);
+    }
+
+    public ElementPowPreProcessing pow(byte[] source, int offset) {
+        return new GenericElementPowPreProcessing(this, GenericElementPowPreProcessing.DEFAULT_K, source, offset);
     }
 
     public Random getRandom() {

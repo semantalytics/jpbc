@@ -65,7 +65,11 @@ public abstract class AbstractPairing implements Pairing {
     }
 
     public PairingPreProcessing pairing(byte[] source) {
-        return pairingMap.pairing(source);
+        return pairingMap.pairing(source, 0);
+    }
+
+    public PairingPreProcessing pairing(byte[] source, int offset) {
+        return pairingMap.pairing(source, offset);
     }
 
     public boolean isAlmostCoddh(Element a, Element b, Element c, Element d) {

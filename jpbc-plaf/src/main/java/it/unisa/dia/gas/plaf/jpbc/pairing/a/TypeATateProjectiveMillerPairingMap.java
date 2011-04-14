@@ -186,8 +186,8 @@ public class TypeATateProjectiveMillerPairingMap extends AbstractMillerPairingMa
         return new GTFiniteElement(this, (GTFiniteField) pairing.getGT(), out);
     }
 
-    public PairingPreProcessing pairing(byte[] source) {
-        return new TypeATateProjectiveMillerPairingPreProcessing(source);
+    public PairingPreProcessing pairing(byte[] source, int offset) {
+        return new TypeATateProjectiveMillerPairingPreProcessing(source, offset);
     }
 
     protected final void millerStep(Point out, Element a, Element b, Element c, Element Qx, Element Qy) {
@@ -272,8 +272,8 @@ public class TypeATateProjectiveMillerPairingMap extends AbstractMillerPairingMa
 
     public class TypeATateProjectiveMillerPairingPreProcessing extends AbstractMillerPairingPreProcessing {
 
-        public TypeATateProjectiveMillerPairingPreProcessing(byte[] source) {
-            super(pairing, source);
+        public TypeATateProjectiveMillerPairingPreProcessing(byte[] source, int offset) {
+            super(pairing, source, offset);
         }
 
         public TypeATateProjectiveMillerPairingPreProcessing(Point in1) {

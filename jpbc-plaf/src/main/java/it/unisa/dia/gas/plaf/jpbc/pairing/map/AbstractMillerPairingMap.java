@@ -381,12 +381,12 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
             this.table = new Element[size][3];
         }
 
-        public MillerPreProcessingInfo(Pairing pairing, byte[] source) {
+        public MillerPreProcessingInfo(Pairing pairing, byte[] source, int offset) {
             try {
-                DataInputStream in = new DataInputStream(new ByteArrayInputStream(source));
+                DataInputStream in = new DataInputStream(new ByteArrayInputStream(source, offset, source.length));
                 this.numRow = in.readInt();
 
-                int offset = 4;
+                offset += 4;
                 this.table = new Element[numRow][3];
                 Field field = ((FieldOver) pairing.getG1()).getTargetField();
                 for (int i = 0; i < numRow; i++) {

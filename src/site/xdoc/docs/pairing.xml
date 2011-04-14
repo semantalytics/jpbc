@@ -174,6 +174,24 @@ Element in2 = pairing.get<code>G2</code>().newRandomElement();
 Element out = <font style="font-weight: bold;color:green">pairing.pairing(in1, in2);</font>
                 </source>
 
+                Furthermore, you can compute the product of pairings in one shot using
+                the following;
+
+                <source xml:space="preserve">
+Element in1[] = new Element[5];
+for (int i = 0; i &lt; 5; i++)
+    in1[i] = pairing.get<code>G1</code>().newRandomElement();
+
+Element in2[] = new Element[5];
+for (int i = 0; i &lt; 5; i++)
+    in2[i] = pairing.get<code>G2</code>().newRandomElement();
+
+Element out = <font style="font-weight: bold;color:green">pairing.pairing(in1, in2);</font>
+                </source>
+            </subsection>
+
+            <a name="preprocessing"/>
+            <subsection name="Preprocessing">
                 <p>
                     There is another way to apply the pairing which uses a pre-processing technic . So if you have for many times
                     the same first input (that in <code>G1</code>) you can use the following to reduce the time used to compute
@@ -197,22 +215,8 @@ Element in1 = pairing.get<code>G1</code>().newRandomElement();
 Element in2 = pairing.get<code>G2</code>().newRandomElement();
 Element out = <font style="font-weight: bold;color:green">ppp.pairing(in2);</font>
                 </source>
-
-                Furthermore, you can compute the product of pairings in one shot using
-                the following;
-
-                <source xml:space="preserve">
-Element in1[] = new Element[5];
-for (int i = 0; i &lt; 5; i++)
-    in1[i] = pairing.get<code>G1</code>().newRandomElement();
-
-Element in2[] = new Element[5];
-for (int i = 0; i &lt; 5; i++)
-    in2[i] = pairing.get<code>G2</code>().newRandomElement();
-
-Element out = <font style="font-weight: bold;color:green">pairing.pairing(in1, in2);</font>
-                </source>
             </subsection>
+
         </section>
     </body>
 </document>

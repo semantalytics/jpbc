@@ -28,7 +28,7 @@ public abstract class GenericVectorElement<E extends Element> extends GenericEle
         return coeff.get(index);
     }
 
-    public int getLength() {
+    public int getSize() {
         return coeff.size();
     }
 

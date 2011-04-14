@@ -64,4 +64,9 @@ public class MPZField extends GenericField<MPZElement> {
     public ElementPowPreProcessing pow(byte[] source) {
         throw new IllegalStateException("Not Implemented yet!!!");
     }
+
+    @Override
+    public ElementPowPreProcessing pow(byte[] source, int offset) {
+        throw new IllegalStateException("Not Implemented yet!!!");
+    }
 }

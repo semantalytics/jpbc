@@ -15,7 +15,7 @@ public interface PairingMap {
 
     PairingPreProcessing pairing(Point in1);
 
-    PairingPreProcessing pairing(byte[] source);
+    PairingPreProcessing pairing(byte[] source, int offset);
 
     boolean isAlmostCoddh(Element a, Element b, Element c, Element d);
 

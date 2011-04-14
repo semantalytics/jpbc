@@ -21,7 +21,7 @@ public abstract class GenericPointElement<E extends Element> extends GenericElem
     }
 
 
-    public int getLength() {
+    public int getSize() {
         return 2;
     }
 

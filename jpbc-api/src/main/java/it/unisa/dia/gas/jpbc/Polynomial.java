@@ -3,7 +3,7 @@ package it.unisa.dia.gas.jpbc;
 import java.util.List;
 
 /**
- * This element represents a polynomial through its coefficient.
+ * This element represents a polynomial through its coefficients.
  *
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  * @since 1.0.0

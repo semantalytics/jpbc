@@ -30,8 +30,8 @@ public abstract class AbstractPairingMap implements PairingMap {
         return new DefaultPairingPreProcessing(in1);
     }
 
-    public PairingPreProcessing pairing(byte[] source) {
-        return new DefaultPairingPreProcessing(source);
+    public PairingPreProcessing pairing(byte[] source, int offset) {
+        return new DefaultPairingPreProcessing(source, offset);
     }
 
     public boolean isAlmostCoddh(Element a, Element b, Element c, Element d) {
@@ -67,9 +67,9 @@ public abstract class AbstractPairingMap implements PairingMap {
             this.in1 = in1;
         }
 
-        public DefaultPairingPreProcessing(byte[] source) {
+        public DefaultPairingPreProcessing(byte[] source, int offset) {
             this.in1 = (Point) pairing.getG1().newElement();
-            this.in1.setFromBytes(source);
+            this.in1.setFromBytes(source, offset);
         }
 
         public Element pairing(Element in2) {

@@ -77,8 +77,8 @@ public class TypeATateNafProjectiveMillerPairingMap extends AbstractMillerPairin
         return new TypeATateNafProjectiveMillerPairingPreProcessing(in1);
     }
 
-    public PairingPreProcessing pairing(byte[] source) {
-        return new TypeATateNafProjectiveMillerPairingPreProcessing(source);
+    public PairingPreProcessing pairing(byte[] source, int offset) {
+        return new TypeATateNafProjectiveMillerPairingPreProcessing(source, offset);
     }
 
 
@@ -202,8 +202,8 @@ public class TypeATateNafProjectiveMillerPairingMap extends AbstractMillerPairin
 
     public class TypeATateNafProjectiveMillerPairingPreProcessing extends AbstractMillerPairingPreProcessing {
 
-        public TypeATateNafProjectiveMillerPairingPreProcessing(byte[] source) {
-            super(pairing, source);
+        public TypeATateNafProjectiveMillerPairingPreProcessing(byte[] source, int offset) {
+            super(pairing, source, offset);
         }
 
         public TypeATateNafProjectiveMillerPairingPreProcessing(Point in1) {

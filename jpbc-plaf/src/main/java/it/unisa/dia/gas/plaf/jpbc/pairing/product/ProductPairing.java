@@ -49,7 +49,7 @@ public class ProductPairing implements Pairing {
 
 //      TODO:  return basePairing.pairing(v1.toArray(), v2.toArray());
         Element output = basePairing.pairing(v1.getAt(0), v2.getAt(0));
-        for (int i = 1; i < v1.getLength(); i++) {
+        for (int i = 1; i < v1.getSize(); i++) {
             output.mul(basePairing.pairing(v1.getAt(i), v2.getAt(i)));
         }
         return output;
@@ -73,6 +73,11 @@ public class ProductPairing implements Pairing {
     }
 
     public PairingPreProcessing pairing(byte[] source) {
+        // TODO:
+        throw new IllegalStateException("Not implemented yet!!!");
+    }
+
+    public PairingPreProcessing pairing(byte[] source, int offset) {
         throw new IllegalStateException("Not implemented yet!!!");
     }
 

@@ -14,9 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
-import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
 import java.io.*;
 
@@ -105,7 +103,7 @@ public class JPBCBenchmarkActivity extends Activity implements View.OnClickListe
         Thread t = new Thread() {
             public void run() {
                 Benchmark benchmark = androidBenchmark.benchmark(new String[]{
-                        "it/unisa/dia/gas/jpbc/android/benchmark/curves/a.properties",
+                        "it/unisa/dia/gas/jpbc/external/a.properties",
                         "it/unisa/dia/gas/jpbc/android/benchmark/curves/d159.properties",
                         "it/unisa/dia/gas/jpbc/android/benchmark/curves/d201.properties",
                         "it/unisa/dia/gas/jpbc/android/benchmark/curves/d224.properties"

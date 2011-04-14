@@ -30,6 +30,7 @@
             <item name="Pairing" href="/docs/pairing.html">
                 <item name="Initializing" href="/docs/pairing.html#initializing"/>
                 <item name="Applying" href="/docs/pairing.html#applying"/>
+                <item name="Preprocessign" href="/docs/pairing.html#preprocessing"/>
             </item>
 
             <item name="Field" href="/docs/field.html"/>
@@ -38,10 +39,11 @@
                 <item name="Initializing" href="/docs/element.html#initializing"/>
                 <item name="Assigning" href="/docs/element.html#assigning"/>
                 <item name="Arithmetic" href="/docs/element.html#arithmetic"/>
-                <item name="Exponentiating" href="/docs/element.html#exponentiating"/>
+                <item name="Exponentiation" href="/docs/element.html#exponentiation"/>
                 <item name="Comparing" href="/docs/element.html#comparing"/>
                 <item name="Import/Export" href="/docs/element.html#io"/>
                 <item name="Immutable" href="/docs/element.html#immutable"/>
+                <item name="Preprocessing" href="/docs/element.html#preprocessing"/>
             </item>
 
             <item name="Curve Generators" href="/docs/curvegenerator.html">
