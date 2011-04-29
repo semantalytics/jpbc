@@ -86,7 +86,7 @@ public class LSSS {
     public static void main(String[] args) {
         Field Zr = new NaiveField(new BigInteger("17"));
 
-        Element[][] A = new Element[2][3];
+        Element[][] A = new Element[3][3];
 
         int m = A.length;
         int n = A[0].length;
@@ -95,21 +95,21 @@ public class LSSS {
                 A[i][j] = Zr.newRandomElement();
             }
         }
-        A[0][0] = Zr.newElement(1);
-        A[0][1] = Zr.newElement(1);
-        A[0][2] = Zr.newElement(0);
+//        A[0][0] = Zr.newElement(1);
+//        A[0][1] = Zr.newElement(1);
+//        A[0][2] = Zr.newElement(0);
 
-//        A[1][0] = Zr.newElement(0);
-//        A[1][1] = Zr.newElement(-1);
-//        A[1][2] = Zr.newElement(1);
+        A[0][0] = Zr.newElement(0);
+        A[0][1] = Zr.newElement(-1);
+        A[0][2] = Zr.newElement(1);
 
         A[1][0] = Zr.newElement(0);
         A[1][1] = Zr.newElement(0);
         A[1][2] = Zr.newElement(-1);
 
-//        A[3][0] = Zr.newElement(0);
-//        A[3][1] = Zr.newElement(-1);
-//        A[3][2] = Zr.newElement(0);
+        A[2][0] = Zr.newElement(0);
+        A[2][1] = Zr.newElement(-1);
+        A[2][2] = Zr.newElement(0);
 
         ElementUtils.print(A);
         Element[][] B = gaussianElimination(A);
