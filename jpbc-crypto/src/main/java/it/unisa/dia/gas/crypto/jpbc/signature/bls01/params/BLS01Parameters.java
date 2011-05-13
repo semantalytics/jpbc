@@ -10,18 +10,18 @@ import java.io.Serializable;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class BLS01Parameters implements CipherParameters, Serializable {
-    private CurveParameters curveParams;
+    private CurveParameters curveParameters;
     private Element g;
 
 
-    public BLS01Parameters(CurveParameters curveParams, Element g) {
-        this.curveParams = curveParams;
+    public BLS01Parameters(CurveParameters curveParameters, Element g) {
+        this.curveParameters = curveParameters;
         this.g = g;
     }
 
 
-    public CurveParameters getCurveParams() {
-        return curveParams;
+    public CurveParameters getCurveParameters() {
+        return curveParameters;
     }
 
     public Element getG() {

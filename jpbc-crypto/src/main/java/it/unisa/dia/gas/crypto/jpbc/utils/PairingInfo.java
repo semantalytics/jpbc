@@ -2,7 +2,6 @@ package it.unisa.dia.gas.crypto.jpbc.utils;
 
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.jpbc.Point;
-import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
 /**
@@ -11,10 +10,7 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 public class PairingInfo {
 
     public static void main(String[] args) {
-        CurveParams curveParams = new CurveParams();
-        curveParams.load(args[0]);
-
-        Pairing pairing = PairingFactory.getInstance().initPairing(curveParams);
+        Pairing pairing = PairingFactory.getPairing(args[0]);
         System.out.println("pairing.isSymmetric() = " + pairing.isSymmetric());
         System.out.println("pairing.getZr().getLengthInBytes() = " + pairing.getZr().getLengthInBytes());
         System.out.println("pairing.getG1().getLengthInBytes() = " + pairing.getG1().getLengthInBytes());

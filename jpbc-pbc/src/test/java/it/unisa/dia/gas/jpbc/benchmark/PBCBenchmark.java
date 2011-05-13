@@ -24,7 +24,7 @@ public class PBCBenchmark extends JPBCBenchmark {
     }
 
     protected Pairing getPairing(String curve) {
-        return PairingFactory.getPairing(getCurveParams(curve));
+        return PairingFactory.getPairing(getCurveParameters(curve));
     }                 
 
     

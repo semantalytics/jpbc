@@ -12,7 +12,7 @@ public class PBCCurveFieldTest extends CurveFieldTest {
     @Override
     protected void setUp() throws Exception {
         if (WrapperLibraryProvider.isAvailable()) {
-            pairing = new PBCPairing(getCurveParams());
+            pairing = new PBCPairing(getCurveParameters());
         } else
             pairing = null;
     }

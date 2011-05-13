@@ -2,7 +2,6 @@ package it.unisa.dia.gas.plaf.jpbc.util;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import junit.framework.TestCase;
 
@@ -16,9 +15,7 @@ import java.security.SecureRandom;
 public class ElementUtilsTest extends TestCase {
 
     public void testTranspose() throws Exception {
-        Pairing pairing = PairingFactory.getPairing(
-                new CurveParams().load(this.getClass().getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pairing/a/a_181_603.properties"))
-        );
+        Pairing pairing = PairingFactory.getPairing("it/unisa/dia/gas/plaf/jpbc/pairing/a/a_181_603.properties");
 
         int dim = 4;
         Element[][] A = new Element[dim][dim];
@@ -46,9 +43,7 @@ public class ElementUtilsTest extends TestCase {
     }
 
     public void testInvert() throws Exception {
-        Pairing pairing = PairingFactory.getPairing(
-                new CurveParams().load(this.getClass().getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pairing/a/a_181_603.properties"))
-        );
+        Pairing pairing = PairingFactory.getPairing("it/unisa/dia/gas/plaf/jpbc/pairing/a/a_181_603.properties");
 
         SecureRandom SRNG = SecureRandom.getInstance("SHA1PRNG");
         boolean invertiable = true;

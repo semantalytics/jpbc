@@ -5,7 +5,7 @@ import it.unisa.dia.gas.crypto.jpbc.signature.ps06.generators.PS06ParametersGene
 import it.unisa.dia.gas.crypto.jpbc.signature.ps06.generators.PS06SecretKeyGenerator;
 import it.unisa.dia.gas.crypto.jpbc.signature.ps06.generators.PS06SetupGenerator;
 import it.unisa.dia.gas.crypto.jpbc.signature.ps06.params.*;
-import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
+import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import junit.framework.TestCase;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
@@ -38,11 +38,7 @@ public class PS06SignerTest extends TestCase {
     protected PS06Parameters createParameters(int nU, int nM) {
         // Generate Public Parameters
         return new PS06ParametersGenerator().init(
-                new CurveParams().load(
-                        this.getClass().getClassLoader().getResourceAsStream(
-                                "it/unisa/dia/gas/plaf/jpbc/crypto/a_181_603.properties"
-                        )
-                ),
+                PairingFactory.getInstance().loadCurveParameters("it/unisa/dia/gas/plaf/jpbc/crypto/a_181_603.properties"),
                 nU,
                 nM).generateParameters();
 

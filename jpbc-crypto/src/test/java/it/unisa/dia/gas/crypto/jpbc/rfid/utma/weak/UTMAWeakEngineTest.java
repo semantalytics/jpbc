@@ -8,7 +8,8 @@ import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.generators.UTMAWeakParameters
 import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.params.UTMAWeakKeyGenerationParameters;
 import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.params.UTMAWeakParameters;
 import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.params.UTMAWeakPublicParameters;
-import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
+import it.unisa.dia.gas.jpbc.CurveParameters;
+import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import junit.framework.TestCase;
 import org.bouncycastle.crypto.AsymmetricBlockCipher;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
@@ -46,7 +47,7 @@ public class UTMAWeakEngineTest extends TestCase {
 
     protected UTMAWeakParameters createParameters() {
         UTMAWeakParametersGenerator generator = new UTMAWeakParametersGenerator();
-        generator.init(getCurveParamas());
+        generator.init(getCurveParameters());
         return generator.generateParameters();
     }
 
@@ -98,9 +99,7 @@ public class UTMAWeakEngineTest extends TestCase {
         return randomizer.processBlock(ciphertext, 0, ciphertext.length);
     }
 
-    protected CurveParams getCurveParamas() {
-        CurveParams curveParams = new CurveParams();
-        curveParams.load(this.getClass().getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/crypto/a_181_603.properties"));
-        return curveParams;
+    protected CurveParameters getCurveParameters() {
+        return PairingFactory.getInstance().loadCurveParameters("it/unisa/dia/gas/plaf/jpbc/crypto/a_181_603.properties");
     }
 }

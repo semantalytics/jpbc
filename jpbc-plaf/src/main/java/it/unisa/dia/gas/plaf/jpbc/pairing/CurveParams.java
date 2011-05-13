@@ -144,7 +144,7 @@ public class CurveParams extends LinkedHashMap<String, String> implements CurveP
                 throw new RuntimeException(e);
             }
         } else {
-            inputStream = this.getClass().getClassLoader().getResourceAsStream(path);
+            inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(path);
         }
 
         if (inputStream == null)

@@ -1,7 +1,8 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing.a1;
 
+import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
+import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingTest;
 
 import java.math.BigInteger;
@@ -11,17 +12,15 @@ import java.math.BigInteger;
  */
 public class TypeA1PairingTest extends PairingTest {
 
-    protected CurveParams getCurveParameters() {
-        CurveParams curveParams = new CurveParams();
-        curveParams.load(this.getClass().getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pairing/a1/a1_3primes.properties"));
-        return curveParams;
+    protected CurveParameters getCurveParameters() {
+        return PairingFactory.getInstance().loadCurveParameters("it/unisa/dia/gas/plaf/jpbc/pairing/a1/a1_3primes.properties");
     }
 
     public void testOrthogonality() {
-        CurveParams curveParams = getCurveParameters();
-        BigInteger p0 = curveParams.getBigInteger("n0");
-        BigInteger p1 = curveParams.getBigInteger("n1");
-        BigInteger p2 = curveParams.getBigInteger("n2");
+        CurveParameters curveParameters = getCurveParameters();
+        BigInteger p0 = curveParameters.getBigInteger("n0");
+        BigInteger p1 = curveParameters.getBigInteger("n1");
+        BigInteger p2 = curveParameters.getBigInteger("n2");
 
         Element gen = pairing.getG1().newRandomElement().getImmutable();
         Element gen0 = gen.pow(p1.multiply(p2)).getImmutable();

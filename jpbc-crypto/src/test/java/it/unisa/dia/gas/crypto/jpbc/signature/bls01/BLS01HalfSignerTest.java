@@ -5,7 +5,8 @@ import it.unisa.dia.gas.crypto.jpbc.signature.bls01.generators.BLS01KeyPairGener
 import it.unisa.dia.gas.crypto.jpbc.signature.bls01.generators.BLS01ParametersGenerator;
 import it.unisa.dia.gas.crypto.jpbc.signature.bls01.params.BLS01KeyGenerationParameters;
 import it.unisa.dia.gas.crypto.jpbc.signature.bls01.params.BLS01Parameters;
-import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
+import it.unisa.dia.gas.jpbc.CurveParameters;
+import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import junit.framework.TestCase;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
@@ -20,7 +21,7 @@ public class BLS01HalfSignerTest extends TestCase {
     public void testSignerEngine() {
         // Setup
         AsymmetricCipherKeyPair keyPair = keyGen(setup(
-                new CurveParams().load(BLS01HalfSignerTest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/crypto/a_181_603.properties"))
+                PairingFactory.getInstance().loadCurveParameters("it/unisa/dia/gas/plaf/jpbc/crypto/a_181_603.properties")
         ));
 
         // Test
@@ -29,9 +30,9 @@ public class BLS01HalfSignerTest extends TestCase {
     }
 
 
-    protected BLS01Parameters setup(CurveParams curveParams) {
+    protected BLS01Parameters setup(CurveParameters curveParameters) {
         BLS01ParametersGenerator setup = new BLS01ParametersGenerator();
-        setup.init(curveParams);
+        setup.init(curveParameters);
 
         return setup.generateParameters();
     }

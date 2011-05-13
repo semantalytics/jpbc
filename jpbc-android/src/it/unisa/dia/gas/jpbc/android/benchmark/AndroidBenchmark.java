@@ -2,11 +2,8 @@ package it.unisa.dia.gas.jpbc.android.benchmark;
 
 import android.util.Log;
 import it.unisa.dia.gas.jpbc.*;
-import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
-import java.io.File;
-import java.io.IOException;
 import java.math.BigInteger;
 
 
@@ -150,24 +147,12 @@ public class AndroidBenchmark {
         return benchmark;
     }
 
-    protected CurveParams getCurveParams(String curve) {
-        CurveParams curveParams = new CurveParams();
-
-        try {
-            File curveFile = new File(curve);
-            if (curveFile.exists()) {
-                curveParams.load(curveFile.toURI().toURL().openStream());
-            } else
-                curveParams.load(getClass().getClassLoader().getResourceAsStream(curve));
-        } catch (IOException e) {
-            throw new IllegalArgumentException(e);
-        }
-
-        return curveParams;
+    protected CurveParameters getCurveParameters(String curve) {
+        return PairingFactory.getInstance().loadCurveParameters(curve);
     }
 
     protected Pairing getPairing(String curve) {
-        return PairingFactory.getPairing(getCurveParams(curve));
+        return PairingFactory.getPairing(getCurveParameters(curve));
     }
 
 

@@ -1,7 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.element;
 
 import it.unisa.dia.gas.jpbc.CurveParameters;
-import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
+import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -9,9 +9,7 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 public class TypeAElementPowPreProcessingTest extends ElementPowPreProcessingTest {
 
    protected CurveParameters getCurveParameters() {
-        CurveParams curveParams = new CurveParams();
-        curveParams.load(this.getClass().getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pairing/a/a_181_603.properties"));
-        return curveParams;
-    }
+       return PairingFactory.getInstance().loadCurveParameters("it/unisa/dia/gas/plaf/jpbc/pairing/a/a_181_603.properties");
+   }
 
 }

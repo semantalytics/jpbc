@@ -1,8 +1,9 @@
 package it.unisa.dia.gas.plaf.jpbc.field.curve;
 
+import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
+import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import it.unisa.dia.gas.plaf.jpbc.pairing.a.TypeAPairing;
 import junit.framework.TestCase;
 
@@ -15,7 +16,7 @@ public class CurveFieldTest extends TestCase {
 
     @Override
     protected void setUp() throws Exception {
-        pairing = new TypeAPairing(getCurveParams());
+        pairing = new TypeAPairing(getCurveParameters());
 
         assertNotNull(pairing.getG1());
         assertNotNull(pairing.getG2());
@@ -23,10 +24,8 @@ public class CurveFieldTest extends TestCase {
         assertNotNull(pairing.getZr());
     }
 
-    protected CurveParams getCurveParams() {
-        CurveParams curveParams = new CurveParams();
-        curveParams.load(this.getClass().getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pairing/a/a_181_603.properties"));
-        return curveParams;
+    protected CurveParameters getCurveParameters() {
+        return PairingFactory.getInstance().loadCurveParameters("it/unisa/dia/gas/plaf/jpbc/pairing/a/a_181_603.properties");
     }
 
 

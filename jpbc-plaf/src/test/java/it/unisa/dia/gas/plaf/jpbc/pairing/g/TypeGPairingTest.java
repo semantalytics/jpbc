@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing.g;
 
-import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
+import it.unisa.dia.gas.jpbc.CurveParameters;
+import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingTest;
 
 /**
@@ -8,10 +9,8 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.PairingTest;
  */
 public class TypeGPairingTest extends PairingTest {
 
-    protected CurveParams getCurveParameters() {
-        CurveParams curveParams = new CurveParams();
-        curveParams.load(this.getClass().getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pairing/g/g149.properties"));
-        return curveParams;
+    protected CurveParameters getCurveParameters() {
+        return PairingFactory.getInstance().loadCurveParameters("it/unisa/dia/gas/plaf/jpbc/pairing/g/g149.properties");
     }
 
 }

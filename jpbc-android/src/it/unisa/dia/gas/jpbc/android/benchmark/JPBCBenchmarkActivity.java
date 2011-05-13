@@ -14,9 +14,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
+import it.unisa.dia.gas.jpbc.CurveParameters;
+import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -50,21 +54,9 @@ public class JPBCBenchmarkActivity extends Activity implements View.OnClickListe
         Log.i(TAG, "onCreate.finished");
     }
 
-    protected CurveParams getCurveParams(String curve) {
-           CurveParams curveParams = new CurveParams();
-
-           try {
-               File curveFile = new File(curve);
-               if (curveFile.exists()) {
-                       curveParams.load(curveFile.toURI().toURL().openStream());
-               } else
-                   curveParams.load(getClass().getClassLoader().getResourceAsStream(curve));
-               } catch (IOException e) {
-                   throw new IllegalArgumentException(e);
-               }
-
-           return curveParams;
-       }
+    protected CurveParameters getCurveParameters(String curve) {
+        return PairingFactory.getInstance().loadCurveParameters(curve);
+    }
 
     protected void onStop() {
         unregisterReceiver(batteryLevelReceiver);

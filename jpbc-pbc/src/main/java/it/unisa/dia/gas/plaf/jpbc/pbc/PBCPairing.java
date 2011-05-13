@@ -1,21 +1,17 @@
 package it.unisa.dia.gas.plaf.jpbc.pbc;
 
 import com.sun.jna.Pointer;
+import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.PairingPreProcessing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.AbstractPairing;
-import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
-import it.unisa.dia.gas.plaf.jpbc.pairing.map.AbstractMillerPairingPreProcessing;
 import it.unisa.dia.gas.plaf.jpbc.pbc.field.PBCG1Field;
 import it.unisa.dia.gas.plaf.jpbc.pbc.field.PBCG2Field;
 import it.unisa.dia.gas.plaf.jpbc.pbc.field.PBCGTField;
 import it.unisa.dia.gas.plaf.jpbc.pbc.field.PBCZrField;
-import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.PBCElementPPType;
 import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.PBCPairingPPType;
 import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.PBCPairingType;
 import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.WrapperLibraryProvider;
-
-import java.util.Arrays;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -25,12 +21,12 @@ public class PBCPairing extends AbstractPairing {
     protected PBCPairingType pairing;
 
 
-    public PBCPairing(CurveParams curveParams) {
+    public PBCPairing(CurveParameters curveParameters) {
         if (!WrapperLibraryProvider.isAvailable())
             throw new IllegalStateException("PBC support not available.");
 
         // Init pairing...
-        pairing = new PBCPairingType(curveParams.toString(" "));
+        pairing = new PBCPairingType(curveParameters.toString(" "));
 
         // Init fields
         initFields();

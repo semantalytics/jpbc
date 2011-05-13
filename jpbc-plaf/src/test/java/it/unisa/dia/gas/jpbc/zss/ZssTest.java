@@ -2,8 +2,7 @@ package it.unisa.dia.gas.jpbc.zss;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
-import it.unisa.dia.gas.plaf.jpbc.pairing.a.TypeAPairing;
+import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import junit.framework.TestCase;
 
 /**
@@ -15,11 +14,7 @@ public class ZssTest extends TestCase {
 
     @Override
     protected void setUp() throws Exception {
-        // Load pairing
-        CurveParams curveParams = new CurveParams();
-        curveParams.load(ZssTest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pairing/a/a_181_603.properties"));
-
-        pairing = new TypeAPairing(curveParams);
+        pairing = PairingFactory.getPairing("it/unisa/dia/gas/plaf/jpbc/pairing/a/a_181_603.properties");
     }
 
 

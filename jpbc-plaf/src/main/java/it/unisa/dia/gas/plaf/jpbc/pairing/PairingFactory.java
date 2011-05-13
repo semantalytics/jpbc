@@ -24,10 +24,13 @@ public class PairingFactory {
         return INSTANCE;
     }
 
-    public static Pairing getPairing(CurveParameters curveParams) {
-        return getInstance().initPairing(curveParams);
+    public static Pairing getPairing(CurveParameters curveParameters) {
+        return getInstance().initPairing(curveParameters);
     }
 
+    public static Pairing getPairing(String curveParametersPath) {
+        return getInstance().initPairing(curveParametersPath);
+    }
 
     private boolean usePBCWhenPossible = false;
     private boolean reuseIstance = true;
@@ -49,44 +52,47 @@ public class PairingFactory {
         this.instances = new HashMap<CurveParameters, Pairing>();
     }
 
+    public Pairing initPairing(String curveParametersPath) {
+        return initPairing(loadCurveParameters(curveParametersPath));
+    }
 
-    public Pairing initPairing(CurveParameters curveParams) {
-        if (curveParams == null)
-            throw new IllegalArgumentException("curveParams cannot be null.");
+    public Pairing initPairing(CurveParameters curveParameters) {
+        if (curveParameters == null)
+            throw new IllegalArgumentException("curveParameters cannot be null.");
 
         if (usePBCWhenPossible && pbcPairingFactoryClass != null) {
             try {
-                return (Pairing) getPairingMethod.invoke(null, curveParams);
+                return (Pairing) getPairingMethod.invoke(null, curveParameters);
             } catch (Exception e) {                
             }
         }
 
-        String type = curveParams.getString("type");
+        String type = curveParameters.getString("type");
 
         Pairing pairing;
         if (reuseIstance) {
-            pairing = instances.get(curveParams);
+            pairing = instances.get(curveParameters);
             if (pairing != null)
                 return pairing;
         }
 
         if ("a".equalsIgnoreCase(type))
-            pairing = new TypeAPairing(curveParams);
+            pairing = new TypeAPairing(curveParameters);
         else if ("a1".equalsIgnoreCase(type))
-            pairing = new TypeA1Pairing(curveParams);
+            pairing = new TypeA1Pairing(curveParameters);
         else if ("d".equalsIgnoreCase(type))
-            pairing = new TypeDPairing(curveParams);
+            pairing = new TypeDPairing(curveParameters);
         else if ("e".equalsIgnoreCase(type))
-            pairing = new TypeEPairing(curveParams);
+            pairing = new TypeEPairing(curveParameters);
         else if ("f".equalsIgnoreCase(type))
-            return new TypeFPairing(curveParams);
+            return new TypeFPairing(curveParameters);
         else if ("g".equalsIgnoreCase(type))
-            return new TypeGPairing(curveParams);
+            return new TypeGPairing(curveParameters);
         else
             throw new IllegalArgumentException("Type not supported. Type = " + type);
 
         if (reuseIstance)
-            instances.put(curveParams, pairing);
+            instances.put(curveParameters, pairing);
         
         return pairing;
     }
@@ -111,4 +117,10 @@ public class PairingFactory {
         return pbcPairingFailure;
     }
 
+    public CurveParameters loadCurveParameters(String path) {
+        CurveParams curveParams = new CurveParams();
+        curveParams.load(path);
+
+        return curveParams;
+    }
 }

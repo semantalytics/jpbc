@@ -5,7 +5,6 @@ import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08AttributesOnly
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08KeyPairGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08ParametersGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.*;
-import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
@@ -160,11 +159,10 @@ public class HVEIP08Benchmark {
     }
 
     protected HVEIP08Parameters genParam(String curve, int... attributeLengths) {
-        CurveParams curveParams = new CurveParams();
-        curveParams.load(this.getClass().getClassLoader().getResourceAsStream(curve));
-
         HVEIP08ParametersGenerator generator = new HVEIP08ParametersGenerator();
-        generator.init(curveParams, attributeLengths);
+        generator.init(
+                PairingFactory.getInstance().loadCurveParameters(curve),
+                attributeLengths);
 
         return generator.generateParameters();
     }

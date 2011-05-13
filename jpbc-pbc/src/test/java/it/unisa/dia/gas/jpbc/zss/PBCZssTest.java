@@ -1,7 +1,6 @@
 package it.unisa.dia.gas.jpbc.zss;
 
-import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
-import it.unisa.dia.gas.plaf.jpbc.pbc.PBCPairing;
+import it.unisa.dia.gas.plaf.jpbc.pbc.PairingFactory;
 import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.WrapperLibraryProvider;
 
 
@@ -13,11 +12,7 @@ public class PBCZssTest extends ZssTest {
     @Override
     protected void setUp() throws Exception {
         if (WrapperLibraryProvider.isAvailable()) {
-
-            CurveParams curveParams = new CurveParams();
-            curveParams.load(PBCZssTest.class.getClassLoader().getResourceAsStream("it/unisa/dia/gas/plaf/jpbc/pbc/pairing/a_181_603.properties"));
-
-            pairing = new PBCPairing(curveParams);
+            pairing = PairingFactory.getPairing("it/unisa/dia/gas/plaf/jpbc/pbc/pairing/a_181_603.properties");
         } else
             pairing = null;
     }
