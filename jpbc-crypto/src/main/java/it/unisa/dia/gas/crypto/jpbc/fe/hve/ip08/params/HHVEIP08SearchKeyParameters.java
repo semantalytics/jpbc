@@ -3,7 +3,6 @@ package it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params;
 import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtil;
 import it.unisa.dia.gas.jpbc.Element;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -16,6 +15,7 @@ public class HHVEIP08SearchKeyParameters extends HVEIP08KeyParameters {
     private Element K;
     private boolean allStar;
 
+
     public HHVEIP08SearchKeyParameters(HVEIP08Parameters parameters,
                                        int[] pattern,
                                        Element[] Y, Element[] L,
@@ -23,7 +23,14 @@ public class HHVEIP08SearchKeyParameters extends HVEIP08KeyParameters {
                                        List<List<Element>> SL) {
         super(true, parameters);
 
-        this.pattern = Arrays.copyOf(pattern, pattern.length);
+//        this.pattern = Arrays.copyOf(pattern, pattern.length);
+        this.pattern = new int[parameters.getN()];
+        for (int i = 0; i < pattern.length; i++) {
+            if (pattern[i] < 0)
+                this.pattern[i] = pattern[i];
+            else
+                this.pattern[i] = 0;
+        }
         this.Y = ElementUtil.cloneImmutably(Y);
         this.L = ElementUtil.cloneImmutably(L);
         this.SY = SY;
@@ -31,13 +38,6 @@ public class HHVEIP08SearchKeyParameters extends HVEIP08KeyParameters {
 
         this.allStar = false;
         this.K = null;
-    }
-
-    public HHVEIP08SearchKeyParameters(HVEIP08Parameters parameters, Element k) {
-        super(true, parameters);
-
-        this.K = (k != null) ? k.getImmutable() : null;
-        this.allStar = true;
     }
 
     public HHVEIP08SearchKeyParameters(HVEIP08Parameters parameters,

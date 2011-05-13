@@ -6,8 +6,6 @@ import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.jpbc.PairingPreProcessing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
-import java.util.Arrays;
-
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
@@ -38,7 +36,15 @@ public class HVEIP08SearchKeyParameters extends HVEIP08KeyParameters {
     public HVEIP08SearchKeyParameters(HVEIP08Parameters parameters, int[] pattern, Element[] Y, Element[] L) {
         super(true, parameters);
 
-        this.pattern = Arrays.copyOf(pattern, pattern.length);
+//        this.pattern = Arrays.copyOf(pattern, pattern.length);
+        this.pattern = new int[parameters.getN()];
+        for (int i = 0; i < pattern.length; i++) {
+            if (pattern[i] < 0)
+                this.pattern[i] = pattern[i];
+            else
+                this.pattern[i] = 0;
+        }
+
         this.Y = ElementUtil.cloneImmutably(Y);
         this.L = ElementUtil.cloneImmutably(L);
 
@@ -61,14 +67,6 @@ public class HVEIP08SearchKeyParameters extends HVEIP08KeyParameters {
 
     public Element getLAt(int index) {
         return L[index];
-    }
-
-    public int getPatternAt(int index) {
-        return pattern[index];
-    }
-
-    public int[] getPattern() {
-        return Arrays.copyOf(pattern, pattern.length);
     }
 
     public boolean isAllStar() {

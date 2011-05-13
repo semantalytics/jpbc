@@ -134,13 +134,6 @@ public class HHVEIP08AttributesOnlySearchKeyGenerator implements CipherParameter
                     }
                     SY.add(SYList);
                     SL.add(SLList);
-                } else if (searchKey.getPatternAt(i) == param.getPatternAt(i)) {
-                    // copy
-                    Y[i] = searchKey.getYAt(i).powZn(z).getImmutable();
-                    L[i] = searchKey.getLAt(i).powZn(z).getImmutable();
-
-                    SY.add(null);
-                    SL.add(null);
                 } else if (searchKey.isStar(i) && !param.isStarAt(i)) {
                     // set
                     Y[i] = searchKey.getSYAt(i, param.getPatternAt(i)).powZn(z).getImmutable();
@@ -148,8 +141,15 @@ public class HHVEIP08AttributesOnlySearchKeyGenerator implements CipherParameter
 
                     SY.add(null);
                     SL.add(null);
-                } else
-                    throw new IllegalArgumentException("It's nor a minor...");
+                } else /*if (searchKey.getPatternAt(i) == param.getPatternAt(i))*/ {
+                    // copy
+                    Y[i] = searchKey.getYAt(i).powZn(z).getImmutable();
+                    L[i] = searchKey.getLAt(i).powZn(z).getImmutable();
+
+                    SY.add(null);
+                    SL.add(null);
+                } /*else
+                    throw new IllegalArgumentException("It's nor a minor...");*/
             }
 
             return new HHVEIP08SearchKeyParameters(publicKey.getParameters(), pattern, Y, L, SY, SL);
