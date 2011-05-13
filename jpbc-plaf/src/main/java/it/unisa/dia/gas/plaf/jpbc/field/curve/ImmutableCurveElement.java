@@ -5,27 +5,18 @@ import it.unisa.dia.gas.jpbc.Element;
 import java.math.BigInteger;
 
 /**
- * TODO: even x and y must be immutable!!!
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class ImmutableCurveElement<E extends Element> extends CurveElement<E> {
 
     public ImmutableCurveElement(CurveElement curveElement) {
         super(curveElement);
+        this.x = (E) this.x.getImmutable();
+        this.y = (E) this.y.getImmutable();
 
         this.immutable = true;
     }
 
-
-    @Override
-    public E getX() {
-        return super.getX();    
-    }
-
-    @Override
-    public E getY() {
-        return super.getY();
-    }
 
     @Override
     public CurveElement set(Element e) {
