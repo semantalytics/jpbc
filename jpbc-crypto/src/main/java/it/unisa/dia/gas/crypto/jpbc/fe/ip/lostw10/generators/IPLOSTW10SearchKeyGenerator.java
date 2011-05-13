@@ -29,13 +29,13 @@ public class IPLOSTW10SearchKeyGenerator {
         Element sigma = pairing.getZr().newRandomElement();
         Element eta = pairing.getZr().newRandomElement();
 
-        Element k = secretKey.getBStarAt(0).mulZn(param.getYAt(0));
+        Element k = secretKey.getBStarAt(0).powZn(param.getYAt(0));
         for (int i = 1; i < n; i++) {
-            k.add(secretKey.getBStarAt(i).mulZn(param.getYAt(i)));
+            k.add(secretKey.getBStarAt(i).powZn(param.getYAt(i)));
         }
         k.mulZn(sigma)
                 .add(secretKey.getBStarAt(n))
-                .add(secretKey.getBStarAt(n + 1).mulZn(eta));
+                .add(secretKey.getBStarAt(n + 1).powZn(eta));
 
         return new IPLOSTW10SearchKeyParameters(param.getParameters().getParameters(), k);
     }

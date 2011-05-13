@@ -14,6 +14,8 @@ public class CurveElement<E extends Element> extends GenericPointElement<E> {
     protected int infFlag;
     protected CurveField curveField;
 
+//    public static int counter = 0;
+
 
     public CurveElement(FieldOver field) {
         super(field);
@@ -165,6 +167,7 @@ public class CurveElement<E extends Element> extends GenericPointElement<E> {
     }
 
     public CurveElement mul(Element e) {
+//        counter++;
         // Apply the Chord-Tangent Law of Composition
         // Consider P1 = this = (x1, y1);
         //          P2 = e = (x2, y2);
@@ -239,6 +242,7 @@ public class CurveElement<E extends Element> extends GenericPointElement<E> {
     }
 
     public CurveElement powZn(Element e) {
+//        counter++;
         pow(e.toBigInteger());
         return this;
     }

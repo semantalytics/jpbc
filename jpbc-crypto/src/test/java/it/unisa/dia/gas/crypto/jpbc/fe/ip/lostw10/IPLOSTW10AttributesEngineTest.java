@@ -15,6 +15,7 @@ import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
 
 import java.security.SecureRandom;
+import java.util.Random;
 
 /**
  * @author Angelo De Caro
@@ -22,32 +23,24 @@ import java.security.SecureRandom;
 public class IPLOSTW10AttributesEngineTest extends TestCase {
 
     public void testIPOT10AttributesEngine() {
+        PairingFactory.getInstance().setUsePBCWhenPossible(true);
+        int n = 20;
+
         // Setup
-        AsymmetricCipherKeyPair keyPair = setup(createParameters(2));
+        AsymmetricCipherKeyPair keyPair = setup(createParameters(n));
 
         // Encrypt
         Pairing pairing = PairingFactory.getPairing(
                 ((IPLOSTW10PublicKeyParameters) keyPair.getPublic()).getParameters().getCurveParams()
         );
 
-        Element[] x = new Element[2];     // Attributes
-        x[0] = pairing.getZr().newOneElement();
-        x[1] = pairing.getZr().newZeroElement();
+        Element[][] orthogonal = createOrthogonalVectors(pairing, n);
+        byte[] ciphertext = encrypt(keyPair.getPublic(), orthogonal[0]);
 
-        byte[] ciphertext = encrypt(keyPair.getPublic(), x);
-
-        // Gen matching SearchKey
-        Element[] y = new Element[2];
-        y[0] = pairing.getZr().newZeroElement();
-        y[1] = pairing.getZr().newOneElement();
-
-        assertTrue(test(keyGen(keyPair.getPrivate(), y), ciphertext));
+        assertTrue(test(keyGen(keyPair.getPrivate(), orthogonal[1]), ciphertext));
 
         // Gen non-matching SearchKey
-        y[0] = pairing.getZr().newElement(5);
-        y[1] = pairing.getZr().newOneElement();
-
-        assertFalse(test(keyGen(keyPair.getPrivate(), y), ciphertext));
+        assertFalse(test(keyGen(keyPair.getPrivate(), createRandom(pairing, n)), ciphertext));
     }
 
 
@@ -66,6 +59,40 @@ public class IPLOSTW10AttributesEngineTest extends TestCase {
         ));
 
         return setup.generateKeyPair();
+    }
+
+    protected Element[][] createOrthogonalVectors(Pairing pairing, int n) {
+        int nHalf = n / 2;
+        Element[][] result = new Element[2][n];
+        Random random = new Random();
+        for (int i = 0; i < n; i+=2) {
+            Element randomElement = pairing.getZr().newRandomElement();
+            if (random.nextBoolean()) {
+                // it's a star
+                result[0][i] = pairing.getZr().newZeroElement();
+                result[0][i+1] = pairing.getZr().newZeroElement();
+            } else {
+                result[0][i] = pairing.getZr().newOneElement().negate();
+                result[0][i+1] = randomElement;
+            }
+
+            if (random.nextBoolean()) {
+                // it's a star
+                result[1][i] = pairing.getZr().newZeroElement();
+                result[1][i+1] = pairing.getZr().newZeroElement();
+            } else {
+                result[1][i] = randomElement;
+                result[1][i+1] = pairing.getZr().newOneElement();
+            }
+        }
+        return result;
+    }
+
+    protected Element[] createRandom(Pairing pairing, int n) {
+        Element[] result = new Element[n];
+        for (int i = 0; i < n; i++)
+            result[i] = pairing.getZr().newRandomElement();
+        return result;
     }
 
     protected byte[] encrypt(CipherParameters publicKey, Element[] x) {
@@ -92,7 +119,5 @@ public class IPLOSTW10AttributesEngineTest extends TestCase {
 
         return engine.processBlock(ciphertext, 0, ciphertext.length)[0] == 0;
     }
-    
-    
-}
 
+}

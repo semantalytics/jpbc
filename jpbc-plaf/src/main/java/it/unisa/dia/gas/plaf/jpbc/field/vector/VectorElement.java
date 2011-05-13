@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.field.vector;
 
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
 import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericVectorElement;
 
 import java.math.BigInteger;
@@ -214,6 +215,10 @@ public class VectorElement<E extends Element> extends GenericVectorElement<E> {
         return this;
     }
 
+    public ElementPowPreProcessing pow() {
+        return new VectorElementPowPreProcessing(this);
+    }
+
     public VectorElement<E> sqrt() {
         throw new IllegalStateException("Not implemented yet!!!");
     }
@@ -278,17 +283,6 @@ public class VectorElement<E extends Element> extends GenericVectorElement<E> {
         if (obj instanceof VectorElement)
             return isEqual((Element) obj);
         return super.equals(obj);
-    }
-
-
-
-    public VectorElement<E> polymodConstMul(Element e) {
-        //a lies in R, e in R[x]
-        for (int i = 0, n = coeff.size(); i < n; i++) {
-            coeff.get(i).mul(e);
-        }
-
-        return this;
     }
 
 }

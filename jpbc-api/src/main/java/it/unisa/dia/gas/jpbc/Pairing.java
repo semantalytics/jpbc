@@ -84,17 +84,20 @@ public interface Pairing {
     PairingPreProcessing pairing(Element in1);
 
     /**
-     * TODO
-     * @param source
-     * @return
+     * Reads a PairingPreProcessing from the buffer source.
+     *
+     * @param source the source of bytes.
+     * @return the PairingPreProcessing instance.
      * @since 1.2.0
      */
     PairingPreProcessing pairing(byte[] source);
 
     /**
-     * TODO
-     * @param source
-     * @return
+     * Reads a PairingPreProcessing from the buffer source starting from offset.
+     *
+     * @param source the source of bytes.
+     * @param offset the starting offset.
+     * @return the PairingPreProcessing instance.
      * @since 1.2.0
      */
     PairingPreProcessing pairing(byte[] source, int offset);

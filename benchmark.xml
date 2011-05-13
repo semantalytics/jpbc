@@ -45,22 +45,6 @@
 
     </target>
 
-    <target name="hhve">
-
-        <echo message="BaseDir = ${basedir}"/>
-
-        <java fork="true" classname="it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.HHVEBenchmark">
-            <jvmarg value="-Xms512m"/>
-            <jvmarg value="-Xmx1024m"/>
-            <arg value="true"/>
-            <arg value="10"/>
-            <classpath>
-                <path refid="runtime.classpath"/>
-            </classpath>
-        </java>
-
-    </target>
-
     <target name="HVEIP08Benchmark">
 
         <echo message="BaseDir = ${basedir}"/>

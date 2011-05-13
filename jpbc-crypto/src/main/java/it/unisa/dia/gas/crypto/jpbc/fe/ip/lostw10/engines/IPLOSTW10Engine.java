@@ -155,17 +155,19 @@ public class IPLOSTW10Engine implements AsymmetricBlockCipher {
 
             Element delta1 = pairing.getZr().newRandomElement();
             Element delta2 = pairing.getZr().newRandomElement();
-            Element eta = pairing.getZr().newRandomElement();
 
-            Element c1 = pub.getBAt(0).mulZn(encKey.getXAt(0));
+            Element alpha = pairing.getZr().newRandomElement();
+            Element alpha2 = pairing.getZr().newRandomElement();
+
+            Element c1 = pub.getBAt(0).powZn(encKey.getXAt(0));
             for (int i = 1; i < n; i++) {
-                c1.add(pub.getBAt(i).mulZn(encKey.getXAt(i)));
+                c1.add(pub.getBAt(i).powZn(encKey.getXAt(i)));
             }
             c1.mulZn(delta1)
-                    .add(pub.getBAt(n)).mulZn(eta)
-                    .add(pub.getBAt(n + 1).mulZn(delta2));
+                    .add(pub.getBAt(n).powZn(alpha))
+                    .add(pub.getBAt(n + 1).powZn(delta2));
 
-            Element c2 = pub.getSigma().powZn(eta).mul(m);
+            Element c2 = pub.getSigma().powZn(alpha).mul(m);
 
             // Move to bytes
             ByteArrayOutputStream bytes = new ByteArrayOutputStream(getOutputBlockSize());

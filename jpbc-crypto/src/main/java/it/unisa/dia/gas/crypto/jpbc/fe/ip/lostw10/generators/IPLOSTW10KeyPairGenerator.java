@@ -32,7 +32,7 @@ public class IPLOSTW10KeyPairGenerator implements AsymmetricCipherKeyPairGenerat
         Pairing pairing = PairingFactory.getPairing(parameters.getCurveParams());
         Element g = parameters.getG();
         int n = parameters.getN();
-        int N = 2 * parameters.getN() + 3;
+        int N = 2 * n + 3;
         Pairing vectorPairing = new ProductPairing(param.getRandom(), pairing, N);
 
         Element sigma = pairing.pairing(g, g);

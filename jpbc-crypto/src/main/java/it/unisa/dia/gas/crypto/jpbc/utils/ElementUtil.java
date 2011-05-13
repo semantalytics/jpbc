@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.crypto.jpbc.utils;
 
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.ElementPow;
 import it.unisa.dia.gas.jpbc.Pairing;
 
 import java.util.Arrays;
@@ -17,6 +18,16 @@ public class ElementUtil {
             Element uElement = target[i];
             if (uElement != null && !uElement.isImmutable())
                 target[i] = target[i].getImmutable();
+        }
+
+        return target;
+    }
+
+    public static ElementPow[] cloneToElementPow(Element[] source) {
+        ElementPow[] target = new ElementPow[source.length];
+
+        for (int i = 0; i < target.length; i++) {
+            target[i] = source[i].pow();
         }
 
         return target;

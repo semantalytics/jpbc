@@ -118,17 +118,20 @@ public interface Field<E extends Element> {
     Element[] add(Element[] a, Element[] b);
 
     /**
-     * TODO:
-     * @param source
-     * @return
+     * Reads an ElementPowPreProcessing from the buffer source.
+     *
+     * @param source the source of bytes.
+     * @return the ElementPowPreProcessing instance.
      * @since 1.2.0
      */
     ElementPowPreProcessing pow(byte[] source);
 
     /**
-     * TODO:
-     * @param source
-     * @return
+     * Reads an ElementPowPreProcessing from the buffer source starting from offset.
+     *
+     * @param source the source of bytes.
+     * @param offset the starting offset.
+     * @return the ElementPowPreProcessing instance.
      * @since 1.2.0
      */
     ElementPowPreProcessing pow(byte[] source, int offset);

@@ -120,7 +120,7 @@ public interface Element extends ElementPow {
     int setFromBytes(byte[] source);
 
     /**
-     * Reads this element from the buffer source. staring from the passed offset.
+     * Reads this element from the buffer source starting from offset.
      *
      * @param source the source of bytes.
      * @param offset the starting offset.
