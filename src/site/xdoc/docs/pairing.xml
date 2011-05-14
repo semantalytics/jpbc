@@ -112,8 +112,7 @@ Field Zr = <font style="font-weight: bold;color:green">pairing.getZr();</font></
                         </p>
                         <source>import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
-CurveParams curveParams = new CurveParams().load("curve.properties");
-Pairing pairing = <font style="font-weight: bold;color:green">PairingFactory.getPairing(curveParams);</font>
+Pairing pairing = <font style="font-weight: bold;color:green">PairingFactory.getPairing("curve.properties");</font>
                         </source>
                     </li>
                     <li>
@@ -125,18 +124,17 @@ Pairing pairing = <font style="font-weight: bold;color:green">PairingFactory.get
                         </p>
                         <source>import it.unisa.dia.gas.plaf.jpbc.pbc.PBCPairing;
 
-CurveParams curveParams = new CurveParams().load("curve.properties");
-Pairing pairing = <font style="font-weight: bold;color:green">new PBCPairing(curveParams);</font>
+CurveParameters curveParameters = PairingFactory.getInstance().loadCurveParameters("curve.properties");
+Pairing pairing = <font style="font-weight: bold;color:green">new PBCPairing(curveParameters);</font>
                         </source>
                         <p>
                             You can still use the PairingFactory in this way:
                         </p>
                         <source>import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
-CurveParams curveParams = new CurveParams().load("curve.properties");
 // Ask to the PairingFactory to try to use the PBC wrapper when possible.
 <font style="font-weight: bold;color:green">PairingFactory.getInstance().setUsePBCWhenPossible(true);</font>
-Pairing pairing = <font style="font-weight: bold;color:green">PairingFactory.getPairing(curveParams);</font>
+Pairing pairing = <font style="font-weight: bold;color:green">PairingFactory.getPairing("curve.properties");</font>
                         </source>
                     </li>
                 </ol>
@@ -193,10 +191,9 @@ Element out = <font style="font-weight: bold;color:green">pairing.pairing(in1, i
             <a name="preprocessing"/>
             <subsection name="Preprocessing">
                 <p>
-                    There is another way to apply the pairing which uses a pre-processing technic . So if you have for many times
-                    the same first input (that in <code>G1</code>) you can use the following to reduce the time used to compute
-                    the pairing.
-                    <br/>
+                    If it knows in advance that a particular value (in <code>G1</code>) will be paired several times
+                    then time can be saved in the long run by first calling the preprocessing function.
+
                     The reference interface is
                     <code><font style="font-weight: bold;color:red">it.unisa.dia.gas.jpbc.PairingPreProcessing</font></code>
                 </p>
@@ -214,6 +211,17 @@ Element in1 = pairing.get<code>G1</code>().newRandomElement();
 
 Element in2 = pairing.get<code>G2</code>().newRandomElement();
 Element out = <font style="font-weight: bold;color:green">ppp.pairing(in2);</font>
+                </source>
+
+                The result of the precomputation can be stored to be used later.
+                The following code convert <code>ppp</code> to a byte array:
+                <source xml:space="preserve">
+                    byte[] pppBytes = <font style="font-weight: bold;color:green">ppp.toBytes()</font>;
+                </source>
+                To convert the byte array to an instance of the PairingPreProcessing interface
+                use the following code:
+                <source xml:space="preserve">
+<font style="font-weight: bold;color:green">PairingPreProcessing ppp = pairing.pairing(pppBytes);</font>
                 </source>
             </subsection>
 

@@ -153,15 +153,14 @@ Element z = pairing.getZr().newRandomElement();
             <a name="preprocessing"/>
             <subsection name="Preprocessing">
                 <p>
-                    There is another way to raise an element which uses a pre-processing technique. So if you have
-                    for many times the same base you can use the following code to reduce the time used to compute
-                    the power.
+                    If it knows in advance that a particular value (in <code>G1</code>) will be raised several times
+                    then time can be saved in the long run by first calling the preprocessing function.
                     <br/>
                     The interface to be used is the
                     <code><font style="font-weight: bold;color:red">it.unisa.dia.gas.jpbc.ElementPowPreProcessing</font></code>
                 </p>
 
-                <source xml:space="preserve">/* Prepare element to be raised and store pre-processing information in ppp.
+                <source xml:space="preserve">/* Prepare element to be raised and store preprocessing information in ppp.
 element will be not modified in any way.*/
 
 <font style="font-weight: bold;color:green">ElementPowPreProcessing ppp = element.pow();</font>
@@ -171,6 +170,17 @@ element will be not modified in any way.*/
 Element out = <font style="font-weight: bold;color:green">ppp.pow(BigInteger.valueOf(5));</font>
 
 out = <font style="font-weight: bold;color:green">ppp.pow(pairing.getZr().newRandomElement());</font>
+                </source>
+
+                The result of the precomputation can be stored to be used later.
+                The following code convert <code>ppp</code> to a byte array:
+                <source xml:space="preserve">
+                    byte[] pppBytes = <font style="font-weight: bold;color:green">ppp.toBytes()</font>;
+                </source>
+                To convert the byte array to an instance of the ElementPowPreProcessing interface
+                use the following code:
+                <source xml:space="preserve">
+<font style="font-weight: bold;color:green">ElementPowPreProcessing ppp = element.getField().pow(pppBytes);</font>
                 </source>
             </subsection>
             
