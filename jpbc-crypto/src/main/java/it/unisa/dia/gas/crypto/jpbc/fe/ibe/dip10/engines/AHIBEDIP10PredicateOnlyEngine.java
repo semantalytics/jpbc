@@ -18,13 +18,14 @@ import java.io.IOException;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class AHIBEDIP10Engine implements AsymmetricBlockCipher {
+public class AHIBEDIP10PredicateOnlyEngine implements AsymmetricBlockCipher {
 
     private CipherParameters key;
     private boolean forEncryption;
 
     private int inBytes;
     private int outBytes;
+
 
     private Pairing pairing;
 
@@ -58,8 +59,8 @@ public class AHIBEDIP10Engine implements AsymmetricBlockCipher {
             this.pairing = PairingFactory.getPairing(((AHIBEDIP10SecretKeyParameters) key).getCurveParams());
         }
 
-        this.inBytes = pairing.getGT().getLengthInBytes();
-        this.outBytes = inBytes + (2 * pairing.getG1().getLengthInBytes());
+        this.inBytes = 0;
+        this.outBytes = (pairing.getGT().getLengthInBytes() + (2 * pairing.getG1().getLengthInBytes()));
     }
 
     /**
@@ -129,24 +130,14 @@ public class AHIBEDIP10Engine implements AsymmetricBlockCipher {
             offset += C2.setFromBytes(in, offset);
 
             AHIBEDIP10SecretKeyParameters sk = (AHIBEDIP10SecretKeyParameters) key;
+
             Element M = C0.mul(pairing.pairing(sk.getK12(), C2).mul(pairing.pairing(sk.getK11(), C1).invert()).invert());
 
-            return M.toBytes();
+            return new byte[]{(byte) (M.isOne() ? 0 : 1)};
         } else {
             // encrypt the message
             if (inLen > inBytes)
                 throw new DataLengthException("input must be of size " + inBytes);
-
-            byte[] block;
-            if (inOff != 0 || inLen != in.length) {
-                block = new byte[inLen];
-                System.arraycopy(in, inOff, block, 0, inLen);
-            } else {
-                block = in;
-            }
-
-            Element M = pairing.getGT().newElement();
-            M.setFromBytes(block);
 
             // Compute ciphertext
             AHIBEDIP10EncryptionParameters encParams = (AHIBEDIP10EncryptionParameters) key;
@@ -154,7 +145,7 @@ public class AHIBEDIP10Engine implements AsymmetricBlockCipher {
 
             Element s = pairing.getZr().newRandomElement();
 
-            Element C0 = M.mul(pk.getOmega().powZn(s));
+            Element C0 = pk.getOmega().powZn(s);
 
             Element C1 = pairing.getG1().newOneElement();
             for (int i = 0; i < encParams.getLength(); i++) {
@@ -178,6 +169,5 @@ public class AHIBEDIP10Engine implements AsymmetricBlockCipher {
             return bytes.toByteArray();
         }
     }
-
 
 }

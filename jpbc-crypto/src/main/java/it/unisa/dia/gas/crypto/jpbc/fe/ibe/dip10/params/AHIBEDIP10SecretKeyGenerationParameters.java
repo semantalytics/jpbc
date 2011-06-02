@@ -17,13 +17,13 @@ public class AHIBEDIP10SecretKeyGenerationParameters extends KeyGenerationParame
 
 
     public AHIBEDIP10SecretKeyGenerationParameters(
-            AHIBEDIP10MasterSecretKeyParameters AHIBEMasterSecretKeyParameters,
-            AHIBEDIP10PublicKeyParameters AHIBEPublicKeyParameters,
+            AHIBEDIP10MasterSecretKeyParameters masterSecretKey,
+            AHIBEDIP10PublicKeyParameters publicKey,
             Element[] ids) {
 
         super(null, 12);
-        this.masterSecretKey = AHIBEMasterSecretKeyParameters;
-        this.publicKey = AHIBEPublicKeyParameters;
+        this.masterSecretKey = masterSecretKey;
+        this.publicKey = publicKey;
         this.ids = ElementUtil.cloneImmutably(ids);
     }
 

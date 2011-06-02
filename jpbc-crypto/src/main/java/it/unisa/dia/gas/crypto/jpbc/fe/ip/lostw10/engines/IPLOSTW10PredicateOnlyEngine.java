@@ -15,7 +15,7 @@ import org.bouncycastle.crypto.params.ParametersWithRandom;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class IPLOSTW10AttributesEngine implements AsymmetricBlockCipher {
+public class IPLOSTW10PredicateOnlyEngine implements AsymmetricBlockCipher {
 
     private IPLOSTW10KeyParameters key;
     private boolean forEncryption;

@@ -15,6 +15,7 @@ public class VectorField<F extends Field> extends GenericFieldOver<F, VectorElem
 
     public VectorField(Random random, F targetField, int n) {
         super(random, targetField);
+
         this.n = n;
         this.lenInBytes = n * targetField.getLengthInBytes();
     }

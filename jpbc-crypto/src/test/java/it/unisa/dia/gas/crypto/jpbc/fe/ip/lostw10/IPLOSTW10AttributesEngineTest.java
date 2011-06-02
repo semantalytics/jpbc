@@ -1,6 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10;
 
-import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.engines.IPLOSTW10AttributesEngine;
+import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.engines.IPLOSTW10PredicateOnlyEngine;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators.IPLOSTW10KeyPairGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators.IPLOSTW10ParametersGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators.IPLOSTW10SearchKeyGenerator;
@@ -95,7 +95,7 @@ public class IPLOSTW10AttributesEngineTest extends TestCase {
     }
 
     protected byte[] encrypt(CipherParameters publicKey, Element[] x) {
-        IPLOSTW10AttributesEngine engine = new IPLOSTW10AttributesEngine();
+        IPLOSTW10PredicateOnlyEngine engine = new IPLOSTW10PredicateOnlyEngine();
         engine.init(true, publicKey);
 
         byte[] buffer = ElementUtil.toBytes(x);
@@ -113,7 +113,7 @@ public class IPLOSTW10AttributesEngineTest extends TestCase {
     
     
     protected boolean test(CipherParameters searchKey, byte[] ciphertext) {
-        IPLOSTW10AttributesEngine engine = new IPLOSTW10AttributesEngine();
+        IPLOSTW10PredicateOnlyEngine engine = new IPLOSTW10PredicateOnlyEngine();
         engine.init(false, searchKey);
 
         return engine.processBlock(ciphertext, 0, ciphertext.length)[0] == 0;
