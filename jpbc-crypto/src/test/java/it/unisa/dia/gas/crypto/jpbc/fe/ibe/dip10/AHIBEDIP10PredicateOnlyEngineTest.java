@@ -40,23 +40,23 @@ public class AHIBEDIP10PredicateOnlyEngineTest extends TestCase {
         byte[] ciphertext01 = encrypt(keyPair.getPublic(), ids[0], ids[1]);
         byte[] ciphertext012 = encrypt(keyPair.getPublic(), ids[0], ids[1], ids[2]);
 
-        // TEst
+        // Test
         assertEquals(true, test(sk0, ciphertext0));
         assertEquals(true, test(sk01, ciphertext01));
         assertEquals(true, test(sk012, ciphertext012));
 
-        assertNotSame(false, test(sk1, ciphertext0));
-        assertNotSame(false, test(sk10, ciphertext01));
-        assertNotSame(false, test(sk021, ciphertext012));
+        assertEquals(false, test(sk1, ciphertext0));
+        assertEquals(false, test(sk10, ciphertext01));
+        assertEquals(false, test(sk021, ciphertext012));
 
         // Delegate/Test
         assertEquals(true, test(delegate(keyPair, sk0, ids[1]), ciphertext01));
         assertEquals(true, test(delegate(keyPair, sk01, ids[2]), ciphertext012));
         assertEquals(true, test(delegate(keyPair, delegate(keyPair, sk0, ids[1]), ids[2]), ciphertext012));
 
-        assertNotSame(false, test(delegate(keyPair, sk0, ids[0]), ciphertext01));
-        assertNotSame(false, test(delegate(keyPair, sk01, ids[1]), ciphertext012));
-        assertNotSame(false, test(delegate(keyPair, delegate(keyPair, sk0, ids[2]), ids[1]), ciphertext012));
+        assertEquals(false, test(delegate(keyPair, sk0, ids[0]), ciphertext01));
+        assertEquals(false, test(delegate(keyPair, sk01, ids[1]), ciphertext012));
+        assertEquals(false, test(delegate(keyPair, delegate(keyPair, sk0, ids[2]), ids[1]), ciphertext012));
     }
 
 

@@ -48,10 +48,14 @@ public class UHIBELW11PredicateOnlyEngineTest extends TestCase {
         assertEquals(false, test(sk10, ciphertext01));
         assertEquals(false, test(sk021, ciphertext012));
 
-        // Delegate and TEst
+        // Delegate and Test
         assertEquals(true, test(delegate(keyPair, sk0, ids[1]), ciphertext01));
         assertEquals(true, test(delegate(keyPair, sk01, ids[2]), ciphertext012));
         assertEquals(true, test(delegate(keyPair, delegate(keyPair, sk0, ids[1]), ids[2]), ciphertext012));
+
+        assertEquals(false, test(delegate(keyPair, sk0, ids[2]), ciphertext01));
+        assertEquals(false, test(delegate(keyPair, sk01, ids[1]), ciphertext012));
+        assertEquals(false, test(delegate(keyPair, delegate(keyPair, sk0, ids[2]), ids[1]), ciphertext012));
     }
 
 

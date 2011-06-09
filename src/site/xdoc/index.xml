@@ -10,7 +10,7 @@
     <body>
         <div id="downloadbox">
             <h5>Get jPBC 1.2.0 Now!!!</h5>
-            <span style="display: block; text-align: right; font-size: smaller">Released: May, 2011</span>
+            <span style="display: block; text-align: right; font-size: smaller">Released: July, 2011</span>
 
             <p>
                 <a href="download.html">jPBC 1.2.0</a>
@@ -53,20 +53,17 @@
             <ul>
                 <li>
                     <p>
-                        a <font style="font-weight: bold;color:red">Java Porting</font> of the
-                        <a href="http://crypto.stanford.edu/pbc/">PBC</a>
-                        library which is the Pairing-Based Cryptography Library written in C and
-                        developed by
-                        <a href="http://crypto.stanford.edu/~blynn/">Ben Lynn</a>.
-                        It supports symmetric and asymmetric pairing.                        
+                        a <font style="font-weight: bold;color:red">Porting</font> of the
+                        <a href="http://crypto.stanford.edu/pbc/">Pairing-Based Cryptography Library (PBC)</a>
+                        library developed by <a href="http://crypto.stanford.edu/~blynn/">Ben Lynn</a>.
                     </p>
                 </li>
                 <li>
                     <p>
-                        a <font style="font-weight: bold;color:red">Java Wrapper</font> of the
+                        a <font style="font-weight: bold;color:red">Wrapper</font> on the
                         <a href="http://crypto.stanford.edu/pbc/">PBC</a>
-                        library so you can delegate all the computation to the C library.
-                        Look
+                        library. This means that you you can delegate the pairing computation to PBC.
+                        Have a look
                         <a href="./docs/pbcwrapper.html">here</a>
                         to know how to use the wrapper.
                     </p>
@@ -78,31 +75,28 @@
             <ul>
                 <li>
                     <font style="font-weight: bold;color:green">jpbc-api</font> :
-                    which contains the API exposed by jPBC.
+                    it contains the Application Program Interfaces (API).
                 </li>
 
                 <li>
                     <font style="font-weight: bold;color:green">jpbc-plaf</font> :
-                    which contains the default API's implementation. This module contains the PBC's Java Porting.
+                    it contains the port implementation of the API.
                 </li>
 
                 <li>
                     <font style="font-weight: bold;color:green">jpbc-pbc</font> :
-                    which contains the API's implementation to be used when PBC is chosen as computation engine.
-                    This module contains the PBC's Java Wrapper.
+                    it contains the wrapper implementation of the API.
                 </li>
 
                 <li>
                     <font style="font-weight: bold;color:green">jpbc-crypto</font> :
-                    which contains the implementation of some cryptosystems. Go
+                    it contains the implementation of some crypto-systems.
+                    Have a look
                     <a href="./schemes/schemes.html">here</a>
                     to start.
                 </li>
 
             </ul>
-            In the jPBC distribution package each module corresponds to a
-            directory where you will find the sources of the module and
-            other stuff.
         </section>
 
         <section name="Who Uses jPBC?">
