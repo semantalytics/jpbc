@@ -1,18 +1,20 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params;
 
+import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
-import org.bouncycastle.crypto.CipherParameters;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class AHIBEDIP10MasterSecretKeyParameters implements CipherParameters {
+public class AHIBEDIP10MasterSecretKeyParameters extends AHIBEDIP10KeyParameters {
 
     private Element X1;
     private Element alpha;
 
 
-    public AHIBEDIP10MasterSecretKeyParameters(Element x1, Element alpha) {
+    public AHIBEDIP10MasterSecretKeyParameters(CurveParameters curveParameters, Element x1, Element alpha) {
+        super(true, curveParameters);
+
         this.X1 = x1.getImmutable();
         this.alpha = alpha.getImmutable();
     }

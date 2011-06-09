@@ -6,14 +6,14 @@ import org.bouncycastle.crypto.KeyGenerationParameters;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class AHIBEDIP10DelegateSecretKeyGenerationParameters extends KeyGenerationParameters {
+public class AHIBEDIP10DelegateGenerationParameters extends KeyGenerationParameters {
 
     private AHIBEDIP10PublicKeyParameters publicKey;
     private AHIBEDIP10SecretKeyParameters secretKey;
     private Element id;
 
 
-    public AHIBEDIP10DelegateSecretKeyGenerationParameters(AHIBEDIP10PublicKeyParameters publicKey, AHIBEDIP10SecretKeyParameters secretKey, Element id) {
+    public AHIBEDIP10DelegateGenerationParameters(AHIBEDIP10PublicKeyParameters publicKey, AHIBEDIP10SecretKeyParameters secretKey, Element id) {
         super(null, 12);
 
         this.publicKey = publicKey;

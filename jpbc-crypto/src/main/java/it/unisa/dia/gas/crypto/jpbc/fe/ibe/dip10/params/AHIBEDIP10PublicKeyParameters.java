@@ -3,16 +3,14 @@ package it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params;
 import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtil;
 import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
-import org.bouncycastle.crypto.CipherParameters;
 
 import java.util.Arrays;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class AHIBEDIP10PublicKeyParameters implements CipherParameters {
+public class AHIBEDIP10PublicKeyParameters extends AHIBEDIP10KeyParameters {
 
-    private CurveParameters curveParams;
     private Element Y1;
     private Element Y3;
     private Element Y4;
@@ -25,7 +23,7 @@ public class AHIBEDIP10PublicKeyParameters implements CipherParameters {
                                          Element y1, Element y3, Element y4,
                                          Element t, Element[] us,
                                          Element omega) {
-        this.curveParams = curveParams;
+        super(false, curveParams);
 
         this.Y1 = y1.getImmutable();
         this.Y3 = y3.getImmutable();
@@ -36,10 +34,6 @@ public class AHIBEDIP10PublicKeyParameters implements CipherParameters {
     }
 
     
-    public CurveParameters getCurveParams() {
-        return curveParams;
-    }
-
     public Element getY1() {
         return Y1;
     }

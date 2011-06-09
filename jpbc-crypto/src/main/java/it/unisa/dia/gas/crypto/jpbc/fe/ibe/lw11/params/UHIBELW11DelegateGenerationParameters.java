@@ -6,14 +6,14 @@ import org.bouncycastle.crypto.KeyGenerationParameters;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class UHIBELW11DelegateSecretKeyGenerationParameters extends KeyGenerationParameters {
+public class UHIBELW11DelegateGenerationParameters extends KeyGenerationParameters {
 
     private UHIBELW11PublicKeyParameters publicKey;
     private UHIBELW11SecretKeyParameters secretKey;
     private Element id;
 
 
-    public UHIBELW11DelegateSecretKeyGenerationParameters(UHIBELW11PublicKeyParameters publicKey, UHIBELW11SecretKeyParameters secretKey, Element id) {
+    public UHIBELW11DelegateGenerationParameters(UHIBELW11PublicKeyParameters publicKey, UHIBELW11SecretKeyParameters secretKey, Element id) {
         super(null, 12);
 
         this.publicKey = publicKey;

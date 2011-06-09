@@ -3,22 +3,20 @@ package it.unisa.dia.gas.crypto.jpbc.fe.ibe.lw11.params;
 import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtil;
 import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
-import org.bouncycastle.crypto.CipherParameters;
 
 import java.util.Arrays;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class UHIBELW11SecretKeyParameters implements CipherParameters {
-    private CurveParameters curveParams;
+public class UHIBELW11SecretKeyParameters extends UHIBELW11KeyParameters {
     private Element[] K0s, K1s, K2s, K3s;
     private Element[] ids;
 
-    public UHIBELW11SecretKeyParameters(CurveParameters curveParams,
+    public UHIBELW11SecretKeyParameters(CurveParameters curveParameters,
                                         Element[] K0s, Element[] K1s, Element[] K2s, Element[] K3s,
                                         Element[] ids) {
-        this.curveParams = curveParams;
+        super(true, curveParameters);
 
         this.K0s = ElementUtil.cloneImmutably(K0s);
         this.K1s = ElementUtil.cloneImmutably(K1s);
@@ -28,10 +26,6 @@ public class UHIBELW11SecretKeyParameters implements CipherParameters {
         this.ids = ElementUtil.cloneImmutably(ids);
     }
 
-
-    public CurveParameters getCurveParams() {
-        return curveParams;
-    }
 
     public int getLength() {
         return ids.length;

@@ -8,20 +8,20 @@ import java.util.Arrays;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class IPLOSTW10SearchKeyGenerationParameters extends KeyGenerationParameters {
+public class IPLOSTW10SecretKeyGenerationParameters extends KeyGenerationParameters {
 
-    private IPLOSTW10PrivateKeyParameters params;
+    private IPLOSTW10MasterSecretKeyParameters params;
     private Element[] y;
 
 
-    public IPLOSTW10SearchKeyGenerationParameters(IPLOSTW10PrivateKeyParameters params, Element[] y) {
+    public IPLOSTW10SecretKeyGenerationParameters(IPLOSTW10MasterSecretKeyParameters params, Element[] y) {
         super(null, params.getParameters().getG().getField().getLengthInBytes());
 
         this.params = params;
         this.y = Arrays.copyOf(y, y.length);
     }
 
-    public IPLOSTW10PrivateKeyParameters getParameters() {
+    public IPLOSTW10MasterSecretKeyParameters getParameters() {
         return params;
     }
 

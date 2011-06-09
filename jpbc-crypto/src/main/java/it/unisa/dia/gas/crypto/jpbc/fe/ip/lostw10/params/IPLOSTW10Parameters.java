@@ -10,20 +10,20 @@ import java.io.Serializable;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class IPLOSTW10Parameters implements CipherParameters, Serializable {
-    private CurveParameters curveParams;
+    private CurveParameters curveParameters;
     private Element g;
     private int n;
 
 
-    public IPLOSTW10Parameters(CurveParameters curveParams, Element g, int n) {
-        this.curveParams = curveParams;
+    public IPLOSTW10Parameters(CurveParameters curveParameters, Element g, int n) {
+        this.curveParameters = curveParameters;
         this.g = g.getImmutable();
         this.n = n;
     }
 
 
-    public CurveParameters getCurveParams() {
-        return curveParams;
+    public CurveParameters getCurveParameters() {
+        return curveParameters;
     }
 
     public Element getG() {
@@ -33,6 +33,5 @@ public class IPLOSTW10Parameters implements CipherParameters, Serializable {
     public int getN() {
         return n;
     }
-
 
 }

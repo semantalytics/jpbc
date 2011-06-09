@@ -5,12 +5,12 @@ import org.bouncycastle.crypto.KeyGenerationParameters;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class UHIBELW11SetupGenerationParameters extends KeyGenerationParameters {
+public class UHIBELW11KeyPairGenerationParameters extends KeyGenerationParameters {
 
     private int bitLength;
 
 
-    public UHIBELW11SetupGenerationParameters(int bitLength) {
+    public UHIBELW11KeyPairGenerationParameters(int bitLength) {
         super(null, 12);
         this.bitLength = bitLength;
     }

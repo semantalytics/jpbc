@@ -5,13 +5,13 @@ import org.bouncycastle.crypto.KeyGenerationParameters;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class AHIBEDIP10SetupGenerationParameters extends KeyGenerationParameters {
+public class AHIBEDIP10KeyPairGenerationParameters extends KeyGenerationParameters {
 
     private int bitLength;
     private int length;
 
 
-    public AHIBEDIP10SetupGenerationParameters(int bitLength, int length) {
+    public AHIBEDIP10KeyPairGenerationParameters(int bitLength, int length) {
         super(null, 12);
         this.bitLength = bitLength;
         this.length = length;

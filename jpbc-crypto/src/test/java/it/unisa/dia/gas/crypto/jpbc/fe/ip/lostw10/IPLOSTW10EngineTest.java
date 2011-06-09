@@ -4,7 +4,7 @@ import it.unisa.dia.gas.crypto.engines.MultiBlockAsymmetricBlockCipher;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.engines.IPLOSTW10Engine;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators.IPLOSTW10KeyPairGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators.IPLOSTW10ParametersGenerator;
-import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators.IPLOSTW10SearchKeyGenerator;
+import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators.IPLOSTW10SecretKeyGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.*;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
@@ -31,7 +31,7 @@ public class IPLOSTW10EngineTest extends TestCase {
 
         // Encrypt
         Pairing pairing = PairingFactory.getPairing(
-                ((IPLOSTW10PublicKeyParameters) keyPair.getPublic()).getParameters().getCurveParams()
+                ((IPLOSTW10PublicKeyParameters) keyPair.getPublic()).getParameters().getCurveParameters()
         );
         String message = "Hello World";   // Message
 
@@ -105,9 +105,9 @@ public class IPLOSTW10EngineTest extends TestCase {
     
     protected CipherParameters keyGen(CipherParameters privateKey, Element[] y) {
         // Init the Generator
-        IPLOSTW10SearchKeyGenerator keyGen = new IPLOSTW10SearchKeyGenerator();
-        keyGen.init(new IPLOSTW10SearchKeyGenerationParameters(
-                (IPLOSTW10PrivateKeyParameters) privateKey,
+        IPLOSTW10SecretKeyGenerator keyGen = new IPLOSTW10SecretKeyGenerator();
+        keyGen.init(new IPLOSTW10SecretKeyGenerationParameters(
+                (IPLOSTW10MasterSecretKeyParameters) privateKey,
                 y
         ));
 

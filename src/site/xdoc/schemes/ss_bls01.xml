@@ -61,9 +61,9 @@
 <a name="l29"><span class="ln">29   </span></a>    }
 <a name="l30"><span class="ln">30   </span></a>
 <a name="l31"><span class="ln">31   </span></a>
-<a name="l32"><span class="ln">32   </span></a>    </span><span class="s0">protected </span><span class="s1">BLS01Parameters setup(CurveParams curveParams) {
+<a name="l32"><span class="ln">32   </span></a>    </span><span class="s0">protected </span><span class="s1">BLS01Parameters setup(CurveParams curveParameters) {
 <a name="l33"><span class="ln">33   </span></a>        BLS01ParametersGenerator setup = </span><span class="s0">new </span><span class="s1">BLS01ParametersGenerator();
-<a name="l34"><span class="ln">34   </span></a>        setup.init(curveParams);
+<a name="l34"><span class="ln">34   </span></a>        setup.init(curveParameters);
 <a name="l35"><span class="ln">35   </span></a>
 <a name="l36"><span class="ln">36   </span></a>        </span><span class="s0">return </span><span class="s1">setup.generateParameters();
 <a name="l37"><span class="ln">37   </span></a>    }
@@ -75,11 +75,11 @@
 <a name="l43"><span class="ln">43   </span></a>        </span><span class="s0">return </span><span class="s1">keyGen.generateKeyPair();
 <a name="l44"><span class="ln">44   </span></a>    }
 <a name="l45"><span class="ln">45   </span></a>
-<a name="l46"><span class="ln">46   </span></a>    </span><span class="s0">protected byte</span><span class="s1">[] sign(String message, CipherParameters privateKey) {
+<a name="l46"><span class="ln">46   </span></a>    </span><span class="s0">protected byte</span><span class="s1">[] sign(String message, CipherParameters masterSecretKey) {
 <a name="l47"><span class="ln">47   </span></a>        </span><span class="s0">byte</span><span class="s1">[] bytes = message.getBytes();
 <a name="l48"><span class="ln">48   </span></a>
 <a name="l49"><span class="ln">49   </span></a>        BLS01Signer signer = </span><span class="s0">new </span><span class="s1">BLS01Signer(</span><span class="s0">new </span><span class="s1">SHA256Digest());
-<a name="l50"><span class="ln">50   </span></a>        signer.init(</span><span class="s0">true</span><span class="s1">, privateKey);
+<a name="l50"><span class="ln">50   </span></a>        signer.init(</span><span class="s0">true</span><span class="s1">, masterSecretKey);
 <a name="l51"><span class="ln">51   </span></a>        signer.update(bytes, </span><span class="s5">0</span><span class="s1">, bytes.length);
 <a name="l52"><span class="ln">52   </span></a>
 <a name="l53"><span class="ln">53   </span></a>        </span><span class="s0">byte</span><span class="s1">[] signature = </span><span class="s0">null</span><span class="s1">;

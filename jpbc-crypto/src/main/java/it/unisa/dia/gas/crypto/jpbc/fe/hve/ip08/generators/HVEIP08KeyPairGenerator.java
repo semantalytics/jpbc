@@ -1,8 +1,8 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators;
 
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08KeyGenerationParameters;
+import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08MasterSecretKeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08Parameters;
-import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08PrivateKeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08PublicKeyParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.ElementPow;
@@ -29,7 +29,7 @@ public class HVEIP08KeyPairGenerator implements AsymmetricCipherKeyPairGenerator
     public AsymmetricCipherKeyPair generateKeyPair() {
         HVEIP08Parameters parameters = param.getParameters();
 
-        Pairing pairing = PairingFactory.getPairing(parameters.getCurveParams());
+        Pairing pairing = PairingFactory.getPairing(parameters.getCurveParameters());
         Element g = parameters.getG();
         ElementPow powG = parameters.getElementPowG();
         int n = parameters.getN();
@@ -73,7 +73,7 @@ public class HVEIP08KeyPairGenerator implements AsymmetricCipherKeyPairGenerator
 
         return new AsymmetricCipherKeyPair(
             new HVEIP08PublicKeyParameters(parameters, Y.getImmutable(), T, V),
-            new HVEIP08PrivateKeyParameters(parameters, y.getImmutable(), t, v)
+            new HVEIP08MasterSecretKeyParameters(parameters, y.getImmutable(), t, v)
         );
     }
 

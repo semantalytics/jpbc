@@ -3,7 +3,7 @@ package it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.engines.IPLOSTW10PredicateOnlyEngine;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators.IPLOSTW10KeyPairGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators.IPLOSTW10ParametersGenerator;
-import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators.IPLOSTW10SearchKeyGenerator;
+import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators.IPLOSTW10SecretKeyGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.*;
 import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtil;
 import it.unisa.dia.gas.jpbc.Element;
@@ -19,7 +19,7 @@ import java.util.Random;
 /**
  * @author Angelo De Caro
  */
-public class IPLOSTW10AttributesEngineTest extends TestCase {
+public class IPLOSTW10PredicateOnlyEngineTest extends TestCase {
 
     public void testIPOT10AttributesEngine() {
         PairingFactory.getInstance().setUsePBCWhenPossible(true);
@@ -30,7 +30,7 @@ public class IPLOSTW10AttributesEngineTest extends TestCase {
 
         // Encrypt
         Pairing pairing = PairingFactory.getPairing(
-                ((IPLOSTW10PublicKeyParameters) keyPair.getPublic()).getParameters().getCurveParams()
+                ((IPLOSTW10PublicKeyParameters) keyPair.getPublic()).getParameters().getCurveParameters()
         );
 
         Element[][] orthogonal = createOrthogonalVectors(pairing, n);
@@ -103,9 +103,9 @@ public class IPLOSTW10AttributesEngineTest extends TestCase {
     }
     
     protected CipherParameters keyGen(CipherParameters privateKey, Element[] y) {
-        IPLOSTW10SearchKeyGenerator keyGen = new IPLOSTW10SearchKeyGenerator();
-        keyGen.init(new IPLOSTW10SearchKeyGenerationParameters(
-                (IPLOSTW10PrivateKeyParameters) privateKey, y
+        IPLOSTW10SecretKeyGenerator keyGen = new IPLOSTW10SecretKeyGenerator();
+        keyGen.init(new IPLOSTW10SecretKeyGenerationParameters(
+                (IPLOSTW10MasterSecretKeyParameters) privateKey, y
         ));
         
         return keyGen.generateKey();

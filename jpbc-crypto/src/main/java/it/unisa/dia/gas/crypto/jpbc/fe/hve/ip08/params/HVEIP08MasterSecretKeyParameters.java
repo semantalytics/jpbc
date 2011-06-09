@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class HVEIP08PrivateKeyParameters extends HVEIP08KeyParameters {
+public class HVEIP08MasterSecretKeyParameters extends HVEIP08KeyParameters {
     private Element y;
     private List<List<Element>> t,v;
 
@@ -17,7 +17,7 @@ public class HVEIP08PrivateKeyParameters extends HVEIP08KeyParameters {
 
 
 
-    public HVEIP08PrivateKeyParameters(HVEIP08Parameters parameters, Element y, List<List<Element>> t, List<List<Element>> v) {
+    public HVEIP08MasterSecretKeyParameters(HVEIP08Parameters parameters, Element y, List<List<Element>> t, List<List<Element>> v) {
         super(true, parameters);
 
         this.y = y.getImmutable();

@@ -6,11 +6,11 @@ import it.unisa.dia.gas.jpbc.Element;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class IPLOSTW10PrivateKeyParameters extends IPLOSTW10KeyParameters {
+public class IPLOSTW10MasterSecretKeyParameters extends IPLOSTW10KeyParameters {
     private Element[] Bstar;
 
 
-    public IPLOSTW10PrivateKeyParameters(IPLOSTW10Parameters parameters, Element[] Bstar) {
+    public IPLOSTW10MasterSecretKeyParameters(IPLOSTW10Parameters parameters, Element[] Bstar) {
         super(true, parameters);
 
         this.Bstar = ElementUtil.cloneImmutably(Bstar);

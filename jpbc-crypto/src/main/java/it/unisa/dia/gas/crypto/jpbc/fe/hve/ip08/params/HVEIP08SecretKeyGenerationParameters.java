@@ -7,17 +7,17 @@ import java.util.Arrays;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class HVEIP08SearchKeyGenerationParameters extends KeyGenerationParameters {
-    private HVEIP08PrivateKeyParameters privateKey;
+public class HVEIP08SecretKeyGenerationParameters extends KeyGenerationParameters {
+    private HVEIP08MasterSecretKeyParameters masterSecretKey;
     private int[] pattern;
     private boolean allStar;
     private int numNonStar;
 
 
-    public HVEIP08SearchKeyGenerationParameters(HVEIP08PrivateKeyParameters privateKey, int... pattern) {
-        super(null, privateKey.getParameters().getG().getField().getLengthInBytes());
+    public HVEIP08SecretKeyGenerationParameters(HVEIP08MasterSecretKeyParameters masterSecretKey, int... pattern) {
+        super(null, masterSecretKey.getParameters().getG().getField().getLengthInBytes());
 
-        this.privateKey = privateKey;
+        this.masterSecretKey = masterSecretKey;
         this.pattern = Arrays.copyOf(pattern, pattern.length);
 
         int numStar = 0;
@@ -31,8 +31,8 @@ public class HVEIP08SearchKeyGenerationParameters extends KeyGenerationParameter
         this.allStar = (numStar == pattern.length);
     }
 
-    public HVEIP08PrivateKeyParameters getPrivateKey() {
-        return privateKey;
+    public HVEIP08MasterSecretKeyParameters getMasterSecretKey() {
+        return masterSecretKey;
     }
 
     public int[] getPattern() {

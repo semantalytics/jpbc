@@ -48,7 +48,7 @@ public class HVEIP08Parameters implements CipherParameters, Serializable {
         }
     }
 
-    public CurveParameters getCurveParams() {
+    public CurveParameters getCurveParameters() {
         return curveParams;
     }
 

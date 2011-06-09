@@ -50,7 +50,7 @@
 <a name="l4"><span class="ln">4    </span></a></span><span class="s0">import </span><span class="s1">it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.engines.IPLOSTW10Engine;
 <a name="l5"><span class="ln">5    </span></a></span><span class="s0">import </span><span class="s1">it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators.IPLOSTW10KeyPairGenerator;
 <a name="l6"><span class="ln">6    </span></a></span><span class="s0">import </span><span class="s1">it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators.IPLOSTW10ParametersGenerator;
-<a name="l7"><span class="ln">7    </span></a></span><span class="s0">import </span><span class="s1">it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators.IPLOSTW10SearchKeyGenerator;
+<a name="l7"><span class="ln">7    </span></a></span><span class="s0">import </span><span class="s1">it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators.IPLOSTW10SecretKeyGenerator;
 <a name="l8"><span class="ln">8    </span></a></span><span class="s0">import </span><span class="s1">it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.*;
 <a name="l9"><span class="ln">9    </span></a></span><span class="s0">import </span><span class="s1">it.unisa.dia.gas.jpbc.Element;
 <a name="l10"><span class="ln">10   </span></a></span><span class="s0">import </span><span class="s1">it.unisa.dia.gas.jpbc.Pairing;
@@ -91,19 +91,19 @@
 <a name="l45"><span class="ln">45   </span></a>        y[</span><span class="s4">0</span><span class="s1">] = pairing.getZr().newZeroElement();
 <a name="l46"><span class="ln">46   </span></a>        y[</span><span class="s4">1</span><span class="s1">] = pairing.getZr().newOneElement();
 <a name="l47"><span class="ln">47   </span></a>
-<a name="l48"><span class="ln">48   </span></a>        CipherParameters searchKey = keyGen(keyPair.getPrivate(), y);
+<a name="l48"><span class="ln">48   </span></a>        CipherParameters secretKey = keyGen(keyPair.getPrivate(), y);
 <a name="l49"><span class="ln">49   </span></a>
 <a name="l50"><span class="ln">50   </span></a>        </span><span class="s2">// Search</span><span class="s1">
-<a name="l51"><span class="ln">51   </span></a>        assertEquals(message, </span><span class="s0">new </span><span class="s1">String(decrypt(searchKey, ciphertext)).trim());
+<a name="l51"><span class="ln">51   </span></a>        assertEquals(message, </span><span class="s0">new </span><span class="s1">String(decrypt(secretKey, ciphertext)).trim());
 <a name="l52"><span class="ln">52   </span></a>
 <a name="l53"><span class="ln">53   </span></a>        </span><span class="s2">// Gen non-matching SearchKey</span><span class="s1">
 <a name="l54"><span class="ln">54   </span></a>        y[</span><span class="s4">0</span><span class="s1">] = pairing.getZr().newElement(</span><span class="s4">5</span><span class="s1">);
 <a name="l55"><span class="ln">55   </span></a>        y[</span><span class="s4">1</span><span class="s1">] = pairing.getZr().newOneElement();
 <a name="l56"><span class="ln">56   </span></a>
-<a name="l57"><span class="ln">57   </span></a>        searchKey = keyGen(keyPair.getPrivate(), y);
+<a name="l57"><span class="ln">57   </span></a>        secretKey = keyGen(keyPair.getPrivate(), y);
 <a name="l58"><span class="ln">58   </span></a>
 <a name="l59"><span class="ln">59   </span></a>        </span><span class="s2">// Search</span><span class="s1">
-<a name="l60"><span class="ln">60   </span></a>        assertNotSame(message, </span><span class="s0">new </span><span class="s1">String(decrypt(searchKey, ciphertext)).trim());
+<a name="l60"><span class="ln">60   </span></a>        assertNotSame(message, </span><span class="s0">new </span><span class="s1">String(decrypt(secretKey, ciphertext)).trim());
 <a name="l61"><span class="ln">61   </span></a>    }
 <a name="l62"><span class="ln">62   </span></a>
 <a name="l63"><span class="ln">63   </span></a>
@@ -152,11 +152,11 @@
 <a name="l106"><span class="ln">106  </span></a>        </span><span class="s0">return </span><span class="s1">cipherText;
 <a name="l107"><span class="ln">107  </span></a>    }
 <a name="l108"><span class="ln">108  </span></a>
-<a name="l109"><span class="ln">109  </span></a>    </span><span class="s0">protected </span><span class="s1">CipherParameters keyGen(CipherParameters privateKey, Element[] y) {
+<a name="l109"><span class="ln">109  </span></a>    </span><span class="s0">protected </span><span class="s1">CipherParameters keyGen(CipherParameters masterSecretKey, Element[] y) {
 <a name="l110"><span class="ln">110  </span></a>        </span><span class="s2">// Init the Generator</span><span class="s1">
 <a name="l111"><span class="ln">111  </span></a>        IPOT10SearchKeyGenerator keyGen = </span><span class="s0">new </span><span class="s1">IPOT10SearchKeyGenerator();
 <a name="l112"><span class="ln">112  </span></a>        keyGen.init(</span><span class="s0">new </span><span class="s1">IPOT10SearchKeyGenerationParameters(
-<a name="l113"><span class="ln">113  </span></a>                (IPOT10PrivateKeyParameters) privateKey,
+<a name="l113"><span class="ln">113  </span></a>                (IPOT10PrivateKeyParameters) masterSecretKey,
 <a name="l114"><span class="ln">114  </span></a>                y
 <a name="l115"><span class="ln">115  </span></a>        ));
 <a name="l116"><span class="ln">116  </span></a>
@@ -165,7 +165,7 @@
 <a name="l119"><span class="ln">119  </span></a>    }
 <a name="l120"><span class="ln">120  </span></a>
 <a name="l121"><span class="ln">121  </span></a>
-<a name="l122"><span class="ln">122  </span></a>    </span><span class="s0">protected byte</span><span class="s1">[] decrypt(CipherParameters searchKey, </span><span class="s0">byte</span><span class="s1">[] ciphertext) {
+<a name="l122"><span class="ln">122  </span></a>    </span><span class="s0">protected byte</span><span class="s1">[] decrypt(CipherParameters secretKey, </span><span class="s0">byte</span><span class="s1">[] ciphertext) {
 <a name="l123"><span class="ln">123  </span></a>        </span><span class="s0">byte</span><span class="s1">[] plainText = </span><span class="s0">new byte</span><span class="s1">[</span><span class="s4">0</span><span class="s1">];
 <a name="l124"><span class="ln">124  </span></a>        </span><span class="s0">try </span><span class="s1">{
 <a name="l125"><span class="ln">125  </span></a>            </span><span class="s2">// Init the engine</span><span class="s1">
@@ -173,7 +173,7 @@
 <a name="l127"><span class="ln">127  </span></a>                    </span><span class="s0">new </span><span class="s1">IPOT10Engine(),
 <a name="l128"><span class="ln">128  </span></a>                    </span><span class="s0">new </span><span class="s1">ZeroBytePadding()
 <a name="l129"><span class="ln">129  </span></a>            );
-<a name="l130"><span class="ln">130  </span></a>            engine.init(</span><span class="s0">false</span><span class="s1">, searchKey);
+<a name="l130"><span class="ln">130  </span></a>            engine.init(</span><span class="s0">false</span><span class="s1">, secretKey);
 <a name="l131"><span class="ln">131  </span></a>
 <a name="l132"><span class="ln">132  </span></a>            </span><span class="s2">// Decrypt</span><span class="s1">
 <a name="l133"><span class="ln">133  </span></a>            plainText = engine.processBlock(ciphertext, </span><span class="s4">0</span><span class="s1">, ciphertext.length);

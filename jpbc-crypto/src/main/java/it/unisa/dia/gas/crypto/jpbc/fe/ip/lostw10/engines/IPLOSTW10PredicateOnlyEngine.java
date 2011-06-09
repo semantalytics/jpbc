@@ -2,7 +2,7 @@ package it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.engines;
 
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10KeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10PublicKeyParameters;
-import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10SearchKeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10SecretKeyParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
@@ -27,10 +27,10 @@ public class IPLOSTW10PredicateOnlyEngine implements AsymmetricBlockCipher {
     private Pairing productPairing;
 
     /**
-     * initialise the HVE engine.
+     * initialise the IP engine.
      *
      * @param forEncryption true if we are encrypting, false otherwise.
-     * @param param         the necessary HVE key parameters.
+     * @param param         the necessary IP key parameters.
      */
     public void init(boolean forEncryption, CipherParameters param) {
         if (param instanceof ParametersWithRandom) {
@@ -47,14 +47,14 @@ public class IPLOSTW10PredicateOnlyEngine implements AsymmetricBlockCipher {
                 throw new IllegalArgumentException("IPLOSTW10PublicKeyParameters are required for encryption.");
             }
         } else {
-            if (!(key instanceof IPLOSTW10SearchKeyParameters)) {
-                throw new IllegalArgumentException("IPLOSTW10SearchKeyParameters are required for decryption.");
+            if (!(key instanceof IPLOSTW10SecretKeyParameters)) {
+                throw new IllegalArgumentException("IPLOSTW10SecretKeyParameters are required for decryption.");
             }
         }
 
         this.n = key.getParameters().getN();
         this.N = (2 * n + 3);
-        this.pairing = PairingFactory.getPairing(key.getParameters().getCurveParams());
+        this.pairing = PairingFactory.getPairing(key.getParameters().getCurveParameters());
         this.productPairing = new ProductPairing(null, pairing, N);
 
         this.inLen = n * pairing.getZr().getLengthInBytes();
@@ -63,8 +63,6 @@ public class IPLOSTW10PredicateOnlyEngine implements AsymmetricBlockCipher {
 
     /**
      * Return the maximum size for an input block to this engine.
-     * For HVE this is always one byte less than the size of P on
-     * encryption, and twice the length as the size of P on decryption.
      *
      * @return maximum size for an input block.
      */
@@ -78,8 +76,6 @@ public class IPLOSTW10PredicateOnlyEngine implements AsymmetricBlockCipher {
 
     /**
      * Return the maximum size for an output block to this engine.
-     * For HVE this is always one byte less than the size of P on
-     * decryption, and twice the length as the size of P on encryption.
      *
      * @return maximum size for an output block.
      */
@@ -92,45 +88,45 @@ public class IPLOSTW10PredicateOnlyEngine implements AsymmetricBlockCipher {
     }
 
     /**
-     * Process a single block using the basic HVE algorithm.
+     * Process a single block using the basic IP algorithm.
      *
      * @param in    the input array.
      * @param inOff the offset into the input buffer where the data starts.
      * @param inLen the length of the data to be processed.
-     * @return the result of the HVE process.
+     * @return the result of the IP process.
      * @throws org.bouncycastle.crypto.DataLengthException
      *          the input block is too large.
      */
     public byte[] processBlock(byte[] in, int inOff, int inLen) {
         if (key == null) {
-            throw new IllegalStateException("HVE engine not initialised");
+            throw new IllegalStateException("IP engine not initialised");
         }
 
         int maxLength = getInputBlockSize();
 
         if (inLen > maxLength) {
-            throw new DataLengthException("input too large for HVE cipher.\n");
+            throw new DataLengthException("input too large for IP cipher.\n");
         }
 
-        if (key instanceof IPLOSTW10SearchKeyParameters) {
-            // match
-            // Convert bytes to Elements...
+        if (key instanceof IPLOSTW10SecretKeyParameters) {
+            // Test/Inner Product
 
+            // Convert bytes to Elements...
             Element c1 = productPairing.getG1().newElement();
             c1.setFromBytes(in, inOff);
 
-            IPLOSTW10SearchKeyParameters searchKey = (IPLOSTW10SearchKeyParameters) key;
+            // Run the test
+            IPLOSTW10SecretKeyParameters secretKey = (IPLOSTW10SecretKeyParameters) key;
 
-            Element result = productPairing.pairing(c1, searchKey.getK());
-
-//            System.out.println("result = " + result);
-
+            Element result = productPairing.pairing(c1, secretKey.getK());
             return new byte[]{(byte) (result.isOne() ? 0 : 1)};
         } else {
-            // encryption
+            // Encrypt
             if (inLen > this.inLen || inLen < this.inLen)
                 throw new DataLengthException("input must be of size " + this.inLen);
 
+            // TODO: load if key is a publick key, otherwise the key must contain the vector...
+            // Load the message
             byte[] block;
             if (inOff != 0 || inLen != in.length) {
                 block = new byte[inLen];

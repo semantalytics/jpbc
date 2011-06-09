@@ -1,12 +1,11 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ibe.lw11.engines;
 
-import it.unisa.dia.gas.crypto.engines.PairingAsymmetricBlockCipher;
+import it.unisa.dia.gas.crypto.engines.PredicateOnlyPairingAsymmetricBlockCipher;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.lw11.params.UHIBELW11EncryptionParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.lw11.params.UHIBELW11PublicKeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.lw11.params.UHIBELW11SecretKeyParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
-import org.bouncycastle.crypto.DataLengthException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -14,31 +13,28 @@ import java.io.IOException;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class UHIBELW11Engine extends PairingAsymmetricBlockCipher {
+public class UHIBELW11PredicateOnlyEngine extends PredicateOnlyPairingAsymmetricBlockCipher {
 
-    private int length;
+    private int depth;
 
     public void initialize() {
         if (forEncryption) {
-            if (!(key instanceof UHIBELW11EncryptionParameters)) {
+            if (!(key instanceof UHIBELW11EncryptionParameters))
                 throw new IllegalArgumentException("UHIBELW11EncryptionParameters are required for encryption.");
-            }
 
             this.pairing = PairingFactory.getPairing(((UHIBELW11EncryptionParameters) key).getPublicKey().getCurveParameters());
-            this.length = ((UHIBELW11EncryptionParameters) key).getLength();
+            this.depth = ((UHIBELW11EncryptionParameters) key).getLength();
         } else {
-            if (!(key instanceof UHIBELW11SecretKeyParameters)) {
+            if (!(key instanceof UHIBELW11SecretKeyParameters))
                 throw new IllegalArgumentException("UHIBELW11SecretKeyParameters are required for decryption.");
-            }
 
             this.pairing = PairingFactory.getPairing(((UHIBELW11SecretKeyParameters) key).getCurveParameters());
-            this.length = ((UHIBELW11SecretKeyParameters) key).getLength();
+            this.depth = ((UHIBELW11SecretKeyParameters) key).getLength();
         }
 
-        this.inBytes = pairing.getGT().getLengthInBytes();
         this.outBytes = pairing.getGT().getLengthInBytes() +
                 pairing.getG1().getLengthInBytes() +
-                (length * 3 * pairing.getG1().getLengthInBytes());
+                (depth * 3 * pairing.getG1().getLengthInBytes());
     }
 
     public byte[] process(byte[] in, int inOff, int inLen) {
@@ -60,7 +56,7 @@ public class UHIBELW11Engine extends PairingAsymmetricBlockCipher {
             // Run the decryption
             Element numerator = pairing.getGT().newOneElement();
             Element denominator = pairing.getGT().newOneElement();
-            for (int i = 0; i < length; i++) {
+            for (int i = 0; i < depth; i++) {
                 Element C1 = pairing.getG1().newElement();
                 offset += C1.setFromBytes(in, offset);
 
@@ -69,22 +65,16 @@ public class UHIBELW11Engine extends PairingAsymmetricBlockCipher {
 
                 Element C3 = pairing.getG1().newElement();
                 offset += C3.setFromBytes(in, offset);
+                numerator.mul(pairing.pairing(C0, sk.getK0At(i)))
+                        .mul(pairing.pairing(C2, sk.getK2At(i)));
 
-                numerator.mul(pairing.pairing(C0, sk.getK0At(i))).mul(pairing.pairing(C2, sk.getK2At(i)));
-                denominator.mul(pairing.pairing(C1, sk.getK1At(i))).mul(pairing.pairing(C3, sk.getK3At(i)));
+                denominator.mul(pairing.pairing(C1, sk.getK1At(i)))
+                        .mul(pairing.pairing(C3, sk.getK3At(i)));
             }
             Element M = C.div(numerator.div(denominator));
 
-            return M.toBytes();
+            return new byte[]{(byte) (M.isOne() ? 1 : 0)};
         } else {
-            // Encrypt
-            if (inLen > inBytes)
-                throw new DataLengthException("input must be of size " + inBytes);
-
-            // Load the message from in
-            Element M = pairing.getGT().newOneElement();
-            M.setFromBytes(in, inOff);
-
             // Encrypt the message under the specified attributes and convert to byte array
             UHIBELW11EncryptionParameters encParams = (UHIBELW11EncryptionParameters) key;
             UHIBELW11PublicKeyParameters pk = encParams.getPublicKey();
@@ -93,13 +83,13 @@ public class UHIBELW11Engine extends PairingAsymmetricBlockCipher {
             try {
                 Element s = pairing.getZr().newRandomElement();
 
-                Element C = M.mul(pk.getOmega().powZn(s));
+                Element C = pk.getOmega().powZn(s);
                 Element C0 = pk.getG().powZn(s);
 
                 bytes.write(C.toBytes());
                 bytes.write(C0.toBytes());
 
-                for (int i = 0; i < length; i++) {
+                for (int i = 0; i < depth; i++) {
                     Element t = pairing.getZr().newRandomElement();
 
                     // Computes C_{i,1}, C_{i,2}, C_{i,3} and writes them to the byte stream

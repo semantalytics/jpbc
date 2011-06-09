@@ -1,8 +1,8 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators;
 
-import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10PrivateKeyParameters;
-import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10SearchKeyGenerationParameters;
-import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10SearchKeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10MasterSecretKeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10SecretKeyGenerationParameters;
+import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10SecretKeyParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
@@ -12,19 +12,19 @@ import org.bouncycastle.crypto.KeyGenerationParameters;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class IPLOSTW10SearchKeyGenerator {
-    private IPLOSTW10SearchKeyGenerationParameters param;
+public class IPLOSTW10SecretKeyGenerator {
+    private IPLOSTW10SecretKeyGenerationParameters param;
     private Pairing pairing;
     private int n;
 
     public void init(KeyGenerationParameters param) {
-        this.param = (IPLOSTW10SearchKeyGenerationParameters) param;
+        this.param = (IPLOSTW10SecretKeyGenerationParameters) param;
         this.n = this.param.getParameters().getParameters().getN();
-        this.pairing = PairingFactory.getPairing(this.param.getParameters().getParameters().getCurveParams());
+        this.pairing = PairingFactory.getPairing(this.param.getParameters().getParameters().getCurveParameters());
     }
 
     public CipherParameters generateKey() {
-        IPLOSTW10PrivateKeyParameters secretKey = param.getParameters();
+        IPLOSTW10MasterSecretKeyParameters secretKey = param.getParameters();
 
         Element sigma = pairing.getZr().newRandomElement();
         Element eta = pairing.getZr().newRandomElement();
@@ -37,7 +37,7 @@ public class IPLOSTW10SearchKeyGenerator {
                 .add(secretKey.getBStarAt(n))
                 .add(secretKey.getBStarAt(n + 1).powZn(eta));
 
-        return new IPLOSTW10SearchKeyParameters(param.getParameters().getParameters(), k);
+        return new IPLOSTW10SecretKeyParameters(param.getParameters().getParameters(), k);
     }
 
 }

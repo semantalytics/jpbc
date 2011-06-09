@@ -2,14 +2,13 @@ package it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params;
 
 import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtil;
 import it.unisa.dia.gas.jpbc.Element;
-import org.bouncycastle.crypto.CipherParameters;
 
 import java.util.Arrays;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class AHIBEDIP10EncryptionParameters implements CipherParameters {
+public class AHIBEDIP10EncryptionParameters extends AHIBEDIP10KeyParameters {
 
     private AHIBEDIP10PublicKeyParameters publicKey;
     private Element[] ids;
@@ -17,6 +16,8 @@ public class AHIBEDIP10EncryptionParameters implements CipherParameters {
 
     public AHIBEDIP10EncryptionParameters(AHIBEDIP10PublicKeyParameters publicKey,
                                           Element[] ids) {
+        super(true, publicKey.getCurveParameters());
+
         this.publicKey = publicKey;
         this.ids = ElementUtil.cloneImmutably(ids);
     }

@@ -1,8 +1,8 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ibe.lw11.generators;
 
+import it.unisa.dia.gas.crypto.jpbc.fe.ibe.lw11.params.UHIBELW11KeyPairGenerationParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.lw11.params.UHIBELW11MasterSecretKeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.lw11.params.UHIBELW11PublicKeyParameters;
-import it.unisa.dia.gas.crypto.jpbc.fe.ibe.lw11.params.UHIBELW11SetupGenerationParameters;
 import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtil;
 import it.unisa.dia.gas.jpbc.CurveGenerator;
 import it.unisa.dia.gas.jpbc.Element;
@@ -19,12 +19,12 @@ import java.math.BigInteger;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class UHIBELW11SetupGenerator implements AsymmetricCipherKeyPairGenerator {
-    private UHIBELW11SetupGenerationParameters parameters;
+public class UHIBELW11KeyPairGenerator implements AsymmetricCipherKeyPairGenerator {
+    private UHIBELW11KeyPairGenerationParameters parameters;
 
 
     public void init(KeyGenerationParameters keyGenerationParameters) {
-        this.parameters = (UHIBELW11SetupGenerationParameters) keyGenerationParameters;
+        this.parameters = (UHIBELW11KeyPairGenerationParameters) keyGenerationParameters;
     }
 
     public AsymmetricCipherKeyPair generateKeyPair() {
@@ -63,7 +63,7 @@ public class UHIBELW11SetupGenerator implements AsymmetricCipherKeyPairGenerator
 
         return new AsymmetricCipherKeyPair(
                 new UHIBELW11PublicKeyParameters(curveParams, g, u, h, v, w, omega),
-                new UHIBELW11MasterSecretKeyParameters(alpha)
+                new UHIBELW11MasterSecretKeyParameters(curveParams, alpha)
         );
     }
 

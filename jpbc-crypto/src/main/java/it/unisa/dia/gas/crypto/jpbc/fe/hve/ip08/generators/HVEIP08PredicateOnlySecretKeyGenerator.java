@@ -1,8 +1,8 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators;
 
-import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08PrivateKeyParameters;
-import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08SearchKeyGenerationParameters;
-import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08SearchKeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08MasterSecretKeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08SecretKeyGenerationParameters;
+import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08SecretKeyParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.ElementPow;
 import it.unisa.dia.gas.jpbc.Pairing;
@@ -14,30 +14,30 @@ import org.bouncycastle.crypto.KeyGenerationParameters;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class HVEIP08AttributesOnlySearchKeyGenerator {
-    protected HVEIP08SearchKeyGenerationParameters param;
+public class HVEIP08PredicateOnlySecretKeyGenerator {
+    protected HVEIP08SecretKeyGenerationParameters param;
     protected int[] pattern;
 
     public void init(KeyGenerationParameters param) {
-        this.param = (HVEIP08SearchKeyGenerationParameters) param;
+        this.param = (HVEIP08SecretKeyGenerationParameters) param;
         pattern = this.param.getPattern();
 
         if (pattern == null)
             throw new IllegalArgumentException("pattern cannot be null.");
 
-        int n = this.param.getPrivateKey().getParameters().getN();
+        int n = this.param.getMasterSecretKey().getParameters().getN();
         if (pattern.length != n)
             throw new IllegalArgumentException("pattern length not valid.");
     }
 
     public CipherParameters generateKey() {
-        HVEIP08PrivateKeyParameters privateKey = param.getPrivateKey();
+        HVEIP08MasterSecretKeyParameters masterSecretKey = param.getMasterSecretKey();
         if (param.isAllStar())
-            return new HVEIP08SearchKeyParameters(privateKey.getParameters());
+            return new HVEIP08SecretKeyParameters(masterSecretKey.getParameters());
 
-        Pairing pairing = PairingFactory.getPairing(privateKey.getParameters().getCurveParams());
+        Pairing pairing = PairingFactory.getPairing(masterSecretKey.getParameters().getCurveParameters());
 
-        int n = privateKey.getParameters().getN();
+        int n = masterSecretKey.getParameters().getN();
         int numNonStar = param.getNumNonStar();
 
         // generate a_i's
@@ -50,19 +50,19 @@ public class HVEIP08AttributesOnlySearchKeyGenerator {
         a[numNonStar - 1] = sum.negate();
 
         // generate key elements
-        ElementPow g = privateKey.getParameters().getElementPowG();
+        ElementPow g = masterSecretKey.getParameters().getElementPowG();
 
         Element[] Y = new Element[n];
         Element[] L = new Element[n];
 
-        if (privateKey.isPreProcessed()) {
+        if (masterSecretKey.isPreProcessed()) {
             for (int i = 0, j=0; i < n; i++) {
                 if (param.isStarAt(i)) {
                     Y[i] = null;
                     L[i] = null;
                 } else {
-                    Y[i] = g.powZn(a[j].duplicate().mul(privateKey.getPreTAt(i, param.getPatternAt(i)))).getImmutable();
-                    L[i] = g.powZn(a[j].duplicate().mul(privateKey.getPreVAt(i, param.getPatternAt(i)))).getImmutable();
+                    Y[i] = g.powZn(a[j].duplicate().mul(masterSecretKey.getPreTAt(i, param.getPatternAt(i)))).getImmutable();
+                    L[i] = g.powZn(a[j].duplicate().mul(masterSecretKey.getPreVAt(i, param.getPatternAt(i)))).getImmutable();
                     j++;
                 }
             }
@@ -72,14 +72,14 @@ public class HVEIP08AttributesOnlySearchKeyGenerator {
                     Y[i] = null;
                     L[i] = null;
                 } else {
-                    Y[i] = g.powZn(a[j].duplicate().div(privateKey.getTAt(i, param.getPatternAt(i)))).getImmutable();
-                    L[i] = g.powZn(a[j].duplicate().div(privateKey.getVAt(i, param.getPatternAt(i)))).getImmutable();
+                    Y[i] = g.powZn(a[j].duplicate().div(masterSecretKey.getTAt(i, param.getPatternAt(i)))).getImmutable();
+                    L[i] = g.powZn(a[j].duplicate().div(masterSecretKey.getVAt(i, param.getPatternAt(i)))).getImmutable();
                     j++;
                 }
             }
         }
 
-        return new HVEIP08SearchKeyParameters(privateKey.getParameters(), pattern, Y, L);
+        return new HVEIP08SecretKeyParameters(masterSecretKey.getParameters(), pattern, Y, L);
     }
 
 }

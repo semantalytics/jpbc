@@ -1,8 +1,8 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators;
 
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10KeyGenerationParameters;
+import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10MasterSecretKeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10Parameters;
-import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10PrivateKeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10PublicKeyParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
@@ -29,7 +29,7 @@ public class IPLOSTW10KeyPairGenerator implements AsymmetricCipherKeyPairGenerat
     public AsymmetricCipherKeyPair generateKeyPair() {
         IPLOSTW10Parameters parameters = param.getParameters();
 
-        Pairing pairing = PairingFactory.getPairing(parameters.getCurveParams());
+        Pairing pairing = PairingFactory.getPairing(parameters.getCurveParameters());
         Element g = parameters.getG();
         int n = parameters.getN();
         int N = 2 * n + 3;
@@ -82,7 +82,7 @@ public class IPLOSTW10KeyPairGenerator implements AsymmetricCipherKeyPairGenerat
 
         return new AsymmetricCipherKeyPair(
             new IPLOSTW10PublicKeyParameters(parameters, B, sigma),
-            new IPLOSTW10PrivateKeyParameters(parameters, Bstar)
+            new IPLOSTW10MasterSecretKeyParameters(parameters, Bstar)
         );
     }
 

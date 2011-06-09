@@ -51,10 +51,10 @@
 
 <a name="l1"><span class="ln">1    </span></a><span class="s0">package </span><span class="s1">it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08;
 <a name="l2"><span class="ln">2    </span></a>
-<a name="l3"><span class="ln">3    </span></a></span><span class="s0">import </span><span class="s1">it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.engines.HVEIP08AttributesEngine;
+<a name="l3"><span class="ln">3    </span></a></span><span class="s0">import </span><span class="s1">it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.engines.HVEIP08PredicateOnlyEngine;
 <a name="l4"><span class="ln">4    </span></a></span><span class="s0">import </span><span class="s1">it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08KeyPairGenerator;
 <a name="l5"><span class="ln">5    </span></a></span><span class="s0">import </span><span class="s1">it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08ParametersGenerator;
-<a name="l6"><span class="ln">6    </span></a></span><span class="s0">import </span><span class="s1">it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08AttributesOnlySearchKeyGenerator;
+<a name="l6"><span class="ln">6    </span></a></span><span class="s0">import </span><span class="s1">it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08PredicateOnlySecretKeyGenerator;
 <a name="l7"><span class="ln">7    </span></a></span><span class="s0">import </span><span class="s1">it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.*;
 <a name="l8"><span class="ln">8    </span></a></span><span class="s0">import </span><span class="s1">it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
 <a name="l9"><span class="ln">9    </span></a></span><span class="s0">import </span><span class="s1">junit.framework.TestCase;
@@ -114,11 +114,11 @@
 <a name="l63"><span class="ln">63   </span></a>
 <a name="l64"><span class="ln">64   </span></a>
 <a name="l65"><span class="ln">65   </span></a>    </span><span class="s0">protected </span><span class="s1">HVEIP08Parameters genParam(</span><span class="s0">int</span><span class="s1">... attributeLengths) {
-<a name="l66"><span class="ln">66   </span></a>        CurveParams curveParams = </span><span class="s0">new </span><span class="s1">CurveParams();
-<a name="l67"><span class="ln">67   </span></a>        curveParams.load(</span><span class="s0">this</span><span class="s1">.getClass().getClassLoader().getResourceAsStream(</span><span class="s5">&quot;it/unisa/dia/gas/plaf/jpbc/crypto/a_181_603.properties&quot;</span><span class="s1">));
+<a name="l66"><span class="ln">66   </span></a>        CurveParams curveParameters = </span><span class="s0">new </span><span class="s1">CurveParams();
+<a name="l67"><span class="ln">67   </span></a>        curveParameters.load(</span><span class="s0">this</span><span class="s1">.getClass().getClassLoader().getResourceAsStream(</span><span class="s5">&quot;it/unisa/dia/gas/plaf/jpbc/crypto/a_181_603.properties&quot;</span><span class="s1">));
 <a name="l68"><span class="ln">68   </span></a>
 <a name="l69"><span class="ln">69   </span></a>        HVEIP08ParametersGenerator generator = </span><span class="s0">new </span><span class="s1">HVEIP08ParametersGenerator();
-<a name="l70"><span class="ln">70   </span></a>        generator.init(curveParams, attributeLengths);
+<a name="l70"><span class="ln">70   </span></a>        generator.init(curveParameters, attributeLengths);
 <a name="l71"><span class="ln">71   </span></a>
 <a name="l72"><span class="ln">72   </span></a>        </span><span class="s0">return </span><span class="s1">generator.generateParameters();
 <a name="l73"><span class="ln">73   </span></a>    }
@@ -141,17 +141,17 @@
 <a name="l90"><span class="ln">90   </span></a>        </span><span class="s0">return </span><span class="s1">engine.processBlock(attrs, </span><span class="s4">0</span><span class="s1">, attrs.length);
 <a name="l91"><span class="ln">91   </span></a>    }
 <a name="l92"><span class="ln">92   </span></a>
-<a name="l93"><span class="ln">93   </span></a>    </span><span class="s0">protected </span><span class="s1">CipherParameters keyGen(CipherParameters privateKey, </span><span class="s0">int</span><span class="s1">... pattern) {
+<a name="l93"><span class="ln">93   </span></a>    </span><span class="s0">protected </span><span class="s1">CipherParameters keyGen(CipherParameters masterSecretKey, </span><span class="s0">int</span><span class="s1">... pattern) {
 <a name="l94"><span class="ln">94   </span></a>        HVEIP08SearchKeyGenerator generator = </span><span class="s0">new </span><span class="s1">HVEIP08SearchKeyGenerator();
 <a name="l95"><span class="ln">95   </span></a>        generator.init(</span><span class="s0">new </span><span class="s1">HVEIP08SearchKeyGenerationParameters(
-<a name="l96"><span class="ln">96   </span></a>                (HVEIP08PrivateKeyParameters) privateKey, pattern)
+<a name="l96"><span class="ln">96   </span></a>                (HVEIP08PrivateKeyParameters) masterSecretKey, pattern)
 <a name="l97"><span class="ln">97   </span></a>        );
 <a name="l98"><span class="ln">98   </span></a>
 <a name="l99"><span class="ln">99   </span></a>        </span><span class="s0">return </span><span class="s1">generator.generateKey();
 <a name="l100"><span class="ln">100  </span></a>    }
 <a name="l101"><span class="ln">101  </span></a>
-<a name="l102"><span class="ln">102  </span></a>    </span><span class="s0">protected boolean </span><span class="s1">test(CipherParameters searchKey, </span><span class="s0">byte</span><span class="s1">[] ct) {
-<a name="l103"><span class="ln">103  </span></a>        engine.init(</span><span class="s0">false</span><span class="s1">, searchKey);
+<a name="l102"><span class="ln">102  </span></a>    </span><span class="s0">protected boolean </span><span class="s1">test(CipherParameters secretKey, </span><span class="s0">byte</span><span class="s1">[] ct) {
+<a name="l103"><span class="ln">103  </span></a>        engine.init(</span><span class="s0">false</span><span class="s1">, secretKey);
 <a name="l104"><span class="ln">104  </span></a>
 <a name="l105"><span class="ln">105  </span></a>        </span><span class="s0">return </span><span class="s1">engine.processBlock(ct, </span><span class="s4">0</span><span class="s1">, ct.length)[</span><span class="s4">0</span><span class="s1">] == </span><span class="s4">0</span><span class="s1">;
 <a name="l106"><span class="ln">106  </span></a>    }

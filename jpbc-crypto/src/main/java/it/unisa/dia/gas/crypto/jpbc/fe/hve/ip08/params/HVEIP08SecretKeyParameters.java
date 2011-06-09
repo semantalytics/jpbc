@@ -9,7 +9,7 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class HVEIP08SearchKeyParameters extends HVEIP08KeyParameters {
+public class HVEIP08SecretKeyParameters extends HVEIP08KeyParameters {
     private int[] pattern;
     private Element[] Y, L;
     private Element K;
@@ -19,11 +19,11 @@ public class HVEIP08SearchKeyParameters extends HVEIP08KeyParameters {
     private boolean preProcessed = false;
 
 
-    public HVEIP08SearchKeyParameters(HVEIP08Parameters parameters) {
+    public HVEIP08SecretKeyParameters(HVEIP08Parameters parameters) {
         this(parameters, null);
     }
 
-    public HVEIP08SearchKeyParameters(HVEIP08Parameters parameters, Element k) {
+    public HVEIP08SecretKeyParameters(HVEIP08Parameters parameters, Element k) {
         super(true, parameters);
 
         this.K = (k != null) ? k.getImmutable() : null;
@@ -33,7 +33,7 @@ public class HVEIP08SearchKeyParameters extends HVEIP08KeyParameters {
         this.allStar = true;
     }
 
-    public HVEIP08SearchKeyParameters(HVEIP08Parameters parameters, int[] pattern, Element[] Y, Element[] L) {
+    public HVEIP08SecretKeyParameters(HVEIP08Parameters parameters, int[] pattern, Element[] Y, Element[] L) {
         super(true, parameters);
 
 //        this.pattern = Arrays.copyOf(pattern, pattern.length);
@@ -82,7 +82,7 @@ public class HVEIP08SearchKeyParameters extends HVEIP08KeyParameters {
     }
 
     public void preProcess() {
-        Pairing pairing = PairingFactory.getPairing(getParameters().getCurveParams());
+        Pairing pairing = PairingFactory.getPairing(getParameters().getCurveParameters());
         int  n = getParameters().getN();
 
         preY = new PairingPreProcessing[n];

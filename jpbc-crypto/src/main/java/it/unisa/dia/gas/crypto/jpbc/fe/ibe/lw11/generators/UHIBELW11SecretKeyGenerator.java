@@ -27,7 +27,7 @@ public class UHIBELW11SecretKeyGenerator implements CipherParametersGenerator {
             UHIBELW11PublicKeyParameters pk = parameters.getPublicKey();
             UHIBELW11MasterSecretKeyParameters msk = parameters.getMasterSecretKey();
 
-            Pairing pairing = PairingFactory.getPairing(pk.getCurveParams());
+            Pairing pairing = PairingFactory.getPairing(pk.getCurveParameters());
             Field zr = pairing.getZr();
             int length = parameters.getLength();
 
@@ -58,15 +58,15 @@ public class UHIBELW11SecretKeyGenerator implements CipherParametersGenerator {
             K2s[lastIndex] = pk.getV().powZn(y).mul(pk.getU().powZn(parameters.getIdAt(lastIndex)).mul(pk.getH()).powZn(r));
             K3s[lastIndex] = pk.getG().powZn(r);
 
-            return new UHIBELW11SecretKeyParameters(pk.getCurveParams(),
+            return new UHIBELW11SecretKeyParameters(pk.getCurveParameters(),
                                                 K0s, K1s, K2s, K3s,
                                                 parameters.getIds());
-        } else if (params instanceof UHIBELW11DelegateSecretKeyGenerationParameters) {
-            UHIBELW11DelegateSecretKeyGenerationParameters parameters = (UHIBELW11DelegateSecretKeyGenerationParameters) params;
+        } else if (params instanceof UHIBELW11DelegateGenerationParameters) {
+            UHIBELW11DelegateGenerationParameters parameters = (UHIBELW11DelegateGenerationParameters) params;
 
             UHIBELW11PublicKeyParameters pk = parameters.getPublicKey();
             UHIBELW11SecretKeyParameters sk = parameters.getSecretKey();
-            Pairing pairing = PairingFactory.getPairing(pk.getCurveParams());
+            Pairing pairing = PairingFactory.getPairing(pk.getCurveParameters());
 
             Field zr = pairing.getZr();
             int length = sk.getLength();
@@ -102,7 +102,7 @@ public class UHIBELW11SecretKeyGenerator implements CipherParametersGenerator {
             System.arraycopy(sk.getIds(), 0, ids, 0, sk.getIds().length);
             ids[sk.getIds().length] = parameters.getId();
 
-            return new UHIBELW11SecretKeyParameters(pk.getCurveParams(),
+            return new UHIBELW11SecretKeyParameters(pk.getCurveParameters(),
                                                 K0s, K1s, K2s, K3s,
                                                 ids);
         }

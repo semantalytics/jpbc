@@ -2,14 +2,12 @@ package it.unisa.dia.gas.crypto.jpbc.fe.ibe.lw11.params;
 
 import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
-import org.bouncycastle.crypto.CipherParameters;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class UHIBELW11PublicKeyParameters implements CipherParameters {
+public class UHIBELW11PublicKeyParameters extends UHIBELW11KeyParameters {
 
-    private CurveParameters curveParams;
     private Element g;
     private Element u;
     private Element h;
@@ -18,11 +16,11 @@ public class UHIBELW11PublicKeyParameters implements CipherParameters {
     private Element omega;
 
 
-    public UHIBELW11PublicKeyParameters(CurveParameters curveParams,
+    public UHIBELW11PublicKeyParameters(CurveParameters curveParameters,
                                         Element g, Element u, Element h,
                                         Element v, Element w,
                                         Element omega) {
-        this.curveParams = curveParams;
+        super(false, curveParameters);
 
         this.g = g.getImmutable();
         this.u = u.getImmutable();
@@ -33,10 +31,6 @@ public class UHIBELW11PublicKeyParameters implements CipherParameters {
     }
 
     
-    public CurveParameters getCurveParams() {
-        return curveParams;
-    }
-
     public Element getG() {
         return g;
     }
