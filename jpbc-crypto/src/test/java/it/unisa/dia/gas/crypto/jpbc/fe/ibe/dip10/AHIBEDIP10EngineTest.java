@@ -33,21 +33,33 @@ public class AHIBEDIP10EngineTest extends TestCase {
         CipherParameters sk01 = keyGen(keyPair, ids[0], ids[1]);
         CipherParameters sk012 = keyGen(keyPair, ids[0], ids[1], ids[2]);
 
+        CipherParameters sk1 = keyGen(keyPair, ids[1]);
+        CipherParameters sk10 = keyGen(keyPair, ids[1], ids[0]);
+        CipherParameters sk021 = keyGen(keyPair, ids[0], ids[2], ids[1]);
+
         // Encryption/Decryption
-        String message = "H";
+        String message = "HW!";
         byte[] ciphertext0 = encrypt(keyPair.getPublic(), message, ids[0]);
-        assertEquals(message, decrypt(sk0, ciphertext0));
-
         byte[] ciphertext01 = encrypt(keyPair.getPublic(), message, ids[0], ids[1]);
-        assertEquals(message, decrypt(sk01, ciphertext01));
-
         byte[] ciphertext012 = encrypt(keyPair.getPublic(), message, ids[0], ids[1], ids[2]);
+
+        // Decrypt
+        assertEquals(message, decrypt(sk0, ciphertext0));
+        assertEquals(message, decrypt(sk01, ciphertext01));
         assertEquals(message, decrypt(sk012, ciphertext012));
 
-        // Delegation/Decryption
+        assertNotSame(message, decrypt(sk1, ciphertext0));
+        assertNotSame(message, decrypt(sk10, ciphertext01));
+        assertNotSame(message, decrypt(sk021, ciphertext012));
+
+        // Delegate/Decrypt
         assertEquals(message, decrypt(delegate(keyPair, sk0, ids[1]), ciphertext01));
         assertEquals(message, decrypt(delegate(keyPair, sk01, ids[2]), ciphertext012));
         assertEquals(message, decrypt(delegate(keyPair, delegate(keyPair, sk0, ids[1]), ids[2]), ciphertext012));
+
+        assertNotSame(message, decrypt(delegate(keyPair, sk0, ids[0]), ciphertext01));
+        assertNotSame(message, decrypt(delegate(keyPair, sk01, ids[1]), ciphertext012));
+        assertNotSame(message, decrypt(delegate(keyPair, delegate(keyPair, sk0, ids[2]), ids[1]), ciphertext012));
     }
 
 
