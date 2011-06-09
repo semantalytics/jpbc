@@ -8,94 +8,100 @@
     </properties>
 
     <body>
-        <section name="Pairing Functions">
+        <section name="Bilinear Maps or Pairing for Cryptography">
             <p>
-                Before elements can be initialized and manipulated for cryptographic operations, an instance of the
-                <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Pairing.html">
-                    <code>
-                        <font style="font-weight: bold;color:red">it.unisa.dia.gas.jpbc.Pairing</font>
-                    </code>
-                </a>
-                interface must be obtained.
+                Let
+                <code>G1</code>,
+                <code>G2</code>
+                and
+                <code>G_T</code>
+                be cyclic groups of prime order
+                <code>r</code>.
+                Let
+                <code>g1</code>
+                be a generator of
+                <code>G1</code>
+                and
+                <code>g2</code>
+                be a generator of
+                <code>G2</code>.
+                A
+                <strong>bilinear pairing</strong>
+                or
+                <strong>bilinear map</strong>
+                <code>e</code>
+                is an efficiently computable function
+                <code>e : G1 x G2 -> GT</code>
+                such that:
+            </p>
+            <ol>
+                <li>
+                    <font style="font-weight: bold;color:red">
+                        Bilinearity
+                    </font>: for all
+                    <code>a, b</code>
+                    in
+                    <code>Zr</code>
+                    (the ring of integers modulo r)
+                    it holds that
+                    <code>e(g1^a,g2^b) = e(g1,g2)^{ab}</code>.
+                </li>
+                <li>
+                    <font style="font-weight: bold;color:red">
+                        <code>Non-degeneracy</code>
+                    </font>:
+                    <code>e(g1, g2) != 1</code>.
+                </li>
+            </ol>
+            <p>
+                The tuple $(r, g_1, g_2, \G_1,\G_2,\G_T)$ is called an \emph{asymmetric} bilinear setting.
+                If $\G_1=\G_2=\G$ and $g$ is a generator of $\G$ then the tuple
+                $(r,g,\G,\G_T)$ is a {\em symmetric} bilinear setting.
+                In the symmetric setting the order of $\G$ and $\G_T$ need not be prime.
+                For simplicity, in the rest of the paper, we will consider symmetric bilinear settings.
+                The cryptographic relevance of a bilinear mapping stems from the fact that in cyclic
+                groups that admit such a mapping the decisional Diffie-Hellman assumption does not hold.
+                Indeed, given $g,g^x,g^y,g^z$ it is possible to check if $z=xy$
+                (and thus solve the decisional DH problem) by testing $\e(g,g^z)$ and
+                $\e(g^x,g?y)$ for equality.
             </p>
 
-            <subsection name="Notation">
-                We use:
-                <ol>
-                    <li>
-                        <font style="font-weight: bold;color:red">
-                            <code>G1</code>
-                        </font>
-                        and
-                        <font style="font-weight: bold;color:red">
-                            <code>G2</code>
-                        </font>
-                        to denote the
-                        <font style="font-weight: bold;color:red">input</font>
-                        groups to the pairing and
-                    </li>
-                    <li>
-                        <font style="font-weight: bold;color:red">
-                            <code>GT</code>
-                        </font>
-                        for the
-                        <font style="font-weight: bold;color:red">output</font>
-                        group. (All have order r)
-                    </li>
-                    <li>
-                        <font style="font-weight: bold;color:red">
-                            <code>Zr</code>
-                        </font>
-                        which means the
-                        <font style="font-weight: bold;color:red">ring of integers</font>
-                        modulo r.
-                    </li>
-                    <li>
-                        <font style="font-weight: bold;color:red">
-                            <code>e</code>
-                        </font>
-                        is the pairing operation.
-                    </li>
-                </ol>
-
-                <p>
-                    The pairing is a bilinear map that takes two elements as input, one from <code>G1</code> and one from
-                    <code>G2</code>, and outputs an element of <code>GT</code>.
-                </p>
-
-                <p>
-                    <code>G1</code> is the smaller group (the group of points over the base field).
-                    With symmetric pairings, <code>G1</code> = <code>G2</code>.
-                    <br/>
-                    The elements of <code>G2</code> are at least as long as <code>G1</code>; <code>G1</code>
-                    is guaranteed to be the shorter of the two. Sometimes
-                    <code>G1</code> and <code>G2</code> are the same group (i.e. the pairing is symmetric) so
-                    their elements can be mixed freely. In
-                    this case the
-                    <code>Pairing#isSymmetric()</code>
-                    method returns <code>true</code>.
-                </p>
-            </subsection>
-
-            <subsection name="Accessing Groups">
-                The Pairing interface provides some methods to access the groups:
-
-                <source xml:space="preserve">/* Return G1 */
-Field G1 = <font style="font-weight: bold;color:green">pairing.getG1();</font>
-
-/* Return G2 */
-Field G2 = <font style="font-weight: bold;color:green">pairing.getG2();</font>
-
-/* Return GT */
-Field GT = <font style="font-weight: bold;color:green">pairing.getGT();</font>
-
-/* Return Zr */
-Field Zr = <font style="font-weight: bold;color:green">pairing.getZr();</font></source>
-            </subsection>
+            <p>
+                <code>G1</code>
+                is the smaller group (the group of points over the base field).
+                With symmetric pairings,
+                <code>G1</code>
+                =<code>G2</code>.
+                <br/>
+                The elements of
+                <code>G2</code>
+                are at least as long as<code>G1</code>;
+                <code>G1</code>
+                is guaranteed to be the shorter of the two. Sometimes
+                <code>G1</code>
+                and
+                <code>G2</code>
+                are the same group (i.e. the pairing is symmetric) so
+                their elements can be mixed freely. In
+                this case the
+                <code>Pairing#isSymmetric()</code>
+                method returns<code>true</code>.
+            </p>
 
 
             <a name="initializing"/>
             <subsection name="Initializing Pairings">
+                <p>
+                    To be able to performe cryptographic operations an instance of the
+                    <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Pairing.html">
+                        <code>
+                            <font style="font-weight: bold;color:red">it.unisa.dia.gas.jpbc.Pairing</font>
+                        </code>
+                    </a>
+                    interface must be obtained. When this is done, you can access the algebraic
+                    structures underlying the pairing computation.
+                </p>
+
                 <p>
                     The first step to create an instance of the
                     <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Pairing.html">
@@ -111,7 +117,7 @@ Field Zr = <font style="font-weight: bold;color:green">pairing.getZr();</font></
 
                 <p>
                     Now let's say that you have stored your curve parameters in a file
-                    called <code>curve.propertiess</code>. Then
+                    called<code>curve.propertiess</code>. Then
                     to create an instance of the
                     <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Pairing.html">
                         <code>
@@ -131,7 +137,9 @@ Field Zr = <font style="font-weight: bold;color:green">pairing.getZr();</font></
                         </p>
                         <source>import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
-Pairing pairing = <font style="font-weight: bold;color:green">PairingFactory.getPairing("curve.properties");</font>
+                            Pairing pairing =
+                            <font style="font-weight: bold;color:green">PairingFactory.getPairing("curve.properties");
+                            </font>
                         </source>
                     </li>
                     <li>
@@ -141,40 +149,84 @@ Pairing pairing = <font style="font-weight: bold;color:green">PairingFactory.get
                         </p>
                         <source>import it.unisa.dia.gas.plaf.jpbc.pbc.PBCPairing;
 
-CurveParameters curveParameters = PairingFactory.getInstance().loadCurveParameters("curve.properties");
-Pairing pairing = <font style="font-weight: bold;color:green">new PBCPairing(curveParameters);</font>
+                            CurveParameters curveParameters =
+                            PairingFactory.getInstance().loadCurveParameters("curve.properties");
+                            Pairing pairing =
+                            <font style="font-weight: bold;color:green">new PBCPairing(curveParameters);</font>
                         </source>
                         <p>
                             You can still use the PairingFactory in this way:
                         </p>
                         <source>import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
-// Ask the PairingFactory to try to use the PBC wrapper when possible.
-<font style="font-weight: bold;color:green">PairingFactory.getInstance().setUsePBCWhenPossible(true);</font>
-Pairing pairing = <font style="font-weight: bold;color:green">PairingFactory.getPairing("curve.properties");</font>
+                            // Ask the PairingFactory to try to use the PBC wrapper when possible.
+                            <font style="font-weight: bold;color:green">
+                                PairingFactory.getInstance().setUsePBCWhenPossible(true);
+                            </font>
+                            Pairing pairing =
+                            <font style="font-weight: bold;color:green">PairingFactory.getPairing("curve.properties");
+                            </font>
                         </source>
                     </li>
                 </ol>
-
             </subsection>
+
+            <subsection name="Accessing Algebraic Structures">
+                The
+                <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Pairing.html">
+                    <code>
+                        <font style="font-weight: bold;color:red">Pairing</font>
+                    </code>
+                </a>
+                interface provides the methods to access the algebraic structures
+                (<code>G1, G2, GT, Zr</code>)
+                involved in the pairing computation. Here are the methods:
+
+                <source xml:space="preserve">/* Return G1 */
+                    Field G1 =
+                    <font style="font-weight: bold;color:green">pairing.getG1();</font>
+
+                    /* Return G2 */
+                    Field G2 =
+                    <font style="font-weight: bold;color:green">pairing.getG2();</font>
+
+                    /* Return GT */
+                    Field GT =
+                    <font style="font-weight: bold;color:green">pairing.getGT();</font>
+
+                    /* Return Zr */
+                    Field Zr =
+                    <font style="font-weight: bold;color:green">pairing.getZr();</font>
+                </source>
+
+                Now elements of these algebraic structures can be initialized and manipulated
+                for cryptographic operations. Have a look
+                <a href="./field.html">here</a>
+                to see how to initialize elements.
+            </subsection>
+
 
             <a name="applying"/>
             <subsection name="Applying pairings">
                 <p>
                     Suppose you want to compute the following pairing
                     <code>out = e(in1, in2)</code>.
-                    Where <code>in1</code>
+                    Where
+                    <code>in1</code>
                     must be in the group
-                    <code>G1</code>, <code>in2</code>
-                    must be in the group <code>G2</code>
+                    <code>G1</code>,
+                    <code>in2</code>
+                    must be in the group
+                    <code>G2</code>
                     and out will lie in the target group
                     <code>GT</code>.
                     Then you can use the following code:
                 </p>
                 <source>
-Element in1 = pairing.get<code>G1</code>().newRandomElement();
-Element in2 = pairing.get<code>G2</code>().newRandomElement();
-Element out = <font style="font-weight: bold;color:green">pairing.pairing(in1, in2);</font>
+                    Element in1 = pairing.get<code>G1</code>().newRandomElement();
+                    Element in2 = pairing.get<code>G2</code>().newRandomElement();
+                    Element out =
+                    <font style="font-weight: bold;color:green">pairing.pairing(in1, in2);</font>
                 </source>
 
                 <p>
@@ -182,55 +234,60 @@ Element out = <font style="font-weight: bold;color:green">pairing.pairing(in1, i
                     the following code:
                 </p>
                 <source xml:space="preserve">
-Element in1[] = new Element[5];
-for (int i = 0; i &lt; 5; i++)
-    in1[i] = pairing.get<code>G1</code>().newRandomElement();
+                    Element in1[] = new Element[5];
+                    for (int i = 0; i &lt; 5; i++)
+                    in1[i] = pairing.get<code>G1</code>().newRandomElement();
 
-Element in2[] = new Element[5];
-for (int i = 0; i &lt; 5; i++)
-    in2[i] = pairing.get<code>G2</code>().newRandomElement();
+                    Element in2[] = new Element[5];
+                    for (int i = 0; i &lt; 5; i++)
+                    in2[i] = pairing.get<code>G2</code>().newRandomElement();
 
-Element out = <font style="font-weight: bold;color:green">pairing.pairing(in1, in2);</font>
+                    Element out =
+                    <font style="font-weight: bold;color:green">pairing.pairing(in1, in2);</font>
                 </source>
             </subsection>
 
             <a name="preprocessing"/>
             <subsection name="Preprocessing">
                 <p>
-                    If it knows in advance that a particular value (in <code>G1</code>) will be paired several times
+                    If it knows in advance that a particular value (in<code>G1</code>) will be paired several times
                     then time can be saved in the long run by first calling the preprocessing function.
 
                     This is how to use the preprocessing.
                 </p>
 
                 <source xml:space="preserve">
-/* Get ready to perform a pairing whose first input is in1,
-   store the results of time-saving precomputation in ppp. */
+                    /* Get ready to perform a pairing whose first input is in1,
+                    store the results of time-saving precomputation in ppp. */
 
-Element in1 = pairing.get<code>G1</code>().newRandomElement();
-<font style="font-weight: bold;color:green">PairingPreProcessing ppp = pairing.pairing(in1);</font>
+                    Element in1 = pairing.get<code>G1</code>().newRandomElement();
+                    <font style="font-weight: bold;color:green">PairingPreProcessing ppp = pairing.pairing(in1);</font>
 
-/* Compute the pairing using in2 and the preprocessed information
-   stored in ppp. The inputs to the pairing are the element
-   previously used to initialize ppp and the element in2. */
+                    /* Compute the pairing using in2 and the preprocessed information
+                    stored in ppp. The inputs to the pairing are the element
+                    previously used to initialize ppp and the element in2. */
 
-Element in2 = pairing.get<code>G2</code>().newRandomElement();
-Element out = <font style="font-weight: bold;color:green">ppp.pairing(in2);</font>
+                    Element in2 = pairing.get<code>G2</code>().newRandomElement();
+                    Element out =
+                    <font style="font-weight: bold;color:green">ppp.pairing(in2);</font>
                 </source>
 
                 <p>
                     The result of the precomputation can be stored to be used later.
-                    The following code convert <code>ppp</code> to a byte array:
+                    The following code convert
+                    <code>ppp</code>
+                    to a byte array:
                 </p>
                 <source xml:space="preserve">
-                    byte[] pppBytes = <font style="font-weight: bold;color:green">ppp.toBytes()</font>;
+                    byte[] pppBytes =<font style="font-weight: bold;color:green">ppp.toBytes()</font>;
                 </source>
                 <p>
                     To convert the byte array to an instance of the PairingPreProcessing interface
                     use the following code:
                 </p>
                 <source xml:space="preserve">
-<font style="font-weight: bold;color:green">PairingPreProcessing ppp = pairing.pairing(pppBytes);</font>
+                    <font style="font-weight: bold;color:green">PairingPreProcessing ppp = pairing.pairing(pppBytes);
+                    </font>
                 </source>
             </subsection>
         </section>

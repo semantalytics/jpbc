@@ -8,18 +8,24 @@
     </properties>
 
     <body>
-        <section name="Field Functions">
+        <section name="Algebraic Structures">
 
             <p>
-                You can obtain an instance of an
-                <code>it.unisa.dia.gas.jpbc.Element</code> interface
-                starting from an algebraic structure, such as a particular
-                finite field or elliptic curve group, represented by the
+                The
                 <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Field.html">
                     <code>
                         <font style="font-weight: bold;color:red">it.unisa.dia.gas.jpbc.Field</font>
                     </code>
                 </a>
+                interface represents a generic algebraic structures.
+                It provides some useful methods to generate elements lying in these structures.
+
+
+
+                You can obtain an instance of an
+                <code>it.unisa.dia.gas.jpbc.Element</code> interface
+                starting from an algebraic structure, such as a particular
+                finite field or elliptic curve group, represented by the
 
                 interface.
                 <br/>

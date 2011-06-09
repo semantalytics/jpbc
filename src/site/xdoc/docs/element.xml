@@ -8,16 +8,15 @@
     </properties>
 
     <body>
-        <section name="Element Functions">
+        <section name="Elements">
             <p>
-                Elements of groups, rings and fields are accessible using the
+                Elements of algebraic structures (groups,rings and fields) are accessible by using the
                 <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Element.html">
                     <code>
                         <font style="font-weight: bold;color:red">it.unisa.dia.gas.jpbc.Element</font>
                     </code>
                 </a>
-
-                interface which represents a mutable value. So any method you call on it affect the element's value.
+                interface that represents a mutable value. Thus any method invoked on it affects the element's value.
             </p>
 
             <a name="initializing"/>
