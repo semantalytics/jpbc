@@ -82,10 +82,6 @@ public abstract class PairingAsymmetricBlockCipher implements AsymmetricBlockCip
 
         int maxLength = getInputBlockSize();
 
-        // TODO: this check can be relaxed.
-        if (inLen > maxLength)
-            throw new DataLengthException("Input too large for the cipher.");
-
         if (inLen < maxLength)
             throw new DataLengthException("Input too small for the cipher.");
 

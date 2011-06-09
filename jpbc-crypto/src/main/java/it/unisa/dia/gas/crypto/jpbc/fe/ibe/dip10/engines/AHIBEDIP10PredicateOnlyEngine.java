@@ -53,7 +53,7 @@ public class AHIBEDIP10PredicateOnlyEngine extends PredicateOnlyPairingAsymmetri
             AHIBEDIP10SecretKeyParameters sk = (AHIBEDIP10SecretKeyParameters) key;
             Element M = C0.mul(pairing.pairing(sk.getK12(), C2).mul(pairing.pairing(sk.getK11(), C1).invert()).invert());
 
-            return new byte[]{(byte) (M.isOne() ? 0 : 1)};
+            return new byte[]{(byte) (M.isOne() ? 1 : 0)};
         } else {
             // Encrypt
             AHIBEDIP10EncryptionParameters encParams = (AHIBEDIP10EncryptionParameters) key;

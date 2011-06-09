@@ -105,7 +105,7 @@ public class AHIBEDIP10PredicateOnlyEngineTest extends TestCase {
         try {
             AsymmetricBlockCipher engine = new AHIBEDIP10PredicateOnlyEngine();
             engine.init(false, secretKey);
-            return engine.processBlock(cipherText, 0, cipherText.length)[0] == 1;
+            return engine.processBlock(cipherText, 0, cipherText.length)[0] == 1; // Meaning that the predicate is satisfied.
         } catch (InvalidCipherTextException e) {
             e.printStackTrace();
             fail(e.getMessage());

@@ -19,7 +19,6 @@ import java.io.IOException;
 public class IPLOSTW10Engine extends PairingAsymmetricBlockCipher {
 
     private int n;
-    private int N;
     private Pairing productPairing;
 
     public void initialize() {
@@ -33,7 +32,7 @@ public class IPLOSTW10Engine extends PairingAsymmetricBlockCipher {
 
         IPLOSTW10KeyParameters ipKey = (IPLOSTW10KeyParameters) key;
         this.n = ipKey.getParameters().getN();
-        this.N = (2 * n + 3);
+        int N = (2 * n + 3);
         this.pairing = PairingFactory.getPairing(ipKey.getParameters().getCurveParameters());
         this.productPairing = new ProductPairing(null, pairing, N);
 

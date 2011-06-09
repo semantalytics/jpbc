@@ -5,13 +5,13 @@ import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators.IPLOSTW10KeyPairGen
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators.IPLOSTW10ParametersGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators.IPLOSTW10SecretKeyGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.*;
-import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtil;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import junit.framework.TestCase;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
+import org.bouncycastle.crypto.InvalidCipherTextException;
 
 import java.security.SecureRandom;
 import java.util.Random;
@@ -95,11 +95,14 @@ public class IPLOSTW10PredicateOnlyEngineTest extends TestCase {
     }
 
     protected byte[] encrypt(CipherParameters publicKey, Element[] x) {
-        IPLOSTW10PredicateOnlyEngine engine = new IPLOSTW10PredicateOnlyEngine();
-        engine.init(true, publicKey);
+        try {
+            IPLOSTW10PredicateOnlyEngine engine = new IPLOSTW10PredicateOnlyEngine();
+            engine.init(true, new IPLOSTW10EncryptionParameters((IPLOSTW10PublicKeyParameters) publicKey,  x));
 
-        byte[] buffer = ElementUtil.toBytes(x);
-        return engine.processBlock(buffer, 0, buffer.length);
+            return engine.processBlock(new byte[0], 0, 0);
+        } catch (InvalidCipherTextException e) {
+            throw new RuntimeException(e);
+        }
     }
     
     protected CipherParameters keyGen(CipherParameters privateKey, Element[] y) {
@@ -110,13 +113,16 @@ public class IPLOSTW10PredicateOnlyEngineTest extends TestCase {
         
         return keyGen.generateKey();
     }
-    
-    
-    protected boolean test(CipherParameters searchKey, byte[] ciphertext) {
-        IPLOSTW10PredicateOnlyEngine engine = new IPLOSTW10PredicateOnlyEngine();
-        engine.init(false, searchKey);
 
-        return engine.processBlock(ciphertext, 0, ciphertext.length)[0] == 0;
+    protected boolean test(CipherParameters secretKey, byte[] ciphertext) {
+        try {
+            IPLOSTW10PredicateOnlyEngine engine = new IPLOSTW10PredicateOnlyEngine();
+            engine.init(false, secretKey);
+
+            return engine.processBlock(ciphertext, 0, ciphertext.length)[0] == 1; // Meaning that the predicate is satisfied.
+        } catch (InvalidCipherTextException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
