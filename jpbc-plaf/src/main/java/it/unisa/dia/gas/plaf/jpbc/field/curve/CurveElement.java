@@ -398,4 +398,14 @@ public class CurveElement<E extends Element> extends GenericPointElement<E> {
         return x.isEqual(element.x) && y.isEqual(element.y);
     }
 
+
+    public void setX(E x) {
+        this.x = x;
+    }
+
+    public void setY(E y) {
+        this.y = y;
+    }
+
+
 }

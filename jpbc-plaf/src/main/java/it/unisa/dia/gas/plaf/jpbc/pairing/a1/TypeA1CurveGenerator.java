@@ -2,7 +2,10 @@ package it.unisa.dia.gas.plaf.jpbc.pairing.a1;
 
 import it.unisa.dia.gas.jpbc.CurveGenerator;
 import it.unisa.dia.gas.jpbc.CurveParameters;
+import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
+import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import it.unisa.dia.gas.plaf.jpbc.util.BigIntegerUtils;
 
 import java.math.BigInteger;
@@ -62,11 +65,23 @@ public class TypeA1CurveGenerator implements CurveGenerator {
         params.put("type", "a1");
         params.put("p", p.toString());
         params.put("n", order.toString());
-        for (int i = 0; i < primes.length; i++) {
-            params.put("n" + i, primes[i].toString());
-
-        }
+//        for (int i = 0; i < primes.length; i++) {
+//            params.put("n" + i, primes[i].toString());
+//        }
         params.put("l", String.valueOf(l));
+
+        Pairing pairing = PairingFactory.getPairing(params);
+        Element gen = pairing.getG1().newRandomElement().getImmutable();
+        for (int i = 0; i < primes.length; i++) {
+
+            BigInteger prod = BigInteger.ONE;
+            for (int j = 0; j < primes.length; j++) {
+                if (j != i)
+                    prod = prod.multiply(primes[j]);
+            }
+
+            params.putBytes("gen" + (i+1), gen.pow(prod).toBytes());
+        }
 
         return params;
     }

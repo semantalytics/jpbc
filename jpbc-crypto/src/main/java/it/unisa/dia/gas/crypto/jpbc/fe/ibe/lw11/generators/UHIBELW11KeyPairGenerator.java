@@ -14,8 +14,6 @@ import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPairGenerator;
 import org.bouncycastle.crypto.KeyGenerationParameters;
 
-import java.math.BigInteger;
-
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
@@ -29,22 +27,15 @@ public class UHIBELW11KeyPairGenerator implements AsymmetricCipherKeyPairGenerat
 
     public AsymmetricCipherKeyPair generateKeyPair() {
         // Generate curve parameters
-
-        CurveParams curveParams = generateCurveParams();
+        CurveParams curveParameters = generateCurveParams();
 
         // Get the generators of the subgroups
+        Pairing pairing = PairingFactory.getPairing(curveParameters);
 
-        BigInteger n0 = curveParams.getBigInteger("n0");
-        BigInteger n1 = curveParams.getBigInteger("n1");
-        BigInteger n2 = curveParams.getBigInteger("n2");
+        Element g = pairing.getG1().newElement();
+        g.setFromBytes(curveParameters.getBytes("gen1"));
 
-        Pairing pairing = PairingFactory.getPairing(curveParams);
-
-        Element gen = pairing.getG1().newRandomElement().getImmutable();
-
-        // Construct Public Key and Master Secret Key
-
-        Element g = gen.pow(n0.multiply(n2)).getImmutable();
+        // Generate required elements
         Element u = ElementUtil.randomIn(pairing, g).getImmutable();
         Element h = ElementUtil.randomIn(pairing, g).getImmutable();
         Element v = ElementUtil.randomIn(pairing, g).getImmutable();
@@ -55,15 +46,14 @@ public class UHIBELW11KeyPairGenerator implements AsymmetricCipherKeyPairGenerat
         Element omega = pairing.pairing(g, g).powZn(alpha).getImmutable();
 
         // Remove factorization from curveParams
-        for (int i = 0; i < 3; i++) {
-            curveParams.remove("n"+i);
-        }
+        curveParameters.remove("gen2");
+        curveParameters.remove("gen3");
 
         // Return the keypair
 
         return new AsymmetricCipherKeyPair(
-                new UHIBELW11PublicKeyParameters(curveParams, g, u, h, v, w, omega),
-                new UHIBELW11MasterSecretKeyParameters(curveParams, alpha)
+                new UHIBELW11PublicKeyParameters(curveParameters, g, u, h, v, w, omega),
+                new UHIBELW11MasterSecretKeyParameters(curveParameters, alpha)
         );
     }
 

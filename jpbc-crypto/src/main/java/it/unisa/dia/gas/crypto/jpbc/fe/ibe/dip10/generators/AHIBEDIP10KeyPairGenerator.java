@@ -13,8 +13,6 @@ import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPairGenerator;
 import org.bouncycastle.crypto.KeyGenerationParameters;
 
-import java.math.BigInteger;
-
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
@@ -32,17 +30,17 @@ public class AHIBEDIP10KeyPairGenerator implements AsymmetricCipherKeyPairGenera
 
         // Get the generators of the subgroups
 
-        BigInteger n0 = curveParameters.getBigInteger("n0");
-        BigInteger n1 = curveParameters.getBigInteger("n1");
-        BigInteger n2 = curveParameters.getBigInteger("n2");
-        BigInteger n3 = curveParameters.getBigInteger("n3");
-
         Pairing pairing = PairingFactory.getPairing(curveParameters);
 
-        Element gen = pairing.getG1().newRandomElement().getImmutable();
-        Element gen1 = gen.pow(n1.multiply(n2).multiply(n3)).getImmutable();
-        Element gen3 = gen.pow(n0.multiply(n1).multiply(n3)).getImmutable();
-        Element gen4 = gen.pow(n0.multiply(n1).multiply(n2)).getImmutable();
+        Element gen1 = pairing.getG1().newElement();
+        gen1.setFromBytes(curveParameters.getBytes("gen1"));
+
+        Element gen3 = pairing.getG1().newElement();
+        gen3.setFromBytes(curveParameters.getBytes("gen3"));
+
+        Element gen4 = pairing.getG1().newElement();
+        gen4.setFromBytes(curveParameters.getBytes("gen4"));
+
 
         // Construct Public Key and Master Secret Key
 
@@ -62,9 +60,7 @@ public class AHIBEDIP10KeyPairGenerator implements AsymmetricCipherKeyPairGenera
         Element alpha = pairing.getZr().newRandomElement().getImmutable();
 
         // Remove factorization from curveParameters
-        for (int i = 0; i < 4; i++) {
-            curveParameters.remove("n" + i);
-        }
+        curveParameters.remove("gen2");
 
         // Return the keypair
 
