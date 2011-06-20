@@ -11,9 +11,11 @@ import java.util.Random;
  */
 public abstract class AbstractPairing implements Pairing {
 
+    protected CurveParameters curveParameters;
+    protected Random random;
+
     protected Field G1, G2, GT, Zr;
     protected PairingMap pairingMap;
-    protected Random random;
 
 
     protected AbstractPairing(Random random) {

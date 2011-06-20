@@ -4,12 +4,10 @@ import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import org.bouncycastle.crypto.CipherParameters;
 
-import java.io.Serializable;
-
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class UTMAStrongPublicParameters implements CipherParameters, Serializable {
+public class UTMAStrongPublicParameters implements CipherParameters {
     private CurveParameters curveParams;
     private Element g;
     private Element g0, g1;

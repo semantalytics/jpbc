@@ -77,6 +77,7 @@ public class MultiBlockAsymmetricBlockCipher implements AsymmetricBlockCipher {
 
             // Produce output for the current piece...
             byte[] outputBlock = cipher.processBlock(buffer, 0, bufLength);
+            System.out.printf("in %d, out %d\n", bufLength, outputBlock.length);
             try {
                 outputStream.write(outputBlock);
             } catch (IOException e) {
@@ -89,9 +90,15 @@ public class MultiBlockAsymmetricBlockCipher implements AsymmetricBlockCipher {
 
         // Apply padding if necessary
         if (padding != null && !forEncryption) {
-            int padCount = padding.padCount(output);
-            if (padCount > 0)
-                return Arrays.copyOf(output, output.length - padCount);
+            int padCount = 0;
+            try {
+                padCount = padding.padCount(output);
+                if (padCount > 0)
+                    return Arrays.copyOf(output, output.length - padCount);
+            } catch (InvalidCipherTextException e) {
+                if (inputBlockSize % outputBlockSize != 0)
+                    throw e;
+            }
         }
 
         return output;

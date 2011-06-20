@@ -1,7 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing;
 
 import it.unisa.dia.gas.jpbc.CurveParameters;
-import it.unisa.dia.gas.plaf.jpbc.util.Base64;
+import it.unisa.dia.gas.plaf.jpbc.util.io.Base64;
 
 import java.io.*;
 import java.math.BigInteger;

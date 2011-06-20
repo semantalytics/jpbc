@@ -189,4 +189,5 @@ public class GTFiniteElement extends GenericElement {
             return isEqual((Element) obj);
         return super.equals(obj);
     }
+
 }

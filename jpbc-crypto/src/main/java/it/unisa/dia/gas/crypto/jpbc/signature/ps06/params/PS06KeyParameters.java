@@ -2,12 +2,10 @@ package it.unisa.dia.gas.crypto.jpbc.signature.ps06.params;
 
 import org.bouncycastle.crypto.params.AsymmetricKeyParameter;
 
-import java.io.Serializable;
-
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class PS06KeyParameters extends AsymmetricKeyParameter implements Serializable {
+public class PS06KeyParameters extends AsymmetricKeyParameter {
     private PS06Parameters parameters;
 
 

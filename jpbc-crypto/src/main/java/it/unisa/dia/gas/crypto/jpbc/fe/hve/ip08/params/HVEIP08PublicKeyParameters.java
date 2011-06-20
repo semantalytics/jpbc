@@ -28,7 +28,6 @@ public class HVEIP08PublicKeyParameters extends HVEIP08KeyParameters {
         this.V = V;
     }
 
-
     public Element getY() {
         return Y;
     }

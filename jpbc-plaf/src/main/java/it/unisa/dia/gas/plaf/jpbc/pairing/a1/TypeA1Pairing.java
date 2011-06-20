@@ -76,7 +76,7 @@ public class TypeA1Pairing extends AbstractPairing {
         // Init G1, G2, GT
         G1 = Eq;
         G2 = G1;
-        GT = initGT(Fq2);
+        GT = initGT();
     }
 
 
@@ -92,8 +92,8 @@ public class TypeA1Pairing extends AbstractPairing {
         return new DegreeTwoExtensionQuadraticField<Field>(random, Fp);
     }
 
-    protected Field initGT(Field field) {
-        return new GTFiniteField(random, r, pairingMap, field);
+    protected Field initGT() {
+        return new GTFiniteField(random, r, pairingMap, Fq2);
     }
 
     protected void initMap(CurveParameters curveParams) {

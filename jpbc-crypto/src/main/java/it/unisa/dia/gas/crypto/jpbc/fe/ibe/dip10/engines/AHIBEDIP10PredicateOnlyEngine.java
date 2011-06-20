@@ -28,7 +28,7 @@ public class AHIBEDIP10PredicateOnlyEngine extends PredicateOnlyPairingAsymmetri
 
         this.pairing = PairingFactory.getPairing(((AHIBEDIP10KeyParameters) key).getCurveParameters());
         this.inBytes = 0;
-        this.outBytes = (pairing.getGT().getLengthInBytes() + (2 * pairing.getG1().getLengthInBytes()));
+        this.outBytes = pairing.getGT().getLengthInBytes() + (2 * pairing.getG1().getLengthInBytes());
     }
 
     public byte[] process(byte[] in, int inOff, int inLen) {

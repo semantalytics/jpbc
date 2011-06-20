@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.plaf.jpbc.util;
+package it.unisa.dia.gas.plaf.jpbc.util.io;
 
 /**
  * <p>Encodes and decodes to and from Base64 notation.</p>

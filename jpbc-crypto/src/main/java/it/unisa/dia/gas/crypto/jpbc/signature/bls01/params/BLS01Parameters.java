@@ -4,12 +4,10 @@ import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import org.bouncycastle.crypto.CipherParameters;
 
-import java.io.Serializable;
-
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class BLS01Parameters implements CipherParameters, Serializable {
+public class BLS01Parameters implements CipherParameters {
     private CurveParameters curveParameters;
     private Element g;
 

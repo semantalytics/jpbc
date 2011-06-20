@@ -2,12 +2,10 @@ package it.unisa.dia.gas.crypto.jpbc.rfid.utma.strong.params;
 
 import org.bouncycastle.crypto.CipherParameters;
 
-import java.io.Serializable;
-
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class UTMAStrongRPublicParameters implements CipherParameters, Serializable {
+public class UTMAStrongRPublicParameters implements CipherParameters {
     private CipherParameters rPrivateKey;
 
 

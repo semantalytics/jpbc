@@ -114,13 +114,12 @@ public class NaiveElement extends GenericElement {
 
     public NaiveElement setFromHash(byte[] source, int offset, int length) {
         int i = 0, n, count = (order.bitLength() + 7) / 8;
-
         byte[] buf = new byte[count];
+
         byte counter = 0;
         boolean done = false;
 
-        for (; ;) {
-
+        for (;;) {
             if (length >= count - i) {
                 n = count - i;
                 done = true;
@@ -157,9 +156,10 @@ public class NaiveElement extends GenericElement {
     }
 
     public int setFromBytes(byte[] source, int offset) {
-        value = new BigInteger(1, Utils.copyOf(source, offset, field.getLengthInBytes())).mod(order);
+        byte[] buffer = Utils.copyOf(source, offset, field.getLengthInBytes());
+        value = new BigInteger(1, buffer).mod(order);
 
-        return field.getLengthInBytes();
+        return buffer.length;
     }
 
     public NaiveElement square() {
@@ -298,6 +298,7 @@ public class NaiveElement extends GenericElement {
         byte[] bytes = value.toByteArray();
 
         if (bytes.length > field.getLengthInBytes()) {
+            // strip the zero prefix
             if (bytes[0] == 0 && bytes.length == field.getLengthInBytes() + 1) {
                 // Remove it
                 bytes = Utils.copyOfRange(bytes, 1, bytes.length);
@@ -328,7 +329,7 @@ public class NaiveElement extends GenericElement {
 
     public boolean equals(Object o) {
         if (o instanceof NaiveElement)
-            return isEqual((Element) o);        
+            return isEqual((Element) o);
         return isEqual((NaiveElement) o);
     }
 

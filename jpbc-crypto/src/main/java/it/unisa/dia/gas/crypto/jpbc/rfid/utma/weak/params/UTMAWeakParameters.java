@@ -2,12 +2,10 @@ package it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.params;
 
 import org.bouncycastle.crypto.CipherParameters;
 
-import java.io.Serializable;
-
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class UTMAWeakParameters implements CipherParameters, Serializable {
+public class UTMAWeakParameters implements CipherParameters {
     private UTMAWeakPublicParameters publicParameters;
     private UTMAWeakMasterSecretKeyParameters masterSecretKeyParameters;
 

@@ -1,6 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.engines;
 
-import it.unisa.dia.gas.crypto.engines.PairingAsymmetricBlockCipher;
+import it.unisa.dia.gas.crypto.engines.kem.PairingKeyEncapsulationMechanism;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08EncryptionParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08KeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08PublicKeyParameters;
@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class HVEIP08Engine extends PairingAsymmetricBlockCipher {
+public class HVEIP08KEMEngine extends PairingKeyEncapsulationMechanism {
 
     private int n;
 
@@ -33,13 +33,14 @@ public class HVEIP08Engine extends PairingAsymmetricBlockCipher {
         this.pairing = PairingFactory.getPairing(hveKey.getParameters().getCurveParameters());
         this.n = hveKey.getParameters().getN();
 
-        this.inBytes = pairing.getGT().getLengthInBytes();
-        this.outBytes = (2 * n + 1) * pairing.getG1().getLengthInBytes() + pairing.getGT().getLengthInBytes();
+        this.keyBytes = pairing.getGT().getLengthInBytes();
+        this.outBytes = ((2 * n + 1) * pairing.getG1().getLengthInBytes()) + (2 * pairing.getGT().getLengthInBytes());
     }
 
     public byte[] process(byte[] in, int inOff, int inLen) {
         if (key instanceof HVEIP08SecretKeyParameters) {
-            // Decrypt
+            // decap
+
             // Convert bytes to Elements...
             int offset = inOff;
 
@@ -94,11 +95,9 @@ public class HVEIP08Engine extends PairingAsymmetricBlockCipher {
                 return result.toBytes();
             }
         } else {
-            // Load the message from in
-            Element M = pairing.getGT().newElement();
-            M.setFromBytes(in, inOff);
+            // encap
+            Element M = pairing.getGT().newRandomElement().getImmutable();
 
-            // Encrypt the message under the specified attributes
             HVEIP08EncryptionParameters encParams = (HVEIP08EncryptionParameters) key;
             HVEIP08PublicKeyParameters pk = encParams.getPublicKey();
 
@@ -124,6 +123,7 @@ public class HVEIP08Engine extends PairingAsymmetricBlockCipher {
             ByteArrayOutputStream outputStream;
             try {
                 outputStream = new ByteArrayOutputStream(getOutputBlockSize());
+                outputStream.write(M.toBytes());
                 outputStream.write(Omega.toBytes());
                 outputStream.write(C0.toBytes());
 

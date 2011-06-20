@@ -16,7 +16,6 @@ public class HVEIP08MasterSecretKeyParameters extends HVEIP08KeyParameters {
     private boolean preProcessed = false;
 
 
-
     public HVEIP08MasterSecretKeyParameters(HVEIP08Parameters parameters, Element y, List<List<Element>> t, List<List<Element>> v) {
         super(true, parameters);
 

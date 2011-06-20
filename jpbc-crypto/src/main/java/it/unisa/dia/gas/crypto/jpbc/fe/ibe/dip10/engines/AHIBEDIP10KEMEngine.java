@@ -1,6 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.engines;
 
-import it.unisa.dia.gas.crypto.engines.PairingAsymmetricBlockCipher;
+import it.unisa.dia.gas.crypto.engines.kem.PairingKeyEncapsulationMechanism;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params.AHIBEDIP10EncryptionParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params.AHIBEDIP10KeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params.AHIBEDIP10PublicKeyParameters;
@@ -11,12 +11,11 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class AHIBEDIP10Engine extends PairingAsymmetricBlockCipher {
+public class AHIBEDIP10KEMEngine extends PairingKeyEncapsulationMechanism {
 
     public void initialize() {
         if (forEncryption) {
@@ -28,13 +27,13 @@ public class AHIBEDIP10Engine extends PairingAsymmetricBlockCipher {
         }
 
         this.pairing = PairingFactory.getPairing(((AHIBEDIP10KeyParameters) key).getCurveParameters());
-        this.inBytes = pairing.getGT().getLengthInBytes();
-        this.outBytes = pairing.getGT().getLengthInBytes() + (2 * pairing.getG1().getLengthInBytes());
+        this.keyBytes = pairing.getGT().getLengthInBytes();
+        this.outBytes = 2 * pairing.getGT().getLengthInBytes() + 2 * pairing.getG1().getLengthInBytes();
     }
 
     public byte[] process(byte[] in, int inOff, int inLen) {
         if (key instanceof AHIBEDIP10SecretKeyParameters) {
-            // decrypts
+            // decaps
 
             // Convert bytes to Elements...
             int offset = inOff;
@@ -55,20 +54,11 @@ public class AHIBEDIP10Engine extends PairingAsymmetricBlockCipher {
             AHIBEDIP10SecretKeyParameters sk = (AHIBEDIP10SecretKeyParameters) key;
             Element M = C0.mul(pairing.pairing(sk.getK12(), C2).mul(pairing.pairing(sk.getK11(), C1).invert()).invert());
 
-            System.out.println("dec: " + Arrays.toString(M.toBytes()));
-
             return M.toBytes();
         } else {
-            System.out.println("enc: " + Arrays.toString(in));
+            // encaps
+            Element M = pairing.getGT().newRandomElement().getImmutable();
 
-            // Load the message from in
-            Element M = pairing.getGT().newElement();
-            M.setFromBytes(in, inOff);
-
-            System.out.println("enc: " + M);
-            System.out.println("enc: " + Arrays.toString(M.toBytes()));
-
-            // Encrypt the message under the specified attributes
             AHIBEDIP10EncryptionParameters encParams = (AHIBEDIP10EncryptionParameters) key;
             AHIBEDIP10PublicKeyParameters pk = encParams.getPublicKey();
 
@@ -87,12 +77,14 @@ public class AHIBEDIP10Engine extends PairingAsymmetricBlockCipher {
             // Convert to byte array
             ByteArrayOutputStream bytes = new ByteArrayOutputStream(getOutputBlockSize());
             try {
+                bytes.write(M.toBytes());
                 bytes.write(C0.toBytes());
                 bytes.write(C1.toBytes());
                 bytes.write(C2.toBytes());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+
             return bytes.toByteArray();
         }
     }

@@ -6,6 +6,8 @@ import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.jpbc.PairingPreProcessing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
+import java.util.Arrays;
+
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
@@ -81,6 +83,10 @@ public class HVEIP08SecretKeyParameters extends HVEIP08KeyParameters {
         return preL[index];
     }
 
+    public int[] getPattern() {
+        return Arrays.copyOf(pattern, pattern.length);
+    }
+
     public void preProcess() {
         Pairing pairing = PairingFactory.getPairing(getParameters().getCurveParameters());
         int  n = getParameters().getN();
@@ -102,5 +108,13 @@ public class HVEIP08SecretKeyParameters extends HVEIP08KeyParameters {
 
     public boolean isPreProcessed() {
         return preProcessed;
+    }
+
+    public Element[] getYs() {
+        return Arrays.copyOf(Y, Y.length);
+    }
+
+    public Element[] getLs() {
+        return Arrays.copyOf(L, L.length);
     }
 }

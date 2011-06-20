@@ -21,7 +21,6 @@ public class TypeAPairing extends AbstractPairing {
     public static final String MILLER_PROJECTTIVE_METHOD = "miller-projective";
     public static final String MILLER_AFFINE_METHOD = "miller-affine";
 
-
     protected int exp2;
     protected int exp1;
     protected int sign1;

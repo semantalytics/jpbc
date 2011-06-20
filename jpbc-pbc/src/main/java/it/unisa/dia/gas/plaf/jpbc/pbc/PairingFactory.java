@@ -15,6 +15,7 @@ public class PairingFactory {
     private static Map<CurveParameters, Pairing> pairings = new WeakHashMap<CurveParameters, Pairing>();
 
     public static Pairing getPairing(CurveParameters curveParameters) {
+            // TODO: reusing doesn't work!
         Pairing pairing = pairings.get(curveParameters);
         if (pairing == null) {
             if (WrapperLibraryProvider.isAvailable())

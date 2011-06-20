@@ -76,7 +76,7 @@ public abstract class PairingTest extends TestCase {
         x1 = ppp1.pairing(h);
         x2 = ppp2.pairing(h);
 
-        assertTrue(x1.isEqual(x2));
+        assertEquals(true, x1.isEqual(x2));
     }
 
 

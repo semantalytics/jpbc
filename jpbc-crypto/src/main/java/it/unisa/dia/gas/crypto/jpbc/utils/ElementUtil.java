@@ -50,5 +50,11 @@ public class ElementUtil {
         return result;
     }
 
+    public static byte[] copyOf(byte[] original, int offset, int newLength) {
+        byte[] copy = new byte[newLength];
+        System.arraycopy(original, offset, copy, 0,
+                         Math.min(original.length, newLength));
+        return copy;
+    }
 
 }
