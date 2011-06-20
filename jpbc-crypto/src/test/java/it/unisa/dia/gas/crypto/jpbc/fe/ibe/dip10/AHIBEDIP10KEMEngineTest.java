@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10;
 
-import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.engines.AHIBEDIP10PredicateOnlyEngine;
+import it.unisa.dia.gas.crypto.engines.kem.KeyEncapsulationMechanism;
+import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.engines.AHIBEDIP10KEMEngine;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.generators.AHIBEDIP10KeyPairGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.generators.AHIBEDIP10SecretKeyGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params.*;
@@ -8,20 +9,20 @@ import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import junit.framework.TestCase;
-import org.bouncycastle.crypto.AsymmetricBlockCipher;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.InvalidCipherTextException;
 
+import java.util.Arrays;
+
 /**
  * @author Angelo De Caro
  */
-public class AHIBEDIP10PredicateOnlyEngineTest extends TestCase {
+public class AHIBEDIP10KEMEngineTest extends TestCase {
 
-
-    public void testAHIBE() {
+    public void testAHIBEDIP10KEMEngine() {
         // Setup
-        AsymmetricCipherKeyPair keyPair = setup(32, 10);
+        AsymmetricCipherKeyPair keyPair = setup(64, 3);
 
         // KeyGen
         Element[] ids = map(keyPair.getPublic(), "angelo", "de caro", "unisa");
@@ -34,28 +35,28 @@ public class AHIBEDIP10PredicateOnlyEngineTest extends TestCase {
         CipherParameters sk10 = keyGen(keyPair, ids[1], ids[0]);
         CipherParameters sk021 = keyGen(keyPair, ids[0], ids[2], ids[1]);
 
-        // Encrypt
-        byte[] ciphertext0 = encrypt(keyPair.getPublic(), ids[0]);
-        byte[] ciphertext01 = encrypt(keyPair.getPublic(), ids[0], ids[1]);
-        byte[] ciphertext012 = encrypt(keyPair.getPublic(), ids[0], ids[1], ids[2]);
+        // Encryption/Decryption
+        byte[][] ciphertext0 = encaps(keyPair.getPublic(), ids[0]);
+        byte[][] ciphertext01 = encaps(keyPair.getPublic(), ids[0], ids[1]);
+        byte[][] ciphertext012 = encaps(keyPair.getPublic(), ids[0], ids[1], ids[2]);
 
-        // Test
-        assertEquals(true, test(sk0, ciphertext0));
-        assertEquals(true, test(sk01, ciphertext01));
-        assertEquals(true, test(sk012, ciphertext012));
+        // Decrypt
+        assertEquals(true, Arrays.equals(ciphertext0[0], decaps(sk0, ciphertext0[1])));
+        assertEquals(true, Arrays.equals(ciphertext01[0], decaps(sk01, ciphertext01[1])));
+        assertEquals(true, Arrays.equals(ciphertext012[0], decaps(sk012, ciphertext012[1])));
 
-        assertEquals(false, test(sk1, ciphertext0));
-        assertEquals(false, test(sk10, ciphertext01));
-        assertEquals(false, test(sk021, ciphertext012));
+        assertEquals(false, Arrays.equals(ciphertext0[0], decaps(sk1, ciphertext0[1])));
+        assertEquals(false, Arrays.equals(ciphertext01[0], decaps(sk10, ciphertext01[1])));
+        assertEquals(false, Arrays.equals(ciphertext012[0], decaps(sk021, ciphertext012[1])));
 
-        // Delegate/Test
-        assertEquals(true, test(delegate(keyPair, sk0, ids[1]), ciphertext01));
-        assertEquals(true, test(delegate(keyPair, sk01, ids[2]), ciphertext012));
-        assertEquals(true, test(delegate(keyPair, delegate(keyPair, sk0, ids[1]), ids[2]), ciphertext012));
+        // Delegate/Decrypt
+        assertEquals(true, Arrays.equals(ciphertext01[0], decaps(delegate(keyPair, sk0, ids[1]), ciphertext01[1])));
+        assertEquals(true, Arrays.equals(ciphertext012[0], decaps(delegate(keyPair, sk01, ids[2]), ciphertext012[1])));
+        assertEquals(true, Arrays.equals(ciphertext012[0], decaps(delegate(keyPair, delegate(keyPair, sk0, ids[1]), ids[2]), ciphertext012[1])));
 
-        assertEquals(false, test(delegate(keyPair, sk0, ids[0]), ciphertext01));
-        assertEquals(false, test(delegate(keyPair, sk01, ids[1]), ciphertext012));
-        assertEquals(false, test(delegate(keyPair, delegate(keyPair, sk0, ids[2]), ids[1]), ciphertext012));
+        assertEquals(false, Arrays.equals(ciphertext01[0], decaps(delegate(keyPair, sk0, ids[0]), ciphertext01[1])));
+        assertEquals(false, Arrays.equals(ciphertext012[0], decaps(delegate(keyPair, sk01, ids[1]), ciphertext012[1])));
+        assertEquals(false, Arrays.equals(ciphertext012[0], decaps(delegate(keyPair, delegate(keyPair, sk0, ids[2]), ids[1]), ciphertext012[1])));
     }
 
 
@@ -99,30 +100,43 @@ public class AHIBEDIP10PredicateOnlyEngineTest extends TestCase {
         return generator.generateKey();
     }
 
-    protected byte[] encrypt(CipherParameters publicKey, Element... ids) {
-        byte[] ciphertext = new byte[0];
-
+    protected byte[][] encaps(CipherParameters publicKey, Element... ids) {
         try {
-            AsymmetricBlockCipher engine = new AHIBEDIP10PredicateOnlyEngine();
-            engine.init(true, new AHIBEDIP10EncryptionParameters((AHIBEDIP10PublicKeyParameters) publicKey, ids));
-            ciphertext = engine.processBlock(new byte[0], 0, 0);
+            KeyEncapsulationMechanism kem = new AHIBEDIP10KEMEngine();
+            kem.init(true, new AHIBEDIP10EncryptionParameters((AHIBEDIP10PublicKeyParameters) publicKey, ids));
+
+            byte[] ciphertext = kem.processBlock(new byte[0], 0, 0);
+
+            assertNotNull(ciphertext);
+            assertNotSame(0, ciphertext.length);
+
+            byte[] key = Arrays.copyOfRange(ciphertext, 0, kem.getKeyBlockSize());
+            byte[] ct = Arrays.copyOfRange(ciphertext, kem.getKeyBlockSize(), ciphertext.length);
+
+            return new byte[][]{key, ct};
         } catch (InvalidCipherTextException e) {
             e.printStackTrace();
             fail(e.getMessage());
         }
-
-        return ciphertext;
+        return null;
     }
 
-    protected boolean test(CipherParameters secretKey, byte[] cipherText) {
+    protected byte[] decaps(CipherParameters secretKey, byte[] cipherText) {
         try {
-            AsymmetricBlockCipher engine = new AHIBEDIP10PredicateOnlyEngine();
-            engine.init(false, secretKey);
-            return engine.processBlock(cipherText, 0, cipherText.length)[0] == 1; // Meaning that the predicate is satisfied.
+            KeyEncapsulationMechanism kem = new AHIBEDIP10KEMEngine();
+
+            kem.init(false, secretKey);
+            byte[] key = kem.processBlock(cipherText, 0, cipherText.length);
+
+            assertNotNull(key);
+            assertNotSame(0, key.length);
+
+            return key;
         } catch (InvalidCipherTextException e) {
             e.printStackTrace();
             fail(e.getMessage());
         }
-        return false;
+
+        return null;
     }
 }

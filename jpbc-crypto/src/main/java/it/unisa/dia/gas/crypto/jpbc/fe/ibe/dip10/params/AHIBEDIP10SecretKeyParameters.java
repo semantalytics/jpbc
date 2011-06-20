@@ -24,9 +24,11 @@ public class AHIBEDIP10SecretKeyParameters extends AHIBEDIP10KeyParameters {
         this.k11 = k11.getImmutable();
         this.k12 = k12.getImmutable();
         this.E1s = ElementUtil.cloneImmutably(e1s);
+
         this.k21 = k21.getImmutable();
         this.k22 = k22.getImmutable();
         this.E2s = ElementUtil.cloneImmutably(e2s);
+
         this.ids = ElementUtil.cloneImmutably(ids);
     }
 

@@ -102,7 +102,7 @@ public class AHIBEDIP10SecretKeyGenerator implements CipherParametersGenerator {
 
             // E1s
             Element[] E1s = new Element[sk.getE1Length() - 1];
-            for (int i = 0; i < E1s.length - 1; i++) {
+            for (int i = 0; i < E1s.length; i++) {
                 E1s[i] = sk.getE1At(i+1)
                         .mul(sk.getE2At(i+1).powZn(r1))
                         .mul(ElementUtil.randomIn(pairing, pk.getY3())).getImmutable();
@@ -119,7 +119,7 @@ public class AHIBEDIP10SecretKeyGenerator implements CipherParametersGenerator {
 
             // E1s
             Element[] E2s = new Element[sk.getE1Length() - 1];
-            for (int i = 0; i < E1s.length - 1; i++) {
+            for (int i = 0; i < E1s.length; i++) {
                 E2s[i] = sk.getE2At(i+1)
                         .powZn(r2)
                         .mul(ElementUtil.randomIn(pairing, pk.getY3())).getImmutable();

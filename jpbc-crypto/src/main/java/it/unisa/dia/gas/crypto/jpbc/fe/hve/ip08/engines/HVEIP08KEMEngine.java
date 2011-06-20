@@ -39,7 +39,7 @@ public class HVEIP08KEMEngine extends PairingKeyEncapsulationMechanism {
 
     public byte[] process(byte[] in, int inOff, int inLen) {
         if (key instanceof HVEIP08SecretKeyParameters) {
-            // decap
+            // decaps
 
             // Convert bytes to Elements...
             int offset = inOff;
