@@ -21,25 +21,19 @@ import java.util.Random;
  */
 public class IPLOSTW10PredicateOnlyEngineTest extends TestCase {
 
-    public void testIPOT10AttributesEngine() {
-        PairingFactory.getInstance().setUsePBCWhenPossible(true);
-        int n = 20;
+    public void testIPLOSTW10PredicateOnlyEngine() {
+        int n = 2;
 
         // Setup
         AsymmetricCipherKeyPair keyPair = setup(createParameters(n));
 
         // Encrypt
-        Pairing pairing = PairingFactory.getPairing(
-                ((IPLOSTW10PublicKeyParameters) keyPair.getPublic()).getParameters().getCurveParameters()
-        );
-
-        Element[][] orthogonal = createOrthogonalVectors(pairing, n);
-        byte[] ciphertext = encrypt(keyPair.getPublic(), orthogonal[0]);
-
-        assertTrue(test(keyGen(keyPair.getPrivate(), orthogonal[1]), ciphertext));
+        Element[][] vectors = createOrthogonalVectors(keyPair.getPublic(), n);
+        assertTrue(test(keyGen(keyPair.getPrivate(), vectors[1]), encrypt(keyPair.getPublic(), vectors[0])));
 
         // Gen non-matching SearchKey
-        assertFalse(test(keyGen(keyPair.getPrivate(), createRandom(pairing, n)), ciphertext));
+        vectors = createNonOrthogonalVectors(keyPair.getPublic(), n);
+        assertFalse(test(keyGen(keyPair.getPrivate(), vectors[1]), encrypt(keyPair.getPublic(), vectors[0])));
     }
 
 
@@ -60,29 +54,39 @@ public class IPLOSTW10PredicateOnlyEngineTest extends TestCase {
         return setup.generateKeyPair();
     }
 
-    protected Element[][] createOrthogonalVectors(Pairing pairing, int n) {
-        int nHalf = n / 2;
+    protected Element[][] createOrthogonalVectors(CipherParameters publicKey, int n) {
+        Pairing pairing = PairingFactory.getPairing(((IPLOSTW10PublicKeyParameters) publicKey).getParameters().getCurveParameters());
+
         Element[][] result = new Element[2][n];
         Random random = new Random();
-        for (int i = 0; i < n; i+=2) {
-            Element randomElement = pairing.getZr().newRandomElement();
+        for (int i = 0; i < n; i += 2) {
             if (random.nextBoolean()) {
-                // it's a star
                 result[0][i] = pairing.getZr().newZeroElement();
-                result[0][i+1] = pairing.getZr().newZeroElement();
-            } else {
-                result[0][i] = pairing.getZr().newOneElement().negate();
-                result[0][i+1] = randomElement;
-            }
+                result[0][i + 1] = pairing.getZr().newZeroElement();
 
-            if (random.nextBoolean()) {
-                // it's a star
-                result[1][i] = pairing.getZr().newZeroElement();
-                result[1][i+1] = pairing.getZr().newZeroElement();
+                result[1][i] = pairing.getZr().newRandomElement();
+                result[1][i + 1] = pairing.getZr().newRandomElement();
             } else {
-                result[1][i] = randomElement;
-                result[1][i+1] = pairing.getZr().newOneElement();
+                result[0][i] = pairing.getZr().newOneElement();
+                result[0][i + 1] = pairing.getZr().newRandomElement();
+
+                result[1][i] = result[0][i + 1].duplicate().negate();
+                result[1][i + 1] = pairing.getZr().newOneElement();
             }
+        }
+        return result;
+    }
+
+    protected Element[][] createNonOrthogonalVectors(CipherParameters publicKey, int n) {
+        Pairing pairing = PairingFactory.getPairing(((IPLOSTW10PublicKeyParameters) publicKey).getParameters().getCurveParameters());
+
+        Element[][] result = new Element[2][n];
+        for (int i = 0; i < n; i += 2) {
+            result[0][i] = pairing.getZr().newOneElement();
+            result[0][i + 1] = pairing.getZr().newRandomElement();
+
+            result[1][i] = pairing.getZr().newOneElement().sub(result[0][i + 1]);
+            result[1][i + 1] = pairing.getZr().newOneElement();
         }
         return result;
     }

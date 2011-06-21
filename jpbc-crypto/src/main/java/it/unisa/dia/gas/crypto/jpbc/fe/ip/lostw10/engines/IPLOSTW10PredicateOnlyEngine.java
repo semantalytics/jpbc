@@ -33,7 +33,7 @@ public class IPLOSTW10PredicateOnlyEngine extends PredicateOnlyPairingAsymmetric
         this.pairing = PairingFactory.getPairing(ipKey.getParameters().getCurveParameters());
         this.productPairing = new ProductPairing(null, pairing, N);
 
-        this.outBytes = pairing.getGT().getLengthInBytes() + N * pairing.getG1().getLengthInBytes();
+        this.outBytes = N * pairing.getG1().getLengthInBytes();
     }
 
     public byte[] process(byte[] in, int inOff, int inLen) {
