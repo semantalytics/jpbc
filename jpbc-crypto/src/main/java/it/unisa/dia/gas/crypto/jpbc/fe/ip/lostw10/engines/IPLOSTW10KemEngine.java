@@ -1,6 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.engines;
 
-import it.unisa.dia.gas.crypto.engines.PairingAsymmetricBlockCipher;
+import it.unisa.dia.gas.crypto.engines.kem.PairingKeyEncapsulationMechanism;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10EncryptionParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10KeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10PublicKeyParameters;
@@ -16,7 +16,7 @@ import java.io.IOException;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class IPLOSTW10Engine extends PairingAsymmetricBlockCipher {
+public class IPLOSTW10KemEngine extends PairingKeyEncapsulationMechanism {
 
     private int n;
     private Pairing productPairing;
@@ -36,8 +36,8 @@ public class IPLOSTW10Engine extends PairingAsymmetricBlockCipher {
         this.pairing = PairingFactory.getPairing(ipKey.getParameters().getCurveParameters());
         this.productPairing = new ProductPairing(null, pairing, N);
 
-        this.inBytes = pairing.getGT().getLengthInBytes();
-        this.outBytes = pairing.getGT().getLengthInBytes() + N * pairing.getG1().getLengthInBytes();
+        this.keyBytes = pairing.getGT().getLengthInBytes();
+        this.outBytes = 2 * pairing.getGT().getLengthInBytes() + N * pairing.getG1().getLengthInBytes();
     }
 
     public byte[] process(byte[] in, int inOff, int inLen) {
@@ -57,9 +57,7 @@ public class IPLOSTW10Engine extends PairingAsymmetricBlockCipher {
 
             return result.toBytes();
         } else {
-            // Load the message from in
-            Element M = pairing.getGT().newElement();
-            M.setFromBytes(in, inOff);
+            Element M = pairing.getGT().newRandomElement();
 
             // Encrypt the massage under the specified attributes
             IPLOSTW10EncryptionParameters encKey = (IPLOSTW10EncryptionParameters) key;
@@ -83,6 +81,7 @@ public class IPLOSTW10Engine extends PairingAsymmetricBlockCipher {
             // Convert to byte array
             ByteArrayOutputStream bytes = new ByteArrayOutputStream(getOutputBlockSize());
             try {
+                bytes.write(M.toBytes());
                 bytes.write(c1.toBytes());
                 bytes.write(c2.toBytes());
             } catch (IOException e) {

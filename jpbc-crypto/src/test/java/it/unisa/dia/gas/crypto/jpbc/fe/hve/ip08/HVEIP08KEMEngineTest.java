@@ -23,27 +23,17 @@ import java.util.Random;
  */
 public class HVEIP08KEMEngineTest extends TestCase {
 
-    public void testHVE() {
+    public void testHVEIP08KEMEngine() {
         int n = 5;
         AsymmetricCipherKeyPair keyPair = setup(genBinaryParam(n));
 
-        int[][] matching = createMatchingVectors(n);
-        byte[][] ciphertext = encaps(keyPair.getPublic(), matching[1]);
-        assertEquals(true,
-                Arrays.equals(
-                        ciphertext[0],
-                        decaps(keyGen(keyPair.getPrivate(), matching[0]), ciphertext[1])
-                )
-        );
+        int[][] vectors = createMatchingVectors(n);
+        byte[][] ct = encaps(keyPair.getPublic(), vectors[1]);
+        assertEquals(true, Arrays.equals(ct[0], decaps(keyGen(keyPair.getPrivate(), vectors[0]), ct[1])));
 
-        matching = createNonMatchingVectors(n);
-        ciphertext = encaps(keyPair.getPublic(), matching[1]);
-        assertEquals(false,
-                Arrays.equals(
-                        ciphertext[0],
-                        decaps(keyGen(keyPair.getPrivate(), matching[0]), ciphertext[1])
-                )
-        );
+        vectors = createNonMatchingVectors(n);
+        ct = encaps(keyPair.getPublic(), vectors[1]);
+        assertEquals(false, Arrays.equals(ct[0], decaps(keyGen(keyPair.getPrivate(), vectors[0]), ct[1])));
     }
 
     protected int[][] createMatchingVectors(int n) {
