@@ -21,27 +21,15 @@ import java.util.Random;
  */
 public class HVEIP08PredicateOnlyEngineTest extends TestCase {
 
-    public void testHVE() {
+    public void testHVEIP08PredicateOnlyEngine() {
         int n = 5;
         AsymmetricCipherKeyPair keyPair = setup(genBinaryParam(n));
 
-        for (int i = 0; i < 2; i++) {
-            int[][] matching = createMatchingVectors(n);
-            assertEquals(true,
-                    test(
-                            keyGen(keyPair.getPrivate(), matching[0]),
-                            enc(keyPair.getPublic(),     matching[1])
-                    )
-            );
+        int[][] vectors = createMatchingVectors(n);
+        assertEquals(true, test(keyGen(keyPair.getPrivate(), vectors[0]), enc(keyPair.getPublic(), vectors[1])));
 
-            int[][] nonMatching = createNonMatchingVectors(n);
-            assertEquals(false,
-                    test(
-                            keyGen(keyPair.getPrivate(), nonMatching[0]),
-                            enc(keyPair.getPublic(),     nonMatching[1])
-                    )
-            );
-        }
+        vectors = createNonMatchingVectors(n);
+        assertEquals(false, test(keyGen(keyPair.getPrivate(), vectors[0]), enc(keyPair.getPublic(), vectors[1])));
     }
 
     protected int[][] createMatchingVectors(int n) {
@@ -82,7 +70,6 @@ public class HVEIP08PredicateOnlyEngineTest extends TestCase {
             result[i] = pairing.getZr().newRandomElement();
         return result;
     }
-
 
 
     protected HVEIP08Parameters genBinaryParam(int n) {
