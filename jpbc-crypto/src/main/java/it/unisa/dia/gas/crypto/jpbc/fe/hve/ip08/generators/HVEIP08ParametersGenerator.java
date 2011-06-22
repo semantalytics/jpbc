@@ -29,11 +29,11 @@ public class HVEIP08ParametersGenerator {
         this.init(n, 1, curveParams);
     }
 
-    public void init(int n, int numBitPerAttribute, CurveParameters curveParams) {
+    public void init(int n, int numBitsPerAttribute, CurveParameters curveParams) {
         this.curveParams = curveParams;
         this.attributeLengths = new int[n];
         for (int i = 0; i < attributeLengths.length; i++) {
-            attributeLengths[i] = numBitPerAttribute;
+            attributeLengths[i] = numBitsPerAttribute;
         }
 
         this.pairing = PairingFactory.getPairing(curveParams);

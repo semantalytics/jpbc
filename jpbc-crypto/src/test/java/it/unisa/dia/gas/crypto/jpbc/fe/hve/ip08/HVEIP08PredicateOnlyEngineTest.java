@@ -79,7 +79,8 @@ public class HVEIP08PredicateOnlyEngineTest extends TestCase {
         HVEIP08ParametersGenerator generator = new HVEIP08ParametersGenerator();
         generator.init(
                 PairingFactory.getInstance().loadCurveParameters("it/unisa/dia/gas/plaf/jpbc/crypto/a_181_603.properties"),
-                attributeLengths);
+                attributeLengths
+        );
 
         return generator.generateParameters();
     }
