@@ -52,14 +52,8 @@ public class HVEIP08PredicateOnlyEngineTest extends TestCase {
         int[][] result = new int[2][n];
         Random random = new Random();
         for (int i = 0; i < n; i++) {
-            if (i != 0 && random.nextBoolean()) {
-                // it's a star
-                result[0][i] = -1;
-                result[1][i] = random.nextInt(2);
-            } else {
-                result[0][i] = random.nextInt(2);
-                result[1][i] = 1 - result[0][i];
-            }
+            result[0][i] = random.nextInt(2);
+            result[1][i] = 1 - result[0][i];
         }
         return result;
     }

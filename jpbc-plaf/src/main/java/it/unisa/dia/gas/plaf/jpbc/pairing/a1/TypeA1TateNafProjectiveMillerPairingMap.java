@@ -103,7 +103,9 @@ public class TypeA1TateNafProjectiveMillerPairingMap extends AbstractMillerPairi
         //Instead of:
         //	element_pow_mpz(out, in, cofactor);
         //we use Lucas sequences (see "Compressed Pairings", Scott and Barreto)
+//        out = (Point) in.duplicate().pow(cofactor);
         lucasOdd(out, in, temp, cofactor);
+//        out = (Point) lucasEven(in, cofactor);
     }
 
     /**
