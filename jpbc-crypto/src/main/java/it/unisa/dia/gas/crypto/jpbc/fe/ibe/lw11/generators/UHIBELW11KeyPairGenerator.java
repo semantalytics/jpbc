@@ -26,14 +26,19 @@ public class UHIBELW11KeyPairGenerator implements AsymmetricCipherKeyPairGenerat
     }
 
     public AsymmetricCipherKeyPair generateKeyPair() {
+        CurveParams curveParameters;
+        Pairing pairing;
+        Element g;
+
         // Generate curve parameters
-        CurveParams curveParameters = generateCurveParams();
+        while (true) {
+            curveParameters = generateCurveParams();
+            pairing = PairingFactory.getPairing(curveParameters);
 
-        // Get the generators of the subgroups
-        Pairing pairing = PairingFactory.getPairing(curveParameters);
-
-        Element g = pairing.getG1().newElement();
-        g.setFromBytes(curveParameters.getBytes("gen1"));
+            g = pairing.getG1().newRandomElement();
+            if (!pairing.pairing(g, g).isOne())
+                break;
+        }
 
         // Generate required elements
         Element u = ElementUtil.randomIn(pairing, g).getImmutable();
@@ -46,8 +51,9 @@ public class UHIBELW11KeyPairGenerator implements AsymmetricCipherKeyPairGenerat
         Element omega = pairing.pairing(g, g).powZn(alpha).getImmutable();
 
         // Remove factorization from curveParams
-        curveParameters.remove("gen2");
-        curveParameters.remove("gen3");
+        curveParameters.remove("n0");
+        curveParameters.remove("n1");
+        curveParameters.remove("n2");
 
         // Return the keypair
 
@@ -60,7 +66,6 @@ public class UHIBELW11KeyPairGenerator implements AsymmetricCipherKeyPairGenerat
 
     private CurveParams generateCurveParams() {
         CurveGenerator curveGenerator = new TypeA1CurveGenerator(3, parameters.getBitLength());
-
         return (CurveParams) curveGenerator.generate();
     }
 }

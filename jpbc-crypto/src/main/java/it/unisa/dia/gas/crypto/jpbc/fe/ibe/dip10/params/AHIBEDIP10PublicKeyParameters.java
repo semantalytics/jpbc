@@ -29,7 +29,7 @@ public class AHIBEDIP10PublicKeyParameters extends AHIBEDIP10KeyParameters {
         this.Y3 = y3.getImmutable();
         this.Y4 = y4.getImmutable();
         this.t = t.getImmutable();
-        this.us = ElementUtil.cloneImmutably(us);
+        this.us = ElementUtil.cloneImmutable(us);
         this.omega = omega.getImmutable();
     }
 

@@ -1,17 +1,19 @@
 package it.unisa.dia.gas.crypto.jpbc.utils;
 
+import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.ElementPow;
 import it.unisa.dia.gas.jpbc.Pairing;
 
+import java.math.BigInteger;
 import java.util.Arrays;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class ElementUtil {
-    
-    public static Element[] cloneImmutably(Element[] source) {
+
+    public static Element[] cloneImmutable(Element[] source) {
         Element[] target = Arrays.copyOf(source, source.length);
 
         for (int i = 0; i < target.length; i++) {
@@ -34,8 +36,20 @@ public class ElementUtil {
     }
 
     public static Element randomIn(Pairing pairing, Element generator) {
-        return generator.powZn(pairing.getZr().newRandomElement());
+        return generator.duplicate().powZn(pairing.getZr().newRandomElement());
     }
+
+
+    public static Element getGenerator(Pairing pairing, Element generator, CurveParameters curveParameters, int subgroupIndex, int numPrimes) {
+        BigInteger prod = BigInteger.ONE;
+        for (int j = 0; j < numPrimes; j++) {
+            if (j != subgroupIndex)
+                prod = prod.multiply(curveParameters.getBigInteger("n" +j));
+        }
+
+        return generator.pow(prod);
+    }
+
 
     public static byte[] toBytes(Element[] array) {
         byte[] result = new byte[array[0].getLengthInBytes() * array.length];

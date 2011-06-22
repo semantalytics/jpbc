@@ -25,7 +25,7 @@ public class UHIBELW11SecretKeyGenerationParameters extends KeyGenerationParamet
 
         this.masterSecretKey = UHIBEMasterSecretKeyParameters;
         this.publicKey = UHIBEPublicKeyParameters;
-        this.ids = ElementUtil.cloneImmutably(ids);
+        this.ids = ElementUtil.cloneImmutable(ids);
     }
 
 

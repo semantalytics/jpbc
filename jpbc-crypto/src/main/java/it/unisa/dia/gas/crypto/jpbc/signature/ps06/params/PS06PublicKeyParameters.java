@@ -22,8 +22,8 @@ public class PS06PublicKeyParameters extends PS06KeyParameters {
         this.g2 = g2.getImmutable();
         this.uPrime = uPrime.getImmutable();
         this.mPrime = mPrime.getImmutable();
-        this.Us = ElementUtil.cloneImmutably(Us);
-        this.Ms = ElementUtil.cloneImmutably(Ms);
+        this.Us = ElementUtil.cloneImmutable(Us);
+        this.Ms = ElementUtil.cloneImmutable(Ms);
     }
 
     public Element getG1() {

@@ -18,12 +18,12 @@ public class UHIBELW11SecretKeyParameters extends UHIBELW11KeyParameters {
                                         Element[] ids) {
         super(true, curveParameters);
 
-        this.K0s = ElementUtil.cloneImmutably(K0s);
-        this.K1s = ElementUtil.cloneImmutably(K1s);
-        this.K2s = ElementUtil.cloneImmutably(K2s);
-        this.K3s = ElementUtil.cloneImmutably(K3s);
+        this.K0s = ElementUtil.cloneImmutable(K0s);
+        this.K1s = ElementUtil.cloneImmutable(K1s);
+        this.K2s = ElementUtil.cloneImmutable(K2s);
+        this.K3s = ElementUtil.cloneImmutable(K3s);
 
-        this.ids = ElementUtil.cloneImmutably(ids);
+        this.ids = ElementUtil.cloneImmutable(ids);
     }
 
 

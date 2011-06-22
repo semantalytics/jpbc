@@ -13,7 +13,7 @@ public class IPLOSTW10MasterSecretKeyParameters extends IPLOSTW10KeyParameters {
     public IPLOSTW10MasterSecretKeyParameters(IPLOSTW10Parameters parameters, Element[] Bstar) {
         super(true, parameters);
 
-        this.Bstar = ElementUtil.cloneImmutably(Bstar);
+        this.Bstar = ElementUtil.cloneImmutable(Bstar);
     }
 
     public Element getBStarAt(int index) {

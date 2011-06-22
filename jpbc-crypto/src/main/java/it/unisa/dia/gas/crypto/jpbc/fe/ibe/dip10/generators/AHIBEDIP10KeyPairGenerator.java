@@ -3,6 +3,7 @@ package it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.generators;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params.AHIBEDIP10KeyPairGenerationParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params.AHIBEDIP10MasterSecretKeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params.AHIBEDIP10PublicKeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtil;
 import it.unisa.dia.gas.jpbc.CurveGenerator;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
@@ -26,41 +27,45 @@ public class AHIBEDIP10KeyPairGenerator implements AsymmetricCipherKeyPairGenera
 
     public AsymmetricCipherKeyPair generateKeyPair() {
         // Generate curve parameters
-        CurveParams curveParameters = generateCurveParameters();
+        CurveParams curveParameters;
+        Pairing pairing;
+        Element gen1, gen3, gen4;
 
-        // Get the generators of the subgroups
+        while (true) {
+            curveParameters = generateCurveParameters();
+            pairing = PairingFactory.getPairing(curveParameters);
 
-        Pairing pairing = PairingFactory.getPairing(curveParameters);
+            Element generator = pairing.getG1().newRandomElement().getImmutable();
+            gen1 = ElementUtil.getGenerator(pairing, generator, curveParameters, 0, 4).getImmutable();
 
-        Element gen1 = pairing.getG1().newElement();
-        gen1.setFromBytes(curveParameters.getBytes("gen1"));
-
-        Element gen3 = pairing.getG1().newElement();
-        gen3.setFromBytes(curveParameters.getBytes("gen3"));
-
-        Element gen4 = pairing.getG1().newElement();
-        gen4.setFromBytes(curveParameters.getBytes("gen4"));
-
+            if (!pairing.pairing(gen1, gen1).isOne()) {
+                gen3 = ElementUtil.getGenerator(pairing, generator, curveParameters, 2, 4).getImmutable();
+                gen4 = ElementUtil.getGenerator(pairing, generator, curveParameters, 3, 4).getImmutable();
+                break;
+            }
+        }
 
         // Construct Public Key and Master Secret Key
-
-        Element Y1 = gen1.powZn(pairing.getZr().newRandomElement()).getImmutable();
-        Element X1 = gen1.powZn(pairing.getZr().newRandomElement()).getImmutable();
+        Element Y1 = ElementUtil.randomIn(pairing, gen1).getImmutable();
+        Element X1 = ElementUtil.randomIn(pairing, gen1).getImmutable();
 
         Element[] uElements = new Element[parameters.getLength()];
         for (int i = 0; i < uElements.length; i++) {
-            uElements[i] = gen1.powZn(pairing.getZr().newRandomElement()).getImmutable();
+            uElements[i] = ElementUtil.randomIn(pairing, gen1).getImmutable();
         }
 
-        Element Y3 = gen3.powZn(pairing.getZr().newRandomElement()).getImmutable();
+        Element Y3 = ElementUtil.randomIn(pairing, gen3).getImmutable();
 
-        Element X4 = gen4.powZn(pairing.getZr().newRandomElement()).getImmutable();
-        Element Y4 = gen4.powZn(pairing.getZr().newRandomElement()).getImmutable();
+        Element X4 = ElementUtil.randomIn(pairing, gen4).getImmutable();
+        Element Y4 = ElementUtil.randomIn(pairing, gen4).getImmutable();
 
         Element alpha = pairing.getZr().newRandomElement().getImmutable();
 
         // Remove factorization from curveParameters
-        curveParameters.remove("gen2");
+        curveParameters.remove("n0");
+        curveParameters.remove("n1");
+        curveParameters.remove("n2");
+        curveParameters.remove("n3");
 
         // Return the keypair
 
@@ -70,7 +75,7 @@ public class AHIBEDIP10KeyPairGenerator implements AsymmetricCipherKeyPairGenera
                         Y1, Y3, Y4,
                         X1.mul(X4),
                         uElements,
-                        pairing.pairing(Y1,Y1).powZn(alpha).getImmutable()
+                        pairing.pairing(Y1, Y1).powZn(alpha).getImmutable()
                 ),
                 new AHIBEDIP10MasterSecretKeyParameters(
                         curveParameters,

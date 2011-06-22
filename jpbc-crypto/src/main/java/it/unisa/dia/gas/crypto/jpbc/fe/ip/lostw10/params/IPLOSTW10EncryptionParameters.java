@@ -19,7 +19,7 @@ public class IPLOSTW10EncryptionParameters extends IPLOSTW10KeyParameters {
         super(false, publicKey.getParameters());
 
         this.publicKey = publicKey;
-        this.x = ElementUtil.cloneImmutably(x);
+        this.x = ElementUtil.cloneImmutable(x);
     }
 
 

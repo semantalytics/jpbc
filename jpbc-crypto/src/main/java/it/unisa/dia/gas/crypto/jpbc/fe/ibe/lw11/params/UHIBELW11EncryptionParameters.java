@@ -18,7 +18,7 @@ public class UHIBELW11EncryptionParameters implements CipherParameters {
     public UHIBELW11EncryptionParameters(UHIBELW11PublicKeyParameters publicKey,
                                          Element[] ids) {
         this.publicKey = publicKey;
-        this.ids = ElementUtil.cloneImmutably(ids);
+        this.ids = ElementUtil.cloneImmutable(ids);
     }
 
 

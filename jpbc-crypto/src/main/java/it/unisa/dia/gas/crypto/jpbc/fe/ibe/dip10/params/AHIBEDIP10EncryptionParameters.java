@@ -19,7 +19,7 @@ public class AHIBEDIP10EncryptionParameters extends AHIBEDIP10KeyParameters {
         super(true, publicKey.getCurveParameters());
 
         this.publicKey = publicKey;
-        this.ids = ElementUtil.cloneImmutably(ids);
+        this.ids = ElementUtil.cloneImmutable(ids);
     }
 
 

@@ -18,8 +18,7 @@ import org.bouncycastle.crypto.InvalidCipherTextException;
  */
 public class AHIBEDIP10PredicateOnlyEngineTest extends TestCase {
 
-
-    public void testAHIBE() {
+    public void testAHIBEDIP10PredicateOnlyEngine() {
         // Setup
         AsymmetricCipherKeyPair keyPair = setup(32, 10);
 
@@ -71,7 +70,8 @@ public class AHIBEDIP10PredicateOnlyEngineTest extends TestCase {
 
         Element[] elements = new Element[ids.length];
         for (int i = 0; i < elements.length; i++) {
-            elements[i] = pairing.getZr().newRandomElement();
+            byte[] id = ids[i].getBytes();
+            elements[i] = pairing.getZr().newElement().setFromHash(id, 0, id.length);
         }
         return elements;
     }

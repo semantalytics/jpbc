@@ -24,7 +24,7 @@ public class AHIBEDIP10SecretKeyGenerationParameters extends KeyGenerationParame
         super(null, 12);
         this.masterSecretKey = masterSecretKey;
         this.publicKey = publicKey;
-        this.ids = ElementUtil.cloneImmutably(ids);
+        this.ids = ElementUtil.cloneImmutable(ids);
     }
 
 

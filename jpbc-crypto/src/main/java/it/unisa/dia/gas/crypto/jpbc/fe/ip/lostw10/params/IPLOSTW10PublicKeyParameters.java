@@ -14,7 +14,7 @@ public class IPLOSTW10PublicKeyParameters extends IPLOSTW10KeyParameters {
     public IPLOSTW10PublicKeyParameters(IPLOSTW10Parameters parameters, Element[] B, Element sigma) {
         super(false, parameters);
 
-        this.B = ElementUtil.cloneImmutably(B);
+        this.B = ElementUtil.cloneImmutable(B);
         this.sigma = sigma.getImmutable();
     }
 

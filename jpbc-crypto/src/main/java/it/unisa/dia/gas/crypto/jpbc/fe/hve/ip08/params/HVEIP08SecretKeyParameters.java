@@ -47,8 +47,8 @@ public class HVEIP08SecretKeyParameters extends HVEIP08KeyParameters {
                 this.pattern[i] = 0;
         }
 
-        this.Y = ElementUtil.cloneImmutably(Y);
-        this.L = ElementUtil.cloneImmutably(L);
+        this.Y = ElementUtil.cloneImmutable(Y);
+        this.L = ElementUtil.cloneImmutable(L);
 
         this.allStar = false;
         this.K = null;
