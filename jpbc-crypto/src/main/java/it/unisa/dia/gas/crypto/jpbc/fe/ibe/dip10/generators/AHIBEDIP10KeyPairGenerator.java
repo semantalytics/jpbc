@@ -38,7 +38,7 @@ public class AHIBEDIP10KeyPairGenerator implements AsymmetricCipherKeyPairGenera
             Element generator = pairing.getG1().newRandomElement().getImmutable();
             gen1 = ElementUtil.getGenerator(pairing, generator, curveParameters, 0, 4).getImmutable();
 
-            if (!pairing.pairing(gen1, gen1).isOne()) {
+            if (!pairing.pairing(generator, generator).isOne()) {
                 gen3 = ElementUtil.getGenerator(pairing, generator, curveParameters, 2, 4).getImmutable();
                 gen4 = ElementUtil.getGenerator(pairing, generator, curveParameters, 3, 4).getImmutable();
                 break;
