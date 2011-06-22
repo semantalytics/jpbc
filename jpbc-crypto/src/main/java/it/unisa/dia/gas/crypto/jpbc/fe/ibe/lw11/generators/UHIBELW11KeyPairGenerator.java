@@ -35,7 +35,8 @@ public class UHIBELW11KeyPairGenerator implements AsymmetricCipherKeyPairGenerat
             curveParameters = generateCurveParams();
             pairing = PairingFactory.getPairing(curveParameters);
 
-            g = pairing.getG1().newRandomElement();
+            Element generator = pairing.getG1().newRandomElement();
+            g = ElementUtil.getGenerator(pairing, generator, curveParameters, 0, 3).getImmutable();
             if (!pairing.pairing(g, g).isOne())
                 break;
         }
