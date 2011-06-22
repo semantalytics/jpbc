@@ -9,8 +9,6 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.map.AbstractMillerPairingMap;
 import it.unisa.dia.gas.plaf.jpbc.pairing.map.AbstractMillerPairingPreProcessing;
 import it.unisa.dia.gas.plaf.jpbc.util.BigIntegerUtils;
 
-import java.math.BigInteger;
-
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
@@ -63,13 +61,13 @@ public class TypeA1TateNafProjectiveMillerPairingMap extends AbstractMillerPairi
         }
 
         Point out = pairing.Fq2.newElement();
-        tatePow(out, f, pairing.phikOnr);
+        tatePow(out, f);
         return new GTFiniteElement(this, (GTFiniteField) pairing.getGT(), out);
     }
 
     public void finalPow(Element element) {
         Element t0 = element.getField().newElement();
-        tatePow((Point) t0, (Point) element, pairing.phikOnr);
+        tatePow((Point) t0, (Point) element);
         element.set(t0);
     }
 
@@ -86,33 +84,11 @@ public class TypeA1TateNafProjectiveMillerPairingMap extends AbstractMillerPairi
         return new TypeATateNafProjectiveMillerPairingPreProcessing(source, offset);
     }
 
-    final void tatePow(Point out, Point in, BigInteger cofactor) {
-//        Element in1 = in.getY();
-        //simpler but slower:
-        //element_pow_mpz(out, f, tateExp);
-
-        //1. Exponentiate by q-1
-        //which is equivalent to the following
-
-//        Point temp = (Point) in.duplicate().invert();
-//        in1.negate();
-//        in.mul(temp);
-
-        //2. Exponentiate by (q+1)/r
-
-        //Instead of:
-        //	element_pow_mpz(out, in, cofactor);
-        //we use Lucas sequences (see "Compressed Pairings", Scott and Barreto)
-//        out = (Point) in.duplicate().pow(cofactor);
-//        lucasOdd(out, in, temp, cofactor);
-//        out = (Point) lucasEven(in, cofactor);
-        // f is in
-
+    final void tatePow(Point out, Point in) {
         out.set(in).invert();
         in.getY().negate();
         in.mul(out);
         out.set(in).pow(pairing.phikOnr);
-
     }
 
     /**
@@ -281,7 +257,7 @@ public class TypeA1TateNafProjectiveMillerPairingMap extends AbstractMillerPairi
             }
 
             Point out = pairing.Fq2.newElement();
-            tatePow(out, f, pairing.phikOnr);
+            tatePow(out, f);
             return new GTFiniteElement(TypeA1TateNafProjectiveMillerPairingMap.this, (GTFiniteField) pairing.getGT(), out);
         }
     }
