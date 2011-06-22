@@ -68,8 +68,7 @@ public class UHIBELW11PredicateOnlyEngine extends PredicateOnlyPairingAsymmetric
                 numerator.mul(pairing.pairing(C0, sk.getK0At(i)))
                         .mul(pairing.pairing(C2, sk.getK2At(i)));
 
-                denominator.mul(pairing.pairing(C1, sk.getK1At(i)))
-                        .mul(pairing.pairing(C3, sk.getK3At(i)));
+                denominator.mul(pairing.pairing(C1, sk.getK1At(i))).mul(pairing.pairing(C3, sk.getK3At(i)));
             }
             Element M = C.div(numerator.div(denominator));
 

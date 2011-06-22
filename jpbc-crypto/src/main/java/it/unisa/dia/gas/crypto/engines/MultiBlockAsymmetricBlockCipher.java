@@ -78,7 +78,6 @@ public class MultiBlockAsymmetricBlockCipher implements AsymmetricBlockCipher {
 
             // Produce output for the current piece...
             byte[] outputBlock = cipher.processBlock(buffer, 0, bufLength);
-            System.out.printf("in %d, out %d\n", bufLength, outputBlock.length);
             try {
                 outputStream.write(outputBlock);
             } catch (IOException e) {

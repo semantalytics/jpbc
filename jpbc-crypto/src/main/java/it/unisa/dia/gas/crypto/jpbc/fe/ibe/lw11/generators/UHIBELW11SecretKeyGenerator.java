@@ -28,7 +28,7 @@ public class UHIBELW11SecretKeyGenerator implements CipherParametersGenerator {
             UHIBELW11MasterSecretKeyParameters msk = parameters.getMasterSecretKey();
 
             Pairing pairing = PairingFactory.getPairing(pk.getCurveParameters());
-            Field zr = pairing.getZr();
+            Field Zr = pairing.getZr();
             int length = parameters.getLength();
 
             Element[] K0s = new Element[length];
@@ -36,12 +36,12 @@ public class UHIBELW11SecretKeyGenerator implements CipherParametersGenerator {
             Element[] K2s = new Element[length];
             Element[] K3s = new Element[length];
 
-            Element lambdaSum = zr.newZeroElement();
+            Element lambdaSum = Zr.newZeroElement();
             int lastIndex = length - 1;
             for (int i = 0; i < lastIndex; i++) {
-                Element lambda = zr.newRandomElement();
-                Element y = zr.newRandomElement();
-                Element r = zr.newRandomElement();
+                Element lambda = Zr.newRandomElement();
+                Element y = Zr.newRandomElement();
+                Element r = Zr.newRandomElement();
 
                 lambdaSum.add(lambda);
 
@@ -51,16 +51,19 @@ public class UHIBELW11SecretKeyGenerator implements CipherParametersGenerator {
                 K3s[i] = pk.getG().powZn(r);
             }
 
-            Element y = zr.newRandomElement();
-            Element r = zr.newRandomElement();
+            Element y = Zr.newRandomElement();
+            Element r = Zr.newRandomElement();
+
             K0s[lastIndex] = pk.getG().powZn(msk.getAlpha().sub(lambdaSum)).mul(pk.getW().powZn(y));
             K1s[lastIndex] = pk.getG().powZn(y);
             K2s[lastIndex] = pk.getV().powZn(y).mul(pk.getU().powZn(parameters.getIdAt(lastIndex)).mul(pk.getH()).powZn(r));
             K3s[lastIndex] = pk.getG().powZn(r);
 
-            return new UHIBELW11SecretKeyParameters(pk.getCurveParameters(),
-                                                K0s, K1s, K2s, K3s,
-                                                parameters.getIds());
+            return new UHIBELW11SecretKeyParameters(
+                    pk.getCurveParameters(),
+                    K0s, K1s, K2s, K3s,
+                    parameters.getIds()
+            );
         } else if (params instanceof UHIBELW11DelegateGenerationParameters) {
             UHIBELW11DelegateGenerationParameters parameters = (UHIBELW11DelegateGenerationParameters) params;
 
@@ -103,8 +106,8 @@ public class UHIBELW11SecretKeyGenerator implements CipherParametersGenerator {
             ids[sk.getIds().length] = parameters.getId();
 
             return new UHIBELW11SecretKeyParameters(pk.getCurveParameters(),
-                                                K0s, K1s, K2s, K3s,
-                                                ids);
+                    K0s, K1s, K2s, K3s,
+                    ids);
         }
 
         throw new IllegalStateException("UHIBELW11SecretKeyGenerator not initialized correctly.");
