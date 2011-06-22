@@ -8,21 +8,27 @@ import java.util.Arrays;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class KEMCipherDecryptionParameters implements CipherParameters {
-    private CipherParameters cipherParameters;
+    private int cipherKeyStrength;
+    private CipherParameters kemCipherParameters;
     private byte[] encapsulation;
 
 
-    public KEMCipherDecryptionParameters(CipherParameters cipherParameters, byte[] encapsulation) {
-        this.cipherParameters = cipherParameters;
+    public KEMCipherDecryptionParameters(CipherParameters kemCipherParameters, byte[] encapsulation, int cipherKeyStrength) {
+        this.kemCipherParameters = kemCipherParameters;
         this.encapsulation = encapsulation;
+        this.cipherKeyStrength = cipherKeyStrength;
     }
 
 
-    public CipherParameters getCipherParameters() {
-        return cipherParameters;
+    public CipherParameters getKemCipherParameters() {
+        return kemCipherParameters;
     }
 
     public byte[] getEncapsulation() {
         return Arrays.copyOf(encapsulation, encapsulation.length);
+    }
+
+    public int getCipherKeyStrength() {
+        return cipherKeyStrength;
     }
 }

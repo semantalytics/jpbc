@@ -21,6 +21,7 @@ public class MultiBlockAsymmetricBlockCipher implements AsymmetricBlockCipher {
 
     protected boolean forEncryption;
 
+
     public MultiBlockAsymmetricBlockCipher(AsymmetricBlockCipher cipher) {
         this(cipher, null);
     }

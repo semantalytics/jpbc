@@ -2,6 +2,7 @@ package it.unisa.dia.gas.crypto.engines.kem;
 
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.CryptoException;
+import org.bouncycastle.crypto.InvalidCipherTextException;
 
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
@@ -23,33 +24,12 @@ public class KEMCipher {
         this.kem = kem;
     }
 
+
     public byte[] init(boolean forEncryption, CipherParameters cipherParameters) throws GeneralSecurityException, CryptoException {
-        int strength = (128 + 7) / 8;
+        byte[][] kemOutput = initKEM(forEncryption, cipherParameters);
+        initCipher(forEncryption, cipherParameters, kemOutput[0]);
 
-        byte[] key, ct;
-        if (forEncryption) {
-            // encaps key
-            kem.init(forEncryption, cipherParameters);
-            byte[] ciphertext = kem.processBlock(new byte[0], 0, 0);
-
-            key = Arrays.copyOfRange(ciphertext, 0, strength);
-            ct = Arrays.copyOfRange(ciphertext, kem.getKeyBlockSize(), ciphertext.length);
-        } else {
-            // decaps key
-            KEMCipherDecryptionParameters parameters = (KEMCipherDecryptionParameters) cipherParameters;
-            byte[] encapsulation = parameters.getEncapsulation();
-
-            kem.init(forEncryption, parameters.getCipherParameters());
-            key = Arrays.copyOfRange(kem.processBlock(encapsulation, 0, encapsulation.length), 0, strength);
-            ct = null;
-        }
-
-        cipher.init(
-                forEncryption ? Cipher.ENCRYPT_MODE : Cipher.DECRYPT_MODE,
-                new SecretKeySpec(key, "AES")
-        );
-
-        return ct;
+        return kemOutput[1];
     }
 
 
@@ -166,4 +146,49 @@ public class KEMCipher {
     public void init(int i, Certificate certificate, SecureRandom random) throws InvalidKeyException {
         cipher.init(i, certificate, random);
     }
+
+
+    protected byte[][] initKEM(boolean forEncryption, CipherParameters cipherParameters) throws InvalidCipherTextException{
+        byte[] key, encapsulation;
+
+        if (forEncryption) {
+            KEMCipherEncryptionParameters parameters = (KEMCipherEncryptionParameters) cipherParameters;
+
+            // encapsulate
+            kem.init(forEncryption, parameters.getKemCipherParameters());
+            byte[] output = kem.processBlock(new byte[0], 0, 0);
+
+            int strength = (parameters.getCipherKeyStrength() + 7) / 8;
+            if (kem.getKeyBlockSize() < strength)
+                throw new InvalidCipherTextException("Cipher strength too high for the passed KEM.");
+
+            key = Arrays.copyOfRange(output, 0, strength);
+            encapsulation = Arrays.copyOfRange(output, kem.getKeyBlockSize(), output.length);
+        } else {
+            // get the encapsulation
+            KEMCipherDecryptionParameters parameters = (KEMCipherDecryptionParameters) cipherParameters;
+            encapsulation = parameters.getEncapsulation();
+
+            // extract the key
+            kem.init(forEncryption, parameters.getKemCipherParameters());
+
+            int strength = (parameters.getCipherKeyStrength() + 7) / 8;
+            if (kem.getKeyBlockSize() < strength)
+                throw new InvalidCipherTextException("Cipher strength too high for the passed KEM.");
+
+            key = Arrays.copyOfRange(kem.processBlock(encapsulation, 0, encapsulation.length), 0, strength);
+            encapsulation = null;
+        }
+
+        return new byte[][]{key, encapsulation};
+    }
+
+
+    protected void initCipher(boolean forEncryption, CipherParameters cipherParameters, byte[] key) throws InvalidKeyException {
+        cipher.init(
+                forEncryption ? Cipher.ENCRYPT_MODE : Cipher.DECRYPT_MODE,
+                new SecretKeySpec(key, cipher.getAlgorithm())
+        );
+    }
+
 }
