@@ -22,13 +22,12 @@
             <a name="initializing"/>
             <subsection name="Initializing Elements">
                 <p>
-                    You can obtain an instance of an Element starting from an algebraic structure, such as a particular
-                    finite field or elliptic curve group. Go
-                    <a href="./field.html">here</a>
+                    You can obtain an instance of the Element interface starting from an algebraic structure,
+                    such as a particular finite field or elliptic curve group. Go
+                    <a href="./field.html#initializing">here</a>
                     to know how.
                 </p>
             </subsection>
-
 
             <a name="assigning"/>
             <subsection name="Assigning Elements">
