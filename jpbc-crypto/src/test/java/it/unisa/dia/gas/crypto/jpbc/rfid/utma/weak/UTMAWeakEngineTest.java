@@ -1,13 +1,13 @@
 package it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak;
 
 import it.unisa.dia.gas.crypto.engines.kem.KeyEncapsulationMechanism;
-import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.engines.UTMAWeakEngine;
-import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.generators.UTMAWeakKeyPairGenerator;
-import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.generators.UTMAWeakParametersGenerator;
-import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.params.UTMAWeakKeyGenerationParameters;
-import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.params.UTMAWeakParameters;
-import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.params.UTMAWeakPublicParameters;
-import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.params.UTMAWeakRandomizeParameters;
+import it.unisa.dia.gas.crypto.jpbc.encryption.utma.bdp10.engines.UTMAWeakEngine;
+import it.unisa.dia.gas.crypto.jpbc.encryption.utma.bdp10.generators.UTMAWeakKeyPairGenerator;
+import it.unisa.dia.gas.crypto.jpbc.encryption.utma.bdp10.generators.UTMAWeakParametersGenerator;
+import it.unisa.dia.gas.crypto.jpbc.encryption.utma.bdp10.params.UTMAWeakKeyGenerationParameters;
+import it.unisa.dia.gas.crypto.jpbc.encryption.utma.bdp10.params.UTMAWeakParameters;
+import it.unisa.dia.gas.crypto.jpbc.encryption.utma.bdp10.params.UTMAWeakPublicParameters;
+import it.unisa.dia.gas.crypto.jpbc.encryption.utma.bdp10.params.UTMAWeakRandomizeParameters;
 import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import junit.framework.TestCase;

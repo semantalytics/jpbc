@@ -1,10 +1,10 @@
 package it.unisa.dia.gas.crypto.jpbc.rfid.utma.strong;
 
 import it.unisa.dia.gas.crypto.engines.kem.KeyEncapsulationMechanism;
-import it.unisa.dia.gas.crypto.jpbc.rfid.utma.strong.engines.UTMAStrongEngine;
-import it.unisa.dia.gas.crypto.jpbc.rfid.utma.strong.generators.UTMAStrongKeyPairGenerator;
-import it.unisa.dia.gas.crypto.jpbc.rfid.utma.strong.generators.UTMAStrongParametersGenerator;
-import it.unisa.dia.gas.crypto.jpbc.rfid.utma.strong.params.*;
+import it.unisa.dia.gas.crypto.jpbc.encryption.utma.bdp10.engines.UTMAStrongEngine;
+import it.unisa.dia.gas.crypto.jpbc.encryption.utma.bdp10.generators.UTMAStrongKeyPairGenerator;
+import it.unisa.dia.gas.crypto.jpbc.encryption.utma.bdp10.generators.UTMAStrongParametersGenerator;
+import it.unisa.dia.gas.crypto.jpbc.encryption.utma.bdp10.params.*;
 import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import junit.framework.TestCase;
