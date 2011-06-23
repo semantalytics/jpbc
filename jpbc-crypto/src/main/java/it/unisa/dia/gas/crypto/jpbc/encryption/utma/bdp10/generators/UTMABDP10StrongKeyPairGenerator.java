@@ -11,21 +11,21 @@ import org.bouncycastle.crypto.KeyGenerationParameters;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class UTMAStrongKeyPairGenerator implements AsymmetricCipherKeyPairGenerator {
-    private UTMAStrongKeyGenerationParameters param;
+public class UTMABDP10StrongKeyPairGenerator implements AsymmetricCipherKeyPairGenerator {
+    private UTMABDP10StrongKeyGenerationParameters param;
 
     private Pairing pairing;
 
     public void init(KeyGenerationParameters param) {
-        this.param = (UTMAStrongKeyGenerationParameters) param;
+        this.param = (UTMABDP10StrongKeyGenerationParameters) param;
         pairing = PairingFactory.getPairing(this.param.getParameters().getPublicParameters().getCurveParams());
     }
 
     public AsymmetricCipherKeyPair generateKeyPair() {
-        UTMAStrongParameters parameters = param.getParameters();
+        UTMABDP10StrongParameters parameters = param.getParameters();
 
-        UTMAStrongPublicParameters publicParameters = parameters.getPublicParameters();
-        UTMAStrongMasterSecretKeyParameters mskParameters = parameters.getMasterSecretKeyParameters();
+        UTMABDP10StrongPublicParameters publicParameters = parameters.getPublicParameters();
+        UTMABDP10StrongMasterSecretKeyParameters mskParameters = parameters.getMasterSecretKeyParameters();
 
         Element r = pairing.getZr().newElement().setToRandom();
         Element pk = publicParameters.getG1().powZn(r).mul(publicParameters.getG0());
@@ -61,9 +61,9 @@ public class UTMAStrongKeyPairGenerator implements AsymmetricCipherKeyPairGenera
         );
 
         return new AsymmetricCipherKeyPair(
-                new UTMAStrongPublicKeyParameters(publicParameters,
+                new UTMABDP10StrongPublicKeyParameters(publicParameters,
                                                   pk.getImmutable()),
-                new UTMAStrongPrivateKeyParameters(publicParameters,
+                new UTMABDP10StrongPrivateKeyParameters(publicParameters,
                                                    D0.getImmutable(), D1.getImmutable(),
                                                    D2.getImmutable(), D3.getImmutable(),
                                                    parameters.getRPublicParameters().getRPrivateKey())

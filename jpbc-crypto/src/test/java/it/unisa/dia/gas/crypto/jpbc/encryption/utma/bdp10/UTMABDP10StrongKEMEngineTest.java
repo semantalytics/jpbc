@@ -1,9 +1,9 @@
 package it.unisa.dia.gas.crypto.jpbc.encryption.utma.bdp10;
 
 import it.unisa.dia.gas.crypto.engines.kem.KeyEncapsulationMechanism;
-import it.unisa.dia.gas.crypto.jpbc.encryption.utma.bdp10.engines.UTMAStrongEngine;
-import it.unisa.dia.gas.crypto.jpbc.encryption.utma.bdp10.generators.UTMAStrongKeyPairGenerator;
-import it.unisa.dia.gas.crypto.jpbc.encryption.utma.bdp10.generators.UTMAStrongParametersGenerator;
+import it.unisa.dia.gas.crypto.jpbc.encryption.utma.bdp10.engines.UTMABDP10StrongKEMEngine;
+import it.unisa.dia.gas.crypto.jpbc.encryption.utma.bdp10.generators.UTMABDP10StrongKeyPairGenerator;
+import it.unisa.dia.gas.crypto.jpbc.encryption.utma.bdp10.generators.UTMABDP10StrongParametersGenerator;
 import it.unisa.dia.gas.crypto.jpbc.encryption.utma.bdp10.params.*;
 import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
@@ -20,10 +20,10 @@ import java.util.Arrays;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class UTMAStrongEngineTest extends TestCase {
+public class UTMABDP10StrongKEMEngineTest extends TestCase {
 
-    public void testUTMAStrongEngine() {
-        UTMAStrongParameters parameters = createParameters(1024);
+    public void testUTMABDP10StrongKEMEngine() {
+        UTMABDP10StrongParameters parameters = createParameters(1024);
         AsymmetricCipherKeyPair keyPair = setup(parameters);
 
         byte[][] ct = encaps(keyPair.getPublic());
@@ -34,26 +34,26 @@ public class UTMAStrongEngineTest extends TestCase {
     }
 
 
-    protected UTMAStrongParameters createParameters(int elgamalLength) {
+    protected UTMABDP10StrongParameters createParameters(int elgamalLength) {
         ElGamalParametersGenerator elGamalParametersGenerator = new ElGamalParametersGenerator();
         elGamalParametersGenerator.init(elgamalLength, 12, new SecureRandom());
         ElGamalParameters elGamalParameters = elGamalParametersGenerator.generateParameters();
 
-        UTMAStrongParametersGenerator generator = new UTMAStrongParametersGenerator();
+        UTMABDP10StrongParametersGenerator generator = new UTMABDP10StrongParametersGenerator();
         generator.init(getCurveParameters(), elGamalParameters);
         return generator.generateParameters();
     }
 
-    protected AsymmetricCipherKeyPair setup(UTMAStrongParameters parameters) {
-        UTMAStrongKeyPairGenerator setup = new UTMAStrongKeyPairGenerator();
-        setup.init(new UTMAStrongKeyGenerationParameters(new SecureRandom(), parameters));
+    protected AsymmetricCipherKeyPair setup(UTMABDP10StrongParameters parameters) {
+        UTMABDP10StrongKeyPairGenerator setup = new UTMABDP10StrongKeyPairGenerator();
+        setup.init(new UTMABDP10StrongKeyGenerationParameters(new SecureRandom(), parameters));
 
         return setup.generateKeyPair();
     }
 
     protected byte[][] encaps(CipherParameters publicKey) {
         try {
-            KeyEncapsulationMechanism kem = new UTMAStrongEngine();
+            KeyEncapsulationMechanism kem = new UTMABDP10StrongKEMEngine();
             kem.init(true, publicKey);
 
             byte[] ciphertext = kem.processBlock(new byte[0], 0, 0);
@@ -74,7 +74,7 @@ public class UTMAStrongEngineTest extends TestCase {
 
     protected byte[] decaps(CipherParameters privateKey, byte[] ciphertext) {
         try {
-            KeyEncapsulationMechanism engine = new UTMAStrongEngine();
+            KeyEncapsulationMechanism engine = new UTMABDP10StrongKEMEngine();
             engine.init(false, privateKey);
 
             return engine.processBlock(ciphertext, 0, ciphertext.length);
@@ -85,12 +85,12 @@ public class UTMAStrongEngineTest extends TestCase {
         }
     }
 
-    protected byte[] randomize(UTMAStrongPublicParameters publicParameters,
-                               UTMAStrongRPublicParameters rPublicParameters,
+    protected byte[] randomize(UTMABDP10StrongPublicParameters publicParameters,
+                               UTMABDP10StrongRPublicParameters rPublicParameters,
                                byte[] ciphertext) {
         try {
-            KeyEncapsulationMechanism engine = new UTMAStrongEngine();
-            engine.init(true, new UTMAStrongRandomizeParameters(publicParameters, rPublicParameters));
+            KeyEncapsulationMechanism engine = new UTMABDP10StrongKEMEngine();
+            engine.init(true, new UTMABDP10StrongRandomizeParameters(publicParameters, rPublicParameters));
 
             return engine.processBlock(ciphertext, 0, ciphertext.length);
         } catch (InvalidCipherTextException e) {

@@ -7,18 +7,17 @@ import java.security.SecureRandom;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class UTMAStrongKeyGenerationParameters extends KeyGenerationParameters {
+public class UTMABDP10WeakKeyGenerationParameters extends KeyGenerationParameters {
 
-    private UTMAStrongParameters params;
-    
+    private UTMABDP10WeakParameters params;
 
-    public UTMAStrongKeyGenerationParameters(SecureRandom random, UTMAStrongParameters params) {
+    public UTMABDP10WeakKeyGenerationParameters(SecureRandom random, UTMABDP10WeakParameters params) {
         super(random, params.getPublicParameters().getG().getField().getLengthInBytes());
 
         this.params = params;
     }
 
-    public UTMAStrongParameters getParameters() {
+    public UTMABDP10WeakParameters getParameters() {
         return params;
     }
 

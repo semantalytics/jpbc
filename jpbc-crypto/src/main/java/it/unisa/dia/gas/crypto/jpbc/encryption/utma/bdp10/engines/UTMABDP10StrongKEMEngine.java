@@ -3,7 +3,11 @@ package it.unisa.dia.gas.crypto.jpbc.encryption.utma.bdp10.engines;
 import it.unisa.dia.gas.crypto.engines.kem.PairingKeyEncapsulationMechanism;
 import it.unisa.dia.gas.crypto.jpbc.encryption.utma.bdp10.params.*;
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
+import org.bouncycastle.crypto.AsymmetricBlockCipher;
+import org.bouncycastle.crypto.InvalidCipherTextException;
+import org.bouncycastle.crypto.engines.ElGamalEngine;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -11,30 +15,50 @@ import java.io.IOException;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class UTMAWeakEngine extends PairingKeyEncapsulationMechanism {
+public class UTMABDP10StrongKEMEngine extends PairingKeyEncapsulationMechanism {
+
+    protected AsymmetricBlockCipher ssEngine;
     protected boolean forRandomization;
+    protected int firstPartBytes;
+
+
+    public UTMABDP10StrongKEMEngine(AsymmetricBlockCipher ssEngine) {
+        this.ssEngine = ssEngine;
+    }
+
+    public UTMABDP10StrongKEMEngine() {
+        this(new ElGamalEngine());
+    }
+
 
     public void initialize() {
         if (forEncryption) {
-            if (!(key instanceof UTMAWeakPublicKeyParameters) && !(key instanceof UTMAWeakRandomizeParameters))
-                throw new IllegalArgumentException("UTMAWeakPublicKeyParameters are required for encryption/randomization.");
-            forRandomization = key instanceof UTMAWeakRandomizeParameters;
+            if (!(key instanceof UTMABDP10StrongPublicKeyParameters) && !(key instanceof UTMABDP10StrongRandomizeParameters))
+                throw new IllegalArgumentException("UTMABDP10StrongPublicKeyParameters are required for encryption/randomization.");
+            forRandomization = key instanceof UTMABDP10StrongRandomizeParameters;
+
+            // Init the engine also
+            ssEngine.init(forEncryption, ((UTMABDP10StrongKeyParameters) key).getParameters().getRPublicKey());
         } else {
-            if (!(key instanceof UTMAWeakPrivateKeyParameters))
-                throw new IllegalArgumentException("UTMAWeakPrivateKeyParameters are required for decryption.");
+            if (!(key instanceof UTMABDP10StrongPrivateKeyParameters)) {
+                throw new IllegalArgumentException("UTMABDP10StrongPrivateKeyParameters are required for decryption.");
+            }
+
+            // Init the engine also
+            ssEngine.init(forEncryption, ((UTMABDP10StrongPrivateKeyParameters) key).getRPrivateKey());
         }
 
-        UTMAWeakKeyParameters keyParameters = (UTMAWeakKeyParameters) key;
+        UTMABDP10StrongKeyParameters keyParameters = (UTMABDP10StrongKeyParameters) key;
 
         this.pairing = PairingFactory.getPairing(keyParameters.getParameters().getCurveParams());
-
-        if (key instanceof UTMAWeakRandomizeParameters) {
-            this.inBytes = 8 * pairing.getG1().getLengthInBytes();
+        if (key instanceof UTMABDP10StrongRandomizeParameters) {
+            this.inBytes = (4 * pairing.getG1().getLengthInBytes()) + ssEngine.getOutputBlockSize();
             this.outBytes = inBytes;
+            this.firstPartBytes = 4 * pairing.getG1().getLengthInBytes();
         } else {
             this.inBytes = 0;
             this.keyBytes = pairing.getGT().getLengthInBytes();
-            this.outBytes = keyBytes + 8 * pairing.getG1().getLengthInBytes();
+            this.outBytes = keyBytes + (4 * pairing.getG1().getLengthInBytes()) + ssEngine.getOutputBlockSize();
         }
     }
 
@@ -52,11 +76,11 @@ public class UTMAWeakEngine extends PairingKeyEncapsulationMechanism {
         return super.getOutputBlockSize();
     }
 
-    public byte[] process(byte[] in, int inOff, int inLen) {
-        if (key instanceof UTMAWeakPrivateKeyParameters) {
-            // TODO: should we check also the encryption of ONE?
 
+    public byte[] process(byte[] in, int inOff, int inLen) throws InvalidCipherTextException {
+        if (key instanceof UTMABDP10StrongPrivateKeyParameters) {
             // Convert bytes to Elements...
+
             int offset = inOff;
 
             // load omega...
@@ -79,70 +103,79 @@ public class UTMAWeakEngine extends PairingKeyEncapsulationMechanism {
             Element C3 = pairing.getG1().newElement();
             offset += C3.setFromBytes(in, offset);
 
-            UTMAWeakPrivateKeyParameters privateKeyParameters = (UTMAWeakPrivateKeyParameters) key;
+            UTMABDP10StrongPrivateKeyParameters privateKeyParameters = (UTMABDP10StrongPrivateKeyParameters) key;
 
             C.mul(pairing.pairing(C0, privateKeyParameters.getD0()))
                     .mul(pairing.pairing(C1, privateKeyParameters.getD1()))
                     .mul(pairing.pairing(C2, privateKeyParameters.getD2()))
                     .mul(pairing.pairing(C3, privateKeyParameters.getD3()));
             return C.toBytes();
-        } else if (key instanceof UTMAWeakPublicKeyParameters) {
-            // encryption
+        } else if (key instanceof UTMABDP10StrongPublicKeyParameters) {
             Element M = pairing.getGT().newRandomElement();
 
-            // Convert the Elements to byte arrays
+            UTMABDP10StrongPublicKeyParameters publicKeyParameters = (UTMABDP10StrongPublicKeyParameters) key;
+            byte[] pkMaterial = ((Point) publicKeyParameters.getPk()).toBytesCompressed();
             try {
                 ByteArrayOutputStream out = new ByteArrayOutputStream(getOutputBlockSize());
                 out.write(M.toBytes());
                 encrypt(out, M);
-                encrypt(out, pairing.getGT().newOneElement());
+                out.write(ssEngine.processBlock(pkMaterial, 0, pkMaterial.length));
 
                 return out.toByteArray();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         } else {
-            UTMAWeakRandomizeParameters keyParameters = (UTMAWeakRandomizeParameters) key;
+            // The ciphertext is composed by two parts:
+            // the first part is the basic encryption of the message;
+            // the second one is the encryption of the public parameters.
 
-            int offset = inOff;
-            Element[] ct = extractCipherText(in, offset);
-            offset += (pairing.getGT().getLengthInBytes() + (4  * pairing.getG1().getLengthInBytes()));
-            Element[] ct1 = extractCipherText(in, offset);
+            UTMABDP10StrongRandomizeParameters keyParameters = (UTMABDP10StrongRandomizeParameters) key;
 
-            Element r  = pairing.getZr().newElement().setToRandom();
-            Element r2 = pairing.getZr().newElement().setToRandom();
-            Element r3 = pairing.getZr().newElement().setToRandom();
+            // Get the first part
+            Element[] ct = extractCipherText(in, inOff);
 
-            // Convert the Elements to byte arrays
-            ct1 = star(keyParameters.getParameters(), ct1, r, r2, r3);
-            ct = mulComponentWise(ct, ct1);
-            ct1 = star(keyParameters.getParameters(), ct1, r, r2, r3);
+            // Get the second part
+            ssEngine.init(false, keyParameters.getRPublicParameters().getRPrivateKey());
+            byte[] pkBytes = ssEngine.processBlock(in, inOff + firstPartBytes, inLen - firstPartBytes);
+            Point pk = (Point) pairing.getG1().newElement();
+            pk.setFromBytesCompressed(pkBytes);
+
+            // Randomize the first part
+
+            Element ctOne[] = encryptOne(keyParameters.getParameters(), pk);
+            ct = mulComponentWise(ct, ctOne);
 
             try {
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream(getOutputBlockSize());
-                for (Element e : ct)
+                for (Element e : ct) {
                     bytes.write(e.toBytes());
-                for (Element e : ct1)
-                    bytes.write(e.toBytes());
+                }
+
+                // Re-encrypt the public parameters
+                ssEngine.init(true, keyParameters.getParameters().getRPublicKey());
+                bytes.write(ssEngine.processBlock(pkBytes, 0, pkBytes.length));
+
                 return bytes.toByteArray();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
+
         }
     }
 
 
     protected void encrypt(ByteArrayOutputStream outputStream, Element M) {
-        UTMAWeakPublicKeyParameters publicKeyParameters = (UTMAWeakPublicKeyParameters) key;
+        UTMABDP10StrongPublicKeyParameters publicKeyParameters = (UTMABDP10StrongPublicKeyParameters) key;
 
         Element s = pairing.getZr().newElement().setToRandom();
         Element s1 = pairing.getZr().newElement().setToRandom();
         Element s2 = pairing.getZr().newElement().setToRandom();
 
         Element C = publicKeyParameters.getParameters().getOmega().powZn(s).mul(M);
-        Element C0 = publicKeyParameters.getPk().duplicate().mulZn(s);
+        Element C0 = publicKeyParameters.getPk().mulZn(s);
         Element C1 = publicKeyParameters.getParameters().getT2().powZn(s2);
-        Element C2 = publicKeyParameters.getParameters().getT3().powZn(s.duplicate().sub(s1).sub(s2));
+        Element C2 = publicKeyParameters.getParameters().getT3().powZn(s.sub(s1).sub(s2));
         Element C3 = publicKeyParameters.getParameters().getT1().powZn(s1);
 
         // Convert the Elements to byte arrays
@@ -183,16 +216,6 @@ public class UTMAWeakEngine extends PairingKeyEncapsulationMechanism {
         return new Element[]{C, C0, C1, C2, C3};
     }
 
-    protected Element[] star(UTMAWeakPublicParameters pk, Element[] ct, Element r, Element r2, Element r3) {
-        ct[0].powZn(r);
-        ct[1].powZn(r);
-        ct[2] = ct[2].powZn(r).mul(pk.getT2().powZn(r2));
-        ct[3] = ct[3].powZn(r).mul(pk.getT3().powZn(r3));
-        ct[4] = ct[4].powZn(r).mul(pk.getT1().powZn(r2.duplicate().add(r3).negate()));
-
-        return ct;
-    }
-
     protected Element[] mulComponentWise(Element[] ct1, Element[] ct2) {
         ct1[0].mul(ct2[0]);
         ct1[1].mul(ct2[1]);
@@ -202,5 +225,22 @@ public class UTMAWeakEngine extends PairingKeyEncapsulationMechanism {
 
         return ct1;
     }
+
+    protected Element[] encryptOne(UTMABDP10StrongPublicParameters strongPk, Element pk) {
+        Element s = pairing.getZr().newRandomElement();
+        Element s1 = pairing.getZr().newRandomElement();
+        Element s2 = pairing.getZr().newRandomElement();
+
+        Element ct[] = new Element[5];
+
+        ct[0] = strongPk.getOmega().powZn(s);
+        ct[1] = pk.mulZn(s);
+        ct[2] = strongPk.getT2().powZn(s2);
+        ct[3] = strongPk.getT3().powZn(s.sub(s1).sub(s2));
+        ct[4] = strongPk.getT1().powZn(s1);
+
+        return ct;
+    }
+
 
 }

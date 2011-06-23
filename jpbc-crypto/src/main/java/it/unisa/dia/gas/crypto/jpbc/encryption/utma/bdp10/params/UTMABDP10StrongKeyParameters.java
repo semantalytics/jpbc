@@ -5,19 +5,18 @@ import org.bouncycastle.crypto.params.AsymmetricKeyParameter;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class UTMAWeakKeyParameters extends AsymmetricKeyParameter {
-    private UTMAWeakPublicParameters publicParameters;
+public class UTMABDP10StrongKeyParameters extends AsymmetricKeyParameter {
+    private UTMABDP10StrongPublicParameters publicParameters;
 
 
-    public UTMAWeakKeyParameters(boolean isPrivate, UTMAWeakPublicParameters publicParameters) {
+    public UTMABDP10StrongKeyParameters(boolean isPrivate, UTMABDP10StrongPublicParameters publicParameters) {
         super(isPrivate);
         this.publicParameters = publicParameters;
     }
 
 
-    public UTMAWeakPublicParameters getParameters() {
+    public UTMABDP10StrongPublicParameters getParameters() {
         return publicParameters;
     }
-
 
 }

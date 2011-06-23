@@ -11,19 +11,19 @@ import org.bouncycastle.crypto.KeyGenerationParameters;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class UTMAWeakKeyPairGenerator implements AsymmetricCipherKeyPairGenerator {
-    private UTMAWeakKeyGenerationParameters param;
+public class UTMABDP10WeakKeyPairGenerator implements AsymmetricCipherKeyPairGenerator {
+    private UTMABDP10WeakKeyGenerationParameters param;
 
 
     public void init(KeyGenerationParameters param) {
-        this.param = (UTMAWeakKeyGenerationParameters) param;
+        this.param = (UTMABDP10WeakKeyGenerationParameters) param;
     }
 
     public AsymmetricCipherKeyPair generateKeyPair() {
-        UTMAWeakParameters parameters = param.getParameters();
+        UTMABDP10WeakParameters parameters = param.getParameters();
 
-        UTMAWeakPublicParameters publicParameters = parameters.getPublicParameters();
-        UTMAWeakMasterSecretKeyParameters masterSecretKeyParameters = parameters.getMasterSecretKeyParameters();
+        UTMABDP10WeakPublicParameters publicParameters = parameters.getPublicParameters();
+        UTMABDP10WeakMasterSecretKeyParameters masterSecretKeyParameters = parameters.getMasterSecretKeyParameters();
 
         Pairing pairing = PairingFactory.getPairing(publicParameters.getCurveParams());
 
@@ -61,8 +61,8 @@ public class UTMAWeakKeyPairGenerator implements AsymmetricCipherKeyPairGenerato
         );
         
         return new AsymmetricCipherKeyPair(
-                new UTMAWeakPublicKeyParameters(publicParameters, pk),
-                new UTMAWeakPrivateKeyParameters(publicParameters, D0, D1, D2, D3)
+                new UTMABDP10WeakPublicKeyParameters(publicParameters, pk),
+                new UTMABDP10WeakPrivateKeyParameters(publicParameters, D0, D1, D2, D3)
         );
     }
 

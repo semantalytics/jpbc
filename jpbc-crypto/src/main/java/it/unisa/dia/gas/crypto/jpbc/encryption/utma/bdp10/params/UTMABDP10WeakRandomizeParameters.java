@@ -3,9 +3,9 @@ package it.unisa.dia.gas.crypto.jpbc.encryption.utma.bdp10.params;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class UTMAWeakRandomizeParameters extends UTMAWeakKeyParameters {
+public class UTMABDP10WeakRandomizeParameters extends UTMABDP10WeakKeyParameters {
 
-    public UTMAWeakRandomizeParameters(UTMAWeakPublicParameters publicParameters) {
+    public UTMABDP10WeakRandomizeParameters(UTMABDP10WeakPublicParameters publicParameters) {
         super(false, publicParameters);
     }
 

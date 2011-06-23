@@ -1,9 +1,9 @@
 package it.unisa.dia.gas.crypto.jpbc.encryption.utma.bdp10.generators;
 
-import it.unisa.dia.gas.crypto.jpbc.encryption.utma.bdp10.params.UTMAStrongMasterSecretKeyParameters;
-import it.unisa.dia.gas.crypto.jpbc.encryption.utma.bdp10.params.UTMAStrongParameters;
-import it.unisa.dia.gas.crypto.jpbc.encryption.utma.bdp10.params.UTMAStrongPublicParameters;
-import it.unisa.dia.gas.crypto.jpbc.encryption.utma.bdp10.params.UTMAStrongRPublicParameters;
+import it.unisa.dia.gas.crypto.jpbc.encryption.utma.bdp10.params.UTMABDP10StrongMasterSecretKeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.encryption.utma.bdp10.params.UTMABDP10StrongParameters;
+import it.unisa.dia.gas.crypto.jpbc.encryption.utma.bdp10.params.UTMABDP10StrongPublicParameters;
+import it.unisa.dia.gas.crypto.jpbc.encryption.utma.bdp10.params.UTMABDP10StrongRPublicParameters;
 import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
@@ -20,7 +20,7 @@ import java.security.SecureRandom;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class UTMAStrongParametersGenerator {
+public class UTMABDP10StrongParametersGenerator {
 
     private CurveParameters curveParams;
     private AsymmetricCipherKeyPairGenerator rKeyPairGenerator;
@@ -28,11 +28,11 @@ public class UTMAStrongParametersGenerator {
     private Pairing pairing;
 
 
-    public UTMAStrongParametersGenerator(AsymmetricCipherKeyPairGenerator rKeyPairGenerator) {
+    public UTMABDP10StrongParametersGenerator(AsymmetricCipherKeyPairGenerator rKeyPairGenerator) {
         this.rKeyPairGenerator = rKeyPairGenerator;
     }
 
-    public UTMAStrongParametersGenerator() {
+    public UTMABDP10StrongParametersGenerator() {
         this(new ElGamalKeyPairGenerator());
     }
     
@@ -52,7 +52,7 @@ public class UTMAStrongParametersGenerator {
     }
 
 
-    public UTMAStrongParameters generateParameters() {
+    public UTMABDP10StrongParameters generateParameters() {
         Element g = pairing.getG1().newRandomElement();
         Element g0 = pairing.getG1().newRandomElement();
         Element g1 = pairing.getG1().newRandomElement();
@@ -71,17 +71,17 @@ public class UTMAStrongParametersGenerator {
 
         AsymmetricCipherKeyPair rKeyPair = rKeyPairGenerator.generateKeyPair();
 
-        UTMAStrongPublicParameters utmaPublicParameters = new UTMAStrongPublicParameters(
+        UTMABDP10StrongPublicParameters utmaPublicParameters = new UTMABDP10StrongPublicParameters(
                 curveParams,
                 g.getImmutable(), g0.getImmutable(), g1.getImmutable(),
                 Omega.getImmutable(),
                 T1.getImmutable(), T2.getImmutable(), T3.getImmutable(),
                 rKeyPair.getPublic());
 
-        return new UTMAStrongParameters(
+        return new UTMABDP10StrongParameters(
                 utmaPublicParameters,
-                new UTMAStrongRPublicParameters(rKeyPair.getPrivate()),
-                new UTMAStrongMasterSecretKeyParameters(utmaPublicParameters,
+                new UTMABDP10StrongRPublicParameters(rKeyPair.getPrivate()),
+                new UTMABDP10StrongMasterSecretKeyParameters(utmaPublicParameters,
                                                         t1.getImmutable(), t2.getImmutable(), t3.getImmutable(),
                                                         omega.getImmutable())
         );

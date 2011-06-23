@@ -5,11 +5,11 @@ import org.bouncycastle.crypto.CipherParameters;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class UTMAStrongRPublicParameters implements CipherParameters {
+public class UTMABDP10StrongRPublicParameters implements CipherParameters {
     private CipherParameters rPrivateKey;
 
 
-    public UTMAStrongRPublicParameters(CipherParameters rPrivateKey) {
+    public UTMABDP10StrongRPublicParameters(CipherParameters rPrivateKey) {
         this.rPrivateKey = rPrivateKey;
     }
 
