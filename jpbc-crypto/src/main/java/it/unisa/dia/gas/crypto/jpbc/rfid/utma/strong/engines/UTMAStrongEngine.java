@@ -1,17 +1,13 @@
 package it.unisa.dia.gas.crypto.jpbc.rfid.utma.strong.engines;
 
-import it.unisa.dia.gas.crypto.jpbc.rfid.utma.strong.params.UTMAStrongKeyParameters;
-import it.unisa.dia.gas.crypto.jpbc.rfid.utma.strong.params.UTMAStrongPrivateKeyParameters;
-import it.unisa.dia.gas.crypto.jpbc.rfid.utma.strong.params.UTMAStrongPublicKeyParameters;
+import it.unisa.dia.gas.crypto.engines.kem.PairingKeyEncapsulationMechanism;
+import it.unisa.dia.gas.crypto.jpbc.rfid.utma.strong.params.*;
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.AsymmetricBlockCipher;
-import org.bouncycastle.crypto.CipherParameters;
-import org.bouncycastle.crypto.DataLengthException;
+import org.bouncycastle.crypto.InvalidCipherTextException;
 import org.bouncycastle.crypto.engines.ElGamalEngine;
-import org.bouncycastle.crypto.params.ParametersWithRandom;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -19,14 +15,11 @@ import java.io.IOException;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class UTMAStrongEngine implements AsymmetricBlockCipher {
+public class UTMAStrongEngine extends PairingKeyEncapsulationMechanism {
 
-    private UTMAStrongKeyParameters key;
-    private AsymmetricBlockCipher ssEngine;
-    private boolean forEncryption;
-
-    private int byteLength;
-    private Pairing pairing;
+    protected AsymmetricBlockCipher ssEngine;
+    protected boolean forRandomization;
+    protected int firstPartBytes;
 
 
     public UTMAStrongEngine(AsymmetricBlockCipher ssEngine) {
@@ -36,30 +29,16 @@ public class UTMAStrongEngine implements AsymmetricBlockCipher {
     public UTMAStrongEngine() {
         this(new ElGamalEngine());
     }
-    
-    /**
-     * initialise the UTMA engine.
-     *                            
-     * @param forEncryption true if we are encrypting, false otherwise.
-     * @param param         the necessary UTMA key parameters.
-     */
-    public void init(boolean forEncryption, CipherParameters param) {
-        if (param instanceof ParametersWithRandom) {
-            ParametersWithRandom p = (ParametersWithRandom) param;
 
-            this.key = (UTMAStrongKeyParameters) p.getParameters();
-        } else {
-            this.key = (UTMAStrongKeyParameters) param;
-        }
 
-        this.forEncryption = forEncryption;
+    public void initialize() {
         if (forEncryption) {
-            if (!(key instanceof UTMAStrongPublicKeyParameters)) {
-                throw new IllegalArgumentException("UTMAStrongPublicKeyParameters are required for encryption.");
-            }
+            if (!(key instanceof UTMAStrongPublicKeyParameters) && !(key instanceof UTMAStrongRandomizeParameters))
+                throw new IllegalArgumentException("UTMAStrongPublicKeyParameters are required for encryption/randomization.");
+            forRandomization = key instanceof UTMAStrongRandomizeParameters;
 
             // Init the engine also
-            ssEngine.init(forEncryption, key.getParameters().getRPublicKey());
+            ssEngine.init(forEncryption, ((UTMAStrongKeyParameters) key).getParameters().getRPublicKey());
         } else {
             if (!(key instanceof UTMAStrongPrivateKeyParameters)) {
                 throw new IllegalArgumentException("UTMAStrongPrivateKeyParameters are required for decryption.");
@@ -69,61 +48,37 @@ public class UTMAStrongEngine implements AsymmetricBlockCipher {
             ssEngine.init(forEncryption, ((UTMAStrongPrivateKeyParameters) key).getRPrivateKey());
         }
 
-        this.pairing = PairingFactory.getPairing(key.getParameters().getCurveParams());
-        this.byteLength = pairing.getGT().getLengthInBytes();
+        UTMAStrongKeyParameters keyParameters = (UTMAStrongKeyParameters) key;
 
+        this.pairing = PairingFactory.getPairing(keyParameters.getParameters().getCurveParams());
+        if (key instanceof UTMAStrongRandomizeParameters) {
+            this.inBytes = (4 * pairing.getG1().getLengthInBytes()) + ssEngine.getOutputBlockSize();
+            this.outBytes = inBytes;
+            this.firstPartBytes = 4 * pairing.getG1().getLengthInBytes();
+        } else {
+            this.inBytes = 0;
+            this.keyBytes = pairing.getGT().getLengthInBytes();
+            this.outBytes = keyBytes + (4 * pairing.getG1().getLengthInBytes()) + ssEngine.getOutputBlockSize();
+        }
     }
 
-    /**
-     * Return the maximum size for an input block to this engine.
-     *
-     * @return maximum size for an input block.
-     */
     public int getInputBlockSize() {
-        if (forEncryption) {
-            return byteLength;
-        }
+        if (forRandomization)
+            return inBytes;
 
-        return (pairing.getGT().getLengthInBytes() + (4  * pairing.getG1().getLengthInBytes())) + ssEngine.getInputBlockSize();
+        return super.getInputBlockSize();
     }
 
-    /**
-     * Return the maximum size for an output block to this engine.
-     *
-     * @return maximum size for an output block.
-     */
     public int getOutputBlockSize() {
-        if (forEncryption) {
-            return (pairing.getGT().getLengthInBytes() + (4  * pairing.getG1().getLengthInBytes())) + ssEngine.getOutputBlockSize();
-        }
+        if (forRandomization)
+            return outBytes;
 
-        return 1;
+        return super.getOutputBlockSize();
     }
 
-    /**
-     * Process a single block using the basic UTMA algorithm.
-     *
-     * @param in    the input array.
-     * @param inOff the offset into the input buffer where the data starts.
-     * @param inLen the length of the data to be processed.
-     * @return the result of the UTMA process.
-     * @throws org.bouncycastle.crypto.DataLengthException
-     *          the input block is too large.
-     */
-    public byte[] processBlock(byte[] in, int inOff, int inLen) {
-        if (key == null) {
-            throw new IllegalStateException("UTMA engine not initialised");
-        }
 
-        int maxLength = forEncryption ? byteLength : getInputBlockSize();
-
-        if (inLen > maxLength) {
-            throw new DataLengthException("input too large for UTMA cipher.\n");
-        }
-
+    public byte[] process(byte[] in, int inOff, int inLen) throws InvalidCipherTextException {
         if (key instanceof UTMAStrongPrivateKeyParameters) {
-            // encrypts
-
             // Convert bytes to Elements...
 
             int offset = inOff;
@@ -155,33 +110,62 @@ public class UTMAStrongEngine implements AsymmetricBlockCipher {
                     .mul(pairing.pairing(C2, privateKeyParameters.getD2()))
                     .mul(pairing.pairing(C3, privateKeyParameters.getD3()));
             return C.toBytes();
-        } else {
-            // encrypt the message
-            if (inLen > byteLength)
-                throw new DataLengthException("input must be of size " + byteLength);
+        } else if (key instanceof UTMAStrongPublicKeyParameters) {
+            Element M = pairing.getGT().newRandomElement();
 
-            Element M = pairing.getGT().newElement();
-            M.setFromBytes(in, inOff);
-
-            // Convert the Elements to byte arrays
-            ByteArrayOutputStream bytes = new ByteArrayOutputStream(getOutputBlockSize());
-            encrypt(bytes, M);
-
-            // Put the encryption of the public key
             UTMAStrongPublicKeyParameters publicKeyParameters = (UTMAStrongPublicKeyParameters) key;
             byte[] pkMaterial = ((Point) publicKeyParameters.getPk()).toBytesCompressed();
             try {
-                bytes.write(ssEngine.processBlock(pkMaterial, 0, pkMaterial.length));
+                ByteArrayOutputStream out = new ByteArrayOutputStream(getOutputBlockSize());
+                out.write(M.toBytes());
+                encrypt(out, M);
+                out.write(ssEngine.processBlock(pkMaterial, 0, pkMaterial.length));
+
+                return out.toByteArray();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            // The ciphertext is composed by two parts:
+            // the first part is the basic encryption of the message;
+            // the second one is the encryption of the public parameters.
+
+            UTMAStrongRandomizeParameters keyParameters = (UTMAStrongRandomizeParameters) key;
+
+            // Get the first part
+            Element[] ct = extractCipherText(in, inOff);
+
+            // Get the second part
+            ssEngine.init(false, keyParameters.getRPublicParameters().getRPrivateKey());
+            byte[] pkBytes = ssEngine.processBlock(in, inOff + firstPartBytes, inLen - firstPartBytes);
+            Point pk = (Point) pairing.getG1().newElement();
+            pk.setFromBytesCompressed(pkBytes);
+
+            // Randomize the first part
+
+            Element ctOne[] = encryptOne(keyParameters.getParameters(), pk);
+            ct = mulComponentWise(ct, ctOne);
+
+            try {
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream(getOutputBlockSize());
+                for (Element e : ct) {
+                    bytes.write(e.toBytes());
+                }
+
+                // Re-encrypt the public parameters
+                ssEngine.init(true, keyParameters.getParameters().getRPublicKey());
+                bytes.write(ssEngine.processBlock(pkBytes, 0, pkBytes.length));
+
+                return bytes.toByteArray();
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
 
-            return bytes.toByteArray();
         }
     }
 
 
-    private void encrypt(ByteArrayOutputStream outputStream, Element M) {
+    protected void encrypt(ByteArrayOutputStream outputStream, Element M) {
         UTMAStrongPublicKeyParameters publicKeyParameters = (UTMAStrongPublicKeyParameters) key;
 
         Element s = pairing.getZr().newElement().setToRandom();
@@ -205,5 +189,58 @@ public class UTMAStrongEngine implements AsymmetricBlockCipher {
             throw new RuntimeException(e);
         }
     }
+
+    protected Element[] extractCipherText(byte[] in, int inOff) {
+        int offset = inOff;
+
+        // load omega...
+        Element C = pairing.getGT().newElement();
+        offset += C.setFromBytes(in, offset);
+
+        // load C0...
+        Element C0 = pairing.getG1().newElement();
+        offset += C0.setFromBytes(in, offset);
+
+        // load C1...
+        Element C1 = pairing.getG1().newElement();
+        offset += C1.setFromBytes(in, offset);
+
+        // load C2...
+        Element C2 = pairing.getG1().newElement();
+        offset += C2.setFromBytes(in, offset);
+
+        // load C3...
+        Element C3 = pairing.getG1().newElement();
+        offset += C3.setFromBytes(in, offset);
+
+        return new Element[]{C, C0, C1, C2, C3};
+    }
+
+    protected Element[] mulComponentWise(Element[] ct1, Element[] ct2) {
+        ct1[0].mul(ct2[0]);
+        ct1[1].mul(ct2[1]);
+        ct1[2].mul(ct2[2]);
+        ct1[3].mul(ct2[3]);
+        ct1[4].mul(ct2[4]);
+
+        return ct1;
+    }
+
+    protected Element[] encryptOne(UTMAStrongPublicParameters strongPk, Element pk) {
+        Element s = pairing.getZr().newRandomElement();
+        Element s1 = pairing.getZr().newRandomElement();
+        Element s2 = pairing.getZr().newRandomElement();
+
+        Element ct[] = new Element[5];
+
+        ct[0] = strongPk.getOmega().powZn(s);
+        ct[1] = pk.mulZn(s);
+        ct[2] = strongPk.getT2().powZn(s2);
+        ct[3] = strongPk.getT3().powZn(s.sub(s1).sub(s2));
+        ct[4] = strongPk.getT1().powZn(s1);
+
+        return ct;
+    }
+
 
 }

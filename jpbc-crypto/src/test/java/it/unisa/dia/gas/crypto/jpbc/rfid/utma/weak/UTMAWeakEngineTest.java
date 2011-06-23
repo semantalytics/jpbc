@@ -1,47 +1,36 @@
 package it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak;
 
-import it.unisa.dia.gas.crypto.engines.MultiBlockAsymmetricBlockCipher;
+import it.unisa.dia.gas.crypto.engines.kem.KeyEncapsulationMechanism;
 import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.engines.UTMAWeakEngine;
-import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.engines.UTMAWeakRandomizer;
 import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.generators.UTMAWeakKeyPairGenerator;
 import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.generators.UTMAWeakParametersGenerator;
 import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.params.UTMAWeakKeyGenerationParameters;
 import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.params.UTMAWeakParameters;
 import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.params.UTMAWeakPublicParameters;
+import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.params.UTMAWeakRandomizeParameters;
 import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import junit.framework.TestCase;
-import org.bouncycastle.crypto.AsymmetricBlockCipher;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.InvalidCipherTextException;
-import org.bouncycastle.crypto.paddings.PKCS7Padding;
 
 import java.security.SecureRandom;
+import java.util.Arrays;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class UTMAWeakEngineTest extends TestCase {
 
-    public void testEngine() {
+    public void testUTMAWeakEngine() {
         UTMAWeakParameters parameters = createParameters();
-
         AsymmetricCipherKeyPair keyPair = setup(parameters);
 
-        String message = "Hello World!!!";
+        byte[][] ct = encaps(keyPair.getPublic());
 
-        assertEquals(message, decrypt(keyPair.getPrivate(), encrypt(keyPair.getPublic(), message)));
-
-        assertEquals(
-                message,
-                decrypt(keyPair.getPrivate(),
-                        randomize(
-                                parameters.getPublicParameters(),
-                                encrypt(keyPair.getPublic(), message)
-                        )
-                )
-        );
+        assertEquals(true, Arrays.equals(ct[0], decaps(keyPair.getPrivate(), ct[1])));
+        assertEquals(true, Arrays.equals(ct[0], decaps(keyPair.getPrivate(), randomize(parameters.getPublicParameters(),ct[1]))));
     }
 
 
@@ -58,32 +47,33 @@ public class UTMAWeakEngineTest extends TestCase {
         return setup.generateKeyPair();
     }
 
-    protected byte[] encrypt(CipherParameters publicKey, String message) {
-        byte[] bytes = message.getBytes();
+    protected byte[][] encaps(CipherParameters publicKey) {
         try {
-            AsymmetricBlockCipher engine = new MultiBlockAsymmetricBlockCipher(
-                    new UTMAWeakEngine(),
-                    new PKCS7Padding()
-            );
+            KeyEncapsulationMechanism kem = new UTMAWeakEngine();
+            kem.init(true, publicKey);
 
-            engine.init(true, publicKey);
-            return engine.processBlock(bytes, 0, bytes.length);
+            byte[] ciphertext = kem.processBlock(new byte[0], 0, 0);
+
+            assertNotNull(ciphertext);
+            assertNotSame(0, ciphertext.length);
+
+            byte[] key = Arrays.copyOfRange(ciphertext, 0, kem.getKeyBlockSize());
+            byte[] ct = Arrays.copyOfRange(ciphertext, kem.getKeyBlockSize(), ciphertext.length);
+
+            return new byte[][]{key, ct};
         } catch (InvalidCipherTextException e) {
             e.printStackTrace();
             fail(e.getMessage());
-            throw new RuntimeException(e);
         }
+        return null;
     }
 
-    protected String decrypt(CipherParameters privateKey, byte[] ciphertext) {
+    protected byte[] decaps(CipherParameters privateKey, byte[] ciphertext) {
         try {
-            AsymmetricBlockCipher engine = new MultiBlockAsymmetricBlockCipher(
-                    new UTMAWeakEngine(),
-                    new PKCS7Padding()
-            );
-
+            KeyEncapsulationMechanism engine = new UTMAWeakEngine();
             engine.init(false, privateKey);
-            return new String(engine.processBlock(ciphertext, 0, ciphertext.length)).trim();
+
+            return engine.processBlock(ciphertext, 0, ciphertext.length);
         } catch (InvalidCipherTextException e) {
             e.printStackTrace();
             fail(e.getMessage());
@@ -91,12 +81,17 @@ public class UTMAWeakEngineTest extends TestCase {
         }
     }
 
-    protected byte[] randomize(UTMAWeakPublicParameters publicParameters,
-                               byte[] ciphertext) {
-        UTMAWeakRandomizer randomizer = new UTMAWeakRandomizer();
-        randomizer.init(publicParameters);
+    protected byte[] randomize(UTMAWeakPublicParameters publicParameters, byte[] ciphertext) {
+        try {
+            KeyEncapsulationMechanism engine = new UTMAWeakEngine();
+            engine.init(true, new UTMAWeakRandomizeParameters(publicParameters));
 
-        return randomizer.processBlock(ciphertext, 0, ciphertext.length);
+            return engine.processBlock(ciphertext, 0, ciphertext.length);
+        } catch (InvalidCipherTextException e) {
+            e.printStackTrace();
+            fail(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     protected CurveParameters getCurveParameters() {

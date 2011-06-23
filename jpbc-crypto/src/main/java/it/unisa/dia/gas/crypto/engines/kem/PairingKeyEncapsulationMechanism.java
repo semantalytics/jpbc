@@ -7,7 +7,7 @@ import it.unisa.dia.gas.crypto.engines.PairingAsymmetricBlockCipher;
  */
 public abstract class PairingKeyEncapsulationMechanism extends PairingAsymmetricBlockCipher implements KeyEncapsulationMechanism {
     
-    protected int keyBytes;
+    protected int keyBytes = 0;
 
     public int getKeyBlockSize() {
         return keyBytes;

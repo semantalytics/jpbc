@@ -15,8 +15,8 @@ public abstract class PairingAsymmetricBlockCipher implements AsymmetricBlockCip
     protected CipherParameters key;
     protected boolean forEncryption;
 
-    protected int inBytes;
-    protected int outBytes;
+    protected int inBytes = 0;
+    protected int outBytes = 0;
 
     protected Pairing pairing;
 

@@ -1,15 +1,9 @@
 package it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.engines;
 
-import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.params.UTMAWeakKeyParameters;
-import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.params.UTMAWeakPrivateKeyParameters;
-import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.params.UTMAWeakPublicKeyParameters;
+import it.unisa.dia.gas.crypto.engines.kem.PairingKeyEncapsulationMechanism;
+import it.unisa.dia.gas.crypto.jpbc.rfid.utma.weak.params.*;
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
-import org.bouncycastle.crypto.AsymmetricBlockCipher;
-import org.bouncycastle.crypto.CipherParameters;
-import org.bouncycastle.crypto.DataLengthException;
-import org.bouncycastle.crypto.params.ParametersWithRandom;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -17,97 +11,50 @@ import java.io.IOException;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class UTMAWeakEngine implements AsymmetricBlockCipher {
+public class UTMAWeakEngine extends PairingKeyEncapsulationMechanism {
+    protected boolean forRandomization;
 
-    private UTMAWeakKeyParameters key;
-    private boolean forEncryption;
-
-    private int byteLength;
-    private Pairing pairing;
-
-    /**
-     * initialise the UTMA engine.
-     *
-     * @param forEncryption true if we are encrypting, false otherwise.
-     * @param param         the necessary HVE key parameters.
-     */
-    public void init(boolean forEncryption, CipherParameters param) {
-        if (param instanceof ParametersWithRandom) {
-            ParametersWithRandom p = (ParametersWithRandom) param;
-
-            this.key = (UTMAWeakKeyParameters) p.getParameters();
-        } else {
-            this.key = (UTMAWeakKeyParameters) param;
-        }
-
-        this.forEncryption = forEncryption;
+    public void initialize() {
         if (forEncryption) {
-            if (!(key instanceof UTMAWeakPublicKeyParameters)) {
-                throw new IllegalArgumentException("UTMAWeakPublicKeyParameters are required for encryption.");
-            }
+            if (!(key instanceof UTMAWeakPublicKeyParameters) && !(key instanceof UTMAWeakRandomizeParameters))
+                throw new IllegalArgumentException("UTMAWeakPublicKeyParameters are required for encryption/randomization.");
+            forRandomization = key instanceof UTMAWeakRandomizeParameters;
         } else {
-            if (!(key instanceof UTMAWeakPrivateKeyParameters)) {
+            if (!(key instanceof UTMAWeakPrivateKeyParameters))
                 throw new IllegalArgumentException("UTMAWeakPrivateKeyParameters are required for decryption.");
-            }
         }
 
-        this.pairing = PairingFactory.getPairing(key.getParameters().getCurveParams());
-        this.byteLength = pairing.getGT().getLengthInBytes();
+        UTMAWeakKeyParameters keyParameters = (UTMAWeakKeyParameters) key;
+
+        this.pairing = PairingFactory.getPairing(keyParameters.getParameters().getCurveParams());
+
+        if (key instanceof UTMAWeakRandomizeParameters) {
+            this.inBytes = 8 * pairing.getG1().getLengthInBytes();
+            this.outBytes = inBytes;
+        } else {
+            this.inBytes = 0;
+            this.keyBytes = pairing.getGT().getLengthInBytes();
+            this.outBytes = keyBytes + 8 * pairing.getG1().getLengthInBytes();
+        }
     }
 
-    /**
-     * Return the maximum size for an input block to this engine.
-     * For UTMA this is always one byte less than the size of P on
-     * encryption, and twice the length as the size of P on decryption.
-     *
-     * @return maximum size for an input block.
-     */
     public int getInputBlockSize() {
-        if (forEncryption) {
-            return byteLength;
-        }
+        if (forRandomization)
+            return inBytes;
 
-        return (pairing.getGT().getLengthInBytes() + (4  * pairing.getG1().getLengthInBytes())) * 2;
+        return super.getInputBlockSize();
     }
 
-    /**
-     * Return the maximum size for an output block to this engine.
-     * For UTMA this is always one byte less than the size of P on
-     * decryption, and twice the length as the size of P on encryption.
-     *
-     * @return maximum size for an output block.
-     */
     public int getOutputBlockSize() {
-        if (forEncryption) {
-            return (pairing.getGT().getLengthInBytes() + (4  * pairing.getG1().getLengthInBytes())) * 2;
-        }
+        if (forRandomization)
+            return outBytes;
 
-        return 1;
+        return super.getOutputBlockSize();
     }
 
-    /**
-     * Process a single block using the basic UTMA algorithm.
-     *
-     * @param in    the input array.
-     * @param inOff the offset into the input buffer where the data starts.
-     * @param inLen the length of the data to be processed.
-     * @return the result of the UTMA process.
-     * @throws org.bouncycastle.crypto.DataLengthException
-     *          the input block is too large.
-     */
-    public byte[] processBlock(byte[] in, int inOff, int inLen) {
-        if (key == null) {
-            throw new IllegalStateException("UTMA engine not initialised");
-        }
-
-        int maxLength = forEncryption ? byteLength : getInputBlockSize();
-
-        if (inLen > maxLength) {
-            throw new DataLengthException("input too large for UTMA cipher.\n");
-        }
-
+    public byte[] process(byte[] in, int inOff, int inLen) {
         if (key instanceof UTMAWeakPrivateKeyParameters) {
-            // encrypts
+            // TODO: should we check also the encryption of ONE?
 
             // Convert bytes to Elements...
             int offset = inOff;
@@ -139,27 +86,53 @@ public class UTMAWeakEngine implements AsymmetricBlockCipher {
                     .mul(pairing.pairing(C2, privateKeyParameters.getD2()))
                     .mul(pairing.pairing(C3, privateKeyParameters.getD3()));
             return C.toBytes();
-
-            // TODO: should we check also the encryption of ONE? 
-        } else {
+        } else if (key instanceof UTMAWeakPublicKeyParameters) {
             // encryption
-            if (inLen > byteLength)
-                throw new DataLengthException("input must be of size " + byteLength);
-
-            Element M = pairing.getGT().newElement();
-            M.setFromBytes(in, inOff);
+            Element M = pairing.getGT().newRandomElement();
 
             // Convert the Elements to byte arrays
-            ByteArrayOutputStream bytes = new ByteArrayOutputStream(getOutputBlockSize());
-            encrypt(bytes, M);
-            encrypt(bytes, pairing.getGT().newOneElement());
+            try {
+                ByteArrayOutputStream out = new ByteArrayOutputStream(getOutputBlockSize());
+                out.write(M.toBytes());
+                encrypt(out, M);
+                encrypt(out, pairing.getGT().newOneElement());
 
-            return bytes.toByteArray();
+                return out.toByteArray();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            UTMAWeakRandomizeParameters keyParameters = (UTMAWeakRandomizeParameters) key;
+
+            int offset = inOff;
+            Element[] ct = extractCipherText(in, offset);
+            offset += (pairing.getGT().getLengthInBytes() + (4  * pairing.getG1().getLengthInBytes()));
+            Element[] ct1 = extractCipherText(in, offset);
+
+            Element r  = pairing.getZr().newElement().setToRandom();
+            Element r2 = pairing.getZr().newElement().setToRandom();
+            Element r3 = pairing.getZr().newElement().setToRandom();
+
+            // Convert the Elements to byte arrays
+            ct1 = star(keyParameters.getParameters(), ct1, r, r2, r3);
+            ct = mulComponentWise(ct, ct1);
+            ct1 = star(keyParameters.getParameters(), ct1, r, r2, r3);
+
+            try {
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream(getOutputBlockSize());
+                for (Element e : ct)
+                    bytes.write(e.toBytes());
+                for (Element e : ct1)
+                    bytes.write(e.toBytes());
+                return bytes.toByteArray();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
 
-    private void encrypt(ByteArrayOutputStream outputStream, Element M) {
+    protected void encrypt(ByteArrayOutputStream outputStream, Element M) {
         UTMAWeakPublicKeyParameters publicKeyParameters = (UTMAWeakPublicKeyParameters) key;
 
         Element s = pairing.getZr().newElement().setToRandom();
@@ -182,6 +155,52 @@ public class UTMAWeakEngine implements AsymmetricBlockCipher {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    protected Element[] extractCipherText(byte[] in, int inOff) {
+        int offset = inOff;
+
+        // load omega...
+        Element C = pairing.getGT().newElement();
+        offset += C.setFromBytes(in, offset);
+
+        // load C0...
+        Element C0 = pairing.getG1().newElement();
+        offset += C0.setFromBytes(in, offset);
+
+        // load C1...
+        Element C1 = pairing.getG1().newElement();
+        offset += C1.setFromBytes(in, offset);
+
+        // load C2...
+        Element C2 = pairing.getG1().newElement();
+        offset += C2.setFromBytes(in, offset);
+
+        // load C3...
+        Element C3 = pairing.getG1().newElement();
+        offset += C3.setFromBytes(in, offset);
+
+        return new Element[]{C, C0, C1, C2, C3};
+    }
+
+    protected Element[] star(UTMAWeakPublicParameters pk, Element[] ct, Element r, Element r2, Element r3) {
+        ct[0].powZn(r);
+        ct[1].powZn(r);
+        ct[2] = ct[2].powZn(r).mul(pk.getT2().powZn(r2));
+        ct[3] = ct[3].powZn(r).mul(pk.getT3().powZn(r3));
+        ct[4] = ct[4].powZn(r).mul(pk.getT1().powZn(r2.duplicate().add(r3).negate()));
+
+        return ct;
+    }
+
+    protected Element[] mulComponentWise(Element[] ct1, Element[] ct2) {
+        ct1[0].mul(ct2[0]);
+        ct1[1].mul(ct2[1]);
+        ct1[2].mul(ct2[2]);
+        ct1[3].mul(ct2[3]);
+        ct1[4].mul(ct2[4]);
+
+        return ct1;
     }
 
 }
