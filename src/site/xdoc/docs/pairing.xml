@@ -56,18 +56,18 @@
             <p>
                 The tuple
                 <code>(r,g1,g2,G1,G2,GT)</code>
-                is called an
+                is called
                 <strong>asymmetric bilinear setting</strong>.
                 If
                 <code>G1=G2=G</code>
                 and g is a generator of G then the tuple
-                (r,g,G,GT) is a
+                (r,g,G,GT) is
                 <strong>symmetric bilinear setting</strong>.
                 In the symmetric setting the order of
                 <code>G</code>
                 and
                 <code>G_T</code>
-                need not be prime.
+                need not to be prime.
             </p>
             <p>
                 The cryptographic relevance of a bilinear mapping stems from the fact that in cyclic
