@@ -12,18 +12,19 @@
             <p>
                 jPBC provides also a wrapper on PBC. In this way all the computations
                 can be delegated directly to
-                PBC still using the same interfaces provided by jPBC. To know how
-                to initialize the pairing using the wrapper
+                PBC still using the same interfaces provided by jPBC.
+                To initialize the pairing using the wrapper
                 go
                 <a href="./pairing.html#initializing">here</a>.
-                <br/>
+            </p>
+            <p>
                 To use the wrapper you need to compile a shared library written in C. jPBC provides a
                 <a href="http://www.cmake.org/">cmake</a>
-                style build configuration.
+                style build configuration file.
             </p>
 
             <p>
-                So, follow these instructions:
+                Thus, follow these instructions:
             </p>
 
             <ol>
