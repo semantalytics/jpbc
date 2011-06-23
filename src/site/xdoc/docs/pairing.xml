@@ -60,8 +60,10 @@
                 <strong>asymmetric bilinear setting</strong>.
                 If
                 <code>G1=G2=G</code>
-                and g is a generator of G then the tuple
-                (r,g,G,GT) is
+                and g is a generator of
+                <code>G</code>
+                then the tuple
+                (r,g,G,GT) is a
                 <strong>symmetric bilinear setting</strong>.
                 In the symmetric setting the order of
                 <code>G</code>
@@ -93,7 +95,7 @@
                             <font style="font-weight: bold;color:red">it.unisa.dia.gas.jpbc.Pairing</font>
                         </code>
                     </a>
-                    interface must be obtained. When this is done, you can access the algebraic
+                    interface must be obtained. When this is done then you can access the algebraic
                     structures underlying the pairing computation.
                 </p>
 
@@ -112,7 +114,7 @@
 
                 <p>
                     Now let's say that you have stored your curve parameters in a file
-                    called<code>curve.propertiess</code>. Then
+                    called <code>curve.propertiess</code>. Then
                     to create an instance of the
                     <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Pairing.html">
                         <code>
@@ -126,41 +128,32 @@
                     <li>
                         <p>
                             <font style="font-weight: bold;color:red">Port</font>
-                            : Each curve definition brings the curve type.
-                            Using this information a factory can choose the right pairing implementation.
-                            In fact you have the following:
+                            : The port provides a useful factory. In fact
+                            each curve parameters brings the curve type.
+                            Using this information the factory can choose the right pairing implementation.
+                            You have the following:
                         </p>
                         <source>import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
-                            Pairing pairing =
-                            <font style="font-weight: bold;color:green">PairingFactory.getPairing("curve.properties");
-                            </font>
+Pairing pairing =
+<font style="font-weight: bold;color:green">PairingFactory.getPairing("curve.properties");
+</font>
                         </source>
                     </li>
                     <li>
                         <p>
                             <font style="font-weight: bold;color:red">Wrapper</font>
-                            : you have two options. They are the following:
-                        </p>
-                        <source>import it.unisa.dia.gas.plaf.jpbc.pbc.PBCPairing;
-
-                            CurveParameters curveParameters =
-                            PairingFactory.getInstance().loadCurveParameters("curve.properties");
-                            Pairing pairing =
-                            <font style="font-weight: bold;color:green">new PBCPairing(curveParameters);</font>
-                        </source>
-                        <p>
-                            You can still use the PairingFactory in this way:
+                            : Use the factory again in the following way.
                         </p>
                         <source>import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
-                            // Ask the PairingFactory to try to use the PBC wrapper when possible.
-                            <font style="font-weight: bold;color:green">
-                                PairingFactory.getInstance().setUsePBCWhenPossible(true);
-                            </font>
-                            Pairing pairing =
-                            <font style="font-weight: bold;color:green">PairingFactory.getPairing("curve.properties");
-                            </font>
+// Ask the PairingFactory to try to use the PBC wrapper when possible.
+<font style="font-weight: bold;color:green">
+    PairingFactory.getInstance().setUsePBCWhenPossible(true);
+</font>
+Pairing pairing =
+<font style="font-weight: bold;color:green">PairingFactory.getPairing("curve.properties");
+</font>
                         </source>
                     </li>
                 </ol>
@@ -179,20 +172,16 @@
                 Here are the methods:
 
                 <source xml:space="preserve">/* Return G1 */
-Field G1 =
-<font style="font-weight: bold;color:green">pairing.getG1();</font>
+Field G1 = <font style="font-weight: bold;color:green">pairing.getG1();</font>
 
 /* Return G2 */
-Field G2 =
-<font style="font-weight: bold;color:green">pairing.getG2();</font>
+Field G2 = <font style="font-weight: bold;color:green">pairing.getG2();</font>
 
 /* Return GT */
-Field GT =
-<font style="font-weight: bold;color:green">pairing.getGT();</font>
+Field GT = <font style="font-weight: bold;color:green">pairing.getGT();</font>
 
 /* Return Zr */
-Field Zr =
-<font style="font-weight: bold;color:green">pairing.getZr();</font>
+Field Zr = <font style="font-weight: bold;color:green">pairing.getZr();</font>
                 </source>
 
                 Now elements of these algebraic structures can be initialized and manipulated
@@ -219,10 +208,9 @@ Field Zr =
                     Then you can use the following code:
                 </p>
                 <source>
-    Element in1 = pairing.get<code>G1</code>().newRandomElement();
-    Element in2 = pairing.get<code>G2</code>().newRandomElement();
-    Element out =
-    <font style="font-weight: bold;color:green">pairing.pairing(in1, in2);</font>
+Element in1 = pairing.get<code>G1</code>().newRandomElement();
+Element in2 = pairing.get<code>G2</code>().newRandomElement();
+Element out = <font style="font-weight: bold;color:green">pairing.pairing(in1, in2);</font>
                 </source>
 
                 <p>
@@ -238,15 +226,14 @@ Element in2[] = new Element[5];
 for (int i = 0; i &lt; 5; i++)
 in2[i] = pairing.get<code>G2</code>().newRandomElement();
 
-Element out =
-<font style="font-weight: bold;color:green">pairing.pairing(in1, in2);</font>
+Element out = <font style="font-weight: bold;color:green">pairing.pairing(in1, in2);</font>
                 </source>
             </subsection>
 
             <a name="preprocessing"/>
             <subsection name="Preprocessing">
                 <p>
-                    If it knows in advance that a particular value (in<code>G1</code>) will be paired several times
+                    If it knows in advance that a particular value (in <code>G1</code>) will be paired several times
                     then time can be saved in the long run by first calling the preprocessing function.
 
                     This is how to use the preprocessing.
@@ -282,8 +269,8 @@ byte[] pppBytes =<font style="font-weight: bold;color:green">ppp.toBytes()</font
                     use the following code:
                 </p>
                 <source xml:space="preserve">
-                    <font style="font-weight: bold;color:green">PairingPreProcessing ppp = pairing.pairing(pppBytes);
-                    </font>
+<font style="font-weight: bold;color:green">PairingPreProcessing ppp = pairing.pairing(pppBytes);
+</font>
                 </source>
             </subsection>
         </section>
