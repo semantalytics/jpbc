@@ -14,7 +14,7 @@
                 <code>G1</code>,
                 <code>G2</code>
                 and
-                <code>G_T</code>
+                <code>GT</code>
                 be cyclic groups of prime order
                 <code>r</code>.
                 Let
@@ -54,40 +54,35 @@
                 </li>
             </ol>
             <p>
-                The tuple $(r, g_1, g_2, \G_1,\G_2,\G_T)$ is called an \emph{asymmetric} bilinear setting.
-                If $\G_1=\G_2=\G$ and $g$ is a generator of $\G$ then the tuple
-                $(r,g,\G,\G_T)$ is a {\em symmetric} bilinear setting.
-                In the symmetric setting the order of $\G$ and $\G_T$ need not be prime.
-                For simplicity, in the rest of the paper, we will consider symmetric bilinear settings.
-                The cryptographic relevance of a bilinear mapping stems from the fact that in cyclic
-                groups that admit such a mapping the decisional Diffie-Hellman assumption does not hold.
-                Indeed, given $g,g^x,g^y,g^z$ it is possible to check if $z=xy$
-                (and thus solve the decisional DH problem) by testing $\e(g,g^z)$ and
-                $\e(g^x,g?y)$ for equality.
-            </p>
-
-            <p>
-                <code>G1</code>
-                is the smaller group (the group of points over the base field).
-                With symmetric pairings,
-                <code>G1</code>
-                =<code>G2</code>.
-                <br/>
-                The elements of
-                <code>G2</code>
-                are at least as long as<code>G1</code>;
-                <code>G1</code>
-                is guaranteed to be the shorter of the two. Sometimes
-                <code>G1</code>
+                The tuple
+                <code>(r,g1,g2,G1,G2,GT)</code>
+                is called an
+                <strong>asymmetric bilinear setting</strong>.
+                If
+                <code>G1=G2=G</code>
+                and g is a generator of G then the tuple
+                (r,g,G,GT) is a
+                <strong>symmetric bilinear setting</strong>.
+                In the symmetric setting the order of
+                <code>G</code>
                 and
-                <code>G2</code>
-                are the same group (i.e. the pairing is symmetric) so
-                their elements can be mixed freely. In
-                this case the
-                <code>Pairing#isSymmetric()</code>
-                method returns<code>true</code>.
+                <code>G_T</code>
+                need not be prime.
             </p>
-
+            <p>
+                The cryptographic relevance of a bilinear mapping stems from the fact that in cyclic
+                groups that admit such a mapping the
+                <strong>decisional Diffie-Hellman</strong>
+                assumption does not hold.
+                Indeed, given
+                <code>(g,g^x,g^y,g^z)</code>
+                it is possible to check if z=xy
+                (and thus solve the decisional DH problem) by testing
+                <code>e(g,g^z)</code>
+                and
+                <code>e(g^x,g^y)</code>
+                for equality.
+            </p>
 
             <a name="initializing"/>
             <subsection name="Initializing Pairings">
@@ -130,7 +125,7 @@
                 <ol>
                     <li>
                         <p>
-                            <font style="font-weight: bold;color:red">Porting</font>
+                            <font style="font-weight: bold;color:red">Port</font>
                             : Each curve definition brings the curve type.
                             Using this information a factory can choose the right pairing implementation.
                             In fact you have the following:
@@ -180,23 +175,24 @@
                 </a>
                 interface provides the methods to access the algebraic structures
                 (<code>G1, G2, GT, Zr</code>)
-                involved in the pairing computation. Here are the methods:
+                involved in the pairing computation.
+                Here are the methods:
 
                 <source xml:space="preserve">/* Return G1 */
-                    Field G1 =
-                    <font style="font-weight: bold;color:green">pairing.getG1();</font>
+Field G1 =
+<font style="font-weight: bold;color:green">pairing.getG1();</font>
 
-                    /* Return G2 */
-                    Field G2 =
-                    <font style="font-weight: bold;color:green">pairing.getG2();</font>
+/* Return G2 */
+Field G2 =
+<font style="font-weight: bold;color:green">pairing.getG2();</font>
 
-                    /* Return GT */
-                    Field GT =
-                    <font style="font-weight: bold;color:green">pairing.getGT();</font>
+/* Return GT */
+Field GT =
+<font style="font-weight: bold;color:green">pairing.getGT();</font>
 
-                    /* Return Zr */
-                    Field Zr =
-                    <font style="font-weight: bold;color:green">pairing.getZr();</font>
+/* Return Zr */
+Field Zr =
+<font style="font-weight: bold;color:green">pairing.getZr();</font>
                 </source>
 
                 Now elements of these algebraic structures can be initialized and manipulated
@@ -223,10 +219,10 @@
                     Then you can use the following code:
                 </p>
                 <source>
-                    Element in1 = pairing.get<code>G1</code>().newRandomElement();
-                    Element in2 = pairing.get<code>G2</code>().newRandomElement();
-                    Element out =
-                    <font style="font-weight: bold;color:green">pairing.pairing(in1, in2);</font>
+    Element in1 = pairing.get<code>G1</code>().newRandomElement();
+    Element in2 = pairing.get<code>G2</code>().newRandomElement();
+    Element out =
+    <font style="font-weight: bold;color:green">pairing.pairing(in1, in2);</font>
                 </source>
 
                 <p>
@@ -234,16 +230,16 @@
                     the following code:
                 </p>
                 <source xml:space="preserve">
-                    Element in1[] = new Element[5];
-                    for (int i = 0; i &lt; 5; i++)
-                    in1[i] = pairing.get<code>G1</code>().newRandomElement();
+Element in1[] = new Element[5];
+for (int i = 0; i &lt; 5; i++)
+in1[i] = pairing.get<code>G1</code>().newRandomElement();
 
-                    Element in2[] = new Element[5];
-                    for (int i = 0; i &lt; 5; i++)
-                    in2[i] = pairing.get<code>G2</code>().newRandomElement();
+Element in2[] = new Element[5];
+for (int i = 0; i &lt; 5; i++)
+in2[i] = pairing.get<code>G2</code>().newRandomElement();
 
-                    Element out =
-                    <font style="font-weight: bold;color:green">pairing.pairing(in1, in2);</font>
+Element out =
+<font style="font-weight: bold;color:green">pairing.pairing(in1, in2);</font>
                 </source>
             </subsection>
 
@@ -257,19 +253,19 @@
                 </p>
 
                 <source xml:space="preserve">
-                    /* Get ready to perform a pairing whose first input is in1,
-                    store the results of time-saving precomputation in ppp. */
+/* Get ready to perform a pairing whose first input is in1,
+store the results of time-saving precomputation in ppp. */
 
-                    Element in1 = pairing.get<code>G1</code>().newRandomElement();
-                    <font style="font-weight: bold;color:green">PairingPreProcessing ppp = pairing.pairing(in1);</font>
+Element in1 = pairing.get<code>G1</code>().newRandomElement();
+<font style="font-weight: bold;color:green">PairingPreProcessing ppp = pairing.pairing(in1);</font>
 
-                    /* Compute the pairing using in2 and the preprocessed information
-                    stored in ppp. The inputs to the pairing are the element
-                    previously used to initialize ppp and the element in2. */
+/* Compute the pairing using in2 and the preprocessed information
+stored in ppp. The inputs to the pairing are the element
+previously used to initialize ppp and the element in2. */
 
-                    Element in2 = pairing.get<code>G2</code>().newRandomElement();
-                    Element out =
-                    <font style="font-weight: bold;color:green">ppp.pairing(in2);</font>
+Element in2 = pairing.get<code>G2</code>().newRandomElement();
+Element out =
+<font style="font-weight: bold;color:green">ppp.pairing(in2);</font>
                 </source>
 
                 <p>
@@ -279,7 +275,7 @@
                     to a byte array:
                 </p>
                 <source xml:space="preserve">
-                    byte[] pppBytes =<font style="font-weight: bold;color:green">ppp.toBytes()</font>;
+byte[] pppBytes =<font style="font-weight: bold;color:green">ppp.toBytes()</font>;
                 </source>
                 <p>
                     To convert the byte array to an instance of the PairingPreProcessing interface

@@ -160,16 +160,8 @@ public class UTMAStrongEngine implements AsymmetricBlockCipher {
             if (inLen > byteLength)
                 throw new DataLengthException("input must be of size " + byteLength);
 
-            byte[] block;
-            if (inOff != 0 || inLen != in.length) {
-                block = new byte[inLen];
-                System.arraycopy(in, inOff, block, 0, inLen);
-            } else {
-                block = in;
-            }
-
             Element M = pairing.getGT().newElement();
-            M.setFromBytes(block);
+            M.setFromBytes(in, inOff);
 
             // Convert the Elements to byte arrays
             ByteArrayOutputStream bytes = new ByteArrayOutputStream(getOutputBlockSize());

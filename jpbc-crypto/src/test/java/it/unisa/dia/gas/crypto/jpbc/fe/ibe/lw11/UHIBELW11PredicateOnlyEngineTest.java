@@ -18,7 +18,7 @@ import org.bouncycastle.crypto.InvalidCipherTextException;
  */
 public class UHIBELW11PredicateOnlyEngineTest extends TestCase {
 
-    public void testUHIBE() {
+    public void testUHIBELW11PredicateOnlyEngine() {
         // Setup
         AsymmetricCipherKeyPair keyPair = setup(32);
 

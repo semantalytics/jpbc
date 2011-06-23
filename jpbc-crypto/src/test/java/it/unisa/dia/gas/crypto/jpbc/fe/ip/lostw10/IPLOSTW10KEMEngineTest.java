@@ -23,7 +23,7 @@ import java.util.Random;
  */
 public class IPLOSTW10KEMEngineTest extends TestCase {
 
-    public void testIPOT10AttributesEngine() {
+    public void testIPLOSTW10KEMEngine() {
         int n = 2;
 
         AsymmetricCipherKeyPair keyPair = setup(createParameters(n));

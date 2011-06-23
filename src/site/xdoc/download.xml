@@ -40,7 +40,7 @@
                         <tr valign="top">
                             <td>jPBC</td>
                             <td>1.2.0</td>
-                            <td>November 2010</td>
+                            <td>July 2011</td>
                             <td>Stable</td>
                             <td>
                                 <em>
@@ -143,7 +143,7 @@
                                 and
                             </li>
                             <li>
-                                <font style="font-weight: bold;color:green"><tt>bcprov-jdk15-140.jar</tt></font>.
+                                <font style="font-weight: bold;color:green"><tt>bcprov-jdk16-140.jar</tt></font>.
                             </li>
                         </ol>
                     </li>

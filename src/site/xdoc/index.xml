@@ -53,14 +53,14 @@
             <ul>
                 <li>
                     <p>
-                        a <font style="font-weight: bold;color:red">Porting</font> of the
+                        a <font style="font-weight: bold;color:red">Java Port</font> of the
                         <a href="http://crypto.stanford.edu/pbc/">Pairing-Based Cryptography Library (PBC)</a>
                         library developed by <a href="http://crypto.stanford.edu/~blynn/">Ben Lynn</a>.
                     </p>
                 </li>
                 <li>
                     <p>
-                        a <font style="font-weight: bold;color:red">Wrapper</font> on the
+                        a <font style="font-weight: bold;color:red">Java Wrapper</font> on the
                         <a href="http://crypto.stanford.edu/pbc/">PBC</a>
                         library. This means that you you can delegate the pairing computation to PBC.
                         Have a look
