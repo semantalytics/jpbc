@@ -159,6 +159,7 @@ Pairing pairing =
                 </ol>
             </subsection>
 
+            <a name="accessing"/>
             <subsection name="Accessing Algebraic Structures">
                 The
                 <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Pairing.html">

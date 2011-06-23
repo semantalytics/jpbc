@@ -18,29 +18,21 @@
                     </code>
                 </a>
                 interface represents a generic algebraic structures.
-                It provides some useful methods to generate elements lying in these structures.
-
-
-
-                You can obtain an instance of an
-                <code>it.unisa.dia.gas.jpbc.Element</code> interface
-                starting from an algebraic structure, such as a particular
-                finite field or elliptic curve group, represented by the
-
-                interface.
-                <br/>
-
-                Typically instances of that interface are accessed using the
+            </p>
+            <p>
+                Instances of that interface are accessed using the
                 <code><font style="font-weight: bold;color:red">it.unisa.dia.gas.jpbc.Pairing</font></code>
                 interface. Go
-                <a href="./pairing.html">here</a>
+                <a href="./pairing.html#accessing">here</a>
                 to know how.
             </p>
 
-
+            <a name="Initializing"/>
             <subsection name="Initializing Elements">
                 <p>
-                    The following methods can be used to create elements.
+                    To obtain an instance of an
+                    <code><font style="font-weight: bold;color:red">it.unisa.dia.gas.jpbc.Element</font></code> interface
+                    then the following methods can be used:
                 </p>
 
                 <source>/* Create a new element. */
