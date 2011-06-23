@@ -10,20 +10,15 @@
     <body>
         <section name="PBC Wrapper">
             <p>
-                jPBC provides also a wrapper on PBC. In this way all the computations
-                can be delegated directly to
-                PBC still using the same interfaces provided by jPBC.
-                To initialize the pairing using the wrapper
-                go
-                <a href="./pairing.html#initializing">here</a>.
+                jPBC provides also a wrapper around PBC.
+                The wrapper provides a tiny and efficient layer to enable the communication between
+                jPBC and PBC. This layer has the form of a shared library written in
+                <code>C</code>.
             </p>
             <p>
-                To use the wrapper you need to compile a shared library written in C. jPBC provides a
+                To compile the shared library jPBC provides a
                 <a href="http://www.cmake.org/">cmake</a>
                 style build configuration file.
-            </p>
-
-            <p>
                 Thus, follow these instructions:
             </p>
 
@@ -75,7 +70,7 @@ make</source>
                     </div>
 
                     <p>
-                        If everything is ok in the
+                        If everything is ok then in the
                         <code>build</code>
                         folder you'll have the shared library compiled.
                         Move the library to a system folder to be sure that java can see it. Have a look to the
