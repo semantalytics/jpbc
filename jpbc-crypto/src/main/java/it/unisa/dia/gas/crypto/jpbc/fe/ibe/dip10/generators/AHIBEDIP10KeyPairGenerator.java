@@ -3,7 +3,7 @@ package it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.generators;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params.AHIBEDIP10KeyPairGenerationParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params.AHIBEDIP10MasterSecretKeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params.AHIBEDIP10PublicKeyParameters;
-import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtil;
+import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtils;
 import it.unisa.dia.gas.jpbc.CurveGenerator;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
@@ -36,28 +36,28 @@ public class AHIBEDIP10KeyPairGenerator implements AsymmetricCipherKeyPairGenera
             pairing = PairingFactory.getPairing(curveParameters);
 
             Element generator = pairing.getG1().newRandomElement().getImmutable();
-            gen1 = ElementUtil.getGenerator(pairing, generator, curveParameters, 0, 4).getImmutable();
+            gen1 = ElementUtils.getGenerator(pairing, generator, curveParameters, 0, 4).getImmutable();
 
             if (!pairing.pairing(generator, generator).isOne()) {
-                gen3 = ElementUtil.getGenerator(pairing, generator, curveParameters, 2, 4).getImmutable();
-                gen4 = ElementUtil.getGenerator(pairing, generator, curveParameters, 3, 4).getImmutable();
+                gen3 = ElementUtils.getGenerator(pairing, generator, curveParameters, 2, 4).getImmutable();
+                gen4 = ElementUtils.getGenerator(pairing, generator, curveParameters, 3, 4).getImmutable();
                 break;
             }
         }
 
         // Construct Public Key and Master Secret Key
-        Element Y1 = ElementUtil.randomIn(pairing, gen1).getImmutable();
-        Element X1 = ElementUtil.randomIn(pairing, gen1).getImmutable();
+        Element Y1 = ElementUtils.randomIn(pairing, gen1).getImmutable();
+        Element X1 = ElementUtils.randomIn(pairing, gen1).getImmutable();
 
         Element[] uElements = new Element[parameters.getLength()];
         for (int i = 0; i < uElements.length; i++) {
-            uElements[i] = ElementUtil.randomIn(pairing, gen1).getImmutable();
+            uElements[i] = ElementUtils.randomIn(pairing, gen1).getImmutable();
         }
 
-        Element Y3 = ElementUtil.randomIn(pairing, gen3).getImmutable();
+        Element Y3 = ElementUtils.randomIn(pairing, gen3).getImmutable();
 
-        Element X4 = ElementUtil.randomIn(pairing, gen4).getImmutable();
-        Element Y4 = ElementUtil.randomIn(pairing, gen4).getImmutable();
+        Element X4 = ElementUtils.randomIn(pairing, gen4).getImmutable();
+        Element Y4 = ElementUtils.randomIn(pairing, gen4).getImmutable();
 
         Element alpha = pairing.getZr().newRandomElement().getImmutable();
 

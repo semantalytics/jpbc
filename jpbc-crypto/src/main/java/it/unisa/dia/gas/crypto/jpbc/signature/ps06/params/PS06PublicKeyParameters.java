@@ -1,6 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc.signature.ps06.params;
 
-import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtil;
+import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtils;
 import it.unisa.dia.gas.jpbc.Element;
 
 /**
@@ -22,8 +22,8 @@ public class PS06PublicKeyParameters extends PS06KeyParameters {
         this.g2 = g2.getImmutable();
         this.uPrime = uPrime.getImmutable();
         this.mPrime = mPrime.getImmutable();
-        this.Us = ElementUtil.cloneImmutable(Us);
-        this.Ms = ElementUtil.cloneImmutable(Ms);
+        this.Us = ElementUtils.cloneImmutable(Us);
+        this.Ms = ElementUtils.cloneImmutable(Ms);
     }
 
     public Element getG1() {

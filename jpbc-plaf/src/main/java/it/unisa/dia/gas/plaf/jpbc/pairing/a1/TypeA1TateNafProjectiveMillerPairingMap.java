@@ -7,7 +7,7 @@ import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteElement;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteField;
 import it.unisa.dia.gas.plaf.jpbc.pairing.map.AbstractMillerPairingMap;
 import it.unisa.dia.gas.plaf.jpbc.pairing.map.AbstractMillerPairingPreProcessing;
-import it.unisa.dia.gas.plaf.jpbc.util.BigIntegerUtils;
+import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)

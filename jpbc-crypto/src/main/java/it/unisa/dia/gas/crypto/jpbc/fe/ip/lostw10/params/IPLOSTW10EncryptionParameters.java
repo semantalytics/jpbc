@@ -1,6 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params;
 
-import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtil;
+import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtils;
 import it.unisa.dia.gas.jpbc.Element;
 
 import java.util.Arrays;
@@ -19,7 +19,7 @@ public class IPLOSTW10EncryptionParameters extends IPLOSTW10KeyParameters {
         super(false, publicKey.getParameters());
 
         this.publicKey = publicKey;
-        this.x = ElementUtil.cloneImmutable(x);
+        this.x = ElementUtils.cloneImmutable(x);
     }
 
 

@@ -1,6 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params;
 
-import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtil;
+import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtils;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.jpbc.PairingPreProcessing;
@@ -47,8 +47,8 @@ public class HVEIP08SecretKeyParameters extends HVEIP08KeyParameters {
                 this.pattern[i] = 0;
         }
 
-        this.Y = ElementUtil.cloneImmutable(Y);
-        this.L = ElementUtil.cloneImmutable(L);
+        this.Y = ElementUtils.cloneImmutable(Y);
+        this.L = ElementUtils.cloneImmutable(L);
 
         this.allStar = false;
         this.K = null;

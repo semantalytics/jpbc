@@ -45,7 +45,6 @@ public class TypeA1TateAffineMillerPairingMap extends AbstractMillerPairingMap<E
         Point out = pairing.Fq2.newElement();
         Point f = pairing.Fq2.newOneElement();
 
-        //TODO: sliding NAF
         for (int m = pairing.r.bitLength() - 2; m > 0; m--) {
             tangentStep(f0, a, b, c, Vx, Vy, curveA, e0, Qx, Qy, f);
             V.twice();
@@ -95,7 +94,6 @@ public class TypeA1TateAffineMillerPairingMap extends AbstractMillerPairingMap<E
         Point out = pairing.Fq2.newElement();
         Point f = pairing.Fq2.newOneElement();
 
-        //TODO: sliding NAF
         for (int m = pairing.r.bitLength() - 2; m > 0; m--) {
             tangentStep(f0, a, b, c, Vs, curveA, e0, in2, f);
 

@@ -3,7 +3,7 @@ package it.unisa.dia.gas.plaf.jpbc.util;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class Utils {
+public class Arrays {
 
     public static byte[] copyOf(byte[] original, int newLength) {
         int len = Math.min(original.length, newLength);

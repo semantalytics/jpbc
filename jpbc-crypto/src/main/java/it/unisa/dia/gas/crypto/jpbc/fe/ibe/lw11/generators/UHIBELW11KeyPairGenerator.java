@@ -3,7 +3,7 @@ package it.unisa.dia.gas.crypto.jpbc.fe.ibe.lw11.generators;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.lw11.params.UHIBELW11KeyPairGenerationParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.lw11.params.UHIBELW11MasterSecretKeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.lw11.params.UHIBELW11PublicKeyParameters;
-import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtil;
+import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtils;
 import it.unisa.dia.gas.jpbc.CurveGenerator;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
@@ -36,16 +36,16 @@ public class UHIBELW11KeyPairGenerator implements AsymmetricCipherKeyPairGenerat
             pairing = PairingFactory.getPairing(curveParameters);
 
             Element generator = pairing.getG1().newRandomElement();
-            g = ElementUtil.getGenerator(pairing, generator, curveParameters, 0, 3).getImmutable();
+            g = ElementUtils.getGenerator(pairing, generator, curveParameters, 0, 3).getImmutable();
             if (!pairing.pairing(g, g).isOne())
                 break;
         }
 
         // Generate required elements
-        Element u = ElementUtil.randomIn(pairing, g).getImmutable();
-        Element h = ElementUtil.randomIn(pairing, g).getImmutable();
-        Element v = ElementUtil.randomIn(pairing, g).getImmutable();
-        Element w = ElementUtil.randomIn(pairing, g).getImmutable();
+        Element u = ElementUtils.randomIn(pairing, g).getImmutable();
+        Element h = ElementUtils.randomIn(pairing, g).getImmutable();
+        Element v = ElementUtils.randomIn(pairing, g).getImmutable();
+        Element w = ElementUtils.randomIn(pairing, g).getImmutable();
 
         Element alpha = pairing.getZr().newRandomElement().getImmutable();
 

@@ -6,7 +6,7 @@ import it.unisa.dia.gas.jpbc.Polynomial;
 import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericPolyElement;
 import it.unisa.dia.gas.plaf.jpbc.field.polymod.PolyModElement;
 import it.unisa.dia.gas.plaf.jpbc.field.polymod.PolyModField;
-import it.unisa.dia.gas.plaf.jpbc.util.BigIntegerUtils;
+import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
 import java.math.BigInteger;
 

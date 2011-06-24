@@ -1,6 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ibe.lw11.params;
 
-import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtil;
+import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtils;
 import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
 
@@ -18,12 +18,12 @@ public class UHIBELW11SecretKeyParameters extends UHIBELW11KeyParameters {
                                         Element[] ids) {
         super(true, curveParameters);
 
-        this.K0s = ElementUtil.cloneImmutable(K0s);
-        this.K1s = ElementUtil.cloneImmutable(K1s);
-        this.K2s = ElementUtil.cloneImmutable(K2s);
-        this.K3s = ElementUtil.cloneImmutable(K3s);
+        this.K0s = ElementUtils.cloneImmutable(K0s);
+        this.K1s = ElementUtils.cloneImmutable(K1s);
+        this.K2s = ElementUtils.cloneImmutable(K2s);
+        this.K3s = ElementUtils.cloneImmutable(K3s);
 
-        this.ids = ElementUtil.cloneImmutable(ids);
+        this.ids = ElementUtils.cloneImmutable(ids);
     }
 
 

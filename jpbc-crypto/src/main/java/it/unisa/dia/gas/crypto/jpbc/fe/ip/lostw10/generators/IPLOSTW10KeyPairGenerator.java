@@ -4,6 +4,7 @@ import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10KeyGenerationP
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10MasterSecretKeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10Parameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10PublicKeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtils;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.jpbc.Vector;
@@ -12,8 +13,6 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.product.ProductPairing;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPairGenerator;
 import org.bouncycastle.crypto.KeyGenerationParameters;
-
-import static it.unisa.dia.gas.plaf.jpbc.util.ElementUtils.*;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -45,7 +44,7 @@ public class IPLOSTW10KeyPairGenerator implements AsymmetricCipherKeyPairGenerat
         }
 
         // Sample a uniform transformation
-        Element[][] linearTransformation = sampleUniformTransformation(pairing.getZr(), N);
+        Element[][] linearTransformation = ElementUtils.sampleUniformTransformation(pairing.getZr(), N);
 
         // Generate base B
         Element[] tempB = new Vector[N];
@@ -64,7 +63,7 @@ public class IPLOSTW10KeyPairGenerator implements AsymmetricCipherKeyPairGenerat
 
 
         // Generate base B*
-        linearTransformation = invert(transpose(linearTransformation));
+        linearTransformation = ElementUtils.invert(ElementUtils.transpose(linearTransformation));
 
         Element[] tempBstar = new Vector[N];
         for (int i = 0; i < N; i++) {

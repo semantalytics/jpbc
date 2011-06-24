@@ -11,9 +11,9 @@ import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyField;
 import it.unisa.dia.gas.plaf.jpbc.field.polymod.PolyModElement;
 import it.unisa.dia.gas.plaf.jpbc.field.polymod.PolyModField;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
-import it.unisa.dia.gas.plaf.jpbc.util.BigIntegerUtils;
-import it.unisa.dia.gas.plaf.jpbc.util.HilbertPolyGenerator;
-import it.unisa.dia.gas.plaf.jpbc.util.PellEquation;
+import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
+import it.unisa.dia.gas.plaf.jpbc.util.math.HilbertPolyGenerator;
+import it.unisa.dia.gas.plaf.jpbc.util.math.PellEquation;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;

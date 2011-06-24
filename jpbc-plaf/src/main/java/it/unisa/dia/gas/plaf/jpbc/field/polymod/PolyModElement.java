@@ -6,7 +6,7 @@ import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericPolyElement;
 import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyElement;
 import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyField;
 import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyUtils;
-import it.unisa.dia.gas.plaf.jpbc.util.BigIntegerUtils;
+import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
 import java.math.BigInteger;
 import java.util.ArrayList;

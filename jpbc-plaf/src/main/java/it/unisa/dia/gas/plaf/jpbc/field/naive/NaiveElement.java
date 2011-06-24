@@ -3,8 +3,8 @@ package it.unisa.dia.gas.plaf.jpbc.field.naive;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericElement;
-import it.unisa.dia.gas.plaf.jpbc.util.BigIntegerUtils;
-import it.unisa.dia.gas.plaf.jpbc.util.Utils;
+import it.unisa.dia.gas.plaf.jpbc.util.Arrays;
+import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
 import java.math.BigInteger;
 
@@ -156,7 +156,7 @@ public class NaiveElement extends GenericElement {
     }
 
     public int setFromBytes(byte[] source, int offset) {
-        byte[] buffer = Utils.copyOf(source, offset, field.getLengthInBytes());
+        byte[] buffer = Arrays.copyOf(source, offset, field.getLengthInBytes());
         value = new BigInteger(1, buffer).mod(order);
 
         return buffer.length;
@@ -301,7 +301,7 @@ public class NaiveElement extends GenericElement {
             // strip the zero prefix
             if (bytes[0] == 0 && bytes.length == field.getLengthInBytes() + 1) {
                 // Remove it
-                bytes = Utils.copyOfRange(bytes, 1, bytes.length);
+                bytes = Arrays.copyOfRange(bytes, 1, bytes.length);
             } else
                 throw new IllegalStateException("result has more than FixedLengthInBytes.");
         } else if (bytes.length < field.getLengthInBytes()) {

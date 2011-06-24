@@ -5,7 +5,7 @@ import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericElement;
 import it.unisa.dia.gas.plaf.jpbc.gmp.jna.GMPLibrary;
 import it.unisa.dia.gas.plaf.jpbc.gmp.jna.GMPProvider;
-import it.unisa.dia.gas.plaf.jpbc.util.BigIntegerUtils;
+import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.MPZElementType;
 import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.WrapperLibrary;
 import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.WrapperLibraryProvider;

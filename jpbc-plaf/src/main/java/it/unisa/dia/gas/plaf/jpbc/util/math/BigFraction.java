@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.plaf.jpbc.util;
+package it.unisa.dia.gas.plaf.jpbc.util.math;
 
 import java.math.BigInteger;
 

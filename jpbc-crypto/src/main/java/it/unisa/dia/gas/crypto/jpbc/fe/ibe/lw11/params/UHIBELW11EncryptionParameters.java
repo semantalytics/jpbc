@@ -1,6 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ibe.lw11.params;
 
-import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtil;
+import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtils;
 import it.unisa.dia.gas.jpbc.Element;
 import org.bouncycastle.crypto.CipherParameters;
 
@@ -18,7 +18,7 @@ public class UHIBELW11EncryptionParameters implements CipherParameters {
     public UHIBELW11EncryptionParameters(UHIBELW11PublicKeyParameters publicKey,
                                          Element[] ids) {
         this.publicKey = publicKey;
-        this.ids = ElementUtil.cloneImmutable(ids);
+        this.ids = ElementUtils.cloneImmutable(ids);
     }
 
 

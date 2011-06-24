@@ -1,9 +1,9 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.abe.lsss;
 
+import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtils;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.plaf.jpbc.field.naive.NaiveField;
-import it.unisa.dia.gas.plaf.jpbc.util.ElementUtils;
 
 import java.math.BigInteger;
 

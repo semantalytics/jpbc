@@ -5,7 +5,7 @@ import com.sun.jna.Pointer;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
 import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.plaf.jpbc.util.Utils;
+import it.unisa.dia.gas.plaf.jpbc.util.Arrays;
 import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.MPZElementType;
 import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.PBCElementPPType;
 import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.WrapperLibraryProvider;
@@ -103,7 +103,7 @@ public class PBCElement implements Element {
     public int setFromBytes(byte[] source, int offset) {
         int lengthInBytes = WrapperLibraryProvider.getWrapperLibrary().pbc_element_length_in_bytes(value);
 
-        WrapperLibraryProvider.getWrapperLibrary().pbc_element_from_bytes(value, Utils.copyOf(source, offset, lengthInBytes));
+        WrapperLibraryProvider.getWrapperLibrary().pbc_element_from_bytes(value, Arrays.copyOf(source, offset, lengthInBytes));
 
         return lengthInBytes;
     }

@@ -3,7 +3,7 @@ package it.unisa.dia.gas.plaf.jpbc.pairing.a1;
 import it.unisa.dia.gas.jpbc.CurveGenerator;
 import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
-import it.unisa.dia.gas.plaf.jpbc.util.BigIntegerUtils;
+import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;

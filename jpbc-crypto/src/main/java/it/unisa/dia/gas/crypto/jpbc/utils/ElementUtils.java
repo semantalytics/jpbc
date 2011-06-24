@@ -1,12 +1,50 @@
-package it.unisa.dia.gas.plaf.jpbc.util;
+package it.unisa.dia.gas.crypto.jpbc.utils;
 
-import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.jpbc.*;
+
+import java.math.BigInteger;
+import java.util.Arrays;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class ElementUtils {
+
+    public static Element[] cloneImmutable(Element[] source) {
+        Element[] target = Arrays.copyOf(source, source.length);
+
+        for (int i = 0; i < target.length; i++) {
+            Element uElement = target[i];
+            if (uElement != null && !uElement.isImmutable())
+                target[i] = target[i].getImmutable();
+        }
+
+        return target;
+    }
+
+    public static ElementPow[] cloneToElementPow(Element[] source) {
+        ElementPow[] target = new ElementPow[source.length];
+
+        for (int i = 0; i < target.length; i++) {
+            target[i] = source[i].pow();
+        }
+
+        return target;
+    }
+
+    public static Element randomIn(Pairing pairing, Element generator) {
+        return generator.duplicate().powZn(pairing.getZr().newRandomElement());
+    }
+
+    public static Element getGenerator(Pairing pairing, Element generator, CurveParameters curveParameters, int subgroupIndex, int numPrimes) {
+        BigInteger prod = BigInteger.ONE;
+        for (int j = 0; j < numPrimes; j++) {
+            if (j != subgroupIndex)
+                prod = prod.multiply(curveParameters.getBigInteger("n" +j));
+        }
+
+        return generator.pow(prod);
+    }
 
     public static void print(Element[][] matrix) {
         int n = matrix.length;
@@ -89,8 +127,7 @@ public class ElementUtils {
         return res;
     }
 
-
-    private static Element[][] invertArray(Element[][] D, int n) {
+    public static Element[][] invertArray(Element[][] D, int n) {
         Field field = D[0][0].getField();
 
         // init the reduction matrix
@@ -128,5 +165,4 @@ public class ElementUtils {
         }
         return D;
     }
-
 }

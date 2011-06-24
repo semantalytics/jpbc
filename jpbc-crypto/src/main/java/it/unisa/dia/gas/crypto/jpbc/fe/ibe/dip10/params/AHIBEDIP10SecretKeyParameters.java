@@ -1,6 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params;
 
-import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtil;
+import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtils;
 import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
 
@@ -23,13 +23,13 @@ public class AHIBEDIP10SecretKeyParameters extends AHIBEDIP10KeyParameters {
 
         this.k11 = k11.getImmutable();
         this.k12 = k12.getImmutable();
-        this.E1s = ElementUtil.cloneImmutable(e1s);
+        this.E1s = ElementUtils.cloneImmutable(e1s);
 
         this.k21 = k21.getImmutable();
         this.k22 = k22.getImmutable();
-        this.E2s = ElementUtil.cloneImmutable(e2s);
+        this.E2s = ElementUtils.cloneImmutable(e2s);
 
-        this.ids = ElementUtil.cloneImmutable(ids);
+        this.ids = ElementUtils.cloneImmutable(ids);
     }
 
 

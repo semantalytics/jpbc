@@ -14,14 +14,17 @@ public class PairingFactory {
 
     private static Map<CurveParameters, Pairing> pairings = new WeakHashMap<CurveParameters, Pairing>();
 
+    public static boolean isPBCAvailable() {
+        return WrapperLibraryProvider.isAvailable();
+    }
+
     public static Pairing getPairing(CurveParameters curveParameters) {
-            // TODO: reusing doesn't work!
         Pairing pairing = pairings.get(curveParameters);
         if (pairing == null) {
             if (WrapperLibraryProvider.isAvailable())
                 pairing = new PBCPairing(curveParameters);
             else
-                pairing = it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory.getPairing(curveParameters);
+                return null;
 
             pairings.put(curveParameters, pairing);
         }

@@ -1,12 +1,13 @@
-package it.unisa.dia.gas.plaf.jpbc.util;
+package it.unisa.dia.gas.plaf.jpbc.util.math;
 
-import static java.lang.Math.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
-import static java.math.RoundingMode.HALF_DOWN;
 import java.util.LinkedList;
 import java.util.List;
+
+import static java.lang.Math.*;
+import static java.math.RoundingMode.HALF_DOWN;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)

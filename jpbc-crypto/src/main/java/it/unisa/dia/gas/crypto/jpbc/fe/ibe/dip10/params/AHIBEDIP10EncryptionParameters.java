@@ -1,6 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params;
 
-import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtil;
+import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtils;
 import it.unisa.dia.gas.jpbc.Element;
 
 import java.util.Arrays;
@@ -19,7 +19,7 @@ public class AHIBEDIP10EncryptionParameters extends AHIBEDIP10KeyParameters {
         super(true, publicKey.getCurveParameters());
 
         this.publicKey = publicKey;
-        this.ids = ElementUtil.cloneImmutable(ids);
+        this.ids = ElementUtils.cloneImmutable(ids);
     }
 
 

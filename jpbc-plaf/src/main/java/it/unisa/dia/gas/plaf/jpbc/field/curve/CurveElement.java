@@ -3,7 +3,7 @@ package it.unisa.dia.gas.plaf.jpbc.field.curve;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.FieldOver;
 import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericPointElement;
-import it.unisa.dia.gas.plaf.jpbc.util.BigIntegerUtils;
+import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
 import java.math.BigInteger;
 

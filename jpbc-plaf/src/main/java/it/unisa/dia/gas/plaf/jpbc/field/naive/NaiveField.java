@@ -1,7 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.field.naive;
 
 import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericField;
-import it.unisa.dia.gas.plaf.jpbc.util.BigIntegerUtils;
+import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
