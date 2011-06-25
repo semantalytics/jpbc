@@ -103,6 +103,12 @@
         <!--Profile which creates an assembly using jpbc-site.xml-->
         <profile>
             <id>site</id>
+            <distributionManagement>
+                <site>
+                  <id>local</id>
+                  <url>~/Sites/jpbc/</url>
+                </site>
+              </distributionManagement>
             <build>
                 <plugins>
                     <plugin>
