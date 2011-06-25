@@ -10,7 +10,7 @@
     <body>
         <section name="Android">
             <p>
-                jPBC (the port) runs out of box on Android.
+                jPBC (the port) runs out of box on Android (2.2+ version).
                 Download the following
                 <a href="../android/jpbc-android.apk">APK</a>
                 to benchmark jPBC on your terminal.
