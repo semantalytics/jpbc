@@ -9,15 +9,22 @@
 
     <body>
         <section name="Android">
-            JPBC (the porting) runs out of box on Android.
-            Download the following
-            <a href="../android/jpbc-android.apk">APK</a>
-            to benchmark jPBC on your terminal.
-            Once the benchmark is finished the results can be found
-            on the external memory in a file called "benchmark.out".
-            If you don’t mind it sending me the results, with a description
-            of the characteristic of the terminal used, please
-            <a href="../contact.html">contact</a> me.
+            <p>
+                jPBC (the port) runs out of box on Android.
+                Download the following
+                <a href="../android/jpbc-android.apk">APK</a>
+                to benchmark jPBC on your terminal.
+            </p>
+
+            <p>
+                Once the benchmark is finished the results can be found
+                on the external memory in a file called "benchmark.out".
+            </p>
+            <p>
+                If you don’t mind it sending me the results with a description
+                of the characteristics of the terminal used please
+                <a href="../contact.html">contact</a> me.
+            </p>
         </section>
     </body>
 </document>
