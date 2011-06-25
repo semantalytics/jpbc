@@ -262,7 +262,7 @@ public class NaiveElement extends GenericElement {
         t = t.divide(BigIntegerUtils.TWO);
         e = e.divide(BigIntegerUtils.TWO);
 
-        // TODO:
+        // TODO(-):
         // (suggested by Hovav Shacham) replace next three lines with
         //  element_pow2_mpz(x, e0, t, nqr, e);
         // once sliding windows are implemented for pow2

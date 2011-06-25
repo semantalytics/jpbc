@@ -535,7 +535,7 @@ public class PolyElement<E extends Element> extends GenericPolyElement<E> {
 
             while (true) {
                 r.setToRandomMonic(1);
-                // TODO: evaluate at g instead of bothering with gcd
+                // TODO(-): evaluate at g instead of bothering with gcd
                 fac.set(r).gcd(g);
 
                 if (fac.getDegree() > 0) {

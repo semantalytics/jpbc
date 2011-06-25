@@ -194,7 +194,7 @@ public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElemen
     }
 
     protected CurveElement getCurveRandomNoCofacSolvefory() {
-        //TODO: with 0.5 probability negate y-coord
+        //TODO(-): with 0.5 probability negate y-coord
 
         Element t = targetField.newElement();
 

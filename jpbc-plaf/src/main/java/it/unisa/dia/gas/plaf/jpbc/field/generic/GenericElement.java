@@ -142,7 +142,7 @@ public abstract class GenericElement implements Element {
         }
 
         /* build 2^k lookup table.  lookup[i] = x^i. */
-        /* TODO: a more careful word-finding algorithm would allow
+        /* TODO(-): a more careful word-finding algorithm would allow
          *       us to avoid calculating even lookup entries > 2
          */
         lookupSize = 1 << k;
