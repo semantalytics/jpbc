@@ -32,8 +32,12 @@ public class HVEIP08SecretKeyGenerator {
 
     public CipherParameters generateKey() {
         HVEIP08MasterSecretKeyParameters masterSecretKey = param.getMasterSecretKey();
-        if (param.isAllStar())
-            return new HVEIP08SecretKeyParameters(masterSecretKey.getParameters());
+        if (param.isAllStar()) {
+            return new HVEIP08SecretKeyParameters(
+                    masterSecretKey.getParameters(),
+                    masterSecretKey.getParameters().getElementPowG().powZn(masterSecretKey.getY())
+            );
+        }
 
         Pairing pairing = PairingFactory.getPairing(masterSecretKey.getParameters().getCurveParameters());
 

@@ -31,6 +31,10 @@ public class HVEIP08KEMEngineTest extends TestCase {
         byte[][] ct = encaps(keyPair.getPublic(), vectors[1]);
         assertEquals(true, Arrays.equals(ct[0], decaps(keyGen(keyPair.getPrivate(), vectors[0]), ct[1])));
 
+        vectors = createAllStarMatchingVectors(n);
+        ct = encaps(keyPair.getPublic(), vectors[1]);
+        assertEquals(true, Arrays.equals(ct[0], decaps(keyGen(keyPair.getPrivate(), vectors[0]), ct[1])));
+
         vectors = createNonMatchingVectors(n);
         ct = encaps(keyPair.getPublic(), vectors[1]);
         assertEquals(false, Arrays.equals(ct[0], decaps(keyGen(keyPair.getPrivate(), vectors[0]), ct[1])));
@@ -48,6 +52,16 @@ public class HVEIP08KEMEngineTest extends TestCase {
                 result[0][i] = random.nextInt(2);
                 result[1][i] = result[0][i];
             }
+        }
+        return result;
+    }
+
+    protected int[][] createAllStarMatchingVectors(int n) {
+        int[][] result = new int[2][n];
+        Random random = new Random();
+        for (int i = 0; i < n; i++) {
+            result[0][i] = -1;
+            result[1][i] = random.nextInt(2);
         }
         return result;
     }
