@@ -52,13 +52,14 @@ public class UTMABDP10StrongKEMEngine extends PairingKeyEncapsulationMechanism {
 
         this.pairing = PairingFactory.getPairing(keyParameters.getParameters().getCurveParams());
         if (key instanceof UTMABDP10StrongRandomizeParameters) {
-            this.inBytes = (4 * pairing.getG1().getLengthInBytes()) + ssEngine.getOutputBlockSize();
+            this.inBytes = (pairing.getGT().getLengthInBytes() + 4 * pairing.getG1().getLengthInBytes()) + ssEngine.getOutputBlockSize();
             this.outBytes = inBytes;
-            this.firstPartBytes = 4 * pairing.getG1().getLengthInBytes();
+            this.keyBytes = 0;
+            this.firstPartBytes = pairing.getGT().getLengthInBytes() + 4 * pairing.getG1().getLengthInBytes();
         } else {
             this.inBytes = 0;
             this.keyBytes = pairing.getGT().getLengthInBytes();
-            this.outBytes = keyBytes + (4 * pairing.getG1().getLengthInBytes()) + ssEngine.getOutputBlockSize();
+            this.outBytes = keyBytes + (pairing.getGT().getLengthInBytes() + 4 * pairing.getG1().getLengthInBytes()) + ssEngine.getOutputBlockSize();
         }
     }
 
@@ -117,8 +118,10 @@ public class UTMABDP10StrongKEMEngine extends PairingKeyEncapsulationMechanism {
             byte[] pkMaterial = ((Point) publicKeyParameters.getPk()).toBytesCompressed();
             try {
                 ByteArrayOutputStream out = new ByteArrayOutputStream(getOutputBlockSize());
+
                 out.write(M.toBytes());
                 encrypt(out, M);
+
                 out.write(ssEngine.processBlock(pkMaterial, 0, pkMaterial.length));
 
                 return out.toByteArray();
