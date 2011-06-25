@@ -106,7 +106,7 @@
             <distributionManagement>
                 <site>
                   <id>local</id>
-                  <url>~/Sites/jpbc/</url>
+                  <url>file://~/Sites/jpbc/</url>
                 </site>
               </distributionManagement>
             <build>
