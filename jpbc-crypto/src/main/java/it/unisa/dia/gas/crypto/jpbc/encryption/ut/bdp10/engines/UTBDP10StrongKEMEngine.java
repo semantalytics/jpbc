@@ -15,43 +15,43 @@ import java.io.IOException;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class UTMABDP10StrongKEMEngine extends PairingKeyEncapsulationMechanism {
+public class UTBDP10StrongKEMEngine extends PairingKeyEncapsulationMechanism {
 
     protected AsymmetricBlockCipher ssEngine;
     protected boolean forRandomization;
     protected int firstPartBytes;
 
 
-    public UTMABDP10StrongKEMEngine(AsymmetricBlockCipher ssEngine) {
+    public UTBDP10StrongKEMEngine(AsymmetricBlockCipher ssEngine) {
         this.ssEngine = ssEngine;
     }
 
-    public UTMABDP10StrongKEMEngine() {
+    public UTBDP10StrongKEMEngine() {
         this(new ElGamalEngine());
     }
 
 
     public void initialize() {
         if (forEncryption) {
-            if (!(key instanceof UTMABDP10StrongPublicKeyParameters) && !(key instanceof UTMABDP10StrongRandomizeParameters))
-                throw new IllegalArgumentException("UTMABDP10StrongPublicKeyParameters are required for encryption/randomization.");
-            forRandomization = key instanceof UTMABDP10StrongRandomizeParameters;
+            if (!(key instanceof UTBDP10StrongPublicKeyParameters) && !(key instanceof UTBDP10StrongRandomizeParameters))
+                throw new IllegalArgumentException("UTBDP10StrongPublicKeyParameters are required for encryption/randomization.");
+            forRandomization = key instanceof UTBDP10StrongRandomizeParameters;
 
             // Init the engine also
-            ssEngine.init(forEncryption, ((UTMABDP10StrongKeyParameters) key).getParameters().getRPublicKey());
+            ssEngine.init(forEncryption, ((UTBDP10StrongKeyParameters) key).getParameters().getRPublicKey());
         } else {
-            if (!(key instanceof UTMABDP10StrongPrivateKeyParameters)) {
-                throw new IllegalArgumentException("UTMABDP10StrongPrivateKeyParameters are required for decryption.");
+            if (!(key instanceof UTBDP10StrongPrivateKeyParameters)) {
+                throw new IllegalArgumentException("UTBDP10StrongPrivateKeyParameters are required for decryption.");
             }
 
             // Init the engine also
-            ssEngine.init(forEncryption, ((UTMABDP10StrongPrivateKeyParameters) key).getRPrivateKey());
+            ssEngine.init(forEncryption, ((UTBDP10StrongPrivateKeyParameters) key).getRPrivateKey());
         }
 
-        UTMABDP10StrongKeyParameters keyParameters = (UTMABDP10StrongKeyParameters) key;
+        UTBDP10StrongKeyParameters keyParameters = (UTBDP10StrongKeyParameters) key;
 
         this.pairing = PairingFactory.getPairing(keyParameters.getParameters().getCurveParams());
-        if (key instanceof UTMABDP10StrongRandomizeParameters) {
+        if (key instanceof UTBDP10StrongRandomizeParameters) {
             this.inBytes = (pairing.getGT().getLengthInBytes() + 4 * pairing.getG1().getLengthInBytes()) + ssEngine.getOutputBlockSize();
             this.outBytes = inBytes;
             this.keyBytes = 0;
@@ -79,7 +79,7 @@ public class UTMABDP10StrongKEMEngine extends PairingKeyEncapsulationMechanism {
 
 
     public byte[] process(byte[] in, int inOff, int inLen) throws InvalidCipherTextException {
-        if (key instanceof UTMABDP10StrongPrivateKeyParameters) {
+        if (key instanceof UTBDP10StrongPrivateKeyParameters) {
             // Convert bytes to Elements...
 
             int offset = inOff;
@@ -104,17 +104,17 @@ public class UTMABDP10StrongKEMEngine extends PairingKeyEncapsulationMechanism {
             Element C3 = pairing.getG1().newElement();
             offset += C3.setFromBytes(in, offset);
 
-            UTMABDP10StrongPrivateKeyParameters privateKeyParameters = (UTMABDP10StrongPrivateKeyParameters) key;
+            UTBDP10StrongPrivateKeyParameters privateKeyParameters = (UTBDP10StrongPrivateKeyParameters) key;
 
             C.mul(pairing.pairing(C0, privateKeyParameters.getD0()))
                     .mul(pairing.pairing(C1, privateKeyParameters.getD1()))
                     .mul(pairing.pairing(C2, privateKeyParameters.getD2()))
                     .mul(pairing.pairing(C3, privateKeyParameters.getD3()));
             return C.toBytes();
-        } else if (key instanceof UTMABDP10StrongPublicKeyParameters) {
+        } else if (key instanceof UTBDP10StrongPublicKeyParameters) {
             Element M = pairing.getGT().newRandomElement();
 
-            UTMABDP10StrongPublicKeyParameters publicKeyParameters = (UTMABDP10StrongPublicKeyParameters) key;
+            UTBDP10StrongPublicKeyParameters publicKeyParameters = (UTBDP10StrongPublicKeyParameters) key;
             byte[] pkMaterial = ((Point) publicKeyParameters.getPk()).toBytesCompressed();
             try {
                 ByteArrayOutputStream out = new ByteArrayOutputStream(getOutputBlockSize());
@@ -133,7 +133,7 @@ public class UTMABDP10StrongKEMEngine extends PairingKeyEncapsulationMechanism {
             // the first part is the basic encryption of the message;
             // the second one is the encryption of the public parameters.
 
-            UTMABDP10StrongRandomizeParameters keyParameters = (UTMABDP10StrongRandomizeParameters) key;
+            UTBDP10StrongRandomizeParameters keyParameters = (UTBDP10StrongRandomizeParameters) key;
 
             // Get the first part
             Element[] ct = extractCipherText(in, inOff);
@@ -169,7 +169,7 @@ public class UTMABDP10StrongKEMEngine extends PairingKeyEncapsulationMechanism {
 
 
     protected void encrypt(ByteArrayOutputStream outputStream, Element M) {
-        UTMABDP10StrongPublicKeyParameters publicKeyParameters = (UTMABDP10StrongPublicKeyParameters) key;
+        UTBDP10StrongPublicKeyParameters publicKeyParameters = (UTBDP10StrongPublicKeyParameters) key;
 
         Element s = pairing.getZr().newElement().setToRandom();
         Element s1 = pairing.getZr().newElement().setToRandom();
@@ -229,7 +229,7 @@ public class UTMABDP10StrongKEMEngine extends PairingKeyEncapsulationMechanism {
         return ct1;
     }
 
-    protected Element[] encryptOne(UTMABDP10StrongPublicParameters strongPk, Element pk) {
+    protected Element[] encryptOne(UTBDP10StrongPublicParameters strongPk, Element pk) {
         Element s = pairing.getZr().newRandomElement();
         Element s1 = pairing.getZr().newRandomElement();
         Element s2 = pairing.getZr().newRandomElement();

@@ -1,8 +1,8 @@
 package it.unisa.dia.gas.crypto.jpbc.encryption.ut.bdp10.generators;
 
-import it.unisa.dia.gas.crypto.jpbc.encryption.ut.bdp10.params.UTMABDP10WeakMasterSecretKeyParameters;
-import it.unisa.dia.gas.crypto.jpbc.encryption.ut.bdp10.params.UTMABDP10WeakParameters;
-import it.unisa.dia.gas.crypto.jpbc.encryption.ut.bdp10.params.UTMABDP10WeakPublicParameters;
+import it.unisa.dia.gas.crypto.jpbc.encryption.ut.bdp10.params.UTBDP10WeakMasterSecretKeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.encryption.ut.bdp10.params.UTBDP10WeakParameters;
+import it.unisa.dia.gas.crypto.jpbc.encryption.ut.bdp10.params.UTBDP10WeakPublicParameters;
 import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
@@ -11,7 +11,7 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class UTMABDP10WeakParametersGenerator {
+public class UTBDP10WeakParametersGenerator {
 
     private CurveParameters curveParams;
 
@@ -23,7 +23,7 @@ public class UTMABDP10WeakParametersGenerator {
         this.pairing = PairingFactory.getPairing(curveParams);
     }
 
-    public UTMABDP10WeakParameters generateParameters() {
+    public UTBDP10WeakParameters generateParameters() {
         Element g = pairing.getG1().newElement().setToRandom();
         Element g0 = pairing.getG1().newElement().setToRandom();
         Element g1 = pairing.getG1().newElement().setToRandom();
@@ -38,10 +38,10 @@ public class UTMABDP10WeakParametersGenerator {
         Element T2 = g.duplicate().powZn(t2);
         Element T3 = g.duplicate().powZn(t3);
 
-        UTMABDP10WeakPublicParameters utmaPublicParameters = new UTMABDP10WeakPublicParameters(curveParams, g, g0, g1, omega, T1, T2, T3);
-        return new UTMABDP10WeakParameters(
+        UTBDP10WeakPublicParameters utmaPublicParameters = new UTBDP10WeakPublicParameters(curveParams, g, g0, g1, omega, T1, T2, T3);
+        return new UTBDP10WeakParameters(
                 utmaPublicParameters,
-                new UTMABDP10WeakMasterSecretKeyParameters(utmaPublicParameters, t1, t2, t3, w)
+                new UTBDP10WeakMasterSecretKeyParameters(utmaPublicParameters, t1, t2, t3, w)
         );
     }
 

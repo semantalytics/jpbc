@@ -6,14 +6,14 @@ import org.bouncycastle.crypto.CipherParameters;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class UTMABDP10StrongPrivateKeyParameters extends UTMABDP10StrongKeyParameters {
+public class UTBDP10StrongPrivateKeyParameters extends UTBDP10StrongKeyParameters {
     private Element D0, D1, D2, D3;
     private CipherParameters rPrivateKey;
 
 
-    public UTMABDP10StrongPrivateKeyParameters(UTMABDP10StrongPublicParameters publicParameters,
-                                               Element d0, Element d1, Element d2, Element d3,
-                                               CipherParameters rPrivateKey) {
+    public UTBDP10StrongPrivateKeyParameters(UTBDP10StrongPublicParameters publicParameters,
+                                             Element d0, Element d1, Element d2, Element d3,
+                                             CipherParameters rPrivateKey) {
         super(true, publicParameters);
 
         D0 = d0;

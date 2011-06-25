@@ -11,24 +11,24 @@ import java.io.IOException;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class UTMABDP10WeakKEMEngine extends PairingKeyEncapsulationMechanism {
+public class UTBDP10WeakKEMEngine extends PairingKeyEncapsulationMechanism {
     protected boolean forRandomization;
 
     public void initialize() {
         if (forEncryption) {
-            if (!(key instanceof UTMABDP10WeakPublicKeyParameters) && !(key instanceof UTMABDP10WeakRandomizeParameters))
-                throw new IllegalArgumentException("UTMABDP10WeakPublicKeyParameters are required for encryption/randomization.");
-            forRandomization = key instanceof UTMABDP10WeakRandomizeParameters;
+            if (!(key instanceof UTBDP10WeakPublicKeyParameters) && !(key instanceof UTBDP10WeakRandomizeParameters))
+                throw new IllegalArgumentException("UTBDP10WeakPublicKeyParameters are required for encryption/randomization.");
+            forRandomization = key instanceof UTBDP10WeakRandomizeParameters;
         } else {
-            if (!(key instanceof UTMABDP10WeakPrivateKeyParameters))
-                throw new IllegalArgumentException("UTMABDP10WeakPrivateKeyParameters are required for decryption.");
+            if (!(key instanceof UTBDP10WeakPrivateKeyParameters))
+                throw new IllegalArgumentException("UTBDP10WeakPrivateKeyParameters are required for decryption.");
         }
 
-        UTMABDP10WeakKeyParameters keyParameters = (UTMABDP10WeakKeyParameters) key;
+        UTBDP10WeakKeyParameters keyParameters = (UTBDP10WeakKeyParameters) key;
 
         this.pairing = PairingFactory.getPairing(keyParameters.getParameters().getCurveParams());
 
-        if (key instanceof UTMABDP10WeakRandomizeParameters) {
+        if (key instanceof UTBDP10WeakRandomizeParameters) {
             this.inBytes = 8 * pairing.getG1().getLengthInBytes();
             this.outBytes = inBytes;
         } else {
@@ -53,7 +53,7 @@ public class UTMABDP10WeakKEMEngine extends PairingKeyEncapsulationMechanism {
     }
 
     public byte[] process(byte[] in, int inOff, int inLen) {
-        if (key instanceof UTMABDP10WeakPrivateKeyParameters) {
+        if (key instanceof UTBDP10WeakPrivateKeyParameters) {
             // TODO: should we check also the encryption of ONE?
 
             // Convert bytes to Elements...
@@ -79,14 +79,14 @@ public class UTMABDP10WeakKEMEngine extends PairingKeyEncapsulationMechanism {
             Element C3 = pairing.getG1().newElement();
             offset += C3.setFromBytes(in, offset);
 
-            UTMABDP10WeakPrivateKeyParameters privateKeyParameters = (UTMABDP10WeakPrivateKeyParameters) key;
+            UTBDP10WeakPrivateKeyParameters privateKeyParameters = (UTBDP10WeakPrivateKeyParameters) key;
 
             C.mul(pairing.pairing(C0, privateKeyParameters.getD0()))
                     .mul(pairing.pairing(C1, privateKeyParameters.getD1()))
                     .mul(pairing.pairing(C2, privateKeyParameters.getD2()))
                     .mul(pairing.pairing(C3, privateKeyParameters.getD3()));
             return C.toBytes();
-        } else if (key instanceof UTMABDP10WeakPublicKeyParameters) {
+        } else if (key instanceof UTBDP10WeakPublicKeyParameters) {
             // encryption
             Element M = pairing.getGT().newRandomElement();
 
@@ -102,7 +102,7 @@ public class UTMABDP10WeakKEMEngine extends PairingKeyEncapsulationMechanism {
                 throw new RuntimeException(e);
             }
         } else {
-            UTMABDP10WeakRandomizeParameters keyParameters = (UTMABDP10WeakRandomizeParameters) key;
+            UTBDP10WeakRandomizeParameters keyParameters = (UTBDP10WeakRandomizeParameters) key;
 
             int offset = inOff;
             Element[] ct = extractCipherText(in, offset);
@@ -133,7 +133,7 @@ public class UTMABDP10WeakKEMEngine extends PairingKeyEncapsulationMechanism {
 
 
     protected void encrypt(ByteArrayOutputStream outputStream, Element M) {
-        UTMABDP10WeakPublicKeyParameters publicKeyParameters = (UTMABDP10WeakPublicKeyParameters) key;
+        UTBDP10WeakPublicKeyParameters publicKeyParameters = (UTBDP10WeakPublicKeyParameters) key;
 
         Element s = pairing.getZr().newElement().setToRandom();
         Element s1 = pairing.getZr().newElement().setToRandom();
@@ -183,7 +183,7 @@ public class UTMABDP10WeakKEMEngine extends PairingKeyEncapsulationMechanism {
         return new Element[]{C, C0, C1, C2, C3};
     }
 
-    protected Element[] star(UTMABDP10WeakPublicParameters pk, Element[] ct, Element r, Element r2, Element r3) {
+    protected Element[] star(UTBDP10WeakPublicParameters pk, Element[] ct, Element r, Element r2, Element r3) {
         ct[0].powZn(r);
         ct[1].powZn(r);
         ct[2] = ct[2].powZn(r).mul(pk.getT2().powZn(r2));

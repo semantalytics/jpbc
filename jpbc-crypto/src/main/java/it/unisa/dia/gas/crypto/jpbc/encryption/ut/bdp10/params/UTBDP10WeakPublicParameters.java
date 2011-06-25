@@ -7,7 +7,7 @@ import org.bouncycastle.crypto.CipherParameters;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class UTMABDP10WeakPublicParameters implements CipherParameters {
+public class UTBDP10WeakPublicParameters implements CipherParameters {
     private CurveParameters curveParams;
     private Element g;
     private Element g0, g1;
@@ -15,7 +15,7 @@ public class UTMABDP10WeakPublicParameters implements CipherParameters {
     private Element T1, T2, T3;
 
 
-    public UTMABDP10WeakPublicParameters(CurveParameters curveParams, Element g, Element g0, Element g1, Element omega, Element T1, Element T2, Element T3) {
+    public UTBDP10WeakPublicParameters(CurveParameters curveParams, Element g, Element g0, Element g1, Element omega, Element T1, Element T2, Element T3) {
         this.curveParams = curveParams;
         this.g = g;
         this.g0 = g0;

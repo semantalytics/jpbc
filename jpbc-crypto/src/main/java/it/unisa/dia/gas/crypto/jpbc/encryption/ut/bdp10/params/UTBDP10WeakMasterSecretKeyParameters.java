@@ -5,11 +5,11 @@ import it.unisa.dia.gas.jpbc.Element;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class UTMABDP10WeakMasterSecretKeyParameters extends UTMABDP10WeakKeyParameters {
+public class UTBDP10WeakMasterSecretKeyParameters extends UTBDP10WeakKeyParameters {
     private Element t1, t2, t3, w;
 
 
-    public UTMABDP10WeakMasterSecretKeyParameters(UTMABDP10WeakPublicParameters publicParameters, Element t1, Element t2, Element t3, Element w) {
+    public UTBDP10WeakMasterSecretKeyParameters(UTBDP10WeakPublicParameters publicParameters, Element t1, Element t2, Element t3, Element w) {
         super(true, publicParameters);
 
         this.t1 = t1;
