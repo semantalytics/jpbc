@@ -88,6 +88,9 @@ public class HVEIP08SecretKeyParameters extends HVEIP08KeyParameters {
     }
 
     public void preProcess() {
+        if (preProcessed)
+            return;
+
         Pairing pairing = PairingFactory.getPairing(getParameters().getCurveParameters());
         int  n = getParameters().getN();
 

@@ -7,7 +7,7 @@ import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtils;
 import it.unisa.dia.gas.jpbc.CurveGenerator;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
+import it.unisa.dia.gas.plaf.jpbc.pairing.DefaultCurveParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import it.unisa.dia.gas.plaf.jpbc.pairing.a1.TypeA1CurveGenerator;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
@@ -26,7 +26,7 @@ public class UHIBELW11KeyPairGenerator implements AsymmetricCipherKeyPairGenerat
     }
 
     public AsymmetricCipherKeyPair generateKeyPair() {
-        CurveParams curveParameters;
+        DefaultCurveParameters curveParameters;
         Pairing pairing;
         Element g;
 
@@ -65,8 +65,8 @@ public class UHIBELW11KeyPairGenerator implements AsymmetricCipherKeyPairGenerat
     }
 
 
-    private CurveParams generateCurveParams() {
+    private DefaultCurveParameters generateCurveParams() {
         CurveGenerator curveGenerator = new TypeA1CurveGenerator(3, parameters.getBitLength());
-        return (CurveParams) curveGenerator.generate();
+        return (DefaultCurveParameters) curveGenerator.generate();
     }
 }

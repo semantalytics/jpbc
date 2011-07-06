@@ -105,10 +105,10 @@
             <id>site</id>
             <distributionManagement>
                 <site>
-                  <id>local</id>
-                  <url>file:///${user.home}/Sites/jpbc/</url>
+                    <id>local</id>
+                    <url>file:///${user.home}/Sites/jpbc/</url>
                 </site>
-              </distributionManagement>
+            </distributionManagement>
             <build>
                 <plugins>
                     <plugin>

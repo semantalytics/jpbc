@@ -1,5 +1,6 @@
 package it.unisa.dia.gas.jpbc;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 
 /**
@@ -8,7 +9,7 @@ import java.math.BigInteger;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  * @since 1.2.0
  */
-public interface CurveParameters {
+public interface CurveParameters extends Serializable {
 
     /**
      * Returns <tt>true</tt> if a mapping for the specified

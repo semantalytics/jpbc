@@ -16,6 +16,7 @@ public class HVEIP08PublicKeyParameters extends HVEIP08KeyParameters {
     private List<List<ElementPow>> preT, preV;
     private boolean preProcessed = false;
 
+
     public HVEIP08PublicKeyParameters(HVEIP08Parameters parameters,
                                       Element Y,
                                       List<List<Element>> T,
@@ -27,6 +28,7 @@ public class HVEIP08PublicKeyParameters extends HVEIP08KeyParameters {
         this.T = T;
         this.V = V;
     }
+
 
     public Element getY() {
         return Y;
@@ -49,6 +51,9 @@ public class HVEIP08PublicKeyParameters extends HVEIP08KeyParameters {
     }
 
     public void preProcess() {
+        if (preProcessed)
+            return;
+
         getParameters().preProcess();
 
         int  n = getParameters().getN();

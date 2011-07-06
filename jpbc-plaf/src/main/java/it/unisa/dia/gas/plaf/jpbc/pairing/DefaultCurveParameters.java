@@ -11,12 +11,13 @@ import java.util.StringTokenizer;
 
 /**
  * TODO: introduce immutable...
+ *
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class CurveParams extends LinkedHashMap<String, String> implements CurveParameters {
+public class DefaultCurveParameters extends LinkedHashMap<String, String> implements CurveParameters, Externalizable {
 
 
-    public CurveParams() {
+    public DefaultCurveParameters() {
     }
 
 
@@ -28,7 +29,6 @@ public class CurveParams extends LinkedHashMap<String, String> implements CurveP
     public boolean containsKey(String key) {
         return super.containsKey(key);
     }
-
 
     public int getInt(String key) {
         String value = get(key);
@@ -47,12 +47,12 @@ public class CurveParams extends LinkedHashMap<String, String> implements CurveP
     }
 
     public long getLong(String key) {
-            String value = get(key);
-            if (value == null)
-                throw new IllegalArgumentException("Cannot find value for the following key : " + key);
+        String value = get(key);
+        if (value == null)
+            throw new IllegalArgumentException("Cannot find value for the following key : " + key);
 
-            return Long.parseLong(value);
-        }
+        return Long.parseLong(value);
+    }
 
     public long getLong(String key, long defaultValue) {
         String value = get(key);
@@ -107,7 +107,7 @@ public class CurveParams extends LinkedHashMap<String, String> implements CurveP
     }
 
 
-    public CurveParams load(InputStream inputStream) {
+    public DefaultCurveParameters load(InputStream inputStream) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         try {
             while (true) {
@@ -133,7 +133,7 @@ public class CurveParams extends LinkedHashMap<String, String> implements CurveP
         return this;
     }
 
-    public CurveParams load(String path) {
+    public DefaultCurveParameters load(String path) {
         InputStream inputStream = null;
 
         File file = new File(path);
@@ -162,7 +162,7 @@ public class CurveParams extends LinkedHashMap<String, String> implements CurveP
 
 
     public String toString(String separator) {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
 
         for (Map.Entry<String, String> entry : entrySet()) {
             buffer.append(entry.getKey()).append(separator).append(entry.getValue()).append("\n");
@@ -175,4 +175,11 @@ public class CurveParams extends LinkedHashMap<String, String> implements CurveP
         return toString(" ");
     }
 
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeUTF(toString());
+    }
+
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        load(new ByteArrayInputStream(in.readUTF().getBytes()));
+    }
 }

@@ -5,7 +5,7 @@ import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveField;
 import it.unisa.dia.gas.plaf.jpbc.field.naive.NaiveField;
-import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
+import it.unisa.dia.gas.plaf.jpbc.pairing.DefaultCurveParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
 import java.math.BigInteger;
@@ -106,7 +106,7 @@ public class TypeECurveGenerator implements CurveGenerator {
         if (!curveField.newElement().setToRandom().mul(n).isZero())
             curveField.twist();
 
-        CurveParams params = new CurveParams();
+        DefaultCurveParameters params = new DefaultCurveParameters();
         params.put("type", "e");
         params.put("q", q.toString());
         params.put("r", r.toString());
@@ -132,7 +132,7 @@ public class TypeECurveGenerator implements CurveGenerator {
         Integer qBits = Integer.parseInt(args[1]);
 
         CurveGenerator generator = new TypeECurveGenerator(rBits, qBits);
-        CurveParams curveParams = (CurveParams) generator.generate();
+        DefaultCurveParameters curveParams = (DefaultCurveParameters) generator.generate();
 
         System.out.println(curveParams.toString(" "));
     }

@@ -6,7 +6,7 @@ import it.unisa.dia.gas.plaf.jpbc.field.naive.NaiveField;
 import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyElement;
 import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyField;
 import it.unisa.dia.gas.plaf.jpbc.field.quadratic.QuadraticField;
-import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
+import it.unisa.dia.gas.plaf.jpbc.pairing.DefaultCurveParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
 import java.math.BigInteger;
@@ -122,7 +122,7 @@ public class TypeFCurveGenerator implements CurveGenerator {
         }
 
         // Store parameters
-        CurveParams params = new CurveParams();
+        DefaultCurveParameters params = new DefaultCurveParameters();
         params.put("type", "f");
         params.put("q", q.toString());
         params.put("r", r.toString());
@@ -171,7 +171,7 @@ public class TypeFCurveGenerator implements CurveGenerator {
         Integer rBits = Integer.parseInt(args[0]);
 
         CurveGenerator generator = new TypeFCurveGenerator(rBits);
-        CurveParams curveParams = (CurveParams) generator.generate();
+        DefaultCurveParameters curveParams = (DefaultCurveParameters) generator.generate();
 
         System.out.println(curveParams.toString(" "));
     }

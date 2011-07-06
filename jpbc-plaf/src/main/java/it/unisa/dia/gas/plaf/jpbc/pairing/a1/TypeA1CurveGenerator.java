@@ -2,7 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.pairing.a1;
 
 import it.unisa.dia.gas.jpbc.CurveGenerator;
 import it.unisa.dia.gas.jpbc.CurveParameters;
-import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
+import it.unisa.dia.gas.plaf.jpbc.pairing.DefaultCurveParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
 import java.math.BigInteger;
@@ -70,7 +70,7 @@ public class TypeA1CurveGenerator implements CurveGenerator {
                 break;
         }
 
-        CurveParams params = new CurveParams();
+        DefaultCurveParameters params = new DefaultCurveParameters();
         params.put("type", "a1");
         params.put("p", p.toString());
         params.put("n", order.toString());
@@ -85,7 +85,7 @@ public class TypeA1CurveGenerator implements CurveGenerator {
 
     public static void main(String[] args) {
         TypeA1CurveGenerator generator = new TypeA1CurveGenerator(3, 16);
-        CurveParams curveParams = (CurveParams) generator.generate();
+        DefaultCurveParameters curveParams = (DefaultCurveParameters) generator.generate();
 
         System.out.println(curveParams.toString(" "));
     }

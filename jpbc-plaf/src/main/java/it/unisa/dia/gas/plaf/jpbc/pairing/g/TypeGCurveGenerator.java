@@ -2,7 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.pairing.g;
 
 import it.unisa.dia.gas.jpbc.CurveGenerator;
 import it.unisa.dia.gas.jpbc.CurveParameters;
-import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
+import it.unisa.dia.gas.plaf.jpbc.pairing.DefaultCurveParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 import it.unisa.dia.gas.plaf.jpbc.util.math.PellEquation;
 
@@ -17,7 +17,7 @@ public class TypeGCurveGenerator implements CurveGenerator {
 
     protected int discriminant;
 
-    protected CurveParams[] curves;
+    protected DefaultCurveParameters[] curves;
     protected BigInteger D15;
     protected int bitLimit;
 
@@ -36,7 +36,7 @@ public class TypeGCurveGenerator implements CurveGenerator {
         if (curves == null || curves.length == 0)
             throw new IllegalStateException("Cannot find valid curves. Try another discriminant.");
 
-        for (CurveParams curve : curves) {
+        for (DefaultCurveParameters curve : curves) {
             pbc_param_init_g_gen(curve);
         }
 
@@ -91,8 +91,8 @@ public class TypeGCurveGenerator implements CurveGenerator {
      *
      * @return all the feasible curve for the current discriminant.
      */
-    protected CurveParams[] findCurves() {
-        List<CurveParams> curves = new ArrayList<CurveParams>();
+    protected DefaultCurveParameters[] findCurves() {
+        List<DefaultCurveParameters> curves = new ArrayList<DefaultCurveParameters>();
 
         BigInteger t0, t1, t2;
 
@@ -112,7 +112,7 @@ public class TypeGCurveGenerator implements CurveGenerator {
                 for (int i = 0; i < n; i++) {
                     //element_printf("%Zd, %Zd\n", ps->x[i], ps->y[i]);
 
-                    CurveParams params = freemanStep2(x[i]);
+                    DefaultCurveParameters params = freemanStep2(x[i]);
                     if (params != null)
                         curves.add(params);
 
@@ -143,11 +143,11 @@ public class TypeGCurveGenerator implements CurveGenerator {
             }
         }
 
-        return curves.toArray(new CurveParams[curves.size()]);
+        return curves.toArray(new DefaultCurveParameters[curves.size()]);
     }
 
-    protected CurveParams freemanStep2(BigInteger U) {
-        CurveParams params = new CurveParams();
+    protected DefaultCurveParameters freemanStep2(BigInteger U) {
+        DefaultCurveParameters params = new DefaultCurveParameters();
 
         BigInteger x = U.mod(BigInteger.valueOf(15));
 
@@ -222,7 +222,7 @@ public class TypeGCurveGenerator implements CurveGenerator {
         return params;
     }
 
-    protected void pbc_param_init_g_gen(CurveParams curveParams) {
+    protected void pbc_param_init_g_gen(DefaultCurveParameters curveParams) {
 /*        g_init(p);
         g_param_ptr param = p - > data;
         field_t Fq, Fqx, Fqd;
@@ -273,7 +273,7 @@ public class TypeGCurveGenerator implements CurveGenerator {
         }
 */
         TypeGCurveGenerator generator = new TypeGCurveGenerator(9563);
-        CurveParams params = (CurveParams) generator.generate();
+        DefaultCurveParameters params = (DefaultCurveParameters) generator.generate();
         System.out.println(params.toString());
     }
 

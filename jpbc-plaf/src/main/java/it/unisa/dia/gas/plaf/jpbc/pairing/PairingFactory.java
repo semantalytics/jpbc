@@ -120,7 +120,7 @@ public class PairingFactory {
     }
 
     public CurveParameters loadCurveParameters(String path) {
-        CurveParams curveParams = new CurveParams();
+        DefaultCurveParameters curveParams = new DefaultCurveParameters();
         curveParams.load(path);
 
         return curveParams;

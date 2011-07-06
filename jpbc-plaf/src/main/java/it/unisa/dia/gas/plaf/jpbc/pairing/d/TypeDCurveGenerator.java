@@ -10,7 +10,7 @@ import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyElement;
 import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyField;
 import it.unisa.dia.gas.plaf.jpbc.field.polymod.PolyModElement;
 import it.unisa.dia.gas.plaf.jpbc.field.polymod.PolyModField;
-import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
+import it.unisa.dia.gas.plaf.jpbc.pairing.DefaultCurveParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 import it.unisa.dia.gas.plaf.jpbc.util.math.HilbertPolyGenerator;
 import it.unisa.dia.gas.plaf.jpbc.util.math.PellEquation;
@@ -28,7 +28,7 @@ public class TypeDCurveGenerator implements CurveGenerator {
 
     protected int discriminant;
 
-    protected CurveParams[] curves;
+    protected DefaultCurveParameters[] curves;
     protected BigInteger D3;
     protected int bitLimit;
 
@@ -58,7 +58,7 @@ public class TypeDCurveGenerator implements CurveGenerator {
         if (curves == null || curves.length == 0)
             throw new IllegalStateException("Cannot find valid curves. Try another discriminant.");
 
-        for (CurveParams curve : curves) {
+        for (DefaultCurveParameters curve : curves) {
             d_param_from_cm(curve);
         }
 
@@ -111,8 +111,8 @@ public class TypeDCurveGenerator implements CurveGenerator {
      *
      * @return all the feasible curve for the current discriminant.
      */
-    protected CurveParams[] findCurves() {
-        List<CurveParams> curves = new ArrayList<CurveParams>();
+    protected DefaultCurveParameters[] findCurves() {
+        List<DefaultCurveParameters> curves = new ArrayList<DefaultCurveParameters>();
 
         BigInteger t0, t1, t2;
 
@@ -132,7 +132,7 @@ public class TypeDCurveGenerator implements CurveGenerator {
                 for (int i = 0; i < n; i++) {
                     //element_printf("%Zd, %Zd\n", ps->x[i], ps->y[i]);
 
-                    CurveParams params = doMNTStep(x[i]);
+                    DefaultCurveParameters params = doMNTStep(x[i]);
                     if (params != null)
                         curves.add(params);
 
@@ -163,11 +163,11 @@ public class TypeDCurveGenerator implements CurveGenerator {
             }
         }
 
-        return curves.toArray(new CurveParams[curves.size()]);
+        return curves.toArray(new DefaultCurveParameters[curves.size()]);
     }
 
-    protected CurveParams doMNTStep(BigInteger U) {
-        CurveParams params = new CurveParams();
+    protected DefaultCurveParameters doMNTStep(BigInteger U) {
+        DefaultCurveParameters params = new DefaultCurveParameters();
 
         // Compute l and d
         int d;
@@ -229,7 +229,7 @@ public class TypeDCurveGenerator implements CurveGenerator {
         return params;
     }
 
-    protected void d_param_from_cm(CurveParams param) {
+    protected void d_param_from_cm(DefaultCurveParameters param) {
         compute_cm_curve(param);
 
         Field<? extends Element> Fq = new NaiveField(random, param.getBigInteger("q"));
@@ -262,7 +262,7 @@ public class TypeDCurveGenerator implements CurveGenerator {
      *
      * @param param
      */
-    protected void compute_cm_curve(CurveParams param) {
+    protected void compute_cm_curve(DefaultCurveParameters param) {
         NaiveField fp = new NaiveField(random,param.getBigInteger("q"));
         PolyField fpx = new PolyField(random, fp);
 
@@ -323,7 +323,7 @@ public class TypeDCurveGenerator implements CurveGenerator {
         }
 */
         TypeDCurveGenerator generator = new TypeDCurveGenerator(9563);
-        CurveParams params = (CurveParams) generator.generate();
+        DefaultCurveParameters params = (DefaultCurveParameters) generator.generate();
         System.out.println(params.toString());
     }
 

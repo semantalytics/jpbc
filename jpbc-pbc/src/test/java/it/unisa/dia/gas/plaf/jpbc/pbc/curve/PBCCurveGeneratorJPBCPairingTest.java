@@ -1,7 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.pbc.curve;
 
 import it.unisa.dia.gas.jpbc.CurveGenerator;
-import it.unisa.dia.gas.plaf.jpbc.pairing.CurveParams;
+import it.unisa.dia.gas.plaf.jpbc.pairing.DefaultCurveParameters;
 import it.unisa.dia.gas.plaf.jpbc.pbc.pairing.PairingTest;
 import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.WrapperLibraryProvider;
 
@@ -17,7 +17,7 @@ public class PBCCurveGeneratorJPBCPairingTest extends PairingTest {
             return;
 
         CurveGenerator curveGenerator = new PBCTypeACurveGenerator(181, 603);
-        CurveParams curveParams = (CurveParams) curveGenerator.generate();
+        DefaultCurveParameters curveParams = (DefaultCurveParameters) curveGenerator.generate();
         curveParams.put("type", "a");
 
         initPairing(curveParams);
@@ -30,7 +30,7 @@ public class PBCCurveGeneratorJPBCPairingTest extends PairingTest {
             return;
 
         CurveGenerator curveGenerator = new PBCTypeA1CurveGenerator();
-        CurveParams curveParams = (CurveParams) curveGenerator.generate();
+        DefaultCurveParameters curveParams = (DefaultCurveParameters) curveGenerator.generate();
         curveParams.put("type", "a1");
 
         initPairing(curveParams);
@@ -43,7 +43,7 @@ public class PBCCurveGeneratorJPBCPairingTest extends PairingTest {
             return;
 
         CurveGenerator curveGenerator = new PBCTypeDCurveGenerator(9563);
-        CurveParams curveParams = (CurveParams) curveGenerator.generate();
+        DefaultCurveParameters curveParams = (DefaultCurveParameters) curveGenerator.generate();
         curveParams.put("type", "d");
 
         initPairing(curveParams);
@@ -56,7 +56,7 @@ public class PBCCurveGeneratorJPBCPairingTest extends PairingTest {
             return;
 
         CurveGenerator curveGenerator = new PBCTypeECurveGenerator(160, 1024);
-        CurveParams curveParams = (CurveParams) curveGenerator.generate();
+        DefaultCurveParameters curveParams = (DefaultCurveParameters) curveGenerator.generate();
         curveParams.put("type", "e");
 
         initPairing(curveParams);
@@ -69,7 +69,7 @@ public class PBCCurveGeneratorJPBCPairingTest extends PairingTest {
             return;
 
         CurveGenerator curveGenerator = new PBCTypeFCurveGenerator(160);
-        CurveParams curveParams = (CurveParams) curveGenerator.generate();
+        DefaultCurveParameters curveParams = (DefaultCurveParameters) curveGenerator.generate();
         curveParams.put("type", "f");
 
         initPairing(curveParams);
@@ -82,7 +82,7 @@ public class PBCCurveGeneratorJPBCPairingTest extends PairingTest {
             return;
 
         CurveGenerator curveGenerator = new PBCTypeGCurveGenerator(35707);
-        CurveParams curveParams = (CurveParams) curveGenerator.generate();
+        DefaultCurveParameters curveParams = (DefaultCurveParameters) curveGenerator.generate();
         curveParams.put("type", "g");
 
         initPairing(curveParams);
@@ -90,7 +90,7 @@ public class PBCCurveGeneratorJPBCPairingTest extends PairingTest {
     }
 
 
-    protected void initPairing(CurveParams curve) {
+    protected void initPairing(DefaultCurveParameters curve) {
         pairing = it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory.getPairing(curve);
 
         assertNotNull(pairing.getG1());

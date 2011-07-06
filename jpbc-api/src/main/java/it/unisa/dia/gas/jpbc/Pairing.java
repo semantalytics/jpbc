@@ -13,6 +13,11 @@ package it.unisa.dia.gas.jpbc;
 public interface Pairing {
 
     /**
+     *
+     */
+    public static enum FieldIdentifier {G1, G2, GT, Zr}
+
+    /**
      * Returns true if this pairing is symmetric, false otherwise.
      *
      * @return true if this pairing is symmetric, false otherwise.
@@ -113,4 +118,11 @@ public interface Pairing {
      * @return <tt>true</tt> given (g, g^x, h, h^x) or (g, g^x, h, h^-x), <tt>false</tt> otherwise.
      */
     boolean isAlmostCoddh(Element a, Element b, Element c, Element d);
+
+    /**
+     * TODO:
+     * @param field
+     * @return
+     */
+    FieldIdentifier getFieldIdentifier(Field field);
 }

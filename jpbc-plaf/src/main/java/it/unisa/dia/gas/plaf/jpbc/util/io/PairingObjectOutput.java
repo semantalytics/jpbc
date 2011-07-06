@@ -1,6 +1,8 @@
 package it.unisa.dia.gas.plaf.jpbc.util.io;
 
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.jpbc.Pairing;
 
 import java.io.IOException;
 import java.io.ObjectOutput;
@@ -8,11 +10,18 @@ import java.io.ObjectOutput;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class ElementObjectOutput implements ObjectOutput {
+public class PairingObjectOutput implements ObjectOutput {
     private ObjectOutput objectOutput;
 
+    private Pairing pairing;
 
-    public ElementObjectOutput(ObjectOutput objectOutput) {
+
+    public PairingObjectOutput(ObjectOutput objectOutput) {
+        this.objectOutput = objectOutput;
+    }
+
+    public PairingObjectOutput(Pairing pairing, ObjectOutput objectOutput) {
+        this.pairing = pairing;
         this.objectOutput = objectOutput;
     }
 
@@ -44,6 +53,15 @@ public class ElementObjectOutput implements ObjectOutput {
             for (Element e : elements)
                 writeElement(e);
         }
+    }
+
+    public void writeBytes(byte[] buffer) throws IOException{
+        writeInt(buffer.length);
+        write(buffer);
+    }
+
+    public void writeFieldIdentifier(Field field) throws IOException {
+        writeInt(getPairing().getFieldIdentifier(field).ordinal());
     }
 
 
@@ -113,6 +131,10 @@ public class ElementObjectOutput implements ObjectOutput {
 
     public void writeUTF(String s) throws IOException {
         objectOutput.writeUTF(s);
+    }
+
+    public Pairing getPairing() {
+        return pairing;
     }
 
 }

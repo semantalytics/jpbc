@@ -2,6 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.util.io;
 
 import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
@@ -11,16 +12,14 @@ import java.io.ObjectInput;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class ElementObjectInput implements ObjectInput {
-
-    public enum FieldType {G1, G2, GT, Zr};
+public class PairingObjectInput implements ObjectInput {
 
     private ObjectInput objectInput;
     private CurveParameters curveParameters;
     private Pairing pairing;
 
 
-    public ElementObjectInput(ObjectInput objectInput) {
+    public PairingObjectInput(ObjectInput objectInput) {
         this.objectInput = objectInput;
     }
 
@@ -120,9 +119,26 @@ public class ElementObjectInput implements ObjectInput {
         return curveParameters;
     }
 
-    public Element readElement(FieldType fieldType) throws IOException {
-        Element e = null;
-        switch (fieldType) {
+    public Field readField() throws IOException {
+        Pairing.FieldIdentifier identifier = Pairing.FieldIdentifier.values()[readInt()];
+        switch (identifier) {
+            case G1:
+                return pairing.getG1();
+            case G2:
+                return pairing.getG2();
+            case GT:
+                return pairing.getGT();
+            case Zr:
+                return pairing.getZr();
+            default:
+                throw new IllegalArgumentException("Illegal Field Identifier.");
+        }
+    }
+
+
+    public Element readElement(Pairing.FieldIdentifier fieldIdentifier) throws IOException {
+        Element e;
+        switch (fieldIdentifier) {
             case G1:
                 e = pairing.getG1().newElement();
                 break;
@@ -146,11 +162,11 @@ public class ElementObjectInput implements ObjectInput {
         return e;
     }
 
-    public Element[] readElements(FieldType type) throws IOException{
+    public Element[] readElements(Pairing.FieldIdentifier identifier) throws IOException{
         int num = readInt();
         Element[] elements = new Element[num];
         for (int i = 0; i < num; i++) {
-            elements[i] = readElement(type);
+            elements[i] = readElement(identifier);
         }
 
         return elements;
@@ -165,5 +181,13 @@ public class ElementObjectInput implements ObjectInput {
         }
 
         return elements;
+    }
+
+    public byte[] readBytes() throws IOException {
+        int length = readInt();
+        byte[] buffer = new byte[length];
+        readFully(buffer);
+
+        return buffer;
     }
 }

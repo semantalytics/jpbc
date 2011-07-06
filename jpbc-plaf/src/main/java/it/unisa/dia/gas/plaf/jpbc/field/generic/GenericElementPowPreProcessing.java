@@ -3,9 +3,13 @@ package it.unisa.dia.gas.plaf.jpbc.field.generic;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
 import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.plaf.jpbc.util.io.PairingObjectInput;
+import it.unisa.dia.gas.plaf.jpbc.util.io.PairingObjectOutput;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 import java.math.BigInteger;
 
 /**
@@ -21,6 +25,8 @@ public class GenericElementPowPreProcessing implements ElementPowPreProcessing {
     protected int numLookups;
     protected Element table[][];
 
+    public GenericElementPowPreProcessing() {
+    }
 
     public GenericElementPowPreProcessing(Element g, int k) {
         this.field = g.getField();
@@ -120,10 +126,31 @@ public class GenericElementPowPreProcessing implements ElementPowPreProcessing {
             if (word > 0) {
                 result.mul(table[row][word]);
             }
-
         }
 
         return result;
     }
+
+
+    public void writeExternal(ObjectOutput out) throws IOException {
+        PairingObjectOutput pout = (PairingObjectOutput) out;
+
+        pout.writeFieldIdentifier(field);
+        pout.writeInt(bits);
+        pout.writeInt(k);
+        pout.writeBytes(toBytes());
+    }
+
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        PairingObjectInput pin = (PairingObjectInput) in;
+
+        this.field = pin.readField();
+        this.bits = pin.readInt();
+        this.k = pin.readInt();
+        byte[] buffer = pin.readBytes();
+
+        initTableFromBytes(buffer, 0);
+    }
+
 
 }

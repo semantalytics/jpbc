@@ -29,7 +29,6 @@ public class HVEIP08Parameters implements CipherParameters {
     public HVEIP08Parameters(CurveParameters curveParams, Element g, int[] attributeLengths) {
         this.curveParams = curveParams;
         this.g = g.getImmutable();
-        this.powG = g.pow();
         this.n = attributeLengths.length;
         this.attributeLengths = Arrays.copyOf(attributeLengths, attributeLengths.length);
 
@@ -81,9 +80,11 @@ public class HVEIP08Parameters implements CipherParameters {
     }
 
     public void preProcess() {
-        this.powG = g.pow();
+        if (preProcessed)
+            return;
 
-        preProcessed = true;
+        this.powG = g.pow();
+        this.preProcessed = true;
     }
 
     public boolean isPreProcessed() {

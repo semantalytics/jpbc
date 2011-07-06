@@ -47,6 +47,9 @@ public class HVEIP08MasterSecretKeyParameters extends HVEIP08KeyParameters {
     }
 
     public void preProcess() {
+        if (preProcessed)
+            return;
+
         getParameters().preProcess();
 
         int  n = getParameters().getN();
