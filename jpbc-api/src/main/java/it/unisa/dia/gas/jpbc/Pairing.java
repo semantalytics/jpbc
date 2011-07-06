@@ -15,7 +15,7 @@ public interface Pairing {
     /**
      *
      */
-    public static enum FieldIdentifier {G1, G2, GT, Zr}
+    public static enum FieldIdentifier {G1, G2, GT, Zr, Unknown}
 
     /**
      * Returns true if this pairing is symmetric, false otherwise.

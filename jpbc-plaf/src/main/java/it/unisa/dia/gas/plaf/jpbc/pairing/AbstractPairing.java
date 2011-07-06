@@ -78,6 +78,10 @@ public abstract class AbstractPairing implements Pairing {
         return pairingMap.isAlmostCoddh(a, b, c, d);
     }
 
+    public FieldIdentifier getFieldIdentifier(Field field) {
+        throw new IllegalStateException("Not Implemented yet!!!");
+    }
+
     public Element pairing(Element[] in1, Element[] in2) {
         if (in1.length != in2.length)
             throw new IllegalArgumentException("The number of elements from G1 is different from the number of elements from G2.");

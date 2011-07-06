@@ -85,4 +85,8 @@ public class ProductPairing implements Pairing {
         throw new IllegalStateException("Not implemented yet!!!");
     }
 
+    public FieldIdentifier getFieldIdentifier(Field field) {
+        throw new IllegalStateException("Not Implemented yet!!!");
+    }
+
 }
