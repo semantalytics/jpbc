@@ -2,6 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.field.vector;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
+import it.unisa.dia.gas.jpbc.Field;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -39,6 +40,10 @@ public class VectorElementPowPreProcessing implements ElementPowPreProcessing {
     }
 
     public byte[] toBytes() {
-        return new byte[0];  
+        throw new IllegalStateException("Not implemented yet!!!");
+    }
+
+    public Field getField() {
+        return field;
     }
 }

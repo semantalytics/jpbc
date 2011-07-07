@@ -15,7 +15,7 @@ public interface Pairing {
     /**
      *
      */
-    public static enum FieldIdentifier {G1, G2, GT, Zr, Unknown}
+    public static enum PairingFieldIdentifier {G1, G2, GT, Zr, Unknown}
 
     /**
      * Returns true if this pairing is symmetric, false otherwise.
@@ -124,5 +124,5 @@ public interface Pairing {
      * @param field
      * @return
      */
-    FieldIdentifier getFieldIdentifier(Field field);
+    PairingFieldIdentifier getPairingFieldIdentifier(Field field);
 }

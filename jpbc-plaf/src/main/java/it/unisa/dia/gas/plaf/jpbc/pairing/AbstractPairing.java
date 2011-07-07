@@ -78,8 +78,16 @@ public abstract class AbstractPairing implements Pairing {
         return pairingMap.isAlmostCoddh(a, b, c, d);
     }
 
-    public FieldIdentifier getFieldIdentifier(Field field) {
-        throw new IllegalStateException("Not Implemented yet!!!");
+    public PairingFieldIdentifier getPairingFieldIdentifier(Field field) {
+        if (field == G1)
+            return PairingFieldIdentifier.G1;
+        if (field == G2)
+            return PairingFieldIdentifier.G2;
+        if (field == GT)
+            return PairingFieldIdentifier.GT;
+        if (field == Zr)
+            return PairingFieldIdentifier.Zr;
+        return PairingFieldIdentifier.Unknown;
     }
 
     public Element pairing(Element[] in1, Element[] in2) {

@@ -9,6 +9,13 @@ import java.math.BigInteger;
 public interface ElementPowPreProcessing extends ElementPow, PreProcessing {
 
     /**
+     * TODO
+     * @return
+     * @since 1.2.0
+     */
+    Field getField();
+
+    /**
      * Compute the power to n using the pre-processed information.
      *
      * @param n the exponent of the power.

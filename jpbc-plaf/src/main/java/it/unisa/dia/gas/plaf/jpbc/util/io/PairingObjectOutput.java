@@ -1,8 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.util.io;
 
-import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.jpbc.Pairing;
+import it.unisa.dia.gas.jpbc.*;
 
 import java.io.IOException;
 import java.io.ObjectOutput;
@@ -23,45 +21,6 @@ public class PairingObjectOutput implements ObjectOutput {
     public PairingObjectOutput(Pairing pairing, ObjectOutput objectOutput) {
         this.pairing = pairing;
         this.objectOutput = objectOutput;
-    }
-
-
-    public void writeElement(Element element) throws IOException {
-        if (element == null)
-            writeInt(0);
-        else {
-            byte[] bytes = element.toBytes();
-            writeInt(bytes.length);
-            write(bytes);
-        }
-    }
-
-    public void writeInts(int[] ints) throws IOException {
-        if (ints == null) {
-            writeInt(0);
-        } else {
-            writeInt(ints.length);
-            for (int anInt : ints) writeInt(anInt);
-        }
-    }
-
-    public void writeElements(Element[] elements) throws IOException {
-        if (elements == null)
-            writeInt(0);
-        else {
-            writeInt(elements.length);
-            for (Element e : elements)
-                writeElement(e);
-        }
-    }
-
-    public void writeBytes(byte[] buffer) throws IOException{
-        writeInt(buffer.length);
-        write(buffer);
-    }
-
-    public void writeFieldIdentifier(Field field) throws IOException {
-        writeInt(getPairing().getFieldIdentifier(field).ordinal());
     }
 
 
@@ -133,8 +92,67 @@ public class PairingObjectOutput implements ObjectOutput {
         objectOutput.writeUTF(s);
     }
 
+
+    public void writeElement(Element element) throws IOException {
+        if (element == null)
+            writeInt(0);
+        else {
+            byte[] bytes = element.toBytes();
+            writeInt(bytes.length);
+            write(bytes);
+        }
+    }
+
+    public void writeElements(Element[] elements) throws IOException {
+        if (elements == null)
+            writeInt(0);
+        else {
+            writeInt(elements.length);
+            for (Element e : elements)
+                writeElement(e);
+        }
+    }
+
+    public void writePreProcessing(PreProcessing processing) throws IOException {
+        byte[] buffer = processing.toBytes();
+
+        if (processing instanceof ElementPowPreProcessing) {
+            // write additional information on the field
+            ElementPowPreProcessing powPreProcessing = (ElementPowPreProcessing) processing;
+            writePairingFieldIdentifier(powPreProcessing.getField());
+        }
+
+        writeInt(buffer.length);
+        writeBytes(buffer);
+    }
+
+    public void writeInts(int[] ints) throws IOException {
+        if (ints == null) {
+            writeInt(0);
+        } else {
+            writeInt(ints.length);
+            for (int anInt : ints) writeInt(anInt);
+        }
+    }
+
+    public void writeBytes(byte[] buffer) throws IOException{
+        writeInt(buffer.length);
+        write(buffer);
+    }
+
+
     public Pairing getPairing() {
         return pairing;
     }
+
+
+    protected void writePairingFieldIdentifier(Field field) throws IOException {
+        Pairing.PairingFieldIdentifier identifier = getPairing().getPairingFieldIdentifier(field);
+        if (identifier == Pairing.PairingFieldIdentifier.Unknown)
+            throw new IllegalArgumentException("The field does not belong to the current pairing instance.");
+        writeInt(identifier.ordinal());
+    }
+
+
 
 }

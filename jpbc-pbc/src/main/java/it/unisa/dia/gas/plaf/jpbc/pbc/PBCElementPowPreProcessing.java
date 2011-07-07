@@ -34,6 +34,10 @@ public class PBCElementPowPreProcessing implements ElementPowPreProcessing {
     }
 
 
+    public Field getField() {
+        return field;
+    }
+
     public Element pow(BigInteger n) {
         PBCElement result = (PBCElement) field.newElement();
         WrapperLibraryProvider.getWrapperLibrary().pbc_element_pp_pow(result.value, MPZElementType.fromBigInteger(n), elementPPType);

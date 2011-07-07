@@ -1,9 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.util.io;
 
-import it.unisa.dia.gas.jpbc.CurveParameters;
-import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.jpbc.Pairing;
+import it.unisa.dia.gas.jpbc.*;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
 import java.io.IOException;
@@ -119,8 +116,12 @@ public class PairingObjectInput implements ObjectInput {
         return curveParameters;
     }
 
+    public Pairing getPairing() {
+        return pairing;
+    }
+
     public Field readField() throws IOException {
-        Pairing.FieldIdentifier identifier = Pairing.FieldIdentifier.values()[readInt()];
+        Pairing.PairingFieldIdentifier identifier = Pairing.PairingFieldIdentifier.values()[readInt()];
         switch (identifier) {
             case G1:
                 return pairing.getG1();
@@ -136,7 +137,7 @@ public class PairingObjectInput implements ObjectInput {
     }
 
 
-    public Element readElement(Pairing.FieldIdentifier fieldIdentifier) throws IOException {
+    public Element readElement(Pairing.PairingFieldIdentifier fieldIdentifier) throws IOException {
         Element e;
         switch (fieldIdentifier) {
             case G1:
@@ -162,7 +163,7 @@ public class PairingObjectInput implements ObjectInput {
         return e;
     }
 
-    public Element[] readElements(Pairing.FieldIdentifier identifier) throws IOException{
+    public Element[] readElements(Pairing.PairingFieldIdentifier identifier) throws IOException{
         int num = readInt();
         Element[] elements = new Element[num];
         for (int i = 0; i < num; i++) {
@@ -172,6 +173,25 @@ public class PairingObjectInput implements ObjectInput {
         return elements;
     }
 
+    public PairingPreProcessing readPairingPreProcessing() throws IOException {
+        int size = readInt();
+        byte[] buffer = new byte[size];
+        readFully(buffer);
+
+        return getPairing().pairing(buffer, 0);
+    }
+
+    public ElementPowPreProcessing readElementPowPreProcessing() throws IOException {
+        // Read field identifier
+        Field field = readField();
+
+        // read the preprocessing information
+        int size = readInt();
+        byte[] buffer = new byte[size];
+        readFully(buffer);
+
+        return field.pow(buffer, 0);
+    }
 
     public int[] readInts() throws IOException {
         int num = readInt();
@@ -190,4 +210,5 @@ public class PairingObjectInput implements ObjectInput {
 
         return buffer;
     }
+
 }
