@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.field.curve;
 
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.ElementPow;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericFieldOver;
 
@@ -32,6 +33,7 @@ public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElemen
 
     protected Element a, b;
     protected Element gen, genNoCofac;
+    protected ElementPow genPow;
     protected BigInteger order, cofac;
 
     // A non-NULL quotientCmp means we are working with the quotient group of
@@ -53,6 +55,8 @@ public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElemen
         this.order = order;
         this.gen = newElement();
         this.gen.setFromBytes(gen);
+
+        this.genPow = this.gen.pow();
     }
 
     public CurveField(Random random, Element a, Element b, BigInteger order, BigInteger cofac) {
@@ -64,6 +68,8 @@ public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElemen
         this.cofac = cofac;
 
         initGen();
+
+        this.genPow = this.gen.pow();
     }
 
     public CurveField(Random random, Element a, Element b, BigInteger order, BigInteger cofac, BigInteger genNoCofac) {
@@ -76,6 +82,8 @@ public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElemen
         this.cofac = cofac;
 
         initGen(genNoCofac);
+
+        this.genPow = this.gen.pow();
     }
 
     public CurveField(Random random, Element b, BigInteger order, BigInteger cofac) {

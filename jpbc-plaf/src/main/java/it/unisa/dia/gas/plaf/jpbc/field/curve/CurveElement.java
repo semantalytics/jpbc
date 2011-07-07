@@ -109,7 +109,9 @@ public class CurveElement<E extends Element> extends GenericPointElement<E> {
 
     public CurveElement setToRandom() {
         BigInteger order = field.getTargetField().getOrder();
-        set(getField().gen).mul(new BigInteger(order.bitLength(), field.getRandom()).mod(order));
+        set(getField().gen).pow(new BigInteger(order.bitLength(), field.getRandom()).mod(order));
+//        TODO: use preprocessing...
+//        set(getField().genPow.pow(new BigInteger(order.bitLength(), field.getRandom()).mod(order)));
 
         return this;
     }
