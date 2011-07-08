@@ -23,28 +23,36 @@ public class OrthogonalityPairingTest {
 
     protected String curvePath;
     protected CurveParameters curveParameters;
+    protected boolean usePBC;
     protected Pairing pairing;
 
 
     @Parameterized.Parameters
     public static Collection parameters() {
         Object[][] data = {
-                {"it/unisa/dia/gas/plaf/jpbc/pairing/a1/a1_3primes.properties"},
+                {false, "it/unisa/dia/gas/plaf/jpbc/pairing/a1/a1_3primes.properties"},
+                {true, "it/unisa/dia/gas/plaf/jpbc/pairing/a1/a1_3primes.properties"},
         };
 
         return Arrays.asList(data);
 
     }
 
-    public OrthogonalityPairingTest(String curvePath) {
+    public OrthogonalityPairingTest(boolean usePBC, String curvePath) {
+        this.usePBC = usePBC;
         this.curvePath = curvePath;
     }
 
     @Before
     public void before() throws Exception {
+        assumeTrue(
+                pairing != null &&
+                (!usePBC || PairingFactory.getInstance().isPBCAvailable())
+        );
+
+        PairingFactory.getInstance().setUsePBCWhenPossible(usePBC);
         curveParameters = PairingFactory.getInstance().loadCurveParameters(curvePath);
         pairing = PairingFactory.getPairing(curveParameters);
-        assumeTrue(pairing != null);
     }
 
     @Test

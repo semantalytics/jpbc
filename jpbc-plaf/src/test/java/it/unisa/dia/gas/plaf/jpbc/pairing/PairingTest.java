@@ -21,32 +21,48 @@ import static org.junit.Assume.assumeTrue;
 public class PairingTest extends TestCase {
 
     protected String curvePath;
+    protected boolean usePBC;
     protected Pairing pairing;
 
+    static {
+        PairingFactory.getInstance().setReuseIstance(false);
+    }
 
     @Parameterized.Parameters
     public static Collection parameters() {
         Object[][] data = {
-                {"it/unisa/dia/gas/plaf/jpbc/pairing/a/a_181_603.properties"},
-                {"it/unisa/dia/gas/plaf/jpbc/pairing/a1/a1_3primes.properties"},
-                {"it/unisa/dia/gas/plaf/jpbc/pairing/d/d_9563.properties"},
-                {"it/unisa/dia/gas/plaf/jpbc/pairing/e/e.properties"},
-                {"it/unisa/dia/gas/plaf/jpbc/pairing/f/f.properties"},
-                {"it/unisa/dia/gas/plaf/jpbc/pairing/g/g149.properties"}
+                {false, "it/unisa/dia/gas/plaf/jpbc/pairing/a/a_181_603.properties"},
+                {false, "it/unisa/dia/gas/plaf/jpbc/pairing/a1/a1_3primes.properties"},
+                {false, "it/unisa/dia/gas/plaf/jpbc/pairing/d/d_9563.properties"},
+                {false, "it/unisa/dia/gas/plaf/jpbc/pairing/e/e.properties"},
+                {false, "it/unisa/dia/gas/plaf/jpbc/pairing/f/f.properties"},
+                {false, "it/unisa/dia/gas/plaf/jpbc/pairing/g/g149.properties"},
+                {true, "it/unisa/dia/gas/plaf/jpbc/pairing/a/a_181_603.properties"},
+                {true, "it/unisa/dia/gas/plaf/jpbc/pairing/a1/a1_3primes.properties"},
+                {true, "it/unisa/dia/gas/plaf/jpbc/pairing/d/d_9563.properties"},
+                {true, "it/unisa/dia/gas/plaf/jpbc/pairing/e/e.properties"},
+                {true, "it/unisa/dia/gas/plaf/jpbc/pairing/f/f.properties"},
+                {true, "it/unisa/dia/gas/plaf/jpbc/pairing/g/g149.properties"}
         };
 
         return Arrays.asList(data);
 
     }
 
-    public PairingTest(String curvePath) {
+    public PairingTest(boolean usePBC, String curvePath) {
+        this.usePBC = usePBC;
         this.curvePath = curvePath;
     }
 
     @Before
     public void before() throws Exception {
+        assumeTrue(
+                pairing != null &&
+                (!usePBC || PairingFactory.getInstance().isPBCAvailable())
+        );
+
+        PairingFactory.getInstance().setUsePBCWhenPossible(usePBC);
         pairing = PairingFactory.getPairing(curvePath);
-        assumeTrue(pairing != null);
     }
 
     @Test

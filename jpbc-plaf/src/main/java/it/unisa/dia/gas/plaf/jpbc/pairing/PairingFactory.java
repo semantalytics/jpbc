@@ -134,4 +134,8 @@ public class PairingFactory {
         }
         return null;
     }
+
+    public boolean isPBCAvailable() {
+        return pbcAvailable;
+    }
 }
