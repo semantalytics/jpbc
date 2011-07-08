@@ -1,20 +1,54 @@
-package it.unisa.dia.gas.plaf.jpbc.pairing.a1;
+package it.unisa.dia.gas.plaf.jpbc.pairing;
 
 import it.unisa.dia.gas.jpbc.CurveParameters;
-import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
+import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.Pairing;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+
+import java.math.BigInteger;
+import java.util.Arrays;
+import java.util.Collection;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assume.assumeTrue;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class TypeA1PairingTest {
+@RunWith(value = Parameterized.class)
+public class OrthogonalityPairingTest {
 
-    protected CurveParameters getCurveParameters() {
-        return PairingFactory.getInstance().loadCurveParameters("it/unisa/dia/gas/plaf/jpbc/pairing/a1/a1_3primes.properties");
+    protected String curvePath;
+    protected CurveParameters curveParameters;
+    protected Pairing pairing;
+
+
+    @Parameterized.Parameters
+    public static Collection parameters() {
+        Object[][] data = {
+                {"it/unisa/dia/gas/plaf/jpbc/pairing/a1/a1_3primes.properties"},
+        };
+
+        return Arrays.asList(data);
+
     }
 
-/*
+    public OrthogonalityPairingTest(String curvePath) {
+        this.curvePath = curvePath;
+    }
+
+    @Before
+    public void before() throws Exception {
+        curveParameters = PairingFactory.getInstance().loadCurveParameters(curvePath);
+        pairing = PairingFactory.getPairing(curveParameters);
+        assumeTrue(pairing != null);
+    }
+
+    @Test
     public void testOrthogonality() {
-        CurveParameters curveParameters = getCurveParameters();
         BigInteger p0 = curveParameters.getBigInteger("n0");
         BigInteger p1 = curveParameters.getBigInteger("n1");
         BigInteger p2 = curveParameters.getBigInteger("n2");
@@ -56,6 +90,5 @@ public class TypeA1PairingTest {
         assertEquals(true, pairing.pairing(e1, e02).isOne());
         assertEquals(true, pairing.pairing(e0, e12).isOne());
     }
-*/
 
 }
