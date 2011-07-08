@@ -1,21 +1,18 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing.a1;
 
 import it.unisa.dia.gas.jpbc.CurveParameters;
-import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
-import it.unisa.dia.gas.plaf.jpbc.pairing.PairingTest;
-
-import java.math.BigInteger;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class TypeA1PairingTest extends PairingTest {
+public class TypeA1PairingTest {
 
     protected CurveParameters getCurveParameters() {
         return PairingFactory.getInstance().loadCurveParameters("it/unisa/dia/gas/plaf/jpbc/pairing/a1/a1_3primes.properties");
     }
 
+/*
     public void testOrthogonality() {
         CurveParameters curveParameters = getCurveParameters();
         BigInteger p0 = curveParameters.getBigInteger("n0");
@@ -59,5 +56,6 @@ public class TypeA1PairingTest extends PairingTest {
         assertEquals(true, pairing.pairing(e1, e02).isOne());
         assertEquals(true, pairing.pairing(e0, e12).isOne());
     }
+*/
 
 }

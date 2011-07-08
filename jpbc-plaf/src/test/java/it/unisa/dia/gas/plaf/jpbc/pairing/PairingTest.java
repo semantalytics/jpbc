@@ -1,22 +1,56 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing;
 
-import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.jpbc.PairingPreProcessing;
 import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+
+import java.util.Arrays;
+import java.util.Collection;
+
+import static org.junit.Assume.assumeTrue;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public abstract class PairingTest extends TestCase {
+@RunWith(value = Parameterized.class)
+public class PairingTest extends TestCase {
+
+    protected String curvePath;
     protected Pairing pairing;
 
 
-    public void testPairing() {
-        if (pairing == null)
-            return;
+    @Parameterized.Parameters
+    public static Collection parameters() {
+        Object[][] data = {
+                {"it/unisa/dia/gas/plaf/jpbc/pairing/a/a_181_603.properties"},
+                {"it/unisa/dia/gas/plaf/jpbc/pairing/a1/a1_3primes.properties"},
+                {"it/unisa/dia/gas/plaf/jpbc/pairing/d/d_9563.properties"},
+                {"it/unisa/dia/gas/plaf/jpbc/pairing/e/e.properties"},
+                {"it/unisa/dia/gas/plaf/jpbc/pairing/f/f.properties"},
+                {"it/unisa/dia/gas/plaf/jpbc/pairing/g/g149.properties"}
+        };
 
+        return Arrays.asList(data);
+
+    }
+
+    public PairingTest(String curvePath) {
+        this.curvePath = curvePath;
+    }
+
+    @Before
+    public void before() throws Exception {
+        pairing = PairingFactory.getPairing(curvePath);
+        assumeTrue(pairing != null);
+    }
+
+    @Test
+    public void testPairing() {
         Element g, h;
         Element x1, x2;
         Element zg, zh, z;
@@ -42,10 +76,8 @@ public abstract class PairingTest extends TestCase {
         assertEquals(true, x1.isEqual(x2));
     }
 
+    @Test
     public void testPairingPreProcessing() {
-        if (pairing == null)
-            return;
-
         Element g, h;
         Element x1, x2;
 
@@ -56,14 +88,12 @@ public abstract class PairingTest extends TestCase {
 
         PairingPreProcessing ppp = pairing.pairing(g);
         x2 = ppp.pairing(h);
-        
+
         assertTrue(x1.isEqual(x2));
     }
 
+    @Test
     public void testPairingPreProcessingBytes() {
-        if (pairing == null)
-            return;
-
         Element g, h;
         Element x1, x2;
 
@@ -79,12 +109,8 @@ public abstract class PairingTest extends TestCase {
         assertEquals(true, x1.isEqual(x2));
     }
 
-
-
+    @Test
     public void testPairingSymmetric() {
-        if (pairing == null)
-            return;
-
         if (pairing.isSymmetric()) {
             Element g;
             Element x1, x2;
@@ -111,10 +137,8 @@ public abstract class PairingTest extends TestCase {
         }
     }
 
+    @Test
     public void testProdPairing() {
-        if (pairing == null)
-            return;
-
         Element g1, h1;
         Element g2, h2;
 
@@ -131,21 +155,5 @@ public abstract class PairingTest extends TestCase {
 
         assertEquals(true, out1.isEqual(out2));
     }
-
-    @Override
-    protected void setUp() throws Exception {
-        CurveParameters curveParameters = getCurveParameters();
-        if (curveParameters != null) {
-            pairing = PairingFactory.getPairing(curveParameters);
-
-            assertNotNull(pairing.getG1());
-            assertNotNull(pairing.getG2());
-            assertNotNull(pairing.getGT());
-            assertNotNull(pairing.getZr());
-        } else
-            pairing = null;
-    }
-
-    protected abstract CurveParameters getCurveParameters();
 
 }
