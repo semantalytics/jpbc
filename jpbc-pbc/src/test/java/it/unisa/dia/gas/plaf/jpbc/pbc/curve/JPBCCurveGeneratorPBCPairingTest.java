@@ -1,20 +1,11 @@
 package it.unisa.dia.gas.plaf.jpbc.pbc.curve;
 
-import it.unisa.dia.gas.jpbc.CurveGenerator;
-import it.unisa.dia.gas.jpbc.CurveParameters;
-import it.unisa.dia.gas.plaf.jpbc.pairing.a.TypeACurveGenerator;
-import it.unisa.dia.gas.plaf.jpbc.pairing.a1.TypeA1CurveGenerator;
-import it.unisa.dia.gas.plaf.jpbc.pairing.e.TypeECurveGenerator;
-import it.unisa.dia.gas.plaf.jpbc.pairing.f.TypeFCurveGenerator;
-import it.unisa.dia.gas.plaf.jpbc.pbc.PBCPairing;
-import it.unisa.dia.gas.plaf.jpbc.pbc.pairing.PairingTest;
-import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.WrapperLibraryProvider;
-
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class JPBCCurveGeneratorPBCPairingTest extends PairingTest {
+public class JPBCCurveGeneratorPBCPairingTest /*extends PairingTest*/ {
 
+/*
     public void testTypeA() {
         CurveGenerator curveGenerator = new TypeACurveGenerator(181, 603);
         initPairing(curveGenerator.generate());
@@ -67,4 +58,5 @@ public class JPBCCurveGeneratorPBCPairingTest extends PairingTest {
         doPairingSymmetric();
     }
 
+*/
 }

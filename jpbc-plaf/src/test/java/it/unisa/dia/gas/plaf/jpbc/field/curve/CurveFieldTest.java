@@ -1,34 +1,23 @@
 package it.unisa.dia.gas.plaf.jpbc.field.curve;
 
-import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
-import it.unisa.dia.gas.plaf.jpbc.pairing.a.TypeAPairing;
-import junit.framework.TestCase;
+import it.unisa.dia.gas.plaf.jpbc.JPBCAbstractTest;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class CurveFieldTest extends TestCase {
+public class CurveFieldTest extends JPBCAbstractTest {
 
-    protected Pairing pairing;
 
-    @Override
-    protected void setUp() throws Exception {
-        pairing = new TypeAPairing(getCurveParameters());
-
-        assertNotNull(pairing.getG1());
-        assertNotNull(pairing.getG2());
-        assertNotNull(pairing.getGT());
-        assertNotNull(pairing.getZr());
+    public CurveFieldTest(boolean usePBC, String curvePath) {
+        super(usePBC, curvePath);
     }
 
-    protected CurveParameters getCurveParameters() {
-        return PairingFactory.getInstance().loadCurveParameters("it/unisa/dia/gas/plaf/jpbc/pairing/a/a_181_603.properties");
-    }
-
-
+    @Test
     public void testOne() {
         if (pairing == null)
             return;
@@ -54,6 +43,7 @@ public class CurveFieldTest extends TestCase {
     }
 
     /* TODO: reactive asap, PBC produces an invalid access memory...
+    @Test
     public void testTwice() {
         if (pairing == null)
             return;
@@ -73,6 +63,7 @@ public class CurveFieldTest extends TestCase {
         assertEquals(true, b_c.isEqual(_b));
     }
 
+    @Test
     public void testAdd() {
         if (pairing == null)
             return;

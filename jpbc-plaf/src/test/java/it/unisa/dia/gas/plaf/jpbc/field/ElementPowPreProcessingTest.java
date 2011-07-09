@@ -1,26 +1,27 @@
-package it.unisa.dia.gas.plaf.jpbc.element;
+package it.unisa.dia.gas.plaf.jpbc.field;
 
-import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
-import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
-import junit.framework.TestCase;
+import it.unisa.dia.gas.plaf.jpbc.JPBCAbstractTest;
+import org.junit.Test;
 
 import java.math.BigInteger;
+
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public abstract class ElementPowPreProcessingTest extends TestCase {
-
-    protected Pairing pairing;
+public class ElementPowPreProcessingTest extends JPBCAbstractTest {
 
 
+    public ElementPowPreProcessingTest(boolean usePBC, String curvePath) {
+        super(usePBC, curvePath);
+    }
+
+
+    @Test
     public void testPowPreProcessing() {
-        if (pairing == null)
-            return;
-
         Element e1 = pairing.getZr().newElement().setToRandom();
         Element e2 = e1.duplicate();
         ElementPowPreProcessing ppp = e1.pow();
@@ -32,10 +33,8 @@ public abstract class ElementPowPreProcessingTest extends TestCase {
         assertTrue(r1.isEqual(r2));
     }
 
+    @Test
     public void testPowPreProcessingZn() {
-        if (pairing == null)
-            return;
-
         Element e1 = pairing.getZr().newElement().setToRandom();
         Element e2 = e1.duplicate();
         ElementPowPreProcessing ppp = e1.pow();
@@ -47,10 +46,8 @@ public abstract class ElementPowPreProcessingTest extends TestCase {
         assertTrue(r1.isEqual(r2));
     }
 
+    @Test
     public void testPowPreProcessingBytes() {
-        if (pairing == null)
-            return;
-
         Element e1 = pairing.getG1().newElement().setToRandom();
 
         ElementPowPreProcessing ppp1 = e1.pow();
@@ -63,12 +60,5 @@ public abstract class ElementPowPreProcessingTest extends TestCase {
 
         assertTrue(r1.isEqual(r2));
     }
-
-    @Override
-    protected void setUp() throws Exception {
-        pairing = PairingFactory.getPairing(getCurveParameters());
-    }
-
-    protected abstract CurveParameters getCurveParameters();
 
 }

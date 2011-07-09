@@ -2,7 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.pairing;
 
 import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.jpbc.Pairing;
+import it.unisa.dia.gas.plaf.jpbc.JPBCAbstractTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,13 +19,7 @@ import static org.junit.Assume.assumeTrue;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 @RunWith(value = Parameterized.class)
-public class OrthogonalityPairingTest {
-
-    protected String curvePath;
-    protected CurveParameters curveParameters;
-    protected boolean usePBC;
-    protected Pairing pairing;
-
+public class OrthogonalityPairingTest extends JPBCAbstractTest {
 
     @Parameterized.Parameters
     public static Collection parameters() {
@@ -38,21 +32,24 @@ public class OrthogonalityPairingTest {
 
     }
 
+
+    protected CurveParameters curveParameters;
+
+
     public OrthogonalityPairingTest(boolean usePBC, String curvePath) {
-        this.usePBC = usePBC;
-        this.curvePath = curvePath;
+        super(usePBC, curvePath);
     }
 
     @Before
     public void before() throws Exception {
+        PairingFactory.getInstance().setUsePBCWhenPossible(usePBC);
+        curveParameters = PairingFactory.getInstance().loadCurveParameters(curvePath);
+        pairing = PairingFactory.getPairing(curveParameters);
+
         assumeTrue(
                 pairing != null &&
                 (!usePBC || PairingFactory.getInstance().isPBCAvailable())
         );
-
-        PairingFactory.getInstance().setUsePBCWhenPossible(usePBC);
-        curveParameters = PairingFactory.getInstance().loadCurveParameters(curvePath);
-        pairing = PairingFactory.getPairing(curveParameters);
     }
 
     @Test
