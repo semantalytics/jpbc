@@ -1,27 +1,38 @@
 package it.unisa.dia.gas.jpbc.zss;
 
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
-import junit.framework.TestCase;
+import it.unisa.dia.gas.plaf.jpbc.AbstractJPBCTest;
+import org.junit.Test;
+import org.junit.runners.Parameterized;
+
+import java.util.Arrays;
+import java.util.Collection;
+
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class ZssTest extends TestCase {
+public class ZssTest extends AbstractJPBCTest {
 
-    protected Pairing pairing;
+    @Parameterized.Parameters
+    public static Collection parameters() {
+        Object[][] data = {
+                {false, "it/unisa/dia/gas/plaf/jpbc/pairing/a/a_181_603.properties"},
+                {true, "it/unisa/dia/gas/plaf/jpbc/pairing/a/a_181_603.properties"},
+        };
 
-    @Override
-    protected void setUp() throws Exception {
-        pairing = PairingFactory.getPairing("it/unisa/dia/gas/plaf/jpbc/pairing/a/a_181_603.properties");
+        return Arrays.asList(data);
     }
 
 
+    public ZssTest(boolean usePBC, String curvePath) {
+        super(usePBC, curvePath);
+    }
+
+
+    @Test
     public void testZss() {
-        if (pairing == null)
-            return;
-        
         Element P, Ppub, x, S, H, t1, t2, t3, t4;
 
         x = pairing.getZr().newRandomElement();
