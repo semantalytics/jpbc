@@ -2,7 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.pairing;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.PairingPreProcessing;
-import it.unisa.dia.gas.plaf.jpbc.JPBCAbstractTest;
+import it.unisa.dia.gas.plaf.jpbc.AbstractJPBCTest;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -11,7 +11,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class PairingTest extends JPBCAbstractTest {
+public class PairingTest extends AbstractJPBCTest {
 
     public PairingTest(boolean usePBC, String curvePath) {
         super(usePBC, curvePath);

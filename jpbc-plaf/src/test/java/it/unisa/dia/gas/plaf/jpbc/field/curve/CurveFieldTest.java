@@ -1,27 +1,32 @@
 package it.unisa.dia.gas.plaf.jpbc.field.curve;
 
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.plaf.jpbc.JPBCAbstractTest;
+import it.unisa.dia.gas.plaf.jpbc.AbstractJPBCTest;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeTrue;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class CurveFieldTest extends JPBCAbstractTest {
+public class CurveFieldTest extends AbstractJPBCTest {
 
 
     public CurveFieldTest(boolean usePBC, String curvePath) {
         super(usePBC, curvePath);
     }
 
+    @Override
+    public void before() throws Exception {
+        super.before();
+
+        assumeTrue(pairing.isSymmetric());
+    }
+
     @Test
     public void testOne() {
-        if (pairing == null)
-            return;
-
         Element g = pairing.getG1().newElement().setToRandom();
         Element a = pairing.getZr().newElement().setToRandom();
         Element r = pairing.getZr().newElement().setToRandom();

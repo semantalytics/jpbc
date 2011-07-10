@@ -15,7 +15,7 @@ import static org.junit.Assume.assumeTrue;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 @RunWith(value = Parameterized.class)
-public class JPBCAbstractTest {
+public abstract class AbstractJPBCTest {
 
     static {
         PairingFactory.getInstance().setReuseIstance(false);
@@ -47,7 +47,7 @@ public class JPBCAbstractTest {
     protected Pairing pairing;
 
 
-    public JPBCAbstractTest(boolean usePBC, String curvePath) {
+    public AbstractJPBCTest(boolean usePBC, String curvePath) {
         this.usePBC = usePBC;
         this.curvePath = curvePath;
     }

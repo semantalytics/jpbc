@@ -2,7 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.field;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
-import it.unisa.dia.gas.plaf.jpbc.JPBCAbstractTest;
+import it.unisa.dia.gas.plaf.jpbc.AbstractJPBCTest;
 import org.junit.Test;
 
 import java.math.BigInteger;
@@ -12,7 +12,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class ElementPowPreProcessingTest extends JPBCAbstractTest {
+public class ElementPowPreProcessingTest extends AbstractJPBCTest {
 
 
     public ElementPowPreProcessingTest(boolean usePBC, String curvePath) {

@@ -2,7 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.pairing;
 
 import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.plaf.jpbc.JPBCAbstractTest;
+import it.unisa.dia.gas.plaf.jpbc.AbstractJPBCTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +19,7 @@ import static org.junit.Assume.assumeTrue;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 @RunWith(value = Parameterized.class)
-public class OrthogonalityPairingTest extends JPBCAbstractTest {
+public class OrthogonalityPairingTest extends AbstractJPBCTest {
 
     @Parameterized.Parameters
     public static Collection parameters() {
