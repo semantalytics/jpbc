@@ -44,13 +44,12 @@ public abstract class AbstractJPBCCryptoTest {
 
     @Before
     public void before() throws Exception {
+        assumeTrue(!usePBC || PairingFactory.getInstance().isPBCAvailable());
+
         PairingFactory.getInstance().setUsePBCWhenPossible(usePBC);
         curveParameters = PairingFactory.getInstance().loadCurveParameters(curvePath);
 
-        assumeTrue(
-                curveParameters != null &&
-                (!usePBC || PairingFactory.getInstance().isPBCAvailable())
-        );
+        assumeTrue(curveParameters != null);
     }
 
 }

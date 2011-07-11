@@ -48,13 +48,12 @@ public class CurveGeneratorPairingTest extends PairingTest {
 
     @Before
     public void before() throws Exception {
+        assumeTrue(!usePBC || PairingFactory.getInstance().isPBCAvailable());
+
         PairingFactory.getInstance().setUsePBCWhenPossible(usePBC);
         pairing = PairingFactory.getPairing(curveGenerator.generate());
 
-        assumeTrue(
-                pairing != null &&
-                (!usePBC || PairingFactory.getInstance().isPBCAvailable())
-        );
+        assumeTrue(pairing != null);
     }
 
 }

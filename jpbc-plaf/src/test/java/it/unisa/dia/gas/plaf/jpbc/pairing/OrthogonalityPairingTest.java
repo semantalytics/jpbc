@@ -42,14 +42,14 @@ public class OrthogonalityPairingTest extends AbstractJPBCTest {
 
     @Before
     public void before() throws Exception {
+        assumeTrue(!usePBC || PairingFactory.getInstance().isPBCAvailable());
+
         PairingFactory.getInstance().setUsePBCWhenPossible(usePBC);
         curveParameters = PairingFactory.getInstance().loadCurveParameters(curvePath);
         pairing = PairingFactory.getPairing(curveParameters);
 
-        assumeTrue(
-                pairing != null &&
-                (!usePBC || PairingFactory.getInstance().isPBCAvailable())
-        );
+        assumeTrue(curveParameters != null);
+        assumeTrue(pairing != null);
     }
 
     @Test
