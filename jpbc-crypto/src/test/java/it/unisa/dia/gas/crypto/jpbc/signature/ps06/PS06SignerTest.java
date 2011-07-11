@@ -1,22 +1,31 @@
 package it.unisa.dia.gas.crypto.jpbc.signature.ps06;
 
+import it.unisa.dia.gas.crypto.jpbc.AbstractJPBCCryptoTest;
 import it.unisa.dia.gas.crypto.jpbc.signature.ps06.engines.PS06Signer;
 import it.unisa.dia.gas.crypto.jpbc.signature.ps06.generators.PS06ParametersGenerator;
 import it.unisa.dia.gas.crypto.jpbc.signature.ps06.generators.PS06SecretKeyGenerator;
 import it.unisa.dia.gas.crypto.jpbc.signature.ps06.generators.PS06SetupGenerator;
 import it.unisa.dia.gas.crypto.jpbc.signature.ps06.params.*;
-import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
-import junit.framework.TestCase;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.CryptoException;
 import org.bouncycastle.crypto.digests.SHA256Digest;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class PS06SignerTest extends TestCase {
+public class PS06SignerTest extends AbstractJPBCCryptoTest {
 
+
+    public PS06SignerTest(boolean usePBC, String curvePath) {
+        super(usePBC, curvePath);
+    }
+
+
+    @Test
     public void testSignerEngine() {
         // Setup -> (Public Key, Master Secret Key)
         AsymmetricCipherKeyPair keyPair = setup(createParameters(256, 256));
@@ -37,11 +46,7 @@ public class PS06SignerTest extends TestCase {
 
     protected PS06Parameters createParameters(int nU, int nM) {
         // Generate Public Parameters
-        return new PS06ParametersGenerator().init(
-                PairingFactory.getInstance().loadCurveParameters("it/unisa/dia/gas/plaf/jpbc/crypto/a_181_603.properties"),
-                nU,
-                nM).generateParameters();
-
+        return new PS06ParametersGenerator().init(curveParameters, nU, nM).generateParameters();
     }
 
     protected AsymmetricCipherKeyPair setup(PS06Parameters parameters) {

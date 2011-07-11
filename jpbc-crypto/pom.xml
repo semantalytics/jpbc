@@ -44,6 +44,14 @@
 
         <dependency>
             <groupId>it.unisa.dia.gas</groupId>
+            <artifactId>jpbc-plaf</artifactId>
+            <version>1.2.0</version>
+            <classifier>tests</classifier>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>it.unisa.dia.gas</groupId>
             <artifactId>jpbc-pbc</artifactId>
             <version>1.2.0</version>
         </dependency>

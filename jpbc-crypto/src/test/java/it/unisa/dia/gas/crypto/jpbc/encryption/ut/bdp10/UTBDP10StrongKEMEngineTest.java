@@ -1,27 +1,35 @@
 package it.unisa.dia.gas.crypto.jpbc.encryption.ut.bdp10;
 
 import it.unisa.dia.gas.crypto.engines.kem.KeyEncapsulationMechanism;
+import it.unisa.dia.gas.crypto.jpbc.AbstractJPBCCryptoTest;
 import it.unisa.dia.gas.crypto.jpbc.encryption.ut.bdp10.engines.UTBDP10StrongKEMEngine;
 import it.unisa.dia.gas.crypto.jpbc.encryption.ut.bdp10.generators.UTBDP10StrongKeyPairGenerator;
 import it.unisa.dia.gas.crypto.jpbc.encryption.ut.bdp10.generators.UTBDP10StrongParametersGenerator;
 import it.unisa.dia.gas.crypto.jpbc.encryption.ut.bdp10.params.*;
-import it.unisa.dia.gas.jpbc.CurveParameters;
-import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
-import junit.framework.TestCase;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.InvalidCipherTextException;
 import org.bouncycastle.crypto.generators.ElGamalParametersGenerator;
 import org.bouncycastle.crypto.params.ElGamalParameters;
+import org.junit.Test;
 
 import java.security.SecureRandom;
 import java.util.Arrays;
 
+import static org.junit.Assert.*;
+
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class UTBDP10StrongKEMEngineTest extends TestCase {
+public class UTBDP10StrongKEMEngineTest extends AbstractJPBCCryptoTest {
 
+
+    public UTBDP10StrongKEMEngineTest(boolean usePBC, String curvePath) {
+        super(usePBC, curvePath);
+    }
+
+
+    @Test
     public void testUTBDP10StrongKEMEngine() {
         UTBDP10StrongParameters parameters = createParameters(1024);
         AsymmetricCipherKeyPair keyPair = setup(parameters);
@@ -40,7 +48,7 @@ public class UTBDP10StrongKEMEngineTest extends TestCase {
         ElGamalParameters elGamalParameters = elGamalParametersGenerator.generateParameters();
 
         UTBDP10StrongParametersGenerator generator = new UTBDP10StrongParametersGenerator();
-        generator.init(getCurveParameters(), elGamalParameters);
+        generator.init(curveParameters, elGamalParameters);
         return generator.generateParameters();
     }
 
@@ -98,10 +106,6 @@ public class UTBDP10StrongKEMEngineTest extends TestCase {
             fail(e.getMessage());
             throw new RuntimeException(e);
         }
-    }
-
-    protected CurveParameters getCurveParameters() {
-        return PairingFactory.getInstance().loadCurveParameters("it/unisa/dia/gas/plaf/jpbc/crypto/a_181_603.properties");
     }
 
 }

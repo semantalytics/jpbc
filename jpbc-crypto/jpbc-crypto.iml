@@ -13,6 +13,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="jpbc-api" />
     <orderEntry type="module" module-name="jpbc-plaf" />
+    <orderEntry type="module" module-name="jpbc-plaf" scope="TEST" />
     <orderEntry type="module" module-name="jpbc-pbc" />
     <orderEntry type="library" name="Maven: net.java.dev.jna:jna:3.2.5" level="project" />
     <orderEntry type="library" name="Maven: org.bouncycastle:bcprov-jdk16:1.46" level="project" />

@@ -1,5 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10;
 
+import it.unisa.dia.gas.crypto.jpbc.AbstractJPBCCryptoTest;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.engines.IPLOSTW10PredicateOnlyEngine;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators.IPLOSTW10KeyPairGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators.IPLOSTW10ParametersGenerator;
@@ -8,19 +9,28 @@ import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.*;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
-import junit.framework.TestCase;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.InvalidCipherTextException;
+import org.junit.Test;
 
 import java.security.SecureRandom;
 import java.util.Random;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 /**
  * @author Angelo De Caro
  */
-public class IPLOSTW10PredicateOnlyEngineTest extends TestCase {
+public class IPLOSTW10PredicateOnlyEngineTest extends AbstractJPBCCryptoTest {
 
+
+    public IPLOSTW10PredicateOnlyEngineTest(boolean usePBC, String curvePath) {
+        super(usePBC, curvePath);
+    }
+
+    @Test
     public void testIPLOSTW10PredicateOnlyEngine() {
         int n = 2;
 
@@ -38,10 +48,7 @@ public class IPLOSTW10PredicateOnlyEngineTest extends TestCase {
 
 
     protected IPLOSTW10Parameters createParameters(int n) {
-        return new IPLOSTW10ParametersGenerator().init(
-                PairingFactory.getInstance().loadCurveParameters("it/unisa/dia/gas/plaf/jpbc/crypto/a_181_603.properties"),
-                n
-        ).generateParameters();
+        return new IPLOSTW10ParametersGenerator().init(curveParameters, n).generateParameters();
     }
 
     protected AsymmetricCipherKeyPair setup(IPLOSTW10Parameters parameters) {

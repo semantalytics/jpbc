@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ibe.lw11;
 
 import it.unisa.dia.gas.crypto.engines.kem.KeyEncapsulationMechanism;
+import it.unisa.dia.gas.crypto.jpbc.AbstractJPBCCryptoTest;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.lw11.engines.UHIBELW11KEMEngine;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.lw11.generators.UHIBELW11KeyPairGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.lw11.generators.UHIBELW11SecretKeyGenerator;
@@ -8,18 +9,26 @@ import it.unisa.dia.gas.crypto.jpbc.fe.ibe.lw11.params.*;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
-import junit.framework.TestCase;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.InvalidCipherTextException;
+import org.junit.Test;
 
 import java.util.Arrays;
+
+import static org.junit.Assert.*;
 
 /**
  * @author Angelo De Caro
  */
-public class UHIBELW11KEMEngineTest extends TestCase {
+public class UHIBELW11KEMEngineTest extends AbstractJPBCCryptoTest {
 
+
+    public UHIBELW11KEMEngineTest(boolean usePBC, String curvePath) {
+        super(usePBC, curvePath);
+    }
+
+    @Test
     public void testUHIBELW11KEMEngine() {
         // Setup
         AsymmetricCipherKeyPair keyPair = setup(32);

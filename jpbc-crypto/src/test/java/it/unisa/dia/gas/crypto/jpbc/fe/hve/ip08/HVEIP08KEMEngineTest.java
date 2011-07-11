@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08;
 
 import it.unisa.dia.gas.crypto.engines.kem.KeyEncapsulationMechanism;
+import it.unisa.dia.gas.crypto.jpbc.AbstractJPBCCryptoTest;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.engines.HVEIP08KEMEngine;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08KeyPairGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08ParametersGenerator;
@@ -8,21 +9,28 @@ import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08SecretKeyGener
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.*;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
-import junit.framework.TestCase;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.InvalidCipherTextException;
+import org.junit.Test;
 
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Random;
 
+import static org.junit.Assert.*;
+
 /**
  * @author Angelo De Caro
  */
-public class HVEIP08KEMEngineTest extends TestCase {
+public class HVEIP08KEMEngineTest extends AbstractJPBCCryptoTest {
 
+
+    public HVEIP08KEMEngineTest(boolean usePBC, String curvePath) {
+        super(usePBC, curvePath);
+    }
+
+    @Test
     public void testHVEIP08KEMEngine() {
         int n = 5;
         AsymmetricCipherKeyPair keyPair = setup(genBinaryParam(n));
@@ -92,18 +100,14 @@ public class HVEIP08KEMEngineTest extends TestCase {
 
     protected HVEIP08Parameters genBinaryParam(int n) {
         HVEIP08ParametersGenerator generator = new HVEIP08ParametersGenerator();
-        generator.init(
-                n, PairingFactory.getInstance().loadCurveParameters("it/unisa/dia/gas/plaf/jpbc/crypto/a_181_603.properties")
-        );
+        generator.init(n, curveParameters);
 
         return generator.generateParameters();
     }
 
     protected HVEIP08Parameters genParam(int... attributeLengths) {
         HVEIP08ParametersGenerator generator = new HVEIP08ParametersGenerator();
-        generator.init(
-                PairingFactory.getInstance().loadCurveParameters("it/unisa/dia/gas/plaf/jpbc/crypto/a_181_603.properties"),
-                attributeLengths);
+        generator.init(curveParameters, attributeLengths);
 
         return generator.generateParameters();
     }

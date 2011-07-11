@@ -1,5 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10;
 
+import it.unisa.dia.gas.crypto.jpbc.AbstractJPBCCryptoTest;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.engines.AHIBEDIP10PredicateOnlyEngine;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.generators.AHIBEDIP10KeyPairGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.generators.AHIBEDIP10SecretKeyGenerator;
@@ -7,17 +8,26 @@ import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params.*;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
-import junit.framework.TestCase;
 import org.bouncycastle.crypto.AsymmetricBlockCipher;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.InvalidCipherTextException;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 /**
  * @author Angelo De Caro
  */
-public class AHIBEDIP10PredicateOnlyEngineTest extends TestCase {
+public class AHIBEDIP10PredicateOnlyEngineTest extends AbstractJPBCCryptoTest {
 
+
+    public AHIBEDIP10PredicateOnlyEngineTest(boolean usePBC, String curvePath) {
+        super(usePBC, curvePath);
+    }
+
+    @Test
     public void testAHIBEDIP10PredicateOnlyEngine() {
         // Setup
         AsymmetricCipherKeyPair keyPair = setup(32, 10);

@@ -1,5 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08;
 
+import it.unisa.dia.gas.crypto.jpbc.AbstractJPBCCryptoTest;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.engines.HVEIP08PredicateOnlyEngine;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08KeyPairGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08ParametersGenerator;
@@ -7,20 +8,27 @@ import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08PredicateOnlyS
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.*;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
-import junit.framework.TestCase;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.InvalidCipherTextException;
+import org.junit.Test;
 
 import java.security.SecureRandom;
 import java.util.Random;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * @author Angelo De Caro
  */
-public class HVEIP08PredicateOnlyEngineTest extends TestCase {
+public class HVEIP08PredicateOnlyEngineTest extends AbstractJPBCCryptoTest {
 
+    public HVEIP08PredicateOnlyEngineTest(boolean usePBC, String curvePath) {
+        super(usePBC, curvePath);
+    }
+
+
+    @Test
     public void testHVEIP08PredicateOnlyEngine() {
         int n = 5;
         AsymmetricCipherKeyPair keyPair = setup(genBinaryParam(n));
@@ -31,6 +39,8 @@ public class HVEIP08PredicateOnlyEngineTest extends TestCase {
         vectors = createNonMatchingVectors(n);
         assertEquals(false, test(keyGen(keyPair.getPrivate(), vectors[0]), enc(keyPair.getPublic(), vectors[1])));
     }
+
+
 
     protected int[][] createMatchingVectors(int n) {
         int[][] result = new int[2][n];
@@ -68,19 +78,14 @@ public class HVEIP08PredicateOnlyEngineTest extends TestCase {
 
     protected HVEIP08Parameters genBinaryParam(int n) {
         HVEIP08ParametersGenerator generator = new HVEIP08ParametersGenerator();
-        generator.init(
-                n, PairingFactory.getInstance().loadCurveParameters("it/unisa/dia/gas/plaf/jpbc/crypto/a_181_603.properties")
-        );
+        generator.init(n, curveParameters);
 
         return generator.generateParameters();
     }
 
     protected HVEIP08Parameters genParam(int... attributeLengths) {
         HVEIP08ParametersGenerator generator = new HVEIP08ParametersGenerator();
-        generator.init(
-                PairingFactory.getInstance().loadCurveParameters("it/unisa/dia/gas/plaf/jpbc/crypto/a_181_603.properties"),
-                attributeLengths
-        );
+        generator.init(curveParameters, attributeLengths);
 
         return generator.generateParameters();
     }

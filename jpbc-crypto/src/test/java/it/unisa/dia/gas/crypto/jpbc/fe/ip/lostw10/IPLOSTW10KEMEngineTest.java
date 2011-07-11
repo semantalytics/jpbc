@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10;
 
 import it.unisa.dia.gas.crypto.engines.kem.KeyEncapsulationMechanism;
+import it.unisa.dia.gas.crypto.jpbc.AbstractJPBCCryptoTest;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.engines.IPLOSTW10KemEngine;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators.IPLOSTW10KeyPairGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators.IPLOSTW10ParametersGenerator;
@@ -9,20 +10,28 @@ import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.*;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
-import junit.framework.TestCase;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.InvalidCipherTextException;
+import org.junit.Test;
 
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Random;
 
+import static org.junit.Assert.*;
+
 /**
  * @author Angelo De Caro
  */
-public class IPLOSTW10KEMEngineTest extends TestCase {
+public class IPLOSTW10KEMEngineTest extends AbstractJPBCCryptoTest {
 
+
+    public IPLOSTW10KEMEngineTest(boolean usePBC, String curvePath) {
+        super(usePBC, curvePath);
+    }
+
+    @Test
     public void testIPLOSTW10KEMEngine() {
         int n = 2;
 
@@ -39,12 +48,7 @@ public class IPLOSTW10KEMEngineTest extends TestCase {
 
 
     protected IPLOSTW10Parameters createParameters(int n) {
-        return new IPLOSTW10ParametersGenerator().init(
-                PairingFactory.getInstance().loadCurveParameters(
-                        "it/unisa/dia/gas/plaf/jpbc/crypto/a_181_603.properties"
-                ),
-                n
-        ).generateParameters();
+        return new IPLOSTW10ParametersGenerator().init(curveParameters, n).generateParameters();
     }
 
     protected Element[][] createOrthogonalVectors(CipherParameters publicKey, int n) {
