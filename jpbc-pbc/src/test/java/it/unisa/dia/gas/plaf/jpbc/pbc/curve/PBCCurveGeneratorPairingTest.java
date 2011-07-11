@@ -2,10 +2,13 @@ package it.unisa.dia.gas.plaf.jpbc.pbc.curve;
 
 import it.unisa.dia.gas.jpbc.CurveGenerator;
 import it.unisa.dia.gas.plaf.jpbc.pairing.CurveGeneratorPairingTest;
+import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.junit.runners.Parameterized;
 
 import java.util.Arrays;
 import java.util.Collection;
+
+import static org.junit.Assume.assumeTrue;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -30,4 +33,9 @@ public class PBCCurveGeneratorPairingTest extends CurveGeneratorPairingTest {
         super(false, curveGenerator);
     }
 
+    @Override
+    public void before() throws Exception {
+        assumeTrue(PairingFactory.getInstance().isPBCAvailable());
+        super.before();
+    }
 }
