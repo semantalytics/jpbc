@@ -6,7 +6,6 @@ import it.unisa.dia.gas.crypto.jpbc.signature.bls01.params.BLS01PublicKeyParamet
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.jpbc.Point;
-import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveElement;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.*;
 
@@ -48,7 +47,7 @@ public class BLS01HalfSigner implements Signer {
 
         BLS01PublicKeyParameters publicKey = (BLS01PublicKeyParameters) keyParameters;
 
-        CurveElement sig = (CurveElement) pairing.getG1().newElement();
+        Point sig = (Point) pairing.getG1().newElement();
         sig.setFromBytesX(signature);
 
         // Generate the digest
