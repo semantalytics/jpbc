@@ -54,8 +54,6 @@ public class UTBDP10WeakKEMEngine extends PairingKeyEncapsulationMechanism {
 
     public byte[] process(byte[] in, int inOff, int inLen) {
         if (key instanceof UTBDP10WeakPrivateKeyParameters) {
-            // TODO: should we check also the encryption of ONE?
-
             // Convert bytes to Elements...
             int offset = inOff;
 
