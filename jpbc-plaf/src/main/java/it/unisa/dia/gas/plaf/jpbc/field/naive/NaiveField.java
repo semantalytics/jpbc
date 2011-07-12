@@ -14,6 +14,7 @@ public class NaiveField extends GenericField<NaiveElement> {
     protected BigInteger order;
     protected NaiveElement nqr;
     protected int fixedLengthInBytes;
+    protected BigInteger twoInverse;
 
 
     public NaiveField(BigInteger order) {
@@ -34,6 +35,8 @@ public class NaiveField extends GenericField<NaiveElement> {
         this.orderIsOdd = BigIntegerUtils.isOdd(order);
 
         this.fixedLengthInBytes = (order.bitLength() + 7) / 8;
+
+        this.twoInverse = BigIntegerUtils.TWO.modInverse(order);
 
         if (nqr != null)
             this.nqr = newElement().set(nqr);

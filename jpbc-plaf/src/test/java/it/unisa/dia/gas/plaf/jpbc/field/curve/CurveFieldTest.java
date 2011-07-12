@@ -21,12 +21,12 @@ public class CurveFieldTest extends AbstractJPBCTest {
     @Override
     public void before() throws Exception {
         super.before();
-
-        assumeTrue(pairing.isSymmetric());
     }
 
     @Test
     public void testOne() {
+        assumeTrue(pairing.isSymmetric());
+
         Element g = pairing.getG1().newElement().setToRandom();
         Element a = pairing.getZr().newElement().setToRandom();
         Element r = pairing.getZr().newElement().setToRandom();
@@ -47,7 +47,6 @@ public class CurveFieldTest extends AbstractJPBCTest {
         assertEquals(true, one.isOne());
     }
 
-    /* TODO: reactive asap, PBC produces an invalid access memory...
     @Test
     public void testTwice() {
         if (pairing == null)
@@ -90,5 +89,5 @@ public class CurveFieldTest extends AbstractJPBCTest {
         assertEquals(true, c1.isEqual(_c1));
     }
 
-    */
+
 }

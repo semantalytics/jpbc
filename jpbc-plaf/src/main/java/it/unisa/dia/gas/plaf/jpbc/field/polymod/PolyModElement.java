@@ -89,7 +89,11 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
     }
 
     public PolyModElement<E> setFromHash(byte[] source, int offset, int length) {
-        throw new IllegalStateException("Not Implemented yet!!!");  //TODO: implement this
+        for (int i=0; i<field.n; i++) {
+            coeff.get(i).setFromHash(source, offset, length);
+        }
+
+        return this;
     }
 
     public PolyModElement<E> setToZero() {
@@ -180,9 +184,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
                 add(p0);
 
                 return this;
-//            case 6:
-            // TODO: port the PBC code
-//                throw new IllegalStateException("Not Implemented yet!!!");
+
             default:
                 squareInternal();
         }
@@ -242,7 +244,77 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
 //            case 6:
             // TODO: port the PBC code
 //                throw new IllegalStateException("Not Implemented yet!!!");
-//                f->mul = polymod_mul_degree6;
+/*
+            mfptr p = res->field->data;
+            element_t *dst = res->data, *s0, *s1 = e->data, *s2 = f->data;
+            element_t *a0, *a1, *b0, *b1;
+            element_t p0, p1, p2, p3;
+
+            a0 = s1;
+            a1 = &s1[3];
+            b0 = s2;
+            b1 = &s2[3];
+
+            element_init(p0, res->field);
+            element_init(p1, res->field);
+            element_init(p2, res->field);
+            element_init(p3, res->field);
+
+            s0 = p0->data;
+            s1 = p1->data;
+            s2 = p2->data;
+            element_add(s0[0], a0[0], a1[0]);
+            element_add(s0[1], a0[1], a1[1]);
+            element_add(s0[2], a0[2], a1[2]);
+
+            element_add(s1[0], b0[0], b1[0]);
+            element_add(s1[1], b0[1], b1[1]);
+            element_add(s1[2], b0[2], b1[2]);
+
+            kar_poly_2(s2, s2[3], s2[4], s0, s1, p3->data);
+            kar_poly_2(s0, s0[3], s0[4], a0, b0, p3->data);
+            kar_poly_2(s1, s1[3], s1[4], a1, b1, p3->data);
+
+            element_set(dst[0], s0[0]);
+            element_set(dst[1], s0[1]);
+            element_set(dst[2], s0[2]);
+
+            element_sub(dst[3], s0[3], s0[0]);
+            element_sub(dst[3], dst[3], s1[0]);
+            element_add(dst[3], dst[3], s2[0]);
+
+            element_sub(dst[4], s0[4], s0[1]);
+            element_sub(dst[4], dst[4], s1[1]);
+            element_add(dst[4], dst[4], s2[1]);
+
+            element_sub(dst[5], s2[2], s0[2]);
+            element_sub(dst[5], dst[5], s1[2]);
+
+            // Start reusing part of s0 as scratch space(!)
+            element_sub(s0[0], s2[3], s0[3]);
+            element_sub(s0[0], s0[0], s1[3]);
+            element_add(s0[0], s0[0], s1[0]);
+
+            element_sub(s0[1], s2[4], s0[4]);
+            element_sub(s0[1], s0[1], s1[4]);
+            element_add(s0[1], s0[1], s1[1]);
+
+            polymod_const_mul(p3, s0[0], p->xpwr[0]);
+            element_add(res, res, p3);
+            polymod_const_mul(p3, s0[1], p->xpwr[1]);
+            element_add(res, res, p3);
+            polymod_const_mul(p3, s1[2], p->xpwr[2]);
+            element_add(res, res, p3);
+            polymod_const_mul(p3, s1[3], p->xpwr[3]);
+            element_add(res, res, p3);
+            polymod_const_mul(p3, s1[4], p->xpwr[4]);
+            element_add(res, res, p3);
+
+            element_clear(p0);
+            element_clear(p1);
+            element_clear(p2);
+            element_clear(p3);
+*/
             default:
 
                 Element[] high = new Element[field.n - 1];
@@ -296,7 +368,6 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
 
     public PolyModElement<E> powZn(Element e) {
         // TODO: port the PBC code
-//        throw new IllegalStateException("Not Implemented yet!!!");
         return (PolyModElement<E>) pow(e.toBigInteger());
     }
 

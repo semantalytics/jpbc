@@ -89,7 +89,11 @@ public class VectorElement<E extends Element> extends GenericVectorElement<E> {
     }
 
     public VectorElement<E> setFromHash(byte[] source, int offset, int length) {
-        throw new IllegalStateException("Not Implemented yet!!!");  //TODO: implement this
+        for (int i = 0; i < field.n; i++) {
+            coeff.get(i).setFromHash(source, offset, length);
+        }
+
+        return this;
     }
 
     public VectorElement<E> setToZero() {

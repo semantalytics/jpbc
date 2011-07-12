@@ -25,7 +25,7 @@ public class ElementTest {
         SecureRandom secureRandom = new SecureRandom();
 
         Object[][] data = {
-                {new NaiveField(new BigInteger(1024, secureRandom))}
+                {new NaiveField(new BigInteger(1024, 12, secureRandom))}
         };
 
         return Arrays.asList(data);
@@ -46,6 +46,7 @@ public class ElementTest {
         Element b = field.newRandomElement();
 
         Element c = a.add(b).sub(b);
+
         assertTrue(c.isEqual(a));
     }
 
@@ -55,7 +56,18 @@ public class ElementTest {
         Element b = field.newRandomElement();
 
         Element c = a.mul(b).div(b);
+
         assertTrue(c.isEqual(a));
     }
+
+    @Test
+    public void testToFromBytes() {
+        Element a = field.newRandomElement().getImmutable();
+        Element c = field.newElement();
+        c.setFromBytes(a.toBytes());
+
+        assertTrue(c.isEqual(a));
+    }
+
 
 }

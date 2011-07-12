@@ -52,11 +52,7 @@ public class NaiveElement extends GenericElement {
     }
 
     public NaiveElement set(Element value) {
-            // TODO: we should import also the field...
-        //if (this.field != value.getField()) {
-//        this.field = element.field;
-        //}
-        this.value = ((NaiveElement) value).value;
+        this.value = ((NaiveElement) value).value.mod(order);
 
         return this;
     }
@@ -176,8 +172,7 @@ public class NaiveElement extends GenericElement {
     }
 
     public NaiveElement halve() {
-        // TODO: avoid multiple computation of BigIntegerUtils.TWO.modInverse(order)
-        value = value.multiply(BigIntegerUtils.TWO.modInverse(order)).mod(order);
+        value = value.multiply(((NaiveField) field).twoInverse).mod(order);
 
         return this;
     }
