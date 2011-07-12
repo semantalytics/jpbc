@@ -1,8 +1,7 @@
-package it.unisa.dia.gas.plaf.jpbc.pbc.curve;
+package it.unisa.dia.gas.plaf.jpbc.pairing;
 
 import it.unisa.dia.gas.jpbc.CurveGenerator;
-import it.unisa.dia.gas.plaf.jpbc.pairing.CurveGeneratorPairingTest;
-import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
+import it.unisa.dia.gas.plaf.jpbc.pbc.curve.*;
 import org.junit.runners.Parameterized;
 
 import java.util.Arrays;
