@@ -24,8 +24,8 @@ public abstract class AbstractJPBCCryptoTest {
     @Parameterized.Parameters
     public static Collection parameters() {
         Object[][] data = {
-                {false, "it/unisa/dia/gas/plaf/jpbc/pairing/a/a_181_603.properties"},
-                {true, "it/unisa/dia/gas/plaf/jpbc/pairing/a/a_181_603.properties"},
+                {false, "it/unisa/dia/gas/plaf/jpbc/crypto/a_181_603.properties"},
+                {true, "it/unisa/dia/gas/plaf/jpbc/crypto/a_181_603.properties"},
         };
 
         return Arrays.asList(data);
