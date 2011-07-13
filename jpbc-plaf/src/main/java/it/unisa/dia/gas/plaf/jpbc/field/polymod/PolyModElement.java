@@ -36,6 +36,11 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
     }
 
 
+    @Override
+    public Element getImmutable() {
+        return new ImmutablePolyModElement<E>(this);
+    }
+
     public PolyModField getField() {
         return field;
     }
@@ -89,7 +94,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
     }
 
     public PolyModElement<E> setFromHash(byte[] source, int offset, int length) {
-        for (int i=0; i<field.n; i++) {
+        for (int i = 0; i < field.n; i++) {
             coeff.get(i).setFromHash(source, offset, length);
         }
 
@@ -480,9 +485,9 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
     public int setFromBytes(byte[] source, int offset) {
         int len = offset;
         for (int i = 0, size = coeff.size(); i < size; i++) {
-            len+=coeff.get(i).setFromBytes(source, len);
+            len += coeff.get(i).setFromBytes(source, len);
         }
-        return len-offset;
+        return len - offset;
     }
 
     public byte[] toBytes() {
@@ -502,7 +507,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
 
 
     public String toString() {
-        StringBuffer buffer = new StringBuffer("[");
+        StringBuilder buffer = new StringBuilder("[");
         for (Element e : coeff) {
             buffer.append(e).append(", ");
         }
@@ -515,7 +520,6 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
             return isEqual((Element) obj);
         return super.equals(obj);
     }
-
 
 
     public PolyModElement<E> setFromPolyTruncate(PolyElement<E> element) {
@@ -678,6 +682,6 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
 
         inv.set(r1.getCoefficient(0)).invert();
         return PolyUtils.constMul(inv, b1);
-   }
+    }
 
 }

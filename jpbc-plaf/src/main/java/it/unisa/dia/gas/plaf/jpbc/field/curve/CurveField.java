@@ -55,8 +55,6 @@ public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElemen
         this.order = order;
         this.gen = newElement();
         this.gen.setFromBytes(gen);
-
-        this.genPow = this.gen.pow();
     }
 
     public CurveField(Random random, Element a, Element b, BigInteger order, BigInteger cofac) {
@@ -68,8 +66,6 @@ public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElemen
         this.cofac = cofac;
 
         initGen();
-
-        this.genPow = this.gen.pow();
     }
 
     public CurveField(Random random, Element a, Element b, BigInteger order, BigInteger cofac, BigInteger genNoCofac) {
@@ -82,8 +78,6 @@ public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElemen
         this.cofac = cofac;
 
         initGen(genNoCofac);
-
-        this.genPow = this.gen.pow();
     }
 
     public CurveField(Random random, Element b, BigInteger order, BigInteger cofac) {
@@ -204,16 +198,15 @@ public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElemen
     protected CurveElement getCurveRandomNoCofacSolvefory() {
         //TODO(-): with 0.5 probability negate y-coord
 
-        Element t = targetField.newElement();
-
         CurveElement element = new CurveElement(this);
         element.infFlag = 0;
 
+        Element t = targetField.newElement();
         do {
             t.set(element.getX().setToRandom()).square().add(a).mul(element.getX()).add(b);
         } while (!t.isSqr());
-        element.getY().set(t.sqrt());
 
+        element.getY().set(t.sqrt());
         return element;
     }
 
@@ -356,6 +349,12 @@ public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElemen
         }
 
         return a;
+    }
+
+    public ElementPow getGenPow() {
+        if (genPow == null)
+            genPow = gen.pow();
+        return genPow;
     }
 
 }

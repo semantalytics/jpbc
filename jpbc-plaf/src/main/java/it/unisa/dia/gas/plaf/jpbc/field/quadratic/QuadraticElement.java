@@ -34,6 +34,11 @@ public class QuadraticElement<E extends Element> extends GenericPointElement<E> 
         return field;
     }
 
+    @Override
+    public Element getImmutable() {
+        return new ImmutableQuadraticElement(this);
+    }
+
     public QuadraticElement duplicate() {
         return new QuadraticElement(this);
     }
