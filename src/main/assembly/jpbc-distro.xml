@@ -159,7 +159,7 @@
             <outputDirectory>.</outputDirectory>
         </file>
         <file>
-            <source>benchmarker.xml</source>
+            <source>benchmark.xml</source>
             <outputDirectory>.</outputDirectory>
         </file>
         <file>

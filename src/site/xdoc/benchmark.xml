@@ -10,10 +10,10 @@
     <body>
         <section name="Benchmark">
             <p>
-                The tables below contain the output of the benchmarker.xml ant script.
+                The tables below contain the output of the benchmark.xml ant script.
                 To execute the script use th followig command:
             </p>
-            <source>ant -f benchmarker.xml</source>
+            <source>ant -f benchmark.xml</source>
 
 
             <p>
@@ -129,7 +129,7 @@
             </table>
 
             <p>
-                We have executed the benchmarker on the following testbeds.
+                We have executed the benchmark on the following testbeds.
             </p>
             <ol>
                 <li>

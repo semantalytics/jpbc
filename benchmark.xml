@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="jpbc" default="benchmarker">
+<project name="jpbc" default="benchmark">
 
     <!-- Options -->
 
@@ -18,23 +18,23 @@
 
     <!-- Benchmarks -->
 
-    <target name="benchmarker">
+    <target name="benchmark">
 
         <echo message="BaseDir = ${basedir}"/>
         <echo message="Starting Benchmarks..."/>
 
-        <java fork="true" classname="it.unisa.dia.gas.jpbc.benchmark.ComparisonBenchmarker">
+        <java fork="true" classname="it.unisa.dia.gas.jpbc.benchmark.Comparisonbenchmark">
             <jvmarg value="-Xms512m"/>
             <jvmarg value="-Xmx1024m"/>
             <arg value="1000"/>
-            <arg value="${basedir}/params/benchmarker/a.properties"/>
-            <arg value="${basedir}/params/benchmarker/a1.properties"/>
-            <arg value="${basedir}/params/benchmarker/d159.properties"/>
-            <arg value="${basedir}/params/benchmarker/d201.properties"/>
-            <arg value="${basedir}/params/benchmarker/d224.properties"/>
-            <arg value="${basedir}/params/benchmarker/e.properties"/>
-            <arg value="${basedir}/params/benchmarker/f.properties"/>
-            <arg value="${basedir}/params/benchmarker/g149.properties"/>
+            <arg value="${basedir}/params/benchmark/a.properties"/>
+            <arg value="${basedir}/params/benchmark/a1.properties"/>
+            <arg value="${basedir}/params/benchmark/d159.properties"/>
+            <arg value="${basedir}/params/benchmark/d201.properties"/>
+            <arg value="${basedir}/params/benchmark/d224.properties"/>
+            <arg value="${basedir}/params/benchmark/e.properties"/>
+            <arg value="${basedir}/params/benchmark/f.properties"/>
+            <arg value="${basedir}/params/benchmark/g149.properties"/>
             <classpath>
                 <path refid="runtime.classpath"/>
             </classpath>

@@ -20,7 +20,7 @@
             <item name="Download" href="download.html"/>
             <item name="Build HowTo" href="buildHowto.html"/>
             <item name="Contact" href="contact.html"/>
-            <item name="Benchmark" href="benchmarker.html"/>
+            <item name="Benchmark" href="benchmark.html"/>
             <item name="Android" href="/docs/android.html"/>
             <item name="Who Uses jPBC?" href="who.html"/>
         </menu>

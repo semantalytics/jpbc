@@ -44,7 +44,7 @@
         <module>jpbc-crypto</module>
         <module>jpbc-site-skin</module>
         <module>jpbc-test</module>
-        <module>jpbc-benchmarker</module>
+        <module>jpbc-benchmark</module>
         <!--<module>jpbc-android</module>-->
     </modules>
 
