@@ -75,35 +75,35 @@
             <ul>
                 <li>
                     <font style="font-weight: bold;color:green">jpbc-api</font> :
-                    it contains the Application Program Interfaces (API).
+                    the Application Program Interfaces (API).
                 </li>
 
                 <li>
                     <font style="font-weight: bold;color:green">jpbc-plaf</font> :
-                    it contains the port implementation of the API.
+                    the port implementation of the API.
                 </li>
 
                 <li>
                     <font style="font-weight: bold;color:green">jpbc-pbc</font> :
-                    it contains the wrapper implementation of the API.
+                    the wrapper implementation of the API.
                 </li>
 	    </ul>
 	    and the following support modules:
 	    <ul>
         	<li>
                     <font style="font-weight: bold;color:green">jpbc-crypto</font> :
-                    it contains the implementation of some pairing based crypto-systems.
+                    the implementation of some pairing based crypto-systems.
                     Have a look
                     <a href="./schemes/schemes.html">here</a>
                     to start.
                 </li>
 		<li>
                     <font style="font-weight: bold;color:green">jpbc-benchmark</font> :
-                    it contains the suite used to benchmark jPBC.
+                    the suite used to benchmark jPBC.
                 </li>
                 <li>
                     <font style="font-weight: bold;color:green">jpbc-android</font> :
-                    it contains an Android App to benchmark jPBC on any Android 2.1+ terminals.
+                    an Android App to benchmark jPBC on any Android 2.1+ terminals.
                 </li>
             </ul>
         </section>
