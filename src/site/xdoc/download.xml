@@ -104,9 +104,9 @@
                 <ol type="1">
                     <li>Unzip
                         <tt>jpbc-1.2.0.zip</tt>
-                        to the directory you wish to unzip jPBC 1.2.0.
+                        to the directory you wish to unzip it.
                     </li>
-                    <li>To use jPBC add to your classpath
+                    <li>To use jPBC add to your classpath the following jars:
                         <ol type="1">
                             <li>
                                 <font style="font-weight: bold;color:red"><tt>jpbc_1.2.0-api.jar</tt></font>
@@ -128,15 +128,15 @@
                                 <font style="font-weight: bold;color:green"><tt>jna-3.1.0.jar</tt></font>.
                             </li>
                         </ol>
-                        Remember that to use the wrapper you must compile a shared library
-                        which connects PBC to jPBC. Go
+                        Remember that to use the wrapper you must compile the shared library
+                        to enable the communication between PBC to jPBC. Go
                         <a href="./docs/pbcwrapper.html">here</a>
                         to see how to do that.
                     </li>
                     <li>
-                        To use the implemented
-                        <a href="schemes/schemes.html">schemes</a>
-                        include also
+                        If you want to use the implemented 
+                        <a href="schemes/schemes.html">pairing based crypto-systems</a>
+                        include:
                         <ol>
                             <li>
                                 <font style="font-weight: bold;color:green"><tt>jpbc_1.2.0-crypto.jar</tt></font>
@@ -149,7 +149,7 @@
                     </li>
                 </ol>
                 <p>
-                    You will find these dependencies into the jars folder.
+                    All these libraries can be found in the jars folder.
                 </p>
             </subsection>
 
