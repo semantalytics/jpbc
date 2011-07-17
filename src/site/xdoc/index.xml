@@ -71,7 +71,7 @@
 
             </ul>
 
-            jPBC consists of the following modules:
+            jPBC consists of the following three core modules:
             <ul>
                 <li>
                     <font style="font-weight: bold;color:green">jpbc-api</font> :
@@ -87,15 +87,24 @@
                     <font style="font-weight: bold;color:green">jpbc-pbc</font> :
                     it contains the wrapper implementation of the API.
                 </li>
-
-                <li>
+	    </ul>
+	    and the following support modules:
+	    <ul>
+        	<li>
                     <font style="font-weight: bold;color:green">jpbc-crypto</font> :
-                    it contains the implementation of some crypto-systems.
+                    it contains the implementation of some pairing based crypto-systems.
                     Have a look
                     <a href="./schemes/schemes.html">here</a>
                     to start.
                 </li>
-
+		<li>
+                    <font style="font-weight: bold;color:green">jpbc-benchmark</font> :
+                    it contains the suite used to benchmark jPBC.
+                </li>
+                <li>
+                    <font style="font-weight: bold;color:green">jpbc-android</font> :
+                    it contains an Android App to benchmark jPBC on any Android 2.1+ terminals.
+                </li>
             </ul>
         </section>
 
