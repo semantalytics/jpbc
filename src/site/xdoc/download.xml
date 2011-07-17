@@ -129,7 +129,7 @@
                             </li>
                         </ol>
                         Remember that to use the wrapper you must compile the shared library
-                        to enable the communication between PBC to jPBC. Go
+                        to enable the communication between PBC and jPBC. Go
                         <a href="./docs/pbcwrapper.html">here</a>
                         to see how to do that.
                     </li>
