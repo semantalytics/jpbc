@@ -45,7 +45,7 @@
         <module>jpbc-site-skin</module>
         <module>jpbc-test</module>
         <module>jpbc-benchmark</module>
-        <!--<module>jpbc-android</module>-->
+        <module>jpbc-android</module>
     </modules>
 
     <repositories>
@@ -161,6 +161,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3</version>
                 <configuration>
                     <source>1.5</source>
                     <target>1.5</target>
@@ -168,6 +169,7 @@
             </plugin>
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>
+                <version>2.0.4</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -197,6 +199,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>2.1.2</version>
                 <reportSets>
                     <reportSet>
                         <reports>
@@ -212,6 +215,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-changes-plugin</artifactId>
+                <version>2.3</version>
                 <reportSets>
                     <reportSet>
                         <reports>
