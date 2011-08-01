@@ -15,7 +15,7 @@ public class KEMCipherDecryptionParameters implements CipherParameters {
 
     public KEMCipherDecryptionParameters(CipherParameters kemCipherParameters, byte[] encapsulation, int cipherKeyStrength) {
         this.kemCipherParameters = kemCipherParameters;
-        this.encapsulation = encapsulation;
+        this.encapsulation = Arrays.copyOf(encapsulation, encapsulation.length);
         this.cipherKeyStrength = cipherKeyStrength;
     }
 
