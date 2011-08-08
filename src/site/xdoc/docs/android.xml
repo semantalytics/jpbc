@@ -10,21 +10,23 @@
     <body>
         <section name="Android">
             <p>
-                jPBC (the port) runs out of box on Android (2.2+ version).
-                Download the following
-                <a href="../android/jpbc-android.apk">APK</a>
-                to benchmark jPBC on your terminal.
+                jPBC runs out of box on Android (2.1+ version).
             </p>
 
-            <p>
-                Once the benchmark is finished the results can be found
-                on the external memory in a file called "benchmark.out".
-            </p>
-            <p>
-                If you don’t mind it sending me the results with a description
-                of the characteristics of the terminal used please
-                <a href="../contact.html">contact</a> me.
-            </p>
+            <subsection name="A Benchmark App">
+                <p>
+                    Download the following
+                    <a href="../android/jpbc-android.apk">APK</a>
+                    to benchmark jPBC on your terminal.
+                    Once the benchmark is finished the results can be found
+                    on the external memory in a file called "benchmark.out".
+                </p>
+                <p>
+                    If you don’t mind it sending me the results with a description
+                    of the characteristics of the terminal used please
+                    <a href="../contact.html">contact</a> me.
+                </p>
+            </subsection>
         </section>
     </body>
 </document>

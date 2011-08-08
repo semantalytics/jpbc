@@ -10,7 +10,7 @@
     <body>
         <div id="downloadbox">
             <h5>Get jPBC 1.2.0 Now!!!</h5>
-            <span style="display: block; text-align: right; font-size: smaller">Released: July, 2011</span>
+            <span style="display: block; text-align: right; font-size: smaller">Released: August, 2011</span>
 
             <p>
                 <a href="download.html">jPBC 1.2.0</a>
@@ -62,7 +62,7 @@
                     <p>
                         a <font style="font-weight: bold;color:red">Java Wrapper</font> on the
                         <a href="http://crypto.stanford.edu/pbc/">PBC</a>
-                        library. This means that you you can delegate the pairing computation to PBC.
+                        library. This means that you can delegate the pairing computation to PBC.
                         Have a look
                         <a href="./docs/pbcwrapper.html">here</a>
                         to know how to use the wrapper.
