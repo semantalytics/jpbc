@@ -4,7 +4,7 @@ import it.unisa.dia.gas.jpbc.CurveGenerator;
 import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveField;
-import it.unisa.dia.gas.plaf.jpbc.field.z.NaiveField;
+import it.unisa.dia.gas.plaf.jpbc.field.z.NaiveZrField;
 import it.unisa.dia.gas.plaf.jpbc.pairing.DefaultCurveParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
@@ -98,7 +98,7 @@ public class TypeECurveGenerator implements CurveGenerator {
             }
         } while (!found);
 
-        Field Fq = new NaiveField(random, q);
+        Field Fq = new NaiveZrField(random, q);
         CurveField curveField = new CurveField(random, Fq.newZeroElement(), Fq.newOneElement(), n);
 
         // We may need to twist it.

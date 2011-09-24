@@ -6,7 +6,7 @@ import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveField;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteField;
 import it.unisa.dia.gas.plaf.jpbc.field.quadratic.DegreeTwoExtensionQuadraticField;
-import it.unisa.dia.gas.plaf.jpbc.field.z.NaiveField;
+import it.unisa.dia.gas.plaf.jpbc.field.z.NaiveZrField;
 import it.unisa.dia.gas.plaf.jpbc.pairing.AbstractPairing;
 
 import java.math.BigInteger;
@@ -81,7 +81,7 @@ public class TypeA1Pairing extends AbstractPairing {
 
 
     protected Field initFp(BigInteger order) {
-        return new NaiveField(random, order);
+        return new NaiveZrField(random, order);
     }
 
     protected Field<? extends Point> initEq() {

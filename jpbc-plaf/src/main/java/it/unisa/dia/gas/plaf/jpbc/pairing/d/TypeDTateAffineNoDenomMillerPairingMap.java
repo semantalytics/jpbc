@@ -5,7 +5,7 @@ import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveElement;
 import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveField;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteElement;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteField;
-import it.unisa.dia.gas.plaf.jpbc.field.polymod.PolyModElement;
+import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyModElement;
 import it.unisa.dia.gas.plaf.jpbc.pairing.map.AbstractMillerPairingMap;
 import it.unisa.dia.gas.plaf.jpbc.pairing.map.AbstractMillerPairingPreProcessing;
 

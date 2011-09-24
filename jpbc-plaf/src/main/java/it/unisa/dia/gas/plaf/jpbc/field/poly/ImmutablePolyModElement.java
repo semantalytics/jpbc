@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.plaf.jpbc.field.polymod;
+package it.unisa.dia.gas.plaf.jpbc.field.poly;
 
 import it.unisa.dia.gas.jpbc.Element;
 

@@ -2,7 +2,6 @@ package it.unisa.dia.gas.plaf.jpbc.field.z;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericElement;
 import it.unisa.dia.gas.plaf.jpbc.util.Arrays;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
@@ -11,31 +10,31 @@ import java.math.BigInteger;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class NaiveElement extends GenericElement {
+public class NaiveZrElement extends NaiveAbstractElement {
 
-    protected BigInteger value;
+//    protected BigInteger value;
     protected BigInteger order;
 
 
-    public NaiveElement(Field field) {
+    public NaiveZrElement(Field field) {
         super(field);
 
         this.value = BigInteger.ZERO;
         this.order = field.getOrder();
     }
 
-    public NaiveElement(Field field, BigInteger value) {
+    public NaiveZrElement(Field field, BigInteger value) {
         super(field);
 
         this.value = value;
         this.order = field.getOrder();
     }
 
-    public NaiveElement(NaiveElement naiveElement) {
-        super(naiveElement.getField());
+    public NaiveZrElement(NaiveZrElement naiveZrElement) {
+        super(naiveZrElement.getField());
 
-        this.value = naiveElement.value;
-        this.order = naiveElement.field.getOrder();
+        this.value = naiveZrElement.value;
+        this.order = naiveZrElement.field.getOrder();
     }
 
 
@@ -44,26 +43,26 @@ public class NaiveElement extends GenericElement {
         if (isImmutable())
             return this;
 
-        return new ImmutableNaiveElement(this);
+        return new ImmutableNaiveZrElement(this);
     }
 
-    public NaiveElement duplicate() {
-        return new NaiveElement(this);
+    public NaiveZrElement duplicate() {
+        return new NaiveZrElement(this);
     }
 
-    public NaiveElement set(Element value) {
-        this.value = ((NaiveElement) value).value.mod(order);
+    public NaiveZrElement set(Element value) {
+        this.value = ((NaiveAbstractElement) value).value.mod(order);
 
         return this;
     }
 
-    public NaiveElement set(int value) {
+    public NaiveZrElement set(int value) {
         this.value = BigInteger.valueOf(value).mod(order);
 
         return this;
     }
 
-    public NaiveElement set(BigInteger value) {
+    public NaiveZrElement set(BigInteger value) {
         this.value = value.mod(order);
 
         return this;
@@ -77,38 +76,38 @@ public class NaiveElement extends GenericElement {
         return BigInteger.ONE.equals(value);
     }
 
-    public NaiveElement twice() {
+    public NaiveZrElement twice() {
 //        this.value = value.multiply(BigIntegerUtils.TWO).mod(order);
         this.value = value.add(value).mod(order);
 
         return this;
     }
 
-    public NaiveElement mul(int z) {
+    public NaiveZrElement mul(int z) {
         this.value = this.value.multiply(BigInteger.valueOf(z)).mod(order);
 
         return this;
     }
 
-    public NaiveElement setToZero() {
+    public NaiveZrElement setToZero() {
         this.value = BigInteger.ZERO;
 
         return this;
     }
 
-    public NaiveElement setToOne() {
+    public NaiveZrElement setToOne() {
         this.value = BigInteger.ONE;
 
         return this;
     }
 
-    public NaiveElement setToRandom() {
+    public NaiveZrElement setToRandom() {
         this.value = new BigInteger(order.bitLength(), field.getRandom()).mod(order);
 
         return this;
     }
 
-    public NaiveElement setFromHash(byte[] source, int offset, int length) {
+    public NaiveZrElement setFromHash(byte[] source, int offset, int length) {
         int i = 0, n, count = (order.bitLength() + 7) / 8;
         byte[] buf = new byte[count];
 
@@ -158,26 +157,26 @@ public class NaiveElement extends GenericElement {
         return buffer.length;
     }
 
-    public NaiveElement square() {
+    public NaiveZrElement square() {
 //        value = value.modPow(BigIntegerUtils.TWO, order);
         value = value.multiply(value).mod(order);
 
         return this;
     }
 
-    public NaiveElement invert() {
+    public NaiveZrElement invert() {
         value = value.modInverse(order);
 
         return this;
     }
 
-    public NaiveElement halve() {
-        value = value.multiply(((NaiveField) field).twoInverse).mod(order);
+    public NaiveZrElement halve() {
+        value = value.multiply(((NaiveZrField) field).twoInverse).mod(order);
 
         return this;
     }
 
-    public NaiveElement negate() {
+    public NaiveZrElement negate() {
         if (isZero()) {
             value = BigInteger.ZERO;
             return this;
@@ -188,37 +187,37 @@ public class NaiveElement extends GenericElement {
         return this;
     }
 
-    public NaiveElement add(Element element) {
-        value = value.add(((NaiveElement)element).value).mod(order);
+    public NaiveZrElement add(Element element) {
+        value = value.add(((NaiveAbstractElement)element).value).mod(order);
 
         return this;
     }
 
-    public NaiveElement sub(Element element) {
-        value = value.subtract(((NaiveElement)element).value).mod(order);
+    public NaiveZrElement sub(Element element) {
+        value = value.subtract(((NaiveZrElement)element).value).mod(order);
 
         return this;
     }
 
-    public NaiveElement div(Element element) {
-        value = value.multiply(((NaiveElement)element).value.modInverse(order)).mod(order);
+    public NaiveZrElement div(Element element) {
+        value = value.multiply(((NaiveZrElement)element).value.modInverse(order)).mod(order);
 
         return this;
     }
 
-    public NaiveElement mul(Element element) {
-        value = value.multiply(((NaiveElement)element).value).mod(order);
+    public NaiveZrElement mul(Element element) {
+        value = value.multiply(((NaiveAbstractElement)element).value).mod(order);
 
         return this;
     }
 
-    public NaiveElement mul(BigInteger n) {
+    public NaiveZrElement mul(BigInteger n) {
         this.value = this.value.multiply(n).mod(order);
 
         return this;
     }
 
-    public NaiveElement mulZn(Element z) {
+    public NaiveZrElement mulZn(Element z) {
         this.value = this.value.multiply(z.toBigInteger()).mod(order);
 
         return this;
@@ -228,7 +227,7 @@ public class NaiveElement extends GenericElement {
         return BigInteger.ZERO.equals(value) || BigIntegerUtils.legendre(value, order) == 1;
     }
 
-    public NaiveElement sqrt() {
+    public NaiveZrElement sqrt() {
         // Apply the Tonelli-Shanks Algorithm
 
         Element e0 = field.newElement();
@@ -269,18 +268,18 @@ public class NaiveElement extends GenericElement {
     }
 
 
-    public NaiveElement pow(BigInteger n) {
+    public NaiveZrElement pow(BigInteger n) {
         this.value = this.value.modPow(n, order);
 
         return this;
     }
 
-    public NaiveElement powZn(Element n) {
+    public NaiveZrElement powZn(Element n) {
         return pow(n.toBigInteger());
     }
 
     public boolean isEqual(Element e) {
-        return this == e || value.compareTo(((NaiveElement) e).value) == 0;
+        return this == e || value.compareTo(((NaiveZrElement) e).value) == 0;
 
     }
 
@@ -323,9 +322,9 @@ public class NaiveElement extends GenericElement {
     }
 
     public boolean equals(Object o) {
-        if (o instanceof NaiveElement)
+        if (o instanceof NaiveZrElement)
             return isEqual((Element) o);
-        return isEqual((NaiveElement) o);
+        return isEqual((NaiveZrElement) o);
     }
 
 }

@@ -1,12 +1,8 @@
-package it.unisa.dia.gas.plaf.jpbc.field.polymod;
+package it.unisa.dia.gas.plaf.jpbc.field.poly;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Polynomial;
-import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericPolyElement;
-import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyElement;
-import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyField;
-import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyUtils;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
 import java.math.BigInteger;
@@ -16,7 +12,7 @@ import java.util.List;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
+public class PolyModElement<E extends Element> extends AbstractPolyElement<E> {
     protected PolyModField field;
 
 

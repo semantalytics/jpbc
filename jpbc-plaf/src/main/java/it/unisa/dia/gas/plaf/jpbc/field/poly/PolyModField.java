@@ -1,9 +1,8 @@
-package it.unisa.dia.gas.plaf.jpbc.field.polymod;
+package it.unisa.dia.gas.plaf.jpbc.field.poly;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericFieldOver;
-import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyElement;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -38,7 +37,8 @@ public class PolyModField<F extends Field> extends GenericFieldOver<F, PolyModEl
             this.nqr.getCoefficient(0).set(nqr);
         }
 
-        computeXPowers();
+//        if (order.compareTo(BigInteger.ZERO) != 0)
+            computeXPowers();
 
         if (targetField.getLengthInBytes() < 0) {
             //f->length_in_bytes = fq_length_in_bytes;

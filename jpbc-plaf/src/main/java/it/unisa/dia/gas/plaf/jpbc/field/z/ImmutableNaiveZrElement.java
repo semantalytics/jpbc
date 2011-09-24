@@ -7,55 +7,55 @@ import java.math.BigInteger;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class ImmutableNaiveElement extends NaiveElement {
+public class ImmutableNaiveZrElement extends NaiveZrElement {
 
-    public ImmutableNaiveElement(NaiveElement naiveElement) {
-        super(naiveElement);
+    public ImmutableNaiveZrElement(NaiveZrElement naiveZrElement) {
+        super(naiveZrElement);
         this.immutable = true;
     }
 
     @Override
-    public NaiveElement set(Element value) {
+    public NaiveZrElement set(Element value) {
         return duplicate().set(value);    
     }
 
     @Override
-    public NaiveElement set(int value) {
+    public NaiveZrElement set(int value) {
         return duplicate().set(value);    
     }
 
     @Override
-    public NaiveElement set(BigInteger value) {
+    public NaiveZrElement set(BigInteger value) {
         return duplicate().set(value);    
     }
 
     @Override
-    public NaiveElement twice() {
+    public NaiveZrElement twice() {
         return duplicate().twice();    
     }
 
     @Override
-    public NaiveElement mul(int z) {
+    public NaiveZrElement mul(int z) {
         return duplicate().mul(z);    
     }
 
     @Override
-    public NaiveElement setToZero() {
+    public NaiveZrElement setToZero() {
         return duplicate().setToZero();    
     }
 
     @Override
-    public NaiveElement setToOne() {
+    public NaiveZrElement setToOne() {
         return duplicate().setToOne();    
     }
 
     @Override
-    public NaiveElement setToRandom() {
+    public NaiveZrElement setToRandom() {
         return duplicate().setToRandom();    
     }
 
     @Override
-    public NaiveElement setFromHash(byte[] source, int offset, int length) {
+    public NaiveZrElement setFromHash(byte[] source, int offset, int length) {
         return duplicate().setFromHash(source, offset, length);    
     }
 
@@ -70,67 +70,67 @@ public class ImmutableNaiveElement extends NaiveElement {
     }
 
     @Override
-    public NaiveElement square() {
+    public NaiveZrElement square() {
         return duplicate().square();    
     }
 
     @Override
-    public NaiveElement invert() {
+    public NaiveZrElement invert() {
         return duplicate().invert();    
     }
 
     @Override
-    public NaiveElement halve() {
+    public NaiveZrElement halve() {
         return duplicate().halve();    
     }
 
     @Override
-    public NaiveElement negate() {
+    public NaiveZrElement negate() {
         return duplicate().negate();    
     }
 
     @Override
-    public NaiveElement add(Element element) {
+    public NaiveZrElement add(Element element) {
         return duplicate().add(element);    
     }
 
     @Override
-    public NaiveElement sub(Element element) {
+    public NaiveZrElement sub(Element element) {
         return duplicate().sub(element);    
     }
 
     @Override
-    public NaiveElement div(Element element) {
+    public NaiveZrElement div(Element element) {
         return duplicate().div(element);    
     }
 
     @Override
-    public NaiveElement mul(Element element) {
+    public NaiveZrElement mul(Element element) {
         return duplicate().mul(element);    
     }
 
     @Override
-    public NaiveElement mul(BigInteger n) {
+    public NaiveZrElement mul(BigInteger n) {
         return duplicate().mul(n);    
     }
 
     @Override
-    public NaiveElement mulZn(Element z) {
+    public NaiveZrElement mulZn(Element z) {
         return duplicate().mulZn(z);    
     }
 
     @Override
-    public NaiveElement sqrt() {
+    public NaiveZrElement sqrt() {
         return duplicate().sqrt();    
     }
 
     @Override
-    public NaiveElement pow(BigInteger n) {
+    public NaiveZrElement pow(BigInteger n) {
         return duplicate().pow(n);    
     }
 
     @Override
-    public NaiveElement powZn(Element n) {
+    public NaiveZrElement powZn(Element n) {
         return duplicate().powZn(n);    
     }
 

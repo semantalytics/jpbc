@@ -3,9 +3,6 @@ package it.unisa.dia.gas.plaf.jpbc.field.poly;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Polynomial;
-import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericPolyElement;
-import it.unisa.dia.gas.plaf.jpbc.field.polymod.PolyModElement;
-import it.unisa.dia.gas.plaf.jpbc.field.polymod.PolyModField;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
 import java.math.BigInteger;
@@ -13,7 +10,7 @@ import java.math.BigInteger;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class PolyElement<E extends Element> extends GenericPolyElement<E> {
+public class PolyElement<E extends Element> extends AbstractPolyElement<E> {
     protected PolyField<Field> field;
 
 

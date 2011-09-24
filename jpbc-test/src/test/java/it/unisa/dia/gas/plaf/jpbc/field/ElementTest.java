@@ -2,7 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.field;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.plaf.jpbc.field.z.NaiveField;
+import it.unisa.dia.gas.plaf.jpbc.field.z.NaiveZrField;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -25,7 +25,7 @@ public class ElementTest {
         SecureRandom secureRandom = new SecureRandom();
 
         Object[][] data = {
-                {new NaiveField(new BigInteger(1024, 12, secureRandom))}
+                {new NaiveZrField(new BigInteger(1024, 12, secureRandom))}
         };
 
         return Arrays.asList(data);
