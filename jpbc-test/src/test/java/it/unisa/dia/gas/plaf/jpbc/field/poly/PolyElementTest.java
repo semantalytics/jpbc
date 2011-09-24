@@ -1,7 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.field.poly;
 
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.plaf.jpbc.field.naive.NaiveField;
+import it.unisa.dia.gas.plaf.jpbc.field.z.NaiveField;
 import junit.framework.TestCase;
 
 import java.math.BigInteger;

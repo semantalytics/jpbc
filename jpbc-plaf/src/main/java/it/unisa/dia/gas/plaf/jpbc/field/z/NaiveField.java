@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.plaf.jpbc.field.naive;
+package it.unisa.dia.gas.plaf.jpbc.field.z;
 
 import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericField;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;

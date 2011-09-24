@@ -2,10 +2,10 @@ package it.unisa.dia.gas.plaf.jpbc.pairing.f;
 
 import it.unisa.dia.gas.jpbc.*;
 import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveField;
-import it.unisa.dia.gas.plaf.jpbc.field.naive.NaiveField;
 import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyElement;
 import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyField;
 import it.unisa.dia.gas.plaf.jpbc.field.quadratic.QuadraticField;
+import it.unisa.dia.gas.plaf.jpbc.field.z.NaiveField;
 import it.unisa.dia.gas.plaf.jpbc.pairing.DefaultCurveParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 

@@ -2,7 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.field;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.plaf.jpbc.field.naive.NaiveField;
+import it.unisa.dia.gas.plaf.jpbc.field.z.NaiveField;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;

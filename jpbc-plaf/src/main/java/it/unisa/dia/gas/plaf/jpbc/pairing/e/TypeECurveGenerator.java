@@ -4,7 +4,7 @@ import it.unisa.dia.gas.jpbc.CurveGenerator;
 import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveField;
-import it.unisa.dia.gas.plaf.jpbc.field.naive.NaiveField;
+import it.unisa.dia.gas.plaf.jpbc.field.z.NaiveField;
 import it.unisa.dia.gas.plaf.jpbc.pairing.DefaultCurveParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 

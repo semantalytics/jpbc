@@ -163,7 +163,7 @@ public class Complex {
 
     private Complex invert() {
         //1/(a+bi) = (1/(a^2 + b^2))(a-bi)
-        //naive. TODO: use one that is less prone to (over/under)flows/precision loss
+        //z. TODO: use one that is less prone to (over/under)flows/precision loss
         BigDecimal f0 = re.multiply(re).setScale(mathContext.getPrecision(), mathContext.getRoundingMode());
         BigDecimal f1 = im.multiply(im).setScale(mathContext.getPrecision(), mathContext.getRoundingMode());
         f0 = f0.add(f1).setScale(mathContext.getPrecision(), mathContext.getRoundingMode());

@@ -5,7 +5,7 @@ import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveField;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteField;
-import it.unisa.dia.gas.plaf.jpbc.field.naive.NaiveField;
+import it.unisa.dia.gas.plaf.jpbc.field.z.NaiveField;
 import it.unisa.dia.gas.plaf.jpbc.pairing.AbstractPairing;
 
 import java.math.BigInteger;

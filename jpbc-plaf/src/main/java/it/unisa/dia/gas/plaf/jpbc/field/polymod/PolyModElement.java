@@ -2,6 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.field.polymod;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.jpbc.Polynomial;
 import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericPolyElement;
 import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyElement;
 import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyField;
@@ -230,7 +231,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
     }
 
     public PolyModElement<E> mul(Element e) {
-        PolyModElement<E> element = (PolyModElement<E>) e;
+        Polynomial<E> element = (Polynomial<E>) e;
 
         switch (field.n) {
             case 3:
@@ -238,7 +239,7 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
                 Element c3 = field.getTargetField().newElement();
                 Element c4 = field.getTargetField().newElement();
 
-                kar_poly_2(coeff, c3, c4, coeff, element.coeff, p0.coeff);
+                kar_poly_2(coeff, c3, c4, coeff, element.getCoefficients(), p0.coeff);
 
                 p0.set(field.xpwr[0]).polymodConstMul(c3);
                 add(p0);
@@ -335,11 +336,11 @@ public class PolyModElement<E extends Element> extends GenericPolyElement<E> {
 
                     int j = 0;
                     for (; j < ni; j++) {
-                        c0.set(coeff.get(i)).mul(element.coeff.get(j));
+                        c0.set(coeff.get(i)).mul(element.getCoefficient(j));
                         prod.coeff.get(i + j).add(c0);
                     }
                     for (; j < field.n; j++) {
-                        c0.set(coeff.get(i)).mul(element.coeff.get(j));
+                        c0.set(coeff.get(i)).mul(element.getCoefficient(j));
                         high[j - ni].add(c0);
                     }
                 }
