@@ -10,13 +10,13 @@ import java.util.Random;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public abstract class GenericField<E extends Element> implements Field<E> {
+public abstract class AbstractField<E extends Element> implements Field<E> {
 
     protected boolean orderIsOdd = false;
     protected Random random;
 
 
-    protected GenericField(Random random) {
+    protected AbstractField(Random random) {
         this.random = random;
     }
 
@@ -77,11 +77,11 @@ public abstract class GenericField<E extends Element> implements Field<E> {
     }
 
     public ElementPowPreProcessing pow(byte[] source) {
-        return new GenericElementPowPreProcessing(this, GenericElementPowPreProcessing.DEFAULT_K, source, 0);
+        return new AbstractElementPowPreProcessing(this, AbstractElementPowPreProcessing.DEFAULT_K, source, 0);
     }
 
     public ElementPowPreProcessing pow(byte[] source, int offset) {
-        return new GenericElementPowPreProcessing(this, GenericElementPowPreProcessing.DEFAULT_K, source, offset);
+        return new AbstractElementPowPreProcessing(this, AbstractElementPowPreProcessing.DEFAULT_K, source, offset);
     }
 
     public Random getRandom() {

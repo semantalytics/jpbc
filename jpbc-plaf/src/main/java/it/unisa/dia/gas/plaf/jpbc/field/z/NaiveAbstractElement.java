@@ -1,7 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.field.z;
 
 import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericElement;
+import it.unisa.dia.gas.plaf.jpbc.field.generic.AbstractElement;
 
 import java.math.BigInteger;
 
@@ -12,7 +12,7 @@ import java.math.BigInteger;
  * Time: 12:47 PM
  * To change this template use File | Settings | File Templates.
  */
-public abstract class NaiveAbstractElement extends GenericElement {
+public abstract class NaiveAbstractElement extends AbstractElement {
 
     public BigInteger value;
 

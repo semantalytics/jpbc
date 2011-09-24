@@ -3,7 +3,7 @@ package it.unisa.dia.gas.plaf.jpbc.pbc;
 import com.sun.jna.Pointer;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
-import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericField;
+import it.unisa.dia.gas.plaf.jpbc.field.generic.AbstractField;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.MPZElementType;
 import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.PBCPairingType;
@@ -14,7 +14,7 @@ import java.math.BigInteger;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public abstract class PBCField extends GenericField {
+public abstract class PBCField extends AbstractField {
     protected PBCPairingType pairing;
 
     protected int fixedLengthInBytes;

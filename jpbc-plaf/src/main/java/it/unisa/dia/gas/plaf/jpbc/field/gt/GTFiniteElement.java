@@ -1,7 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.field.gt;
 
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericElement;
+import it.unisa.dia.gas.plaf.jpbc.field.generic.AbstractElement;
 import it.unisa.dia.gas.plaf.jpbc.pairing.map.PairingMap;
 
 import java.math.BigInteger;
@@ -9,7 +9,7 @@ import java.math.BigInteger;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class GTFiniteElement extends GenericElement {
+public class GTFiniteElement extends AbstractElement {
     protected PairingMap pairing;
     protected Element value;
 

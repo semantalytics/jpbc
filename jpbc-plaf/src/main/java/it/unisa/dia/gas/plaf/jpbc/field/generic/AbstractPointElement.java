@@ -8,16 +8,16 @@ import it.unisa.dia.gas.jpbc.Vector;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public abstract class GenericPointElement<E extends Element> extends GenericElement implements Point<E>, Vector<E> {
+public abstract class AbstractPointElement<E extends Element> extends AbstractElement implements Point<E>, Vector<E> {
 
-    protected GenericFieldOver field;
+    protected AbstractFieldOver field;
     protected E x, y;
 
 
-    protected GenericPointElement(FieldOver field) {
+    protected AbstractPointElement(FieldOver field) {
         super(field);
         
-        this.field = (GenericFieldOver) field;
+        this.field = (AbstractFieldOver) field;
     }
 
 

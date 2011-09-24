@@ -2,7 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.field.poly;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericFieldOver;
+import it.unisa.dia.gas.plaf.jpbc.field.generic.AbstractFieldOver;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.Random;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class PolyModField<F extends Field> extends GenericFieldOver<F, PolyModElement> {
+public class PolyModField<F extends Field> extends AbstractFieldOver<F, PolyModElement> {
     protected PolyElement irreduciblePoly;
     protected PolyModElement nqr;
     protected BigInteger order;

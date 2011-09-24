@@ -10,13 +10,13 @@ import java.util.List;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public abstract class GenericVectorElement<E extends Element> extends GenericElement implements Vector<E> {
+public abstract class AbstractVectorElement<E extends Element> extends AbstractElement implements Vector<E> {
 
     protected FieldOver field;
     protected List<E> coeff;
 
 
-    protected GenericVectorElement(FieldOver field) {
+    protected AbstractVectorElement(FieldOver field) {
         super(field);
 
         this.field = field;

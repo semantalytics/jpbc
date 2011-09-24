@@ -1,7 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.field.gt;
 
 import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericFieldOver;
+import it.unisa.dia.gas.plaf.jpbc.field.generic.AbstractFieldOver;
 import it.unisa.dia.gas.plaf.jpbc.pairing.map.PairingMap;
 
 import java.math.BigInteger;
@@ -10,7 +10,7 @@ import java.util.Random;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class GTFiniteField<F extends Field> extends GenericFieldOver<F, GTFiniteElement> {
+public class GTFiniteField<F extends Field> extends AbstractFieldOver<F, GTFiniteElement> {
     protected PairingMap pairing;
     protected BigInteger order;
 

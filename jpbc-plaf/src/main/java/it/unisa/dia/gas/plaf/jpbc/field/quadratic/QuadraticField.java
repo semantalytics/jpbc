@@ -1,7 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.field.quadratic;
 
 import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericFieldOver;
+import it.unisa.dia.gas.plaf.jpbc.field.generic.AbstractFieldOver;
 
 import java.math.BigInteger;
 import java.util.Random;
@@ -9,7 +9,7 @@ import java.util.Random;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class QuadraticField<F extends Field, E extends QuadraticElement> extends GenericFieldOver<F, E> {
+public class QuadraticField<F extends Field, E extends QuadraticElement> extends AbstractFieldOver<F, E> {
     protected BigInteger order;
     protected int fixedLengthInBytes;
 

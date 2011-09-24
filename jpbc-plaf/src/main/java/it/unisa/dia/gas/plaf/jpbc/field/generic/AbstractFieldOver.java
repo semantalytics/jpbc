@@ -9,15 +9,15 @@ import java.util.Random;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public abstract class GenericFieldOver<F extends Field, E extends Element> extends GenericField<E> implements FieldOver<F, E> {
+public abstract class AbstractFieldOver<F extends Field, E extends Element> extends AbstractField<E> implements FieldOver<F, E> {
     protected F targetField;
 
-    protected GenericFieldOver(Random random, F targetField) {
+    protected AbstractFieldOver(Random random, F targetField) {
         super(random);
         this.targetField = targetField;
     }
 
-//    public GenericFieldOver(F targetField) {
+//    public AbstractFieldOver(F targetField) {
 //        this(new SecureRandom(), targetField);
 //    }
 

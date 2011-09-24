@@ -1,14 +1,14 @@
 package it.unisa.dia.gas.plaf.jpbc.field.quadratic;
 
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericPointElement;
+import it.unisa.dia.gas.plaf.jpbc.field.generic.AbstractPointElement;
 
 import java.math.BigInteger;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class QuadraticElement<E extends Element> extends GenericPointElement<E> {
+public class QuadraticElement<E extends Element> extends AbstractPointElement<E> {
 
     protected QuadraticField field;
 

@@ -1,6 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.field.z;
 
-import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericField;
+import it.unisa.dia.gas.plaf.jpbc.field.generic.AbstractField;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
 import java.math.BigInteger;
@@ -10,7 +10,7 @@ import java.util.Random;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class NaiveZrField extends GenericField<NaiveZrElement> {
+public class NaiveZrField extends AbstractField<NaiveZrElement> {
     protected BigInteger order;
     protected NaiveZrElement nqr;
     protected int fixedLengthInBytes;

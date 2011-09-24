@@ -3,7 +3,7 @@ package it.unisa.dia.gas.plaf.jpbc.field.curve;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.ElementPow;
 import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericFieldOver;
+import it.unisa.dia.gas.plaf.jpbc.field.generic.AbstractFieldOver;
 
 import java.math.BigInteger;
 import java.util.Random;
@@ -11,7 +11,7 @@ import java.util.Random;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class CurveField<F extends Field> extends GenericFieldOver<F, CurveElement> {
+public class CurveField<F extends Field> extends AbstractFieldOver<F, CurveElement> {
 
     public static <F extends Field> CurveField<F> newCurveFieldJ(Random random, Element j, BigInteger order, BigInteger cofac) {
         // Assumes j != 0, 1728

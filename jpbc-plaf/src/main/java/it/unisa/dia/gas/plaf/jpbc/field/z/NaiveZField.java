@@ -1,6 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.field.z;
 
-import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericField;
+import it.unisa.dia.gas.plaf.jpbc.field.generic.AbstractField;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -9,7 +9,7 @@ import java.util.Random;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class NaiveZField extends GenericField<NaiveZElement> {
+public class NaiveZField extends AbstractField<NaiveZElement> {
 
     public NaiveZField() {
         this(new SecureRandom());

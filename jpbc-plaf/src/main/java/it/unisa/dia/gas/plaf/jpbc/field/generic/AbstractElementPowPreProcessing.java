@@ -11,7 +11,7 @@ import java.math.BigInteger;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class GenericElementPowPreProcessing implements ElementPowPreProcessing {
+public class AbstractElementPowPreProcessing implements ElementPowPreProcessing {
     public static final int DEFAULT_K = 5;
 
     protected Field field;
@@ -22,7 +22,7 @@ public class GenericElementPowPreProcessing implements ElementPowPreProcessing {
     protected Element table[][];
 
 
-    public GenericElementPowPreProcessing(Element g, int k) {
+    public AbstractElementPowPreProcessing(Element g, int k) {
         this.field = g.getField();
         this.bits = field.getOrder().bitLength();
         this.k = k;
@@ -30,7 +30,7 @@ public class GenericElementPowPreProcessing implements ElementPowPreProcessing {
         initTable(g);
     }
 
-    public GenericElementPowPreProcessing(Field field, int k, byte[] source, int offset) {
+    public AbstractElementPowPreProcessing(Field field, int k, byte[] source, int offset) {
         this.field = field;
         this.bits = field.getOrder().bitLength();
         this.k = k;

@@ -2,7 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.field.vector;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
-import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericVectorElement;
+import it.unisa.dia.gas.plaf.jpbc.field.generic.AbstractVectorElement;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class VectorElement<E extends Element> extends GenericVectorElement<E> {
+public class VectorElement<E extends Element> extends AbstractVectorElement<E> {
     protected VectorField field;
 
 

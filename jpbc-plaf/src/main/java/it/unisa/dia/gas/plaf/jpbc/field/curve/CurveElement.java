@@ -2,7 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.field.curve;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.FieldOver;
-import it.unisa.dia.gas.plaf.jpbc.field.generic.GenericPointElement;
+import it.unisa.dia.gas.plaf.jpbc.field.generic.AbstractPointElement;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
 import java.math.BigInteger;
@@ -10,7 +10,7 @@ import java.math.BigInteger;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class CurveElement<E extends Element> extends GenericPointElement<E> {
+public class CurveElement<E extends Element> extends AbstractPointElement<E> {
     protected int infFlag;
     protected CurveField curveField;
 

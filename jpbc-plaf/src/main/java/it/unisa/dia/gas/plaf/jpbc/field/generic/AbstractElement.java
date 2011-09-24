@@ -12,13 +12,13 @@ import java.util.StringTokenizer;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public abstract class GenericElement implements Element {
-    protected GenericField field;
+public abstract class AbstractElement implements Element {
+    protected AbstractField field;
     protected boolean immutable = false;
 
 
-    public GenericElement(Field field) {
-        this.field = (GenericField) field;
+    public AbstractElement(Field field) {
+        this.field = (AbstractField) field;
     }
 
 
@@ -62,7 +62,7 @@ public abstract class GenericElement implements Element {
     }
 
     public ElementPowPreProcessing pow() {
-        return new GenericElementPowPreProcessing(this, GenericElementPowPreProcessing.DEFAULT_K);
+        return new AbstractElementPowPreProcessing(this, AbstractElementPowPreProcessing.DEFAULT_K);
     }
 
     public Element halve() {
