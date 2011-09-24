@@ -1,7 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.field.quadratic;
 
 import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.plaf.jpbc.field.generic.AbstractFieldOver;
+import it.unisa.dia.gas.plaf.jpbc.field.base.AbstractFieldOver;
 
 import java.math.BigInteger;
 import java.util.Random;

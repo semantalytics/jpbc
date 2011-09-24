@@ -3,7 +3,7 @@ package it.unisa.dia.gas.plaf.jpbc.pbc;
 import com.sun.jna.Pointer;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
-import it.unisa.dia.gas.plaf.jpbc.field.generic.AbstractField;
+import it.unisa.dia.gas.plaf.jpbc.field.base.AbstractField;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.MPZElementType;
 import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.PBCPairingType;

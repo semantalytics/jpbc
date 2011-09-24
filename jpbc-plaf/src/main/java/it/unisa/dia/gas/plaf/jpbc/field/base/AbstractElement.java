@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.plaf.jpbc.field.generic;
+package it.unisa.dia.gas.plaf.jpbc.field.base;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;

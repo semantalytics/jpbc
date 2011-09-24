@@ -2,7 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.field.vector;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
-import it.unisa.dia.gas.plaf.jpbc.field.generic.AbstractVectorElement;
+import it.unisa.dia.gas.plaf.jpbc.field.base.AbstractVectorElement;
 
 import java.math.BigInteger;
 import java.util.ArrayList;

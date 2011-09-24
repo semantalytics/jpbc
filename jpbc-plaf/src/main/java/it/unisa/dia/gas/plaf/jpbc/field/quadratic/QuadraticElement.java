@@ -1,7 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.field.quadratic;
 
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.plaf.jpbc.field.generic.AbstractPointElement;
+import it.unisa.dia.gas.plaf.jpbc.field.base.AbstractPointElement;
 
 import java.math.BigInteger;
 

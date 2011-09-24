@@ -1,6 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.field.z;
 
-import it.unisa.dia.gas.plaf.jpbc.field.generic.AbstractField;
+import it.unisa.dia.gas.plaf.jpbc.field.base.AbstractField;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
 import java.math.BigInteger;

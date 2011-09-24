@@ -1,7 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.field.gt;
 
 import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.plaf.jpbc.field.generic.AbstractFieldOver;
+import it.unisa.dia.gas.plaf.jpbc.field.base.AbstractFieldOver;
 import it.unisa.dia.gas.plaf.jpbc.pairing.map.PairingMap;
 
 import java.math.BigInteger;
