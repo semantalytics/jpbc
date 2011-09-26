@@ -23,21 +23,22 @@ public class FHE {
     static int n;
     static BigInteger q;
     static int sigma;
+    static double sigmaSquare;
     static int t;
 
     static PolyModField R, Rq, Rt;
     static Field Zq;
 
     static {
-        n = 1024;
+        n = 16;
         q = BigInteger.valueOf(1061093377);
         t = 1024;
         sigma = 8;
+        sigmaSquare = Math.pow(sigma, 2);
         random.setSeed(1000);
     }
 
     public static BigInteger sampleZ(int sigma, BigInteger c) {
-        double sigmaSquare = Math.pow(sigma, 2);
         while (true) {
             BigInteger offset = tofk.multiply(BigInteger.valueOf(sigma));
 
@@ -99,20 +100,22 @@ public class FHE {
     static Element s, a0, a1;
 
     public static Element sampleDRq() {
-        System.out.println("it.unisa.dia.gas.crypto.jlbc.FHE.sampleDRq");
+        System.out.println("FHE.sampleDRq");
 
         BigInteger[] coeff = sampleD(n, sigma);
         System.out.println("coeff = " + Arrays.toString(coeff));
 
         PolyModElement result = R.newElement();
         for (int i = 0; i < result.getDegree(); i++) {
-            result.getCoefficient(i).set(coeff[i].abs());
+            result.getCoefficient(i).set(coeff[i]);
         }
 
         System.out.println("result = " + result);
         return result;
     }
 
+    static Element as[];
+    static Element bs[];
 
     public static void keygen() {
         s = sampleDRq();
@@ -124,8 +127,23 @@ public class FHE {
 //        a0 = a1.duplicate().mul(s).negate();
 
 //        System.out.println(a0.duplicate().add(a1.duplicate().mul(s)));
+
+        // Keys for relinearization
+        BigInteger bigT = BigInteger.valueOf(t);
+        BigInteger tt = BigInteger.ONE;
+        Element sSquare = s.duplicate().square();
+        as = new Element[2];
+        bs = new Element[2];
+        for (int i = 0; i < 2; i++) {
+            as[i] = R.newElement().set(Rq.newRandomElement()); 
+            e = sampleDRq();
+            bs[i] = as[i].duplicate().mul(s).add(e.mul(t)).negate().add(
+                    sSquare.duplicate().mul(tt)
+            );
+            tt = tt.multiply(bigT);
+        }
         
-        System.out.println("it.unisa.dia.gas.crypto.jlbc.FHE.keygen");
+        System.out.println("FHE.keygen");
         System.out.println("s = " + s);
         System.out.println("e = " + e);
         System.out.println("a0 = " + a0);
@@ -136,7 +154,7 @@ public class FHE {
     
 
     public static Element[] enc() {
-        System.out.println("it.unisa.dia.gas.crypto.jlbc.FHE.enc");
+        System.out.println("FHE.enc");
 
         u = sampleDRq();
         Element f = sampleDRq().mul(t);
@@ -171,7 +189,7 @@ public class FHE {
     }
     
     public static void dec(Element[] elements) {
-        System.out.println("it.unisa.dia.gas.crypto.jlbc.FHE.dec");
+        System.out.println("FHE.dec");
 //        Polynomial<Element> m = (Polynomial<Element>) c0.duplicate().add(c1.duplicate().mul(s));
         
 //        Polynomial<Element> c0 = (Polynomial<Element>) elements[0];
@@ -200,6 +218,7 @@ public class FHE {
         Element[] ciphertext2 = enc();
         dec(ciphertext2);
 
+
         Element[] left = new Element[]{
                 ciphertext2[0].duplicate(),
                 ciphertext2[1].duplicate()
@@ -221,16 +240,18 @@ public class FHE {
         dec(right);
 
         // compute left * right
-        Element r0 = left[0].duplicate().mul(right[0]);
+        Element c0 = left[0].duplicate().mul(right[0]);
         
-        Element r1 = left[0].duplicate().mul(right[1]).add(
+        Element c1 = left[0].duplicate().mul(right[1]).add(
                 left[1].duplicate().mul(right[0])
         );
 
-        Element r2 = left[1].duplicate().mul(right[1]);
+        Element c2 = left[1].duplicate().mul(right[1]);
 
-        dec(new Element[]{r0, r1, r2});
+        System.out.println(c2.div(c2.getField().newElement(t)));
         
+        dec(new Element[]{c0, c1, c2});
+
     }
 
 }
