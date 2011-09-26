@@ -248,7 +248,7 @@ public class FHE {
 
         Element c2 = left[1].duplicate().mul(right[1]);
 
-        System.out.println(c2.div(c2.getField().newElement(t)));
+//        System.out.println(c2.div(c2.getField().newElement(t)));
         
         dec(new Element[]{c0, c1, c2});
 
