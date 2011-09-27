@@ -7,6 +7,7 @@ import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyElement;
 import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyField;
 import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyModElement;
 import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyModField;
+import it.unisa.dia.gas.plaf.jpbc.field.z.NaiveSymmetricZrField;
 import it.unisa.dia.gas.plaf.jpbc.field.z.NaiveZField;
 import it.unisa.dia.gas.plaf.jpbc.field.z.NaiveZrField;
 
@@ -64,6 +65,10 @@ public class FHE {
             c = c.subtract(z);
             v[i] = v[i + 1].add(z);
         }
+
+//        for (int i = 0; i < v.length; i++) {
+//            v[i] = v[i].abs();
+//        }
 
         return v;
     }
@@ -129,19 +134,19 @@ public class FHE {
 //        System.out.println(a0.duplicate().add(a1.duplicate().mul(s)));
 
         // Keys for relinearization
-        BigInteger bigT = BigInteger.valueOf(t);
-        BigInteger tt = BigInteger.ONE;
-        Element sSquare = s.duplicate().square();
-        as = new Element[2];
-        bs = new Element[2];
-        for (int i = 0; i < 2; i++) {
-            as[i] = R.newElement().set(Rq.newRandomElement()); 
-            e = sampleDRq();
-            bs[i] = as[i].duplicate().mul(s).add(e.mul(t)).negate().add(
-                    sSquare.duplicate().mul(tt)
-            );
-            tt = tt.multiply(bigT);
-        }
+//        BigInteger bigT = BigInteger.valueOf(t);
+//        BigInteger tt = BigInteger.ONE;
+//        Element sSquare = s.duplicate().square();
+//        as = new Element[2];
+//        bs = new Element[2];
+//        for (int i = 0; i < 2; i++) {
+//            as[i] = R.newElement().set(Rq.newRandomElement());
+//            e = sampleDRq();
+//            bs[i] = as[i].duplicate().mul(s).add(e.mul(t)).negate().add(
+//                    sSquare.duplicate().mul(tt)
+//            );
+//            tt = tt.multiply(bigT);
+//        }
         
         System.out.println("FHE.keygen");
         System.out.println("s = " + s);
@@ -150,13 +155,10 @@ public class FHE {
         System.out.println("a1 = " + a1);
     }
 
-    static Element c0, c1, u;
-    
-
     public static Element[] enc() {
         System.out.println("FHE.enc");
 
-        u = sampleDRq();
+        Element u = sampleDRq();
         Element f = sampleDRq().mul(t);
         Element g = sampleDRq().mul(t);
         System.out.println("g = " + g);
@@ -210,7 +212,7 @@ public class FHE {
     }
 
     public static void main(String[] args) {
-        setup();
+        /*setup();
         keygen();
         Element[] ciphertext1 = enc();
         dec(ciphertext1);
@@ -223,7 +225,7 @@ public class FHE {
                 ciphertext2[0].duplicate(),
                 ciphertext2[1].duplicate()
         };
-        for (int  i = 0; i < 100; i++) {
+        for (int  i = 0; i < 99; i++) {
             left[0].add(ciphertext1[0]);
             left[1].add(ciphertext1[1]);
         }
@@ -233,7 +235,7 @@ public class FHE {
                 ciphertext2[0].duplicate(),
                 ciphertext2[1].duplicate()
         };
-        for (int  i = 0; i < 1; i++) {
+        for (int  i = 0; i < 4; i++) {
             right[0].add(ciphertext1[0]);
             right[1].add(ciphertext1[1]);
         }
@@ -251,7 +253,11 @@ public class FHE {
 //        System.out.println(c2.div(c2.getField().newElement(t)));
         
         dec(new Element[]{c0, c1, c2});
+        */
 
+        NaiveSymmetricZrField field = new NaiveSymmetricZrField(BigInteger.valueOf(7));
+        Element e = field.newElement(-1);
+        System.out.println("e = " + e);
     }
 
 }
