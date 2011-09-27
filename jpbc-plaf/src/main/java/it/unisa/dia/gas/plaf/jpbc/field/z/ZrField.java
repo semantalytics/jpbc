@@ -10,26 +10,26 @@ import java.util.Random;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class NaiveZrField extends AbstractField<NaiveZrElement> {
+public class ZrField extends AbstractField<ZrElement> {
     protected BigInteger order;
-    protected NaiveZrElement nqr;
+    protected ZrElement nqr;
     protected int fixedLengthInBytes;
     protected BigInteger twoInverse;
 
 
-    public NaiveZrField(BigInteger order) {
+    public ZrField(BigInteger order) {
         this(new SecureRandom(), order, null);
     }
 
-    public NaiveZrField(Random random, BigInteger order) {
+    public ZrField(Random random, BigInteger order) {
         this(random, order, null);
     }
 
-    public NaiveZrField(BigInteger order, BigInteger nqr) {
+    public ZrField(BigInteger order, BigInteger nqr) {
         this(new SecureRandom(), order, nqr);
     }
 
-    public NaiveZrField(Random random, BigInteger order, BigInteger nqr) {
+    public ZrField(Random random, BigInteger order, BigInteger nqr) {
         super(random);
         this.order = order;
         this.orderIsOdd = BigIntegerUtils.isOdd(order);
@@ -43,15 +43,15 @@ public class NaiveZrField extends AbstractField<NaiveZrElement> {
     }
 
 
-    public NaiveZrElement newElement() {
-        return new NaiveZrElement(this);
+    public ZrElement newElement() {
+        return new ZrElement(this);
     }
 
     public BigInteger getOrder() {
         return order;
     }
 
-    public NaiveZrElement getNqr() {
+    public ZrElement getNqr() {
         if (nqr == null) {
             nqr = newElement();
             do {

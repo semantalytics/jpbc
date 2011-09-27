@@ -10,62 +10,63 @@ import java.math.BigInteger;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class NaiveZrElement extends NaiveAbstractElement {
+public class SymmetricZrElement extends AbstractZElement {
 
-//    protected BigInteger value;
     protected BigInteger order;
+    protected BigInteger halfOrder;
 
 
-    public NaiveZrElement(Field field) {
+    public SymmetricZrElement(Field field) {
         super(field);
 
         this.value = BigInteger.ZERO;
+
         this.order = field.getOrder();
+        this.halfOrder = ((SymmetricZrField) field).halfOrder;
     }
 
-    public NaiveZrElement(Field field, BigInteger value) {
+    public SymmetricZrElement(Field field, BigInteger value) {
         super(field);
 
-        this.value = value;
         this.order = field.getOrder();
+        this.halfOrder = ((SymmetricZrField) field).halfOrder;
+        set(value);
     }
 
-    public NaiveZrElement(NaiveZrElement naiveZrElement) {
-        super(naiveZrElement.getField());
+    public SymmetricZrElement(SymmetricZrElement zrElement) {
+        super(zrElement.getField());
 
-        this.value = naiveZrElement.value;
-        this.order = naiveZrElement.field.getOrder();
+        this.order = zrElement.field.getOrder();
+        this.halfOrder = ((SymmetricZrField) zrElement.field).halfOrder;
+        set(zrElement);
     }
 
 
     @Override
     public Element getImmutable() {
-        if (isImmutable())
-            return this;
-
-        return new ImmutableNaiveZrElement(this);
+        throw new IllegalArgumentException("Not implemented yet!!!");
     }
 
-    public NaiveZrElement duplicate() {
-        return new NaiveZrElement(this);
+    public SymmetricZrElement duplicate() {
+        return new SymmetricZrElement(this);
     }
 
-    public NaiveZrElement set(Element value) {
-        this.value = ((NaiveAbstractElement) value).value.mod(order);
+    public SymmetricZrElement set(Element value) {
+        this.value = ((AbstractZElement) value).value.mod(order);
 
-        return this;
+        return mod();
     }
 
-    public NaiveZrElement set(int value) {
+    public SymmetricZrElement set(int value) {
         this.value = BigInteger.valueOf(value).mod(order);
 
-        return this;
+        return mod();
     }
 
-    public NaiveZrElement set(BigInteger value) {
+    public SymmetricZrElement set(BigInteger value) {
         this.value = value.mod(order);
 
-        return this;
+        return mod();
     }
 
     public boolean isZero() {
@@ -76,45 +77,45 @@ public class NaiveZrElement extends NaiveAbstractElement {
         return BigInteger.ONE.equals(value);
     }
 
-    public NaiveZrElement twice() {
+    public SymmetricZrElement twice() {
 //        this.value = value.multiply(BigIntegerUtils.TWO).mod(order);
         this.value = value.add(value).mod(order);
 
-        return this;
+        return mod();
     }
 
-    public NaiveZrElement mul(int z) {
+    public SymmetricZrElement mul(int z) {
         this.value = this.value.multiply(BigInteger.valueOf(z)).mod(order);
 
-        return this;
+        return mod();
     }
 
-    public NaiveZrElement setToZero() {
+    public SymmetricZrElement setToZero() {
         this.value = BigInteger.ZERO;
 
         return this;
     }
 
-    public NaiveZrElement setToOne() {
+    public SymmetricZrElement setToOne() {
         this.value = BigInteger.ONE;
 
         return this;
     }
 
-    public NaiveZrElement setToRandom() {
+    public SymmetricZrElement setToRandom() {
         this.value = new BigInteger(order.bitLength(), field.getRandom()).mod(order);
 
-        return this;
+        return mod();
     }
 
-    public NaiveZrElement setFromHash(byte[] source, int offset, int length) {
+    public SymmetricZrElement setFromHash(byte[] source, int offset, int length) {
         int i = 0, n, count = (order.bitLength() + 7) / 8;
         byte[] buf = new byte[count];
 
         byte counter = 0;
         boolean done = false;
 
-        for (;;) {
+        for (; ; ) {
             if (length >= count - i) {
                 n = count - i;
                 done = true;
@@ -153,30 +154,31 @@ public class NaiveZrElement extends NaiveAbstractElement {
     public int setFromBytes(byte[] source, int offset) {
         byte[] buffer = Arrays.copyOf(source, offset, field.getLengthInBytes());
         value = new BigInteger(1, buffer).mod(order);
+        mod();
 
         return buffer.length;
     }
 
-    public NaiveZrElement square() {
+    public SymmetricZrElement square() {
 //        value = value.modPow(BigIntegerUtils.TWO, order);
         value = value.multiply(value).mod(order);
 
-        return this;
+        return mod();
     }
 
-    public NaiveZrElement invert() {
+    public SymmetricZrElement invert() {
         value = value.modInverse(order);
 
-        return this;
+        return mod();
     }
 
-    public NaiveZrElement halve() {
-        value = value.multiply(((NaiveZrField) field).twoInverse).mod(order);
+    public SymmetricZrElement halve() {
+        value = value.multiply(((ZrField) field).twoInverse).mod(order);
 
-        return this;
+        return mod();
     }
 
-    public NaiveZrElement negate() {
+    public SymmetricZrElement negate() {
         if (isZero()) {
             value = BigInteger.ZERO;
             return this;
@@ -184,50 +186,50 @@ public class NaiveZrElement extends NaiveAbstractElement {
 
         value = order.subtract(value);
 
-        return this;
+        return mod();
     }
 
-    public NaiveZrElement add(Element element) {
-        value = value.add(((NaiveAbstractElement)element).value).mod(order);
+    public SymmetricZrElement add(Element element) {
+        value = value.add(((AbstractZElement) element).value).mod(order);
 
-        return this;
+        return mod();
     }
 
-    public NaiveZrElement sub(Element element) {
-        value = value.subtract(((NaiveZrElement)element).value).mod(order);
+    public SymmetricZrElement sub(Element element) {
+        value = value.subtract(((SymmetricZrElement) element).value).mod(order);
 
-        return this;
+        return mod();
     }
 
-    public NaiveZrElement div(Element element) {
-        value = value.multiply(((NaiveZrElement)element).value.modInverse(order)).mod(order);
+    public SymmetricZrElement div(Element element) {
+        value = value.multiply(((SymmetricZrElement) element).value.modInverse(order)).mod(order);
 
-        return this;
+        return mod();
     }
 
-    public NaiveZrElement mul(Element element) {
-        value = value.multiply(((NaiveAbstractElement)element).value).mod(order);
+    public SymmetricZrElement mul(Element element) {
+        value = value.multiply(((AbstractZElement) element).value).mod(order);
 
-        return this;
+        return mod();
     }
 
-    public NaiveZrElement mul(BigInteger n) {
+    public SymmetricZrElement mul(BigInteger n) {
         this.value = this.value.multiply(n).mod(order);
 
-        return this;
+        return mod();
     }
 
-    public NaiveZrElement mulZn(Element z) {
+    public SymmetricZrElement mulZn(Element z) {
         this.value = this.value.multiply(z.toBigInteger()).mod(order);
 
-        return this;
+        return mod();
     }
 
     public boolean isSqr() {
         return BigInteger.ZERO.equals(value) || BigIntegerUtils.legendre(value, order) == 1;
     }
 
-    public NaiveZrElement sqrt() {
+    public SymmetricZrElement sqrt() {
         // Apply the Tonelli-Shanks Algorithm
 
         Element e0 = field.newElement();
@@ -268,18 +270,18 @@ public class NaiveZrElement extends NaiveAbstractElement {
     }
 
 
-    public NaiveZrElement pow(BigInteger n) {
+    public SymmetricZrElement pow(BigInteger n) {
         this.value = this.value.modPow(n, order);
 
-        return this;
+        return mod();
     }
 
-    public NaiveZrElement powZn(Element n) {
+    public SymmetricZrElement powZn(Element n) {
         return pow(n.toBigInteger());
     }
 
     public boolean isEqual(Element e) {
-        return this == e || value.compareTo(((NaiveZrElement) e).value) == 0;
+        return this == e || value.compareTo(((SymmetricZrElement) e).value) == 0;
 
     }
 
@@ -322,9 +324,18 @@ public class NaiveZrElement extends NaiveAbstractElement {
     }
 
     public boolean equals(Object o) {
-        if (o instanceof NaiveZrElement)
+        if (o instanceof SymmetricZrElement)
             return isEqual((Element) o);
-        return isEqual((NaiveZrElement) o);
+        return isEqual((SymmetricZrElement) o);
     }
+
+
+    private final SymmetricZrElement mod() {
+        if (this.value.compareTo(halfOrder) > 0)
+            this.value = this.value.subtract(order);
+
+        return this;
+    }
+
 
 }

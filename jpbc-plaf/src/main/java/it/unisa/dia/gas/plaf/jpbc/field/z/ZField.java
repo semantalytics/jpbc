@@ -9,26 +9,26 @@ import java.util.Random;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class NaiveZField extends AbstractField<NaiveZElement> {
+public class ZField extends AbstractField<ZElement> {
 
-    public NaiveZField() {
+    public ZField() {
         this(new SecureRandom());
     }
 
-    public NaiveZField(Random random) {
+    public ZField(Random random) {
         super(random);
     }
 
 
-    public NaiveZElement newElement() {
-        return new NaiveZElement(this);
+    public ZElement newElement() {
+        return new ZElement(this);
     }
 
     public BigInteger getOrder() {
         return BigInteger.ZERO;
     }
 
-    public NaiveZElement getNqr() {
+    public ZElement getNqr() {
         throw new IllegalStateException("Not implemented yet!!!");
     }
 

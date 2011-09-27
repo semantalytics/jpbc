@@ -1,7 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.field.poly;
 
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.plaf.jpbc.field.z.NaiveZrField;
+import it.unisa.dia.gas.plaf.jpbc.field.z.ZrField;
 import junit.framework.TestCase;
 
 import java.math.BigInteger;
@@ -13,7 +13,7 @@ public class PolyElementTest extends TestCase {
 
 /*
     public void testGDC() {
-        PolyField field = new PolyField(new NaiveZrField(BigInteger.valueOf(17)));
+        PolyField field = new PolyField(new ZrField(BigInteger.valueOf(17)));
 
         PolyElement r = field.newElement();
         r.setFromCoefficientMonic(new BigInteger[]{BigInteger.valueOf(3), BigInteger.valueOf(1)});
@@ -26,7 +26,7 @@ public class PolyElementTest extends TestCase {
     }
 */
     public void testBytes(){
-        PolyField field = new PolyField(new NaiveZrField(BigInteger.valueOf(17)));
+        PolyField field = new PolyField(new ZrField(BigInteger.valueOf(17)));
         PolyElement source = field.newElement();
         source.setToRandomMonic(5);
 
@@ -39,7 +39,7 @@ public class PolyElementTest extends TestCase {
     }
 
     public void testFindRoot() {
-        PolyField field = new PolyField(new NaiveZrField(BigInteger.valueOf(17)));
+        PolyField field = new PolyField(new ZrField(BigInteger.valueOf(17)));
         PolyElement element = field.newElement();
 
         BigInteger[] coeff = new BigInteger[]{

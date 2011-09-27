@@ -8,7 +8,7 @@ import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyField;
 import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyModElement;
 import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyModField;
 import it.unisa.dia.gas.plaf.jpbc.field.quadratic.QuadraticField;
-import it.unisa.dia.gas.plaf.jpbc.field.z.NaiveZrField;
+import it.unisa.dia.gas.plaf.jpbc.field.z.ZrField;
 import it.unisa.dia.gas.plaf.jpbc.pairing.AbstractPairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.DefaultCurveParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
@@ -167,7 +167,7 @@ public class TypeDPairing extends AbstractPairing {
    }
 
     protected Field initFp(BigInteger order) {
-        return new NaiveZrField(random, order);
+        return new ZrField(random, order);
     }
 
     protected CurveField initEq() {

@@ -3,7 +3,7 @@ package it.unisa.dia.gas.crypto.jpbc.fe.abe.lsss;
 import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtils;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.plaf.jpbc.field.z.NaiveZrField;
+import it.unisa.dia.gas.plaf.jpbc.field.z.ZrField;
 
 import java.math.BigInteger;
 
@@ -84,7 +84,7 @@ public class LSSS {
 
 
     public static void main(String[] args) {
-        Field Zr = new NaiveZrField(new BigInteger("17"));
+        Field Zr = new ZrField(new BigInteger("17"));
 
         Element[][] A = new Element[3][3];
 

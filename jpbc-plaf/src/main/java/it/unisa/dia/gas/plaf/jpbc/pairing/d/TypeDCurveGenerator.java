@@ -9,7 +9,7 @@ import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyElement;
 import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyField;
 import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyModElement;
 import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyModField;
-import it.unisa.dia.gas.plaf.jpbc.field.z.NaiveZrField;
+import it.unisa.dia.gas.plaf.jpbc.field.z.ZrField;
 import it.unisa.dia.gas.plaf.jpbc.pairing.DefaultCurveParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 import it.unisa.dia.gas.plaf.jpbc.util.math.HilbertPolyGenerator;
@@ -232,7 +232,7 @@ public class TypeDCurveGenerator implements CurveGenerator {
     protected void d_param_from_cm(DefaultCurveParameters param) {
         compute_cm_curve(param);
 
-        Field<? extends Element> Fq = new NaiveZrField(random, param.getBigInteger("q"));
+        Field<? extends Element> Fq = new ZrField(random, param.getBigInteger("q"));
         PolyField Fqx = new PolyField<Field>(random, Fq);
 
         PolyElement irred = Fqx.newElement();
@@ -263,7 +263,7 @@ public class TypeDCurveGenerator implements CurveGenerator {
      * @param param
      */
     protected void compute_cm_curve(DefaultCurveParameters param) {
-        NaiveZrField fp = new NaiveZrField(random,param.getBigInteger("q"));
+        ZrField fp = new ZrField(random,param.getBigInteger("q"));
         PolyField fpx = new PolyField(random, fp);
 
         // Init Hilbert Poly Element and find a root

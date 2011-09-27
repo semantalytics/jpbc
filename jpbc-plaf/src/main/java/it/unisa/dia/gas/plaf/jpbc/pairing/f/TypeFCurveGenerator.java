@@ -5,7 +5,7 @@ import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveField;
 import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyElement;
 import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyField;
 import it.unisa.dia.gas.plaf.jpbc.field.quadratic.QuadraticField;
-import it.unisa.dia.gas.plaf.jpbc.field.z.NaiveZrField;
+import it.unisa.dia.gas.plaf.jpbc.field.z.ZrField;
 import it.unisa.dia.gas.plaf.jpbc.pairing.DefaultCurveParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
@@ -66,7 +66,7 @@ public class TypeFCurveGenerator implements CurveGenerator {
         }
 
         // Compute b
-        Field Fq = new NaiveZrField(random, q);
+        Field Fq = new ZrField(random, q);
         Element e1 = Fq.newElement();
         for (; ;) {
             e1.setToRandom();

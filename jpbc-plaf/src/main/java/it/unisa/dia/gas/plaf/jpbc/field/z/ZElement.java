@@ -9,27 +9,27 @@ import java.math.BigInteger;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class NaiveZElement extends NaiveAbstractElement {
+public class ZElement extends AbstractZElement {
 
 //    protected BigInteger value;
 
 
-    public NaiveZElement(Field field) {
+    public ZElement(Field field) {
         super(field);
 
         this.value = BigInteger.ZERO;
     }
 
-    public NaiveZElement(Field field, BigInteger value) {
+    public ZElement(Field field, BigInteger value) {
         super(field);
 
         this.value = value;
     }
 
-    public NaiveZElement(NaiveZElement naiveZrElement) {
-        super(naiveZrElement.getField());
+    public ZElement(ZElement zrElement) {
+        super(zrElement.getField());
 
-        this.value = naiveZrElement.value;
+        this.value = zrElement.value;
     }
 
 
@@ -41,23 +41,23 @@ public class NaiveZElement extends NaiveAbstractElement {
         throw new IllegalStateException("Not implemented yet!!!");
     }
 
-    public NaiveZElement duplicate() {
-        return new NaiveZElement(this);
+    public ZElement duplicate() {
+        return new ZElement(this);
     }
 
-    public NaiveZElement set(Element value) {
-        this.value = ((NaiveAbstractElement) value).value;
+    public ZElement set(Element value) {
+        this.value = ((AbstractZElement) value).value;
 
         return this;
     }
 
-    public NaiveZElement set(int value) {
+    public ZElement set(int value) {
         this.value = BigInteger.valueOf(value);
 
         return this;
     }
 
-    public NaiveZElement set(BigInteger value) {
+    public ZElement set(BigInteger value) {
         this.value = value;
 
         return this;
@@ -71,36 +71,36 @@ public class NaiveZElement extends NaiveAbstractElement {
         return BigInteger.ONE.equals(value);
     }
 
-    public NaiveZElement twice() {
+    public ZElement twice() {
 //        this.value = value.multiply(BigIntegerUtils.TWO);
         this.value = value.add(value);
 
         return this;
     }
 
-    public NaiveZElement mul(int z) {
+    public ZElement mul(int z) {
         this.value = this.value.multiply(BigInteger.valueOf(z));
 
         return this;
     }
 
-    public NaiveZElement setToZero() {
+    public ZElement setToZero() {
         this.value = BigInteger.ZERO;
 
         return this;
     }
 
-    public NaiveZElement setToOne() {
+    public ZElement setToOne() {
         this.value = BigInteger.ONE;
 
         return this;
     }
 
-    public NaiveZElement setToRandom() {
+    public ZElement setToRandom() {
         throw new IllegalStateException("Not implemented yet!!!");
     }
 
-    public NaiveZElement setFromHash(byte[] source, int offset, int length) {
+    public ZElement setFromHash(byte[] source, int offset, int length) {
         throw new IllegalStateException("Not implemented yet!!!");
     }
 
@@ -115,56 +115,56 @@ public class NaiveZElement extends NaiveAbstractElement {
         return buffer.length;
     }
 
-    public NaiveZElement square() {
+    public ZElement square() {
 //        value = value.modPow(BigIntegerUtils.TWO, order);
         value = value.multiply(value);
 
         return this;
     }
 
-    public NaiveZElement invert() {
+    public ZElement invert() {
         throw new IllegalStateException("Not implemented yet!!!");
     }
 
-    public NaiveZElement halve() {
+    public ZElement halve() {
         throw new IllegalStateException("Not implemented yet!!!");
     }
 
-    public NaiveZElement negate() {
+    public ZElement negate() {
         value = value.multiply(BigInteger.valueOf(-1));
 
         return this;
     }
 
-    public NaiveZElement add(Element element) {
-        value = value.add(((NaiveAbstractElement)element).value);
+    public ZElement add(Element element) {
+        value = value.add(((AbstractZElement)element).value);
 
         return this;
     }
 
-    public NaiveZElement sub(Element element) {
-        value = value.subtract(((NaiveAbstractElement)element).value);
+    public ZElement sub(Element element) {
+        value = value.subtract(((AbstractZElement)element).value);
 
         return this;
     }
 
-    public NaiveZElement div(Element element) {
+    public ZElement div(Element element) {
         throw new IllegalStateException("Not implemented yet!!!");
     }
 
-    public NaiveZElement mul(Element element) {
-        value = value.multiply(((NaiveAbstractElement)element).value);
+    public ZElement mul(Element element) {
+        value = value.multiply(((AbstractZElement)element).value);
 
         return this;
     }
 
-    public NaiveZElement mul(BigInteger n) {
+    public ZElement mul(BigInteger n) {
         this.value = this.value.multiply(n);
 
         return this;
     }
 
-    public NaiveZElement mulZn(Element z) {
+    public ZElement mulZn(Element z) {
         this.value = this.value.multiply(z.toBigInteger());
 
         return this;
@@ -174,21 +174,21 @@ public class NaiveZElement extends NaiveAbstractElement {
         throw new IllegalStateException("Not implemented yet!!!");
     }
 
-    public NaiveZElement sqrt() {
+    public ZElement sqrt() {
         throw new IllegalStateException("Not implemented yet!!!");
     }
 
 
-    public NaiveZElement pow(BigInteger n) {
+    public ZElement pow(BigInteger n) {
         throw new IllegalStateException("Not implemented yet!!!");
     }
 
-    public NaiveZElement powZn(Element n) {
+    public ZElement powZn(Element n) {
         return pow(n.toBigInteger());
     }
 
     public boolean isEqual(Element e) {
-        return this == e || value.compareTo(((NaiveZElement) e).value) == 0;
+        return this == e || value.compareTo(((ZElement) e).value) == 0;
 
     }
 
@@ -210,9 +210,9 @@ public class NaiveZElement extends NaiveAbstractElement {
     }
 
     public boolean equals(Object o) {
-        if (o instanceof NaiveZElement)
+        if (o instanceof ZElement)
             return isEqual((Element) o);
-        return isEqual((NaiveZElement) o);
+        return isEqual((ZElement) o);
     }
 
 }

@@ -10,26 +10,28 @@ import java.util.Random;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class NaiveSymmetricZrField extends AbstractField<NaiveSymmetricZrElement> {
+public class SymmetricZrField extends AbstractField<SymmetricZrElement> {
     protected BigInteger order;
-    protected NaiveSymmetricZrElement nqr;
+    protected BigInteger halfOrder;
+    
+    protected SymmetricZrElement nqr;
     protected int fixedLengthInBytes;
     protected BigInteger twoInverse;
 
 
-    public NaiveSymmetricZrField(BigInteger order) {
+    public SymmetricZrField(BigInteger order) {
         this(new SecureRandom(), order, null);
     }
 
-    public NaiveSymmetricZrField(Random random, BigInteger order) {
+    public SymmetricZrField(Random random, BigInteger order) {
         this(random, order, null);
     }
 
-    public NaiveSymmetricZrField(BigInteger order, BigInteger nqr) {
+    public SymmetricZrField(BigInteger order, BigInteger nqr) {
         this(new SecureRandom(), order, nqr);
     }
 
-    public NaiveSymmetricZrField(Random random, BigInteger order, BigInteger nqr) {
+    public SymmetricZrField(Random random, BigInteger order, BigInteger nqr) {
         super(random);
         this.order = order;
         this.orderIsOdd = BigIntegerUtils.isOdd(order);
@@ -38,20 +40,22 @@ public class NaiveSymmetricZrField extends AbstractField<NaiveSymmetricZrElement
 
         this.twoInverse = BigIntegerUtils.TWO.modInverse(order);
 
+        this.halfOrder = order.divide(BigInteger.valueOf(2));
+
         if (nqr != null)
             this.nqr = newElement().set(nqr);
     }
 
 
-    public NaiveSymmetricZrElement newElement() {
-        return new NaiveSymmetricZrElement(this);
+    public SymmetricZrElement newElement() {
+        return new SymmetricZrElement(this);
     }
 
     public BigInteger getOrder() {
         return order;
     }
 
-    public NaiveSymmetricZrElement getNqr() {
+    public SymmetricZrElement getNqr() {
         if (nqr == null) {
             nqr = newElement();
             do {

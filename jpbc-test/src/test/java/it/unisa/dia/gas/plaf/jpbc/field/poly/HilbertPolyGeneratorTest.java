@@ -12,7 +12,7 @@ public class HilbertPolyGeneratorTest extends TestCase {
         HilbertPolyGenerator hilbertPolyGenerator = new HilbertPolyGenerator(59);
         BigInteger[] hilbertPolyCoeffs = hilbertPolyGenerator.getHilbertPoly();
 
-        PolyField field = new PolyField(new NaiveZrField(BigInteger.valueOf(17)));
+        PolyField field = new PolyField(new ZrField(BigInteger.valueOf(17)));
         PolyElement hilbertPoly = field.newElement();
         hilbertPoly.setFromCoefficientMonic(hilbertPolyCoeffs);
 
