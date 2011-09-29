@@ -63,7 +63,7 @@ public class FHE {
         Element e = sampler.sampleDFromField(Rq);
         System.out.println("e = " + e);
         a1 = Rq.newRandomElement();
-//        a1 = R.newElement().set(Rq.newRandomElement());
+//        a1 = R.newElement().set(Rnq.newRandomElement());
 
         // a0 = -(a1 * s + t * e)
         a0 = a1.duplicate().mul(s).add(e.mul(t)).negate();
@@ -79,7 +79,7 @@ public class FHE {
         as = new Element[lub];
         bs = new Element[lub];
         for (int i = 0; i < lub; i++) {
-            as[i] = Rq.newRandomElement();
+            as[i] = Rnq.newRandomElement();
 
             e = sampleDRq();
             bs[i] = as[i].duplicate().mul(s).add(e.mul(t)).negate().add(
@@ -145,8 +145,8 @@ public class FHE {
         System.out.println("c0 = " + c0);
         System.out.println("c1 = " + c1);
 
-        System.out.println("c0(Rq) = " + Rq.newElement().set(c0));
-        System.out.println("c1(Rq) = " + Rq.newElement().set(c1));
+        System.out.println("c0(Rnq) = " + Rq.newElement().set(c0));
+        System.out.println("c1(Rnq) = " + Rq.newElement().set(c1));
 
         return new Element[]{c0, c1};
     }
@@ -187,12 +187,12 @@ public class FHE {
         Element mm = m.duplicate();
         
         System.out.println("m = " + m);
-        System.out.println("m(Rq) = " + Rq.newElement().set(m));
+        System.out.println("m(Rnq) = " + Rq.newElement().set(m));
         System.out.println("m.isOne() = " + m.isOne());
         mod(m, BigInteger.valueOf(t));
         System.out.println("m = " + m);
-        System.out.println("m(Rq) = " + Rq.newElement().set(mm));
-        System.out.println("m(Rq) mod t = " + mod(Rq.newElement().set(mm), BigInteger.valueOf(t)));
+        System.out.println("m(Rnq) = " + Rq.newElement().set(mm));
+        System.out.println("m(Rnq) mod t = " + mod(Rq.newElement().set(mm), BigInteger.valueOf(t)));
         System.out.println("m.isOne() = " + m.isOne());
     }
     
@@ -210,9 +210,9 @@ public class FHE {
         System.out.println("c1 = " + c1);
         System.out.println("c2 = " + c2);
 
-        System.out.println("c0(Rq) = " + Rq.newElement().set(c0));
-        System.out.println("c1(Rq) = " + Rq.newElement().set(c1));
-        System.out.println("c2(Rq) = " + Rq.newElement().set(c2));
+        System.out.println("c0(Rnq) = " + Rq.newElement().set(c0));
+        System.out.println("c1(Rnq) = " + Rq.newElement().set(c1));
+        System.out.println("c2(Rnq) = " + Rq.newElement().set(c2));
         
         // relinearization
 
