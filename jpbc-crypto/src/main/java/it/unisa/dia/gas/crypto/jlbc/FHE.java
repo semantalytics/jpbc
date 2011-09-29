@@ -3,134 +3,64 @@ package it.unisa.dia.gas.crypto.jlbc;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Polynomial;
-import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyElement;
-import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyField;
-import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyModElement;
 import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyModField;
 import it.unisa.dia.gas.plaf.jpbc.field.z.SymmetricZrField;
 import it.unisa.dia.gas.plaf.jpbc.field.z.ZField;
 import it.unisa.dia.gas.plaf.jpbc.field.z.ZrField;
 
 import java.math.BigInteger;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 public class FHE {
 
-    static BigInteger tofk = BigInteger.valueOf(Math.round(Math.log(128)));
     static Random random = new Random();
 
-    static int n;
-    static BigInteger q;
+    static int n, k;
+    static BigInteger q, tt;
     static int sigma;
     static double sigmaSquare;
-    static int t, lub;
+    static int t, lub, L;
+    static Element te;
 
-    
-    
     static PolyModField R, Rq, Rt;
     static Field Zq, Zqas;
+    static FieldSampler sampler;
 
     static {
         n = 16;
+        k = 8;
 //        q = BigInteger.valueOf(1061093377);
         q = new BigInteger("144115188076060673");
         t = 1024;
+        tt = BigInteger.valueOf(t);
+        L = 1;
         sigma = 8;
-        sigmaSquare = Math.pow(sigma, 2);
-        
+
+        sampler = new FieldSampler(random, sigma);
+
         lub = (int) (Math.log(144115188076060673d) / Math.log(t)) + 1;
 
         random.setSeed(1000);
     }
 
-    public static BigInteger sampleZ(int sigma, BigInteger c) {
-        while (true) {
-            BigInteger offset = tofk.multiply(BigInteger.valueOf(sigma));
-
-            BigInteger left = c.subtract(offset);
-            BigInteger right = c.add(offset);
-
-            BigInteger x = left.add(BigInteger.valueOf((long) (random.nextDouble() * (right.subtract(left)).longValue())));
-
-            double rhoS = Math.exp(-Math.PI * Math.pow(x.subtract(c).longValue(), 2) / sigmaSquare);
-
-            if (random.nextDouble() < rhoS)
-                return x;
-        }
-    }
-
-    public static BigInteger[] sampleD(int n, int sigma) {
-        BigInteger[] v = new BigInteger[n];
-
-        BigInteger c = BigInteger.ZERO;
-        v[n - 1] = BigInteger.ZERO;
-        for (int i = n - 2; i >= 0; i--) {
-            BigInteger z = sampleZ(sigma, c);
-            c = c.subtract(z);
-            v[i] = v[i + 1].add(z);
-        }
-
-        return v;
-    }
-
-
     public static void setup() {
-        // Define R
-        PolyField polyField = new PolyField(random, new ZField(random));
-        PolyElement<Element> xToNPlusOne = polyField.newElement();
+        R = new PolyModField(random, new ZField(random), n);
+        Rq = new PolyModField(random, (Zq = new SymmetricZrField(random, q)), n);
 
-        List<Element> coefficients = xToNPlusOne.getCoefficients();
-        coefficients.add(polyField.getTargetField().newElement().setToOne());
-        for (int i = 1; i < n; i++) {
-            coefficients.add(polyField.getTargetField().newZeroElement());
-        }
-        coefficients.add(polyField.getTargetField().newElement().setToOne());
+        Zqas = new ZrField(random, q);
+        te = Zqas.newElement(t).invert();
 
-        R = new PolyModField(random, xToNPlusOne);
-
-        // Define Rq
-        Zqas = new ZrField(random, q); 
-        polyField = new PolyField(random, (Zq = new SymmetricZrField(random, q)));
-//        polyField = new PolyField(random, (Zq = new ZrField(random, q)));
-        xToNPlusOne = polyField.newElement();
-
-        coefficients = xToNPlusOne.getCoefficients();
-        coefficients.add(polyField.getTargetField().newElement().setToOne());
-        for (int i = 1; i < n; i++) {
-            coefficients.add(polyField.getTargetField().newZeroElement());
-        }
-        coefficients.add(polyField.getTargetField().newElement().setToOne());
-
-        Rq = new PolyModField(random, xToNPlusOne);
     }
 
-    static Element s, a0, a1;
+    static Element s, s1, a0, a1;
 
-    public static Element sampleDRq() {
-        System.out.println("FHE.sampleDRq");
-
-        BigInteger[] coeff = sampleD(n, sigma);
-        System.out.println("coeff = " + Arrays.toString(coeff));
-
-        PolyModElement result = Rq.newElement();
-//        PolyModElement result = R.newElement();
-        for (int i = 0; i < result.getDegree(); i++) {
-            result.getCoefficient(i).set(coeff[i]);
-        }
-
-        System.out.println("result = " + result);
-        return result;
-    }
-
-    static Element as[];
-    static Element bs[];
+    static Element as[][][];
+    static Element bs[][][];
 
     public static void keygen() {
         System.out.println("FHE.keygen");
-        s = sampleDRq();
-        Element e = sampleDRq();
+        s = sampler.sampleDFromField(Rq);
+        Element e = sampler.sampleDFromField(Rq);
         System.out.println("e = " + e);
         a1 = Rq.newRandomElement();
 //        a1 = R.newElement().set(Rq.newRandomElement());
@@ -142,6 +72,7 @@ public class FHE {
 //        System.out.println(a0.duplicate().add(a1.duplicate().mul(s)));
 
         // Keys for relinearization
+        /*
         BigInteger bigT = BigInteger.valueOf(t);
         BigInteger tt = BigInteger.ONE;
         Element sSquare = s.duplicate().square();
@@ -156,6 +87,32 @@ public class FHE {
             );
             tt = tt.multiply(bigT);
         }
+        */
+        
+        as = new Element[L][3][lub];
+        bs = new Element[L][3][lub];
+
+        Element sPrev = s.getField().newOneElement();
+        Element sNext = s1 = sampler.sampleDFromField(Rq);
+//        Element sNext = s1 = s;
+
+        for (int l = 0; l < L; l++) {
+
+            for (int i = 0; i < 3; i++) {
+            
+                BigInteger tPower = BigInteger.ONE;
+
+                for (int j = 0; j < lub; j++) {
+                    as[l][i][j] = Rq.newRandomElement();
+                    e = sampler.sampleDFromField(Rq);
+                    bs[l][i][j] = as[l][i][j].duplicate().mul(sNext).add(e.mul(t)).negate().add(sPrev.duplicate().mul(tPower));
+                    tPower = tPower.multiply(tt);
+                }
+
+                sPrev.mul(s);
+            }
+
+        }
         
         System.out.println("s = " + s);
         System.out.println("e*t = " + e);
@@ -166,9 +123,9 @@ public class FHE {
     public static Element[] enc() {
         System.out.println("FHE.enc");
 
-        Element u = sampleDRq();
-        Element f = sampleDRq().mul(t);
-        Element g = sampleDRq().mul(t);
+        Element u = sampler.sampleDFromField(Rq);
+        Element f = sampler.sampleDFromField(Rq).mul(t);
+        Element g = sampler.sampleDFromField(Rq).mul(t);
         System.out.println("g = " + g);
 
         Element m = Rq.newOneElement();
@@ -209,7 +166,7 @@ public class FHE {
         return m;
     }
     
-    public static void dec(Element[] elements) {
+    public static void dec(Element[] elements, Element key) {
         System.out.println("FHE.dec");
 //        Polynomial<Element> m = (Polynomial<Element>) c0.duplicate().add(c1.duplicate().mul(s));
         
@@ -219,11 +176,11 @@ public class FHE {
         
         Polynomial<Element> m = (Polynomial<Element>) elements[0].duplicate();
         System.out.println("c[0] = " + m);
-        Element ss = s.getField().newOneElement();
+        Element ss = key.getField().newOneElement();
         for (int i = 1; i < elements.length; i++) {
             System.out.println("c["+i+"] = " + elements[i]);
 
-            m.add(elements[i].duplicate().mul(ss.mul(s)));
+            m.add(elements[i].duplicate().mul(ss.mul(key)));
             System.out.println("ss = " + ss);
         }
 
@@ -263,25 +220,64 @@ public class FHE {
         BigInteger baseBig = BigInteger.valueOf(t);
         System.out.println("base = " + base);
 
-        Element[] c2i = new Element[lub];
+        Element[] c0s = moveRepresentation(c0);
+        Element[] c1s = moveRepresentation(c1);
+        Element[] c2s = moveRepresentation(c2);
+
+        Element c1lin = c1.getField().newZeroElement();
+        Element c0lin = c1.getField().newZeroElement();
+
+        for (int j = 0; j < lub; j++) {
+            c0lin.add(c0s[j].duplicate().mul(bs[0][0][j]));
+            c1lin.add(c0s[j].duplicate().mul(as[0][0][j]));
+        }
+
+        for (int j = 0; j < lub; j++) {
+            c0lin.add(c1s[j].duplicate().mul(bs[0][1][j]));
+            c1lin.add(c1s[j].duplicate().mul(as[0][1][j]));
+        }
+
+        for (int j = 0; j < lub; j++) {
+            c0lin.add(c2s[j].duplicate().mul(bs[0][2][j]));
+            c1lin.add(c2s[j].duplicate().mul(as[0][2][j]));
+        }
+        return new Element[]{c0lin, c1lin};
+
+
+//        Element[] c2s = moveRepresentation(c2);
+//
+//        Element c1lin = c1.duplicate();
+//        Element c0lin = c0.duplicate();
+//        for (int i = 0; i < lub; i++) {
+//            c1lin.add(c2s[i].duplicate().mul(as[i]));
+//            c0lin.add(c2s[i].duplicate().mul(bs[i]));
+//        }
+//        return new Element[]{c0lin, c1lin};
+
+//        return new Element[]{c0, c1, c2};
+    }
+    
+    
+    public static Element[] moveRepresentation(Element e) {
+        Element[] es = new Element[lub];
         for (int i = 0; i < lub; i++) {
-            c2i[i] = c2.getField().newElement();
+            es[i] = e.getField().newElement();
         }
               
         int i =0;
-        for (Element coeff : ((Polynomial<Element>) c2).getCoefficients()) {
+        for (Element coeff : ((Polynomial<Element>) e).getCoefficients()) {
 //            System.out.println("coeff = " + coeff);
 
             Element cursor = Zqas.newElement().set(coeff.duplicate());
             int j = 0;
             while (true) {
 //                System.out.println("cursor = " + cursor);
-                BigInteger reminder = cursor.toBigInteger().mod(baseBig);
+                BigInteger reminder = cursor.toBigInteger().mod(tt);
 
-                ((Polynomial<Element>) c2i[j++]).getCoefficient(i).set(reminder);
+                ((Polynomial<Element>) es[j++]).getCoefficient(i).set(reminder);
 
 //                System.out.println("reminder = " + reminder);
-                cursor = cursor.sub(cursor.getField().newElement(reminder)).mul(base);
+                cursor = cursor.sub(cursor.getField().newElement(reminder)).mul(te);
                 if (cursor.isZero())
                     break;
             }
@@ -289,17 +285,9 @@ public class FHE {
             i++;
         }
 
-        Element c1lin = c1.duplicate();
-        Element c0lin = c0.duplicate();
-        for (i = 0; i < lub; i++) {
-            c1lin.add(c2i[i].duplicate().mul(as[i]));
-            c0lin.add(c2i[i].duplicate().mul(bs[i]));
-        }
-
-        return new Element[]{c0lin, c1lin};
-
-//        return new Element[]{c0, c1, c2};
+        return es;
     }
+    
 
     public static void main(String[] args) {
         Zq = new ZrField(random, BigInteger.valueOf(7));
@@ -328,10 +316,10 @@ public class FHE {
         setup();
         keygen();
         Element[] ciphertext1 = enc();
-        dec(ciphertext1);
+        dec(ciphertext1, s);
 
         Element[] ciphertext2 = enc();
-        dec(ciphertext2);
+        dec(ciphertext2, s);
 
 
         // Left is 2
@@ -343,18 +331,18 @@ public class FHE {
             left[0].add(ciphertext1[0]);
             left[1].add(ciphertext1[1]);
         }
-        dec(left);
+        dec(left, s);
 
         // right is 2
         Element[] right = new Element[]{
                 ciphertext2[0].duplicate(),
                 ciphertext2[1].duplicate()
         };
-        for (int  i = 0; i < 99; i++) {
+        for (int  i = 0; i < 1; i++) {
             right[0].add(ciphertext1[0]);
             right[1].add(ciphertext1[1]);
         }
-        dec(right);
+        dec(right, s);
 
         // compute left * right
         System.out.println("left[0] = " + left[0]);
@@ -365,14 +353,7 @@ public class FHE {
         
         Element[] mul = multiply(left, right);
 
-//        System.out.println(c2.div(c2.getField().newElement(t)));
-        
-        dec(mul);
-
-//        SymmetricZrField field = new SymmetricZrField(BigInteger.valueOf(7));
-//        System.out.println(field.isOrderOdd());
-//        Element e = field.newElement(-1);
-//        System.out.println("e = " + e);
+        dec(mul, s1);
     }
 
 }

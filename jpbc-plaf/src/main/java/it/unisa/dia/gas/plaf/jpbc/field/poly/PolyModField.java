@@ -21,6 +21,22 @@ public class PolyModField<F extends Field> extends AbstractFieldOver<F, PolyModE
     protected PolyModElement[] xpwr;
 
 
+    public PolyModField(Random random, F targetField, int cyclotomicPolyDegree) {
+        super(random, targetField);
+
+        PolyField polyField = new PolyField(random, targetField);
+        irreduciblePoly = polyField.newElement();
+
+        List<Element> coefficients = irreduciblePoly.getCoefficients();
+        coefficients.add(polyField.getTargetField().newElement().setToOne());
+        for (int i = 1; i < cyclotomicPolyDegree; i++) {
+            coefficients.add(polyField.getTargetField().newZeroElement());
+        }
+        coefficients.add(polyField.getTargetField().newElement().setToOne());
+
+        init(null);
+    }
+
     public PolyModField(Random random, PolyElement irreduciblePoly) {
         this(random, irreduciblePoly, null);
     }
@@ -29,6 +45,11 @@ public class PolyModField<F extends Field> extends AbstractFieldOver<F, PolyModE
         super(random, (F) irreduciblePoly.getField().getTargetField());
 
         this.irreduciblePoly = irreduciblePoly;
+        init(nqr);
+    }
+
+    
+    protected void init(BigInteger nqr) {
         this.n = irreduciblePoly.getDegree();
 
         this.order = targetField.getOrder().pow(irreduciblePoly.getDegree());
@@ -46,8 +67,8 @@ public class PolyModField<F extends Field> extends AbstractFieldOver<F, PolyModE
         } else {
             fixedLengthInBytes = targetField.getLengthInBytes() * n;
         }
-    }
-
+    } 
+    
 
     public PolyModElement newElement() {
         return new PolyModElement(this);
