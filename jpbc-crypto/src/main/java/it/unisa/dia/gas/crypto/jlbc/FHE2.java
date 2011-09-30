@@ -8,7 +8,10 @@ import it.unisa.dia.gas.plaf.jpbc.field.z.SymmetricZrField;
 import it.unisa.dia.gas.plaf.jpbc.field.z.ZField;
 import it.unisa.dia.gas.plaf.jpbc.field.z.ZrField;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.Random;
 
 public class FHE2 {
@@ -18,7 +21,6 @@ public class FHE2 {
     static int n, k;
     static BigInteger p, q, tt;
     static int sigma;
-    static double sigmaSquare;
     static int t, lub, L;
     static Element te;
 
@@ -32,9 +34,20 @@ public class FHE2 {
         k = n;
         
         q = new BigInteger("144115188076060673");
+//        q = new BigInteger(q.bitLength()+ 10, 12, random);
+
+        System.out.println("q = " + q);
+
         p = new BigInteger("1061093377");
 //        p = new BigInteger("144115188076060673");
 //        p = q;
+//        p = new BigInteger("144115188075060677");
+        p = q.subtract(new BigInteger("89000000000000000")).nextProbablePrime();
+
+        System.out.println("p = " + p);
+
+        System.out.println(q.divide(p).multiply(p).compareTo(q));
+
 
         t = 1024;
         tt = BigInteger.valueOf(t);
@@ -43,7 +56,7 @@ public class FHE2 {
 
         sampler = new FieldSampler(random, sigma);
 
-        lub = (int) (Math.log(144115188076060673d) / Math.log(t)) + 1;
+        lub = (int) (Math.log(q.doubleValue()) / Math.log(t)) + 1;
 
         random.setSeed(1000);
     }
@@ -112,8 +125,13 @@ public class FHE2 {
             BigInteger tPower = BigInteger.ONE;
             for (int j = 0; j < lub; j++) {
                 shortAs[i][j] = Rkp.newRandomElement();
+                
+                Element muldiv = muldiv((Polynomial<Element>) secret.duplicate().mul(tPower), p, q);
+                System.out.println("secret = " + secret.duplicate().mul(tPower));
+                System.out.println("muldiv = " + muldiv);
+
                 shortBs[i][j] = shortAs[i][j].duplicate().mul(shortS).add(sampler.sampleDFromField(Rkp)).negate().add(
-                        muldiv((Polynomial<Element>) secret.duplicate().mul(tPower), p, q)
+                        muldiv
                 );
                 tPower = tPower.multiply(tt);
             }
@@ -199,6 +217,11 @@ public class FHE2 {
         return new Element[]{c0lin, c1lin};
     }
     
+    public static Element[] add(Element[] left, Element[] right) {
+        return null;
+    }
+    
+    
     public static Element[] reduce(Element[] ct) {
         Element h0 = ct[0].duplicate().mul(q.add(BigInteger.ONE)).mul(Zq.newElement(tt).invert().toBigInteger());
         Element h1 = ct[1].duplicate().mul(q.add(BigInteger.ONE)).mul(Zq.newElement(tt).invert().toBigInteger());
@@ -251,9 +274,44 @@ public class FHE2 {
         return es;
     }
     
+    public static Element muldiv2(Element a, BigInteger num, BigInteger den) {
+//        System.out.println("FHE2.muldiv2");
+//        System.out.println("a = " + a);
+        Polynomial<Element> pa = (Polynomial<Element>) a;
+
+        MathContext mc = new MathContext(1024, RoundingMode.HALF_UP);
+
+        for (Element element : pa.getCoefficients()) {
+//            System.out.println("element = " + element);
+            
+            BigDecimal ratio = new BigDecimal(element.toBigInteger()).divide(new BigDecimal(q), mc);
+//            System.out.println("ratio = " + ratio);
+            BigDecimal dest = ratio.multiply(new BigDecimal(p), mc);
+
+//            System.out.println("dest = " + dest);
+//            System.out.println("-dest = " + dest);
+//            System.out.println("ddest = " + dest.doubleValue());
+            BigInteger destI = new BigInteger(String.valueOf(Math.round(dest.doubleValue())));
+//            System.out.println("destI = " + destI);
+            
+            element.set(destI);
+        }
+        return pa;
+    }
+    
 
     public static void main(String[] args) {
         setup();
+        
+        Element a = sampler.sampleDFromField(Rnq);
+        System.out.println("a = " + a);
+
+        Element b = Rkp.newElement().set(muldiv2(a, p, q));
+        System.out.println("b = " + b);
+        
+        Element c = muldiv2(Rnq.newElement().set(b), q, p);
+        System.out.println("c = " + c);
+
         keygen();
         Element[] ciphertext1 = enc();
         dec(ciphertext1, s[0]);
