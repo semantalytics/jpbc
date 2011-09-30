@@ -21,7 +21,7 @@ public class FHE2 {
     static int n, k;
     static BigInteger p, q, tt;
     static int sigma;
-    static int t, lub, L;
+    static int t, lub, L, lup;
     static Element te;
 
     static Field<Polynomial> R, Rnq, Rkp, Rt;
@@ -38,11 +38,12 @@ public class FHE2 {
 
         System.out.println("q = " + q);
 
-        p = new BigInteger("1061093377");
+//        p = new BigInteger("8610900033770000").nextProbablePrime();
 //        p = new BigInteger("144115188076060673");
 //        p = q;
 //        p = new BigInteger("144115188075060677");
-        p = q.subtract(new BigInteger("89000000000000000")).nextProbablePrime();
+//        p = q.subtract(new BigInteger("99990000000000000")).nextProbablePrime();
+        p = q.subtract(new BigInteger("40")).nextProbablePrime();
 
         System.out.println("p = " + p);
 
@@ -57,6 +58,10 @@ public class FHE2 {
         sampler = new FieldSampler(random, sigma);
 
         lub = (int) (Math.log(q.doubleValue()) / Math.log(t)) + 1;
+        lup = (int) (Math.log(p.doubleValue()) / Math.log(t)) + 1;
+
+        System.out.println("lub = " + lub);
+        System.out.println("lup = " + lup);
 
         random.setSeed(1000);
     }
@@ -123,16 +128,25 @@ public class FHE2 {
         for (int i = 0; i < 2; i++) {
 
             BigInteger tPower = BigInteger.ONE;
-            for (int j = 0; j < lub; j++) {
+            for (int j = 0; j < lup; j++) {
                 shortAs[i][j] = Rkp.newRandomElement();
                 
-                Element muldiv = muldiv((Polynomial<Element>) secret.duplicate().mul(tPower), p, q);
+                Element muldiv = muldiv2(secret.duplicate().mul(tPower), p, q);
+
                 System.out.println("secret = " + secret.duplicate().mul(tPower));
                 System.out.println("muldiv = " + muldiv);
 
-                shortBs[i][j] = shortAs[i][j].duplicate().mul(shortS).add(sampler.sampleDFromField(Rkp)).negate().add(
+//                Element error = sampler.sampleDFromField(Rkp);
+                Element error = Rkp.newZeroElement();
+                System.out.println("error = " + error);
+
+                shortBs[i][j] = shortAs[i][j].duplicate().mul(shortS).add(error).negate().add(
                         muldiv
                 );
+
+                System.out.println(shortBs[i][j].duplicate().add(shortAs[i][j].duplicate().mul(shortS)));
+
+
                 tPower = tPower.multiply(tt);
             }
 
@@ -223,6 +237,8 @@ public class FHE2 {
     
     
     public static Element[] reduce(Element[] ct) {
+        dec(ct, s[L]);
+        
         Element h0 = ct[0].duplicate().mul(q.add(BigInteger.ONE)).mul(Zq.newElement(tt).invert().toBigInteger());
         Element h1 = ct[1].duplicate().mul(q.add(BigInteger.ONE)).mul(Zq.newElement(tt).invert().toBigInteger());
 
@@ -232,7 +248,7 @@ public class FHE2 {
         Element c1red = Rkp.newZeroElement();
         Element c0red = Rkp.newZeroElement();
 
-        for (int j = 0; j < lub; j++) {
+        for (int j = 0; j < lup; j++) {
             c0red.add(shortBs[0][j].duplicate().mul(h0s[j]));
             c0red.add(shortBs[1][j].duplicate().mul(h1s[j]));
 
@@ -240,39 +256,13 @@ public class FHE2 {
             c1red.add(shortAs[1][j].duplicate().mul(h1s[j]));
         }
 
-        return new Element[]{c0red.mul(t), c1red.mul(t)};
+        return new Element[]{
+                c0red.mul(t),
+                c1red.mul(t)
+        };
     }
     
     
-    public static Element[] moveRepresentation(Element e) {
-        Element[] es = new Element[lub];
-        for (int i = 0; i < lub; i++) {
-            es[i] = e.getField().newElement();
-        }
-              
-        int i =0;
-        for (Element coeff : ((Polynomial<Element>) e).getCoefficients()) {
-//            System.out.println("coeff = " + coeff);
-
-            Element cursor = Zqas.newElement().set(coeff.duplicate());
-            int j = 0;
-            while (true) {
-//                System.out.println("cursor = " + cursor);
-                BigInteger reminder = cursor.toBigInteger().mod(tt);
-
-                ((Polynomial<Element>) es[j++]).getCoefficient(i).set(reminder);
-
-//                System.out.println("reminder = " + reminder);
-                cursor = cursor.sub(cursor.getField().newElement(reminder)).mul(te);
-                if (cursor.isZero())
-                    break;
-            }
-            
-            i++;
-        }
-
-        return es;
-    }
     
     public static Element muldiv2(Element a, BigInteger num, BigInteger den) {
 //        System.out.println("FHE2.muldiv2");
@@ -299,19 +289,38 @@ public class FHE2 {
         return pa;
     }
     
+    public static Element[] moveRepresentation(Element source) {
+        Element[] es = new Element[lub];
+        for (int i = 0; i < lub; i++) {
+            es[i] = source.getField().newElement();
+        }
+              
+        int i = 0;
+        for (Element coeff : ((Polynomial<Element>) source).getCoefficients()) {
+//            System.out.println("coeff = " + coeff);
+
+            Element cursor = Zqas.newElement().set(coeff.duplicate());
+            int j = 0;
+            while (true) {
+//                System.out.println("cursor = " + cursor);
+                BigInteger reminder = cursor.toBigInteger().mod(tt);
+
+                ((Polynomial<Element>) es[j++]).getCoefficient(i).set(reminder);
+
+//                System.out.println("reminder = " + reminder);
+                cursor = cursor.sub(cursor.getField().newElement(reminder)).mul(te);
+                if (cursor.isZero())
+                    break;
+            }
+            
+            i++;
+        }
+
+        return es;
+    }
 
     public static void main(String[] args) {
         setup();
-        
-        Element a = sampler.sampleDFromField(Rnq);
-        System.out.println("a = " + a);
-
-        Element b = Rkp.newElement().set(muldiv2(a, p, q));
-        System.out.println("b = " + b);
-        
-        Element c = muldiv2(Rnq.newElement().set(b), q, p);
-        System.out.println("c = " + c);
-
         keygen();
         Element[] ciphertext1 = enc();
         dec(ciphertext1, s[0]);
