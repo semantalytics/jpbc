@@ -27,10 +27,10 @@ public class FHE {
     static FieldSampler sampler;
 
     static {
-        n = 16;
+        n = 128;
         k = 8;
 //        q = BigInteger.valueOf(1061093377);
-        q = new BigInteger("144115188076060673");
+        q = new BigInteger("802239503293259863326950493533761069");
         t = 1024;
         tt = BigInteger.valueOf(t);
         L = 1;
@@ -38,7 +38,7 @@ public class FHE {
 
         sampler = new FieldSampler(random, sigma);
 
-        lub = (int) (Math.log(144115188076060673d) / Math.log(t)) + 1;
+        lub = (int) (Math.log(q.doubleValue()) / Math.log(t)) + 1;
 
         random.setSeed(1000);
     }

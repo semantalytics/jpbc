@@ -29,30 +29,33 @@ public class FHE2 {
     static FieldSampler sampler;
 
     static {
-        n = 8;
+        t = 128;
+        n = 2048;
 //        k = 8;
         k = n;
-        
-        q = new BigInteger("144115188076060673");
-//        q = new BigInteger(q.bitLength()+ 10, 12, random);
+        L = 3;
+
+//        q = new BigInteger("144115188076060673");
+//        q = new BigInteger("802239503293259863326950493533761069");
+        q = new BigInteger(82, 12, random);
 
         System.out.println("q = " + q);
 
 //        p = new BigInteger("8610900033770000").nextProbablePrime();
 //        p = new BigInteger("144115188076060673");
-//        p = q;
+        p = q;
 //        p = new BigInteger("144115188075060677");
 //        p = q.subtract(new BigInteger("99990000000000000")).nextProbablePrime();
-        p = q.subtract(new BigInteger("40")).nextProbablePrime();
+//        p = q.subtract(new BigInteger("10")).nextProbablePrime();
+//        p = new BigInteger(63, 12, random);
 
         System.out.println("p = " + p);
 
         System.out.println(q.divide(p).multiply(p).compareTo(q));
+        System.out.println("q.subtract(p) = " + q.subtract(p));
 
 
-        t = 1024;
         tt = BigInteger.valueOf(t);
-        L = 1;
         sigma = 8;
 
         sampler = new FieldSampler(random, sigma);
@@ -102,7 +105,7 @@ public class FHE2 {
         bs = new Element[L][3][lub];
 
         for (int l = 0; l < L; l++) {
-            s[l+1] = sampler.sampleDFromField(Rnq);
+            s[l+1] = s[0];//sampler.sampleDFromField(Rnq);
 
             Element secret = s[0].getField().newOneElement();
             for (int i = 0; i < 3; i++) {
@@ -125,27 +128,16 @@ public class FHE2 {
         shortBs = new Element[2][lub];
 
         Element secret = shortS.getField().newOneElement();
+        Element key = shortS;
         for (int i = 0; i < 2; i++) {
-
             BigInteger tPower = BigInteger.ONE;
             for (int j = 0; j < lup; j++) {
                 shortAs[i][j] = Rkp.newRandomElement();
                 
-                Element muldiv = muldiv2(secret.duplicate().mul(tPower), p, q);
+                Element msg = muldiv2(secret.duplicate().mul(tPower), p, q);
+                Element error = sampler.sampleDFromField(Rkp);
 
-                System.out.println("secret = " + secret.duplicate().mul(tPower));
-                System.out.println("muldiv = " + muldiv);
-
-//                Element error = sampler.sampleDFromField(Rkp);
-                Element error = Rkp.newZeroElement();
-                System.out.println("error = " + error);
-
-                shortBs[i][j] = shortAs[i][j].duplicate().mul(shortS).add(error).negate().add(
-                        muldiv
-                );
-
-                System.out.println(shortBs[i][j].duplicate().add(shortAs[i][j].duplicate().mul(shortS)));
-
+                shortBs[i][j] = shortAs[i][j].duplicate().mul(key).add(error).negate().add(msg);
 
                 tPower = tPower.multiply(tt);
             }
@@ -237,10 +229,8 @@ public class FHE2 {
     
     
     public static Element[] reduce(Element[] ct) {
-        dec(ct, s[L]);
-        
-        Element h0 = ct[0].duplicate().mul(q.add(BigInteger.ONE)).mul(Zq.newElement(tt).invert().toBigInteger());
-        Element h1 = ct[1].duplicate().mul(q.add(BigInteger.ONE)).mul(Zq.newElement(tt).invert().toBigInteger());
+        Element h0 = ct[0].duplicate().mul(q.add(BigInteger.ONE)).mul(Zp.newElement(tt).invert().toBigInteger());
+        Element h1 = ct[1].duplicate().mul(q.add(BigInteger.ONE)).mul(Zp.newElement(tt).invert().toBigInteger());
 
         Element[] h0s = moveRepresentation(h0);
         Element[] h1s = moveRepresentation(h1);
@@ -352,11 +342,15 @@ public class FHE2 {
         dec(right, s[0]);
 
         // compute left * right
-        Element[] mul = multiply(left, right);
+        Element[] mul = left;
+        for (int i = 0; i < L-1; i++) {
+            mul = multiply(mul, right);
+        }
+        
         dec(mul, s[L]);
         
-        Element[] reduced = reduce(mul);
-        dec(reduced, shortS);
+//        Element[] reduced = reduce(mul);
+//        dec(reduced, shortS);
     }
 
 }
