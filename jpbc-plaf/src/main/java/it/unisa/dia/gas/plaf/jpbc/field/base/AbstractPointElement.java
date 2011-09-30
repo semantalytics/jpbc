@@ -69,4 +69,8 @@ public abstract class AbstractPointElement<E extends Element> extends AbstractEl
     public int setFromBytesX(byte[] source, int offset) {
         throw new IllegalStateException("Not Implemented yet!!!");
     }
+
+    public E innerProduct(Vector<E> v) {
+        throw new IllegalStateException("Not Implemented yet!!!");
+    }
 }

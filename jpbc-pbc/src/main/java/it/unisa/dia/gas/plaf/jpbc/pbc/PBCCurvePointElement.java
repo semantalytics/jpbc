@@ -2,6 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.pbc;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Point;
+import it.unisa.dia.gas.jpbc.Vector;
 import it.unisa.dia.gas.plaf.jpbc.pbc.field.PBCFieldFromElement;
 import it.unisa.dia.gas.plaf.jpbc.util.Arrays;
 import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.PBCElementType;
@@ -88,6 +89,10 @@ public class PBCCurvePointElement extends PBCElement implements Point {
         int lengthInBytes = WrapperLibraryProvider.getWrapperLibrary().element_length_in_bytes_x_only(value);
         WrapperLibraryProvider.getWrapperLibrary().element_from_bytes_x_only(value, Arrays.copyOf(source, offset, lengthInBytes));
         return lengthInBytes;
+    }
+
+    public Element innerProduct(Vector v) {
+        throw new IllegalStateException("Not Implemented yet!!!");
     }
 
 }

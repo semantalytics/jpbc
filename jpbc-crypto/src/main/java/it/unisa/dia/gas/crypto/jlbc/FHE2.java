@@ -310,6 +310,7 @@ public class FHE2 {
     }
 
     public static void main(String[] args) {
+        long start = System.currentTimeMillis();
         setup();
         keygen();
         Element[] ciphertext1 = enc();
@@ -348,6 +349,9 @@ public class FHE2 {
         }
         
         dec(mul, s[L]);
+
+        long end = System.currentTimeMillis();
+        System.out.println("elapsed = " + (end-start));
         
 //        Element[] reduced = reduce(mul);
 //        dec(reduced, shortS);

@@ -3,6 +3,7 @@ package it.unisa.dia.gas.plaf.jpbc.field.poly;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.FieldOver;
 import it.unisa.dia.gas.jpbc.Polynomial;
+import it.unisa.dia.gas.jpbc.Vector;
 import it.unisa.dia.gas.plaf.jpbc.field.base.AbstractElement;
 
 import java.util.ArrayList;
@@ -43,5 +44,9 @@ public abstract class AbstractPolyElement<E extends Element> extends AbstractEle
 
     public int getDegree() {
         return coeff.size();
+    }
+
+    public Element innerProduct(Vector v) {
+        throw new IllegalStateException("Not Implemented yet!!!");
     }
 }
