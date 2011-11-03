@@ -26,6 +26,10 @@ public abstract class AbstractPairingMap implements PairingMap {
         return out;
     }
 
+    public int getPairingPreProcessingLengthInBytes() {
+        return pairing.getG1().getLengthInBytes();
+    }
+
     public PairingPreProcessing pairing(final Point in1) {
         return new DefaultPairingPreProcessing(in1);
     }

@@ -15,6 +15,7 @@ import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 public class TypeA1TateNafProjectiveMillerPairingMap extends AbstractMillerPairingMap {
     protected TypeA1Pairing pairing;
     protected byte[] r;
+    private final int pairingPreProcessingLenghtInBytes;
 
 
     public TypeA1TateNafProjectiveMillerPairingMap(TypeA1Pairing pairing) {
@@ -22,6 +23,8 @@ public class TypeA1TateNafProjectiveMillerPairingMap extends AbstractMillerPairi
 
         this.pairing = pairing;
         this.r = BigIntegerUtils.naf(pairing.r, (byte) 2);
+        //TODO fix this
+        this.pairingPreProcessingLenghtInBytes = 4 + (((r.length - 2) * 2) * this.pairing.getG1().getLengthInBytes() * 3);
     }
 
     /**
@@ -69,6 +72,11 @@ public class TypeA1TateNafProjectiveMillerPairingMap extends AbstractMillerPairi
         Element t0 = element.getField().newElement();
         tatePow((Point) t0, (Point) element);
         element.set(t0);
+    }
+
+    @Override
+    public int getPairingPreProcessingLengthInBytes() {
+        return pairingPreProcessingLenghtInBytes;
     }
 
     public PairingPreProcessing pairing(Point in1) {
@@ -201,7 +209,7 @@ public class TypeA1TateNafProjectiveMillerPairingMap extends AbstractMillerPairi
 
         public TypeATateNafProjectiveMillerPairingPreProcessing(Point in1) {
             // TODO: allocate just the necessary memory...analyze the  number of zero in r
-            super(in1, (r.length - 2) *2);
+            super(in1, (r.length - 2) * 2);
 
             JacobPoint V = new JacobPoint(in1.getX(), in1.getY(), in1.getX().getField().newOneElement());
             Point nP = (Point) in1.duplicate().negate();

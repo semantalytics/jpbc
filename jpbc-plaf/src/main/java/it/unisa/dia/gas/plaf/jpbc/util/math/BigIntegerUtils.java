@@ -80,6 +80,15 @@ public class BigIntegerUtils {
         return wnafShort;
     }
 
+    public static int hammingWeight(byte[] bytes, int length) {
+        int weight = 0;
+        for (int i = 0; i <= length; i++) {
+            if (bytes[i] != 0)
+                weight++;
+        }
+        return weight;
+    }
+    
 
     public static BigInteger generateSolinasPrime(int bits, Random random) {
         // r is picked to be a Solinas prime, that is,

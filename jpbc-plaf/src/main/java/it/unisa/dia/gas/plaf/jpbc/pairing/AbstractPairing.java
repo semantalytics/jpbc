@@ -107,6 +107,9 @@ public abstract class AbstractPairing implements Pairing {
         return pairingMap.pairing(in1, in2);
     }
 
+    public int getPairingPreProcessingLengthInBytes() {
+        return pairingMap.getPairingPreProcessingLengthInBytes();
+    }
 
 
     public PairingMap getPairingMap() {

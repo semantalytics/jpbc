@@ -72,6 +72,10 @@ public class ProductPairing implements Pairing {
         };
     }
 
+    public int getPairingPreProcessingLengthInBytes() {
+        throw new IllegalStateException("Not implemented yet!!!");
+    }
+
     public PairingPreProcessing pairing(byte[] source) {
         // TODO:
         throw new IllegalStateException("Not implemented yet!!!");

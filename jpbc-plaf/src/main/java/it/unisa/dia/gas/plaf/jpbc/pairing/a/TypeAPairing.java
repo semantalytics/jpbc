@@ -43,8 +43,8 @@ public class TypeAPairing extends AbstractPairing {
         super(random);
 
         initParams(params);
-        initMap(params);
         initFields();
+        initMap(params);
     }
 
     public TypeAPairing(CurveParameters params) {

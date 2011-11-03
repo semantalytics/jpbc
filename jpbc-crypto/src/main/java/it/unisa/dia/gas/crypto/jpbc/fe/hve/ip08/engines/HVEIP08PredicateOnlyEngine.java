@@ -51,8 +51,8 @@ public class HVEIP08PredicateOnlyEngine extends PredicateOnlyPairingAsymmetricBl
             int offset = inOff;
 
             // Load Xs, Ws..
-            List<Element> X = new ArrayList<Element>();
-            List<Element> W = new ArrayList<Element>();
+            List<Element> X = new ArrayList<Element>(n);
+            List<Element> W = new ArrayList<Element>(n);
             for (int i = 0; i < n; i++) {
                 Element x = pairing.getG1().newElement();
                 offset += x.setFromBytes(in, offset);

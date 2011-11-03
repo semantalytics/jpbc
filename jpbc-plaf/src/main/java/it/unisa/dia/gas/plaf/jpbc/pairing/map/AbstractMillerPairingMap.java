@@ -413,7 +413,7 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
 
         public byte[] toBytes() {
             try {
-                ByteArrayOutputStream bOut = new ByteArrayOutputStream(table[0][0].getField().getLengthInBytes() * numRow * 3);
+                ByteArrayOutputStream bOut = new ByteArrayOutputStream(table[0][0].getField().getLengthInBytes() * numRow * 3 + 4);
                 DataOutputStream out = new DataOutputStream(bOut);
 
                 out.writeInt(numRow);
@@ -422,6 +422,7 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
                         out.write(element.toBytes());
                     }
                 }
+
                 return bOut.toByteArray();
             } catch (IOException e) {
                 throw new RuntimeException(e);
