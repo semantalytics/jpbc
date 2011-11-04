@@ -44,12 +44,13 @@ public class HVEIP08PredicateOnlyCTOptEngineTest extends AbstractJPBCCryptoTest 
     public void testHVEIP08PredicateOnlyCTOptEngine() {
         int n = 5;
         AsymmetricCipherKeyPair keyPair = setup(genBinaryParam(n));
+        CipherParameters parameters = ((HVEIP08KeyParameters) keyPair.getPublic()).getParameters();
 
         int[][] vectors = createMatchingVectors(n);
         assertEquals(true, 
                 test(
                         keyGen(keyPair.getPrivate(), vectors[0]),
-                        preprocess(keyPair.getPublic(), enc(keyPair.getPublic(), vectors[1]))
+                        preprocess(parameters, enc(keyPair.getPublic(), vectors[1]))
                 )
         );
 
@@ -57,7 +58,7 @@ public class HVEIP08PredicateOnlyCTOptEngineTest extends AbstractJPBCCryptoTest 
         assertEquals(false,
                 test(
                         keyGen(keyPair.getPrivate(), vectors[0]),
-                        preprocess(keyPair.getPublic(), enc(keyPair.getPublic(), vectors[1]))
+                        preprocess(parameters, enc(keyPair.getPublic(), vectors[1]))
                 )
         );
     }
@@ -129,10 +130,10 @@ public class HVEIP08PredicateOnlyCTOptEngineTest extends AbstractJPBCCryptoTest 
         }
     }
 
-    protected byte[] preprocess(CipherParameters publicKey, byte[] enc) {
+    protected byte[] preprocess(CipherParameters parameters, byte[] enc) {
         try {
             HVEIP08PredicateOnlyCTOptEngine engine = new HVEIP08PredicateOnlyCTOptEngine();
-            engine.init(true, new HVEIP08CiphertextPreprocessingParameters((HVEIP08PublicKeyParameters) publicKey));
+            engine.init(true, new HVEIP08CiphertextPreprocessingParameters((HVEIP08Parameters) parameters));
 
             return engine.processBlock(enc, 0, enc.length);
         } catch (InvalidCipherTextException e) {
