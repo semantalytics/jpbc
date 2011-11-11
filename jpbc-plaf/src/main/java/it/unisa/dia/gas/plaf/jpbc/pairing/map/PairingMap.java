@@ -13,14 +13,16 @@ public interface PairingMap {
 
     Element pairing(Element[] in1, Element[] in2);
 
+    void finalPow(Element element);
+
+    boolean isAlmostCoddh(Element a, Element b, Element c, Element d);
+
+
     int getPairingPreProcessingLengthInBytes();
 
     PairingPreProcessing pairing(Point in1);
 
     PairingPreProcessing pairing(byte[] source, int offset);
 
-    boolean isAlmostCoddh(Element a, Element b, Element c, Element d);
-
-    void finalPow(Element element);
 
 }

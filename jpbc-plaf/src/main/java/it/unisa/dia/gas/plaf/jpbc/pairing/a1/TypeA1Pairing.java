@@ -40,8 +40,8 @@ public class TypeA1Pairing extends AbstractPairing {
         super(random);
 
         initParams(params);
-        initFields();
         initMap(params);
+        initFields();
     }
 
     protected void initParams(CurveParameters curveParams) {

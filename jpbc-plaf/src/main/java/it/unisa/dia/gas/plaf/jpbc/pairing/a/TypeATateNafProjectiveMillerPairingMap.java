@@ -18,8 +18,8 @@ public class TypeATateNafProjectiveMillerPairingMap extends AbstractMillerPairin
     protected final TypeAPairing pairing;
     protected final byte[] r;
     
-    protected final int pairingPreProcessingTableLength;
-    protected final int pairingPreProcessingLenghtInBytes;
+    protected int pairingPreProcessingTableLength = -1;
+    protected int pairingPreProcessingLenghtInBytes = -1;
 
 
     public TypeATateNafProjectiveMillerPairingMap(TypeAPairing pairing) {
@@ -27,9 +27,6 @@ public class TypeATateNafProjectiveMillerPairingMap extends AbstractMillerPairin
 
         this.pairing = pairing;
         this.r = BigIntegerUtils.naf(pairing.r, (byte) 2);
-
-        this.pairingPreProcessingTableLength = r.length - 1 + BigIntegerUtils.hammingWeight(r, r.length - 2);
-        this.pairingPreProcessingLenghtInBytes = 4 + (pairingPreProcessingTableLength * 3 * pairing.Fq.getLengthInBytes());
     }
 
     /**
@@ -81,6 +78,11 @@ public class TypeATateNafProjectiveMillerPairingMap extends AbstractMillerPairin
 
     @Override
     public int getPairingPreProcessingLengthInBytes() {
+        if (pairingPreProcessingLenghtInBytes == -1){
+            pairingPreProcessingTableLength = r.length - 1 + BigIntegerUtils.hammingWeight(r, r.length - 2);
+            pairingPreProcessingLenghtInBytes = 4 + (pairingPreProcessingTableLength * 3 * pairing.Fq.getLengthInBytes());
+        }
+
         return pairingPreProcessingLenghtInBytes;
     }
 

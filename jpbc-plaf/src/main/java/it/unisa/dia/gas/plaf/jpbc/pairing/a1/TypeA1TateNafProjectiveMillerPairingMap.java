@@ -13,9 +13,10 @@ import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class TypeA1TateNafProjectiveMillerPairingMap extends AbstractMillerPairingMap {
-    protected TypeA1Pairing pairing;
-    protected byte[] r;
-    private final int pairingPreProcessingLenghtInBytes;
+    protected final TypeA1Pairing pairing;
+    protected final byte[] r;
+
+    protected int pairingPreProcessingLengthInBytes = -1;
 
 
     public TypeA1TateNafProjectiveMillerPairingMap(TypeA1Pairing pairing) {
@@ -23,8 +24,6 @@ public class TypeA1TateNafProjectiveMillerPairingMap extends AbstractMillerPairi
 
         this.pairing = pairing;
         this.r = BigIntegerUtils.naf(pairing.r, (byte) 2);
-        //TODO fix this
-        this.pairingPreProcessingLenghtInBytes = 4 + (((r.length - 2) * 2) * this.pairing.getG1().getLengthInBytes() * 3);
     }
 
     /**
@@ -76,7 +75,11 @@ public class TypeA1TateNafProjectiveMillerPairingMap extends AbstractMillerPairi
 
     @Override
     public int getPairingPreProcessingLengthInBytes() {
-        return pairingPreProcessingLenghtInBytes;
+        if (pairingPreProcessingLengthInBytes == -1) {
+            pairingPreProcessingLengthInBytes = 4 + (((r.length - 2) * 2) * this.pairing.getG1().getLengthInBytes() * 3);
+        }
+
+        return pairingPreProcessingLengthInBytes;
     }
 
     public PairingPreProcessing pairing(Point in1) {

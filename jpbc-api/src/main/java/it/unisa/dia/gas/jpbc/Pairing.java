@@ -13,7 +13,7 @@ package it.unisa.dia.gas.jpbc;
 public interface Pairing {
 
     /**
-     *
+     * TODO
      */
     public static enum PairingFieldIdentifier {G1, G2, GT, Zr, Unknown}
 
@@ -80,14 +80,6 @@ public interface Pairing {
     Element pairing(Element[] in1, Element[] in2);
 
     /**
-     * TODO
-     *
-     * @return
-     * @since 1.2.0
-     */
-    int getPairingPreProcessingLengthInBytes();
-
-    /**
      * Get ready to perform a pairing whose first input is in1, returns the results of time-saving pre-computation.
      *
      * @param in1 the first input of a pairing execution, used to pre-compute the pairing.
@@ -95,6 +87,14 @@ public interface Pairing {
      * @since 1.0.0
      */
     PairingPreProcessing pairing(Element in1);
+
+    /**
+     * TODO : finish to implement
+     *
+     * @return
+     * @since 1.2.0
+     */
+    int getPairingPreProcessingLengthInBytes();
 
     /**
      * Reads a PairingPreProcessing from the buffer source.

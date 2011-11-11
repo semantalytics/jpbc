@@ -16,10 +16,10 @@ import java.math.BigInteger;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class TypeATateAffineMillerPairingMap extends AbstractMillerPairingMap {
-    protected TypeAPairing pairing;
+    protected final TypeAPairing pairing;
 
 
-    public TypeATateAffineMillerPairingMap(TypeAPairing pairing) {
+    public TypeATateAffineMillerPairingMap(final TypeAPairing pairing) {
         super(pairing);
 
         this.pairing = pairing;
@@ -29,7 +29,7 @@ public class TypeATateAffineMillerPairingMap extends AbstractMillerPairingMap {
     /**
      * in1, in2 are from E(F_q), out from F_q^2
      */
-    public Element pairing(Point in1, Point in2) {
+    public Element pairing(final Point in1, final Point in2) {
         // could save a couple of inversions by avoiding
         // this function and rewriting lineStep() to handle projective coords
         // convert V from weighted projective (Jacobian) to affine

@@ -14,24 +14,26 @@ import java.util.StringTokenizer;
  *
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class DefaultCurveParameters extends LinkedHashMap<String, String> implements CurveParameters, Externalizable {
+public class DefaultCurveParameters implements CurveParameters, Externalizable {
 
+    protected final LinkedHashMap<String, String> parameters;
 
     public DefaultCurveParameters() {
+        this.parameters = new LinkedHashMap<String, String>();
     }
 
 
     public String getType() {
-        return get("type");
+        return parameters.get("type");
     }
 
 
     public boolean containsKey(String key) {
-        return super.containsKey(key);
+        return parameters.containsKey(key);
     }
 
     public int getInt(String key) {
-        String value = get(key);
+        String value = parameters.get(key);
         if (value == null)
             throw new IllegalArgumentException("Cannot find value for the following key : " + key);
 
@@ -39,7 +41,7 @@ public class DefaultCurveParameters extends LinkedHashMap<String, String> implem
     }
 
     public int getInt(String key, int defaultValue) {
-        String value = get(key);
+        String value = parameters.get(key);
         if (value == null)
             return defaultValue;
 
@@ -47,7 +49,7 @@ public class DefaultCurveParameters extends LinkedHashMap<String, String> implem
     }
 
     public long getLong(String key) {
-        String value = get(key);
+        String value = parameters.get(key);
         if (value == null)
             throw new IllegalArgumentException("Cannot find value for the following key : " + key);
 
@@ -55,7 +57,7 @@ public class DefaultCurveParameters extends LinkedHashMap<String, String> implem
     }
 
     public long getLong(String key, long defaultValue) {
-        String value = get(key);
+        String value = parameters.get(key);
         if (value == null)
             return defaultValue;
 
@@ -63,7 +65,7 @@ public class DefaultCurveParameters extends LinkedHashMap<String, String> implem
     }
 
     public BigInteger getBigInteger(String key) {
-        String value = get(key);
+        String value = parameters.get(key);
         if (value == null)
             throw new IllegalArgumentException("Cannot find value for the following key : " + key);
 
@@ -71,7 +73,7 @@ public class DefaultCurveParameters extends LinkedHashMap<String, String> implem
     }
 
     public BigInteger getBigInteger(String key, BigInteger defaultValue) {
-        String value = get(key);
+        String value = parameters.get(key);
         if (value == null)
             return defaultValue;
 
@@ -79,7 +81,7 @@ public class DefaultCurveParameters extends LinkedHashMap<String, String> implem
     }
 
     public String getString(String key) {
-        String value = get(key);
+        String value = parameters.get(key);
         if (value == null)
             throw new IllegalArgumentException("Cannot find value for the following key : " + key);
 
@@ -87,7 +89,7 @@ public class DefaultCurveParameters extends LinkedHashMap<String, String> implem
     }
 
     public String getString(String key, String defaultValue) {
-        String value = get(key);
+        String value = parameters.get(key);
         if (value == null)
             return defaultValue;
 
@@ -103,7 +105,7 @@ public class DefaultCurveParameters extends LinkedHashMap<String, String> implem
     }
 
     public void putBytes(String key, byte[] bytes) {
-        put(key, Base64.encodeBytes(bytes, 0, bytes.length));
+        parameters.put(key, Base64.encodeBytes(bytes, 0, bytes.length));
     }
 
 
@@ -124,7 +126,7 @@ public class DefaultCurveParameters extends LinkedHashMap<String, String> implem
                 String key = tokenizer.nextToken();
                 String value = tokenizer.nextToken();
 
-                put(key, value);
+                parameters.put(key, value);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -134,7 +136,7 @@ public class DefaultCurveParameters extends LinkedHashMap<String, String> implem
     }
 
     public DefaultCurveParameters load(String path) {
-        InputStream inputStream = null;
+        InputStream inputStream;
 
         File file = new File(path);
         if (file.exists()) {
@@ -155,6 +157,7 @@ public class DefaultCurveParameters extends LinkedHashMap<String, String> implem
         try {
             inputStream.close();
         } catch (IOException e) {
+            // Discard
         }
 
         return this;
@@ -164,7 +167,7 @@ public class DefaultCurveParameters extends LinkedHashMap<String, String> implem
     public String toString(String separator) {
         StringBuilder buffer = new StringBuilder();
 
-        for (Map.Entry<String, String> entry : entrySet()) {
+        for (Map.Entry<String, String> entry : parameters.entrySet()) {
             buffer.append(entry.getKey()).append(separator).append(entry.getValue()).append("\n");
         }
 
@@ -181,5 +184,14 @@ public class DefaultCurveParameters extends LinkedHashMap<String, String> implem
 
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         load(new ByteArrayInputStream(in.readUTF().getBytes()));
+    }
+
+
+    public void put(String key, String value) {
+        parameters.put(key, value);
+    }
+
+    public String remove(String key) {
+        return parameters.remove(key);
     }
 }

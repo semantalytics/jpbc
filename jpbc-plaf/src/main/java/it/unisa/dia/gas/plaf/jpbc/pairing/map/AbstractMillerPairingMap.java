@@ -11,18 +11,18 @@ import java.math.BigInteger;
 public abstract class AbstractMillerPairingMap<E extends Element> extends AbstractPairingMap {
 
 
-    protected AbstractMillerPairingMap(Pairing pairing) {
+    protected AbstractMillerPairingMap(final Pairing pairing) {
         super(pairing);
     }
 
 
-    protected final void lineStep(Point<E> f0,
-                                  Element a, Element b, Element c,
-                                  Element Vx, Element Vy,
-                                  Element V1x, Element V1y,
-                                  Element e0,
-                                  E Qx, E Qy,
-                                  Element f) {
+    protected final void lineStep(final Point<E> f0,
+                                  final Element a, final Element b, final Element c,
+                                  final Element Vx, final Element Vy,
+                                  final Element V1x, final Element V1y,
+                                  final Element e0,
+                                  final E Qx, final E Qy,
+                                  final Element f) {
         // computeLine(a, b, c, Vx, Vy, V1x, V1y, e0);
         // a = -(V1y - Vy) / (V1x - Vx);
         // b = 1;
@@ -42,13 +42,13 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
         f.mul(f0);
     }
 
-    protected final void lineStep(Point<E> f0,
-                                  Element a, Element b, Element c,
-                                  Element[] Vs,
-                                  Element[] V1s,
-                                  Element e0,
-                                  Element[] Qs,
-                                  Element f) {
+    protected final void lineStep(final Point<E> f0,
+                                  final Element a, final Element b, final Element c,
+                                  final Element[] Vs,
+                                  final Element[] V1s,
+                                  final Element e0,
+                                  final Element[] Qs,
+                                  final Element f) {
         // computeLine(a, b, c, Vx, Vy, V1x, V1y, e0);
         // a = -(V1y - Vy) / (V1x - Vx);
         // b = 1;
@@ -74,13 +74,13 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
         }
     }
 
-    protected final void tangentStep(Point<E> f0,
-                                     Element a, Element b, Element c,
-                                     Element Vx, Element Vy,
-                                     Element curveA,
-                                     Element e0,
-                                     E Qx, E Qy,
-                                     Element f) {
+    protected final void tangentStep(final Point<E> f0,
+                                     final Element a, final Element b, final Element c,
+                                     final Element Vx, final Element Vy,
+                                     final Element curveA,
+                                     final Element e0,
+                                     final E Qx, final E Qy,
+                                     final Element f) {
         //computeTangent(a, b, c, Vx, Vy, curveA, e0);
         //a = -slope_tangent(V.x, V.y);
         //b = 1;
@@ -98,13 +98,13 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
         f.mul(f0);
     }
 
-    protected final void tangentStep(Point<E> f0,
-                                     Element a, Element b, Element c,
-                                     Element[] Vs,
-                                     Element curveA,
-                                     Element e0,
-                                     Element[] Qs,
-                                     Element f) {
+    protected final void tangentStep(final Point<E> f0,
+                                     final Element a, final Element b, final Element c,
+                                     final Element[] Vs,
+                                     final Element curveA,
+                                     final Element e0,
+                                     final Element[] Qs,
+                                     final Element f) {
         //computeTangent(a, b, c, Vx, Vy, curveA, e0);
         //a = -slope_tangent(V.x, V.y);
         //b = 1;
@@ -127,13 +127,13 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
         }
     }
 
-    protected final void tangentStepProjective(Point<E> f0,
-                                               Element a, Element b, Element c,
-                                               Element Vx, Element Vy, Element z,
-                                               Element z2,
-                                               Element e0,
-                                               E Qx, E Qy,
-                                               Element f) {
+    protected final void tangentStepProjective(final Point<E> f0,
+                                               final Element a, final Element b,final  Element c,
+                                               final Element Vx, final Element Vy, final Element z,
+                                               final Element z2,
+                                               final Element e0,
+                                               final E Qx, final E Qy,
+                                               final Element f) {
         // Compute the tangent line T (aX + bY + c) at point V = (Vx, Vy, z)
 
         a.set(z2).square();
@@ -163,10 +163,10 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
                                        E Qx, E Qy);
 
 
-    protected final void computeTangent(Element a, Element b, Element c,
-                                        Element Vx, Element Vy,
-                                        Element curveA,
-                                        Element temp) {
+    protected final void computeTangent(final Element a, final Element b, final Element c,
+                                        final Element Vx, final Element Vy,
+                                        final Element curveA,
+                                        final Element temp) {
         //a = -slope_tangent(V.x, V.y);
         //b = 1;
         //c = -(V.y + aV.x);
@@ -180,11 +180,11 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
         c.set(a).mul(Vx).add(temp.set(b).mul(Vy)).negate();
     }
 
-    protected final void computeTangent(MillerPreProcessingInfo info,
-                                        Element a, Element b, Element c,
-                                        Element Vx, Element Vy,
-                                        Element curveA,
-                                        Element temp) {
+    protected final void computeTangent(final MillerPreProcessingInfo info,
+                                        final Element a, final Element b, final Element c,
+                                        final Element Vx, final Element Vy,
+                                        final Element curveA,
+                                        final Element temp) {
         //a = -slope_tangent(Z.x, Z.y);
         //b = 1;
         //c = -(Z.y + a * Z.x);
@@ -223,10 +223,10 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
      * @param V1y  V1's y.
      * @param temp temp element.
      */
-    protected final void computeLine(Element a, Element b, Element c,
-                                     Element Vx, Element Vy,
-                                     Element V1x, Element V1y,
-                                     Element temp) {
+    protected final void computeLine(final Element a, final Element b, final Element c,
+                                     final Element Vx, final Element Vy,
+                                     final Element V1x, final Element V1y,
+                                     final Element temp) {
 
         // a = -(V1y - Vy) / (V1x - Vx);
         // b = 1;
@@ -243,11 +243,11 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
         c.set(Vx).mul(V1y).sub(temp.set(Vy).mul(V1x));
     }
 
-    protected final void computeLine(MillerPreProcessingInfo info,
-                                     Element a, Element b, Element c,
-                                     Element Vx, Element Vy,
-                                     Element V1x, Element V1y,
-                                     Element temp) {
+    protected final void computeLine(final MillerPreProcessingInfo info,
+                                     final Element a, final Element b, final Element c,
+                                     final Element Vx, final Element Vy,
+                                     final Element V1x, final Element V1y,
+                                     final Element temp) {
         // a = -(V1y - Vy) / (V1x - Vx);
         // b = 1;
         // c = -(Vy + a * Vx);
@@ -266,7 +266,7 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
     }
 
 
-    protected final Element lucasEven(Point in, BigInteger cofactor) {
+    protected final Element lucasEven(final Point in, final BigInteger cofactor) {
         //assumes cofactor is even
         //mangles in
         //in cannot be out
@@ -322,7 +322,7 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
         return out;
     }
 
-    protected final void lucasOdd(Point out, Point in, Point temp, BigInteger cofactor) {
+    protected final void lucasOdd(final Point out, final Point in, final Point temp, final BigInteger cofactor) {
         //assumes cofactor is odd
         //overwrites in and temp, out must not be in
         //luckily this touchy routine is only used internally
@@ -375,7 +375,7 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
 
     public static class MillerPreProcessingInfo {
         public int numRow = 0;
-        public Element[][] table;
+        public final Element[][] table;
 
         public MillerPreProcessingInfo(int size) {
             this.table = new Element[size][3];
@@ -429,7 +429,6 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
             }
         }
     }
-
 
     public static class JacobPoint {
 
@@ -516,6 +515,5 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
 
 
     }
-
 
 }

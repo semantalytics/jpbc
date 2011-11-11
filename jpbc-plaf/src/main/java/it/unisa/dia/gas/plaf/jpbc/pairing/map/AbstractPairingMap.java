@@ -10,7 +10,7 @@ import it.unisa.dia.gas.jpbc.Point;
  */
 public abstract class AbstractPairingMap implements PairingMap {
 
-    protected Pairing pairing;
+    protected final Pairing pairing;
 
     protected AbstractPairingMap(Pairing pairing) {
         this.pairing = pairing;
