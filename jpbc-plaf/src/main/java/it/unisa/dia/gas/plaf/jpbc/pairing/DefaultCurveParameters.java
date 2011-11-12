@@ -18,6 +18,7 @@ public class DefaultCurveParameters implements CurveParameters, Externalizable {
 
     protected final LinkedHashMap<String, String> parameters;
 
+
     public DefaultCurveParameters() {
         this.parameters = new LinkedHashMap<String, String>();
     }
@@ -186,6 +187,22 @@ public class DefaultCurveParameters implements CurveParameters, Externalizable {
         load(new ByteArrayInputStream(in.readUTF().getBytes()));
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        DefaultCurveParameters that = (DefaultCurveParameters) o;
+
+        if (parameters != null ? !parameters.equals(that.parameters) : that.parameters != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return parameters != null ? parameters.hashCode() : 0;
+    }
 
     public void put(String key, String value) {
         parameters.put(key, value);
