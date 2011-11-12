@@ -101,6 +101,11 @@ public class TypeATateNafProjectiveMillerPairingMap extends AbstractMillerPairin
     }
 
 
+    public int getPairingPreProcessingTableLength() {
+        getPairingPreProcessingLengthInBytes();
+        return pairingPreProcessingTableLength;
+    }
+
     final void tatePow(Point out, Point in, BigInteger cofactor) {
         Element in1 = in.getY();
         //simpler but slower:
@@ -219,7 +224,7 @@ public class TypeATateNafProjectiveMillerPairingMap extends AbstractMillerPairin
         }
 
         public TypeATateNafProjectiveMillerPairingPreProcessing(Point in1) {
-            super(in1, pairingPreProcessingTableLength);
+            super(in1, getPairingPreProcessingTableLength());
 
             JacobPoint V = new JacobPoint(in1.getX(), in1.getY(), in1.getX().getField().newOneElement());
             Point nP = (Point) in1.duplicate().negate();
