@@ -31,14 +31,6 @@
         </dependency>
 
         <dependency>
-            <groupId>it.unisa.dia.gas</groupId>
-            <artifactId>jpbc-plaf</artifactId>
-            <version>1.2.0</version>
-            <classifier>tests</classifier>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
             <groupId>net.java.dev.jna</groupId>
             <artifactId>jna</artifactId>
             <version>3.2.5</version>
