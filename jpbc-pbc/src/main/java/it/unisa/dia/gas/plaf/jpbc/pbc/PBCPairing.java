@@ -135,8 +135,8 @@ public class PBCPairing extends AbstractPairing {
 
         public byte[] toBytes() {
             if (WrapperLibraryProvider.getWrapperLibrary().pbc_is_pairing_pp_io_available()) {
-                byte[] bytes = new byte[WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_pp_length_in_bytes(pairingPPType)];
-                WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_pp_to_bytes(bytes, this.in1);
+                byte[] bytes = new byte[WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_pp_length_in_bytes(pairing)];
+                WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_pp_to_bytes(bytes, pairingPPType);
                 return bytes;
             } else {
                 byte[] bytes = new byte[WrapperLibraryProvider.getWrapperLibrary().pbc_element_length_in_bytes(this.in1)];
