@@ -23,7 +23,7 @@
         <echo message="BaseDir = ${basedir}"/>
         <echo message="Starting Benchmarks..."/>
 
-        <java fork="true" classname="it.unisa.dia.gas.jpbc.benchmark.Comparisonbenchmark">
+        <java fork="true" classname="it.unisa.dia.gas.jpbc.benchmark.ComparisonBenchmarker">
             <jvmarg value="-Xms512m"/>
             <jvmarg value="-Xmx1024m"/>
             <arg value="1000"/>
@@ -35,6 +35,17 @@
             <arg value="${basedir}/params/benchmark/e.properties"/>
             <arg value="${basedir}/params/benchmark/f.properties"/>
             <arg value="${basedir}/params/benchmark/g149.properties"/>
+            <classpath>
+                <path refid="runtime.classpath"/>
+            </classpath>
+        </java>
+
+    </target>
+
+
+    <target name="pbcinfo">
+
+        <java fork="true" classname="it.unisa.dia.gas.plaf.jpbc.wrapper.jna.WrapperLibraryTest">
             <classpath>
                 <path refid="runtime.classpath"/>
             </classpath>

@@ -46,6 +46,7 @@ endif(COMMAND cmake_policy)
 # Collect all source files recursively to be compiled
 #====================================================
 
+	file( GLOB_RECURSE jpbc-pbc-source src/main/c/*.h )
 	file( GLOB_RECURSE jpbc-pbc-source src/main/c/*.c )
 
 #============================================================

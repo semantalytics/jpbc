@@ -1,3 +1,5 @@
+#include "pbc_wrapper.h"
+
 #include <stdlib.h>
 #include <unistd.h>
 #include <time.h>
@@ -157,6 +159,33 @@ void pbc_pairing_init_inp_buf(pairing_t pairing, const char *buf, size_t len) {
     pairing_init_set_buf (pairing, buf, len);
     //pairing_init_inp_buf (pairing, buf, len);
 }
+
+#ifdef __PBC_PAIRING_PP_IO__
+
+    static int _pbc_is_pairing_pp_io_available = 0;
+
+    int pbc_pairing_pp_length_in_bytes(Pointer p) {
+        return -1;
+    }
+
+    int pbc_pairing_pp_init_from_bytes(Pointer p, byte[] data, Pointer pairing) {
+        return -1;
+    }
+
+    void pbc_pairing_pp_to_bytes(byte[] data, Pointer p) {
+        return;
+    }
+
+#else
+
+    static int _pbc_is_pairing_pp_io_available = 1;
+
+#endif
+
+int pbc_is_pairing_pp_io_available() {
+    return _pbc_is_pairing_pp_io_available;
+}
+
 
 void pbc_pairing_pp_init(pairing_pp_t p, element_t in1, pairing_t pairing) {
     pairing_pp_init(p, in1, pairing);

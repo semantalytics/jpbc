@@ -23,7 +23,7 @@ public class PBCPairing extends AbstractPairing {
 
     public PBCPairing(CurveParameters curveParameters) {
         if (!WrapperLibraryProvider.isAvailable())
-            throw new IllegalStateException("PBC support not available.");
+            throw new IllegalStateException("PBC support is not available.");
 
         // Init pairing...
         pairing = new PBCPairingType(curveParameters.toString(" "));
@@ -116,9 +116,10 @@ public class PBCPairing extends AbstractPairing {
         }
 
         public PBCPairingPreProcessing(byte[] source) {
-            this.in1 = ((PBCElement) in1).value;
-            this.pairingPPType = new PBCPairingPPType(this.in1, source, pairing);
-            // fromBytes(source);
+            if (WrapperLibraryProvider.getWrapperLibrary().pbc_is_pairing_pp_io_available())
+                this.pairingPPType = new PBCPairingPPType(source, pairing);
+            else
+                fromBytes(source);
         }
 
         public Element pairing(Element in2) {
@@ -133,13 +134,15 @@ public class PBCPairing extends AbstractPairing {
         }
 
         public byte[] toBytes() {
-            /*byte[] bytes = new byte[WrapperLibraryProvider.getWrapperLibrary().pbc_element_length_in_bytes(this.in1)];
-            WrapperLibraryProvider.getWrapperLibrary().pbc_element_to_bytes(bytes, this.in1);
-            return bytes;*/
-
-            byte[] bytes = new byte[WrapperLibraryProvider.getWrapperLibrary().pbc_element_length_in_bytes(this.in1)];
-            WrapperLibraryProvider.getWrapperLibrary().pbc_element_to_bytes(bytes, this.in1);
-            return bytes;
+            if (WrapperLibraryProvider.getWrapperLibrary().pbc_is_pairing_pp_io_available()) {
+                byte[] bytes = new byte[WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_pp_length_in_bytes(pairingPPType)];
+                WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_pp_to_bytes(bytes, this.in1);
+                return bytes;
+            } else {
+                byte[] bytes = new byte[WrapperLibraryProvider.getWrapperLibrary().pbc_element_length_in_bytes(this.in1)];
+                WrapperLibraryProvider.getWrapperLibrary().pbc_element_to_bytes(bytes, this.in1);
+                return bytes;
+            }
         }
 
         public void fromBytes(byte[] source) {
