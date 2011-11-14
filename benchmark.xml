@@ -45,7 +45,7 @@
 
     <target name="pbcinfo">
 
-        <java fork="true" classname="it.unisa.dia.gas.plaf.jpbc.wrapper.jna.WrapperLibraryTest">
+        <java fork="true" classname="it.unisa.dia.gas.plaf.jpbc.wrapper.jna.WrapperLibraryInfo">
             <classpath>
                 <path refid="runtime.classpath"/>
             </classpath>
