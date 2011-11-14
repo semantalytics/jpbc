@@ -116,7 +116,9 @@ public class PBCPairing extends AbstractPairing {
         }
 
         public PBCPairingPreProcessing(byte[] source) {
-            fromBytes(source);
+            this.in1 = ((PBCElement) in1).value;
+            this.pairingPPType = new PBCPairingPPType(this.in1, source, pairing);
+            // fromBytes(source);
         }
 
         public Element pairing(Element in2) {
@@ -131,6 +133,10 @@ public class PBCPairing extends AbstractPairing {
         }
 
         public byte[] toBytes() {
+            /*byte[] bytes = new byte[WrapperLibraryProvider.getWrapperLibrary().pbc_element_length_in_bytes(this.in1)];
+            WrapperLibraryProvider.getWrapperLibrary().pbc_element_to_bytes(bytes, this.in1);
+            return bytes;*/
+
             byte[] bytes = new byte[WrapperLibraryProvider.getWrapperLibrary().pbc_element_length_in_bytes(this.in1)];
             WrapperLibraryProvider.getWrapperLibrary().pbc_element_to_bytes(bytes, this.in1);
             return bytes;
