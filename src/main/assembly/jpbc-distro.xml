@@ -150,11 +150,7 @@
             <outputDirectory>.</outputDirectory>
         </file>
         <file>
-            <source>benchmark.xml</source>
-            <outputDirectory>.</outputDirectory>
-        </file>
-        <file>
-            <source>curvegen.xml</source>
+            <source>jpbc.xml</source>
             <outputDirectory>.</outputDirectory>
         </file>
         <file>

@@ -13,6 +13,8 @@ import org.bouncycastle.crypto.generators.ElGamalParametersGenerator;
 import org.bouncycastle.crypto.params.ElGamalParameters;
 import org.junit.Test;
 
+import java.io.DataInputStream;
+import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Arrays;
 
@@ -31,7 +33,7 @@ public class UTBDP10StrongKEMEngineTest extends AbstractJPBCCryptoTest {
 
     @Test
     public void testUTBDP10StrongKEMEngine() {
-        UTBDP10StrongParameters parameters = createParameters(1024);
+        UTBDP10StrongParameters parameters = createParameters("it/unisa/dia/gas/crypto/jpbc/encryption/ut/bdp10/elgamal.param");
         AsymmetricCipherKeyPair keyPair = setup(parameters);
 
         byte[][] ct = encaps(keyPair.getPublic());
@@ -52,6 +54,35 @@ public class UTBDP10StrongKEMEngineTest extends AbstractJPBCCryptoTest {
         return generator.generateParameters();
     }
 
+    protected UTBDP10StrongParameters createParameters(String elgamalParamsPath) {
+        ElGamalParameters elGamalParameters;
+
+        try {
+            DataInputStream din = new DataInputStream(Thread.currentThread().getContextClassLoader().getResourceAsStream(elgamalParamsPath));
+            int len = din.readInt();
+            byte[] buffer = new byte[len];
+            din.readFully(buffer);
+            BigInteger g = new BigInteger(buffer);
+
+            len = din.readInt();
+            buffer = new byte[len];
+            din.readFully(buffer);
+            BigInteger p = new BigInteger(buffer);
+
+            int l = din.readInt();
+
+            din.close();
+
+            elGamalParameters = new ElGamalParameters(p, g, l);
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
+
+        UTBDP10StrongParametersGenerator generator = new UTBDP10StrongParametersGenerator();
+        generator.init(curveParameters, elGamalParameters);
+        return generator.generateParameters();
+    }
+    
     protected AsymmetricCipherKeyPair setup(UTBDP10StrongParameters parameters) {
         UTBDP10StrongKeyPairGenerator setup = new UTBDP10StrongKeyPairGenerator();
         setup.init(new UTBDP10StrongKeyGenerationParameters(new SecureRandom(), parameters));
