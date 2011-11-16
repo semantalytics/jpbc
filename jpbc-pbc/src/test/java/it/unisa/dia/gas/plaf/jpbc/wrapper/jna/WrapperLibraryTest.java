@@ -16,8 +16,6 @@ public class WrapperLibraryTest extends TestCase {
                 
         assertTrue(WrapperLibraryProvider.isAvailable());
 
-        System.out.println("pbc_is_pairing_pp_io_available() = " + WrapperLibraryProvider.getWrapperLibrary().pbc_is_pairing_pp_io_available());
-
         System.out.println("pbc_pairing_sizeof() = " + WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_sizeof());
         System.out.println("pbc_pairing_pp_sizeof() = " + WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_pp_sizeof());
         System.out.println("gmp_mpz_sizeof() = " + WrapperLibraryProvider.getWrapperLibrary().gmp_mpz_sizeof());
@@ -29,24 +27,6 @@ public class WrapperLibraryTest extends TestCase {
         assertNotSame(0, WrapperLibraryProvider.getWrapperLibrary().gmp_mpz_sizeof());
         assertNotSame(0, WrapperLibraryProvider.getWrapperLibrary().pbc_element_pp_sizeof());
         assertNotSame(0, WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_pp_sizeof());
-    }
-
-    public static void main(String[] args) {
-        System.out.println(System.getProperty("java.library.path"));
-
-        // Check for link library
-        if (!WrapperLibraryProvider.isAvailable()) {
-            System.out.println("PBC is not available.");
-            return;
-        }
-        System.out.println("PBC is available.");
-
-        System.out.println("pbc_is_pairing_pp_io_available() = " + WrapperLibraryProvider.getWrapperLibrary().pbc_is_pairing_pp_io_available());
-        System.out.println("pbc_pairing_sizeof() = " + WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_sizeof());
-        System.out.println("pbc_pairing_pp_sizeof() = " + WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_pp_sizeof());
-        System.out.println("gmp_mpz_sizeof() = " + WrapperLibraryProvider.getWrapperLibrary().gmp_mpz_sizeof());
-        System.out.println("pbc_element_sizeof() = " + WrapperLibraryProvider.getWrapperLibrary().pbc_element_sizeof());
-        System.out.println("pbc_element_pp_sizeof() = " + WrapperLibraryProvider.getWrapperLibrary().pbc_element_pp_sizeof());
     }
 
 }
