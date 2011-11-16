@@ -168,8 +168,8 @@ void pbc_pairing_init_inp_buf(pairing_t pairing, const char *buf, size_t len) {
         return pairing_pp_length_in_bytes(p);
     }
 
-    int pbc_pairing_pp_init_from_bytes(pairing_pp_t p, unsigned char *data, pairing_t pairing) {
-        return pairing_pp_init_from_bytes(p, data, pairing);
+    int pbc_pairing_pp_init_from_bytes(pairing_pp_t p, pairing_t pairing, unsigned char *data, int offset) {
+        return pairing_pp_init_from_bytes(p, data + offset, pairing);
     }
 
     void pbc_pairing_pp_to_bytes(unsigned char *data, pairing_pp_t p) {

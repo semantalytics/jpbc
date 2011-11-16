@@ -18,11 +18,11 @@ public class PBCPairingPPType extends Memory {
         WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_pp_init(this, element, pairing);
     }
 
-    public PBCPairingPPType(byte[] source, Pointer pairing) {
+    public PBCPairingPPType(Pointer pairing, byte[] source, int offset) {
         this();
 
         if (WrapperLibraryProvider.getWrapperLibrary().pbc_is_pairing_pp_io_available())
-            WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_pp_init_from_bytes(this, source, pairing);
+            WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_pp_init_from_bytes(this, pairing, source, offset);
         else
             throw new IllegalStateException("Initialization not supported.");
     }

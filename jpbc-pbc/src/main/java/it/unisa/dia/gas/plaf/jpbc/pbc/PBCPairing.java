@@ -60,12 +60,12 @@ public class PBCPairing extends AbstractPairing {
         PBCElement out = (PBCElement) GT.newElement();
 
         Pointer[] in1Pointers = new Pointer[in1.length];
-        for (int i = 0; i <in1.length; i++) {
+        for (int i = 0; i < in1.length; i++) {
             in1Pointers[i] = ((PBCElement) in1[i]).getValue();
         }
 
         Pointer[] in2Pointers = new Pointer[in2.length];
-        for (int i = 0; i <in2.length; i++) {
+        for (int i = 0; i < in2.length; i++) {
             in2Pointers[i] = ((PBCElement) in2[i]).getValue();
         }
 
@@ -86,8 +86,12 @@ public class PBCPairing extends AbstractPairing {
         return new PBCPairingPreProcessing(source);
     }
 
+    public PairingPreProcessing pairing(byte[] source, int offset) {
+        return new PBCPairingPreProcessing(source, offset);
+    }
+
     public int getPairingPreProcessingLengthInBytes() {
-	System.out.println("PBCPairing#getPairingPreProcessingLengthInBytes");
+        System.out.println("PBCPairing#getPairingPreProcessingLengthInBytes");
         if (WrapperLibraryProvider.getWrapperLibrary().pbc_is_pairing_pp_io_available())
             return WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_pp_length_in_bytes(pairing);
         else
@@ -125,12 +129,21 @@ public class PBCPairing extends AbstractPairing {
         }
 
         public PBCPairingPreProcessing(byte[] source) {
-            if (WrapperLibraryProvider.getWrapperLibrary().pbc_is_pairing_pp_io_available()){
-             	System.out.println("PBCPairing#PBCPairingPreProcessing");
-		   this.pairingPPType = new PBCPairingPPType(source, pairing);
-		System.out.println("PBCPairing#PBCPairingPreProcessing finished");
-            }else
-                fromBytes(source);
+            if (WrapperLibraryProvider.getWrapperLibrary().pbc_is_pairing_pp_io_available()) {
+                System.out.println("PBCPairing#PBCPairingPreProcessing");
+                this.pairingPPType = new PBCPairingPPType(pairing, source, 0);
+                System.out.println("PBCPairing#PBCPairingPreProcessing finished");
+            } else
+                fromBytes(source, 0);
+        }
+
+        public PBCPairingPreProcessing(byte[] source, int offset) {
+            if (WrapperLibraryProvider.getWrapperLibrary().pbc_is_pairing_pp_io_available()) {
+                System.out.println("PBCPairing#PBCPairingPreProcessing(offset)");
+                this.pairingPPType = new PBCPairingPPType(pairing, source, offset);
+                System.out.println("PBCPairing#PBCPairingPreProcessing(offset) finished");
+            } else
+                fromBytes(source, offset);
         }
 
         public Element pairing(Element in2) {
@@ -146,10 +159,10 @@ public class PBCPairing extends AbstractPairing {
 
         public byte[] toBytes() {
             if (WrapperLibraryProvider.getWrapperLibrary().pbc_is_pairing_pp_io_available()) {
-		System.out.println("PBCPairing#toBytes : "+ WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_pp_length_in_bytes(pairing));
-		byte[] bytes = new byte[WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_pp_length_in_bytes(pairing)];
+                System.out.println("PBCPairing#toBytes : " + WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_pp_length_in_bytes(pairing));
+                byte[] bytes = new byte[WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_pp_length_in_bytes(pairing)];
                 WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_pp_to_bytes(bytes, pairingPPType);
-		System.out.println("PBCPairing#toBytes finished.");
+                System.out.println("PBCPairing#toBytes finished.");
                 return bytes;
             } else {
                 byte[] bytes = new byte[WrapperLibraryProvider.getWrapperLibrary().pbc_element_length_in_bytes(this.in1)];
@@ -158,9 +171,9 @@ public class PBCPairing extends AbstractPairing {
             }
         }
 
-        public void fromBytes(byte[] source) {
+        public void fromBytes(byte[] source, int offset) {
             PBCElement tmep = (PBCElement) getG1().newElement();
-            tmep.setFromBytes(source);
+            tmep.setFromBytes(source, offset);
 
             this.in1 = tmep.value;
             this.pairingPPType = new PBCPairingPPType(this.in1, pairing);
