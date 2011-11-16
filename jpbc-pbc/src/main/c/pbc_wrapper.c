@@ -162,6 +162,10 @@ void pbc_pairing_init_inp_buf(pairing_t pairing, const char *buf, size_t len) {
 
 #ifdef __PBC_PAIRING_PP_IO__
 
+    int pbc_is_pairing_pp_io_flag() {
+        return 1;
+    }
+
     int pbc_is_pairing_pp_io_available(pairing_t pairing) {
         return pairing->pp_io_available();
     }
@@ -179,6 +183,10 @@ void pbc_pairing_init_inp_buf(pairing_t pairing, const char *buf, size_t len) {
     }
 
 #else
+
+    int pbc_is_pairing_pp_io_flag() {
+        return 0;
+    }
 
     int pbc_is_pairing_pp_io_available(pairing_t pairing) {
         return 0;

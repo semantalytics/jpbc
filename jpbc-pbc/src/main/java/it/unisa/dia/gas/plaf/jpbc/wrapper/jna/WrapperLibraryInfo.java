@@ -15,7 +15,7 @@ public class WrapperLibraryInfo {
         }
         System.out.println("PBC is available.");
 
-        System.out.println("pbc_is_pairing_pp_io_available() = " + WrapperLibraryProvider.getWrapperLibrary().pbc_is_pairing_pp_io_available());
+        System.out.println("pbc_is_pairing_pp_io_flag() = " + WrapperLibraryProvider.getWrapperLibrary().pbc_is_pairing_pp_io_flag());
         System.out.println("pbc_pairing_sizeof() = " + WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_sizeof());
         System.out.println("pbc_pairing_pp_sizeof() = " + WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_pp_sizeof());
         System.out.println("gmp_mpz_sizeof() = " + WrapperLibraryProvider.getWrapperLibrary().gmp_mpz_sizeof());

@@ -21,7 +21,7 @@ public class PBCPairingPPType extends Memory {
     public PBCPairingPPType(Pointer pairing, byte[] source, int offset) {
         this();
 
-        if (WrapperLibraryProvider.getWrapperLibrary().pbc_is_pairing_pp_io_available())
+        if (WrapperLibraryProvider.getWrapperLibrary().pbc_is_pairing_pp_io_available(pairing))
             WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_pp_init_from_bytes(this, pairing, source, offset);
         else
             throw new IllegalStateException("Initialization not supported.");
