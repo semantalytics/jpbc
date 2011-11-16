@@ -13,6 +13,7 @@ import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.PBCPairingPPType;
 import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.PBCPairingType;
 import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.WrapperLibraryProvider;
 
+
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
@@ -86,6 +87,7 @@ public class PBCPairing extends AbstractPairing {
     }
 
     public int getPairingPreProcessingLengthInBytes() {
+	System.out.println("PBCPairing#getPairingPreProcessingLengthInBytes");
         if (WrapperLibraryProvider.getWrapperLibrary().pbc_is_pairing_pp_io_available())
             return WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_pp_length_in_bytes(pairing);
         else
@@ -123,9 +125,11 @@ public class PBCPairing extends AbstractPairing {
         }
 
         public PBCPairingPreProcessing(byte[] source) {
-            if (WrapperLibraryProvider.getWrapperLibrary().pbc_is_pairing_pp_io_available())
-                this.pairingPPType = new PBCPairingPPType(source, pairing);
-            else
+            if (WrapperLibraryProvider.getWrapperLibrary().pbc_is_pairing_pp_io_available()){
+             	System.out.println("PBCPairing#PBCPairingPreProcessing");
+		   this.pairingPPType = new PBCPairingPPType(source, pairing);
+		System.out.println("PBCPairing#PBCPairingPreProcessing finished");
+            }else
                 fromBytes(source);
         }
 
@@ -142,8 +146,10 @@ public class PBCPairing extends AbstractPairing {
 
         public byte[] toBytes() {
             if (WrapperLibraryProvider.getWrapperLibrary().pbc_is_pairing_pp_io_available()) {
-                byte[] bytes = new byte[WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_pp_length_in_bytes(pairing)];
+		System.out.println("PBCPairing#toBytes : "+ WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_pp_length_in_bytes(pairing));
+		byte[] bytes = new byte[WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_pp_length_in_bytes(pairing)];
                 WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_pp_to_bytes(bytes, pairingPPType);
+		System.out.println("PBCPairing#toBytes finished.");
                 return bytes;
             } else {
                 byte[] bytes = new byte[WrapperLibraryProvider.getWrapperLibrary().pbc_element_length_in_bytes(this.in1)];
