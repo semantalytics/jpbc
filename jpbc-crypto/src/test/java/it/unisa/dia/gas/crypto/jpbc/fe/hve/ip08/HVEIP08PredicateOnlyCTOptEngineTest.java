@@ -30,6 +30,7 @@ public class HVEIP08PredicateOnlyCTOptEngineTest extends AbstractJPBCCryptoTest 
     public static Collection parameters() {
         Object[][] data = {
                 {false, "it/unisa/dia/gas/plaf/jpbc/crypto/a_181_603.properties"},
+                {true, "it/unisa/dia/gas/plaf/jpbc/crypto/a_181_603.properties"},
         };
 
         return Arrays.asList(data);

@@ -85,6 +85,13 @@ public class PBCPairing extends AbstractPairing {
         return new PBCPairingPreProcessing(source);
     }
 
+    public int getPairingPreProcessingLengthInBytes() {
+        if (WrapperLibraryProvider.getWrapperLibrary().pbc_is_pairing_pp_io_available())
+            return WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_pp_length_in_bytes(pairing);
+        else
+            return WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_length_in_bytes_G1(pairing);
+    }
+
     public boolean isAlmostCoddh(Element a, Element b, Element c, Element d) {
         return WrapperLibraryProvider.getWrapperLibrary().pbc_is_almost_coddh(
                 ((PBCElement) a).getValue(),
