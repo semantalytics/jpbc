@@ -41,7 +41,7 @@ public interface WrapperLibrary extends Library {
     void pbc_pairing_pp_init(Pointer p, Pointer in1, Pointer pairing);
 
 
-    boolean pbc_is_pairing_pp_io_available();
+    boolean pbc_is_pairing_pp_io_available(Pointer pairing);
 
     int pbc_pairing_pp_length_in_bytes(Pointer pairing);
 

@@ -92,7 +92,7 @@ public class PBCPairing extends AbstractPairing {
 
     public int getPairingPreProcessingLengthInBytes() {
         System.out.println("PBCPairing#getPairingPreProcessingLengthInBytes");
-        if (WrapperLibraryProvider.getWrapperLibrary().pbc_is_pairing_pp_io_available())
+        if (WrapperLibraryProvider.getWrapperLibrary().pbc_is_pairing_pp_io_available(pairing))
             return WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_pp_length_in_bytes(pairing);
         else
             return WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_length_in_bytes_G1(pairing);
@@ -129,7 +129,7 @@ public class PBCPairing extends AbstractPairing {
         }
 
         public PBCPairingPreProcessing(byte[] source) {
-            if (WrapperLibraryProvider.getWrapperLibrary().pbc_is_pairing_pp_io_available()) {
+            if (WrapperLibraryProvider.getWrapperLibrary().pbc_is_pairing_pp_io_available(pairing)) {
                 System.out.println("PBCPairing#PBCPairingPreProcessing");
                 this.pairingPPType = new PBCPairingPPType(pairing, source, 0);
                 System.out.println("PBCPairing#PBCPairingPreProcessing finished");
@@ -138,7 +138,7 @@ public class PBCPairing extends AbstractPairing {
         }
 
         public PBCPairingPreProcessing(byte[] source, int offset) {
-            if (WrapperLibraryProvider.getWrapperLibrary().pbc_is_pairing_pp_io_available()) {
+            if (WrapperLibraryProvider.getWrapperLibrary().pbc_is_pairing_pp_io_available(pairing)) {
                 System.out.println("PBCPairing#PBCPairingPreProcessing(offset)");
                 this.pairingPPType = new PBCPairingPPType(pairing, source, offset);
                 System.out.println("PBCPairing#PBCPairingPreProcessing(offset) finished");
@@ -158,7 +158,7 @@ public class PBCPairing extends AbstractPairing {
         }
 
         public byte[] toBytes() {
-            if (WrapperLibraryProvider.getWrapperLibrary().pbc_is_pairing_pp_io_available()) {
+            if (WrapperLibraryProvider.getWrapperLibrary().pbc_is_pairing_pp_io_available(pairing)) {
                 System.out.println("PBCPairing#toBytes : " + WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_pp_length_in_bytes(pairing));
                 byte[] bytes = new byte[WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_pp_length_in_bytes(pairing)];
                 WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_pp_to_bytes(bytes, pairingPPType);
