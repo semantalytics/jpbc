@@ -18,6 +18,9 @@ import java.math.BigInteger;
 public class TypeATateProjectiveMillerPairingMap extends AbstractMillerPairingMap {
     protected TypeAPairing pairing;
 
+    protected int pairingPreProcessingTableLength = -1;
+    protected int pairingPreProcessingLenghtInBytes = -1;
+
 
     public TypeATateProjectiveMillerPairingMap(TypeAPairing pairing) {
         super(pairing);
@@ -102,6 +105,16 @@ public class TypeATateProjectiveMillerPairingMap extends AbstractMillerPairingMa
         tatePow(out, f, f0, pairing.phikOnr);
 
         return new GTFiniteElement(this, (GTFiniteField) pairing.getGT(), out);
+    }
+
+    @Override
+    public int getPairingPreProcessingLengthInBytes() {
+        if (pairingPreProcessingLenghtInBytes == -1){
+            pairingPreProcessingTableLength = pairing.exp2 + 1;
+            pairingPreProcessingLenghtInBytes = 4 + (pairingPreProcessingTableLength * 3 * pairing.Fq.getLengthInBytes());
+        }
+
+        return pairingPreProcessingLenghtInBytes;
     }
 
     public void finalPow(Element element) {

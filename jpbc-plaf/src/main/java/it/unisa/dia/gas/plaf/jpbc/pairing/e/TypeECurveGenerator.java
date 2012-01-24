@@ -103,7 +103,7 @@ public class TypeECurveGenerator implements CurveGenerator {
 
         // We may need to twist it.
         // Pick a random point P and twist the curve if P has the wrong order.
-        if (!curveField.newElement().setToRandom().mul(n).isZero())
+        if (!curveField.newRandomElement().mul(n).isZero())
             curveField.twist();
 
         DefaultCurveParameters params = new DefaultCurveParameters();

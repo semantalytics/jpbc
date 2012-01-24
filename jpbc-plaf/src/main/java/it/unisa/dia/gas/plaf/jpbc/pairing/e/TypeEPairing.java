@@ -78,7 +78,7 @@ public class TypeEPairing extends AbstractPairing {
         CurveField<Field> Eq = initEq();
         this.Eq = Eq;
 
-        // k=1, hence phikOnr = (p-1)/r
+        // k=1, hence phikOnr = (q-1)/r
         phikonr = Fq.getOrder().subtract(BigInteger.ONE).divide(r);
 
         // Init G1, G2, GT

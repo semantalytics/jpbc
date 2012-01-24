@@ -99,6 +99,7 @@ public class HVEIP08PredicateOnlyCTOptEngine extends PredicateOnlyPairingAsymmet
                 W.add(w);
             }
 
+            long start = System.currentTimeMillis();
             // Run the rest
             Element result = pairing.getGT().newOneElement();
             for (int i = 0; i < secretKey.getParameters().getN(); i++) {
@@ -110,6 +111,8 @@ public class HVEIP08PredicateOnlyCTOptEngine extends PredicateOnlyPairingAsymmet
                     );
                 }
             }
+            long end =System.currentTimeMillis();
+            System.out.println("elapsedCT : " +  (end-start));
 
             return new byte[]{(byte) (result.isOne() ? 1 : 0)};
         } else if (key instanceof HVEIP08CiphertextPreprocessingParameters) {

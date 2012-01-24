@@ -1,55 +1,67 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08;
 
-import it.unisa.dia.gas.crypto.jpbc.AbstractJPBCCryptoTest;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.engines.HVEIP08PredicateOnlyCTOptEngine;
+import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.engines.HVEIP08PredicateOnlyEngine;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08KeyPairGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08ParametersGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08PredicateOnlySecretKeyGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.*;
+import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
+import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.InvalidCipherTextException;
-import org.junit.Test;
 
 import java.security.SecureRandom;
 import java.util.Random;
 
-import static org.junit.Assert.assertEquals;
-
 /**
  * @author Angelo De Caro
  */
-public class HVEIP08PredicateOnlyCTOptEngineTest extends AbstractJPBCCryptoTest {
+public class HVEIP08PredicateOnlyBenchmark {
 
-
-    public HVEIP08PredicateOnlyCTOptEngineTest(boolean usePBC, String curvePath) {
-        super(usePBC, curvePath);
+    public static void main(String[] args) {
+        HVEIP08PredicateOnlyBenchmark benchmark = new HVEIP08PredicateOnlyBenchmark();
+        benchmark.benchmark();
     }
 
+    protected CurveParameters curveParameters;
+    protected long elapsedCT, elapsedKey;
 
-    @Test
-    public void testHVEIP08PredicateOnlyCTOptEngine() {
-        int n = 5;
+
+    public void benchmark() {
+        PairingFactory.getInstance().setUsePBCWhenPossible(false);
+        curveParameters = PairingFactory.getInstance().loadCurveParameters("./params/a_181_603.properties");
+
+        int n = 20;
         AsymmetricCipherKeyPair keyPair = setup(genBinaryParam(n));
         CipherParameters parameters = ((HVEIP08KeyParameters) keyPair.getPublic()).getParameters();
 
-        int[][] vectors = createMatchingVectors(n);
-        assertEquals(true, 
-                test(
-                        keyGen(keyPair.getPrivate(), vectors[0]),
-                        preprocess(parameters, enc(keyPair.getPublic(), vectors[1]))
-                )
-        );
+        elapsedCT = elapsedKey = 0;
+        int iteration = 20;
+        for (int i = 0; i < iteration; i++) {
+            System.out.print(".");
 
-        vectors = createNonMatchingVectors(n);
-        assertEquals(false,
-                test(
-                        keyGen(keyPair.getPrivate(), vectors[0]),
-                        preprocess(parameters, enc(keyPair.getPublic(), vectors[1]))
-                )
-        );
+            int[][] vectors = createMatchingVectors(n);
+            CipherParameters secretKey = keyGen(keyPair.getPrivate(), vectors[0]);
+
+            testCT(
+                    secretKey,
+                    preprocessCT(parameters, encCT(keyPair.getPublic(), vectors[1]))
+            );
+
+            testKey(
+                    secretKey,
+                    encKey(keyPair.getPublic(), vectors[1])
+            );
+
+        }
+        System.out.println();
+        System.out.println("elapsedCT = " + elapsedCT/iteration);
+        System.out.println("elapsedKey = " + elapsedKey/iteration);
+
     }
 
 
@@ -108,7 +120,45 @@ public class HVEIP08PredicateOnlyCTOptEngineTest extends AbstractJPBCCryptoTest 
         return generator.generateKeyPair();
     }
 
-    protected byte[] enc(CipherParameters publicKey, int... attributes) {
+    protected CipherParameters keyGen(CipherParameters privateKey, int... pattern) {
+        HVEIP08PredicateOnlySecretKeyGenerator generator = new HVEIP08PredicateOnlySecretKeyGenerator();
+        generator.init(new HVEIP08SecretKeyGenerationParameters(
+                (HVEIP08MasterSecretKeyParameters) privateKey, pattern)
+        );
+
+        return generator.generateKey();
+    }
+
+
+    protected byte[] encKey(CipherParameters publicKey, int... attributes) {
+        try {
+            HVEIP08PredicateOnlyEngine engine = new HVEIP08PredicateOnlyEngine();
+            engine.init(true, new HVEIP08EncryptionParameters((HVEIP08PublicKeyParameters) publicKey, attributes));
+
+            return engine.processBlock(new byte[0], 0, 0);
+        } catch (InvalidCipherTextException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    protected boolean testKey(CipherParameters searchKey, byte[] ct) {
+        try {
+            HVEIP08PredicateOnlyEngine engine = new HVEIP08PredicateOnlyEngine();
+            engine.init(false, searchKey);
+
+            long start = System.currentTimeMillis();
+            try {
+                return engine.processBlock(ct, 0, ct.length)[0] == 1; // Meaning that the predicate is satisfied
+            } finally {
+                long end = System.currentTimeMillis();
+                elapsedKey += (end-start);
+            }
+        } catch (InvalidCipherTextException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    protected byte[] encCT(CipherParameters publicKey, int... attributes) {
         try {
             HVEIP08PredicateOnlyCTOptEngine engine = new HVEIP08PredicateOnlyCTOptEngine();
             engine.init(true, new HVEIP08EncryptionParameters((HVEIP08PublicKeyParameters) publicKey, attributes));
@@ -119,7 +169,7 @@ public class HVEIP08PredicateOnlyCTOptEngineTest extends AbstractJPBCCryptoTest 
         }
     }
 
-    protected byte[] preprocess(CipherParameters parameters, byte[] enc) {
+    protected byte[] preprocessCT(CipherParameters parameters, byte[] enc) {
         try {
             HVEIP08PredicateOnlyCTOptEngine engine = new HVEIP08PredicateOnlyCTOptEngine();
             engine.init(true, new HVEIP08CiphertextPreprocessingParameters((HVEIP08Parameters) parameters));
@@ -130,23 +180,19 @@ public class HVEIP08PredicateOnlyCTOptEngineTest extends AbstractJPBCCryptoTest 
         }
     }
 
-    
-    
-    protected CipherParameters keyGen(CipherParameters privateKey, int... pattern) {
-        HVEIP08PredicateOnlySecretKeyGenerator generator = new HVEIP08PredicateOnlySecretKeyGenerator();
-        generator.init(new HVEIP08SecretKeyGenerationParameters(
-                (HVEIP08MasterSecretKeyParameters) privateKey, pattern)
-        );
 
-        return generator.generateKey();
-    }
-
-    protected boolean test(CipherParameters searchKey, byte[] ct) {
+    protected boolean testCT(CipherParameters searchKey, byte[] ct) {
         try {
             HVEIP08PredicateOnlyCTOptEngine engine = new HVEIP08PredicateOnlyCTOptEngine();
             engine.init(false, searchKey);
 
-            return engine.processBlock(ct, 0, ct.length)[0] == 1; // Meaning that the predicate is satisfied
+            long start = System.currentTimeMillis();
+            try {
+                return engine.processBlock(ct, 0, ct.length)[0] == 1; // Meaning that the predicate is satisfied
+            } finally {
+                long end = System.currentTimeMillis();
+                elapsedCT += (end-start);
+            }
         } catch (InvalidCipherTextException e) {
             throw new RuntimeException(e);
         }

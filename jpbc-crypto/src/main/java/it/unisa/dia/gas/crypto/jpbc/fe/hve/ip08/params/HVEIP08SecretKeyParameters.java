@@ -52,6 +52,8 @@ public class HVEIP08SecretKeyParameters extends HVEIP08KeyParameters {
 
         this.allStar = false;
         this.K = null;
+
+        preProcess();
     }
 
 
