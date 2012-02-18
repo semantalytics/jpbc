@@ -250,7 +250,7 @@ public class TypeDCurveGenerator implements CurveGenerator {
 
         int d = 3;
         for (int i = 0; i < d; i++) {
-            param.put("coeff" + i, irred.getCoefficient(i).toBigInteger().toString());
+            param.put("coefficients" + i, irred.getCoefficient(i).toBigInteger().toString());
         }
         param.put("nqr", nqr.getCoefficient(0).toBigInteger().toString());
     }

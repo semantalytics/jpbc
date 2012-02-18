@@ -70,7 +70,4 @@ public abstract class AbstractPointElement<E extends Element> extends AbstractEl
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
-    public E innerProduct(Vector<E> v) {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
 }

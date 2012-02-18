@@ -13,7 +13,7 @@ package it.unisa.dia.gas.jpbc;
 public interface Pairing {
 
     /**
-     * TODO
+     * Field identifiers.
      */
     public static enum PairingFieldIdentifier {G1, G2, GT, Zr, Unknown}
 
@@ -89,10 +89,13 @@ public interface Pairing {
     PairingPreProcessing pairing(Element in1);
 
     /**
-     * TODO : finish to implement
+     * Returns the length in bytes needed to represent a PairingPreProcessing structure.
      *
-     * @return
+     * @return the length in bytes needed to represent a PairingPreProcessing structure.
      * @since 1.2.0
+     * @see #pairing(byte[])
+     * @see #pairing(Element)
+     * @see PairingPreProcessing
      */
     int getPairingPreProcessingLengthInBytes();
 
@@ -124,13 +127,19 @@ public interface Pairing {
      * @param c eventually h
      * @param d eventually h^x or h^-x
      * @return <tt>true</tt> given (g, g^x, h, h^x) or (g, g^x, h, h^-x), <tt>false</tt> otherwise.
+     * @since 1.0.0
      */
     boolean isAlmostCoddh(Element a, Element b, Element c, Element d);
 
     /**
-     * TODO:
-     * @param field
-     * @return
+     * Returns the identifier of the field if it belongs
+     * to this pairing, otherwise it returns Unknown.
+     *
+     * @param field the field whose identifier has to be determine.
+     * @return the identifier of the field if it belongs
+     * to this pairing, otherwise it returns Unknown.
+     * @since 1.2.0
+     * @see PairingFieldIdentifier
      */
     PairingFieldIdentifier getPairingFieldIdentifier(Field field);
 }

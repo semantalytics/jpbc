@@ -283,6 +283,11 @@ public class TypeATateProjectiveMillerPairingMap extends AbstractMillerPairingMa
     }
 
 
+    public int getPairingPreProcessingTableLength() {
+       getPairingPreProcessingLengthInBytes();
+       return pairingPreProcessingTableLength;
+    }
+
     public class TypeATateProjectiveMillerPairingPreProcessing extends AbstractMillerPairingPreProcessing {
 
         public TypeATateProjectiveMillerPairingPreProcessing(byte[] source, int offset) {
@@ -290,7 +295,7 @@ public class TypeATateProjectiveMillerPairingMap extends AbstractMillerPairingMa
         }
 
         public TypeATateProjectiveMillerPairingPreProcessing(Point in1) {
-            super(in1, pairing.exp2 + 1);
+            super(in1, getPairingPreProcessingTableLength());
 
             Point V = (Point) in1.duplicate();
             Point V1 = pairing.Eq.newElement();

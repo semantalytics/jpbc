@@ -16,6 +16,7 @@ public class TypeA1TateNafProjectiveMillerPairingMap extends AbstractMillerPairi
     protected final TypeA1Pairing pairing;
     protected final byte[] r;
 
+    protected int pairingPreProcessingTableLength = -1;
     protected int pairingPreProcessingLengthInBytes = -1;
 
 
@@ -73,17 +74,17 @@ public class TypeA1TateNafProjectiveMillerPairingMap extends AbstractMillerPairi
         element.set(t0);
     }
 
-    @Override
     public int getPairingPreProcessingLengthInBytes() {
-        if (pairingPreProcessingLengthInBytes == -1) {
-            pairingPreProcessingLengthInBytes = 4 + (((r.length - 2) * 2) * this.pairing.getG1().getLengthInBytes() * 3);
+        if (pairingPreProcessingLengthInBytes == -1){
+            pairingPreProcessingTableLength = r.length - 1 + BigIntegerUtils.hammingWeight(r, r.length - 2);
+            pairingPreProcessingLengthInBytes = 4 + (pairingPreProcessingTableLength * 3 * pairing.Fp.getLengthInBytes());
         }
 
         return pairingPreProcessingLengthInBytes;
     }
 
     public PairingPreProcessing pairing(Point in1) {
-        return new TypeATateNafProjectiveMillerPairingPreProcessing(in1);
+        return new TypeA1TateNafProjectiveMillerPairingPreProcessing(in1);
     }
 
     protected final void millerStep(Point out, Element a, Element b, Element c, Element Qx, Element Qy) {
@@ -92,7 +93,7 @@ public class TypeA1TateNafProjectiveMillerPairingMap extends AbstractMillerPairi
     }
 
     public PairingPreProcessing pairing(byte[] source, int offset) {
-        return new TypeATateNafProjectiveMillerPairingPreProcessing(source, offset);
+        return new TypeA1TateNafProjectiveMillerPairingPreProcessing(source, offset);
     }
 
     final void tatePow(Point out, Point in) {
@@ -204,15 +205,19 @@ public class TypeA1TateNafProjectiveMillerPairingMap extends AbstractMillerPairi
     }
 
 
-    public class TypeATateNafProjectiveMillerPairingPreProcessing extends AbstractMillerPairingPreProcessing {
+    public int getPairingPreProcessingTableLength() {
+       getPairingPreProcessingLengthInBytes();
+       return pairingPreProcessingTableLength;
+    }
 
-        public TypeATateNafProjectiveMillerPairingPreProcessing(byte[] source, int offset) {
+    public class TypeA1TateNafProjectiveMillerPairingPreProcessing extends AbstractMillerPairingPreProcessing {
+
+        public TypeA1TateNafProjectiveMillerPairingPreProcessing(byte[] source, int offset) {
             super(pairing, source, offset);
         }
 
-        public TypeATateNafProjectiveMillerPairingPreProcessing(Point in1) {
-            // TODO: allocate just the necessary memory...analyze the  number of zero in r
-            super(in1, (r.length - 2) * 2);
+        public TypeA1TateNafProjectiveMillerPairingPreProcessing(Point in1) {
+            super(in1, getPairingPreProcessingTableLength());
 
             JacobPoint V = new JacobPoint(in1.getX(), in1.getY(), in1.getX().getField().newOneElement());
             Point nP = (Point) in1.duplicate().negate();

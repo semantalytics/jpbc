@@ -18,6 +18,9 @@ import java.math.BigInteger;
 public class TypeATateAffineMillerPairingMap extends AbstractMillerPairingMap {
     protected final TypeAPairing pairing;
 
+    protected int pairingPreProcessingTableLength = -1;
+    protected int pairingPreProcessingLengthInBytes = -1;
+
 
     public TypeATateAffineMillerPairingMap(final TypeAPairing pairing) {
         super(pairing);
@@ -180,6 +183,15 @@ public class TypeATateAffineMillerPairingMap extends AbstractMillerPairingMap {
         element.set(t0);
     }
 
+    public int getPairingPreProcessingLengthInBytes() {
+        if (pairingPreProcessingLengthInBytes == -1){
+            pairingPreProcessingTableLength = pairing.exp2 + 1;
+            pairingPreProcessingLengthInBytes = 4 + (pairingPreProcessingTableLength * 3 * pairing.Fq.getLengthInBytes());
+        }
+
+        return pairingPreProcessingLengthInBytes;
+    }
+
     public PairingPreProcessing pairing(Point in1) {
         return new TypeAMillerAffinePairingPreProcessing(in1);
     }
@@ -238,6 +250,11 @@ public class TypeATateAffineMillerPairingMap extends AbstractMillerPairingMap {
     }
 
 
+    public int getPairingPreProcessingTableLength() {
+        getPairingPreProcessingLengthInBytes();
+        return pairingPreProcessingTableLength;
+    }
+
     public class TypeAMillerAffinePairingPreProcessing extends AbstractMillerPairingPreProcessing {
 
         public TypeAMillerAffinePairingPreProcessing(byte[] source, int offset) {
@@ -245,7 +262,7 @@ public class TypeATateAffineMillerPairingMap extends AbstractMillerPairingMap {
         }
 
         public TypeAMillerAffinePairingPreProcessing(Point in1) {
-            super(in1, pairing.exp2 + 1);
+            super(in1, getPairingPreProcessingTableLength());
 
             Point V = (Point) in1.duplicate();
             Point V1 = pairing.Eq.newElement();

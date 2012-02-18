@@ -325,7 +325,6 @@ public class BigIntegerUtils {
      * Compute trace of Frobenius at q^n given trace at q.
      * See p.105 of Blake, Seroussi and Smart.
      *
-     * @param res
      * @param q
      * @param trace
      * @param n
@@ -373,6 +372,15 @@ public class BigIntegerUtils {
         BigInteger[] qu = sr[1].shiftLeft(log2b).add(n.shiftRight(log2b).and(mask)).divideAndRemainder(s.shiftLeft(1));
         BigInteger q = qu[0];
         return new BigInteger[]{s.shiftLeft(log2b).add(q), qu[1].shiftLeft(log2b).add(n.and(mask)).subtract(q.multiply(q))};
+    }
+
+    public static int hammingWeight(BigInteger value) {
+        int weight = 0;
+        for (int i = 0; i <= value.bitLength(); i++) {
+            if (value.testBit(i))
+                weight++;
+        }
+        return weight;
     }
 
 

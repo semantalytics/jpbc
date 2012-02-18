@@ -28,14 +28,6 @@ public abstract class AbstractVectorElement<E extends Element> extends AbstractE
         return coeff.get(index);
     }
 
-    public E innerProduct(Vector<E> v) {
-        Element sum = field.newZeroElement();
-        for (int i = 0; i < coeff.size(); i++) {
-            sum.add(coeff.get(i).duplicate().add(v.getAt(i)));
-        }
-        return (E) sum;
-    }
-
     public int getSize() {
         return coeff.size();
     }

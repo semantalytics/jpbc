@@ -451,7 +451,6 @@ void pbc_element_pairing(element_t out, element_t in1, element_t in2) {
 
 
 void pbc_curve_x_coord(element_t out, element_t element) {
-    // TODO: what happen to the memory used by out?
     element_ptr x = element_x(element);
 
     element_init_same_as(out, x);
@@ -460,7 +459,6 @@ void pbc_curve_x_coord(element_t out, element_t element) {
 }
 
 void pbc_curve_y_coord(element_t out, element_t element) {
-    // TODO: what happen to the memory used by out?
     element_ptr y = element_y(element);
 
     element_init_same_as(out, y);

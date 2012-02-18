@@ -25,11 +25,4 @@ public interface Vector<E extends Element> extends Element {
      */
     E getAt(int index);
 
-    /**
-     * TODO
-     * @param v
-     * @return
-     */
-    E innerProduct(Vector<E> v);
-    
 }

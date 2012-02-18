@@ -19,7 +19,7 @@ public class TypeATateNafProjectiveMillerPairingMap extends AbstractMillerPairin
     protected final byte[] r;
     
     protected int pairingPreProcessingTableLength = -1;
-    protected int pairingPreProcessingLenghtInBytes = -1;
+    protected int pairingPreProcessingLengthInBytes = -1;
 
 
     public TypeATateNafProjectiveMillerPairingMap(TypeAPairing pairing) {
@@ -76,14 +76,13 @@ public class TypeATateNafProjectiveMillerPairingMap extends AbstractMillerPairin
         element.set(t0);
     }
 
-    @Override
     public int getPairingPreProcessingLengthInBytes() {
-        if (pairingPreProcessingLenghtInBytes == -1){
+        if (pairingPreProcessingLengthInBytes == -1){
             pairingPreProcessingTableLength = r.length - 1 + BigIntegerUtils.hammingWeight(r, r.length - 2);
-            pairingPreProcessingLenghtInBytes = 4 + (pairingPreProcessingTableLength * 3 * pairing.Fq.getLengthInBytes());
+            pairingPreProcessingLengthInBytes = 4 + (pairingPreProcessingTableLength * 3 * pairing.Fq.getLengthInBytes());
         }
 
-        return pairingPreProcessingLenghtInBytes;
+        return pairingPreProcessingLengthInBytes;
     }
 
     public PairingPreProcessing pairing(Point in1) {
@@ -100,11 +99,6 @@ public class TypeATateNafProjectiveMillerPairingMap extends AbstractMillerPairin
         out.getY().set(b).mul(Qy);
     }
 
-
-    public int getPairingPreProcessingTableLength() {
-        getPairingPreProcessingLengthInBytes();
-        return pairingPreProcessingTableLength;
-    }
 
     final void tatePow(Point out, Point in, BigInteger cofactor) {
         Element in1 = in.getY();
@@ -215,6 +209,11 @@ public class TypeATateNafProjectiveMillerPairingMap extends AbstractMillerPairin
 //        u.getY().set(z3.duplicate().mul(Q.getY()));
     }
 
+
+    public int getPairingPreProcessingTableLength() {
+       getPairingPreProcessingLengthInBytes();
+       return pairingPreProcessingTableLength;
+    }
 
 
     public class TypeATateNafProjectiveMillerPairingPreProcessing extends AbstractMillerPairingPreProcessing {

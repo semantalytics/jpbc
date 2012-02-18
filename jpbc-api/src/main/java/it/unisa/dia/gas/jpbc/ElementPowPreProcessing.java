@@ -9,8 +9,9 @@ import java.math.BigInteger;
 public interface ElementPowPreProcessing extends ElementPow, PreProcessing {
 
     /**
-     * TODO
-     * @return
+     * Returns the field the pre-processed element belongs to.
+     *
+     * @return Returns the field the pre-processed element belongs to.
      * @since 1.2.0
      */
     Field getField();

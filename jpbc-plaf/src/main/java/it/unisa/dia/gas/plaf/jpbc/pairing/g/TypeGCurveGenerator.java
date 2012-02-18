@@ -245,11 +245,11 @@ public class TypeGCurveGenerator implements CurveGenerator {
             element_random(((element_t *)nqr - > data)[0]);
         } while (element_is_sqr(nqr));
 
-        param - > coeff = pbc_realloc(param - > coeff, sizeof(mpz_t) * 5);
+        param - > coefficients = pbc_realloc(param - > coefficients, sizeof(mpz_t) * 5);
 
         for (i = 0; i < 5; i++) {
-            mpz_init(param - > coeff[i]);
-            element_to_mpz(param - > coeff[i], element_item(irred, i));
+            mpz_init(param - > coefficients[i]);
+            element_to_mpz(param - > coefficients[i], element_item(irred, i));
         }
         element_to_mpz(param - > nqr, ((element_t *)nqr - > data)[0]);*/
     }

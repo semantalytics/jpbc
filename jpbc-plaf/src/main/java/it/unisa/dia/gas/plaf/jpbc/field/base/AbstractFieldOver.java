@@ -12,14 +12,11 @@ import java.util.Random;
 public abstract class AbstractFieldOver<F extends Field, E extends Element> extends AbstractField<E> implements FieldOver<F, E> {
     protected F targetField;
 
+
     protected AbstractFieldOver(Random random, F targetField) {
         super(random);
         this.targetField = targetField;
     }
-
-//    public AbstractFieldOver(F targetField) {
-//        this(new SecureRandom(), targetField);
-//    }
 
 
     public F getTargetField() {

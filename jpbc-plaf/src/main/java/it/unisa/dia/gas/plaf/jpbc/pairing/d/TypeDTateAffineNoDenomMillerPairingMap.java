@@ -8,6 +8,7 @@ import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteField;
 import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyModElement;
 import it.unisa.dia.gas.plaf.jpbc.pairing.map.AbstractMillerPairingMap;
 import it.unisa.dia.gas.plaf.jpbc.pairing.map.AbstractMillerPairingPreProcessing;
+import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
 import java.util.List;
 
@@ -16,6 +17,9 @@ import java.util.List;
  */
 public class TypeDTateAffineNoDenomMillerPairingMap extends AbstractMillerPairingMap<Polynomial> {
     protected TypeDPairing pairing;
+
+    protected int pairingPreProcessingTableLength = -1;
+    protected int pairingPreProcessingLengthInBytes = -1;
 
 
     public TypeDTateAffineNoDenomMillerPairingMap(TypeDPairing pairing) {
@@ -56,6 +60,15 @@ public class TypeDTateAffineNoDenomMillerPairingMap extends AbstractMillerPairin
 
     public void finalPow(Element element) {
         element.set(tatePow(element));
+    }
+
+    public int getPairingPreProcessingLengthInBytes() {
+        if (pairingPreProcessingLengthInBytes == -1){
+            pairingPreProcessingTableLength = pairing.r.bitLength()  + BigIntegerUtils.hammingWeight(pairing.r) - 1;
+            pairingPreProcessingLengthInBytes = 4 + (pairingPreProcessingTableLength * 3 * pairing.Fq.getLengthInBytes());
+        }
+
+        return pairingPreProcessingLengthInBytes;
     }
 
     public PairingPreProcessing pairing(Point in1) {
@@ -238,6 +251,11 @@ public class TypeDTateAffineNoDenomMillerPairingMap extends AbstractMillerPairin
     }
 
 
+    public int getPairingPreProcessingTableLength() {
+        getPairingPreProcessingLengthInBytes();
+        return pairingPreProcessingTableLength;
+    }
+
     public class TypeDMillerNoDenomAffinePairingPreProcessing extends AbstractMillerPairingPreProcessing {
 
         public TypeDMillerNoDenomAffinePairingPreProcessing(byte[] source, int offset) {
@@ -245,7 +263,7 @@ public class TypeDTateAffineNoDenomMillerPairingMap extends AbstractMillerPairin
         }
 
         public TypeDMillerNoDenomAffinePairingPreProcessing(Point in1) {
-            super(in1, (pairing.r.bitLength() - 2) * 2);
+            super(in1, getPairingPreProcessingTableLength());
 
             Element Px = in1.getX();
             Element Py = in1.getY();
