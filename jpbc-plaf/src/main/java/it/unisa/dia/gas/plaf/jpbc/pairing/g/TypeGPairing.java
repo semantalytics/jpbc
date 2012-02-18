@@ -97,7 +97,7 @@ public class TypeGPairing extends AbstractPairing {
         PolyElement irreduciblePoly = (PolyElement) Fqx.newElement();
         List<Element> irreduciblePolyCoeff = irreduciblePoly.getCoefficients();
         for (int i = 0; i < 5; i++)
-            irreduciblePolyCoeff.add(Fq.newElement().set(curveParams.getBigInteger("coefficients" + i)));
+            irreduciblePolyCoeff.add(Fq.newElement().set(curveParams.getBigInteger("coeff" + i)));
         irreduciblePolyCoeff.add(Fq.newOneElement());
 
         // init Fq12

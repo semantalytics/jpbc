@@ -10,10 +10,10 @@
     <body>
         <section name="Benchmark">
             <p>
-                The tables below contain the output of the benchmark.xml ant script.
-                To execute the script use th followig command:
+                The tables below contain the output of the benchmark ant script.
+                To execute the benchmark on your machine use the following command:
             </p>
-            <source>ant -f benchmark.xml</source>
+            <source>ant -f jpbc.xml benchmark</source>
 
 
             <p>

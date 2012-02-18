@@ -11,15 +11,10 @@
         <section name="Schemes">
 
             <p>
-                Using jPBC some cryptosystems has been implemented. Into the jPBC distribution package you will find the full
-                implementation of these cryptosystems in the context of the
+                The jPBC distribution package contains also the implementations of the
+                following cryptosystems in the context of the
                 <a href="http://www.bouncycastle.org/java.html">Bouncy Castle</a>
-                framework. This will simplify the integration into the Java Cryptography Extension (JCE) framework.
-            </p>
-
-            <p>
-                The followings links will point you to some web-pages which describe the implemented cryptosystems
-                in a simplified way to give you some hits on how to do crypto-stuff by using jPBC.
+                framework. This will simplify the integration with the Java Cryptography Extension (JCE) framework.
             </p>
 
             <a name="fe"/>

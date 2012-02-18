@@ -17,6 +17,7 @@
             <includes>
                 <include>it.unisa.dia.gas:jpbc-pbc</include>
                 <include>it.unisa.dia.gas:jpbc-crypto</include>
+                <include>it.unisa.dia.gas:jpbc-benchmark</include>
             </includes>
             <binaries>
                 <outputDirectory>jars</outputDirectory>
@@ -57,7 +58,6 @@
                         <includes>
                             <include>pom.xml</include>
                             <include>CMakeLists.txt</include>
-                            <include>*.iml</include>
                             <include>Find*.cmake</include>
                         </includes>
                     </fileSet>
@@ -146,7 +146,7 @@
 
     <files>
         <file>
-            <source>pom.xml</source>
+            <source>./src/main/assembly/distro/pom.xml</source>
             <outputDirectory>.</outputDirectory>
         </file>
         <file>

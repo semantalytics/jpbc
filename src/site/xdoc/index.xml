@@ -10,11 +10,9 @@
     <body>
         <div id="downloadbox">
             <h5>Get jPBC 1.2.0 Now!!!</h5>
-            <span style="display: block; text-align: right; font-size: smaller">Released: August, 2011</span>
 
             <p>
                 <a href="download.html">jPBC 1.2.0</a>
-                <small>(distro 3.0 Mb - core 130 Kb)</small>
             </p>
 
             <ul>
@@ -48,7 +46,6 @@
         </div>
 
         <section name="Introduction">
-
             The Java Pairing Based Cryptography Library (jPBC) is:
             <ul>
                 <li>
@@ -103,7 +100,7 @@
                 </li>
                 <li>
                     <font style="font-weight: bold;color:green">jpbc-android</font> :
-                    an Android App to benchmark jPBC on any Android 2.1+ terminals.
+                    an Android App to benchmark jPBC on any Android 2.1+ terminal.
                 </li>
             </ul>
         </section>
@@ -112,6 +109,12 @@
             If your project uses the jPBC library and you don’t mind it appearing here please
             <a href="./contact.html">contact</a>
             me.
+        </section>
+
+        <section name="Lattice-Based Cryptography">
+            If you are interested in post-quantum cryptography then
+            have a look here:
+            <a href="http://gas.dia.unisa.it/projects/jlbc/">jLBC - Java Lattice-Based Cryptography</a>.
         </section>
     </body>
 </document>
