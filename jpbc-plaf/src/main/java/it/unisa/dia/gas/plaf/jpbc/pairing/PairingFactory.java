@@ -10,6 +10,7 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.f.TypeFPairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.g.TypeGPairing;
 
 import java.lang.reflect.Method;
+import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,7 +34,7 @@ public class PairingFactory {
     }
 
     private boolean usePBCWhenPossible = false;
-    private boolean reuseIstance = true;
+    private boolean reuseInstance = true;
 
     private boolean pbcAvailable = false;
     private Method getPairingMethod;
@@ -58,15 +59,23 @@ public class PairingFactory {
     }
 
     public Pairing initPairing(String curveParametersPath) {
-        return initPairing(loadCurveParameters(curveParametersPath));
+        return initPairing(loadCurveParameters(curveParametersPath), null);
     }
 
     public Pairing initPairing(CurveParameters curveParameters) {
+        return initPairing(curveParameters, null);
+    }
+
+    public Pairing initPairing(String curveParametersPath, SecureRandom secureRandom) {
+        return initPairing(loadCurveParameters(curveParametersPath), secureRandom);
+    }
+
+    public Pairing initPairing(CurveParameters curveParameters, SecureRandom secureRandom) {
         if (curveParameters == null)
             throw new IllegalArgumentException("curveParameters cannot be null.");
 
         Pairing pairing = null;
-        if (reuseIstance) {
+        if (reuseInstance && secureRandom == null) {
             pairing = instances.get(curveParameters);
             if (pairing != null)
                 return pairing;
@@ -78,24 +87,24 @@ public class PairingFactory {
         if (pairing == null) {
             String type = curveParameters.getString("type");
             if ("a".equalsIgnoreCase(type))
-                pairing = new TypeAPairing(curveParameters);
+                pairing = new TypeAPairing(secureRandom, curveParameters);
             else if ("a1".equalsIgnoreCase(type))
-                pairing = new TypeA1Pairing(curveParameters);
+                pairing = new TypeA1Pairing(secureRandom, curveParameters);
             else if ("d".equalsIgnoreCase(type))
-                pairing = new TypeDPairing(curveParameters);
+                pairing = new TypeDPairing(secureRandom, curveParameters);
             else if ("e".equalsIgnoreCase(type))
-                pairing = new TypeEPairing(curveParameters);
+                pairing = new TypeEPairing(secureRandom, curveParameters);
             else if ("f".equalsIgnoreCase(type))
-                return new TypeFPairing(curveParameters);
+                return new TypeFPairing(secureRandom, curveParameters);
             else if ("g".equalsIgnoreCase(type))
-                return new TypeGPairing(curveParameters);
+                return new TypeGPairing(secureRandom, curveParameters);
             else
                 throw new IllegalArgumentException("Type not supported. Type = " + type);
         }
 
-        if (reuseIstance)
+        if (reuseInstance)
             instances.put(curveParameters, pairing);
-        
+
         return pairing;
     }
 
@@ -107,12 +116,12 @@ public class PairingFactory {
         this.usePBCWhenPossible = usePBCWhenPossible;
     }
 
-    public boolean isReuseIstance() {
-        return reuseIstance;
+    public boolean isReuseInstance() {
+        return reuseInstance;
     }
 
-    public void setReuseIstance(boolean reuseIstance) {
-        this.reuseIstance = reuseIstance;
+    public void setReuseInstance(boolean reuseInstance) {
+        this.reuseInstance = reuseInstance;
     }
 
     public Throwable getPbcPairingFailure() {
@@ -138,4 +147,5 @@ public class PairingFactory {
     public boolean isPBCAvailable() {
         return pbcAvailable;
     }
+
 }

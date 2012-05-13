@@ -18,7 +18,7 @@ import static org.junit.Assume.assumeTrue;
 public abstract class AbstractJPBCTest {
 
     static {
-        PairingFactory.getInstance().setReuseIstance(false);
+        PairingFactory.getInstance().setReuseInstance(false);
     }
 
     @Parameterized.Parameters

@@ -9,7 +9,7 @@ import junit.framework.TestCase;
 public class PairingFactoryTest extends TestCase {
 
     public void testReusing() {
-        PairingFactory.getInstance().setReuseIstance(true);
+        PairingFactory.getInstance().setReuseInstance(true);
         PairingFactory.getInstance().setUsePBCWhenPossible(false);
 
         Pairing pairing1 = PairingFactory.getPairing("it/unisa/dia/gas/plaf/jpbc/pairing/a/a_181_603.properties");
@@ -19,7 +19,7 @@ public class PairingFactoryTest extends TestCase {
     }
 
     public void testAvoidReusing() {
-        PairingFactory.getInstance().setReuseIstance(false);
+        PairingFactory.getInstance().setReuseInstance(false);
         PairingFactory.getInstance().setUsePBCWhenPossible(false);
 
         Pairing pairing1 = PairingFactory.getPairing("it/unisa/dia/gas/plaf/jpbc/pairing/a/a_181_603.properties");

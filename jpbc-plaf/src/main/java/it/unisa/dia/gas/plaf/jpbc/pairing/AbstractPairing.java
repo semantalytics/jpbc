@@ -19,7 +19,7 @@ public abstract class AbstractPairing implements Pairing {
 
 
     protected AbstractPairing(Random random) {
-        this.random = random;
+        this.random = (random == null) ? new SecureRandom() : random;
     }
 
     protected AbstractPairing() {
