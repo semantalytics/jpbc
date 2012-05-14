@@ -10,9 +10,9 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.f.TypeFPairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.g.TypeGPairing;
 
 import java.lang.reflect.Method;
-import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -66,16 +66,16 @@ public class PairingFactory {
         return initPairing(curveParameters, null);
     }
 
-    public Pairing initPairing(String curveParametersPath, SecureRandom secureRandom) {
-        return initPairing(loadCurveParameters(curveParametersPath), secureRandom);
+    public Pairing initPairing(String curveParametersPath, Random random) {
+        return initPairing(loadCurveParameters(curveParametersPath), random);
     }
 
-    public Pairing initPairing(CurveParameters curveParameters, SecureRandom secureRandom) {
+    public Pairing initPairing(CurveParameters curveParameters, Random random) {
         if (curveParameters == null)
             throw new IllegalArgumentException("curveParameters cannot be null.");
 
         Pairing pairing = null;
-        if (reuseInstance && secureRandom == null) {
+        if (reuseInstance && random == null) {
             pairing = instances.get(curveParameters);
             if (pairing != null)
                 return pairing;
@@ -87,17 +87,17 @@ public class PairingFactory {
         if (pairing == null) {
             String type = curveParameters.getString("type");
             if ("a".equalsIgnoreCase(type))
-                pairing = new TypeAPairing(secureRandom, curveParameters);
+                pairing = new TypeAPairing(random, curveParameters);
             else if ("a1".equalsIgnoreCase(type))
-                pairing = new TypeA1Pairing(secureRandom, curveParameters);
+                pairing = new TypeA1Pairing(random, curveParameters);
             else if ("d".equalsIgnoreCase(type))
-                pairing = new TypeDPairing(secureRandom, curveParameters);
+                pairing = new TypeDPairing(random, curveParameters);
             else if ("e".equalsIgnoreCase(type))
-                pairing = new TypeEPairing(secureRandom, curveParameters);
+                pairing = new TypeEPairing(random, curveParameters);
             else if ("f".equalsIgnoreCase(type))
-                return new TypeFPairing(secureRandom, curveParameters);
+                return new TypeFPairing(random, curveParameters);
             else if ("g".equalsIgnoreCase(type))
-                return new TypeGPairing(secureRandom, curveParameters);
+                return new TypeGPairing(random, curveParameters);
             else
                 throw new IllegalArgumentException("Type not supported. Type = " + type);
         }

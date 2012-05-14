@@ -313,10 +313,10 @@ public class BigIntegerUtils {
         return getRandom(limit, new SecureRandom());
     }
 
-    public static BigInteger getRandom(BigInteger limit, SecureRandom secureRandom) {
+    public static BigInteger getRandom(BigInteger limit, Random random) {
         BigInteger result;
         do {
-            result = new BigInteger(limit.bitLength(), secureRandom);
+            result = new BigInteger(limit.bitLength(), random);
         } while (limit.compareTo(result) >= 0);
         return result;
     }

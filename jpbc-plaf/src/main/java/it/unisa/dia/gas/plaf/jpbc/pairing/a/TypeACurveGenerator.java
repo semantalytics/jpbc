@@ -92,7 +92,7 @@ public class TypeACurveGenerator implements CurveGenerator {
                 // guarantee (hr)^2 is big enough to resist finite field attacks.
                 // If h is constrained to be a multiple of three as well, then cube roots are extremely easy to
                 // compute in Fq: for all x \in Fq we see x^(-(q-2)/3) is the cube root of x,
-                h = BigIntegerUtils.getRandom(q).multiply(BigIntegerUtils.TWELVE);
+                h = BigIntegerUtils.getRandom(q, random).multiply(BigIntegerUtils.TWELVE);
 
                 // Next it is checked that q = hr ?1 is prime, if it is the case we have finished.
                 // Also, we choose q = -1 mod 12 so F_q2 can be implemented as F_q[i] (where i = sqrt(-1)).

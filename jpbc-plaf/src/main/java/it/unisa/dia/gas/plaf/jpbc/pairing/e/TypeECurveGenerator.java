@@ -85,7 +85,7 @@ public class TypeECurveGenerator implements CurveGenerator {
                 //use q as a temp variable
                 q = BigInteger.ZERO.setBit(hBits + 1);
 
-                h = BigIntegerUtils.getRandom(q);
+                h = BigIntegerUtils.getRandom(q, random);
                 h = h.multiply(h).multiply(BigIntegerUtils.THREE);
 
                 //finally q takes the value it should
