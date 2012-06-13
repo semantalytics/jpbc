@@ -177,6 +177,7 @@ public class CurveField<F extends Field> extends AbstractFieldOver<F, CurveEleme
         } else {
             gen = genNoCofac.duplicate();
         }
+        System.out.println("gen = " + gen);
     }
 
     protected void initGen(BigInteger genNoCofac) {
@@ -186,6 +187,7 @@ public class CurveField<F extends Field> extends AbstractFieldOver<F, CurveEleme
             CurveElement element = new CurveElement(this);
             element.setFromBytes(genNoCofac.toByteArray());
             this.genNoCofac = element;
+            System.out.println("2. curveField.getGenNoCofac().isZero() = " + this.genNoCofac.isZero());
         }
 
         if (cofac != null) {
