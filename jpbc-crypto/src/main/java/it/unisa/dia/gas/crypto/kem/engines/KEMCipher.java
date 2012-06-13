@@ -1,5 +1,8 @@
-package it.unisa.dia.gas.crypto.engines.kem;
+package it.unisa.dia.gas.crypto.kem.engines;
 
+import it.unisa.dia.gas.crypto.engines.kem.KeyEncapsulationMechanism;
+import it.unisa.dia.gas.crypto.kem.params.KEMCipherDecryptionParameters;
+import it.unisa.dia.gas.crypto.kem.params.KEMCipherEncryptionParameters;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.CryptoException;
 import org.bouncycastle.crypto.InvalidCipherTextException;
@@ -7,8 +10,10 @@ import org.bouncycastle.crypto.InvalidCipherTextException;
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.ByteBuffer;
-import java.security.*;
-import java.security.cert.Certificate;
+import java.security.AlgorithmParameters;
+import java.security.GeneralSecurityException;
+import java.security.Provider;
+import java.security.SecureRandom;
 import java.security.spec.AlgorithmParameterSpec;
 import java.util.Arrays;
 
@@ -26,8 +31,86 @@ public class KEMCipher {
 
 
     public byte[] init(boolean forEncryption, CipherParameters cipherParameters) throws GeneralSecurityException, CryptoException {
+        // Init the KEM
         byte[][] kemOutput = initKEM(forEncryption, cipherParameters);
-        initCipher(forEncryption, cipherParameters, kemOutput[0]);
+
+        // Init the Cipher
+        cipher.init(
+                forEncryption ? Cipher.ENCRYPT_MODE : Cipher.DECRYPT_MODE,
+                new SecretKeySpec(kemOutput[0], cipher.getAlgorithm())
+        );
+
+        return kemOutput[1];
+    }
+
+    public byte[] init(boolean forEncryption, CipherParameters cipherParameters, SecureRandom random) throws GeneralSecurityException, CryptoException {
+        // Init the KEM
+        byte[][] kemOutput = initKEM(forEncryption, cipherParameters);
+
+        // Init the Cipher
+        cipher.init(
+                forEncryption ? Cipher.ENCRYPT_MODE : Cipher.DECRYPT_MODE,
+                new SecretKeySpec(kemOutput[0], cipher.getAlgorithm()),
+                random
+        );
+
+        return kemOutput[1];
+    }
+
+    public byte[] init(boolean forEncryption, CipherParameters cipherParameters, AlgorithmParameterSpec algorithmParameterSpec) throws GeneralSecurityException, CryptoException {
+        // Init the KEM
+        byte[][] kemOutput = initKEM(forEncryption, cipherParameters);
+
+        // Init the Cipher
+        cipher.init(
+                forEncryption ? Cipher.ENCRYPT_MODE : Cipher.DECRYPT_MODE,
+                new SecretKeySpec(kemOutput[0], cipher.getAlgorithm()),
+                algorithmParameterSpec
+        );
+
+        return kemOutput[1];
+    }
+
+    public byte[] init(boolean forEncryption, CipherParameters cipherParameters, AlgorithmParameterSpec algorithmParameterSpec, SecureRandom random) throws GeneralSecurityException, CryptoException {
+        // Init the KEM
+        byte[][] kemOutput = initKEM(forEncryption, cipherParameters);
+
+        // Init the Cipher
+        cipher.init(
+                forEncryption ? Cipher.ENCRYPT_MODE : Cipher.DECRYPT_MODE,
+                new SecretKeySpec(kemOutput[0], cipher.getAlgorithm()),
+                algorithmParameterSpec,
+                random
+        );
+
+        return kemOutput[1];
+    }
+
+    public byte[] init(boolean forEncryption, CipherParameters cipherParameters, AlgorithmParameters algorithmParameters) throws GeneralSecurityException, CryptoException {
+        // Init the KEM
+        byte[][] kemOutput = initKEM(forEncryption, cipherParameters);
+
+        // Init the Cipher
+        cipher.init(
+                forEncryption ? Cipher.ENCRYPT_MODE : Cipher.DECRYPT_MODE,
+                new SecretKeySpec(kemOutput[0], cipher.getAlgorithm()),
+                algorithmParameters
+        );
+
+        return kemOutput[1];
+    }
+
+    public byte[] init(boolean forEncryption, CipherParameters cipherParameters, AlgorithmParameters algorithmParameters, SecureRandom random) throws GeneralSecurityException, CryptoException {
+        // Init the KEM
+        byte[][] kemOutput = initKEM(forEncryption, cipherParameters);
+
+        // Init the Cipher
+        cipher.init(
+                forEncryption ? Cipher.ENCRYPT_MODE : Cipher.DECRYPT_MODE,
+                new SecretKeySpec(kemOutput[0], cipher.getAlgorithm()),
+                algorithmParameters,
+                random
+        );
 
         return kemOutput[1];
     }
@@ -115,40 +198,7 @@ public class KEMCipher {
         return cipher.getExemptionMechanism();
     }
 
-    public void init(int i, Key key) throws InvalidKeyException {
-        cipher.init(i, key);
-    }
-
-    public void init(int i, Key key, SecureRandom random) throws InvalidKeyException {
-        cipher.init(i, key, random);
-    }
-
-    public void init(int i, Key key, AlgorithmParameterSpec algorithmParameterSpec) throws InvalidKeyException, InvalidAlgorithmParameterException {
-        cipher.init(i, key, algorithmParameterSpec);
-    }
-
-    public void init(int i, Key key, AlgorithmParameterSpec algorithmParameterSpec, SecureRandom random) throws InvalidKeyException, InvalidAlgorithmParameterException {
-        cipher.init(i, key, algorithmParameterSpec, random);
-    }
-
-    public void init(int i, Key key, AlgorithmParameters algorithmParameters) throws InvalidKeyException, InvalidAlgorithmParameterException {
-        cipher.init(i, key, algorithmParameters);
-    }
-
-    public void init(int i, Key key, AlgorithmParameters algorithmParameters, SecureRandom random) throws InvalidKeyException, InvalidAlgorithmParameterException {
-        cipher.init(i, key, algorithmParameters, random);
-    }
-
-    public void init(int i, Certificate certificate) throws InvalidKeyException {
-        cipher.init(i, certificate);
-    }
-
-    public void init(int i, Certificate certificate, SecureRandom random) throws InvalidKeyException {
-        cipher.init(i, certificate, random);
-    }
-
-
-    protected byte[][] initKEM(boolean forEncryption, CipherParameters cipherParameters) throws InvalidCipherTextException{
+    protected byte[][] initKEM(boolean forEncryption, CipherParameters cipherParameters) throws InvalidCipherTextException {
         byte[] key, encapsulation;
 
         if (forEncryption) {
@@ -183,12 +233,5 @@ public class KEMCipher {
         return new byte[][]{key, encapsulation};
     }
 
-
-    protected void initCipher(boolean forEncryption, CipherParameters cipherParameters, byte[] key) throws InvalidKeyException {
-        cipher.init(
-                forEncryption ? Cipher.ENCRYPT_MODE : Cipher.DECRYPT_MODE,
-                new SecretKeySpec(key, cipher.getAlgorithm())
-        );
-    }
 
 }

@@ -1,12 +1,12 @@
-package it.unisa.dia.gas.crypto.engines;
+package it.unisa.dia.gas.crypto.kem.engine;
 
-import it.unisa.dia.gas.crypto.engines.kem.KEMCipher;
-import it.unisa.dia.gas.crypto.engines.kem.KEMCipherDecryptionParameters;
-import it.unisa.dia.gas.crypto.engines.kem.KEMCipherEncryptionParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.engines.AHIBEDIP10KEMEngine;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.generators.AHIBEDIP10KeyPairGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.generators.AHIBEDIP10SecretKeyGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params.*;
+import it.unisa.dia.gas.crypto.kem.engines.KEMCipher;
+import it.unisa.dia.gas.crypto.kem.params.KEMCipherDecryptionParameters;
+import it.unisa.dia.gas.crypto.kem.params.KEMCipherEncryptionParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
@@ -16,9 +16,10 @@ import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
 import java.security.Security;
+import java.security.spec.AlgorithmParameterSpec;
 import java.util.Arrays;
-import java.util.Random;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -34,22 +35,30 @@ public class KEMCipherTest extends TestCase {
 
         try {
             // Encrypt
-            KEMCipher kemCipher = new KEMCipher(Cipher.getInstance("AES/ECB/PKCS7Padding", "BC"), new AHIBEDIP10KEMEngine());
+            KEMCipher kemCipher = new KEMCipher(Cipher.getInstance("AES/CBC/PKCS7Padding", "BC"), new AHIBEDIP10KEMEngine());
+
+            // build the initialization vector.  This example is all zeros, but it
+            // could be any value or generated using a random number generator.
+            AlgorithmParameterSpec iv = new IvParameterSpec(new byte[]{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 });
+
             byte[] encapsulation = kemCipher.init(
                     true,
-                    new KEMCipherEncryptionParameters(128, new AHIBEDIP10EncryptionParameters((AHIBEDIP10PublicKeyParameters) keyPair.getPublic(), id1s))
+                    new KEMCipherEncryptionParameters(
+                            128,
+                            new AHIBEDIP10EncryptionParameters((AHIBEDIP10PublicKeyParameters) keyPair.getPublic(), id1s)
+                    ),
+                    iv
             );
 
-            Random random = new Random();
-            byte[] message = new byte[4096];
-            random.nextBytes(message);
+            byte[] message = "Hello World!!!".getBytes();
 
             byte[] ct = kemCipher.doFinal(message);
 
             // Decrypt and Test for the same identity
             kemCipher.init(
                     false,
-                    new KEMCipherDecryptionParameters(keyGen(keyPair, id1s), encapsulation, 128)
+                    new KEMCipherDecryptionParameters(keyGen(keyPair, id1s), encapsulation, 128),
+                    iv
             );
             byte[] messagePrime = kemCipher.doFinal(ct);
 
@@ -59,7 +68,8 @@ public class KEMCipherTest extends TestCase {
             try {
                 kemCipher.init(
                         false,
-                        new KEMCipherDecryptionParameters(keyGen(keyPair, id2s), encapsulation, 128)
+                        new KEMCipherDecryptionParameters(keyGen(keyPair, id2s), encapsulation, 128),
+                        iv
                 );
                 kemCipher.doFinal(ct);
                 fail("The decryption must fail in this case!");

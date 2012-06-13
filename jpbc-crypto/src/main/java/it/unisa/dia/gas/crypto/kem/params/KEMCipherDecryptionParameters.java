@@ -1,21 +1,30 @@
-package it.unisa.dia.gas.crypto.engines.kem;
+package it.unisa.dia.gas.crypto.kem.params;
 
 import org.bouncycastle.crypto.CipherParameters;
 
+import java.security.AlgorithmParameters;
 import java.util.Arrays;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class KEMCipherDecryptionParameters implements CipherParameters {
-    private int cipherKeyStrength;
+public class KEMCipherDecryptionParameters extends KEMCipherParameters {
     private CipherParameters kemCipherParameters;
     private byte[] encapsulation;
+    private int cipherKeyStrength;
 
 
     public KEMCipherDecryptionParameters(CipherParameters kemCipherParameters, byte[] encapsulation, int cipherKeyStrength) {
+        super(null);
         this.kemCipherParameters = kemCipherParameters;
-        this.encapsulation = Arrays.copyOf(encapsulation, encapsulation.length);
+        this.encapsulation = encapsulation;
+        this.cipherKeyStrength = cipherKeyStrength;
+    }
+
+    public KEMCipherDecryptionParameters(AlgorithmParameters algorithmParameters, CipherParameters kemCipherParameters, byte[] encapsulation, int cipherKeyStrength) {
+        super(algorithmParameters);
+        this.kemCipherParameters = kemCipherParameters;
+        this.encapsulation = encapsulation;
         this.cipherKeyStrength = cipherKeyStrength;
     }
 
