@@ -1,6 +1,8 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing.a;
 
-import it.unisa.dia.gas.jpbc.*;
+import it.unisa.dia.gas.jpbc.CurveGenerator;
+import it.unisa.dia.gas.jpbc.CurveParameters;
+import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveField;
 import it.unisa.dia.gas.plaf.jpbc.field.z.ZrField;
 import it.unisa.dia.gas.plaf.jpbc.pairing.DefaultCurveParameters;
@@ -118,7 +120,6 @@ public class TypeACurveGenerator implements CurveGenerator {
         if (generateCurveFieldGen) {
             Field Fq = new ZrField(random, q);
             CurveField curveField = new CurveField<Field>(random, Fq.newOneElement(), Fq.newZeroElement(), r, h);
-            System.out.println("curveField.getGenNoCofac().isZero() = " + curveField.getGenNoCofac().isZero());
             params.put("genNoCofac", Base64.encodeBytes(curveField.getGenNoCofac().toBytes()));
         }
 
@@ -126,39 +127,19 @@ public class TypeACurveGenerator implements CurveGenerator {
     }
 
     public static void main(String[] args) {
-//        if (args.length < 2)
-//            throw new IllegalArgumentException("Too few arguments. Usage <rbits> <qbits>");
-//
-//        if (args.length > 2)
-//            throw new IllegalArgumentException("Too many arguments. Usage <rbits> <qbits>");
-//
-//        Integer rBits = Integer.parseInt(args[0]);
-//        Integer qBits = Integer.parseInt(args[1]);
-//
-//        TypeACurveGenerator generator = new TypeACurveGenerator(rBits, qBits, true);
-//        DefaultCurveParameters curveParams = (DefaultCurveParameters) generator.generate();
-//
-//        System.out.println(curveParams.toString(" "));
+        if (args.length < 2)
+            throw new IllegalArgumentException("Too few arguments. Usage <rbits> <qbits>");
 
-        int rBits = 160;
-        int qBits = 512;
+        if (args.length > 2)
+            throw new IllegalArgumentException("Too many arguments. Usage <rbits> <qbits>");
 
-        Random random = new Random();
+        Integer rBits = Integer.parseInt(args[0]);
+        Integer qBits = Integer.parseInt(args[1]);
 
-        boolean generateCurveFieldGen = true;
+        TypeACurveGenerator generator = new TypeACurveGenerator(rBits, qBits, true);
+        DefaultCurveParameters curveParams = (DefaultCurveParameters) generator.generate();
 
-        CurveGenerator curveGenerator = new TypeACurveGenerator(random, rBits, qBits, generateCurveFieldGen);
-
-        Pairing e = new TypeAPairing(random, curveGenerator.generate());
-
-        Field G1 = e.getG1();
-
-        Element g = ((CurveField) G1).getGen().getImmutable();
-
-        if(g.isZero()){
-        System.out.println("g is Zero !");
-        System.exit(-1);
-        }
+        System.out.println(curveParams.toString(" "));
     }
 
 }

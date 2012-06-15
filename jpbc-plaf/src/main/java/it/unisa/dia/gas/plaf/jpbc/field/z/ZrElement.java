@@ -165,7 +165,16 @@ public class ZrElement extends AbstractZElement {
     }
 
     public ZrElement invert() {
-        value = value.modInverse(order);
+        BigInteger before = value;
+        try {
+            value = value.modInverse(order);
+        } catch (Exception e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            System.out.println("before = " + before);
+            System.out.println("order = " + order);
+
+            throw (RuntimeException) e;
+        }
 
         return this;
     }

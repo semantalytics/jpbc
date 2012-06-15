@@ -68,7 +68,7 @@ public class CurveField<F extends Field> extends AbstractFieldOver<F, CurveEleme
         initGen();
     }
 
-    public CurveField(Random random, Element a, Element b, BigInteger order, BigInteger cofac, BigInteger genNoCofac) {
+    public CurveField(Random random, Element a, Element b, BigInteger order, BigInteger cofac, byte[] genNoCofac) {
         super(random, (F) a.getField());
 
         this.random = random;
@@ -177,17 +177,15 @@ public class CurveField<F extends Field> extends AbstractFieldOver<F, CurveEleme
         } else {
             gen = genNoCofac.duplicate();
         }
-        System.out.println("gen = " + gen);
     }
 
-    protected void initGen(BigInteger genNoCofac) {
+    protected void initGen(byte[] genNoCofac) {
         if (genNoCofac == null) {
             this.genNoCofac = getCurveRandomNoCofacSolvefory();
         } else {
             CurveElement element = new CurveElement(this);
-            element.setFromBytes(genNoCofac.toByteArray());
+            element.setFromBytes(genNoCofac);
             this.genNoCofac = element;
-            System.out.println("2. curveField.getGenNoCofac().isZero() = " + this.genNoCofac.isZero());
         }
 
         if (cofac != null) {

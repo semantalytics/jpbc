@@ -106,6 +106,15 @@ public interface CurveParameters extends Serializable {
     byte[] getBytes(String key);
 
     /**
+     * Returns the value as an array of bytes to which the specified key is mapped.
+     *
+     * @param key the key whose associated value is to be returned
+     * @return the value as an array of bytes to which the specified key is mapped.
+     * @throws IllegalArgumentException if the specified key does not exists.
+     */
+    byte[] getBytes(String key, byte[] defaultValue);
+
+    /**
      * Returns a string representation using the passed separator
      * between the values.
      * @param separator the separator to be used between the values.

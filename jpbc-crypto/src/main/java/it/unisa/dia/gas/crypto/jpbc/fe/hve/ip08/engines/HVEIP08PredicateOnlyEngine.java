@@ -66,7 +66,6 @@ public class HVEIP08PredicateOnlyEngine extends PredicateOnlyPairingAsymmetricBl
             // Run the rest
             Element result = pairing.getGT().newOneElement();
             if (secretKey.isPreProcessed()) {
-                long start = System.currentTimeMillis();
                 for (int i = 0; i < secretKey.getParameters().getN(); i++) {
                     if (!secretKey.isStar(i)) {
                         result.mul(
@@ -76,8 +75,6 @@ public class HVEIP08PredicateOnlyEngine extends PredicateOnlyPairingAsymmetricBl
                         );
                     }
                 }
-                long end =System.currentTimeMillis();
-                System.out.println("elapsedKey : " +  (end-start));
             } else {
                 for (int i = 0; i < secretKey.getParameters().getN(); i++) {
                     if (!secretKey.isStar(i)) {

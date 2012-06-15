@@ -1,27 +1,23 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08;
 
-import it.unisa.dia.gas.crypto.jpbc.AbstractJPBCCryptoTest;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.engines.HVEIP08PredicateOnlyCTOptEngine;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08KeyPairGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08ParametersGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08PredicateOnlySecretKeyGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.*;
-import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.jpbc.Pairing;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.InvalidCipherTextException;
 import org.junit.Test;
 
 import java.security.SecureRandom;
-import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
 
 /**
  * @author Angelo De Caro
  */
-public class HVEIP08PredicateOnlyCTOptEngineTest extends AbstractJPBCCryptoTest {
+public class HVEIP08PredicateOnlyCTOptEngineTest extends HVEIP08AbstractTest {
 
 
     public HVEIP08PredicateOnlyCTOptEngineTest(boolean usePBC, String curvePath) {
@@ -50,40 +46,6 @@ public class HVEIP08PredicateOnlyCTOptEngineTest extends AbstractJPBCCryptoTest 
                         preprocess(parameters, enc(keyPair.getPublic(), vectors[1]))
                 )
         );
-    }
-
-
-    protected int[][] createMatchingVectors(int n) {
-        int[][] result = new int[2][n];
-        Random random = new Random();
-        for (int i = 0; i < n; i++) {
-            if (random.nextBoolean()) {
-                // it's a star
-                result[0][i] = -1;
-                result[1][i] = random.nextInt(2);
-            } else {
-                result[0][i] = random.nextInt(2);
-                result[1][i] = result[0][i];
-            }
-        }
-        return result;
-    }
-
-    protected int[][] createNonMatchingVectors(int n) {
-        int[][] result = new int[2][n];
-        Random random = new Random();
-        for (int i = 0; i < n; i++) {
-            result[0][i] = random.nextInt(2);
-            result[1][i] = 1 - result[0][i];
-        }
-        return result;
-    }
-
-    protected Element[] createRandom(Pairing pairing, int n) {
-        Element[] result = new Element[n];
-        for (int i = 0; i < n; i++)
-            result[i] = pairing.getZr().newRandomElement();
-        return result;
     }
 
 
@@ -130,8 +92,6 @@ public class HVEIP08PredicateOnlyCTOptEngineTest extends AbstractJPBCCryptoTest 
         }
     }
 
-    
-    
     protected CipherParameters keyGen(CipherParameters privateKey, int... pattern) {
         HVEIP08PredicateOnlySecretKeyGenerator generator = new HVEIP08PredicateOnlySecretKeyGenerator();
         generator.init(new HVEIP08SecretKeyGenerationParameters(

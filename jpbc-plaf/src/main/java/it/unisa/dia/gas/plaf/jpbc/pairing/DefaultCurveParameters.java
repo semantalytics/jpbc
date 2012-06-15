@@ -74,7 +74,7 @@ public class DefaultCurveParameters implements CurveParameters, Externalizable {
     }
 
     public BigInteger getBigInteger(String key, BigInteger defaultValue) {
-        String value = parameters.get(key);
+        String value = getString(key);
         if (value == null)
             return defaultValue;
 
@@ -100,6 +100,18 @@ public class DefaultCurveParameters implements CurveParameters, Externalizable {
     public byte[] getBytes(String key) {
         try {
             return Base64.decode(getString(key));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public byte[] getBytes(String key, byte[] defaultValue) {
+        String value = parameters.get(key);
+        if (value == null)
+            return defaultValue;
+
+        try {
+            return Base64.decode(value);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

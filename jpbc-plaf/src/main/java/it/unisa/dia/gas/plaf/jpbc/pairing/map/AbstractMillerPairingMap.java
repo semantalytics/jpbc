@@ -408,6 +408,7 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
             table[numRow][0] = a.duplicate();
             table[numRow][1] = b.duplicate();
             table[numRow][2] = c.duplicate();
+
             numRow++;
         }
 
