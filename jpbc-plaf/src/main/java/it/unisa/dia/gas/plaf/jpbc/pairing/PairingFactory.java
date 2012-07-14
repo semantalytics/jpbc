@@ -33,6 +33,15 @@ public class PairingFactory {
         return getInstance().initPairing(curveParametersPath);
     }
 
+    public static Pairing getPairing(CurveParameters curveParameters, Random random) {
+        return getInstance().initPairing(curveParameters, random);
+    }
+
+    public static Pairing getPairing(String curveParametersPath, Random random) {
+        return getInstance().initPairing(curveParametersPath, random);
+    }
+
+
     private boolean usePBCWhenPossible = false;
     private boolean reuseInstance = true;
 
