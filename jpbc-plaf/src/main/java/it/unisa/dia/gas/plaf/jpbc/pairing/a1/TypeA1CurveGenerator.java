@@ -34,13 +34,15 @@ public class TypeA1CurveGenerator implements CurveGenerator {
         long l;
 
         while (true) {
+            System.out.printf("Finding order...\n");
             while (true) {
                 order = BigInteger.ONE;
                 for (int i = 0; i < numPrimes; i++) {
 
                     boolean isNew = false;
                     while (!isNew) {
-                        primes[i] = BigIntegerUtils.generateSolinasPrime(bits, random);
+//                        primes[i] = BigIntegerUtils.generateSolinasPrime(bits, random);
+                        primes[i] = BigInteger.probablePrime(bits, random);
                         isNew = true;
                         for (int j = 0; j < i; j++) {
                             if (primes[i].equals(primes[j])) {
@@ -53,11 +55,14 @@ public class TypeA1CurveGenerator implements CurveGenerator {
                     order = order.multiply(primes[i]);
                 }
 
-                if ((order.bitLength() + 7) / 8 == order.bitLength() / 8)
-                    break;
+                break;
+//                if ((order.bitLength() + 7) / 8 == order.bitLength() / 8)
+//                    break;
             }
+            System.out.printf("order= %s\n", order);
 
             // If order is even, ideally check all even l, not just multiples of 4
+            System.out.printf("Finding l...\n");
             l = 4;
             n = order.multiply(BigIntegerUtils.FOUR);
 
@@ -66,9 +71,17 @@ public class TypeA1CurveGenerator implements CurveGenerator {
                 p = p.add(n);
                 l += 4;
             }
-            if ((p.bitLength() + 7) / 8 == p.bitLength() / 8)
-                break;
+            System.out.printf("l=%d\n",l);
+
+            System.out.printf("lhs=%d, rhs=%d\n",(p.bitLength() + 7) / 8, (p.bitLength() / 8));
+
+//            if ((p.bitLength() + 7) / 8 == p.bitLength() / 8)
+//                break;
+            break;
+
+//            System.out.printf("No way, repeat!\n");
         }
+        System.out.printf("order hamming weight=%d\n", BigIntegerUtils.hammingWeight(order));
 
         DefaultCurveParameters params = new DefaultCurveParameters();
         params.put("type", "a1");
@@ -84,7 +97,7 @@ public class TypeA1CurveGenerator implements CurveGenerator {
     }
 
     public static void main(String[] args) {
-        TypeA1CurveGenerator generator = new TypeA1CurveGenerator(3, 16);
+        TypeA1CurveGenerator generator = new TypeA1CurveGenerator(3, 512);
         DefaultCurveParameters curveParams = (DefaultCurveParameters) generator.generate();
 
         System.out.println(curveParams.toString(" "));

@@ -22,6 +22,11 @@
                 <ol>
                     <li>
                         <font style="font-weight: bold;color:red">
+                            <a href="./rl_w12.html">[W'12]</a>
+                        </font>: B. Waters, Functional Encryption for Regular Languages
+                    </li>
+                    <li>
+                        <font style="font-weight: bold;color:red">
                             <a href="./uhibe_lw11.html">[LW'11]</a>
                         </font>: A. Lewko and B. Waters, Unbounded HIBE and Attribute-Based Encryption.
                     </li>

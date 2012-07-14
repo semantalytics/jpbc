@@ -61,6 +61,7 @@
         <menu name="Crypto">
             <item name="Schemes" href="/schemes/schemes.html">
                 <item name="Functional Encryption" href="/schemes/schemes.html#fe">
+                    <item name="RL [W'12]" href="/schemes/rl_w12.html"/>
                     <item name="UHIBE [LW'11]" href="/schemes/uhibe_lw11.html"/>
                     <item name="IP [LOSTW'10]" href="/schemes/ip_lostw10.html"/>
                     <item name="AHIBE [DIP'10]" href="/schemes/ahibe_dip10.html"/>
