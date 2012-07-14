@@ -15,7 +15,7 @@ public interface ElementPow {
      *
      * @param n the exponent of the power.
      * @return the computed power.
-     * @since 1.0.0
+     * @since 1.2.0
      */
     Element pow(BigInteger n);
 
@@ -24,7 +24,7 @@ public interface ElementPow {
      *
      * @param n the exponent of the power.
      * @return the computed power.
-     * @since 1.0.0
+     * @since 1.2.0
      */
     Element powZn(Element n);
 

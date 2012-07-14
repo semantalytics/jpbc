@@ -17,6 +17,7 @@ public interface CurveParameters extends Serializable {
      *
      * @param key key whose presence is to be tested
      * @return <tt>true</tt> if a mapping for the specified key exists.
+     * @since 1.2.0
      */
     boolean containsKey(String key);
 
@@ -26,6 +27,7 @@ public interface CurveParameters extends Serializable {
      * @param key the key whose associated value is to be returned
      * @return the value as a string to which the specified key is mapped.
      * @throws IllegalArgumentException if the specified key does not exists.
+     * @since 1.2.0
      */
     String getString(String key);
 
@@ -36,6 +38,7 @@ public interface CurveParameters extends Serializable {
      * @param key the key whose associated value is to be returned
      * @return the value as a string to which the specified key is mapped.
      * If the mapping does not exist the passed defaultValue is returned.
+     * @since 1.2.0
      */
     String getString(String key, String defaultValue);
 
@@ -45,6 +48,7 @@ public interface CurveParameters extends Serializable {
      * @param key the key whose associated value is to be returned
      * @return the value as an int to which the specified key is mapped.
      * @throws IllegalArgumentException if the specified key does not exists.
+     * @since 1.2.0
      */
     int getInt(String key);
 
@@ -55,6 +59,7 @@ public interface CurveParameters extends Serializable {
      * @param key the key whose associated value is to be returned
      * @return the value as an int to which the specified key is mapped.
      * If the mapping does not exist the passed defaultValue is returned.
+     * @since 1.2.0
      */
     int getInt(String key, int defaultValue);
 
@@ -64,6 +69,7 @@ public interface CurveParameters extends Serializable {
      * @param key the key whose associated value is to be returned
      * @return the value as a BigInteger to which the specified key is mapped.
      * @throws IllegalArgumentException if the specified key does not exists.
+     * @since 1.2.0
      */
     BigInteger getBigInteger(String key);
 
@@ -74,6 +80,7 @@ public interface CurveParameters extends Serializable {
      * @param key the key whose associated value is to be returned
      * @return the value as a BigInteger to which the specified key is mapped.
      * If the mapping does not exist the passed defaultValue is returned.
+     * @since 1.2.0
      */
     BigInteger getBigInteger(String key, BigInteger defaultValue);
 
@@ -83,6 +90,7 @@ public interface CurveParameters extends Serializable {
      * @param key the key whose associated value is to be returned
      * @return the value as a long to which the specified key is mapped.
      * @throws IllegalArgumentException if the specified key does not exists.
+     * @since 1.2.0
      */
     long getLong(String key);
 
@@ -93,6 +101,7 @@ public interface CurveParameters extends Serializable {
      * @param key the key whose associated value is to be returned
      * @return the value as a long to which the specified key is mapped.
      * If the mapping does not exist the passed defaultValue is returned.
+     * @since 1.2.0
      */
     long getLong(String key, long defaultValue);
 
@@ -102,6 +111,7 @@ public interface CurveParameters extends Serializable {
      * @param key the key whose associated value is to be returned
      * @return the value as an array of bytes to which the specified key is mapped.
      * @throws IllegalArgumentException if the specified key does not exists.
+     * @since 1.2.0
      */
     byte[] getBytes(String key);
 
@@ -111,6 +121,7 @@ public interface CurveParameters extends Serializable {
      * @param key the key whose associated value is to be returned
      * @return the value as an array of bytes to which the specified key is mapped.
      * @throws IllegalArgumentException if the specified key does not exists.
+     * @since 1.2.1
      */
     byte[] getBytes(String key, byte[] defaultValue);
 
@@ -119,6 +130,7 @@ public interface CurveParameters extends Serializable {
      * between the values.
      * @param separator the separator to be used between the values.
      * @return a string representation.
+     * @since 1.2.0
      */
     String toString(String separator);
 }

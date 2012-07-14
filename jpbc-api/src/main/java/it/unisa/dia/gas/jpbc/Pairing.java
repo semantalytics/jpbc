@@ -14,6 +14,7 @@ public interface Pairing {
 
     /**
      * Field identifiers.
+     * @since 1.2.0
      */
     public static enum PairingFieldIdentifier {G1, G2, GT, Zr, Unknown}
 
@@ -138,8 +139,8 @@ public interface Pairing {
      * @param field the field whose identifier has to be determine.
      * @return the identifier of the field if it belongs
      * to this pairing, otherwise it returns Unknown.
-     * @since 1.2.0
      * @see PairingFieldIdentifier
+     * @since 1.2.0
      */
     PairingFieldIdentifier getPairingFieldIdentifier(Field field);
 }
