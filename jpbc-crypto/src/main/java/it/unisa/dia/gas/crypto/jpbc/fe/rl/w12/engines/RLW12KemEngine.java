@@ -1,10 +1,7 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.engines;
 
 import it.unisa.dia.gas.crypto.engines.kem.PairingKeyEncapsulationMechanism;
-import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.params.RLW12EncryptionParameters;
-import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.params.RLW12KeyParameters;
-import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.params.RLW12PublicKeyParameters;
-import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.params.RLW12SecretKeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.params.*;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
@@ -35,7 +32,7 @@ public class RLW12KemEngine extends PairingKeyEncapsulationMechanism {
     public byte[] process(byte[] in, int inOff, int inLen) {
         if (key instanceof RLW12SecretKeyParameters) {
             // Decrypt
-            RLW12SecretKeyParameters secretKeyParameters = (RLW12SecretKeyParameters) key;
+            RLW12SecretKeyParameters sk = (RLW12SecretKeyParameters) key;
 
             // Read w
             int length = in[inOff++];
@@ -57,11 +54,37 @@ public class RLW12KemEngine extends PairingKeyEncapsulationMechanism {
             Element cm = pairing.getGT().newElement();
             inOff += cm.setFromBytes(in, inOff);
 
-            // Run the decryption
-            Element mask = secretKeyParameters.getEdfa().accept(pairing, w, wEnc);
-            Element M = cm.div(mask);
+            // Run the decryption...
+            // Init
+            int index = 0;
+            Element mask = pairing.pairing(wEnc[index++], sk.getkStart(0))
+                    .mul(pairing.pairing(wEnc[index++], sk.getkStart(1)).invert());
 
-            return M.toBytes();
+            // Run
+            int currentState = sk.getDfa().getInitialState(); // Initial state
+
+            for (int i = 0; i < w.length(); i++) {
+                DFATransition DFATransition = sk.getDfa().getTransition(currentState, w.charAt(i));
+
+                mask.mul(pairing.pairing(wEnc[index - 2], sk.getkTransition(DFATransition, 0)))
+                        .mul(pairing.pairing(wEnc[index++], sk.getkTransition(DFATransition, 2)))
+                        .mul(pairing.pairing(wEnc[index++], sk.getkTransition(DFATransition, 1)).invert());
+
+                currentState = DFATransition.getTo();
+            }
+
+            // Finalize
+            if (sk.getDfa().isFinalState(currentState)) {
+                mask.mul(pairing.pairing(wEnc[index++], sk.getkEnd(currentState, 0)).invert())
+                        .mul(pairing.pairing(wEnc[index], sk.getkEnd(currentState, 1)));
+
+                // Recover the message...
+                Element M = cm.div(mask);
+
+                return M.toBytes();
+            } else {
+                return cm.toBytes();
+            }
         } else {
             Element M = pairing.getGT().newRandomElement();
 
