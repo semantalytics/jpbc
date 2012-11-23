@@ -29,7 +29,7 @@ public class KEMCipherTest extends TestCase {
     public void testKEMCipherWithAESAHIBE() {
         Security.addProvider(new BouncyCastleProvider());
 
-        AsymmetricCipherKeyPair keyPair = setup(64, 3);
+        AsymmetricCipherKeyPair keyPair = setupAHIBE(64, 3);
         Element[] id1s = map(keyPair.getPublic(), "angelo", "de caro", "unisa");
         Element[] id2s = map(keyPair.getPublic(), "angelo", "de caro", "unina");
 
@@ -81,8 +81,7 @@ public class KEMCipherTest extends TestCase {
         }
     }
 
-
-    protected AsymmetricCipherKeyPair setup(int bitLength, int length) {
+    protected AsymmetricCipherKeyPair setupAHIBE(int bitLength, int length) {
         AHIBEDIP10KeyPairGenerator setup = new AHIBEDIP10KeyPairGenerator();
         setup.init(new AHIBEDIP10KeyPairGenerationParameters(bitLength, length));
 
