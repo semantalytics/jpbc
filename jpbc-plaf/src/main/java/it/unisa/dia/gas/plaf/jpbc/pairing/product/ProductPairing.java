@@ -53,6 +53,14 @@ public class ProductPairing implements Pairing {
             output.mul(basePairing.pairing(v1.getAt(i), v2.getAt(i)));
         }
         return output;
+
+//        PairingCombiner combiner = new MultiThreadPairingMultiplier(basePairing, basePairing.getGT());
+//        for (int i = 0; i < v1.getSize(); i++) {
+//            combiner.addPairing(v1.getAt(i), v2.getAt(i));
+//        }
+//        return combiner.doFinal();
+
+
     }
 
     public Element pairing(Element[] in1, Element[] in2) {

@@ -33,7 +33,7 @@ public class IPLOSTW10KEMEngineTest extends AbstractJPBCCryptoTest {
 
     @Test
     public void testIPLOSTW10KEMEngine() {
-        int n = 2;
+        int n = 10;
 
         AsymmetricCipherKeyPair keyPair = setup(createParameters(n));
 
