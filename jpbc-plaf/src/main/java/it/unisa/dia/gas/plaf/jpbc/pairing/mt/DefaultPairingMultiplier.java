@@ -3,34 +3,36 @@ package it.unisa.dia.gas.plaf.jpbc.pairing.mt;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Pairing;
+import it.unisa.dia.gas.jpbc.PairingCombiner;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  * @since 1.0.0
  */
-public class DefaultMultiplier implements Multiplier {
+public class DefaultPairingMultiplier implements PairingCombiner {
 
     private Pairing pairing;
     private Element value;
 
-    public DefaultMultiplier(Pairing pairing, Field field) {
+
+    public DefaultPairingMultiplier(Pairing pairing, Field field) {
         this.pairing = pairing;
         this.value = field.newOneElement();
     }
 
-    public DefaultMultiplier(Pairing pairing, Element value) {
+    public DefaultPairingMultiplier(Pairing pairing, Element value) {
         this.pairing = pairing;
         this.value = value;
     }
 
 
-    public Multiplier addPairing(Element e1, Element e2) {
+    public PairingCombiner addPairing(Element e1, Element e2) {
         value.mul(pairing.pairing(e1, e2));
 
         return this;
     }
 
-    public Element finish(){
+    public Element doFinal(){
         return value;
     }
 

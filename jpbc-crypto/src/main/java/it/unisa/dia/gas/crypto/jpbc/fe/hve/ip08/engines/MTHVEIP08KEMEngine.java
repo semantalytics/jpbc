@@ -6,9 +6,9 @@ import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08KeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08PublicKeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08SecretKeyParameters;
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.PairingCombiner;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
-import it.unisa.dia.gas.plaf.jpbc.pairing.mt.MultiThreadMultiplier;
-import it.unisa.dia.gas.plaf.jpbc.pairing.mt.Multiplier;
+import it.unisa.dia.gas.plaf.jpbc.pairing.mt.MultiThreadPairingMultiplier;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -83,14 +83,14 @@ public class MTHVEIP08KEMEngine extends PairingKeyEncapsulationMechanism {
                         }
                     }
                 } else {
-                    Multiplier multiplier = new MultiThreadMultiplier(pairing, Omega);
+                    PairingCombiner combiner = new MultiThreadPairingMultiplier(pairing, Omega);
                     for (int i = 0; i < secretKey.getParameters().getN(); i++) {
                         if (!secretKey.isStar(i)) {
-                            multiplier.addPairing(secretKey.getYAt(i), X.get(i));
-                            multiplier.addPairing(secretKey.getLAt(i), W.get(i));
+                            combiner.addPairing(secretKey.getYAt(i), X.get(i));
+                            combiner.addPairing(secretKey.getLAt(i), W.get(i));
                         }
                     }
-                    result = multiplier.finish();
+                    result = combiner.doFinal();
                 }
 
                 return result.toBytes();

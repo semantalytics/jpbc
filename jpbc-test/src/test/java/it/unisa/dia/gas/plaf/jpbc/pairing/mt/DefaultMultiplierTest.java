@@ -2,6 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.pairing.mt;
 
 
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.PairingCombiner;
 import it.unisa.dia.gas.plaf.jpbc.AbstractJPBCTest;
 import org.junit.Test;
 import org.junit.runners.Parameterized;
@@ -34,7 +35,7 @@ public class DefaultMultiplierTest extends AbstractJPBCTest {
     public void testBls() {
 
 
-        Multiplier multiplier = new DefaultMultiplier(pairing, pairing.getGT());
+        PairingCombiner multiplier = new DefaultPairingMultiplier(pairing, pairing.getGT());
 
         for (int i=0; i <1000;i++){
             multiplier.addPairing(pairing.getG1().newRandomElement(),
@@ -42,7 +43,7 @@ public class DefaultMultiplierTest extends AbstractJPBCTest {
             );
         }
 
-        Element result = multiplier.finish();
+        Element result = multiplier.doFinal();
 
         System.out.println(result);
     }
