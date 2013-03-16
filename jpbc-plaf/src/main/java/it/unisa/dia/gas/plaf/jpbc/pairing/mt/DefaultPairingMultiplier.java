@@ -1,9 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing.mt;
 
-import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.jpbc.PairingCombiner;
+import it.unisa.dia.gas.jpbc.*;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -28,6 +25,12 @@ public class DefaultPairingMultiplier implements PairingCombiner {
 
     public PairingCombiner addPairing(Element e1, Element e2) {
         value.mul(pairing.pairing(e1, e2));
+
+        return this;
+    }
+
+    public PairingCombiner addPairing(PairingPreProcessing pairingPreProcessing, Element e2) {
+        value.mul(pairingPreProcessing.pairing(e2));
 
         return this;
     }

@@ -1,9 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing.mt;
 
-import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.jpbc.PairingCombiner;
+import it.unisa.dia.gas.jpbc.*;
 
 import java.util.concurrent.*;
 
@@ -47,6 +44,17 @@ public class MultiThreadPairingMultiplier implements PairingCombiner {
         pool.submit(new Callable<Element>() {
             public Element call() throws Exception {
                 return pairing.pairing(e1, e2);
+            }
+        });
+
+        return this;
+    }
+
+    public PairingCombiner addPairing(final PairingPreProcessing pairingPreProcessing, final Element e2) {
+        counter++;
+        pool.submit(new Callable<Element>() {
+            public Element call() throws Exception {
+                return pairingPreProcessing.pairing(e2);
             }
         });
 

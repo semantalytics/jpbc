@@ -28,7 +28,7 @@ public class HVEIP08KEMEngineTest extends HVEIP08AbstractTest {
 
     @Test
     public void testHVEIP08KEMEngine() {
-        int n = 5;
+        int n = 100;
         AsymmetricCipherKeyPair keyPair = setup(genBinaryParam(n));
 
         int[][] vectors = createMatchingVectors(n);
@@ -80,7 +80,11 @@ public class HVEIP08KEMEngineTest extends HVEIP08AbstractTest {
             KeyEncapsulationMechanism kem = new HVEIP08KEMEngine();
 
             kem.init(false, secretKey);
+            long start = System.currentTimeMillis();
             byte[] key = kem.processBlock(cipherText, 0, cipherText.length);
+            long end = System.currentTimeMillis();
+
+            System.out.println("(elapsed) = " + (end - start));
 
             assertNotNull(key);
             assertNotSame(0, key.length);

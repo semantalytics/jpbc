@@ -35,7 +35,7 @@ public class MultiplierTest extends AbstractJPBCTest {
     public void testMultiplier() {
         System.out.println(Runtime.getRuntime().availableProcessors());
 
-        int n = 100;
+        int n = 50;
         Element in1s[] = new Element[n];
         Element in2s[] = new Element[n];
 

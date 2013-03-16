@@ -71,27 +71,23 @@ public class MTHVEIP08KEMEngine extends PairingKeyEncapsulationMechanism {
                     W.add(w);
                 }
 
-                Element result = Omega;
+                PairingCombiner combiner = new MultiThreadPairingMultiplier(pairing, Omega);
                 if (secretKey.isPreProcessed()) {
                     for (int i = 0; i < secretKey.getParameters().getN(); i++) {
                         if (!secretKey.isStar(i)) {
-                            result.mul(
-                                    secretKey.getPreYAt(i).pairing(X.get(i))
-                            ).mul(
-                                    secretKey.getPreLAt(i).pairing(W.get(i))
-                            );
+                            combiner.addPairing(secretKey.getPreYAt(i), X.get(i));
+                            combiner.addPairing(secretKey.getPreLAt(i), W.get(i));
                         }
                     }
                 } else {
-                    PairingCombiner combiner = new MultiThreadPairingMultiplier(pairing, Omega);
                     for (int i = 0; i < secretKey.getParameters().getN(); i++) {
                         if (!secretKey.isStar(i)) {
                             combiner.addPairing(secretKey.getYAt(i), X.get(i));
                             combiner.addPairing(secretKey.getLAt(i), W.get(i));
                         }
                     }
-                    result = combiner.doFinal();
                 }
+                Element result = combiner.doFinal();
 
                 return result.toBytes();
             }

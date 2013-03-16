@@ -13,7 +13,7 @@ public class WrapperLibraryProvider {
         try {
             wrapperLibrary = (WrapperLibrary) Native.loadLibrary("jpbc-pbc", WrapperLibrary.class);
         } catch (Throwable e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
     }
 
