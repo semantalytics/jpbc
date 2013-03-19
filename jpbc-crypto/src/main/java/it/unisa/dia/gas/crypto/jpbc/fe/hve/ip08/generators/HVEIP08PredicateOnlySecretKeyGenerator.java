@@ -56,7 +56,7 @@ public class HVEIP08PredicateOnlySecretKeyGenerator {
         Element[] L = new Element[n];
 
         if (masterSecretKey.isPreProcessed()) {
-            for (int i = 0, j=0; i < n; i++) {
+            for (int i = 0, j = 0; i < n; i++) {
                 if (param.isStarAt(i)) {
                     Y[i] = null;
                     L[i] = null;
@@ -67,7 +67,7 @@ public class HVEIP08PredicateOnlySecretKeyGenerator {
                 }
             }
         } else {
-            for (int i = 0, j=0; i < n; i++) {
+            for (int i = 0, j = 0; i < n; i++) {
                 if (param.isStarAt(i)) {
                     Y[i] = null;
                     L[i] = null;
