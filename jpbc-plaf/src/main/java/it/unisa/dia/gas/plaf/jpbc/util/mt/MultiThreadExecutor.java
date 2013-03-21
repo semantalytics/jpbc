@@ -4,7 +4,7 @@ import java.util.concurrent.*;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
- * @since 1.2.1
+ * @since 1.2.2
  */
 public abstract class MultiThreadExecutor<T> {
 

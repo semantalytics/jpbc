@@ -7,7 +7,7 @@ import it.unisa.dia.gas.jpbc.PairingPreProcessing;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
- * @since 1.2.1
+ * @since 1.2.2
  */
 public class DefaultPairingMultiplier implements PairingCombiner {
 

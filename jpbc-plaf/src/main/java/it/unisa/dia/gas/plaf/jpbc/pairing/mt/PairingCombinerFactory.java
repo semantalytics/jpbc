@@ -6,7 +6,7 @@ import it.unisa.dia.gas.jpbc.PairingCombiner;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
- * @since 1.2.1
+ * @since 1.2.2
  */
 public class PairingCombinerFactory {
 

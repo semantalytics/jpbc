@@ -10,7 +10,7 @@ import java.util.concurrent.Callable;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
- * @since 1.2.1
+ * @since 1.2.2
  */
 public class MultiThreadPairingMultiplier extends MultiThreadExecutor<Element> implements PairingCombiner {
 
