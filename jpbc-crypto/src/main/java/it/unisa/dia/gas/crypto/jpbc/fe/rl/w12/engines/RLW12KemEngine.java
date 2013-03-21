@@ -83,7 +83,7 @@ public class RLW12KemEngine extends PairingKeyEncapsulationMechanism {
                         .addPairing(wEnc[index], sk.getkEnd(currentState, 1));
 
                 // Recover the message...
-                Element M = cm.div(combiner.doFinal());
+                Element M = cm.div(combiner.combine());
 
                 return M.toBytes();
             } else {

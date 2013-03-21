@@ -87,7 +87,7 @@ public class HVEIP08KEMEngine extends PairingKeyEncapsulationMechanism {
                         }
                     }
                 }
-                Element result = combiner.doFinal();
+                Element result = combiner.combine();
 
                 return result.toBytes();
             }

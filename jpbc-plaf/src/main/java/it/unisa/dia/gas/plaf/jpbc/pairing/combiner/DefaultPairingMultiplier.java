@@ -43,7 +43,7 @@ public class DefaultPairingMultiplier implements PairingCombiner {
         return this;
     }
 
-    public Element doFinal(){
+    public Element combine(){
         return value;
     }
 

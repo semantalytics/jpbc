@@ -58,7 +58,7 @@ public class ProductPairing implements Pairing {
 //        for (int i = 0; i < v1.getSize(); i++) {
 //            combiner.addPairing(v1.getAt(i), v2.getAt(i));
 //        }
-//        return combiner.doFinal();
+//        return combiner.combine();
 
 
     }

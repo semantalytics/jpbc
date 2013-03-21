@@ -44,7 +44,7 @@ public class DefaultMultiplierTest extends AbstractJPBCTest {
             );
         }
 
-        Element result = multiplier.doFinal();
+        Element result = multiplier.combine();
 
         System.out.println(result);
     }

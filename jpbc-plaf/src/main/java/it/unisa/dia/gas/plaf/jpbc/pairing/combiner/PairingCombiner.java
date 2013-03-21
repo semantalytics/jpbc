@@ -15,6 +15,6 @@ public interface PairingCombiner {
 
     public PairingCombiner addPairing(PairingPreProcessing pairingPreProcessing, Element e2);
 
-    public Element doFinal();
+    public Element combine();
 
 }

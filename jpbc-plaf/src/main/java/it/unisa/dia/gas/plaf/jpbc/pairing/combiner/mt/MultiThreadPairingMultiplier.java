@@ -57,7 +57,7 @@ public class MultiThreadPairingMultiplier extends MultiThreadExecutor<Element> i
         return this;
     }
 
-    public Element doFinal() {
+    public Element combine() {
         process();
 
         return value;

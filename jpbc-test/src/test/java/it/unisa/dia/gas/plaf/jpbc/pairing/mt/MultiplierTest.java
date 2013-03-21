@@ -53,7 +53,7 @@ public class MultiplierTest extends AbstractJPBCTest {
         for (int i=0; i <n;i++){
             multiplier.addPairing(in1s[i], in2s[i]);
         }
-        Element result1 = multiplier.doFinal();
+        Element result1 = multiplier.combine();
         long end = System.currentTimeMillis();
 
         System.out.println("result = " + result1);
@@ -67,7 +67,7 @@ public class MultiplierTest extends AbstractJPBCTest {
         for (int i=0; i <n;i++){
             multiplier.addPairing(in1s[i], in2s[i]);
         }
-        Element result2 = multiplier.doFinal();
+        Element result2 = multiplier.combine();
         end = System.currentTimeMillis();
 
         System.out.println("result = " + result2);
