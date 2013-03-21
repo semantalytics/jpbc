@@ -1,9 +1,9 @@
-package it.unisa.dia.gas.plaf.jpbc.pairing.mt;
+package it.unisa.dia.gas.plaf.jpbc.pairing.combiner.mt;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.jpbc.PairingCombiner;
 import it.unisa.dia.gas.jpbc.PairingPreProcessing;
+import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingCombiner;
 import it.unisa.dia.gas.plaf.jpbc.util.mt.MultiThreadExecutor;
 
 import java.util.concurrent.Callable;

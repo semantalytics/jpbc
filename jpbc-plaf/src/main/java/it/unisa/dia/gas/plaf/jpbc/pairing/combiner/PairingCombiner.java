@@ -1,4 +1,7 @@
-package it.unisa.dia.gas.jpbc;
+package it.unisa.dia.gas.plaf.jpbc.pairing.combiner;
+
+import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.PairingPreProcessing;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)

@@ -3,9 +3,9 @@ package it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.engines;
 import it.unisa.dia.gas.crypto.engines.kem.PairingKeyEncapsulationMechanism;
 import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.params.*;
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.jpbc.PairingCombiner;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
-import it.unisa.dia.gas.plaf.jpbc.pairing.mt.PairingCombinerFactory;
+import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingCombiner;
+import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingCombinerFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

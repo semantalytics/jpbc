@@ -2,8 +2,9 @@ package it.unisa.dia.gas.plaf.jpbc.pairing.mt;
 
 
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.jpbc.PairingCombiner;
 import it.unisa.dia.gas.plaf.jpbc.AbstractJPBCTest;
+import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.DefaultPairingMultiplier;
+import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingCombiner;
 import org.junit.Test;
 import org.junit.runners.Parameterized;
 

@@ -1,8 +1,7 @@
-package it.unisa.dia.gas.plaf.jpbc.pairing.mt;
+package it.unisa.dia.gas.plaf.jpbc.pairing.combiner;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.jpbc.PairingCombiner;
 import it.unisa.dia.gas.jpbc.PairingPreProcessing;
 
 /**
