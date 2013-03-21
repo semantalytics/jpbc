@@ -35,7 +35,7 @@ public class DefaultMultiplierTest extends AbstractJPBCTest {
     public void testBls() {
 
 
-        PairingCombiner multiplier = new DefaultPairingMultiplier(pairing, pairing.getGT());
+        PairingCombiner multiplier = new DefaultPairingMultiplier(pairing);
 
         for (int i=0; i <1000;i++){
             multiplier.addPairing(pairing.getG1().newRandomElement(),

@@ -1,10 +1,13 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing.mt;
 
-import it.unisa.dia.gas.jpbc.*;
+import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.Pairing;
+import it.unisa.dia.gas.jpbc.PairingCombiner;
+import it.unisa.dia.gas.jpbc.PairingPreProcessing;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
- * @since 1.0.0
+ * @since 1.2.1
  */
 public class DefaultPairingMultiplier implements PairingCombiner {
 
@@ -12,9 +15,9 @@ public class DefaultPairingMultiplier implements PairingCombiner {
     private Element value;
 
 
-    public DefaultPairingMultiplier(Pairing pairing, Field field) {
+    public DefaultPairingMultiplier(Pairing pairing) {
         this.pairing = pairing;
-        this.value = field.newOneElement();
+        this.value = pairing.getGT().newOneElement();
     }
 
     public DefaultPairingMultiplier(Pairing pairing, Element value) {
@@ -31,6 +34,12 @@ public class DefaultPairingMultiplier implements PairingCombiner {
 
     public PairingCombiner addPairing(PairingPreProcessing pairingPreProcessing, Element e2) {
         value.mul(pairingPreProcessing.pairing(e2));
+
+        return this;
+    }
+
+    public PairingCombiner addPairingInverse(Element e1, Element e2) {
+        value.mul(pairing.pairing(e1, e2).invert());
 
         return this;
     }

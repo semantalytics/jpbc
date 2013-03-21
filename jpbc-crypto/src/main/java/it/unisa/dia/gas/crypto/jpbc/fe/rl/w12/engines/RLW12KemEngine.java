@@ -3,7 +3,9 @@ package it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.engines;
 import it.unisa.dia.gas.crypto.engines.kem.PairingKeyEncapsulationMechanism;
 import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.params.*;
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.PairingCombiner;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
+import it.unisa.dia.gas.plaf.jpbc.pairing.mt.PairingCombinerFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -56,9 +58,11 @@ public class RLW12KemEngine extends PairingKeyEncapsulationMechanism {
 
             // Run the decryption...
             // Init
+            PairingCombiner combiner = PairingCombinerFactory.getInstance().getPairingMultiplier(pairing);
+
             int index = 0;
-            Element mask = pairing.pairing(wEnc[index++], sk.getkStart(0))
-                    .mul(pairing.pairing(wEnc[index++], sk.getkStart(1)).invert());
+            combiner.addPairing(wEnc[index++], sk.getkStart(0))
+                    .addPairingInverse(wEnc[index++], sk.getkStart(1));
 
             // Run
             int currentState = sk.getDfa().getInitialState(); // Initial state
@@ -66,20 +70,20 @@ public class RLW12KemEngine extends PairingKeyEncapsulationMechanism {
             for (int i = 0; i < w.length(); i++) {
                 DFATransition DFATransition = sk.getDfa().getTransition(currentState, w.charAt(i));
 
-                mask.mul(pairing.pairing(wEnc[index - 2], sk.getkTransition(DFATransition, 0)))
-                        .mul(pairing.pairing(wEnc[index++], sk.getkTransition(DFATransition, 2)))
-                        .mul(pairing.pairing(wEnc[index++], sk.getkTransition(DFATransition, 1)).invert());
+                combiner.addPairing(wEnc[index - 2], sk.getkTransition(DFATransition, 0))
+                        .addPairing(wEnc[index++], sk.getkTransition(DFATransition, 2))
+                        .addPairingInverse(wEnc[index++], sk.getkTransition(DFATransition, 1));
 
                 currentState = DFATransition.getTo();
             }
 
             // Finalize
             if (sk.getDfa().isFinalState(currentState)) {
-                mask.mul(pairing.pairing(wEnc[index++], sk.getkEnd(currentState, 0)).invert())
-                        .mul(pairing.pairing(wEnc[index], sk.getkEnd(currentState, 1)));
+                combiner.addPairingInverse(wEnc[index++], sk.getkEnd(currentState, 0))
+                        .addPairing(wEnc[index], sk.getkEnd(currentState, 1));
 
                 // Recover the message...
-                Element M = cm.div(mask);
+                Element M = cm.div(combiner.doFinal());
 
                 return M.toBytes();
             } else {

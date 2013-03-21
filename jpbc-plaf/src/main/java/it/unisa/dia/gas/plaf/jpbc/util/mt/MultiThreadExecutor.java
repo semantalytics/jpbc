@@ -4,7 +4,7 @@ import java.util.concurrent.*;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
- * @since 1.0.0
+ * @since 1.2.1
  */
 public abstract class MultiThreadExecutor<T> {
 
@@ -15,13 +15,13 @@ public abstract class MultiThreadExecutor<T> {
 
     private CompletionService<T> pool;
     private int counter;
-    private T value;
 
 
     protected MultiThreadExecutor() {
         this.pool = new ExecutorCompletionService<T>(executorService);
         this.counter = 0;
     }
+
 
     public MultiThreadExecutor submit(Callable<T> callable) {
         counter++;
@@ -30,7 +30,8 @@ public abstract class MultiThreadExecutor<T> {
         return this;
     }
 
-    public T doFinal(){
+
+    public void process(){
         try{
             for(int i = 0; i < counter; i++)
                 reduce(pool.take().get());
@@ -39,8 +40,6 @@ public abstract class MultiThreadExecutor<T> {
         } finally {
             counter = 0;
         }
-
-        return value;
     }
 
     public abstract void reduce(T value);

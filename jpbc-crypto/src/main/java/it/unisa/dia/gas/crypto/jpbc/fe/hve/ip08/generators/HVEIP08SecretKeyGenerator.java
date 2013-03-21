@@ -93,7 +93,7 @@ public class HVEIP08SecretKeyGenerator {
                     j++;
                 }
             }
-            executor.doFinal();
+            executor.process();
 
         } else {
 //            for (int i = 0, j = 0; i < n; i++) {
@@ -124,7 +124,7 @@ public class HVEIP08SecretKeyGenerator {
                     j++;
                 }
             }
-            executor.doFinal();
+            executor.process();
 
         }
 

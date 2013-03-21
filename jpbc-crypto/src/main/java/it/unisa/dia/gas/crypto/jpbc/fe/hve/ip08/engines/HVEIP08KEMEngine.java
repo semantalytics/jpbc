@@ -6,7 +6,9 @@ import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08KeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08PublicKeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08SecretKeyParameters;
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.PairingCombiner;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
+import it.unisa.dia.gas.plaf.jpbc.pairing.mt.PairingCombinerFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -69,28 +71,23 @@ public class HVEIP08KEMEngine extends PairingKeyEncapsulationMechanism {
                     W.add(w);
                 }
 
-                Element result = Omega;
+                PairingCombiner combiner = PairingCombinerFactory.getInstance().getPairingMultiplier(pairing, Omega);
                 if (secretKey.isPreProcessed()) {
                     for (int i = 0; i < secretKey.getParameters().getN(); i++) {
                         if (!secretKey.isStar(i)) {
-                            result.mul(
-                                    secretKey.getPreYAt(i).pairing(X.get(i))
-                            ).mul(
-                                    secretKey.getPreLAt(i).pairing(W.get(i))
-                            );
+                            combiner.addPairing(secretKey.getPreYAt(i), X.get(i));
+                            combiner.addPairing(secretKey.getPreLAt(i), W.get(i));
                         }
                     }
                 } else {
                     for (int i = 0; i < secretKey.getParameters().getN(); i++) {
                         if (!secretKey.isStar(i)) {
-                            result.mul(
-                                    pairing.pairing(secretKey.getYAt(i), X.get(i))
-                            ).mul(
-                                    pairing.pairing(secretKey.getLAt(i), W.get(i))
-                            );
+                            combiner.addPairing(secretKey.getYAt(i), X.get(i));
+                            combiner.addPairing(secretKey.getLAt(i), W.get(i));
                         }
                     }
                 }
+                Element result = combiner.doFinal();
 
                 return result.toBytes();
             }

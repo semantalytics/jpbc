@@ -46,7 +46,7 @@ public class MultiplierTest extends AbstractJPBCTest {
 
         // Test default
         System.out.println("Default");
-        PairingCombiner multiplier = new DefaultPairingMultiplier(pairing, pairing.getGT());
+        PairingCombiner multiplier = new DefaultPairingMultiplier(pairing);
         long start = System.currentTimeMillis();
         for (int i=0; i <n;i++){
             multiplier.addPairing(in1s[i], in2s[i]);
@@ -60,7 +60,7 @@ public class MultiplierTest extends AbstractJPBCTest {
 
         // Test multi thread
         System.out.println("MultiThread");
-        multiplier = new MultiThreadPairingMultiplier(pairing, pairing.getGT());
+        multiplier = new MultiThreadPairingMultiplier(pairing);
         start = System.currentTimeMillis();
         for (int i=0; i <n;i++){
             multiplier.addPairing(in1s[i], in2s[i]);
