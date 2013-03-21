@@ -39,6 +39,10 @@ public class TypeDTateAffineNoDenomMillerPairingMap extends AbstractMillerPairin
         return new GTFiniteElement(this, (GTFiniteField) pairing.getGT(), tatePow(pairing(in1, Qx, Qy)));
     }
 
+    public boolean isProductPairingSupported() {
+        return true;
+    }
+
     public Element pairing(Element[] in1, Element[] in2) {
         int n = in1.length;
 

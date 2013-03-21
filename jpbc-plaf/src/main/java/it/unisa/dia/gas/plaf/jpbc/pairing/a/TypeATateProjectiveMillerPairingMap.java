@@ -127,6 +127,10 @@ public class TypeATateProjectiveMillerPairingMap extends AbstractMillerPairingMa
         return new TypeATateProjectiveMillerPairingPreProcessing(in1);
     }
 
+    public boolean isProductPairingSupported() {
+        return true;
+    }
+
     public Element pairing(Element[] in1, Element[] in2) {
         // could save a couple of inversions by avoiding
         // this function and rewriting lineStep() to handle projective coords

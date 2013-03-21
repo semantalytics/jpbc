@@ -4,6 +4,8 @@ import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.jpbc.PairingPreProcessing;
 import it.unisa.dia.gas.jpbc.Point;
+import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingCombiner;
+import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingCombinerFactory;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -17,13 +19,15 @@ public abstract class AbstractPairingMap implements PairingMap {
     }
 
 
-    public Element pairing(Element[] in1, Element[] in2) {
-        Element out = pairing((Point) in1[0], (Point) in2[0]);
+    public boolean isProductPairingSupported() {
+        return false;
+    }
 
-        for(int i = 1; i < in1.length; i++)
-            out.mul(pairing((Point) in1[i], (Point) in2[i]));
-        
-        return out;
+    public Element pairing(Element[] in1, Element[] in2) {
+        PairingCombiner combiner = PairingCombinerFactory.getInstance().getPairingMultiplier(pairing);
+        for(int i = 0; i < in1.length; i++)
+            combiner.addPairing(in1[i], in2[i]);
+        return combiner.combine();
     }
 
     public int getPairingPreProcessingLengthInBytes() {

@@ -70,6 +70,14 @@ public interface Pairing {
 
 
     /**
+     *
+     * @return
+     * @since 1.2.2
+     */
+    boolean isProductPairingSupported();
+
+
+    /**
      * Computes the product of pairings, that is
      * 'e'('in1'[0], 'in2'[0]) ... 'e'('in1'[n-1], 'in2'[n-1]).
      *

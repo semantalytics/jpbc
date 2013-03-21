@@ -74,6 +74,10 @@ public class TypeA1TateAffineMillerPairingMap extends AbstractMillerPairingMap<E
         return new GTFiniteElement(this, (GTFiniteField) pairing.getGT(), out);
     }
 
+    public boolean isProductPairingSupported() {
+        return true;
+    }
+
     public Element pairing(Element[] in1, Element[] in2) {
         Field refField = in1[0].getField();
 

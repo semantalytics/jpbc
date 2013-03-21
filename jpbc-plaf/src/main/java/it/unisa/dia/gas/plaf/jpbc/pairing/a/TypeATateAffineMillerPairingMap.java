@@ -102,6 +102,10 @@ public class TypeATateAffineMillerPairingMap extends AbstractMillerPairingMap {
         return new GTFiniteElement(this, (GTFiniteField) pairing.getGT(), out);
     }
 
+    public boolean isProductPairingSupported() {
+        return true;
+    }
+
     public Element pairing(Element[] in1, Element[] in2) {
         // could save a couple of inversions by avoiding
         // this function and rewriting lineStep() to handle projective coords
@@ -144,13 +148,13 @@ public class TypeATateAffineMillerPairingMap extends AbstractMillerPairingMap {
 
         Element f1;
         if (pairing.sign1 < 0) {
-            for (Element V11 : V1s) {
-                V11.set(Vs[i]).negate();
+            for (int j = 0; j < V1s.length; j++) {
+                V1s[j].set(Vs[j]).negate();
             }
             f1 = f.duplicate().invert();
         } else {
-            for (Element V11 : V1s) {
-                V11.set(Vs[i]);
+            for (int j = 0; j < V1s.length; j++) {
+                V1s[j].set(Vs[j]);
             }
             f1 = f.duplicate();
         }

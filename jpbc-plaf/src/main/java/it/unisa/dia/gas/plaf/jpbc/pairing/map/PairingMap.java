@@ -11,7 +11,10 @@ public interface PairingMap {
 
     Element pairing(Point in1, Point in2);
 
+    boolean isProductPairingSupported();
+
     Element pairing(Element[] in1, Element[] in2);
+
 
     void finalPow(Element element);
 

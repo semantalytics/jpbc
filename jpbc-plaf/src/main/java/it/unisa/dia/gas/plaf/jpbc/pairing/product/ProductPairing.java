@@ -2,6 +2,9 @@ package it.unisa.dia.gas.plaf.jpbc.pairing.product;
 
 import it.unisa.dia.gas.jpbc.*;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorField;
+import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingCombiner;
+import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingCombinerFactory;
+import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.ProductPairingMultiplier;
 import it.unisa.dia.gas.plaf.jpbc.pairing.map.AbstractMillerPairingPreProcessing;
 
 import java.util.Random;
@@ -47,29 +50,24 @@ public class ProductPairing implements Pairing {
         Vector v1 = (Vector) in1;
         Vector v2 = (Vector) in2;
 
-//      TODO:  return basePairing.pairing(v1.toArray(), v2.toArray());
-        Element output = basePairing.pairing(v1.getAt(0), v2.getAt(0));
-        for (int i = 1; i < v1.getSize(); i++) {
-            output.mul(basePairing.pairing(v1.getAt(i), v2.getAt(i)));
+        PairingCombiner combiner = (basePairing.isProductPairingSupported()) ? new ProductPairingMultiplier(basePairing, v1.getSize())
+                : PairingCombinerFactory.getInstance().getPairingMultiplier(basePairing);
+        for (int i = 0; i < v1.getSize(); i++) {
+            combiner.addPairing(v1.getAt(i), v2.getAt(i));
         }
-        return output;
+        return combiner.combine();
+    }
 
-//        PairingCombiner combiner = new MultiThreadPairingMultiplier(basePairing, basePairing.getGT());
-//        for (int i = 0; i < v1.getSize(); i++) {
-//            combiner.addPairing(v1.getAt(i), v2.getAt(i));
-//        }
-//        return combiner.combine();
-
-
+    public boolean isProductPairingSupported() {
+        return false;
     }
 
     public Element pairing(Element[] in1, Element[] in2) {
-        Element out = pairing(in1[0], in2[0]);
-
-        for(int i = 1; i < in1.length; i++)
-            out.mul(pairing(in1[i], in2[i]));
-
-        return out;
+        PairingCombiner combiner = PairingCombinerFactory.getInstance().getPairingMultiplier(basePairing);
+        for (int i = 0; i < in1.length; i++) {
+            combiner.addPairing(in1[i], in2[i]);
+        }
+        return combiner.combine();
     }
 
     public PairingPreProcessing pairing(final Element in1) {
