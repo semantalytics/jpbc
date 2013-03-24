@@ -3,8 +3,8 @@ package it.unisa.dia.gas.plaf.jpbc.pairing.mt;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.plaf.jpbc.AbstractJPBCTest;
-import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.DefaultPairingMultiplier;
 import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingCombiner;
+import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.SequentialPairingMultiplier;
 import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.mt.MultiThreadPairingMultiplier;
 import org.junit.Test;
 import org.junit.runners.Parameterized;
@@ -16,7 +16,7 @@ import java.util.Collection;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  * @since 1.0.0
  */
-public class MultiplierTest extends AbstractJPBCTest {
+public class MultiThreadPairingMultiplierTest extends AbstractJPBCTest {
 
     @Parameterized.Parameters
     public static Collection parameters() {
@@ -28,7 +28,7 @@ public class MultiplierTest extends AbstractJPBCTest {
     }
 
 
-    public MultiplierTest(boolean usePBC, String curvePath) {
+    public MultiThreadPairingMultiplierTest(boolean usePBC, String curvePath) {
         super(usePBC, curvePath);
     }
 
@@ -37,7 +37,7 @@ public class MultiplierTest extends AbstractJPBCTest {
     public void testMultiplier() {
         System.out.println(Runtime.getRuntime().availableProcessors());
 
-        int n = 50;
+        int n = 1000;
         Element in1s[] = new Element[n];
         Element in2s[] = new Element[n];
 
@@ -48,7 +48,7 @@ public class MultiplierTest extends AbstractJPBCTest {
 
         // Test default
         System.out.println("Default");
-        PairingCombiner multiplier = new DefaultPairingMultiplier(pairing);
+        PairingCombiner multiplier = new SequentialPairingMultiplier(pairing);
         long start = System.currentTimeMillis();
         for (int i=0; i <n;i++){
             multiplier.addPairing(in1s[i], in2s[i]);

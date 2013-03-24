@@ -8,18 +8,18 @@ import it.unisa.dia.gas.jpbc.PairingPreProcessing;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  * @since 1.2.2
  */
-public class DefaultPairingMultiplier implements PairingCombiner {
+public class SequentialPairingMultiplier implements PairingCombiner {
 
     private Pairing pairing;
     private Element value;
 
 
-    public DefaultPairingMultiplier(Pairing pairing) {
+    public SequentialPairingMultiplier(Pairing pairing) {
         this.pairing = pairing;
         this.value = pairing.getGT().newOneElement();
     }
 
-    public DefaultPairingMultiplier(Pairing pairing, Element value) {
+    public SequentialPairingMultiplier(Pairing pairing, Element value) {
         this.pairing = pairing;
         this.value = value;
     }

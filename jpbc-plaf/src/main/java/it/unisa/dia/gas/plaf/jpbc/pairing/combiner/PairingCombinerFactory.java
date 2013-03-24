@@ -26,12 +26,12 @@ public class PairingCombinerFactory {
 
     public PairingCombiner getPairingMultiplier(Pairing pairing) {
         return isMultiThreadSupport() ? new MultiThreadPairingMultiplier(pairing)
-                : new DefaultPairingMultiplier(pairing);
+                : new SequentialPairingMultiplier(pairing);
     }
 
     public PairingCombiner getPairingMultiplier(Pairing pairing, Element element) {
         return isMultiThreadSupport() ? new MultiThreadPairingMultiplier(pairing, element)
-                : new DefaultPairingMultiplier(pairing, element);
+                : new SequentialPairingMultiplier(pairing, element);
     }
 
     public boolean isMultiThreadSupport() {
