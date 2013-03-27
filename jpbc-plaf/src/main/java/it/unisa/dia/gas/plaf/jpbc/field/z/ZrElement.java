@@ -102,7 +102,7 @@ public class ZrElement extends AbstractZElement {
     }
 
     public ZrElement setToRandom() {
-        this.value = new BigInteger(order.bitLength(), field.getRandom()).mod(order);
+        this.value = BigIntegerUtils.getRandom(order, field.getRandom());
 
         return this;
     }

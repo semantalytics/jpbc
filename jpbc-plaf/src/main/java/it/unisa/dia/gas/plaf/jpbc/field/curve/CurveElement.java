@@ -108,8 +108,7 @@ public class CurveElement<E extends Element> extends AbstractPointElement<E> {
     }
 
     public CurveElement setToRandom() {
-        BigInteger order = field.getTargetField().getOrder();
-        set(getField().getGenPow().pow(new BigInteger(order.bitLength(), field.getRandom()).mod(order)));
+        set(getField().getGenPow().pow(BigIntegerUtils.getRandom(field.getTargetField().getOrder(), field.getRandom())));
 
         return this;
     }

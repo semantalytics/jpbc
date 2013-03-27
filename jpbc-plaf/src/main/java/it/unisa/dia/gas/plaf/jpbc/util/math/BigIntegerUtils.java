@@ -317,7 +317,7 @@ public class BigIntegerUtils {
         BigInteger result;
         do {
             result = new BigInteger(limit.bitLength(), random);
-        } while (limit.compareTo(result) >= 0);
+        } while (limit.compareTo(result) < 0);
         return result;
     }
 

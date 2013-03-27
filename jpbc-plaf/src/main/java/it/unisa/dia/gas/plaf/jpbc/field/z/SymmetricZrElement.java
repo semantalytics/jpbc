@@ -103,7 +103,7 @@ public class SymmetricZrElement extends AbstractZElement {
     }
 
     public SymmetricZrElement setToRandom() {
-        this.value = new BigInteger(order.bitLength(), field.getRandom()).mod(order);
+        this.value = BigIntegerUtils.getRandom(order, field.getRandom());
 
         return mod();
     }
