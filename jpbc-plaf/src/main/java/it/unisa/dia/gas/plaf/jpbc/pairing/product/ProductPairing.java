@@ -98,4 +98,16 @@ public class ProductPairing implements Pairing {
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
+    public Field getField(PairingFieldIdentifier id) {
+        switch (id) {
+            case G1:
+                return G1;
+            case G2:
+                return G2;
+            case GT:
+                return basePairing.getGT();
+            default:
+                throw new IllegalArgumentException("Invalid Identifier.");
+        }
+    }
 }

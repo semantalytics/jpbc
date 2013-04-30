@@ -8,9 +8,13 @@ import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params.AHIBEDIP10SecretKeyParam
 import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtils;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
+import it.unisa.dia.gas.plaf.jpbc.util.io.PairingStreamParser;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+
+import static it.unisa.dia.gas.jpbc.Pairing.PairingFieldIdentifier.G1;
+import static it.unisa.dia.gas.jpbc.Pairing.PairingFieldIdentifier.GT;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -35,23 +39,11 @@ public class AHIBEDIP10PredicateOnlyEngine extends PredicateOnlyPairingAsymmetri
         if (key instanceof AHIBEDIP10SecretKeyParameters) {
             // Convert bytes to Elements...
 
-            int offset = inOff;
-
-            // Load C0...
-            Element C0 = pairing.getGT().newElement();
-            offset += C0.setFromBytes(in, offset);
-
-            // Load C1...
-            Element C1 = pairing.getG1().newElement();
-            offset += C1.setFromBytes(in, offset);
-
-            // Load C2...
-            Element C2 = pairing.getG1().newElement();
-            offset += C2.setFromBytes(in, offset);
+            Element[] Cs = new PairingStreamParser(pairing, in, inOff).load(GT, G1, G1);
 
             // Run the test
             AHIBEDIP10SecretKeyParameters sk = (AHIBEDIP10SecretKeyParameters) key;
-            Element M = C0.mul(pairing.pairing(sk.getK12(), C2).mul(pairing.pairing(sk.getK11(), C1).invert()).invert());
+            Element M = Cs[0].mul(pairing.pairing(sk.getK12(), Cs[2]).mul(pairing.pairing(sk.getK11(), Cs[1]).invert()).invert());
 
             return new byte[]{(byte) (M.isOne() ? 1 : 0)};
         } else {

@@ -6,6 +6,7 @@ import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingCombiner;
 import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingCombinerFactory;
+import it.unisa.dia.gas.plaf.jpbc.util.io.PairingStreamParser;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -36,25 +37,10 @@ public class RLW12KemEngine extends PairingKeyEncapsulationMechanism {
             // Decrypt
             RLW12SecretKeyParameters sk = (RLW12SecretKeyParameters) key;
 
-            // Read w
-            int length = in[inOff++];
-            String w = new String(in, inOff, length);
-            inOff += length;
-
-            // Read the ciphertext
-            int l = (inLen - pairing.getGT().getLengthInBytes()) / pairing.getG1().getLengthInBytes();
-
-            Element[] wEnc = new Element[l];
-            for (int i = 0; i < l; i += 2) {
-                wEnc[i] = pairing.getG1().newElement();
-                inOff += wEnc[i].setFromBytes(in, inOff);
-
-                wEnc[i + 1] = pairing.getG1().newElement();
-                inOff += wEnc[i + 1].setFromBytes(in, inOff);
-            }
-
-            Element cm = pairing.getGT().newElement();
-            inOff += cm.setFromBytes(in, inOff);
+            PairingStreamParser streamParser = new PairingStreamParser(pairing, in, inOff);
+            String w = streamParser.loadString();
+            Element[] wEnc = streamParser.loadG1(((inLen - pairing.getGT().getLengthInBytes()) / pairing.getG1().getLengthInBytes()));
+            Element cm = streamParser.loadGT();
 
             // Run the decryption...
             // Init

@@ -151,4 +151,12 @@ public interface Pairing {
      * @since 1.2.0
      */
     PairingFieldIdentifier getPairingFieldIdentifier(Field field);
+
+    /**
+     *
+     * @see PairingFieldIdentifier
+     * @since 1.2.0
+     */
+    Field getField(PairingFieldIdentifier id);
+
 }

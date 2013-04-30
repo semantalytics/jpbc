@@ -90,6 +90,19 @@ public abstract class AbstractPairing implements Pairing {
         return PairingFieldIdentifier.Unknown;
     }
 
+    public Field getField(PairingFieldIdentifier id) {
+        switch (id) {
+            case G1:
+                return G1;
+            case G2:
+                return G2;
+            case GT:
+                return GT;
+            default:
+                throw new IllegalArgumentException("Invalid Identifier.");
+        }
+    }
+
     public boolean isProductPairingSupported() {
         return pairingMap.isProductPairingSupported();
     }
