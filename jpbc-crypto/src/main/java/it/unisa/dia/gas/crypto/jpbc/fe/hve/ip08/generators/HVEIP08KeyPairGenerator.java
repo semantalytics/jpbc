@@ -30,7 +30,7 @@ public class HVEIP08KeyPairGenerator implements AsymmetricCipherKeyPairGenerator
         HVEIP08Parameters parameters = param.getParameters();
         parameters.preProcess();
 
-        Pairing pairing = PairingFactory.getPairing(parameters.getCurveParameters());
+        Pairing pairing = PairingFactory.getPairing(parameters.getParameters());
         Element g = parameters.getG();
         ElementPow powG = parameters.getElementPowG();
         int n = parameters.getN();

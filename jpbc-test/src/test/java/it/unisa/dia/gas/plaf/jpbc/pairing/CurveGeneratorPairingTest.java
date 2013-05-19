@@ -1,6 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing;
 
-import it.unisa.dia.gas.jpbc.CurveGenerator;
+import it.unisa.dia.gas.jpbc.PairingParametersGenerator;
 import it.unisa.dia.gas.plaf.jpbc.pairing.a.TypeACurveGenerator;
 import it.unisa.dia.gas.plaf.jpbc.pairing.a1.TypeA1CurveGenerator;
 import it.unisa.dia.gas.plaf.jpbc.pairing.e.TypeECurveGenerator;
@@ -37,13 +37,13 @@ public class CurveGeneratorPairingTest extends PairingTest {
     }
 
 
-    protected CurveGenerator curveGenerator;
+    protected PairingParametersGenerator parametersGenerator;
 
 
-    public CurveGeneratorPairingTest(boolean usePBC, CurveGenerator curveGenerator) {
+    public CurveGeneratorPairingTest(boolean usePBC, PairingParametersGenerator parametersGenerator) {
         super(usePBC, null);
 
-        this.curveGenerator = curveGenerator;
+        this.parametersGenerator = parametersGenerator;
     }
 
     @Before
@@ -51,7 +51,7 @@ public class CurveGeneratorPairingTest extends PairingTest {
         assumeTrue(!usePBC || PairingFactory.getInstance().isPBCAvailable());
 
         PairingFactory.getInstance().setUsePBCWhenPossible(usePBC);
-        pairing = PairingFactory.getPairing(curveGenerator.generate());
+        pairing = PairingFactory.getPairing(parametersGenerator.generate());
 
         assumeTrue(pairing != null);
     }

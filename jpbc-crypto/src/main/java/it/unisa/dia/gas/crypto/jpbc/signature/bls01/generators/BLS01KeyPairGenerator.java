@@ -26,7 +26,7 @@ public class BLS01KeyPairGenerator implements AsymmetricCipherKeyPairGenerator {
     public AsymmetricCipherKeyPair generateKeyPair() {
         BLS01Parameters parameters = param.getParameters();
 
-        Pairing pairing = PairingFactory.getPairing(parameters.getCurveParameters());
+        Pairing pairing = PairingFactory.getPairing(parameters.getParameters());
         Element g = parameters.getG();
 
         // Generate the secret key

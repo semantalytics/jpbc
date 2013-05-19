@@ -16,7 +16,7 @@ public interface Pairing {
      * Field identifiers.
      * @since 1.2.0
      */
-    public static enum PairingFieldIdentifier {G1, G2, GT, Zr, Unknown}
+    public static enum PairingFieldIdentifier {Zr, G1, G2, GT, Unknown}
 
     /**
      * Returns true if this pairing is symmetric, false otherwise.
@@ -59,6 +59,20 @@ public interface Pairing {
     Field getZr();
 
     /**
+     * TODO
+     * @return
+     * @since 1.3.0
+     */
+    int getDegree();
+
+    /**
+     * TODO
+     * @return
+     * @since 1.3.0
+     */
+    Field getFieldAt(int index);
+
+    /**
      * Applies the bilinear map. It returns e(in1, in2). g1 must be in the group G1, g2 must be in the group G2.
      *
      * @param in1 an element from G1.
@@ -70,9 +84,9 @@ public interface Pairing {
 
 
     /**
-     *
+     * TODO
      * @return
-     * @since 1.2.2
+     * @since 1.3.0
      */
     boolean isProductPairingSupported();
 

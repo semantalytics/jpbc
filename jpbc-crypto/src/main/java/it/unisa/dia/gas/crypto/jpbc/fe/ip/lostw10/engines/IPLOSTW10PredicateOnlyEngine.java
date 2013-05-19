@@ -30,7 +30,7 @@ public class IPLOSTW10PredicateOnlyEngine extends PredicateOnlyPairingAsymmetric
         IPLOSTW10KeyParameters ipKey = (IPLOSTW10KeyParameters) key;
         this.n = ipKey.getParameters().getN();
         int N = (2 * n + 3);
-        this.pairing = PairingFactory.getPairing(ipKey.getParameters().getCurveParameters());
+        this.pairing = PairingFactory.getPairing(ipKey.getParameters().getParameters());
         this.productPairing = new ProductPairing(null, pairing, N);
 
         this.outBytes = N * pairing.getG1().getLengthInBytes();

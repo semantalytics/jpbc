@@ -26,7 +26,7 @@ public class RLW12KemEngine extends PairingKeyEncapsulationMechanism {
         }
 
         RLW12KeyParameters rlKey = (RLW12KeyParameters) key;
-        this.pairing = PairingFactory.getPairing(rlKey.getParameters().getCurveParameters());
+        this.pairing = PairingFactory.getPairing(rlKey.getParameters().getParameters());
 
         this.keyBytes = pairing.getGT().getLengthInBytes();
 //        this.outBytes = 2 * pairing.getGT().getLengthInBytes() + N * pairing.getG1().getLengthInBytes();

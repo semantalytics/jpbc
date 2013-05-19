@@ -35,7 +35,7 @@ public class HVEIP08PredicateOnlySecretKeyGenerator {
         if (param.isAllStar())
             return new HVEIP08SecretKeyParameters(masterSecretKey.getParameters());
 
-        Pairing pairing = PairingFactory.getPairing(masterSecretKey.getParameters().getCurveParameters());
+        Pairing pairing = PairingFactory.getPairing(masterSecretKey.getParameters().getParameters());
 
         int n = masterSecretKey.getParameters().getN();
         int numNonStar = param.getNumNonStar();

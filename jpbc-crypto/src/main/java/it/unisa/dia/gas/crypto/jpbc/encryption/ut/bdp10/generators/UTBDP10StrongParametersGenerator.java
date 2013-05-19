@@ -4,9 +4,9 @@ import it.unisa.dia.gas.crypto.jpbc.encryption.ut.bdp10.params.UTBDP10StrongMast
 import it.unisa.dia.gas.crypto.jpbc.encryption.ut.bdp10.params.UTBDP10StrongParameters;
 import it.unisa.dia.gas.crypto.jpbc.encryption.ut.bdp10.params.UTBDP10StrongPublicParameters;
 import it.unisa.dia.gas.crypto.jpbc.encryption.ut.bdp10.params.UTBDP10StrongRPublicParameters;
-import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
+import it.unisa.dia.gas.jpbc.PairingParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPairGenerator;
@@ -22,7 +22,7 @@ import java.security.SecureRandom;
  */
 public class UTBDP10StrongParametersGenerator {
 
-    private CurveParameters curveParams;
+    private PairingParameters curveParams;
     private AsymmetricCipherKeyPairGenerator rKeyPairGenerator;
 
     private Pairing pairing;
@@ -37,14 +37,14 @@ public class UTBDP10StrongParametersGenerator {
     }
     
 
-    public void init(CurveParameters curveParams, KeyGenerationParameters keyGenerationParameters) {
+    public void init(PairingParameters curveParams, KeyGenerationParameters keyGenerationParameters) {
         this.curveParams = curveParams;
         this.pairing = PairingFactory.getPairing(curveParams);
 
         rKeyPairGenerator.init(keyGenerationParameters);
     }
 
-    public void init(CurveParameters curveParams, ElGamalParameters elGamalParameters) {
+    public void init(PairingParameters curveParams, ElGamalParameters elGamalParameters) {
         this.curveParams = curveParams;
         this.pairing = PairingFactory.getPairing(curveParams);
 

@@ -20,7 +20,7 @@ public class IPLOSTW10SecretKeyGenerator {
     public void init(KeyGenerationParameters param) {
         this.param = (IPLOSTW10SecretKeyGenerationParameters) param;
         this.n = this.param.getParameters().getParameters().getN();
-        this.pairing = PairingFactory.getPairing(this.param.getParameters().getParameters().getCurveParameters());
+        this.pairing = PairingFactory.getPairing(this.param.getParameters().getParameters().getParameters());
     }
 
     public CipherParameters generateKey() {

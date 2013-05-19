@@ -27,7 +27,7 @@ public class UHIBELW11SecretKeyGenerator implements CipherParametersGenerator {
             UHIBELW11PublicKeyParameters pk = parameters.getPublicKey();
             UHIBELW11MasterSecretKeyParameters msk = parameters.getMasterSecretKey();
 
-            Pairing pairing = PairingFactory.getPairing(pk.getCurveParameters());
+            Pairing pairing = PairingFactory.getPairing(pk.getParameters());
             Field Zr = pairing.getZr();
             int length = parameters.getLength();
 
@@ -60,7 +60,7 @@ public class UHIBELW11SecretKeyGenerator implements CipherParametersGenerator {
             K3s[lastIndex] = pk.getG().powZn(r);
 
             return new UHIBELW11SecretKeyParameters(
-                    pk.getCurveParameters(),
+                    pk.getParameters(),
                     K0s, K1s, K2s, K3s,
                     parameters.getIds()
             );
@@ -69,7 +69,7 @@ public class UHIBELW11SecretKeyGenerator implements CipherParametersGenerator {
 
             UHIBELW11PublicKeyParameters pk = parameters.getPublicKey();
             UHIBELW11SecretKeyParameters sk = parameters.getSecretKey();
-            Pairing pairing = PairingFactory.getPairing(pk.getCurveParameters());
+            Pairing pairing = PairingFactory.getPairing(pk.getParameters());
 
             Field zr = pairing.getZr();
             int length = sk.getLength();
@@ -105,7 +105,7 @@ public class UHIBELW11SecretKeyGenerator implements CipherParametersGenerator {
             System.arraycopy(sk.getIds(), 0, ids, 0, sk.getIds().length);
             ids[sk.getIds().length] = parameters.getId();
 
-            return new UHIBELW11SecretKeyParameters(pk.getCurveParameters(),
+            return new UHIBELW11SecretKeyParameters(pk.getParameters(),
                     K0s, K1s, K2s, K3s,
                     ids);
         }

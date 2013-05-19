@@ -1,7 +1,7 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ibe.lw11.params;
 
-import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.PairingParameters;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -16,11 +16,11 @@ public class UHIBELW11PublicKeyParameters extends UHIBELW11KeyParameters {
     private Element omega;
 
 
-    public UHIBELW11PublicKeyParameters(CurveParameters curveParameters,
+    public UHIBELW11PublicKeyParameters(PairingParameters parameters,
                                         Element g, Element u, Element h,
                                         Element v, Element w,
                                         Element omega) {
-        super(false, curveParameters);
+        super(false, parameters);
 
         this.g = g.getImmutable();
         this.u = u.getImmutable();

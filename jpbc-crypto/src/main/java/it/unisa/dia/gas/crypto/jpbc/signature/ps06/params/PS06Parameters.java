@@ -1,19 +1,19 @@
 package it.unisa.dia.gas.crypto.jpbc.signature.ps06.params;
 
-import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.PairingParameters;
 import org.bouncycastle.crypto.CipherParameters;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class PS06Parameters implements CipherParameters {
-    private CurveParameters curveParams;
+    private PairingParameters curveParams;
     private Element g;
     private int nU, nM;
 
 
-    public PS06Parameters(CurveParameters curveParams, Element g, int nU, int nM) {
+    public PS06Parameters(PairingParameters curveParams, Element g, int nU, int nM) {
         this.curveParams = curveParams;
         this.g = g;
         this.nU = nU;
@@ -21,7 +21,7 @@ public class PS06Parameters implements CipherParameters {
     }
 
 
-    public CurveParameters getCurveParams() {
+    public PairingParameters getCurveParams() {
         return curveParams;
     }
 

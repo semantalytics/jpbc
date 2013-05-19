@@ -1,6 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ibe.lw11.params;
 
-import it.unisa.dia.gas.jpbc.CurveParameters;
+import it.unisa.dia.gas.jpbc.PairingParameters;
 import org.bouncycastle.crypto.params.AsymmetricKeyParameter;
 
 /**
@@ -8,17 +8,17 @@ import org.bouncycastle.crypto.params.AsymmetricKeyParameter;
  */
 public class UHIBELW11KeyParameters extends AsymmetricKeyParameter {
 
-    private CurveParameters curveParameters;
+    private PairingParameters parameters;
 
 
-    public UHIBELW11KeyParameters(boolean isPrivate, CurveParameters curveParameters) {
+    public UHIBELW11KeyParameters(boolean isPrivate, PairingParameters parameters) {
         super(isPrivate);
-        this.curveParameters = curveParameters;
+        this.parameters = parameters;
     }
 
 
-    public CurveParameters getCurveParameters() {
-        return curveParameters;
+    public PairingParameters getParameters() {
+        return parameters;
     }
 
 }

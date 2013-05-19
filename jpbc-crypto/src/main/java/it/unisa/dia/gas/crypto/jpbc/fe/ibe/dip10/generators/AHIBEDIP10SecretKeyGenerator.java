@@ -26,7 +26,7 @@ public class AHIBEDIP10SecretKeyGenerator implements CipherParametersGenerator {
 
             AHIBEDIP10PublicKeyParameters pk = parameters.getPublicKey();
             AHIBEDIP10MasterSecretKeyParameters msk = parameters.getMasterSecretKey();
-            Pairing pairing = PairingFactory.getPairing(msk.getCurveParameters());
+            Pairing pairing = PairingFactory.getPairing(msk.getParameters());
 
             // Generate the key
             Element r1 = pairing.getZr().newRandomElement();
@@ -73,7 +73,7 @@ public class AHIBEDIP10SecretKeyGenerator implements CipherParametersGenerator {
                 E2s[i] = pk.getUAt(idNum + i).powZn(r2).mul(ElementUtils.randomIn(pairing, pk.getY3())).getImmutable();
             }
 
-            return new AHIBEDIP10SecretKeyParameters(pk.getCurveParameters(),
+            return new AHIBEDIP10SecretKeyParameters(pk.getParameters(),
                                                 K11.getImmutable(), K12.getImmutable(), E1s,
                                                 K21.getImmutable(), K22.getImmutable(), E2s,
                                                 parameters.getIds());
@@ -82,7 +82,7 @@ public class AHIBEDIP10SecretKeyGenerator implements CipherParametersGenerator {
 
             AHIBEDIP10PublicKeyParameters pk = parameters.getPublicKey();
             AHIBEDIP10SecretKeyParameters sk = parameters.getSecretKey();
-            Pairing pairing = PairingFactory.getPairing(pk.getCurveParameters());
+            Pairing pairing = PairingFactory.getPairing(pk.getParameters());
 
             // Generate the key
             Element r1 = pairing.getZr().newRandomElement();
@@ -129,7 +129,7 @@ public class AHIBEDIP10SecretKeyGenerator implements CipherParametersGenerator {
             System.arraycopy(sk.getIds(), 0, ids, 0, sk.getIds().length);
             ids[sk.getIds().length] = parameters.getId();
 
-            return new AHIBEDIP10SecretKeyParameters(sk.getCurveParameters(),
+            return new AHIBEDIP10SecretKeyParameters(sk.getParameters(),
                                                 K11.getImmutable(), K12.getImmutable(), E1s,
                                                 K21.getImmutable(), K22.getImmutable(), E2s,
                                                 ids);

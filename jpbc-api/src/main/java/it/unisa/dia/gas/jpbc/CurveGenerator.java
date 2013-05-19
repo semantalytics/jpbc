@@ -7,14 +7,6 @@ package it.unisa.dia.gas.jpbc;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  * @since 1.0.0
  */
-public interface CurveGenerator {
-
-    /**
-     * Generates the curve parameters.
-     *
-     * @return a map with all the necessary parameters.
-     * @since 1.0.0
-     */
-    CurveParameters generate();
+public interface CurveGenerator extends PairingParametersGenerator<CurveParameters> {
 
 }

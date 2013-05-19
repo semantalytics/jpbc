@@ -33,7 +33,7 @@ public class IPLOSTW10KemEngine extends PairingKeyEncapsulationMechanism {
         IPLOSTW10KeyParameters ipKey = (IPLOSTW10KeyParameters) key;
         this.n = ipKey.getParameters().getN();
         int N = (2 * n + 3);
-        this.pairing = PairingFactory.getPairing(ipKey.getParameters().getCurveParameters());
+        this.pairing = PairingFactory.getPairing(ipKey.getParameters().getParameters());
         this.productPairing = new ProductPairing(null, pairing, N);
 
         this.keyBytes = pairing.getGT().getLengthInBytes();

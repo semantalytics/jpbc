@@ -38,7 +38,7 @@ public class BLS01HalfSignerTest extends AbstractJPBCCryptoTest {
 
     protected BLS01Parameters setup() {
         BLS01ParametersGenerator setup = new BLS01ParametersGenerator();
-        setup.init(curveParameters);
+        setup.init(parameters);
 
         return setup.generateParameters();
     }

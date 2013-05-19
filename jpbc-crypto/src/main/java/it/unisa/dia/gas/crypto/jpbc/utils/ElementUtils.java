@@ -36,11 +36,11 @@ public class ElementUtils {
         return generator.duplicate().powZn(pairing.getZr().newRandomElement());
     }
 
-    public static Element getGenerator(Pairing pairing, Element generator, CurveParameters curveParameters, int subgroupIndex, int numPrimes) {
+    public static Element getGenerator(Pairing pairing, Element generator, PairingParameters parameters, int subgroupIndex, int numPrimes) {
         BigInteger prod = BigInteger.ONE;
         for (int j = 0; j < numPrimes; j++) {
             if (j != subgroupIndex)
-                prod = prod.multiply(curveParameters.getBigInteger("n" +j));
+                prod = prod.multiply(parameters.getBigInteger("n" +j));
         }
 
         return generator.pow(prod);

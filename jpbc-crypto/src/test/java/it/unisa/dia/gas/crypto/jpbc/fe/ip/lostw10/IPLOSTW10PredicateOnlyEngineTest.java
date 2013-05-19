@@ -48,7 +48,7 @@ public class IPLOSTW10PredicateOnlyEngineTest extends AbstractJPBCCryptoTest {
 
 
     protected IPLOSTW10Parameters createParameters(int n) {
-        return new IPLOSTW10ParametersGenerator().init(curveParameters, n).generateParameters();
+        return new IPLOSTW10ParametersGenerator().init(parameters, n).generateParameters();
     }
 
     protected AsymmetricCipherKeyPair setup(IPLOSTW10Parameters parameters) {
@@ -62,7 +62,7 @@ public class IPLOSTW10PredicateOnlyEngineTest extends AbstractJPBCCryptoTest {
     }
 
     protected Element[][] createOrthogonalVectors(CipherParameters publicKey, int n) {
-        Pairing pairing = PairingFactory.getPairing(((IPLOSTW10PublicKeyParameters) publicKey).getParameters().getCurveParameters());
+        Pairing pairing = PairingFactory.getPairing(((IPLOSTW10PublicKeyParameters) publicKey).getParameters().getParameters());
 
         Element[][] result = new Element[2][n];
         Random random = new Random();
@@ -85,7 +85,7 @@ public class IPLOSTW10PredicateOnlyEngineTest extends AbstractJPBCCryptoTest {
     }
 
     protected Element[][] createNonOrthogonalVectors(CipherParameters publicKey, int n) {
-        Pairing pairing = PairingFactory.getPairing(((IPLOSTW10PublicKeyParameters) publicKey).getParameters().getCurveParameters());
+        Pairing pairing = PairingFactory.getPairing(((IPLOSTW10PublicKeyParameters) publicKey).getParameters().getParameters());
 
         Element[][] result = new Element[2][n];
         for (int i = 0; i < n; i += 2) {

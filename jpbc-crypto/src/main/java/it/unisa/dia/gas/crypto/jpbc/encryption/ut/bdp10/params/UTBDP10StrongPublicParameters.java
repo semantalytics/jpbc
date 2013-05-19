@@ -1,14 +1,14 @@
 package it.unisa.dia.gas.crypto.jpbc.encryption.ut.bdp10.params;
 
-import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.PairingParameters;
 import org.bouncycastle.crypto.CipherParameters;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class UTBDP10StrongPublicParameters implements CipherParameters {
-    private CurveParameters curveParams;
+    private PairingParameters curveParams;
     private Element g;
     private Element g0, g1;
     private Element omega;
@@ -17,7 +17,7 @@ public class UTBDP10StrongPublicParameters implements CipherParameters {
     private CipherParameters rPublicKey;
 
 
-    public UTBDP10StrongPublicParameters(CurveParameters curveParams,
+    public UTBDP10StrongPublicParameters(PairingParameters curveParams,
                                          Element g, Element g0, Element g1, Element omega, Element T1, Element T2, Element T3,
                                          CipherParameters rPublicKey) {
         this.curveParams = curveParams;
@@ -33,7 +33,7 @@ public class UTBDP10StrongPublicParameters implements CipherParameters {
     }
 
 
-    public CurveParameters getCurveParams() {
+    public PairingParameters getCurveParams() {
         return curveParams;
     }
 

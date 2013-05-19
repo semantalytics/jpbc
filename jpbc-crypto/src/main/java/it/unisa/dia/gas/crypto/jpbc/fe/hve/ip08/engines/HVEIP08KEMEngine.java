@@ -32,7 +32,7 @@ public class HVEIP08KEMEngine extends PairingKeyEncapsulationMechanism {
         }
 
         HVEIP08KeyParameters hveKey = (HVEIP08KeyParameters) key;
-        this.pairing = PairingFactory.getPairing(hveKey.getParameters().getCurveParameters());
+        this.pairing = PairingFactory.getPairing(hveKey.getParameters().getParameters());
         this.n = hveKey.getParameters().getN();
 
         this.keyBytes = pairing.getGT().getLengthInBytes();

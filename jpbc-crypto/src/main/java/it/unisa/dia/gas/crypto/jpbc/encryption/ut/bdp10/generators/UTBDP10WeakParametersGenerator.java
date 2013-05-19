@@ -3,9 +3,9 @@ package it.unisa.dia.gas.crypto.jpbc.encryption.ut.bdp10.generators;
 import it.unisa.dia.gas.crypto.jpbc.encryption.ut.bdp10.params.UTBDP10WeakMasterSecretKeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.encryption.ut.bdp10.params.UTBDP10WeakParameters;
 import it.unisa.dia.gas.crypto.jpbc.encryption.ut.bdp10.params.UTBDP10WeakPublicParameters;
-import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
+import it.unisa.dia.gas.jpbc.PairingParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
 /**
@@ -13,12 +13,12 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
  */
 public class UTBDP10WeakParametersGenerator {
 
-    private CurveParameters curveParams;
+    private PairingParameters curveParams;
 
     private Pairing pairing;
 
 
-    public void init(CurveParameters curveParams) {
+    public void init(PairingParameters curveParams) {
         this.curveParams = curveParams;
         this.pairing = PairingFactory.getPairing(curveParams);
     }

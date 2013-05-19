@@ -31,7 +31,7 @@ public class HVEIP08PredicateOnlyEngine extends PredicateOnlyPairingAsymmetricBl
         }
 
         HVEIP08KeyParameters hveKey = (HVEIP08KeyParameters) key;
-        this.pairing = PairingFactory.getPairing(hveKey.getParameters().getCurveParameters());
+        this.pairing = PairingFactory.getPairing(hveKey.getParameters().getParameters());
         this.n = hveKey.getParameters().getN();
 
         this.outBytes = (2 * n) * pairing.getG1().getLengthInBytes();

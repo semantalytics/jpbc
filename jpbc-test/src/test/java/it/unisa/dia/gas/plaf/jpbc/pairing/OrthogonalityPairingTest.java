@@ -1,7 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing;
 
-import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.PairingParameters;
 import it.unisa.dia.gas.plaf.jpbc.AbstractJPBCTest;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,7 +33,7 @@ public class OrthogonalityPairingTest extends AbstractJPBCTest {
     }
 
 
-    protected CurveParameters curveParameters;
+    protected PairingParameters parameters;
 
 
     public OrthogonalityPairingTest(boolean usePBC, String curvePath) {
@@ -45,18 +45,18 @@ public class OrthogonalityPairingTest extends AbstractJPBCTest {
         assumeTrue(!usePBC || PairingFactory.getInstance().isPBCAvailable());
 
         PairingFactory.getInstance().setUsePBCWhenPossible(usePBC);
-        curveParameters = PairingFactory.getInstance().loadCurveParameters(curvePath);
-        pairing = PairingFactory.getPairing(curveParameters);
+        parameters = PairingFactory.getInstance().loadParameters(curvePath);
+        pairing = PairingFactory.getPairing(parameters);
 
-        assumeTrue(curveParameters != null);
+        assumeTrue(parameters != null);
         assumeTrue(pairing != null);
     }
 
     @Test
     public void testOrthogonality() {
-        BigInteger p0 = curveParameters.getBigInteger("n0");
-        BigInteger p1 = curveParameters.getBigInteger("n1");
-        BigInteger p2 = curveParameters.getBigInteger("n2");
+        BigInteger p0 = parameters.getBigInteger("n0");
+        BigInteger p1 = parameters.getBigInteger("n1");
+        BigInteger p2 = parameters.getBigInteger("n2");
 
         Element gen = pairing.getG1().newRandomElement().getImmutable();
         Element gen0 = gen.pow(p1.multiply(p2)).getImmutable();

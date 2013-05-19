@@ -4,10 +4,10 @@ import it.unisa.dia.gas.crypto.jpbc.fe.ibe.lw11.params.UHIBELW11KeyPairGeneratio
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.lw11.params.UHIBELW11MasterSecretKeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.lw11.params.UHIBELW11PublicKeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtils;
-import it.unisa.dia.gas.jpbc.CurveGenerator;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.plaf.jpbc.pairing.DefaultCurveParameters;
+import it.unisa.dia.gas.jpbc.PairingParametersGenerator;
+import it.unisa.dia.gas.plaf.jpbc.pairing.DefaultParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import it.unisa.dia.gas.plaf.jpbc.pairing.a1.TypeA1CurveGenerator;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
@@ -26,17 +26,17 @@ public class UHIBELW11KeyPairGenerator implements AsymmetricCipherKeyPairGenerat
     }
 
     public AsymmetricCipherKeyPair generateKeyPair() {
-        DefaultCurveParameters curveParameters;
+        DefaultParameters parameters;
         Pairing pairing;
         Element g;
 
         // Generate curve parameters
         while (true) {
-            curveParameters = generateCurveParams();
-            pairing = PairingFactory.getPairing(curveParameters);
+            parameters = generateCurveParams();
+            pairing = PairingFactory.getPairing(parameters);
 
             Element generator = pairing.getG1().newRandomElement();
-            g = ElementUtils.getGenerator(pairing, generator, curveParameters, 0, 3).getImmutable();
+            g = ElementUtils.getGenerator(pairing, generator, parameters, 0, 3).getImmutable();
             if (!pairing.pairing(g, g).isOne())
                 break;
         }
@@ -52,21 +52,21 @@ public class UHIBELW11KeyPairGenerator implements AsymmetricCipherKeyPairGenerat
         Element omega = pairing.pairing(g, g).powZn(alpha).getImmutable();
 
         // Remove factorization from curveParams
-        curveParameters.remove("n0");
-        curveParameters.remove("n1");
-        curveParameters.remove("n2");
+        parameters.remove("n0");
+        parameters.remove("n1");
+        parameters.remove("n2");
 
         // Return the keypair
 
         return new AsymmetricCipherKeyPair(
-                new UHIBELW11PublicKeyParameters(curveParameters, g, u, h, v, w, omega),
-                new UHIBELW11MasterSecretKeyParameters(curveParameters, alpha)
+                new UHIBELW11PublicKeyParameters(parameters, g, u, h, v, w, omega),
+                new UHIBELW11MasterSecretKeyParameters(parameters, alpha)
         );
     }
 
 
-    private DefaultCurveParameters generateCurveParams() {
-        CurveGenerator curveGenerator = new TypeA1CurveGenerator(3, parameters.getBitLength());
-        return (DefaultCurveParameters) curveGenerator.generate();
+    private DefaultParameters generateCurveParams() {
+        PairingParametersGenerator parametersGenerator = new TypeA1CurveGenerator(3, parameters.getBitLength());
+        return (DefaultParameters) parametersGenerator.generate();
     }
 }

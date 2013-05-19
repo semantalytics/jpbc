@@ -1,27 +1,27 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.params;
 
-import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.PairingParameters;
 import org.bouncycastle.crypto.CipherParameters;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class RLW12Parameters implements CipherParameters {
-    private CurveParameters curveParameters;
+    private PairingParameters parameters;
     private Element g;
     private DFAAlphabet alphabet;
 
 
-    public RLW12Parameters(CurveParameters curveParameters, Element g, DFAAlphabet alphabet) {
-        this.curveParameters = curveParameters;
+    public RLW12Parameters(PairingParameters parameters, Element g, DFAAlphabet alphabet) {
+        this.parameters = parameters;
         this.g = g.getImmutable();
         this.alphabet = alphabet;
     }
 
 
-    public CurveParameters getCurveParameters() {
-        return curveParameters;
+    public PairingParameters getParameters() {
+        return parameters;
     }
 
     public Element getG() {

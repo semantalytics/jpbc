@@ -6,9 +6,9 @@ import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08KeyPairGenerat
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08ParametersGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08PredicateOnlySecretKeyGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.*;
-import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
+import it.unisa.dia.gas.jpbc.PairingParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
@@ -27,13 +27,13 @@ public class HVEIP08PredicateOnlyBenchmark {
         benchmark.benchmark();
     }
 
-    protected CurveParameters curveParameters;
+    protected PairingParameters parameters;
     protected long elapsedCT, elapsedKey;
 
 
     public void benchmark() {
         PairingFactory.getInstance().setUsePBCWhenPossible(false);
-        curveParameters = PairingFactory.getInstance().loadCurveParameters("./params/a_181_603.properties");
+        parameters = PairingFactory.getInstance().loadParameters("./params/a_181_603.properties");
 
         int n = 20;
         AsymmetricCipherKeyPair keyPair = setup(genBinaryParam(n));
@@ -101,14 +101,14 @@ public class HVEIP08PredicateOnlyBenchmark {
 
     protected HVEIP08Parameters genBinaryParam(int n) {
         HVEIP08ParametersGenerator generator = new HVEIP08ParametersGenerator();
-        generator.init(n, curveParameters);
+        generator.init(n, parameters);
 
         return generator.generateParameters();
     }
 
     protected HVEIP08Parameters genParam(int... attributeLengths) {
         HVEIP08ParametersGenerator generator = new HVEIP08ParametersGenerator();
-        generator.init(curveParameters, attributeLengths);
+        generator.init(parameters, attributeLengths);
 
         return generator.generateParameters();
     }

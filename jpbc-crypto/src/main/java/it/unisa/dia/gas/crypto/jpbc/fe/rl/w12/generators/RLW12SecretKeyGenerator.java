@@ -22,7 +22,7 @@ public class RLW12SecretKeyGenerator {
     public void init(KeyGenerationParameters param) {
         this.param = (RLW12SecretKeyGenerationParameters) param;
 
-        this.pairing = PairingFactory.getPairing(this.param.getMasterSecretKeyParameters().getParameters().getCurveParameters());
+        this.pairing = PairingFactory.getPairing(this.param.getMasterSecretKeyParameters().getParameters().getParameters());
         this.dfa = this.param.getDfa();
     }
 

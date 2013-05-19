@@ -1,6 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing;
 
-import it.unisa.dia.gas.jpbc.CurveGenerator;
+import it.unisa.dia.gas.jpbc.PairingParametersGenerator;
 import it.unisa.dia.gas.plaf.jpbc.pbc.curve.*;
 import org.junit.runners.Parameterized;
 
@@ -28,8 +28,8 @@ public class PBCCurveGeneratorPairingTest extends CurveGeneratorPairingTest {
         return Arrays.asList(data);
     }
 
-    public PBCCurveGeneratorPairingTest(CurveGenerator curveGenerator) {
-        super(false, curveGenerator);
+    public PBCCurveGeneratorPairingTest(PairingParametersGenerator parametersGenerator) {
+        super(false, parametersGenerator);
     }
 
     @Override

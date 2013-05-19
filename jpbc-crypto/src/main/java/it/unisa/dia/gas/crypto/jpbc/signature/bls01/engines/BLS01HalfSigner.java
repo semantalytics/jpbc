@@ -35,7 +35,7 @@ public class BLS01HalfSigner implements Signer {
         if (!forSigning && keyParameters.isPrivate())
             throw new IllegalArgumentException("verification requires public key");
 
-        this.pairing = PairingFactory.getPairing(keyParameters.getParameters().getCurveParameters());
+        this.pairing = PairingFactory.getPairing(keyParameters.getParameters().getParameters());
 
         // Reset the digest
         digest.reset();

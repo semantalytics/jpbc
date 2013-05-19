@@ -1,8 +1,8 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params;
 
 import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtils;
-import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.PairingParameters;
 
 import java.util.Arrays;
 
@@ -15,7 +15,7 @@ public class AHIBEDIP10SecretKeyParameters extends AHIBEDIP10KeyParameters {
     private Element[] E1s, E2s;
     private Element[] ids;
 
-    public AHIBEDIP10SecretKeyParameters(CurveParameters curveParams,
+    public AHIBEDIP10SecretKeyParameters(PairingParameters curveParams,
                                          Element k11, Element k12, Element[] e1s,
                                          Element k21, Element k22, Element[] e2s,
                                          Element[] ids) {

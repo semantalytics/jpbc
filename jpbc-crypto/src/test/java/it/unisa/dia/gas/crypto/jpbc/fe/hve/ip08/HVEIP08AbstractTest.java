@@ -22,14 +22,14 @@ public abstract class HVEIP08AbstractTest extends AbstractJPBCCryptoTest {
 
     protected HVEIP08Parameters genBinaryParam(int n) {
         HVEIP08ParametersGenerator generator = new HVEIP08ParametersGenerator();
-        generator.init(n, curveParameters);
+        generator.init(n, parameters);
 
         return generator.generateParameters();
     }
 
     protected HVEIP08Parameters genParam(int... attributeLengths) {
         HVEIP08ParametersGenerator generator = new HVEIP08ParametersGenerator();
-        generator.init(curveParameters, attributeLengths);
+        generator.init(parameters, attributeLengths);
 
         return generator.generateParameters();
     }

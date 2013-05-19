@@ -44,7 +44,7 @@ public class UTBDP10WeakKEMEngineTest extends AbstractJPBCCryptoTest {
 
     protected UTBDP10WeakParameters createParameters() {
         UTBDP10WeakParametersGenerator generator = new UTBDP10WeakParametersGenerator();
-        generator.init(curveParameters);
+        generator.init(parameters);
         return generator.generateParameters();
     }
 

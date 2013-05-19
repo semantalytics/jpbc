@@ -45,8 +45,8 @@ public class PS06SignerTest extends AbstractJPBCCryptoTest {
     }
 
     protected PS06Parameters createParameters(int nU, int nM) {
-        // Generate Public Parameters
-        return new PS06ParametersGenerator().init(curveParameters, nU, nM).generateParameters();
+        // Generate Public PairingParameters
+        return new PS06ParametersGenerator().init(parameters, nU, nM).generateParameters();
     }
 
     protected AsymmetricCipherKeyPair setup(PS06Parameters parameters) {

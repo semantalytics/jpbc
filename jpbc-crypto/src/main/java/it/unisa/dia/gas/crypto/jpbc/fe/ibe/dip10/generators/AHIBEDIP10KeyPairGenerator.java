@@ -4,10 +4,10 @@ import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params.AHIBEDIP10KeyPairGenerat
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params.AHIBEDIP10MasterSecretKeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params.AHIBEDIP10PublicKeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtils;
-import it.unisa.dia.gas.jpbc.CurveGenerator;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.plaf.jpbc.pairing.DefaultCurveParameters;
+import it.unisa.dia.gas.jpbc.PairingParametersGenerator;
+import it.unisa.dia.gas.plaf.jpbc.pairing.DefaultParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import it.unisa.dia.gas.plaf.jpbc.pairing.a1.TypeA1CurveGenerator;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
@@ -27,20 +27,20 @@ public class AHIBEDIP10KeyPairGenerator implements AsymmetricCipherKeyPairGenera
 
     public AsymmetricCipherKeyPair generateKeyPair() {
         // Generate curve parameters
-        DefaultCurveParameters curveParameters;
+        DefaultParameters parameters;
         Pairing pairing;
         Element gen1, gen3, gen4;
 
         while (true) {
-            curveParameters = generateCurveParameters();
-            pairing = PairingFactory.getPairing(curveParameters);
+            parameters = generateParameters();
+            pairing = PairingFactory.getPairing(parameters);
 
             Element generator = pairing.getG1().newRandomElement().getImmutable();
-            gen1 = ElementUtils.getGenerator(pairing, generator, curveParameters, 0, 4).getImmutable();
+            gen1 = ElementUtils.getGenerator(pairing, generator, parameters, 0, 4).getImmutable();
 
             if (!pairing.pairing(generator, generator).isOne()) {
-                gen3 = ElementUtils.getGenerator(pairing, generator, curveParameters, 2, 4).getImmutable();
-                gen4 = ElementUtils.getGenerator(pairing, generator, curveParameters, 3, 4).getImmutable();
+                gen3 = ElementUtils.getGenerator(pairing, generator, parameters, 2, 4).getImmutable();
+                gen4 = ElementUtils.getGenerator(pairing, generator, parameters, 3, 4).getImmutable();
                 break;
             }
         }
@@ -49,7 +49,7 @@ public class AHIBEDIP10KeyPairGenerator implements AsymmetricCipherKeyPairGenera
         Element Y1 = ElementUtils.randomIn(pairing, gen1).getImmutable();
         Element X1 = ElementUtils.randomIn(pairing, gen1).getImmutable();
 
-        Element[] uElements = new Element[parameters.getLength()];
+        Element[] uElements = new Element[this.parameters.getLength()];
         for (int i = 0; i < uElements.length; i++) {
             uElements[i] = ElementUtils.randomIn(pairing, gen1).getImmutable();
         }
@@ -61,33 +61,33 @@ public class AHIBEDIP10KeyPairGenerator implements AsymmetricCipherKeyPairGenera
 
         Element alpha = pairing.getZr().newRandomElement().getImmutable();
 
-        // Remove factorization from curveParameters
-        curveParameters.remove("n0");
-        curveParameters.remove("n1");
-        curveParameters.remove("n2");
-        curveParameters.remove("n3");
+        // Remove factorization from parameters
+        parameters.remove("n0");
+        parameters.remove("n1");
+        parameters.remove("n2");
+        parameters.remove("n3");
 
         // Return the keypair
 
         return new AsymmetricCipherKeyPair(
                 new AHIBEDIP10PublicKeyParameters(
-                        curveParameters,
+                        parameters,
                         Y1, Y3, Y4,
                         X1.mul(X4),
                         uElements,
                         pairing.pairing(Y1, Y1).powZn(alpha).getImmutable()
                 ),
                 new AHIBEDIP10MasterSecretKeyParameters(
-                        curveParameters,
+                        parameters,
                         X1, alpha
                 )
         );
     }
 
 
-    private DefaultCurveParameters generateCurveParameters() {
-        CurveGenerator curveGenerator = new TypeA1CurveGenerator(4, parameters.getBitLength());
+    private DefaultParameters generateParameters() {
+        PairingParametersGenerator parametersGenerator = new TypeA1CurveGenerator(4, parameters.getBitLength());
 
-        return (DefaultCurveParameters) curveGenerator.generate();
+        return (DefaultParameters) parametersGenerator.generate();
     }
 }

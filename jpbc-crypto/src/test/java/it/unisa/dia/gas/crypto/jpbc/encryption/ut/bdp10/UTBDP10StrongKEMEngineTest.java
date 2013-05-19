@@ -50,7 +50,7 @@ public class UTBDP10StrongKEMEngineTest extends AbstractJPBCCryptoTest {
         ElGamalParameters elGamalParameters = elGamalParametersGenerator.generateParameters();
 
         UTBDP10StrongParametersGenerator generator = new UTBDP10StrongParametersGenerator();
-        generator.init(curveParameters, elGamalParameters);
+        generator.init(parameters, elGamalParameters);
         return generator.generateParameters();
     }
 
@@ -79,7 +79,7 @@ public class UTBDP10StrongKEMEngineTest extends AbstractJPBCCryptoTest {
         }
 
         UTBDP10StrongParametersGenerator generator = new UTBDP10StrongParametersGenerator();
-        generator.init(curveParameters, elGamalParameters);
+        generator.init(parameters, elGamalParameters);
         return generator.generateParameters();
     }
     

@@ -39,7 +39,7 @@ public class BLS01SignerTest extends AbstractJPBCCryptoTest {
 
     protected BLS01Parameters setup() {
         BLS01ParametersGenerator setup = new BLS01ParametersGenerator();
-        setup.init(curveParameters);
+        setup.init(parameters);
 
         return setup.generateParameters();
     }

@@ -57,7 +57,7 @@ public class RLW12KEMEngineTest extends AbstractJPBCCryptoTest {
 
 
     protected RLW12Parameters createParameters(DFAAlphabet alphabet) {
-        return new RLW12ParametersGenerator().init(curveParameters, alphabet).generateParameters();
+        return new RLW12ParametersGenerator().init(parameters, alphabet).generateParameters();
     }
 
     protected AsymmetricCipherKeyPair setup(RLW12Parameters parameters) {

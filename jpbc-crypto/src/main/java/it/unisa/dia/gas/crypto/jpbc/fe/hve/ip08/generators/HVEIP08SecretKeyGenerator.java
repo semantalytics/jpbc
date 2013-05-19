@@ -43,7 +43,7 @@ public class HVEIP08SecretKeyGenerator {
             );
         }
 
-        Pairing pairing = PairingFactory.getPairing(masterSecretKey.getParameters().getCurveParameters());
+        Pairing pairing = PairingFactory.getPairing(masterSecretKey.getParameters().getParameters());
 
         int n = masterSecretKey.getParameters().getN();
         int numNonStar = param.getNumNonStar();

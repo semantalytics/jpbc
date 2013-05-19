@@ -1,8 +1,8 @@
 package it.unisa.dia.gas.plaf.jpbc.field.polymod;
 
-import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
+import it.unisa.dia.gas.jpbc.PairingParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import it.unisa.dia.gas.plaf.jpbc.pairing.d.TypeDPairing;
 import junit.framework.TestCase;
@@ -16,7 +16,7 @@ public class PolyModElementTest extends TestCase {
 
     @Override
     protected void setUp() throws Exception {
-        pairing = new TypeDPairing(getCurveParameters());
+        pairing = new TypeDPairing(getParameters());
 
         assertNotNull(pairing.getG1());
         assertNotNull(pairing.getG2());
@@ -24,8 +24,8 @@ public class PolyModElementTest extends TestCase {
         assertNotNull(pairing.getZr());
     }
 
-    protected CurveParameters getCurveParameters() {
-        return PairingFactory.getInstance().loadCurveParameters("it/unisa/dia/gas/plaf/jpbc/pairing/d/d_9563.properties");
+    protected PairingParameters getParameters() {
+        return PairingFactory.getInstance().loadParameters("it/unisa/dia/gas/plaf/jpbc/pairing/d/d_9563.properties");
     }
 
 

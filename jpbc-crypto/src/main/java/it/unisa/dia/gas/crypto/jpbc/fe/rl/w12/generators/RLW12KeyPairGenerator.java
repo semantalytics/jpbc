@@ -26,7 +26,7 @@ public class RLW12KeyPairGenerator implements AsymmetricCipherKeyPairGenerator {
     public AsymmetricCipherKeyPair generateKeyPair() {
         RLW12Parameters parameters = params.getParameters();
 
-        Pairing pairing = PairingFactory.getPairing(parameters.getCurveParameters());
+        Pairing pairing = PairingFactory.getPairing(parameters.getParameters());
         Element g = parameters.getG();
 
         // Generate required elements

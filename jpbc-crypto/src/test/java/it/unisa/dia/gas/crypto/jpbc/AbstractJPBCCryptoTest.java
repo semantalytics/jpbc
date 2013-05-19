@@ -1,6 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc;
 
-import it.unisa.dia.gas.jpbc.CurveParameters;
+import it.unisa.dia.gas.jpbc.PairingParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -35,7 +35,7 @@ public abstract class AbstractJPBCCryptoTest {
     protected String curvePath;
     protected boolean usePBC;
 
-    protected CurveParameters curveParameters;
+    protected PairingParameters parameters;
 
     public AbstractJPBCCryptoTest(boolean usePBC, String curvePath) {
         this.usePBC = usePBC;
@@ -47,9 +47,9 @@ public abstract class AbstractJPBCCryptoTest {
         assumeTrue(!usePBC || PairingFactory.getInstance().isPBCAvailable());
 
         PairingFactory.getInstance().setUsePBCWhenPossible(usePBC);
-        curveParameters = PairingFactory.getInstance().loadCurveParameters(curvePath);
+        parameters = PairingFactory.getInstance().loadParameters(curvePath);
 
-        assumeTrue(curveParameters != null);
+        assumeTrue(parameters != null);
     }
 
 }

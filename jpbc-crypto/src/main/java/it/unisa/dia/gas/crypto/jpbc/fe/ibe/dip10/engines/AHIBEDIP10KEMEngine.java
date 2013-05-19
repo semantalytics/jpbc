@@ -26,7 +26,7 @@ public class AHIBEDIP10KEMEngine extends PairingKeyEncapsulationMechanism {
                 throw new IllegalArgumentException("AHIBEDIP10SecretKeyParameters are required for decryption.");
         }
 
-        this.pairing = PairingFactory.getPairing(((AHIBEDIP10KeyParameters) key).getCurveParameters());
+        this.pairing = PairingFactory.getPairing(((AHIBEDIP10KeyParameters) key).getParameters());
         this.keyBytes = pairing.getGT().getLengthInBytes();
         this.outBytes = 2 * pairing.getGT().getLengthInBytes() + 2 * pairing.getG1().getLengthInBytes();
     }

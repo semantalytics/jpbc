@@ -23,14 +23,14 @@ public class UHIBELW11KEMEngine extends PairingKeyEncapsulationMechanism {
                 throw new IllegalArgumentException("UHIBELW11EncryptionParameters are required for encryption.");
             }
 
-            this.pairing = PairingFactory.getPairing(((UHIBELW11EncryptionParameters) key).getPublicKey().getCurveParameters());
+            this.pairing = PairingFactory.getPairing(((UHIBELW11EncryptionParameters) key).getPublicKey().getParameters());
             this.length = ((UHIBELW11EncryptionParameters) key).getLength();
         } else {
             if (!(key instanceof UHIBELW11SecretKeyParameters)) {
                 throw new IllegalArgumentException("UHIBELW11SecretKeyParameters are required for decryption.");
             }
 
-            this.pairing = PairingFactory.getPairing(((UHIBELW11SecretKeyParameters) key).getCurveParameters());
+            this.pairing = PairingFactory.getPairing(((UHIBELW11SecretKeyParameters) key).getParameters());
             this.length = ((UHIBELW11SecretKeyParameters) key).getLength();
         }
 

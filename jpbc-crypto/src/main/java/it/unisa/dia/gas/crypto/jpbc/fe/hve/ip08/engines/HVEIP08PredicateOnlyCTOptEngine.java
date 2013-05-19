@@ -29,7 +29,7 @@ public class HVEIP08PredicateOnlyCTOptEngine extends PredicateOnlyPairingAsymmet
         }
 
         HVEIP08KeyParameters hveKey = (HVEIP08KeyParameters) key;
-        this.pairing = PairingFactory.getPairing(hveKey.getParameters().getCurveParameters());
+        this.pairing = PairingFactory.getPairing(hveKey.getParameters().getParameters());
         this.n = hveKey.getParameters().getN();
 
         if (key instanceof HVEIP08EncryptionParameters) {

@@ -76,7 +76,7 @@ public class AHIBEDIP10PredicateOnlyEngineTest extends AbstractJPBCCryptoTest {
     }
 
     protected Element[] map(CipherParameters publicKey, String... ids) {
-        Pairing pairing = PairingFactory.getPairing(((AHIBEDIP10PublicKeyParameters) publicKey).getCurveParameters());
+        Pairing pairing = PairingFactory.getPairing(((AHIBEDIP10PublicKeyParameters) publicKey).getParameters());
 
         Element[] elements = new Element[ids.length];
         for (int i = 0; i < elements.length; i++) {

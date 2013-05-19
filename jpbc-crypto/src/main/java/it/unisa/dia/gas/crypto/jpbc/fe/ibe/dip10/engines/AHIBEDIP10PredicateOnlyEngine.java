@@ -30,7 +30,7 @@ public class AHIBEDIP10PredicateOnlyEngine extends PredicateOnlyPairingAsymmetri
                 throw new IllegalArgumentException("AHIBEDIP10SecretKeyParameters are required for decryption.");
         }
 
-        this.pairing = PairingFactory.getPairing(((AHIBEDIP10KeyParameters) key).getCurveParameters());
+        this.pairing = PairingFactory.getPairing(((AHIBEDIP10KeyParameters) key).getParameters());
         this.inBytes = 0;
         this.outBytes = pairing.getGT().getLengthInBytes() + (2 * pairing.getG1().getLengthInBytes());
     }
