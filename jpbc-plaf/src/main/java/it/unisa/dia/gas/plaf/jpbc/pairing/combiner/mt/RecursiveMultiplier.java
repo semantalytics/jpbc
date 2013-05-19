@@ -6,7 +6,7 @@ import java.util.concurrent.RecursiveTask;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
- * @since 1.2.2
+ * @since 1.3.0
  */
 public class RecursiveMultiplier extends RecursiveTask<Element> {
     static final int SEQUENTIAL_THRESHOLD = 2;

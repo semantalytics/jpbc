@@ -3,9 +3,11 @@ package it.unisa.dia.gas.plaf.jpbc.pairing.e;
 import it.unisa.dia.gas.jpbc.CurveGenerator;
 import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.jpbc.PairingParametersGenerator;
 import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveField;
 import it.unisa.dia.gas.plaf.jpbc.field.z.ZrField;
 import it.unisa.dia.gas.plaf.jpbc.pairing.DefaultCurveParameters;
+import it.unisa.dia.gas.plaf.jpbc.pairing.DefaultParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
 import java.math.BigInteger;
@@ -131,8 +133,8 @@ public class TypeECurveGenerator implements CurveGenerator {
         Integer rBits = Integer.parseInt(args[0]);
         Integer qBits = Integer.parseInt(args[1]);
 
-        CurveGenerator generator = new TypeECurveGenerator(rBits, qBits);
-        DefaultCurveParameters curveParams = (DefaultCurveParameters) generator.generate();
+        PairingParametersGenerator generator = new TypeECurveGenerator(rBits, qBits);
+        DefaultParameters curveParams = (DefaultParameters) generator.generate();
 
         System.out.println(curveParams.toString(" "));
     }

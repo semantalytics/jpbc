@@ -128,7 +128,6 @@ public class BigIntegerUtils {
 
     }
 
-
     public static BigInteger factorial(int n) {
         return factorial(BigInteger.valueOf(n));
     }
@@ -321,6 +320,14 @@ public class BigIntegerUtils {
         return result;
     }
 
+    public static BigInteger getRandom(int nbBits, Random random) {
+        if (nbBits <= 1)
+            return random.nextBoolean() ? BigInteger.ZERO : BigInteger.ONE;
+        else
+            return new BigInteger(nbBits, random).subtract(BigInteger.ONE.shiftLeft(nbBits - 1));
+    }
+
+
     /**
      * Compute trace of Frobenius at q^n given trace at q.
      * See p.105 of Blake, Seroussi and Smart.
@@ -381,6 +388,21 @@ public class BigIntegerUtils {
                 weight++;
         }
         return weight;
+    }
+
+    public static BigInteger modNear(BigInteger a, BigInteger b) {
+        BigInteger res = a.mod(b);
+
+        if (res.compareTo(b.shiftRight(1)) == 1)
+            res = res.subtract(b);
+
+        return res;
+    }
+
+    public static BigInteger mod(BigInteger a, BigInteger b) {
+        BigInteger res = a.mod(b);
+
+        return res;
     }
 
 

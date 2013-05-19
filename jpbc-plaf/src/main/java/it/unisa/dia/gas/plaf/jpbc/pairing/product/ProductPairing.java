@@ -46,6 +46,25 @@ public class ProductPairing implements Pairing {
         return basePairing.getZr();
     }
 
+    public int getDegree() {
+        return 2;
+    }
+
+    public Field getFieldAt(int index) {
+        switch (index) {
+            case 0:
+                return basePairing.getZr();
+            case 1:
+                return G1;
+            case 2:
+                return G2;
+            case 3:
+                return basePairing.getGT();
+            default:
+                throw new IllegalArgumentException("invalid index");
+        }
+    }
+
     public Element pairing(Element in1, Element in2) {
         Vector v1 = (Vector) in1;
         Vector v2 = (Vector) in2;

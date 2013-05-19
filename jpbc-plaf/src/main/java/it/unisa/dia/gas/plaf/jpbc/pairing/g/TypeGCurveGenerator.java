@@ -3,6 +3,7 @@ package it.unisa.dia.gas.plaf.jpbc.pairing.g;
 import it.unisa.dia.gas.jpbc.CurveGenerator;
 import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.DefaultCurveParameters;
+import it.unisa.dia.gas.plaf.jpbc.pairing.DefaultParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 import it.unisa.dia.gas.plaf.jpbc.util.math.PellEquation;
 
@@ -36,7 +37,7 @@ public class TypeGCurveGenerator implements CurveGenerator {
         if (curves == null || curves.length == 0)
             throw new IllegalStateException("Cannot find valid curves. Try another discriminant.");
 
-        for (DefaultCurveParameters curve : curves) {
+        for (DefaultParameters curve : curves) {
             pbc_param_init_g_gen(curve);
         }
 
@@ -222,7 +223,7 @@ public class TypeGCurveGenerator implements CurveGenerator {
         return params;
     }
 
-    protected void pbc_param_init_g_gen(DefaultCurveParameters curveParams) {
+    protected void pbc_param_init_g_gen(DefaultParameters curveParams) {
 /*        g_init(p);
         g_param_ptr param = p - > data;
         field_t Fq, Fqx, Fqd;
@@ -273,7 +274,7 @@ public class TypeGCurveGenerator implements CurveGenerator {
         }
 */
         TypeGCurveGenerator generator = new TypeGCurveGenerator(9563);
-        DefaultCurveParameters params = (DefaultCurveParameters) generator.generate();
+        DefaultParameters params = (DefaultParameters) generator.generate();
         System.out.println(params.toString());
     }
 

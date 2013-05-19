@@ -2,6 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.pairing;
 
 import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Pairing;
+import it.unisa.dia.gas.jpbc.PairingParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.a.TypeAPairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.a1.TypeA1Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.d.TypeDPairing;
@@ -25,20 +26,20 @@ public class PairingFactory {
         return INSTANCE;
     }
 
-    public static Pairing getPairing(CurveParameters curveParameters) {
-        return getInstance().initPairing(curveParameters);
+    public static Pairing getPairing(PairingParameters parameters) {
+        return getInstance().initPairing(parameters);
     }
 
-    public static Pairing getPairing(String curveParametersPath) {
-        return getInstance().initPairing(curveParametersPath);
+    public static Pairing getPairing(String parametersPath) {
+        return getInstance().initPairing(parametersPath);
     }
 
-    public static Pairing getPairing(CurveParameters curveParameters, Random random) {
-        return getInstance().initPairing(curveParameters, random);
+    public static Pairing getPairing(PairingParameters parameters, Random random) {
+        return getInstance().initPairing(parameters, random);
     }
 
-    public static Pairing getPairing(String curveParametersPath, Random random) {
-        return getInstance().initPairing(curveParametersPath, random);
+    public static Pairing getPairing(String parametersPath, Random random) {
+        return getInstance().initPairing(parametersPath, random);
     }
 
 
@@ -49,7 +50,7 @@ public class PairingFactory {
     private Method getPairingMethod;
     private Throwable pbcPairingFailure;
 
-    private Map<CurveParameters, Pairing> instances;
+    private Map<PairingParameters, Pairing> instances;
 
     public PairingFactory() {
         // Try to load jpbc-pbc factory
@@ -58,61 +59,61 @@ public class PairingFactory {
             Method isPBCAvailable = pbcPairingFactoryClass.getMethod("isPBCAvailable", null);
             pbcAvailable = ((Boolean)isPBCAvailable.invoke(null));
             if (pbcAvailable)
-                getPairingMethod = pbcPairingFactoryClass.getMethod("getPairing", CurveParameters.class);
+                getPairingMethod = pbcPairingFactoryClass.getMethod("getPairing", PairingParameters.class);
         } catch (Exception e) {
             pbcAvailable = false;
             pbcPairingFailure = e;
         }
 
-        this.instances = new HashMap<CurveParameters, Pairing>();
+        this.instances = new HashMap<PairingParameters, Pairing>();
     }
 
-    public Pairing initPairing(String curveParametersPath) {
-        return initPairing(loadCurveParameters(curveParametersPath), null);
+    public Pairing initPairing(String parametersPath) {
+        return initPairing(loadParameters(parametersPath), null);
     }
 
-    public Pairing initPairing(CurveParameters curveParameters) {
-        return initPairing(curveParameters, null);
+    public Pairing initPairing(PairingParameters parameters) {
+        return initPairing(parameters, null);
     }
 
-    public Pairing initPairing(String curveParametersPath, Random random) {
-        return initPairing(loadCurveParameters(curveParametersPath), random);
+    public Pairing initPairing(String parametersPath, Random random) {
+        return initPairing(loadParameters(parametersPath), random);
     }
 
-    public Pairing initPairing(CurveParameters curveParameters, Random random) {
-        if (curveParameters == null)
-            throw new IllegalArgumentException("curveParameters cannot be null.");
+    public Pairing initPairing(PairingParameters parameters, Random random) {
+        if (parameters == null)
+            throw new IllegalArgumentException("parameters cannot be null.");
 
         Pairing pairing = null;
         if (reuseInstance && random == null) {
-            pairing = instances.get(curveParameters);
+            pairing = instances.get(parameters);
             if (pairing != null)
                 return pairing;
         }
 
         if (usePBCWhenPossible && pbcAvailable)
-            pairing = getPBCPairing(curveParameters);
+            pairing = getPBCPairing(parameters);
 
         if (pairing == null) {
-            String type = curveParameters.getString("type");
+            String type = parameters.getString("type");
             if ("a".equalsIgnoreCase(type))
-                pairing = new TypeAPairing(random, curveParameters);
+                pairing = new TypeAPairing(random, parameters);
             else if ("a1".equalsIgnoreCase(type))
-                pairing = new TypeA1Pairing(random, curveParameters);
+                pairing = new TypeA1Pairing(random, parameters);
             else if ("d".equalsIgnoreCase(type))
-                pairing = new TypeDPairing(random, curveParameters);
+                pairing = new TypeDPairing(random, parameters);
             else if ("e".equalsIgnoreCase(type))
-                pairing = new TypeEPairing(random, curveParameters);
+                pairing = new TypeEPairing(random, parameters);
             else if ("f".equalsIgnoreCase(type))
-                return new TypeFPairing(random, curveParameters);
+                return new TypeFPairing(random, parameters);
             else if ("g".equalsIgnoreCase(type))
-                return new TypeGPairing(random, curveParameters);
+                return new TypeGPairing(random, parameters);
             else
                 throw new IllegalArgumentException("Type not supported. Type = " + type);
         }
 
         if (reuseInstance)
-            instances.put(curveParameters, pairing);
+            instances.put(parameters, pairing);
 
         return pairing;
     }
@@ -144,9 +145,17 @@ public class PairingFactory {
         return curveParams;
     }
 
-    public Pairing getPBCPairing(CurveParameters curveParameters) {
+    public PairingParameters loadParameters(String path) {
+        DefaultParameters curveParams = new DefaultParameters();
+        curveParams.load(path);
+
+        return curveParams;
+    }
+
+
+    public Pairing getPBCPairing(PairingParameters parameters) {
         try {
-            return (Pairing) getPairingMethod.invoke(null, curveParameters);
+            return (Pairing) getPairingMethod.invoke(null, parameters);
         } catch (Exception e) {
             // Ignore
         }

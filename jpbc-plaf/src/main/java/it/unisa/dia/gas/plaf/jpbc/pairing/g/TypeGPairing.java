@@ -21,7 +21,7 @@ import java.util.Random;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class TypeGPairing extends AbstractPairing {
-    protected CurveParameters curveParams;
+    protected PairingParameters curveParams;
 
     protected int k;
 
@@ -39,11 +39,11 @@ public class TypeGPairing extends AbstractPairing {
     protected CurveField Eq, Etwist;
 
 
-    public TypeGPairing(CurveParameters curveParams) {
+    public TypeGPairing(PairingParameters curveParams) {
         this(new SecureRandom(), curveParams);
     }
 
-    public TypeGPairing(Random random, CurveParameters curveParams) {
+    public TypeGPairing(Random random, PairingParameters curveParams) {
         super(random);
 
         this.curveParams = curveParams;

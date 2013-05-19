@@ -3,6 +3,7 @@ package it.unisa.dia.gas.plaf.jpbc.pairing.a1;
 import it.unisa.dia.gas.jpbc.CurveGenerator;
 import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.DefaultCurveParameters;
+import it.unisa.dia.gas.plaf.jpbc.pairing.DefaultParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
 import java.math.BigInteger;
@@ -98,7 +99,7 @@ public class TypeA1CurveGenerator implements CurveGenerator {
 
     public static void main(String[] args) {
         TypeA1CurveGenerator generator = new TypeA1CurveGenerator(3, 512);
-        DefaultCurveParameters curveParams = (DefaultCurveParameters) generator.generate();
+        DefaultParameters curveParams = (DefaultParameters) generator.generate();
 
         System.out.println(curveParams.toString(" "));
     }

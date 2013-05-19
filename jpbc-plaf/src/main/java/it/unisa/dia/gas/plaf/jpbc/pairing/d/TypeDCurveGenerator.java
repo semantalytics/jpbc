@@ -11,6 +11,7 @@ import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyModElement;
 import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyModField;
 import it.unisa.dia.gas.plaf.jpbc.field.z.ZrField;
 import it.unisa.dia.gas.plaf.jpbc.pairing.DefaultCurveParameters;
+import it.unisa.dia.gas.plaf.jpbc.pairing.DefaultParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 import it.unisa.dia.gas.plaf.jpbc.util.math.HilbertPolyGenerator;
 import it.unisa.dia.gas.plaf.jpbc.util.math.PellEquation;
@@ -58,7 +59,7 @@ public class TypeDCurveGenerator implements CurveGenerator {
         if (curves == null || curves.length == 0)
             throw new IllegalStateException("Cannot find valid curves. Try another discriminant.");
 
-        for (DefaultCurveParameters curve : curves) {
+        for (DefaultParameters curve : curves) {
             d_param_from_cm(curve);
         }
 
@@ -229,7 +230,7 @@ public class TypeDCurveGenerator implements CurveGenerator {
         return params;
     }
 
-    protected void d_param_from_cm(DefaultCurveParameters param) {
+    protected void d_param_from_cm(DefaultParameters param) {
         compute_cm_curve(param);
 
         Field<? extends Element> Fq = new ZrField(random, param.getBigInteger("q"));
@@ -262,7 +263,7 @@ public class TypeDCurveGenerator implements CurveGenerator {
      *
      * @param param
      */
-    protected void compute_cm_curve(DefaultCurveParameters param) {
+    protected void compute_cm_curve(DefaultParameters param) {
         ZrField fp = new ZrField(random,param.getBigInteger("q"));
         PolyField fpx = new PolyField(random, fp);
 
@@ -323,7 +324,7 @@ public class TypeDCurveGenerator implements CurveGenerator {
         }
 */
         TypeDCurveGenerator generator = new TypeDCurveGenerator(9563);
-        DefaultCurveParameters params = (DefaultCurveParameters) generator.generate();
+        DefaultParameters params = (DefaultParameters) generator.generate();
         System.out.println(params.toString());
     }
 

@@ -11,7 +11,7 @@ import java.util.Random;
  */
 public abstract class AbstractPairing implements Pairing {
 
-    protected CurveParameters curveParameters;
+    protected PairingParameters parameters;
     protected Random random;
 
     protected Field G1, G2, GT, Zr;
@@ -41,6 +41,25 @@ public abstract class AbstractPairing implements Pairing {
 
     public Field getZr() {
         return Zr;
+    }
+
+    public int getDegree() {
+        return 2;
+    }
+
+    public Field getFieldAt(int index) {
+        switch (index) {
+            case 0:
+                return Zr;
+            case 1:
+                return G1;
+            case 2:
+                return G2;
+            case 3:
+                return GT;
+            default:
+                throw new IllegalArgumentException("invalid index");
+        }
     }
 
     public Field getGT() {
@@ -87,6 +106,7 @@ public abstract class AbstractPairing implements Pairing {
             return PairingFieldIdentifier.GT;
         if (field == Zr)
             return PairingFieldIdentifier.Zr;
+
         return PairingFieldIdentifier.Unknown;
     }
 

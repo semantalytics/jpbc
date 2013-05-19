@@ -1,7 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing.a;
 
-import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.jpbc.PairingParameters;
 import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveField;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteField;
@@ -39,7 +39,7 @@ public class TypeAPairing extends AbstractPairing {
     protected Field<? extends Point> Eq;
 
 
-    public TypeAPairing(Random random, CurveParameters params) {
+    public TypeAPairing(Random random, PairingParameters params) {
         super(random);
 
         initParams(params);
@@ -47,12 +47,12 @@ public class TypeAPairing extends AbstractPairing {
         initFields();
     }
 
-    public TypeAPairing(CurveParameters params) {
+    public TypeAPairing(PairingParameters params) {
         this(new SecureRandom(), params);
     }
 
 
-    protected void initParams(CurveParameters curveParams) {
+    protected void initParams(PairingParameters curveParams) {
         // validate the type
         String type = curveParams.getString("type");
         if (type == null || !"a".equalsIgnoreCase(type))
@@ -118,7 +118,7 @@ public class TypeAPairing extends AbstractPairing {
     }
 
 
-    protected void initMap(CurveParameters curveParams) {
+    protected void initMap(PairingParameters curveParams) {
         String method = curveParams.getString("method", NAF_MILLER_PROJECTTIVE_METHOD);
 
         if (NAF_MILLER_PROJECTTIVE_METHOD.endsWith(method)) {

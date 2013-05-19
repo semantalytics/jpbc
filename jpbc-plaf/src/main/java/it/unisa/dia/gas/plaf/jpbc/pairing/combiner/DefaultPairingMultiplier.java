@@ -8,39 +8,43 @@ import it.unisa.dia.gas.jpbc.PairingPreProcessing;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  * @since 1.3.0
  */
-public class ProductPairingMultiplier implements PairingCombiner {
+public class DefaultPairingMultiplier implements PairingCombiner {
 
     private Pairing pairing;
-
-    private int index;
-    private Element[] in1, in2;
+    private Element value;
 
 
-    public ProductPairingMultiplier(Pairing pairing, int n) {
+    public DefaultPairingMultiplier(Pairing pairing) {
         this.pairing = pairing;
-        this.in1 = new Element[n];
-        this.in2 = new Element[n];
-        this.index = 0;
+        this.value = pairing.getGT().newOneElement();
+    }
+
+    public DefaultPairingMultiplier(Pairing pairing, Element value) {
+        this.pairing = pairing;
+        this.value = value;
     }
 
 
     public PairingCombiner addPairing(Element e1, Element e2) {
-        in1[index] =  e1;
-        in2[index++] =  e1;
+        value.mul(pairing.pairing(e1, e2));
 
         return this;
     }
 
     public PairingCombiner addPairing(PairingPreProcessing pairingPreProcessing, Element e2) {
-        throw new IllegalStateException("Not supported!!!");
+        value.mul(pairingPreProcessing.pairing(e2));
+
+        return this;
     }
 
     public PairingCombiner addPairingInverse(Element e1, Element e2) {
-        throw new IllegalStateException("Not supported!!!");
+        value.mul(pairing.pairing(e1, e2).invert());
+
+        return this;
     }
 
     public Element combine(){
-        return pairing.pairing(in1, in2);
+        return value;
     }
 
 }

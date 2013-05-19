@@ -12,7 +12,7 @@ import java.io.ObjectInput;
 public class PairingObjectInput implements ObjectInput {
 
     private ObjectInput objectInput;
-    private CurveParameters curveParameters;
+    private PairingParameters parameters;
     private Pairing pairing;
 
 
@@ -109,11 +109,11 @@ public class PairingObjectInput implements ObjectInput {
         return objectInput.readUTF();
     }
 
-    public CurveParameters readCurveParameters() throws IOException, ClassNotFoundException {
-        this.curveParameters = (CurveParameters) objectInput.readObject();
-        this.pairing = PairingFactory.getPairing(curveParameters);
+    public PairingParameters readParameters() throws IOException, ClassNotFoundException {
+        this.parameters = (PairingParameters) objectInput.readObject();
+        this.pairing = PairingFactory.getPairing(parameters);
 
-        return curveParameters;
+        return parameters;
     }
 
     public Pairing getPairing() {

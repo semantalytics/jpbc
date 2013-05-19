@@ -1,8 +1,8 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing.f;
 
-import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.jpbc.PairingParameters;
 import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveField;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteField;
@@ -24,7 +24,7 @@ import java.util.Random;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class TypeFPairing extends AbstractPairing {
-    protected CurveParameters curveParams;
+    protected PairingParameters curveParams;
 
     protected int k;
 
@@ -45,11 +45,11 @@ public class TypeFPairing extends AbstractPairing {
     protected CurveField Eq, etwist;
 
 
-    public TypeFPairing(CurveParameters curveParams) {
+    public TypeFPairing(PairingParameters curveParams) {
         this(new SecureRandom(), curveParams);
     }
 
-    public TypeFPairing(Random random, CurveParameters curveParams) {
+    public TypeFPairing(Random random, PairingParameters curveParams) {
         super(random);
 
         this.curveParams = curveParams;

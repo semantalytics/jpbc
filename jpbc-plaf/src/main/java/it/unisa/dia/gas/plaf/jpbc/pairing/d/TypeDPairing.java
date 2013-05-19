@@ -10,7 +10,7 @@ import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyModField;
 import it.unisa.dia.gas.plaf.jpbc.field.quadratic.QuadraticField;
 import it.unisa.dia.gas.plaf.jpbc.field.z.ZrField;
 import it.unisa.dia.gas.plaf.jpbc.pairing.AbstractPairing;
-import it.unisa.dia.gas.plaf.jpbc.pairing.DefaultCurveParameters;
+import it.unisa.dia.gas.plaf.jpbc.pairing.DefaultParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
 import java.math.BigInteger;
@@ -22,7 +22,7 @@ import java.util.Random;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class TypeDPairing extends AbstractPairing {
-    protected CurveParameters curveParams;
+    protected PairingParameters curveParams;
 
     protected int k;
 
@@ -39,7 +39,7 @@ public class TypeDPairing extends AbstractPairing {
     protected CurveField Eq, Etwist;
 
 
-    public TypeDPairing(Random random, CurveParameters curveParams) {
+    public TypeDPairing(Random random, PairingParameters curveParams) {
         super(random);
 
         this.curveParams = curveParams;
@@ -49,7 +49,7 @@ public class TypeDPairing extends AbstractPairing {
         initFields();
     }
 
-    public TypeDPairing(CurveParameters curveParams) {
+    public TypeDPairing(PairingParameters curveParams) {
         this(new SecureRandom(), curveParams);
     }
 
@@ -59,8 +59,8 @@ public class TypeDPairing extends AbstractPairing {
     }
 
 
-    public DefaultCurveParameters saveTwist() {
-        DefaultCurveParameters params = (DefaultCurveParameters) curveParams;
+    public DefaultParameters saveTwist() {
+        DefaultParameters params = (DefaultParameters) curveParams;
 
         params.putBytes("twist.a", Etwist.getA().toBytes());
         params.putBytes("twist.b", Etwist.getB().toBytes());
