@@ -4,7 +4,7 @@
     <skin>
         <groupId>it.unisa.dia.gas</groupId>
         <artifactId>jpbc-site-skin</artifactId>
-        <version>1.2.1</version>
+        <version>1.3.0</version>
     </skin>
 
     <body>
@@ -48,13 +48,13 @@
                 <item name="Preprocessing" href="/docs/element.html#preprocessing"/>
             </item>
 
-            <item name="Curve Generators" href="/docs/curvegenerator.html">
-                <item name="Type A" href="/docs/curvegenerator.html#TypeA"/>
-                <item name="Type A1" href="/docs/curvegenerator.html#TypeA1"/>
-                <item name="Type D" href="/docs/curvegenerator.html#TypeD"/>
-                <item name="Type E" href="/docs/curvegenerator.html#TypeE"/>
-                <item name="Type F" href="/docs/curvegenerator.html#TypeF"/>
-                <item name="Type G" href="/docs/curvegenerator.html#TypeG"/>
+            <item name="Curve Generators" href="/docs/parametersgenerator.html">
+                <item name="Type A" href="/docs/parametersgenerator.html#TypeA"/>
+                <item name="Type A1" href="/docs/parametersgenerator.html#TypeA1"/>
+                <item name="Type D" href="/docs/parametersgenerator.html#TypeD"/>
+                <item name="Type E" href="/docs/parametersgenerator.html#TypeE"/>
+                <item name="Type F" href="/docs/parametersgenerator.html#TypeF"/>
+                <item name="Type G" href="/docs/parametersgenerator.html#TypeG"/>
             </item>
 
             <item name="PBC Wrapper" href="/docs/pbcwrapper.html"/>

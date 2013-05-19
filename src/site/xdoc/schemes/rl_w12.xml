@@ -99,7 +99,7 @@
 <a name="l58"><span class="ln">58   </span></a>
 <a name="l59"><span class="ln">59   </span></a>
 <a name="l60"><span class="ln">60   </span></a>    </span><span class="s0">protected </span><span class="s1">RLW12Parameters createParameters(Alphabet alphabet) {
-<a name="l61"><span class="ln">61   </span></a>        </span><span class="s0">return new </span><span class="s1">RLW12ParametersGenerator().init(curveParameters, alphabet).generateParameters();
+<a name="l61"><span class="ln">61   </span></a>        </span><span class="s0">return new </span><span class="s1">RLW12ParametersGenerator().init(parameters, alphabet).generateParameters();
 <a name="l62"><span class="ln">62   </span></a>    }
 <a name="l63"><span class="ln">63   </span></a>
 <a name="l64"><span class="ln">64   </span></a>    </span><span class="s0">protected </span><span class="s1">AsymmetricCipherKeyPair setup(RLW12Parameters parameters) {

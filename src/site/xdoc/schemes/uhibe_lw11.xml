@@ -111,7 +111,7 @@
 <a name="l75"><span class="ln">75   </span></a>    }
 <a name="l76"><span class="ln">76   </span></a>
 <a name="l77"><span class="ln">77   </span></a>    </span><span class="s0">protected </span><span class="s1">Element[] map(CipherParameters publicKey, String... ids) {
-<a name="l78"><span class="ln">78   </span></a>        Pairing pairing = PairingFactory.getPairing(((UHIBELW11PublicKeyParameters) publicKey).getCurveParameters());
+<a name="l78"><span class="ln">78   </span></a>        Pairing pairing = PairingFactory.getPairing(((UHIBELW11PublicKeyParameters) publicKey).getParameters());
 <a name="l79"><span class="ln">79   </span></a>
 <a name="l80"><span class="ln">80   </span></a>        Element[] elements = </span><span class="s0">new </span><span class="s1">Element[ids.length];
 <a name="l81"><span class="ln">81   </span></a>        </span><span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s4">0</span><span class="s1">; i &lt; elements.length; i++) {

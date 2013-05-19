@@ -82,7 +82,7 @@
 <a name="l46"><span class="ln">46   </span></a>
 <a name="l47"><span class="ln">47   </span></a>    </span><span class="s0">protected </span><span class="s1">PS06Parameters createParameters(</span><span class="s0">int </span><span class="s1">nU, </span><span class="s0">int </span><span class="s1">nM) {
 <a name="l48"><span class="ln">48   </span></a>        </span><span class="s2">// Generate Public Parameters</span><span class="s1">
-<a name="l49"><span class="ln">49   </span></a>        </span><span class="s0">return new </span><span class="s1">PS06ParametersGenerator().init(curveParameters, nU, nM).generateParameters();
+<a name="l49"><span class="ln">49   </span></a>        </span><span class="s0">return new </span><span class="s1">PS06ParametersGenerator().init(parameters, nU, nM).generateParameters();
 <a name="l50"><span class="ln">50   </span></a>    }
 <a name="l51"><span class="ln">51   </span></a>
 <a name="l52"><span class="ln">52   </span></a>    </span><span class="s0">protected </span><span class="s1">AsymmetricCipherKeyPair setup(PS06Parameters parameters) {

@@ -14,7 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import it.unisa.dia.gas.jpbc.CurveParameters;
+import it.unisa.dia.gas.jpbc.Parameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
 import java.io.File;
@@ -54,8 +54,8 @@ public class JPBCBenchmarkActivity extends Activity implements View.OnClickListe
         Log.i(TAG, "onCreate.finished");
     }
 
-    protected CurveParameters getCurveParameters(String curve) {
-        return PairingFactory.getInstance().loadCurveParameters(curve);
+    protected Parameters getParameters(String curve) {
+        return PairingFactory.getInstance().loadParameters(curve);
     }
 
     protected void onStop() {

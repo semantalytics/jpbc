@@ -147,12 +147,12 @@ public class AndroidBenchmark {
         return benchmark;
     }
 
-    protected CurveParameters getCurveParameters(String curve) {
-        return PairingFactory.getInstance().loadCurveParameters(curve);
+    protected Parameters getParameters(String curve) {
+        return PairingFactory.getInstance().loadParameters(curve);
     }
 
     protected Pairing getPairing(String curve) {
-        return PairingFactory.getPairing(getCurveParameters(curve));
+        return PairingFactory.getPairing(getParameters(curve));
     }
 
 

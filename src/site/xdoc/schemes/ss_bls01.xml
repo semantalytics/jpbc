@@ -72,7 +72,7 @@
 <a name="l39"><span class="ln">39   </span></a>
 <a name="l40"><span class="ln">40   </span></a>    </span><span class="s0">protected </span><span class="s1">BLS01Parameters setup() {
 <a name="l41"><span class="ln">41   </span></a>        BLS01ParametersGenerator setup = </span><span class="s0">new </span><span class="s1">BLS01ParametersGenerator();
-<a name="l42"><span class="ln">42   </span></a>        setup.init(curveParameters);
+<a name="l42"><span class="ln">42   </span></a>        setup.init(parameters);
 <a name="l43"><span class="ln">43   </span></a>
 <a name="l44"><span class="ln">44   </span></a>        </span><span class="s0">return </span><span class="s1">setup.generateParameters();
 <a name="l45"><span class="ln">45   </span></a>    }

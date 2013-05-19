@@ -110,7 +110,7 @@
                     </a>
                     interface is to generate (or load) the parameters describing the elliptic
                     curve to be used. Have a look
-                    <a href="./curvegenerator.html">here</a>
+                    <a href="./parametersgenerator.html">here</a>
                     to know how to generate such parameters.
                 </p>
 

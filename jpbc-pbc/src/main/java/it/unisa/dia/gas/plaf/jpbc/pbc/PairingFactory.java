@@ -1,7 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.pbc;
 
-import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Pairing;
+import it.unisa.dia.gas.jpbc.PairingParameters;
 import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.WrapperLibraryProvider;
 
 import java.util.Map;
@@ -12,27 +12,27 @@ import java.util.WeakHashMap;
  */
 public class PairingFactory {
 
-    private static Map<CurveParameters, Pairing> pairings = new WeakHashMap<CurveParameters, Pairing>();
+    private static Map<PairingParameters, Pairing> pairings = new WeakHashMap<PairingParameters, Pairing>();
 
     public static boolean isPBCAvailable() {
         return WrapperLibraryProvider.isAvailable();
     }
 
-    public static Pairing getPairing(CurveParameters curveParameters) {
-        Pairing pairing = pairings.get(curveParameters);
+    public static Pairing getPairing(PairingParameters parameters) {
+        Pairing pairing = pairings.get(parameters);
         if (pairing == null) {
             if (WrapperLibraryProvider.isAvailable())
-                pairing = new PBCPairing(curveParameters);
+                pairing = new PBCPairing(parameters);
             else
                 return null;
 
-            pairings.put(curveParameters, pairing);
+            pairings.put(parameters, pairing);
         }
 
         return pairing;
     }
 
-    public static Pairing getPairing(String curveParametersPath) {
-        return getPairing(it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory.getInstance().loadCurveParameters(curveParametersPath));
+    public static Pairing getPairing(String parametersPath) {
+        return getPairing(it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory.getInstance().loadParameters(parametersPath));
     }
 }

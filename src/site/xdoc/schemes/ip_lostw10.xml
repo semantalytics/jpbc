@@ -95,7 +95,7 @@
 <a name="l48"><span class="ln">48   </span></a>
 <a name="l49"><span class="ln">49   </span></a>
 <a name="l50"><span class="ln">50   </span></a>    </span><span class="s0">protected </span><span class="s1">IPLOSTW10Parameters createParameters(</span><span class="s0">int </span><span class="s1">n) {
-<a name="l51"><span class="ln">51   </span></a>        </span><span class="s0">return new </span><span class="s1">IPLOSTW10ParametersGenerator().init(curveParameters, n).generateParameters();
+<a name="l51"><span class="ln">51   </span></a>        </span><span class="s0">return new </span><span class="s1">IPLOSTW10ParametersGenerator().init(parameters, n).generateParameters();
 <a name="l52"><span class="ln">52   </span></a>    }
 <a name="l53"><span class="ln">53   </span></a>
 <a name="l54"><span class="ln">54   </span></a>    </span><span class="s0">protected </span><span class="s1">AsymmetricCipherKeyPair setup(IPLOSTW10Parameters parameters) {
@@ -109,7 +109,7 @@
 <a name="l62"><span class="ln">62   </span></a>    }
 <a name="l63"><span class="ln">63   </span></a>
 <a name="l64"><span class="ln">64   </span></a>    </span><span class="s0">protected </span><span class="s1">Element[][] createOrthogonalVectors(CipherParameters publicKey, </span><span class="s0">int </span><span class="s1">n) {
-<a name="l65"><span class="ln">65   </span></a>        Pairing pairing = PairingFactory.getPairing(((IPLOSTW10PublicKeyParameters) publicKey).getParameters().getCurveParameters());
+<a name="l65"><span class="ln">65   </span></a>        Pairing pairing = PairingFactory.getPairing(((IPLOSTW10PublicKeyParameters) publicKey).getParameters().getParameters());
 <a name="l66"><span class="ln">66   </span></a>
 <a name="l67"><span class="ln">67   </span></a>        Element[][] result = </span><span class="s0">new </span><span class="s1">Element[</span><span class="s4">2</span><span class="s1">][n];
 <a name="l68"><span class="ln">68   </span></a>        Random random = </span><span class="s0">new </span><span class="s1">Random();
@@ -132,7 +132,7 @@
 <a name="l85"><span class="ln">85   </span></a>    }
 <a name="l86"><span class="ln">86   </span></a>
 <a name="l87"><span class="ln">87   </span></a>    </span><span class="s0">protected </span><span class="s1">Element[][] createNonOrthogonalVectors(CipherParameters publicKey, </span><span class="s0">int </span><span class="s1">n) {
-<a name="l88"><span class="ln">88   </span></a>        Pairing pairing = PairingFactory.getPairing(((IPLOSTW10PublicKeyParameters) publicKey).getParameters().getCurveParameters());
+<a name="l88"><span class="ln">88   </span></a>        Pairing pairing = PairingFactory.getPairing(((IPLOSTW10PublicKeyParameters) publicKey).getParameters().getParameters());
 <a name="l89"><span class="ln">89   </span></a>
 <a name="l90"><span class="ln">90   </span></a>        Element[][] result = </span><span class="s0">new </span><span class="s1">Element[</span><span class="s4">2</span><span class="s1">][n];
 <a name="l91"><span class="ln">91   </span></a>        </span><span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s4">0</span><span class="s1">; i &lt; n; i += </span><span class="s4">2</span><span class="s1">) {

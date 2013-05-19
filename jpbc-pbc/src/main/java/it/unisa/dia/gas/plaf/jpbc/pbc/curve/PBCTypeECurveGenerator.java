@@ -1,7 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.pbc.curve;
 
-import it.unisa.dia.gas.jpbc.CurveGenerator;
-import it.unisa.dia.gas.plaf.jpbc.pairing.DefaultCurveParameters;
+import it.unisa.dia.gas.jpbc.PairingParametersGenerator;
+import it.unisa.dia.gas.plaf.jpbc.pairing.DefaultParameters;
 import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.WrapperLibraryProvider;
 
 /**
@@ -32,8 +32,8 @@ public class PBCTypeECurveGenerator extends PBCCurveGenerator {
         Integer rBits = Integer.parseInt(args[0]);
         Integer qBits = Integer.parseInt(args[1]);
 
-        CurveGenerator generator = new PBCTypeECurveGenerator(rBits, qBits);
-        DefaultCurveParameters curveParams = (DefaultCurveParameters) generator.generate();
+        PairingParametersGenerator generator = new PBCTypeECurveGenerator(rBits, qBits);
+        DefaultParameters curveParams = (DefaultParameters) generator.generate();
 
         System.out.println(curveParams.toString(" "));
     }
