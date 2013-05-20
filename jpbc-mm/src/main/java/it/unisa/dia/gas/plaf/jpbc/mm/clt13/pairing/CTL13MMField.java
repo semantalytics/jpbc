@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.plaf.jpbc.mm.clt13.field;
+package it.unisa.dia.gas.plaf.jpbc.mm.clt13.pairing;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
@@ -31,7 +31,7 @@ public class CTL13MMField implements Field<CTL13MMElement> {
 
 
     public CTL13MMElement newElement() {
-        return new CTL13MMElement(this, index);
+        return (CTL13MMElement) new CTL13MMElement(this, index).setToOne();
     }
 
     public CTL13MMElement newElement(int value) {
@@ -51,11 +51,7 @@ public class CTL13MMField implements Field<CTL13MMElement> {
     }
 
     public CTL13MMElement newRandomElement() {
-        BigInteger value = instance.sampleAtZero();
-        if (index > 0)
-            return new CTL13MMElement(this, value, index);
-
-        return newElement(value);
+        return newElement(instance.sampleAtZero());
     }
 
     public BigInteger getOrder() {

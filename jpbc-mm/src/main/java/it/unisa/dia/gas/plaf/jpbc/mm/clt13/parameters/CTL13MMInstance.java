@@ -1,6 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters;
 
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.field.CTL13MMField;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.pairing.CTL13MMField;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
 import java.math.BigInteger;

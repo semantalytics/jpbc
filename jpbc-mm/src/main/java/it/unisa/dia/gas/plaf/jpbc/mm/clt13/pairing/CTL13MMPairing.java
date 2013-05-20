@@ -6,6 +6,8 @@ import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.jpbc.PairingPreProcessing;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstance;
 
+import java.math.BigInteger;
+
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  * @since 1.3.0
@@ -49,7 +51,13 @@ public class CTL13MMPairing implements Pairing {
     }
 
     public Element pairing(Element in1, Element in2) {
-        return in1.duplicate().mul(in2);
+        CTL13MMElement a = (CTL13MMElement) in1;
+        CTL13MMElement b = (CTL13MMElement) in2;
+
+        int index = a.index + b.index;
+        BigInteger value = instance.reduce(a.value.multiply(b.value));
+
+        return new CTL13MMElement(instance.getFieldAt(index), value, index);
     }
 
     public boolean isProductPairingSupported() {

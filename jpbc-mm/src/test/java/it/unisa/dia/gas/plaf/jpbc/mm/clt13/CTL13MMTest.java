@@ -1,8 +1,8 @@
 package it.unisa.dia.gas.plaf.jpbc.mm.clt13;
 
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.field.CTL13MMField;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators.CTL13MMInstanceGenerator;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.pairing.CTL13MMField;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13InstanceParameters;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstance;
 import org.junit.runner.RunWith;

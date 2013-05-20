@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters;
 
 import junit.framework.Assert;
+import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
@@ -33,35 +34,24 @@ public class CTL13MMInstanceTest {
 
 
     protected CTL13InstanceParameters instanceParameters;
+    protected CTL13MMInstance instance;
 
 
     public CTL13MMInstanceTest(CTL13InstanceParameters instanceParameters) {
         this.instanceParameters = instanceParameters;
     }
 
+    @Before
+    public void before(){
+        SecureRandom random = new SecureRandom();
+        instance = new CTL13MMInstance(random, instanceParameters);
+    }
+
 
     @org.junit.Test
     public void test() {
-        SecureRandom random = new SecureRandom();
-        CTL13MMInstance instance = new CTL13MMInstance(random, instanceParameters);
-
         Assert.assertTrue(instance.isZero(instance.encodeZero(), 0));
         Assert.assertFalse(instance.isZero(instance.encodeOne(), 0));
-
-        Assert.assertTrue(instance.isZero(
-                instance.reduce(
-                        instance.encodeZero().multiply(instance.encodeAt(1)).add(
-                                instance.encodeZero().multiply(instance.encodeAt(1))
-                        ).add(
-                                instance.encodeZero().multiply(instance.encodeAt(1))
-                        ).add(
-                                instance.encodeZero().multiply(instance.encodeAt(1))
-                        ).add(
-                                instance.encodeZero().multiply(instance.encodeAt(1))
-                        )
-                ), 1
-        ));
-
     }
 
 }

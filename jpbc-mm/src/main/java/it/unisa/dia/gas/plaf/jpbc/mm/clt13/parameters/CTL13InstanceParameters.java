@@ -95,4 +95,10 @@ public class CTL13InstanceParameters {
     public int getBound() {
         return bound;
     }
+
+    public CTL13InstanceParameters setKappa(int kappa) {
+        this.kappa = kappa;
+
+        return this;
+    }
 }

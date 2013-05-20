@@ -8,6 +8,7 @@ import it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators.CTL13MMInstanceGenerator;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.pairing.CTL13MMPairing;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13InstanceParameters;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstance;
+import junit.framework.Assert;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
@@ -32,7 +33,7 @@ public class Test {
     @Parameterized.Parameters
     public static Collection parameters() {
         Object[][] data = {
-                {CTL13InstanceParameters.TOY.setKappa(4)}
+                {CTL13InstanceParameters.TOY.setKappa(5)}
         };
 
         return Arrays.asList(data);
@@ -56,10 +57,10 @@ public class Test {
         // =============== Setup ==================
 
         // Sample secret key
-        Element alpha = pairing.getFieldAt(0).newRandomElement().getImmutable();
+        Element alpha = pairing.getZr().newRandomElement().getImmutable();
 
         // Sample public key
-        int n = 2;
+        int n = 4;
         Element[] hs = new Element[n];
         for (int i = 0; i < hs.length; i++)
             hs[i] = pairing.getFieldAt(1).newRandomElement().getImmutable();
@@ -69,7 +70,7 @@ public class Test {
         // =============== Enc ==================
 
         // sample the randomness
-        Element s = pairing.getFieldAt(0).newRandomElement();
+        Element s = pairing.getZr().newRandomElement().getImmutable();
 
         // generate the ciphertext for x = 1101
 
@@ -77,7 +78,7 @@ public class Test {
         Element cM = H.powZn(s);    // Encode 1
 
 
-        Element gs = pairing.getFieldAt(1).newElement().powZn(s);
+        Element gs = pairing.getFieldAt(1).newElement().powZn(s).getImmutable();
 
         boolean[] xs = new boolean[]{true, true, false, true};
 
@@ -89,23 +90,23 @@ public class Test {
 
         // =============== KeyGen ==================
 
-        int q = 1;
-        Circuit circuit = new Circuit(n, q, 2, new Gate[]{
-                new Gate(Gate.Type.INPUT, 0, 0, null),
-                new Gate(Gate.Type.INPUT, 1, 0, null),
-//                new Gate(Gate.Type.INPUT, 2, 0, null),
-//                new Gate(Gate.Type.INPUT, 3, 0, null),
+        int q = 3;
+        Circuit circuit = new Circuit(n, q, 3, new Gate[]{
+                new Gate(Gate.Type.INPUT, 0, 1, null),
+                new Gate(Gate.Type.INPUT, 1, 1, null),
+                new Gate(Gate.Type.INPUT, 2, 1, null),
+                new Gate(Gate.Type.INPUT, 3, 1, null),
 
-                new Gate(Gate.Type.AND, 2, 1, new int[]{0, 1}),
-//                new Gate(Gate.Type.OR, 5, 1, new int[]{2, 3}),
+                new Gate(Gate.Type.AND, 4, 2, new int[]{0, 1}),
+                new Gate(Gate.Type.OR, 5, 2, new int[]{2, 3}),
 
-//                new Gate(Gate.Type.AND, 6, 2, new int[]{4, 5}),
+                new Gate(Gate.Type.AND, 6, 3, new int[]{4, 5}),
         });
 
         // sample the randomness
         Element[] rs = new Element[n + q];
         for (int i = 0; i < rs.length; i++)
-            rs[i] = pairing.getFieldAt(0).newRandomElement().getImmutable();
+            rs[i] = pairing.getZr().newRandomElement().getImmutable();
 
         circuit.setKey(pairing.getFieldAt(circuit.getDepth()).newElement().powZn(alpha.sub(rs[rs.length - 1])));
 
@@ -119,16 +120,18 @@ public class Test {
             switch (gate.getType()) {
                 case INPUT:
 
-                    Element zw = pairing.getFieldAt(0).newRandomElement();
-                    Element e1 = pairing.getFieldAt(1).newElement().powZn(rs[index]).add(hs[index].powZn(zw));
-                    Element e2 = pairing.getFieldAt(1).newElement().powZn(zw.negate());
+                    Element z = pairing.getZr().newRandomElement();
+
+                    Element e1 = pairing.getFieldAt(1).newElement().powZn(rs[index]).mul(hs[index].powZn(z));
+                    Element e2 = pairing.getFieldAt(1).newElement().powZn(z.negate());
 
                     gate.setKeys(e1, e2);
+
                     break;
 
                 case OR:
-                    Element a = pairing.getFieldAt(0).newRandomElement();
-                    Element b = pairing.getFieldAt(0).newRandomElement();
+                    Element a = pairing.getZr().newRandomElement();
+                    Element b = pairing.getZr().newRandomElement();
 
                     e1 = pairing.getFieldAt(1).newElement().powZn(a);
                     e2 = pairing.getFieldAt(1).newElement().powZn(b);
@@ -144,8 +147,8 @@ public class Test {
                     break;
 
                 case AND:
-                    a = pairing.getFieldAt(0).newRandomElement();
-                    b = pairing.getFieldAt(0).newRandomElement();
+                    a = pairing.getZr().newRandomElement();
+                    b = pairing.getZr().newRandomElement();
 
                     e1 = pairing.getFieldAt(1).newElement().powZn(a);
                     e2 = pairing.getFieldAt(1).newElement().powZn(b);
@@ -165,11 +168,21 @@ public class Test {
 
         circuit.setEval(pairing.pairing(circuit.getKey(), gs));
 
+        Assert.assertEquals(true,
+                circuit.getEval().isEqual(
+                        pairing.getFieldAt(circuit.getDepth()).newElement().powZn(
+                                alpha.duplicate().mul(s).add(
+                                        rs[circuit.getDepth()-1].duplicate().negate().mul(s)
+                                )
+                        )
+                ));
+
         // evaluate the circuit
         for (Gate gate : circuit) {
             System.out.println("evaluate gate = " + gate);
 
             int index = gate.getIndex();
+            int depth = gate.getDepth();
 
             switch (gate.getType()) {
                 case INPUT:
@@ -179,7 +192,14 @@ public class Test {
                         Element t1 = pairing.pairing(gate.getKeyAt(0), gs);
                         Element t2 = pairing.pairing(gate.getKeyAt(1), cs[index]);
 
-                        gate.setEval(t1.add(t2));
+                        gate.setEval(t1.mul(t2));
+
+                        Assert.assertEquals(true,
+                                gate.getEval().isEqual(
+                                        pairing.getFieldAt(2).newElement().powZn(
+                                                s.mul(rs[index])
+                                        )
+                                ));
                     }
                     break;
 
@@ -196,7 +216,8 @@ public class Test {
                                 gs
                         );
 
-                        gate.setEval(t1.add(t2));
+                        gate.setEval(t1.mul(t2));
+
 
                     } else if (gate.getInputAt(1).isValue()) {
                         Element t1 = pairing.pairing(
@@ -209,7 +230,7 @@ public class Test {
                                 gs
                         );
 
-                        gate.setEval(t1.add(t2));
+                        gate.setEval(t1.mul(t2));
                     }
 
                     gate.eval();
@@ -232,7 +253,14 @@ public class Test {
                     );
 
                     gate.eval();
-                    gate.setEval(t1.add(t2).add(t3));
+                    gate.setEval(t1.mul(t2).mul(t3));
+
+                    Assert.assertEquals(true,
+                            gate.getEval().isEqual(
+                                    pairing.getFieldAt(depth+1).newElement().powZn(
+                                            s.mul(rs[index])
+                                    )
+                            ));
 
                     break;
             }
@@ -241,9 +269,12 @@ public class Test {
         System.out.println("circuit.getOutputGate().isValue() = " + circuit.getOutputGate().isValue());
 
         if (circuit.getOutputGate().isValue()) {
-            Element result = circuit.getEval().add(circuit.getOutputGate().getEval()).sub(cM);
-            System.out.println("result = " + result);
-            if (result.isZero())
+
+            Element left = circuit.getEval().mul(circuit.getOutputGate().getEval());
+            System.out.println("left = " + left);
+            System.out.println("cM = " + cM);
+
+            if (left.isEqual(cM))
                 System.out.println("1");
             else
                 System.out.println("0");

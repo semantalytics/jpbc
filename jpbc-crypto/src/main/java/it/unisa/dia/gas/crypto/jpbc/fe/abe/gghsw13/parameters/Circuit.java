@@ -65,7 +65,7 @@ public class Circuit implements Iterable<Gate> {
 
 
     public void setEval(Element eval) {
-        this.eval = eval;
+        this.eval = eval.getImmutable();
     }
 
     public Element getEval() {

@@ -1,8 +1,7 @@
-package it.unisa.dia.gas.plaf.jpbc.mm.clt13.field;
+package it.unisa.dia.gas.plaf.jpbc.mm.clt13.pairing;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
-import it.unisa.dia.gas.jpbc.Field;
 
 import java.math.BigInteger;
 
@@ -10,41 +9,25 @@ import java.math.BigInteger;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  * @since 1.3.0
  */
-public class CTL13MMElement implements Element {
-
-    protected CTL13MMField field;
-
-    protected BigInteger value;
-    protected int index;
+public class CTL13MMImmutableElement extends CTL13MMElement {
 
 
-    public CTL13MMElement(CTL13MMField field, BigInteger value, int index) {
-        this.field = field;
-        this.value = value;
-        this.index = index;
+    public CTL13MMImmutableElement(CTL13MMField field, BigInteger value, int index) {
+        super(field, value, index);
     }
 
 
-    public CTL13MMElement(CTL13MMField field, int index) {
-        this.field = field;
-        this.index = index;
+    public CTL13MMImmutableElement(CTL13MMField field, int index) {
+        super(field, index);
     }
 
-
-    public Field getField() {
-        return field;
-    }
-
-    public int getLengthInBytes() {
-        throw new IllegalStateException("Not Implemented yet!");
-    }
 
     public boolean isImmutable() {
-        return false;
+        return true;
     }
 
     public Element getImmutable() {
-        throw new IllegalStateException("Not Implemented yet!");
+        return this;
     }
 
     public Element duplicate() {
@@ -68,9 +51,7 @@ public class CTL13MMElement implements Element {
     }
 
     public Element setToRandom() {
-        this.value = field.getInstance().sampleAtLevel(index);
-
-        return this;
+        return duplicate().setToRandom();
     }
 
     public Element setFromHash(byte[] source, int offset, int length) {
@@ -90,9 +71,7 @@ public class CTL13MMElement implements Element {
     }
 
     public Element setToZero() {
-        this.value = field.getInstance().encodeZeroAt(index);
-
-        return this;
+        return duplicate().setToZero();
     }
 
     public boolean isZero() {
@@ -100,9 +79,7 @@ public class CTL13MMElement implements Element {
     }
 
     public Element setToOne() {
-        this.value = field.getInstance().encodeOneAt(index);
-
-        return this;
+        return duplicate().setToOne();
     }
 
     public boolean isEqual(Element value) {
@@ -130,33 +107,19 @@ public class CTL13MMElement implements Element {
     }
 
     public Element negate() {
-        throw new IllegalStateException("Not Implemented yet!");
+        return duplicate().negate();
     }
 
     public Element add(Element element) {
-        if (index != ((CTL13MMElement)element).index)
-            throw new IllegalStateException("Index not valid!");
-
-        this.value = field.getInstance().reduce(this.value.add(((CTL13MMElement) element).value));
-
-        return this;
+        return duplicate().add(element);
     }
 
     public Element sub(Element element) {
-        if (index != ((CTL13MMElement)element).index)
-            throw new IllegalStateException("Index not valid!");
-
-        this.value = field.getInstance().reduce(this.value.subtract(((CTL13MMElement) element).value));
-
-        return this;
+        return duplicate().sub(element);
     }
 
     public Element mul(Element element) {
-        this.index += ((CTL13MMElement) element).index;
-        this.value = field.getInstance().reduce(value.multiply(((CTL13MMElement) element).value));
-        this.field = field.getInstance().getFieldAt(index);
-
-        return this;
+        return duplicate().mul(element);
     }
 
     public Element mul(int z) {
@@ -180,14 +143,7 @@ public class CTL13MMElement implements Element {
     }
 
     public Element powZn(Element n) {
-        if (((CTL13MMElement) n).index != 0)
-            throw new IllegalArgumentException("Level must be zero!");
-
-        this.value = field.getInstance().encodeAt(((CTL13MMElement) n).value, index);
-        if (index == 1)
-            this.value = field.getInstance().reRandomize(value, index);
-
-        return this;
+        return duplicate().powZn(n);
     }
 
     public ElementPowPreProcessing pow() {
