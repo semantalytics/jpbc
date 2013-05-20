@@ -3,7 +3,7 @@ package it.unisa.dia.gas.plaf.jpbc.mm.clt13.pairing;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
 import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstance;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.AbstractCTL13MMInstance;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -15,15 +15,15 @@ import java.security.SecureRandom;
 public class CTL13MMField implements Field<CTL13MMElement> {
 
     private SecureRandom random;
-    private CTL13MMInstance instance;
+    private AbstractCTL13MMInstance instance;
     private int index;
 
 
-    public CTL13MMField(SecureRandom random, CTL13MMInstance instance) {
+    public CTL13MMField(SecureRandom random, AbstractCTL13MMInstance instance) {
         this(random, instance, 0);
     }
 
-    public CTL13MMField(SecureRandom random, CTL13MMInstance instance, int index) {
+    public CTL13MMField(SecureRandom random, AbstractCTL13MMInstance instance, int index) {
         this.random = random;
         this.instance = instance;
         this.index = index;
@@ -87,7 +87,7 @@ public class CTL13MMField implements Field<CTL13MMElement> {
     }
 
 
-    public CTL13MMInstance getInstance() {
+    public AbstractCTL13MMInstance getInstance() {
         return instance;
     }
 

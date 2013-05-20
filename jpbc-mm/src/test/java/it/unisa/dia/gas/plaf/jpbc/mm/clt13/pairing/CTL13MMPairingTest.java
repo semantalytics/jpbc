@@ -2,8 +2,9 @@ package it.unisa.dia.gas.plaf.jpbc.mm.clt13.pairing;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.AbstractCTL13MMInstance;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13InstanceParameters;
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstance;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.DefaultCTL13MMInstance;
 import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -38,7 +39,7 @@ public class CTL13MMPairingTest {
 
 
     protected CTL13InstanceParameters instanceParameters;
-    protected CTL13MMInstance instance;
+    protected AbstractCTL13MMInstance instance;
     protected Pairing pairing;
 
 
@@ -49,7 +50,7 @@ public class CTL13MMPairingTest {
     @Before
     public void before() {
         SecureRandom random = new SecureRandom();
-        instance = new CTL13MMInstance(random, instanceParameters);
+        instance = new DefaultCTL13MMInstance(random, instanceParameters);
         pairing = new CTL13MMPairing(instance);
     }
 

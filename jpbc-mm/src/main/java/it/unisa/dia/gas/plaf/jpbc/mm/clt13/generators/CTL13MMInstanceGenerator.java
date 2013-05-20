@@ -1,7 +1,8 @@
 package it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators;
 
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.AbstractCTL13MMInstance;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13InstanceParameters;
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstance;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.DefaultCTL13MMInstance;
 
 import java.security.SecureRandom;
 
@@ -22,8 +23,8 @@ public class CTL13MMInstanceGenerator {
     }
 
 
-    public CTL13MMInstance generateInstance() {
-        return new CTL13MMInstance(random, instanceParameters);
+    public AbstractCTL13MMInstance generateInstance() {
+        return new DefaultCTL13MMInstance(random, instanceParameters);
     }
 
 }

@@ -3,8 +3,8 @@ package it.unisa.dia.gas.plaf.jpbc.mm.clt13;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators.CTL13MMInstanceGenerator;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.pairing.CTL13MMField;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.AbstractCTL13MMInstance;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13InstanceParameters;
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstance;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
@@ -48,7 +48,7 @@ public class CTL13MMTest {
     @org.junit.Test
     public void testEngine() {
         System.out.printf("Sampling the instance...\n");
-        CTL13MMInstance instance = new CTL13MMInstanceGenerator(random, instanceParameters).generateInstance();
+        AbstractCTL13MMInstance instance = new CTL13MMInstanceGenerator(random, instanceParameters).generateInstance();
 
         int kappa = instanceParameters.getKappa();
 

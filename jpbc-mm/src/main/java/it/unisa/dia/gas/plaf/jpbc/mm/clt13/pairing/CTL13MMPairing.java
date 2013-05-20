@@ -4,7 +4,7 @@ import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.jpbc.PairingPreProcessing;
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstance;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.AbstractCTL13MMInstance;
 
 import java.math.BigInteger;
 
@@ -14,10 +14,10 @@ import java.math.BigInteger;
  */
 public class CTL13MMPairing implements Pairing {
 
-    private CTL13MMInstance instance;
+    private AbstractCTL13MMInstance instance;
 
 
-    public CTL13MMPairing(CTL13MMInstance instance) {
+    public CTL13MMPairing(AbstractCTL13MMInstance instance) {
         this.instance = instance;
     }
 

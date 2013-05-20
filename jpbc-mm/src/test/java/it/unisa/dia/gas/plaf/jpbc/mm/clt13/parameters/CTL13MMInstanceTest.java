@@ -34,7 +34,7 @@ public class CTL13MMInstanceTest {
 
 
     protected CTL13InstanceParameters instanceParameters;
-    protected CTL13MMInstance instance;
+    protected AbstractCTL13MMInstance instance;
 
 
     public CTL13MMInstanceTest(CTL13InstanceParameters instanceParameters) {
@@ -44,7 +44,7 @@ public class CTL13MMInstanceTest {
     @Before
     public void before(){
         SecureRandom random = new SecureRandom();
-        instance = new CTL13MMInstance(random, instanceParameters);
+        instance = new DefaultCTL13MMInstance(random, instanceParameters);
     }
 
 
