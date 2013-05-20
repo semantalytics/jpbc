@@ -1,8 +1,11 @@
 package it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters;
 
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.pairing.CTL13MMField;
+import it.unisa.dia.gas.plaf.jpbc.util.io.PairingObjectInput;
+import it.unisa.dia.gas.plaf.jpbc.util.io.PairingObjectOutput;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
+import java.io.File;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
@@ -159,6 +162,12 @@ public class CTL13MMInstance {
 
 
     protected void generate() {
+        if (load()) {
+            isZeroBound = (x0.bitLength() - parameters.bound);
+
+            return;
+        }
+
         // Generate CRT modulo x0
         x0 = BigInteger.ONE;
         p = new BigInteger[parameters.n];
@@ -214,6 +223,66 @@ public class CTL13MMInstance {
             xs[parameters.delta + i] = encodeAt(1);
         }
 
+        store();
+    }
+
+    protected void store() {
+        try {
+            // file name
+            String fileName = String.format(
+                    "CTL13IP_eta_%d_n_%d_alpha_%d_ell_%d_rho_%d_delta_%d_kappa_%d_beta_%d_theta_%d_bound_%d.dat",
+                    parameters.eta, parameters.n, parameters.alpha, parameters.ell, parameters.rho, parameters.delta,
+                    parameters.kappa, parameters.beta, parameters.theta, parameters.bound);
+
+            PairingObjectOutput dos = new PairingObjectOutput(fileName);
+            dos.writeBigInteger(x0);
+            dos.writeBigInteger(y);
+            dos.writeBigInteger(pzt);
+            dos.writeBigInteger(z);
+            dos.writeBigInteger(zInv);
+
+            dos.writeBigIntegers(xsp);
+            dos.writeBigIntegers(crtCoefficients);
+            dos.writeBigIntegers(xs);
+            dos.writeBigIntegers(gs);
+            dos.writeBigIntegers(p);
+
+            dos.flush();
+            dos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected boolean load() {
+        try {
+            // file name
+            String fileName = String.format(
+                    "CTL13IP_eta_%d_n_%d_alpha_%d_ell_%d_rho_%d_delta_%d_kappa_%d_beta_%d_theta_%d_bound_%d.dat",
+                    parameters.eta, parameters.n, parameters.alpha, parameters.ell, parameters.rho, parameters.delta,
+                    parameters.kappa, parameters.beta, parameters.theta, parameters.bound);
+
+            if (!new File(fileName).exists())
+                return false;
+
+            PairingObjectInput dos = new PairingObjectInput(fileName);
+            x0 = dos.readBigInteger();
+            y = dos.readBigInteger();
+            pzt = dos.readBigInteger();
+            z = dos.readBigInteger();
+            zInv = dos.readBigInteger();
+
+            xsp =dos.readBigIntegers();
+            crtCoefficients = dos.readBigIntegers();
+            xs = dos.readBigIntegers();
+            gs = dos.readBigIntegers();
+            p = dos.readBigIntegers();
+
+            dos.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return true;
     }
 
     protected BigInteger[] decodeAtLevel(BigInteger value, int degree) {

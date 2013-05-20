@@ -2,8 +2,11 @@ package it.unisa.dia.gas.plaf.jpbc.util.io;
 
 import it.unisa.dia.gas.jpbc.*;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
+import java.math.BigInteger;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -21,6 +24,11 @@ public class PairingObjectOutput implements ObjectOutput {
     public PairingObjectOutput(Pairing pairing, ObjectOutput objectOutput) {
         this.pairing = pairing;
         this.objectOutput = objectOutput;
+    }
+
+    public PairingObjectOutput(String fileName) throws IOException {
+        this.objectOutput = new ObjectOutputStream(new FileOutputStream(fileName));
+
     }
 
 
@@ -145,6 +153,18 @@ public class PairingObjectOutput implements ObjectOutput {
         return pairing;
     }
 
+
+
+    public void writeBigInteger(BigInteger bigInteger) throws IOException {
+        writeBytes(bigInteger.toByteArray());
+    }
+
+    public void writeBigIntegers(BigInteger[] bigIntegers) throws IOException {
+        writeInt(bigIntegers.length);
+        for (BigInteger bigInteger : bigIntegers) {
+            writeBigInteger(bigInteger);
+        }
+    }
 
     protected void writePairingFieldIdentifier(Field field) throws IOException {
         Pairing.PairingFieldIdentifier identifier = getPairing().getPairingFieldIdentifier(field);

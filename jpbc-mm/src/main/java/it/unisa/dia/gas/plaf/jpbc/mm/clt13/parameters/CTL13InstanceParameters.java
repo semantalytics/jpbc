@@ -101,4 +101,21 @@ public class CTL13InstanceParameters {
 
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "CTL13InstanceParameters{" +
+                "eta=" + eta +
+                ", n=" + n +
+                ", alpha=" + alpha +
+                ", ell=" + ell +
+                ", rho=" + rho +
+                ", delta=" + delta +
+                ", deltaSquare=" + deltaSquare +
+                ", kappa=" + kappa +
+                ", beta=" + beta +
+                ", theta=" + theta +
+                ", bound=" + bound +
+                '}';
+    }
 }

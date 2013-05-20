@@ -3,8 +3,11 @@ package it.unisa.dia.gas.plaf.jpbc.util.io;
 import it.unisa.dia.gas.jpbc.*;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.math.BigInteger;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -18,6 +21,10 @@ public class PairingObjectInput implements ObjectInput {
 
     public PairingObjectInput(ObjectInput objectInput) {
         this.objectInput = objectInput;
+    }
+
+    public PairingObjectInput(String fileName) throws IOException {
+        this.objectInput = new ObjectInputStream(new FileInputStream(fileName));
     }
 
 
@@ -209,6 +216,20 @@ public class PairingObjectInput implements ObjectInput {
         readFully(buffer);
 
         return buffer;
+    }
+
+    public BigInteger readBigInteger() throws IOException {
+        return new BigInteger(readBytes());
+    }
+
+    public BigInteger[] readBigIntegers() throws IOException {
+        int num = readInt();
+        BigInteger[] bigIntegers = new BigInteger[num];
+        for (int i = 0; i < bigIntegers.length; i++) {
+            bigIntegers[i] = readBigInteger();
+        }
+
+        return bigIntegers;
     }
 
 }
