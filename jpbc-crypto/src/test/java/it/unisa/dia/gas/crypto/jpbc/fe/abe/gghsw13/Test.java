@@ -65,7 +65,7 @@ public class Test {
         for (int i = 0; i < hs.length; i++)
             hs[i] = pairing.getFieldAt(1).newRandomElement().getImmutable();
 
-        Element H = pairing.getFieldAt(pairing.getDegree()).newElement().powZn(alpha).getImmutable();
+        Element H = pairing.getFieldAt(pairing.getDegree() - 1).newElement().powZn(alpha).getImmutable();
 
         // =============== Enc ==================
 
@@ -170,12 +170,13 @@ public class Test {
 
         Assert.assertEquals(true,
                 circuit.getEval().isEqual(
-                        pairing.getFieldAt(circuit.getDepth()).newElement().powZn(
+                        pairing.getFieldAt(circuit.getDepth() + 1).newElement().powZn(
                                 alpha.duplicate().mul(s).add(
-                                        rs[circuit.getDepth()-1].duplicate().negate().mul(s)
+                                        rs[rs.length - 1].duplicate().negate().mul(s)
                                 )
                         )
-                ));
+                )
+        );
 
         // evaluate the circuit
         for (Gate gate : circuit) {
@@ -257,7 +258,7 @@ public class Test {
 
                     Assert.assertEquals(true,
                             gate.getEval().isEqual(
-                                    pairing.getFieldAt(depth+1).newElement().powZn(
+                                    pairing.getFieldAt(depth + 1).newElement().powZn(
                                             s.mul(rs[index])
                                     )
                             ));
@@ -271,6 +272,8 @@ public class Test {
         if (circuit.getOutputGate().isValue()) {
 
             Element left = circuit.getEval().mul(circuit.getOutputGate().getEval());
+
+
             System.out.println("left = " + left);
             System.out.println("cM = " + cM);
 
