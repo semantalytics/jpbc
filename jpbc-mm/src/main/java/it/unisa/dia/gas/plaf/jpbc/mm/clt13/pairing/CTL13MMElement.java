@@ -3,7 +3,12 @@ package it.unisa.dia.gas.plaf.jpbc.mm.clt13.pairing;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
 import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.plaf.jpbc.util.Arrays;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.math.BigInteger;
 
 /**
@@ -35,7 +40,7 @@ public class CTL13MMElement implements Element {
     }
 
     public int getLengthInBytes() {
-        throw new IllegalStateException("Not Implemented yet!");
+        return field.getLengthInBytes();
     }
 
     public boolean isImmutable() {
@@ -63,7 +68,7 @@ public class CTL13MMElement implements Element {
     }
 
     public BigInteger toBigInteger() {
-        throw new IllegalStateException("Not Implemented yet!");
+        return value;
     }
 
     public Element setToRandom() {
@@ -77,15 +82,58 @@ public class CTL13MMElement implements Element {
     }
 
     public int setFromBytes(byte[] source) {
-        throw new IllegalStateException("Not Implemented yet!");
+        return setFromBytes(source, 0);
     }
 
     public int setFromBytes(byte[] source, int offset) {
-        throw new IllegalStateException("Not Implemented yet!");
+        try {
+            DataInputStream dis = new DataInputStream(new ByteArrayInputStream(source, offset, source.length - offset));
+
+            this.index = dis.readInt();
+            int length = dis.readInt();
+            byte[] bytes = new byte[length];
+            dis.readFully(bytes);
+//            System.out.println("set = " + java.util.Arrays.toString(bytes));
+
+            this.value = new BigInteger(bytes);
+            this.field = (CTL13MMField) field.getPairing().getFieldAt(index);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return getLengthInBytes();
     }
 
     public byte[] toBytes() {
-        throw new IllegalStateException("Not Implemented yet!");
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream(field.getLengthInBytes());
+            DataOutputStream dos = new DataOutputStream(baos);
+            dos.writeInt(index);
+
+            byte[] bytes = value.toByteArray();
+            dos.writeInt(bytes.length);
+
+//            System.out.println("to = " + java.util.Arrays.toString(bytes));
+
+            int valueLengthInBytes = field.getLengthInBytes() - 8;
+
+            if (bytes.length > valueLengthInBytes) {
+                // strip the zero prefix
+                if (bytes[0] == 0 && bytes.length == valueLengthInBytes + 1) {
+                    // Remove it
+                    bytes = Arrays.copyOfRange(bytes, 1, bytes.length);
+                } else
+                    throw new IllegalStateException("result has more than FixedLengthInBytes.");
+            } else if (bytes.length < valueLengthInBytes) {
+                byte[] result = new byte[valueLengthInBytes];
+                System.arraycopy(bytes, 0, result, 0, bytes.length);
+                bytes = result;
+            }
+            dos.write(bytes);
+
+            return baos.toByteArray();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public Element setToZero() {
@@ -135,7 +183,7 @@ public class CTL13MMElement implements Element {
     }
 
     public Element add(Element element) {
-        CTL13MMElement e = ((CTL13MMElement)element);
+        CTL13MMElement e = ((CTL13MMElement) element);
 
         BigInteger b = e.value;
         if (e.index > index) {
@@ -152,7 +200,7 @@ public class CTL13MMElement implements Element {
     }
 
     public Element sub(Element element) {
-        CTL13MMElement e = ((CTL13MMElement)element);
+        CTL13MMElement e = ((CTL13MMElement) element);
 
         BigInteger b = e.value;
         if (index < e.index) {

@@ -17,6 +17,7 @@ public class CTL13MMField implements Field<CTL13MMElement> {
     private CTL13MMPairing pairing;
     private CTL13MMInstance instance;
     private int index;
+    private int lengthInBytes;
 
 
     public CTL13MMField(SecureRandom random, CTL13MMPairing pairing) {
@@ -27,6 +28,10 @@ public class CTL13MMField implements Field<CTL13MMElement> {
         this.pairing = pairing;
         this.instance = pairing.getCTL13MMInstance();
         this.index = index;
+
+        this.lengthInBytes =
+                ((pairing.getCTL13MMInstance().getParameters().getN() *
+                pairing.getCTL13MMInstance().getParameters().getEta() + 7) / 8) + 8;
     }
 
 
@@ -67,7 +72,7 @@ public class CTL13MMField implements Field<CTL13MMElement> {
     }
 
     public int getLengthInBytes() {
-        throw new IllegalStateException("Not Implemented yet!");
+        return lengthInBytes;
     }
 
     public Element[] twice(Element[] elements) {

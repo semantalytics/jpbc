@@ -161,6 +161,17 @@ public class DefaultCTL13MMInstance implements CTL13MMInstance {
     }
 
 
+    public BigInteger extract(BigInteger value, int index) {
+        value = modNear(value.multiply(pzt), x0);
+        for (long i = parameters.getKappa() - index; i > 0; i--)
+            value = modNear(value.multiply(y), x0);
+
+        return value.shiftRight(
+                x0.bitLength()-parameters.getBound()
+        );
+    }
+
+
     protected BigInteger[] decodeAtLevel(BigInteger value, int degree) {
         for (int i = degree; i > 0; i--)
             value = value.multiply(z).mod(x0);

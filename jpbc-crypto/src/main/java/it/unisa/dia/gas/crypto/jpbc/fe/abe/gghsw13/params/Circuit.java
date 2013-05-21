@@ -71,4 +71,14 @@ public class Circuit implements Iterable<Gate> {
     public Element getEval() {
         return eval;
     }
+
+    public boolean accept(String assignment) {
+        // TODO:
+        return false;  //To change body of created methods use File | Settings | File Templates.
+    }
+
+    public Circuit duplicate() {
+        // TODO:
+        return this;
+    }
 }

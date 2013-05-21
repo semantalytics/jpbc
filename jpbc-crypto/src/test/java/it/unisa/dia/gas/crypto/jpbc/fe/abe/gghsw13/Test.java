@@ -14,6 +14,7 @@ import junit.framework.Assert;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Collection;
@@ -77,6 +78,9 @@ public class Test {
 
 //        Element cM = pairing.getFieldAt(pairing.getDegree()).newRandomElement();    // Encode 0
         Element cM = H.powZn(s);    // Encode 1
+
+        BigInteger extracted = instance.extract(cM.toBigInteger(), 7);
+        System.out.println("extract = " + extracted.bitLength());
 
         Element gs = pairing.getFieldAt(1).newElement().powZn(s).getImmutable();
 
@@ -299,6 +303,8 @@ public class Test {
             Element sub = left.duplicate().sub(cM);
             System.out.println("sub = " + sub);
             System.out.println("sub.isZero() = " + sub.isZero());
+
+            System.out.println("extract = " + instance.extract(left.toBigInteger(), 4));
 
             if (left.isEqual(cM))
                 System.out.println("1");

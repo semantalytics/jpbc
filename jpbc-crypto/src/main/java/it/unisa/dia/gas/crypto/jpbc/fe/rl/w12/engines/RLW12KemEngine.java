@@ -6,7 +6,7 @@ import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingAccumulator;
 import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingAccumulatorFactory;
-import it.unisa.dia.gas.plaf.jpbc.util.io.PairingStreamParser;
+import it.unisa.dia.gas.plaf.jpbc.util.io.PairingStreamReader;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -37,7 +37,7 @@ public class RLW12KemEngine extends PairingKeyEncapsulationMechanism {
             // Decrypt
             RLW12SecretKeyParameters sk = (RLW12SecretKeyParameters) key;
 
-            PairingStreamParser streamParser = new PairingStreamParser(pairing, in, inOff);
+            PairingStreamReader streamParser = new PairingStreamReader(pairing, in, inOff);
             String w = streamParser.loadString();
             Element[] wEnc = streamParser.loadG1(((inLen - pairing.getGT().getLengthInBytes()) / pairing.getG1().getLengthInBytes()));
             Element cm = streamParser.loadGT();

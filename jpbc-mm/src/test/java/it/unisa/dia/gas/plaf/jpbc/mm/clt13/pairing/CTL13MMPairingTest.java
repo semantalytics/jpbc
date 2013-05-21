@@ -97,5 +97,21 @@ public class CTL13MMPairingTest {
         Assert.assertEquals(true, b.isEqual(c));
     }
 
+
+    @org.junit.Test
+    public void testToBytes() {
+        for (int index = 0; index < instance.getParameters().getKappa() + 1; index++) {
+            System.out.printf("Checking level %d...\n", index);
+            Element a = pairing.getFieldAt(index).newRandomElement();
+            System.out.println("a = " + a);
+            byte[] bytes = a.toBytes();
+
+            Element b = pairing.getFieldAt(0).newElement();
+            b.setFromBytes(bytes);
+            System.out.println("b = " + b);
+
+            Assert.assertEquals(true, a.isEqual(b));
+        }
+    }
 }
 

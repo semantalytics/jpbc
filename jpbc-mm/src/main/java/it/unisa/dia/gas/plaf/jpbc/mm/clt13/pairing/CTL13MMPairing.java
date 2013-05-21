@@ -101,7 +101,7 @@ public class CTL13MMPairing implements Pairing {
     }
 
     public Field getField(PairingFieldIdentifier id) {
-        return null;  
+        return getFieldAt(id.ordinal());
     }
 
     public CTL13MMInstance getCTL13MMInstance() {

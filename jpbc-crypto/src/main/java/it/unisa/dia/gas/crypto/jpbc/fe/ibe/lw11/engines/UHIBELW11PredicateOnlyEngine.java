@@ -6,7 +6,7 @@ import it.unisa.dia.gas.crypto.jpbc.fe.ibe.lw11.params.UHIBELW11PublicKeyParamet
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.lw11.params.UHIBELW11SecretKeyParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
-import it.unisa.dia.gas.plaf.jpbc.util.io.PairingStreamParser;
+import it.unisa.dia.gas.plaf.jpbc.util.io.PairingStreamReader;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -43,7 +43,7 @@ public class UHIBELW11PredicateOnlyEngine extends PredicateOnlyPairingAsymmetric
             // Decrypt
             UHIBELW11SecretKeyParameters sk = (UHIBELW11SecretKeyParameters) key;
 
-            PairingStreamParser streamParser = new PairingStreamParser(pairing, in, inOff);
+            PairingStreamReader streamParser = new PairingStreamReader(pairing, in, inOff);
             Element C = streamParser.loadGT();
             Element C0 = streamParser.loadG1();
 

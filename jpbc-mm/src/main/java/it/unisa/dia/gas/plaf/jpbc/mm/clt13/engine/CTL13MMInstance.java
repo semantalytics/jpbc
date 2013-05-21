@@ -32,6 +32,8 @@ public interface CTL13MMInstance {
 
     BigInteger encodeOneAt(int index);
 
+    BigInteger extract(BigInteger value, int index);
+
     BigInteger reRandomize(BigInteger value, int index);
 
 }
