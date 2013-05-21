@@ -1,5 +1,7 @@
-package it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters;
+package it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine;
 
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators.CTL13MMInstanceGenerator;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13InstanceParameters;
 import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -20,7 +22,6 @@ public class CTL13MMInstanceTest {
 
     static {
         random = new SecureRandom();
-
     }
 
     @Parameterized.Parameters
@@ -34,7 +35,7 @@ public class CTL13MMInstanceTest {
 
 
     protected CTL13InstanceParameters instanceParameters;
-    protected AbstractCTL13MMInstance instance;
+    protected CTL13MMInstance instance;
 
 
     public CTL13MMInstanceTest(CTL13InstanceParameters instanceParameters) {
@@ -42,16 +43,19 @@ public class CTL13MMInstanceTest {
     }
 
     @Before
-    public void before(){
+    public void before() {
         SecureRandom random = new SecureRandom();
-        instance = new DefaultCTL13MMInstance(random, instanceParameters);
+        instance = new CTL13MMInstanceGenerator(random, instanceParameters).generateInstance();
     }
 
 
     @org.junit.Test
     public void test() {
-        Assert.assertTrue(instance.isZero(instance.encodeZero(), 0));
-        Assert.assertFalse(instance.isZero(instance.encodeOne(), 0));
+        for (int i = 0; i < instance.getParameters().getKappa() + 1; i++) {
+            System.out.printf("Check level %d...\n", i);
+            Assert.assertTrue(instance.isZero(instance.encodeZeroAt(i), i));
+            Assert.assertFalse(instance.isZero(instance.encodeOneAt(i), i));
+        }
     }
 
 }

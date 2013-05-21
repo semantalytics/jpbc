@@ -3,8 +3,8 @@ package it.unisa.dia.gas.plaf.jpbc.pairing.mt;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.plaf.jpbc.AbstractJPBCTest;
-import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingCombiner;
-import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.SequentialPairingMultiplier;
+import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.DefaultPairingAccumulator;
+import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingAccumulator;
 import org.junit.Test;
 import org.junit.runners.Parameterized;
 
@@ -35,14 +35,14 @@ public class SequentialPairingMultiplierTest extends AbstractJPBCTest {
     @Test
     public void test() {
         //TODO complete
-        PairingCombiner multiplier = new SequentialPairingMultiplier(pairing);
+        PairingAccumulator multiplier = new DefaultPairingAccumulator(pairing);
 
         for (int i=0; i <1000;i++){
             multiplier.addPairing(pairing.getG1().newRandomElement(),
                     pairing.getG2().newRandomElement()
             );
         }
-        Element result = multiplier.combine();
+        Element result = multiplier.doFinal();
 
         System.out.println(result);
     }

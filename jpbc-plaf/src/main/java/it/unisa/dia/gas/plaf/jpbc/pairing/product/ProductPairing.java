@@ -2,9 +2,9 @@ package it.unisa.dia.gas.plaf.jpbc.pairing.product;
 
 import it.unisa.dia.gas.jpbc.*;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorField;
-import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingCombiner;
-import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingCombinerFactory;
-import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.ProductPairingMultiplier;
+import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingAccumulator;
+import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingAccumulatorFactory;
+import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.ProductPairingAccumulator;
 import it.unisa.dia.gas.plaf.jpbc.pairing.map.AbstractMillerPairingPreProcessing;
 
 import java.util.Random;
@@ -69,12 +69,12 @@ public class ProductPairing implements Pairing {
         Vector v1 = (Vector) in1;
         Vector v2 = (Vector) in2;
 
-        PairingCombiner combiner = (basePairing.isProductPairingSupported()) ? new ProductPairingMultiplier(basePairing, v1.getSize())
-                : PairingCombinerFactory.getInstance().getPairingMultiplier(basePairing);
+        PairingAccumulator combiner = (basePairing.isProductPairingSupported()) ? new ProductPairingAccumulator(basePairing, v1.getSize())
+                : PairingAccumulatorFactory.getInstance().getPairingMultiplier(basePairing);
         for (int i = 0; i < v1.getSize(); i++) {
             combiner.addPairing(v1.getAt(i), v2.getAt(i));
         }
-        return combiner.combine();
+        return combiner.doFinal();
     }
 
     public boolean isProductPairingSupported() {
@@ -82,11 +82,11 @@ public class ProductPairing implements Pairing {
     }
 
     public Element pairing(Element[] in1, Element[] in2) {
-        PairingCombiner combiner = PairingCombinerFactory.getInstance().getPairingMultiplier(basePairing);
+        PairingAccumulator combiner = PairingAccumulatorFactory.getInstance().getPairingMultiplier(basePairing);
         for (int i = 0; i < in1.length; i++) {
             combiner.addPairing(in1[i], in2[i]);
         }
-        return combiner.combine();
+        return combiner.doFinal();
     }
 
     public PairingPreProcessing pairing(final Element in1) {

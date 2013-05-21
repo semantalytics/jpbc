@@ -4,9 +4,10 @@ import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.jpbc.PairingPreProcessing;
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.AbstractCTL13MMInstance;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine.CTL13MMInstance;
 
 import java.math.BigInteger;
+import java.security.SecureRandom;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -14,11 +15,15 @@ import java.math.BigInteger;
  */
 public class CTL13MMPairing implements Pairing {
 
-    private AbstractCTL13MMInstance instance;
+    protected SecureRandom random;
+    protected CTL13MMInstance instance;
+    protected CTL13MMField[] fields;
 
 
-    public CTL13MMPairing(AbstractCTL13MMInstance instance) {
+    public CTL13MMPairing(SecureRandom random, CTL13MMInstance instance) {
+        this.random = random;
         this.instance = instance;
+        this.fields = new CTL13MMField[instance.getParameters().getKappa() + 1];
     }
 
 
@@ -27,19 +32,19 @@ public class CTL13MMPairing implements Pairing {
     }
 
     public Field getG1() {
-        return instance.getFieldAt(1);
+        return getFieldAt(1);
     }
 
     public Field getG2() {
-        return instance.getFieldAt(1);
+        return getFieldAt(1);
     }
 
     public Field getGT() {
-        return instance.getFieldAt(2);
+        return getFieldAt(2);
     }
 
     public Field getZr() {
-        return instance.getFieldAt(0);
+        return getFieldAt(0);
     }
 
     public int getDegree() {
@@ -47,7 +52,10 @@ public class CTL13MMPairing implements Pairing {
     }
 
     public Field getFieldAt(int index) {
-        return instance.getFieldAt(index);
+        if (fields[index] == null)
+            fields[index] = new CTL13MMField(random, this, index);
+
+        return fields[index];
     }
 
     public Element pairing(Element in1, Element in2) {
@@ -57,7 +65,7 @@ public class CTL13MMPairing implements Pairing {
         int index = a.index + b.index;
         BigInteger value = instance.reduce(a.value.multiply(b.value));
 
-        return new CTL13MMElement(instance.getFieldAt(index), value, index);
+        return new CTL13MMElement((CTL13MMField) getFieldAt(index), value, index);
     }
 
     public boolean isProductPairingSupported() {
@@ -94,5 +102,9 @@ public class CTL13MMPairing implements Pairing {
 
     public Field getField(PairingFieldIdentifier id) {
         return null;  
+    }
+
+    public CTL13MMInstance getCTL13MMInstance() {
+        return instance;
     }
 }

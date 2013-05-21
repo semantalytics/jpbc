@@ -7,8 +7,8 @@ import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08PublicKeyParameter
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08SecretKeyParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
-import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingCombiner;
-import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingCombinerFactory;
+import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingAccumulator;
+import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingAccumulatorFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -71,7 +71,7 @@ public class HVEIP08KEMEngine extends PairingKeyEncapsulationMechanism {
                     W.add(w);
                 }
 
-                PairingCombiner combiner = PairingCombinerFactory.getInstance().getPairingMultiplier(pairing, Omega);
+                PairingAccumulator combiner = PairingAccumulatorFactory.getInstance().getPairingMultiplier(pairing, Omega);
                 if (secretKey.isPreProcessed()) {
                     for (int i = 0; i < secretKey.getParameters().getN(); i++) {
                         if (!secretKey.isStar(i)) {
@@ -87,7 +87,7 @@ public class HVEIP08KEMEngine extends PairingKeyEncapsulationMechanism {
                         }
                     }
                 }
-                Element result = combiner.combine();
+                Element result = combiner.doFinal();
 
                 return result.toBytes();
             }

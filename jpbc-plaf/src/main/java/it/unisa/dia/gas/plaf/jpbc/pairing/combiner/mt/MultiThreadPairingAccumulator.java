@@ -3,7 +3,7 @@ package it.unisa.dia.gas.plaf.jpbc.pairing.combiner.mt;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.jpbc.PairingPreProcessing;
-import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingCombiner;
+import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingAccumulator;
 import it.unisa.dia.gas.plaf.jpbc.util.mt.MultiThreadExecutor;
 
 import java.util.concurrent.Callable;
@@ -12,22 +12,23 @@ import java.util.concurrent.Callable;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  * @since 1.3.0
  */
-public class MultiThreadPairingMultiplier extends MultiThreadExecutor<Element> implements PairingCombiner {
+public class MultiThreadPairingAccumulator extends MultiThreadExecutor<Element> implements PairingAccumulator {
 
     private Element value;
     private Pairing pairing;
 
 
-    public MultiThreadPairingMultiplier(Pairing pairing) {
+    public MultiThreadPairingAccumulator(Pairing pairing) {
         this(pairing, pairing.getGT().newOneElement());
     }
 
-    public MultiThreadPairingMultiplier(Pairing pairing, Element value) {
+    public MultiThreadPairingAccumulator(Pairing pairing, Element value) {
         this.pairing = pairing;
         this.value = value;
     }
 
-    public PairingCombiner addPairing(final Element e1, final Element e2) {
+
+    public PairingAccumulator addPairing(final Element e1, final Element e2) {
         submit(new Callable<Element>() {
             public Element call() throws Exception {
                 return pairing.pairing(e1, e2);
@@ -37,7 +38,7 @@ public class MultiThreadPairingMultiplier extends MultiThreadExecutor<Element> i
         return this;
     }
 
-    public PairingCombiner addPairingInverse(final Element e1, final Element e2) {
+    public PairingAccumulator addPairingInverse(final Element e1, final Element e2) {
         submit(new Callable<Element>() {
             public Element call() throws Exception {
                 return pairing.pairing(e1, e2).invert();
@@ -47,7 +48,7 @@ public class MultiThreadPairingMultiplier extends MultiThreadExecutor<Element> i
         return this;
     }
 
-    public PairingCombiner addPairing(final PairingPreProcessing pairingPreProcessing, final Element e2) {
+    public PairingAccumulator addPairing(final PairingPreProcessing pairingPreProcessing, final Element e2) {
         submit(new Callable<Element>() {
             public Element call() throws Exception {
                 return pairingPreProcessing.pairing(e2);
@@ -57,7 +58,7 @@ public class MultiThreadPairingMultiplier extends MultiThreadExecutor<Element> i
         return this;
     }
 
-    public Element combine() {
+    public Element doFinal() {
         process();
 
         return value;

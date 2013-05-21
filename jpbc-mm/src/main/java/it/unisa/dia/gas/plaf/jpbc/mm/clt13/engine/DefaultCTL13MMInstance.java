@@ -1,6 +1,6 @@
-package it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters;
+package it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine;
 
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.pairing.CTL13MMField;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13InstanceParameters;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -12,7 +12,7 @@ import static it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils.modNear;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  * @since 1.3.0
  */
-public abstract class AbstractCTL13MMInstance {
+public class DefaultCTL13MMInstance implements CTL13MMInstance {
 
     protected SecureRandom random;
     protected CTL13InstanceParameters parameters;
@@ -29,27 +29,30 @@ public abstract class AbstractCTL13MMInstance {
 
     protected long isZeroBound;
 
-    protected CTL13MMField[] fields;
 
-
-    public AbstractCTL13MMInstance(SecureRandom random, CTL13InstanceParameters parameters) {
+    public DefaultCTL13MMInstance(SecureRandom random, CTL13InstanceParameters parameters,
+                                  BigInteger x0, BigInteger y, BigInteger pzt, BigInteger z, BigInteger zInv,
+                                  BigInteger[] xsp, BigInteger[] crtCoefficients, BigInteger[] xs,
+                                  BigInteger[] gs, BigInteger[] p) {
         this.random = random;
         this.parameters = parameters;
-        this.fields = new CTL13MMField[parameters.kappa + 1];
+        this.x0 = x0;
+        this.y = y;
+        this.pzt = pzt;
+        this.z = z;
+        this.zInv = zInv;
+        this.xsp = xsp;
+        this.crtCoefficients = crtCoefficients;
+        this.xs = xs;
+        this.gs = gs;
+        this.p = p;
 
-        generate();
+        this.isZeroBound = (x0.bitLength() - parameters.getBound());
     }
+
 
     public CTL13InstanceParameters getParameters() {
         return parameters;
-    }
-
-
-    public CTL13MMField getFieldAt(int index) {
-        if (fields[index] == null)
-            fields[index] = new CTL13MMField(random, this, index);
-
-        return fields[index];
     }
 
 
@@ -59,7 +62,7 @@ public abstract class AbstractCTL13MMInstance {
 
     public boolean isZero(BigInteger value, int index) {
         value = modNear(value.multiply(pzt), x0);
-        for (long i = parameters.kappa - index; i > 0; i--)
+        for (long i = parameters.getKappa() - index; i > 0; i--)
             value = modNear(value.multiply(y), x0);
 
         return (value.bitLength() < isZeroBound);
@@ -73,7 +76,7 @@ public abstract class AbstractCTL13MMInstance {
     public BigInteger sampleAtZero() {
         BigInteger c = BigInteger.ZERO;
 
-        for (int i = 0; i < parameters.ell; i++)
+        for (int i = 0; i < parameters.getEll(); i++)
             if (random.nextBoolean())
                 c = c.add(xsp[i]);
 
@@ -90,9 +93,9 @@ public abstract class AbstractCTL13MMInstance {
 
     public BigInteger encodeAt(int degree) {
         BigInteger res = BigInteger.ZERO;
-        for (int i = 0; i < parameters.n; i++) {
+        for (int i = 0; i < parameters.getN(); i++) {
             res = res.add(
-                    gs[i].multiply(getRandom(parameters.rho, random)).add(getRandom(parameters.alpha, random))
+                    gs[i].multiply(getRandom(parameters.getRho(), random)).add(getRandom(parameters.getAlpha(), random))
                             .multiply(crtCoefficients[i])
             );
         }
@@ -110,8 +113,8 @@ public abstract class AbstractCTL13MMInstance {
 
     public BigInteger encodeZeroAt(int index) {
         BigInteger res = BigInteger.ZERO;
-        for (int i = 0; i < parameters.n; i++)
-            res = res.add(gs[i].multiply(getRandom(parameters.rho, random)).multiply(crtCoefficients[i]));
+        for (int i = 0; i < parameters.getN(); i++)
+            res = res.add(gs[i].multiply(getRandom(parameters.getRho(), random)).multiply(crtCoefficients[i]));
 
         res = res.mod(x0);
         for (int j = index; j > 0; j--)
@@ -126,9 +129,9 @@ public abstract class AbstractCTL13MMInstance {
 
     public BigInteger encodeOneAt(int index) {
         BigInteger res = BigInteger.ZERO;
-        for (int i = 0; i < parameters.n; i++) {
+        for (int i = 0; i < parameters.getN(); i++) {
             res = res.add(
-                    gs[i].multiply(getRandom(parameters.rho, random)).add(BigInteger.ONE)
+                    gs[i].multiply(getRandom(parameters.getRho(), random)).add(BigInteger.ONE)
                             .multiply(crtCoefficients[i])
             );
         }
@@ -145,11 +148,11 @@ public abstract class AbstractCTL13MMInstance {
             throw new IllegalArgumentException("index must be 1");
 
         // Re-randomize.
-        for (int i = 0; i < parameters.theta; i++) {
+        for (int i = 0; i < parameters.getTheta(); i++) {
             // TODO : Ensure no duplicates are used.
-            int pos = random.nextInt(parameters.deltaSquare);
-            value = value.add(xs[pos % parameters.delta]
-                    .multiply(xs[parameters.delta + pos / parameters.delta])
+            int pos = random.nextInt(parameters.getDeltaSquare());
+            value = value.add(xs[pos % parameters.getDelta()]
+                    .multiply(xs[parameters.getDelta() + pos / parameters.getDelta()])
             );
         }
 
@@ -161,14 +164,12 @@ public abstract class AbstractCTL13MMInstance {
         for (int i = degree; i > 0; i--)
             value = value.multiply(z).mod(x0);
 
-        BigInteger m[] = new BigInteger[parameters.n];
-        for (int i = 0; i < parameters.n; i++) {
+        BigInteger m[] = new BigInteger[parameters.getN()];
+        for (int i = 0; i < parameters.getN(); i++) {
             m[i] = modNear(modNear(value, p[i]), gs[i]);
         }
 
         return m;
     }
 
-    protected abstract void generate();
-    
 }

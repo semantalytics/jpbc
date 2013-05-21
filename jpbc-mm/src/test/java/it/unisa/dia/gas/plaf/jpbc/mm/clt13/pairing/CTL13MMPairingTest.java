@@ -2,9 +2,9 @@ package it.unisa.dia.gas.plaf.jpbc.mm.clt13.pairing;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.AbstractCTL13MMInstance;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine.CTL13MMInstance;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators.CTL13MMInstanceGenerator;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13InstanceParameters;
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.DefaultCTL13MMInstance;
 import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -25,7 +25,6 @@ public class CTL13MMPairingTest {
 
     static {
         random = new SecureRandom();
-
     }
 
     @Parameterized.Parameters
@@ -39,7 +38,7 @@ public class CTL13MMPairingTest {
 
 
     protected CTL13InstanceParameters instanceParameters;
-    protected AbstractCTL13MMInstance instance;
+    protected CTL13MMInstance instance;
     protected Pairing pairing;
 
 
@@ -50,57 +49,41 @@ public class CTL13MMPairingTest {
     @Before
     public void before() {
         SecureRandom random = new SecureRandom();
-        instance = new DefaultCTL13MMInstance(random, instanceParameters);
-        pairing = new CTL13MMPairing(instance);
+        instance = new CTL13MMInstanceGenerator(random, instanceParameters).generateInstance();
+        pairing = new CTL13MMPairing(random, instance);
     }
 
 
     @org.junit.Test
-    public void test0() {
-        Element r = pairing.getFieldAt(0).newRandomElement().getImmutable();
-        Element s = pairing.getFieldAt(0).newRandomElement().getImmutable();
-        Element z = pairing.getFieldAt(0).newRandomElement();
-        Element h = pairing.getFieldAt(0).newRandomElement().getImmutable();
+    public void test() {
+        for (int num = 2; num < instance.getParameters().getKappa() + 1; num++) {
+            System.out.printf("Checking level %d...\n", num);
 
-        Element gs = pairing.getFieldAt(1).newElement().powZn(s).getImmutable();
-//        Element H = pairing.getFieldAt(1).newElement().powZn(h).getImmutable();
-        Element H = pairing.getFieldAt(1).newRandomElement().getImmutable();
-        Element H0s = H.powZn(s);
+            Element[] as = new Element[num];
+            Element[] gas = new Element[num];
+            Element prod = pairing.getFieldAt(0).newOneElement();
+            for (int i = 0; i < as.length; i++) {
+                as[i] = pairing.getFieldAt(0).newRandomElement();
+                prod.mul(as[i]);
+                System.out.println("as[i] = " + as[i]);
 
-        Element e1 = pairing.getFieldAt(1).newElement().powZn(r).mul(H.powZn(z));
-        Element e2 = pairing.getFieldAt(1).newElement().powZn(z.negate());
+                gas[i] = pairing.getFieldAt(1).newElement().powZn(as[i]);
+            }
 
+            // compute left expression
+            Element left = pairing.getFieldAt(num).newElement().powZn(prod);
 
-        Element t1 = pairing.pairing(e1, gs);
-        Element t2 = pairing.pairing(e2, H0s);
-        Element left = t1.mul(t2);
+            // compute right expression
+            Element right = gas[0];
+            for (int i = 1; i < as.length; i++) {
+                right = pairing.pairing(right, gas[i]);
+            }
 
-        Element right = pairing.getFieldAt(2).newElement().powZn(s.duplicate().mul(r));
+            System.out.println("left  = " + left);
+            System.out.println("right = " + right);
 
-        System.out.println("left = " + left);
-        System.out.println("right = " + right);
-
-        Assert.assertEquals(true, left.isEqual(right));
-
-
-//        Element s = pairing.getFieldAt(0).newRandomElement();
-//        Element r = pairing.getFieldAt(0).newRandomElement();
-//        Element h = pairing.getFieldAt(1).newRandomElement();
-//        Element z = pairing.getZr().newRandomElement();
-//
-//        Element e1 = pairing.getFieldAt(1).newElement().powZn(r).mul(h.duplicate().powZn(z));
-//        Element e2 = pairing.getFieldAt(1).newElement().powZn(z.duplicate().negate());
-//
-//        Element t1 = pairing.pairing(e1, pairing.getFieldAt(1).newElement().powZn(s));
-//        Element t2 = pairing.pairing(e2, h.duplicate().powZn(s));
-//
-//        Assert.assertEquals(true,
-//                t1.duplicate().mul(t2).isEqual(
-//                        pairing.getFieldAt(2).newElement().powZn(
-//                                s.duplicate().mul(r)
-//                        )
-//                ));
-
+            Assert.assertEquals(true, left.isEqual(right));
+        }
     }
 
 }

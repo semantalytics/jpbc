@@ -4,9 +4,9 @@ import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.parameters.Circuit;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.parameters.Gate;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine.CTL13MMInstance;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators.CTL13MMInstanceGenerator;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.pairing.CTL13MMPairing;
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.AbstractCTL13MMInstance;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13InstanceParameters;
 import junit.framework.Assert;
 import org.junit.runner.RunWith;
@@ -50,9 +50,8 @@ public class Test {
 
     @org.junit.Test
     public void testEngine() {
-        AbstractCTL13MMInstance instance = new CTL13MMInstanceGenerator(random, instanceParameters).generateInstance();
-
-        Pairing pairing = new CTL13MMPairing(instance);
+        CTL13MMInstance instance = new CTL13MMInstanceGenerator(random, instanceParameters).generateInstance();
+        Pairing pairing = new CTL13MMPairing(random, instance);
 
         // =============== Setup ==================
 

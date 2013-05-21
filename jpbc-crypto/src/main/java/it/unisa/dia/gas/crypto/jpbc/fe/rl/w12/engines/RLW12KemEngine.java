@@ -4,8 +4,8 @@ import it.unisa.dia.gas.crypto.engines.kem.PairingKeyEncapsulationMechanism;
 import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.params.*;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
-import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingCombiner;
-import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingCombinerFactory;
+import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingAccumulator;
+import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingAccumulatorFactory;
 import it.unisa.dia.gas.plaf.jpbc.util.io.PairingStreamParser;
 
 import java.io.ByteArrayOutputStream;
@@ -44,7 +44,7 @@ public class RLW12KemEngine extends PairingKeyEncapsulationMechanism {
 
             // Run the decryption...
             // Init
-            PairingCombiner combiner = PairingCombinerFactory.getInstance().getPairingMultiplier(pairing);
+            PairingAccumulator combiner = PairingAccumulatorFactory.getInstance().getPairingMultiplier(pairing);
 
             int index = 0;
             combiner.addPairing(wEnc[index++], sk.getkStart(0))
@@ -69,7 +69,7 @@ public class RLW12KemEngine extends PairingKeyEncapsulationMechanism {
                         .addPairing(wEnc[index], sk.getkEnd(currentState, 1));
 
                 // Recover the message...
-                Element M = cm.div(combiner.combine());
+                Element M = cm.div(combiner.doFinal());
 
                 return M.toBytes();
             } else {

@@ -3,7 +3,7 @@ package it.unisa.dia.gas.plaf.jpbc.mm.clt13.pairing;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
 import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.AbstractCTL13MMInstance;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine.CTL13MMInstance;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -14,18 +14,18 @@ import java.security.SecureRandom;
  */
 public class CTL13MMField implements Field<CTL13MMElement> {
 
-    private SecureRandom random;
-    private AbstractCTL13MMInstance instance;
+    private CTL13MMPairing pairing;
+    private CTL13MMInstance instance;
     private int index;
 
 
-    public CTL13MMField(SecureRandom random, AbstractCTL13MMInstance instance) {
-        this(random, instance, 0);
+    public CTL13MMField(SecureRandom random, CTL13MMPairing pairing) {
+        this(random, pairing, 0);
     }
 
-    public CTL13MMField(SecureRandom random, AbstractCTL13MMInstance instance, int index) {
-        this.random = random;
-        this.instance = instance;
+    public CTL13MMField(SecureRandom random, CTL13MMPairing pairing, int index) {
+        this.pairing = pairing;
+        this.instance = pairing.getCTL13MMInstance();
         this.index = index;
     }
 
@@ -43,11 +43,11 @@ public class CTL13MMField implements Field<CTL13MMElement> {
     }
 
     public CTL13MMElement newZeroElement() {
-        throw new IllegalStateException("Not Implemented yet!");
+        return (CTL13MMElement) newElement().setToZero();
     }
 
     public CTL13MMElement newOneElement() {
-        throw new IllegalStateException("Not Implemented yet!");
+        return (CTL13MMElement) newElement().setToOne();
     }
 
     public CTL13MMElement newRandomElement() {
@@ -87,7 +87,7 @@ public class CTL13MMField implements Field<CTL13MMElement> {
     }
 
 
-    public AbstractCTL13MMInstance getInstance() {
+    public CTL13MMInstance getInstance() {
         return instance;
     }
 

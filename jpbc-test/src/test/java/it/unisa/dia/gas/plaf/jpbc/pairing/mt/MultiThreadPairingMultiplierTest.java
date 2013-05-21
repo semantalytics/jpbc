@@ -3,9 +3,9 @@ package it.unisa.dia.gas.plaf.jpbc.pairing.mt;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.plaf.jpbc.AbstractJPBCTest;
-import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingCombiner;
-import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.SequentialPairingMultiplier;
-import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.mt.MultiThreadPairingMultiplier;
+import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.DefaultPairingAccumulator;
+import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingAccumulator;
+import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.mt.MultiThreadPairingAccumulator;
 import org.junit.Test;
 import org.junit.runners.Parameterized;
 
@@ -48,12 +48,12 @@ public class MultiThreadPairingMultiplierTest extends AbstractJPBCTest {
 
         // Test default
         System.out.println("Default");
-        PairingCombiner multiplier = new SequentialPairingMultiplier(pairing);
+        PairingAccumulator multiplier = new DefaultPairingAccumulator(pairing);
         long start = System.currentTimeMillis();
         for (int i=0; i <n;i++){
             multiplier.addPairing(in1s[i], in2s[i]);
         }
-        Element result1 = multiplier.combine();
+        Element result1 = multiplier.doFinal();
         long end = System.currentTimeMillis();
 
         System.out.println("result = " + result1);
@@ -62,12 +62,12 @@ public class MultiThreadPairingMultiplierTest extends AbstractJPBCTest {
 
         // Test multi thread
         System.out.println("MultiThread");
-        multiplier = new MultiThreadPairingMultiplier(pairing);
+        multiplier = new MultiThreadPairingAccumulator(pairing);
         start = System.currentTimeMillis();
         for (int i=0; i <n;i++){
             multiplier.addPairing(in1s[i], in2s[i]);
         }
-        Element result2 = multiplier.combine();
+        Element result2 = multiplier.doFinal();
         end = System.currentTimeMillis();
 
         System.out.println("result = " + result2);

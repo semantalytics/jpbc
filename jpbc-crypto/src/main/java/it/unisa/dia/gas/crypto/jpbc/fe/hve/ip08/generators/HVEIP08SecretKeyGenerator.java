@@ -8,7 +8,7 @@ import it.unisa.dia.gas.jpbc.ElementPow;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import it.unisa.dia.gas.plaf.jpbc.util.mt.MultiThreadExecutor;
-import it.unisa.dia.gas.plaf.jpbc.util.mt.MultiThreadNoREduceExecutor;
+import it.unisa.dia.gas.plaf.jpbc.util.mt.MultiThreadNoReduceExecutor;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.KeyGenerationParameters;
 
@@ -75,7 +75,7 @@ public class HVEIP08SecretKeyGenerator {
 //                    j++;
 //                }
 //            }
-            MultiThreadExecutor executor = new MultiThreadNoREduceExecutor();
+            MultiThreadExecutor executor = new MultiThreadNoReduceExecutor();
             for (int i = 0, j = 0; i < n; i++) {
                 if (param.isStarAt(i)) {
                     Y[i] = null;
@@ -106,7 +106,7 @@ public class HVEIP08SecretKeyGenerator {
 //                    j++;
 //                }
 //            }
-            MultiThreadExecutor executor = new MultiThreadNoREduceExecutor();
+            MultiThreadExecutor executor = new MultiThreadNoReduceExecutor();
             for (int i = 0, j = 0; i < n; i++) {
                 if (param.isStarAt(i)) {
                     Y[i] = null;
