@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.parameters;
+package it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.params;
 
 import it.unisa.dia.gas.jpbc.Element;
 

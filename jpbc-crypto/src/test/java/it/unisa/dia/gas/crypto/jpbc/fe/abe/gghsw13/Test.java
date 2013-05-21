@@ -1,7 +1,7 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13;
 
-import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.parameters.Circuit;
-import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.parameters.Gate;
+import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.params.Circuit;
+import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.params.Gate;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine.CTL13MMInstance;
