@@ -22,6 +22,7 @@ public class DefaultCTL13MMInstance implements CTL13MMInstance {
     protected BigInteger pzt;     // zero-tester
     protected BigInteger z;       // random invertible internet modulo x0
     protected BigInteger zInv;
+
     protected BigInteger[] xsp;   // level-zero encoding using for samp
     protected BigInteger[] crtCoefficients;
     protected BigInteger[] xs;    // level-zero and level-one encoding for re-randomization
@@ -70,7 +71,7 @@ public class DefaultCTL13MMInstance implements CTL13MMInstance {
 
 
     public BigInteger sampleAtLevel(int index) {
-        return encodeAt(sampleAtZero(), index);
+        return encodeAt(sampleAtZero(), 0, index);
     }
 
     public BigInteger sampleAtZero() {
@@ -85,8 +86,8 @@ public class DefaultCTL13MMInstance implements CTL13MMInstance {
     }
 
 
-    public BigInteger encodeAt(BigInteger value, int index) {
-        for (int i = index; i > 0; i--)
+    public BigInteger encodeAt(BigInteger value, int startIndex, int endIndex) {
+        for (int i = endIndex; i > startIndex; i--)
             value = modNear(value.multiply(y), x0);
         return value;
     }

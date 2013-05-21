@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Collection;
@@ -57,5 +58,18 @@ public class CTL13MMInstanceTest {
             Assert.assertFalse(instance.isZero(instance.encodeOneAt(i), i));
         }
     }
+
+    @org.junit.Test
+    public void testIsZero() {
+        BigInteger a = instance.encodeAt(0);
+
+        BigInteger b = instance.encodeAt(instance.encodeAt(a, 0, 2), 2, 5);
+        BigInteger c = instance.encodeAt(a, 0, 5);
+
+        BigInteger diff = instance.reduce(b.subtract(c));
+
+        Assert.assertEquals(true, instance.isZero(diff, 5));
+    }
+
 
 }

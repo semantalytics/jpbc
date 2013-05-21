@@ -39,7 +39,7 @@ public class CTL13MMField implements Field<CTL13MMElement> {
     }
 
     public CTL13MMElement newElement(BigInteger value) {
-        return new CTL13MMElement(this, instance.encodeAt(value, index), index);
+        throw new IllegalStateException("Not Implemented yet!");
     }
 
     public CTL13MMElement newZeroElement() {
@@ -51,7 +51,7 @@ public class CTL13MMField implements Field<CTL13MMElement> {
     }
 
     public CTL13MMElement newRandomElement() {
-        return newElement(instance.sampleAtZero());
+        return new CTL13MMElement(this, instance.encodeAt(instance.sampleAtZero(), 0, index), index);
     }
 
     public BigInteger getOrder() {
@@ -91,4 +91,11 @@ public class CTL13MMField implements Field<CTL13MMElement> {
         return instance;
     }
 
+    public CTL13MMPairing getPairing() {
+        return pairing;
+    }
+
+    public int getIndex() {
+        return index;
+    }
 }

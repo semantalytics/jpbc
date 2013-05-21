@@ -139,9 +139,11 @@ public class CTL13MMElement implements Element {
 
         BigInteger b = e.value;
         if (e.index > index) {
-            this.value = field.getInstance().encodeAt(value, e.index);
+            this.value = field.getInstance().encodeAt(value, index, e.index);
+            this.index = e.index;
+            this.field = (CTL13MMField) field.getPairing().getFieldAt(index);
         } else if (e.index < index) {
-            b = field.getInstance().encodeAt(b, index);
+            b = field.getInstance().encodeAt(b, e.index, index);
         }
 
         this.value = field.getInstance().reduce(this.value.add(b));
@@ -153,10 +155,13 @@ public class CTL13MMElement implements Element {
         CTL13MMElement e = ((CTL13MMElement)element);
 
         BigInteger b = e.value;
-        if (e.index > index) {
-            this.value = field.getInstance().encodeAt(value, e.index);
+        if (index < e.index) {
+            // upgrade to level e.index
+            this.value = field.getInstance().encodeAt(value, index, e.index);
+            this.index = e.index;
+            this.field = (CTL13MMField) field.getPairing().getFieldAt(index);
         } else if (e.index < index) {
-            b = field.getInstance().encodeAt(b, index);
+            b = field.getInstance().encodeAt(b, e.index, index);
         }
 
         this.value = field.getInstance().reduce(this.value.subtract(b));
@@ -225,5 +230,9 @@ public class CTL13MMElement implements Element {
     @Override
     public String toString() {
         return String.format("{%s,%d}", value.toString(), index);
+    }
+
+    public int getIndex() {
+        return index;
     }
 }

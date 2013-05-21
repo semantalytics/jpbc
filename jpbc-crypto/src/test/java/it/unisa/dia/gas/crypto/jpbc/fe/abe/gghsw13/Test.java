@@ -6,6 +6,8 @@ import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine.CTL13MMInstance;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators.CTL13MMInstanceGenerator;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.pairing.CTL13MMElement;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.pairing.CTL13MMField;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.pairing.CTL13MMPairing;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13InstanceParameters;
 import junit.framework.Assert;
@@ -33,7 +35,7 @@ public class Test {
     @Parameterized.Parameters
     public static Collection parameters() {
         Object[][] data = {
-                {CTL13InstanceParameters.TOY.setKappa(5)}
+                {CTL13InstanceParameters.TOY.setKappa(7)}
         };
 
         return Arrays.asList(data);
@@ -64,7 +66,7 @@ public class Test {
         for (int i = 0; i < hs.length; i++)
             hs[i] = pairing.getFieldAt(1).newRandomElement().getImmutable();
 
-        Element H = pairing.getFieldAt(pairing.getDegree() - 1).newElement().powZn(alpha).getImmutable();
+        Element H = pairing.getFieldAt(7).newElement().powZn(alpha).getImmutable();
 
         // =============== Enc ==================
 
@@ -76,11 +78,9 @@ public class Test {
 //        Element cM = pairing.getFieldAt(pairing.getDegree()).newRandomElement();    // Encode 0
         Element cM = H.powZn(s);    // Encode 1
 
-
         Element gs = pairing.getFieldAt(1).newElement().powZn(s).getImmutable();
 
         boolean[] xs = new boolean[]{true, true, false, true};
-
         Element[] cs = new Element[n];
         for (int i = 0; i < n; i++) {
             if (xs[i])
@@ -167,6 +167,10 @@ public class Test {
 
         circuit.setEval(pairing.pairing(circuit.getKey(), gs));
 
+        System.out.println("circuit.getEval() = " + circuit.getEval());
+
+        Assert.assertEquals(circuit.getDepth()+1, ((CTL13MMElement)circuit.getEval()).getIndex());
+        Assert.assertEquals(circuit.getDepth()+1, ((CTL13MMField) ((CTL13MMElement) circuit.getEval()).getField()).getIndex());
         Assert.assertEquals(true,
                 circuit.getEval().isEqual(
                         pairing.getFieldAt(circuit.getDepth() + 1).newElement().powZn(
@@ -194,6 +198,8 @@ public class Test {
 
                         gate.setEval(t1.mul(t2));
 
+                        Assert.assertEquals(2, ((CTL13MMElement)gate.getEval()).getIndex());
+                        Assert.assertEquals(2, ((CTL13MMField) ((CTL13MMElement) gate.getEval()).getField()).getIndex());
                         Assert.assertEquals(true,
                                 gate.getEval().isEqual(
                                         pairing.getFieldAt(2).newElement().powZn(
@@ -218,7 +224,6 @@ public class Test {
 
                         gate.setEval(t1.mul(t2));
 
-
                     } else if (gate.getInputAt(1).isValue()) {
                         Element t1 = pairing.pairing(
                                 gate.getInputAt(1).getEval(),
@@ -232,6 +237,16 @@ public class Test {
 
                         gate.setEval(t1.mul(t2));
                     }
+
+                    Assert.assertEquals(depth+1, ((CTL13MMElement)gate.getEval()).getIndex());
+                    Assert.assertEquals(depth+1, ((CTL13MMField) ((CTL13MMElement) gate.getEval()).getField()).getIndex());
+                    Assert.assertEquals(true,
+                            gate.getEval().isEqual(
+                                    pairing.getFieldAt(depth + 1).newElement().powZn(
+                                            s.mul(rs[index])
+                                    )
+                            ));
+
 
                     gate.eval();
                     break;
@@ -255,6 +270,8 @@ public class Test {
                     gate.eval();
                     gate.setEval(t1.mul(t2).mul(t3));
 
+                    Assert.assertEquals(depth+1, ((CTL13MMElement)gate.getEval()).getIndex());
+                    Assert.assertEquals(depth+1, ((CTL13MMField) ((CTL13MMElement) gate.getEval()).getField()).getIndex());
                     Assert.assertEquals(true,
                             gate.getEval().isEqual(
                                     pairing.getFieldAt(depth + 1).newElement().powZn(
@@ -269,12 +286,19 @@ public class Test {
         System.out.println("circuit.getOutputGate().isValue() = " + circuit.getOutputGate().isValue());
 
         if (circuit.getOutputGate().isValue()) {
+            System.out.println("circuit.getEval() = " + circuit.getEval());
+            System.out.println("circuit.getOutputGate().getEval() = " + circuit.getOutputGate().getEval());
 
             Element left = circuit.getEval().mul(circuit.getOutputGate().getEval());
-
+            Assert.assertEquals(circuit.getDepth()+1, ((CTL13MMElement)left).getIndex());
+            Assert.assertEquals(circuit.getDepth()+1, ((CTL13MMField) ((CTL13MMElement) left).getField()).getIndex());
 
             System.out.println("left = " + left);
             System.out.println("cM = " + cM);
+
+            Element sub = left.duplicate().sub(cM);
+            System.out.println("sub = " + sub);
+            System.out.println("sub.isZero() = " + sub.isZero());
 
             if (left.isEqual(cM))
                 System.out.println("1");

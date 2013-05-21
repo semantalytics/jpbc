@@ -20,7 +20,7 @@ public interface CTL13MMInstance {
 
     BigInteger sampleAtZero();
 
-    BigInteger encodeAt(BigInteger value, int index);
+    BigInteger encodeAt(BigInteger value, int startIndex, int endIndex);
 
     BigInteger encodeAt(int degree);
 

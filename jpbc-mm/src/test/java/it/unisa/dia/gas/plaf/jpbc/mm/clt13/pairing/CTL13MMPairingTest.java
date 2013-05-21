@@ -55,7 +55,7 @@ public class CTL13MMPairingTest {
 
 
     @org.junit.Test
-    public void test() {
+    public void testMultilinearity() {
         for (int num = 2; num < instance.getParameters().getKappa() + 1; num++) {
             System.out.printf("Checking level %d...\n", num);
 
@@ -84,6 +84,17 @@ public class CTL13MMPairingTest {
 
             Assert.assertEquals(true, left.isEqual(right));
         }
+    }
+
+
+    @org.junit.Test
+    public void testIsZero() {
+        Element a = pairing.getFieldAt(0).newRandomElement();
+
+        Element b = pairing.getFieldAt(2).newElement().powZn(a);
+        Element c = pairing.getFieldAt(5).newElement().powZn(a);
+
+        Assert.assertEquals(true, b.isEqual(c));
     }
 
 }
