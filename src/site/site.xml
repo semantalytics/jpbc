@@ -48,7 +48,7 @@
                 <item name="Preprocessing" href="/docs/element.html#preprocessing"/>
             </item>
 
-            <item name="Curve Generators" href="/docs/parametersgenerator.html">
+            <item name="Parameter Generators" href="/docs/parametersgenerator.html">
                 <item name="Type A" href="/docs/parametersgenerator.html#TypeA"/>
                 <item name="Type A1" href="/docs/parametersgenerator.html#TypeA1"/>
                 <item name="Type D" href="/docs/parametersgenerator.html#TypeD"/>
@@ -63,6 +63,7 @@
         <menu name="Crypto">
             <item name="Schemes" href="/schemes/schemes.html">
                 <item name="Functional Encryption" href="/schemes/schemes.html#fe">
+                    <item name="ABE for Circuits [GGHSW'13]" href="/schemes/abe_gghsw13.html"/>
                     <item name="RL [W'12]" href="/schemes/rl_w12.html"/>
                     <item name="UHIBE [LW'11]" href="/schemes/uhibe_lw11.html"/>
                     <item name="IP [LOSTW'10]" href="/schemes/ip_lostw10.html"/>
@@ -72,9 +73,6 @@
                 <item name="Signature" href="/schemes/schemes.html#ss">
                     <item name="SS [BLS'01]" href="/schemes/ss_bls01.html"/>
                     <item name="IBS [PS'06]" href="/schemes/ibs_ps06.html"/>
-                </item>
-                <item name="Encryption" href="/schemes/schemes.html#es">
-                    <item name="UT [DBP'09]" href="/schemes/ut_bdp10.html"/>
                 </item>
             </item>
         </menu>

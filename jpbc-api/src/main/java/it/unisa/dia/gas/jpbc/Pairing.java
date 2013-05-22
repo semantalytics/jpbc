@@ -82,14 +82,12 @@ public interface Pairing {
      */
     Element pairing(Element in1, Element in2);
 
-
     /**
      * TODO
      * @return
      * @since 1.3.0
      */
     boolean isProductPairingSupported();
-
 
     /**
      * Computes the product of pairings, that is
@@ -142,19 +140,6 @@ public interface Pairing {
     PairingPreProcessing pairing(byte[] source, int offset);
 
     /**
-     * Returns true given (g, g^x, h, h^x) or (g, g^x, h, h^-x)
-     * order is important: a, b are from G1, c, d are from G2
-     *
-     * @param a eventually g
-     * @param b eventually g^x
-     * @param c eventually h
-     * @param d eventually h^x or h^-x
-     * @return <tt>true</tt> given (g, g^x, h, h^x) or (g, g^x, h, h^-x), <tt>false</tt> otherwise.
-     * @since 1.0.0
-     */
-    boolean isAlmostCoddh(Element a, Element b, Element c, Element d);
-
-    /**
      * Returns the identifier of the field if it belongs
      * to this pairing, otherwise it returns Unknown.
      *
@@ -167,7 +152,7 @@ public interface Pairing {
     PairingFieldIdentifier getPairingFieldIdentifier(Field field);
 
     /**
-     *
+     * TODO
      * @see PairingFieldIdentifier
      * @since 1.2.0
      */

@@ -56,6 +56,10 @@ public class PBCPairing extends AbstractPairing {
         return out;
     }
 
+    public boolean isProductPairingSupported() {
+        return true;
+    }
+
     public Element pairing(Element[] in1, Element[] in2) {
         PBCElement out = (PBCElement) GT.newElement();
 

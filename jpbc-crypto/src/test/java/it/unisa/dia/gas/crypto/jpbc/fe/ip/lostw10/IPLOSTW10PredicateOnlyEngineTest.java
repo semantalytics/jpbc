@@ -17,8 +17,7 @@ import org.junit.Test;
 import java.security.SecureRandom;
 import java.util.Random;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Angelo De Caro
@@ -39,11 +38,11 @@ public class IPLOSTW10PredicateOnlyEngineTest extends AbstractJPBCCryptoTest {
 
         // Encrypt
         Element[][] vectors = createOrthogonalVectors(keyPair.getPublic(), n);
-        assertTrue(test(keyGen(keyPair.getPrivate(), vectors[1]), encrypt(keyPair.getPublic(), vectors[0])));
+        assertEquals(true, test(keyGen(keyPair.getPrivate(), vectors[1]), encrypt(keyPair.getPublic(), vectors[0])));
 
         // Gen non-matching SearchKey
         vectors = createNonOrthogonalVectors(keyPair.getPublic(), n);
-        assertFalse(test(keyGen(keyPair.getPrivate(), vectors[1]), encrypt(keyPair.getPublic(), vectors[0])));
+        assertEquals(false, test(keyGen(keyPair.getPrivate(), vectors[1]), encrypt(keyPair.getPublic(), vectors[0])));
     }
 
 

@@ -3,7 +3,6 @@ package it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.engines;
 import it.unisa.dia.gas.crypto.engines.kem.PairingKeyEncapsulationMechanism;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.params.*;
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.pairing.CTL13MMElement;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.pairing.CTL13MMPairing;
 import it.unisa.dia.gas.plaf.jpbc.util.io.PairingStreamReader;
 import it.unisa.dia.gas.plaf.jpbc.util.io.PairingStreamWriter;
@@ -138,9 +137,7 @@ public class GGHSW13KemEngine extends PairingKeyEncapsulationMechanism {
                 Element result = root.mul(evaluations.get(circuit.getOutputGate().getIndex()));
 
                 // extract key from result
-                BigInteger value =  ((CTL13MMPairing) pairing).getCTL13MMInstance().extract(
-                        result.toBigInteger(),
-                        ((CTL13MMElement) result).getIndex());
+                BigInteger value = ((CTL13MMPairing) pairing).extract(result);
 
                 return value.toByteArray();
             } else
@@ -157,7 +154,7 @@ public class GGHSW13KemEngine extends PairingKeyEncapsulationMechanism {
                 Element s = pairing.getZr().newRandomElement().getImmutable();
 
                 Element mask = publicKey.getH().powZn(s);
-                BigInteger value = ((CTL13MMPairing) pairing).getCTL13MMInstance().extract(mask.toBigInteger(), pairing.getDegree());
+                BigInteger value = ((CTL13MMPairing) pairing).extract(mask);
                 writer.write(value.toByteArray());
 
                 writer.write(assignment);

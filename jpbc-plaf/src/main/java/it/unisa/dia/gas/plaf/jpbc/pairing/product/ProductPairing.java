@@ -69,8 +69,9 @@ public class ProductPairing implements Pairing {
         Vector v1 = (Vector) in1;
         Vector v2 = (Vector) in2;
 
-        PairingAccumulator combiner = (basePairing.isProductPairingSupported()) ? new ProductPairingAccumulator(basePairing, v1.getSize())
-                : PairingAccumulatorFactory.getInstance().getPairingMultiplier(basePairing);
+        PairingAccumulator combiner = (basePairing.isProductPairingSupported()) ?
+                new ProductPairingAccumulator(basePairing, v1.getSize()) :
+                PairingAccumulatorFactory.getInstance().getPairingMultiplier(basePairing);
         for (int i = 0; i < v1.getSize(); i++) {
             combiner.addPairing(v1.getAt(i), v2.getAt(i));
         }

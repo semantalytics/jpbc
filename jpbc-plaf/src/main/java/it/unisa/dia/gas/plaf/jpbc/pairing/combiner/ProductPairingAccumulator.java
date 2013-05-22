@@ -12,7 +12,7 @@ public class ProductPairingAccumulator implements PairingAccumulator {
 
     private Pairing pairing;
 
-    private int index;
+    private int cursor;
     private Element[] in1, in2;
 
 
@@ -20,13 +20,13 @@ public class ProductPairingAccumulator implements PairingAccumulator {
         this.pairing = pairing;
         this.in1 = new Element[n];
         this.in2 = new Element[n];
-        this.index = 0;
+        this.cursor = 0;
     }
 
 
     public PairingAccumulator addPairing(Element e1, Element e2) {
-        in1[index] =  e1;
-        in2[index++] =  e1;
+        in1[cursor] =  e1;
+        in2[cursor++] =  e2;
 
         return this;
     }

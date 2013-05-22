@@ -36,7 +36,7 @@ public class KEMCipherWithHVETest extends HVEIP08AbstractTest {
 
 
     @Test
-    public void testKEMCipherWithAESHVE() {
+    public void testKEMCipherWithAESHVE1() {
         Security.addProvider(new BouncyCastleProvider());
 
         int n = 5;
@@ -54,6 +54,7 @@ public class KEMCipherWithHVETest extends HVEIP08AbstractTest {
             AlgorithmParameterSpec iv = new IvParameterSpec(new byte[]{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 });
 
             int[][] vectors = createMatchingVectors(n);
+            System.out.println(Arrays.toString(vectors[1]));
             byte[] encapsulation = kemCipher.init(
                     true,
                     new KEMCipherEncryptionParameters(
@@ -67,7 +68,7 @@ public class KEMCipherWithHVETest extends HVEIP08AbstractTest {
 
             byte[] ct = kemCipher.doFinal(message);
 
-            // Decrypt and Test for the matching vectors
+            // Decrypt and Test for matching vectors
             kemCipher.init(
                     false,
                     new KEMCipherDecryptionParameters(keyGen(keyPair.getPrivate(), vectors[0]), encapsulation, 128),
@@ -76,10 +77,47 @@ public class KEMCipherWithHVETest extends HVEIP08AbstractTest {
             byte[] messagePrime = kemCipher.doFinal(ct);
 
             assertEquals(true, Arrays.equals(message, messagePrime));
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
 
-            // Decrypt and Test for different identity
+    @Test
+    public void testKEMCipherWithAESHVE2() {
+        Security.addProvider(new BouncyCastleProvider());
+
+        int n = 5;
+        AsymmetricCipherKeyPair keyPair = setup(genBinaryParam(n));
+
+        try {
+            // Encrypt
+            KEMCipher kemCipher = new KEMCipher(
+                    Cipher.getInstance("AES/CBC/PKCS7Padding", "BC"),
+                    new HVEIP08KEMEngine()
+            );
+
+            // build the initialization vector.  This example is all zeros, but it
+            // could be any value or generated using a random number generator.
+            AlgorithmParameterSpec iv = new IvParameterSpec(new byte[]{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 });
+
+            int[][] vectors = createNonMatchingVectors(n);
+            System.out.println(Arrays.toString(vectors[0]));
+            System.out.println(Arrays.toString(vectors[1]));
+            byte[] encapsulation = kemCipher.init(
+                    true,
+                    new KEMCipherEncryptionParameters(
+                            128,
+                            new HVEIP08EncryptionParameters((HVEIP08PublicKeyParameters) keyPair.getPublic(), vectors[1])
+                    ),
+                    iv
+            );
+
+            byte[] message = "Hello World!!!".getBytes();
+
+            byte[] ct = kemCipher.doFinal(message);
+
             try {
-                vectors = createNonMatchingVectors(n);
                 kemCipher.init(
                         false,
                         new KEMCipherDecryptionParameters(keyGen(keyPair.getPrivate(), vectors[0]), encapsulation, 128),
@@ -88,12 +126,14 @@ public class KEMCipherWithHVETest extends HVEIP08AbstractTest {
                 kemCipher.doFinal(ct);
                 fail("The decryption must fail in this case!");
             } catch (Exception e) {
+//                e.printStackTrace();
             }
         } catch (Exception e) {
             e.printStackTrace();
             fail();
         }
     }
+
 
     protected AsymmetricCipherKeyPair setup(HVEIP08Parameters hveParameters) {
         HVEIP08KeyPairGenerator generator = new HVEIP08KeyPairGenerator();

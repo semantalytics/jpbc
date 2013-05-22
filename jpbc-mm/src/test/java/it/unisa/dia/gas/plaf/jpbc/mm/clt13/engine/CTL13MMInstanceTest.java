@@ -1,7 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine;
 
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators.CTL13MMInstanceGenerator;
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13InstanceParameters;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstanceParameters;
 import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -28,18 +28,18 @@ public class CTL13MMInstanceTest {
     @Parameterized.Parameters
     public static Collection parameters() {
         Object[][] data = {
-                {CTL13InstanceParameters.TOY}
+                {CTL13MMInstanceParameters.TOY}
         };
 
         return Arrays.asList(data);
     }
 
 
-    protected CTL13InstanceParameters instanceParameters;
+    protected CTL13MMInstanceParameters instanceParameters;
     protected CTL13MMInstance instance;
 
 
-    public CTL13MMInstanceTest(CTL13InstanceParameters instanceParameters) {
+    public CTL13MMInstanceTest(CTL13MMInstanceParameters instanceParameters) {
         this.instanceParameters = instanceParameters;
     }
 

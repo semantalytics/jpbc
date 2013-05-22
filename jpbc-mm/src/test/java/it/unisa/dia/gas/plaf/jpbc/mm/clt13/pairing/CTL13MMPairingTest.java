@@ -4,7 +4,7 @@ import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine.CTL13MMInstance;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators.CTL13MMInstanceGenerator;
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13InstanceParameters;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstanceParameters;
 import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -30,19 +30,19 @@ public class CTL13MMPairingTest {
     @Parameterized.Parameters
     public static Collection parameters() {
         Object[][] data = {
-                {CTL13InstanceParameters.TOY}
+                {CTL13MMInstanceParameters.TOY}
         };
 
         return Arrays.asList(data);
     }
 
 
-    protected CTL13InstanceParameters instanceParameters;
+    protected CTL13MMInstanceParameters instanceParameters;
     protected CTL13MMInstance instance;
     protected Pairing pairing;
 
 
-    public CTL13MMPairingTest(CTL13InstanceParameters instanceParameters) {
+    public CTL13MMPairingTest(CTL13MMInstanceParameters instanceParameters) {
         this.instanceParameters = instanceParameters;
     }
 

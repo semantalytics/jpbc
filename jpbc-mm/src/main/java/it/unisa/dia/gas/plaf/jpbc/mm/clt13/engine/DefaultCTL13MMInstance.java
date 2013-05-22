@@ -1,6 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine;
 
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13InstanceParameters;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstanceParameters;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -15,7 +15,7 @@ import static it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils.modNear;
 public class DefaultCTL13MMInstance implements CTL13MMInstance {
 
     protected SecureRandom random;
-    protected CTL13InstanceParameters parameters;
+    protected CTL13MMInstanceParameters parameters;
 
     protected BigInteger x0;
     protected BigInteger y;       // level-one random encoding of 1
@@ -31,7 +31,7 @@ public class DefaultCTL13MMInstance implements CTL13MMInstance {
     protected long isZeroBound;
 
 
-    public DefaultCTL13MMInstance(SecureRandom random, CTL13InstanceParameters parameters,
+    public DefaultCTL13MMInstance(SecureRandom random, CTL13MMInstanceParameters parameters,
                                   BigInteger x0, BigInteger y, BigInteger pzt, BigInteger z, BigInteger zInv,
                                   BigInteger[] xsp, BigInteger[] crtCoefficients, BigInteger[] xs,
                                   BigInteger[] gs, BigInteger[] p) {
@@ -52,7 +52,7 @@ public class DefaultCTL13MMInstance implements CTL13MMInstance {
     }
 
 
-    public CTL13InstanceParameters getParameters() {
+    public CTL13MMInstanceParameters getParameters() {
         return parameters;
     }
 
@@ -115,7 +115,10 @@ public class DefaultCTL13MMInstance implements CTL13MMInstance {
     public BigInteger encodeZeroAt(int index) {
         BigInteger res = BigInteger.ZERO;
         for (int i = 0; i < parameters.getN(); i++)
-            res = res.add(gs[i].multiply(getRandom(parameters.getRho(), random)).multiply(crtCoefficients[i]));
+            res = res.add(
+                    gs[i].multiply(getRandom(parameters.getRho(), random))
+                            .multiply(crtCoefficients[i])
+            );
 
         res = res.mod(x0);
         for (int j = index; j > 0; j--)
@@ -132,7 +135,8 @@ public class DefaultCTL13MMInstance implements CTL13MMInstance {
         BigInteger res = BigInteger.ZERO;
         for (int i = 0; i < parameters.getN(); i++) {
             res = res.add(
-                    gs[i].multiply(getRandom(parameters.getRho(), random)).add(BigInteger.ONE)
+                    gs[i].multiply(getRandom(parameters.getRho(), random))
+                            .add(BigInteger.ONE)
                             .multiply(crtCoefficients[i])
             );
         }

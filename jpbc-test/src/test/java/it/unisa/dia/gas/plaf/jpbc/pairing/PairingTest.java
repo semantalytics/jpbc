@@ -107,21 +107,27 @@ public class PairingTest extends AbstractJPBCTest {
 
     @Test
     public void testProdPairing() {
-        Element g1, h1;
-        Element g2, h2;
+        if (pairing.isProductPairingSupported()) {
+            Element[] gs, hs;
+            int n = 15;
 
-        Element out1, out2;
+            Element out1, out2;
+            gs = new Element[n];
+            hs = new Element[n];
 
-        g1 = pairing.getG1().newElement().setToRandom();
-        h1 = pairing.getG2().newElement().setToRandom();
+            for (int i = 0; i < gs.length; i++) {
+                gs[i] = pairing.getG1().newElement().setToRandom();
+                hs[i] = pairing.getG2().newElement().setToRandom();
+            }
 
-        g2 = pairing.getG1().newElement().setToRandom();
-        h2 = pairing.getG2().newElement().setToRandom();
+            out1 = pairing.getGT().newOneElement();
+            for (int i = 0; i < gs.length; i++)
+                out1.add(pairing.pairing(gs[i], hs[i]));
 
-        out1 = pairing.pairing(g1, h1).mul(pairing.pairing(g2, h2));
-        out2 = pairing.pairing(new Element[]{g1, g2}, new Element[]{h1, h2});
+            out2 = pairing.pairing(gs, hs);
 
-        assertEquals(true, out1.isEqual(out2));
+            assertEquals(true, out1.isEqual(out2));
+        }
     }
 
 }

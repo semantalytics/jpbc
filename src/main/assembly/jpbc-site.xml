@@ -20,10 +20,12 @@
         </fileSet>
     </fileSets>
 
+<!-- TODO
     <files>
         <file>
             <source>jpbc-android/target/jpbc-android.apk</source>
             <outputDirectory>./site/android/</outputDirectory>
         </file>
     </files>
+-->
 </assembly>

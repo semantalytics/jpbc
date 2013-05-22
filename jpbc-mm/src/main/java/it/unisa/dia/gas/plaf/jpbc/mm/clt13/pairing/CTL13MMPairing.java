@@ -73,31 +73,27 @@ public class CTL13MMPairing implements Pairing {
     }
 
     public Element pairing(Element[] in1, Element[] in2) {
-        return null;  
+        throw new IllegalStateException("Not Implemented yet!");
     }
 
     public PairingPreProcessing pairing(Element in1) {
-        return null;  
+        throw new IllegalStateException("Not Implemented yet!");
     }
 
     public int getPairingPreProcessingLengthInBytes() {
-        return 0;  
+        throw new IllegalStateException("Not Implemented yet!");
     }
 
     public PairingPreProcessing pairing(byte[] source) {
-        return null;  
+        throw new IllegalStateException("Not Implemented yet!");
     }
 
     public PairingPreProcessing pairing(byte[] source, int offset) {
-        return null;  
-    }
-
-    public boolean isAlmostCoddh(Element a, Element b, Element c, Element d) {
-        return false;  
+        throw new IllegalStateException("Not Implemented yet!");
     }
 
     public PairingFieldIdentifier getPairingFieldIdentifier(Field field) {
-        return null;  
+        throw new IllegalStateException("Not Implemented yet!");
     }
 
     public Field getField(PairingFieldIdentifier id) {
@@ -106,5 +102,12 @@ public class CTL13MMPairing implements Pairing {
 
     public CTL13MMInstance getCTL13MMInstance() {
         return instance;
+    }
+
+
+    public BigInteger extract(Element element) {
+        CTL13MMElement e = (CTL13MMElement) element;
+
+        return instance.extract(e.value, e.index);
     }
 }

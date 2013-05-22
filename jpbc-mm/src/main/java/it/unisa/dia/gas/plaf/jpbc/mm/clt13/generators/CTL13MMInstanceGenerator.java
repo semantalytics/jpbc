@@ -2,7 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators;
 
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine.CTL13MMInstance;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine.DefaultCTL13MMInstance;
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13InstanceParameters;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstanceParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.io.PairingObjectInput;
 import it.unisa.dia.gas.plaf.jpbc.util.io.PairingObjectOutput;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
@@ -20,15 +20,15 @@ import static it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils.getRandom;
 public class CTL13MMInstanceGenerator {
 
     private SecureRandom random;
-    private CTL13InstanceParameters parameters;
+    private CTL13MMInstanceParameters parameters;
     private boolean storeGeneratedInstance;
 
 
-    public CTL13MMInstanceGenerator(SecureRandom random, CTL13InstanceParameters parameters) {
+    public CTL13MMInstanceGenerator(SecureRandom random, CTL13MMInstanceParameters parameters) {
         this(random, parameters, true);
     }
 
-    public CTL13MMInstanceGenerator(SecureRandom random, CTL13InstanceParameters parameters, boolean storeGeneratedInstance) {
+    public CTL13MMInstanceGenerator(SecureRandom random, CTL13MMInstanceParameters parameters, boolean storeGeneratedInstance) {
         this.random = random;
         this.parameters = parameters;
         this.storeGeneratedInstance = storeGeneratedInstance;
@@ -81,7 +81,8 @@ public class CTL13MMInstanceGenerator {
             xsp[i] = BigInteger.ZERO;
             for (int j = 0; j < parameters.getN(); j++) {
                 xsp[i] = xsp[i].add(
-                        gs[j].multiply(getRandom(parameters.getRho(), random)).add(getRandom(parameters.getAlpha(), random))
+                        gs[j].multiply(getRandom(parameters.getRho(), random))
+                                .add(getRandom(parameters.getAlpha(), random))
                                 .multiply(crtCoefficients[j])
                 );
             }
@@ -92,7 +93,8 @@ public class CTL13MMInstanceGenerator {
         BigInteger y = BigInteger.ZERO;
         for (int i = 0; i < parameters.getN(); i++) {
             y = y.add(
-                    gs[i].multiply(getRandom(parameters.getRho(), random)).add(BigInteger.ONE)
+                    gs[i].multiply(getRandom(parameters.getRho(), random))
+                            .add(BigInteger.ONE)
                             .multiply(crtCoefficients[i])
             );
         }
@@ -103,9 +105,9 @@ public class CTL13MMInstanceGenerator {
         BigInteger pzt = BigInteger.ZERO;
         for (int i = 0; i < parameters.getN(); i++) {
             pzt = pzt.add(
-                    getRandom(parameters.getBeta(), random).multiply(
-                            gs[i].modInverse(p[i]).multiply(zPowKappa).mod(p[i])
-                    ).multiply(x0.divide(p[i]))
+                    getRandom(parameters.getBeta(), random)
+                            .multiply(gs[i].modInverse(p[i]).multiply(zPowKappa).mod(p[i]))
+                            .multiply(x0.divide(p[i]))
             );
         }
         pzt = pzt.mod(x0);
@@ -116,7 +118,10 @@ public class CTL13MMInstanceGenerator {
 //            xs[i] = encodeZero();
             xs[i] = BigInteger.ZERO;
             for (int j = 0; j < parameters.getN(); j++)
-                xs[i] = xs[i].add(gs[j].multiply(getRandom(parameters.getRho(), random)).multiply(crtCoefficients[j]));
+                xs[i] = xs[i].add(
+                        gs[j].multiply(getRandom(parameters.getRho(), random))
+                                .multiply(crtCoefficients[j])
+                );
             xs[i] = xs[i].mod(x0);
 
 //            xs[parameters.getDelta() + i] = encodeAt(1);
@@ -124,11 +129,11 @@ public class CTL13MMInstanceGenerator {
             xs[index] = BigInteger.ZERO;
             for (int j = 0; j < parameters.getN(); j++) {
                 xs[index] = xs[index].add(
-                        gs[j].multiply(getRandom(parameters.getRho(), random)).add(getRandom(parameters.getAlpha(), random))
+                        gs[j].multiply(getRandom(parameters.getRho(), random))
+                                .add(getRandom(parameters.getAlpha(), random))
                                 .multiply(crtCoefficients[j])
                 );
             }
-
             xs[index] = xs[index].multiply(zInv).mod(x0);
         }
 

@@ -21,6 +21,21 @@
                 is an implementation of Zero Knowledge Sets - Elementary Database based on Concise Vector Mercurial
                 Commitments proposed by Benoit Libert and Moti Yung (2010).
             </subsection>
+
+            <subsection name="Crypto-Book">
+                The <a href="http://www.crypto-book.com/">Crypto-Book</a>
+                project looks at investigating using identity based encryption (IBE) and other
+                crypto systems over social networks. We have currently implemented a system to
+                send encrypted Facebook messages using IBE.
+            </subsection>
+
+            <subsection name="NICS Crypto">
+                <a href="https://www.nics.uma.es/dnunez/nics-crypto">NICS Crypto</a>
+                is a cryptography library written in Java, which extends Java Cryptography Architecture (JCA)
+                to support non-traditional cryptographic primitives, such as Proxy Re-Encryption.
+            </subsection>
+
         </section>
+
     </body>
 </document>

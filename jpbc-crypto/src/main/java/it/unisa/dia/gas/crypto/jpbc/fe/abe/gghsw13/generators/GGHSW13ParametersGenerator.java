@@ -3,7 +3,7 @@ package it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.generators;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.params.GGHSW13Parameters;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators.CTL13MMInstanceGenerator;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.pairing.CTL13MMPairing;
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13InstanceParameters;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstanceParameters;
 
 import java.security.SecureRandom;
 
@@ -14,10 +14,10 @@ import java.security.SecureRandom;
 public class GGHSW13ParametersGenerator {
 
     private SecureRandom random;
-    private CTL13InstanceParameters parameters;
+    private CTL13MMInstanceParameters parameters;
     private int n;
 
-    public GGHSW13ParametersGenerator init(SecureRandom random, CTL13InstanceParameters parameters, int n) {
+    public GGHSW13ParametersGenerator init(SecureRandom random, CTL13MMInstanceParameters parameters, int n) {
         this.random = random;
         this.parameters = parameters;
         this.n = n;

@@ -4,10 +4,10 @@ package it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  * @since 1.3.0
  */
-public class CTL13InstanceParameters {
+public class CTL13MMInstanceParameters {
 
-    public static CTL13InstanceParameters TOY =
-            new CTL13InstanceParameters(
+    public static CTL13MMInstanceParameters TOY =
+            new CTL13MMInstanceParameters(
                     757, // eta
                     165, // n
                     10, // alpha
@@ -20,8 +20,8 @@ public class CTL13InstanceParameters {
                     160 // bound
             );
 
-    public static CTL13InstanceParameters SMALL =
-            new CTL13InstanceParameters(
+    public static CTL13MMInstanceParameters SMALL =
+            new CTL13MMInstanceParameters(
                     1779, // eta
                     540, // n
                     80, // alpha
@@ -36,9 +36,9 @@ public class CTL13InstanceParameters {
 
     protected int eta, n, alpha, ell, rho, delta, deltaSquare, kappa, beta, theta, bound;
 
-    public CTL13InstanceParameters(int eta, int n, int alpha, int ell,
-                                   int rho, int delta, int kappa, int beta,
-                                   int theta, int bound) {
+    public CTL13MMInstanceParameters(int eta, int n, int alpha, int ell,
+                                     int rho, int delta, int kappa, int beta,
+                                     int theta, int bound) {
         this.eta = eta;
         this.n = n;
         this.alpha = alpha;
@@ -96,7 +96,7 @@ public class CTL13InstanceParameters {
         return bound;
     }
 
-    public CTL13InstanceParameters setKappa(int kappa) {
+    public CTL13MMInstanceParameters setKappa(int kappa) {
         this.kappa = kappa;
 
         return this;
@@ -104,7 +104,7 @@ public class CTL13InstanceParameters {
 
     @Override
     public String toString() {
-        return "CTL13InstanceParameters{" +
+        return "CTL13MMInstanceParameters{" +
                 "eta=" + eta +
                 ", n=" + n +
                 ", alpha=" + alpha +

@@ -7,7 +7,7 @@ import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.generators.GGHSW13KeyPairGene
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.generators.GGHSW13ParametersGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.generators.GGHSW13SecretKeyGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.params.*;
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13InstanceParameters;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstanceParameters;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.InvalidCipherTextException;
@@ -37,17 +37,17 @@ public class GGHSW13KEMEngineTest {
     @Parameterized.Parameters
     public static Collection parameters() {
         Object[][] data = {
-                {CTL13InstanceParameters.TOY}
+                {CTL13MMInstanceParameters.TOY}
         };
 
         return Arrays.asList(data);
     }
 
 
-    protected CTL13InstanceParameters instanceParameters;
+    protected CTL13MMInstanceParameters instanceParameters;
 
 
-    public GGHSW13KEMEngineTest(CTL13InstanceParameters instanceParameters) {
+    public GGHSW13KEMEngineTest(CTL13MMInstanceParameters instanceParameters) {
         this.instanceParameters = instanceParameters;
     }
 

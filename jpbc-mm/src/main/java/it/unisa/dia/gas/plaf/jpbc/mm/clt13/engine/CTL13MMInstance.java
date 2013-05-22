@@ -1,6 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine;
 
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13InstanceParameters;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstanceParameters;
 
 import java.math.BigInteger;
 
@@ -10,7 +10,7 @@ import java.math.BigInteger;
  */
 public interface CTL13MMInstance {
 
-    CTL13InstanceParameters getParameters();
+    CTL13MMInstanceParameters getParameters();
 
     BigInteger reduce(BigInteger value);
 
