@@ -1,6 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.generators;
 
-import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.params.DFAAlphabet;
+import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.params.DFA;
 import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.params.RLW12Parameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
@@ -13,12 +13,12 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
  */
 public class RLW12ParametersGenerator {
     private PairingParameters parameters;
-    private DFAAlphabet alphabet;
+    private DFA.Alphabet alphabet;
 
     private Pairing pairing;
 
 
-    public RLW12ParametersGenerator init(PairingParameters parameters, DFAAlphabet alphabet) {
+    public RLW12ParametersGenerator init(PairingParameters parameters, DFA.Alphabet alphabet) {
         this.parameters = parameters;
         this.alphabet = alphabet;
         this.pairing = PairingFactory.getPairing(this.parameters);

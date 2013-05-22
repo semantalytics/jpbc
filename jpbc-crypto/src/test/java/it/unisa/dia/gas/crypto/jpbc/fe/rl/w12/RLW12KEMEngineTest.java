@@ -2,7 +2,6 @@ package it.unisa.dia.gas.crypto.jpbc.fe.rl.w12;
 
 import it.unisa.dia.gas.crypto.engines.kem.KeyEncapsulationMechanism;
 import it.unisa.dia.gas.crypto.jpbc.AbstractJPBCCryptoTest;
-import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.engines.DefaultAlphabet;
 import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.engines.DefaultDFA;
 import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.engines.RLW12KemEngine;
 import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.generators.RLW12KeyPairGenerator;
@@ -38,7 +37,7 @@ public class RLW12KEMEngineTest extends AbstractJPBCCryptoTest {
         dfa.addTransition(1, '0', 0);
         dfa.addTransition(1, '1', 1);
 
-        DefaultAlphabet alphabet = new DefaultAlphabet();
+        DefaultDFA.DefaultAlphabet alphabet = new DefaultDFA.DefaultAlphabet();
         alphabet.addLetter('0', '1');
 
         AsymmetricCipherKeyPair keyPair = setup(createParameters(alphabet));
@@ -56,7 +55,7 @@ public class RLW12KEMEngineTest extends AbstractJPBCCryptoTest {
     }
 
 
-    protected RLW12Parameters createParameters(DFAAlphabet alphabet) {
+    protected RLW12Parameters createParameters(DFA.Alphabet alphabet) {
         return new RLW12ParametersGenerator().init(parameters, alphabet).generateParameters();
     }
 

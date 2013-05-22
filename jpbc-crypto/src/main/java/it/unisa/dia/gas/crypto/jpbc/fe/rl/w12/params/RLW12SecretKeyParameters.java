@@ -11,13 +11,13 @@ public class RLW12SecretKeyParameters extends RLW12KeyParameters {
     private DFA dfa;
 
     private Element[] kStarts;
-    private Map<DFATransition, Element[]> kTransitions;
+    private Map<DFA.Transition, Element[]> kTransitions;
     private Map<Integer, Element[]> kEnds;
 
     public RLW12SecretKeyParameters(RLW12Parameters parameters,
                                     DFA dfa,
                                     Element[] kStarts,
-                                    Map<DFATransition, Element[]> kTransitions,
+                                    Map<DFA.Transition, Element[]> kTransitions,
                                     Map<Integer, Element[]> kEnds) {
         super(true, parameters);
 
@@ -35,8 +35,8 @@ public class RLW12SecretKeyParameters extends RLW12KeyParameters {
         return kStarts[index];
     }
 
-    public Element getkTransition(DFATransition DFATransition, int index) {
-        return kTransitions.get(DFATransition)[index];
+    public Element getkTransition(DFA.Transition transition, int index) {
+        return kTransitions.get(transition)[index];
     }
 
     public Element getkEnd(int state, int index) {

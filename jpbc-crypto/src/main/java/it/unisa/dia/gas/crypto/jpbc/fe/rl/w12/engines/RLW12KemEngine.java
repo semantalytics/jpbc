@@ -7,8 +7,8 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingAccumulator;
 import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingAccumulatorFactory;
 import it.unisa.dia.gas.plaf.jpbc.util.io.PairingStreamReader;
+import it.unisa.dia.gas.plaf.jpbc.util.io.PairingStreamWriter;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 /**
@@ -37,39 +37,39 @@ public class RLW12KemEngine extends PairingKeyEncapsulationMechanism {
             // Decrypt
             RLW12SecretKeyParameters sk = (RLW12SecretKeyParameters) key;
 
-            PairingStreamReader streamParser = new PairingStreamReader(pairing, in, inOff);
-            String w = streamParser.loadString();
-            Element[] wEnc = streamParser.loadG1(((inLen - pairing.getGT().getLengthInBytes()) / pairing.getG1().getLengthInBytes()));
-            Element cm = streamParser.loadGT();
+            PairingStreamReader reader = new PairingStreamReader(pairing, in, inOff);
+            String w = reader.readString();
+            Element[] wEnc = reader.readG1Elements(((inLen - pairing.getGT().getLengthInBytes()) / pairing.getG1().getLengthInBytes()));
+            Element cm = reader.readGTElement();
 
             // Run the decryption...
             // Init
-            PairingAccumulator combiner = PairingAccumulatorFactory.getInstance().getPairingMultiplier(pairing);
+            PairingAccumulator accumulator = PairingAccumulatorFactory.getInstance().getPairingMultiplier(pairing);
 
             int index = 0;
-            combiner.addPairing(wEnc[index++], sk.getkStart(0))
+            accumulator.addPairing(wEnc[index++], sk.getkStart(0))
                     .addPairingInverse(wEnc[index++], sk.getkStart(1));
 
             // Run
             int currentState = sk.getDfa().getInitialState(); // Initial state
 
             for (int i = 0; i < w.length(); i++) {
-                DFATransition DFATransition = sk.getDfa().getTransition(currentState, w.charAt(i));
+                DFA.Transition transition = sk.getDfa().getTransition(currentState, w.charAt(i));
 
-                combiner.addPairing(wEnc[index - 2], sk.getkTransition(DFATransition, 0))
-                        .addPairing(wEnc[index++], sk.getkTransition(DFATransition, 2))
-                        .addPairingInverse(wEnc[index++], sk.getkTransition(DFATransition, 1));
+                accumulator.addPairing(wEnc[index - 2], sk.getkTransition(transition, 0))
+                        .addPairing(wEnc[index++], sk.getkTransition(transition, 2))
+                        .addPairingInverse(wEnc[index++], sk.getkTransition(transition, 1));
 
-                currentState = DFATransition.getTo();
+                currentState = transition.getTo();
             }
 
             // Finalize
             if (sk.getDfa().isFinalState(currentState)) {
-                combiner.addPairingInverse(wEnc[index++], sk.getkEnd(currentState, 0))
+                accumulator.addPairingInverse(wEnc[index++], sk.getkEnd(currentState, 0))
                         .addPairing(wEnc[index], sk.getkEnd(currentState, 1));
 
                 // Recover the message...
-                Element M = cm.div(combiner.doFinal());
+                Element M = cm.div(accumulator.doFinal());
 
                 return M.toBytes();
             } else {
@@ -83,56 +83,42 @@ public class RLW12KemEngine extends PairingKeyEncapsulationMechanism {
             RLW12PublicKeyParameters publicKey = encKey.getPublicKey();
             String w = encKey.getW();
 
-            ByteArrayOutputStream bytes = new ByteArrayOutputStream(getOutputBlockSize());
+            PairingStreamWriter writer = new PairingStreamWriter(getOutputBlockSize());
             try {
                 // Store M
-                bytes.write(M.toBytes());
+                writer.write(M);
 
                 // Store the ciphertext
 
                 // Store w
-                bytes.write(w.length());
-                bytes.write(w.getBytes());
+                writer.write(w);
 
                 // Initialize
                 Element s0 = pairing.getZr().newRandomElement();
-                bytes.write(
-                        publicKey.getParameters().getG().powZn(s0).toBytes()
-                );
-                bytes.write(
-                        publicKey.gethStart().powZn(s0).toBytes()
-                );
+                writer.write(publicKey.getParameters().getG().powZn(s0));
+                writer.write(publicKey.gethStart().powZn(s0));
 
                 // Sequence
                 Element sPrev = s0;
                 for (int i = 0, l = w.length(); i < l; i++) {
                     Element sNext = pairing.getZr().newRandomElement();
 
-                    bytes.write(
-                            publicKey.getParameters().getG().powZn(sNext).toBytes()
-                    );
-                    bytes.write(
-                            publicKey.getHAt(w.charAt(i)).powZn(sNext)
-                                    .mul(publicKey.getZ().powZn(sPrev)).toBytes()
-                    );
+                    writer.write(publicKey.getParameters().getG().powZn(sNext));
+                    writer.write(publicKey.getHAt(w.charAt(i)).powZn(sNext).mul(publicKey.getZ().powZn(sPrev)));
 
                     sPrev = sNext;
                 }
 
                 // Finalize
-                bytes.write(
-                        publicKey.getParameters().getG().powZn(sPrev).toBytes()
-                );
-                bytes.write(
-                        publicKey.gethEnd().powZn(sPrev).toBytes()
-                );
+                writer.write(publicKey.getParameters().getG().powZn(sPrev));
+                writer.write(publicKey.gethEnd().powZn(sPrev));
 
                 // Store the masked message
-                bytes.write(publicKey.getOmega().powZn(sPrev).mul(M).toBytes());
+                writer.write(publicKey.getOmega().powZn(sPrev).mul(M));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            return bytes.toByteArray();
+            return writer.toBytes();
         }
     }
 

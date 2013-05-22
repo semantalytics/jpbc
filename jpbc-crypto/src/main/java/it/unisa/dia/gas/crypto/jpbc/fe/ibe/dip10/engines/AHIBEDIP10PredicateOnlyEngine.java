@@ -39,7 +39,7 @@ public class AHIBEDIP10PredicateOnlyEngine extends PredicateOnlyPairingAsymmetri
         if (key instanceof AHIBEDIP10SecretKeyParameters) {
             // Convert bytes to Elements...
 
-            Element[] Cs = new PairingStreamReader(pairing, in, inOff).load(GT, G1, G1);
+            Element[] Cs = new PairingStreamReader(pairing, in, inOff).readElements(GT, G1, G1);
 
             // Run the test
             AHIBEDIP10SecretKeyParameters sk = (AHIBEDIP10SecretKeyParameters) key;

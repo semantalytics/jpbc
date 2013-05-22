@@ -10,10 +10,10 @@ import org.bouncycastle.crypto.CipherParameters;
 public class RLW12Parameters implements CipherParameters {
     private PairingParameters parameters;
     private Element g;
-    private DFAAlphabet alphabet;
+    private DFA.Alphabet alphabet;
 
 
-    public RLW12Parameters(PairingParameters parameters, Element g, DFAAlphabet alphabet) {
+    public RLW12Parameters(PairingParameters parameters, Element g, DFA.Alphabet alphabet) {
         this.parameters = parameters;
         this.g = g.getImmutable();
         this.alphabet = alphabet;

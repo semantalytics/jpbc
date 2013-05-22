@@ -1,8 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.engines;
 
 import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.params.DFA;
-import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.params.DFAAlphabet;
-import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.params.DFATransition;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,10 +13,10 @@ import java.util.Map;
 public class DefaultDFA implements DFA {
 
     private int numStates;
-    private DFAAlphabet alphabet;
+    private Alphabet alphabet;
 
-    private Map<String, DFATransition> index;
-    private List<DFATransition> DFATransitions;
+    private Map<String, Transition> index;
+    private List<Transition> transitions;
     private List<Integer> finalStates;
 
 
@@ -26,12 +24,12 @@ public class DefaultDFA implements DFA {
         this(numStates, null);
     }
 
-    public DefaultDFA(int numStates, DFAAlphabet alphabet) {
+    public DefaultDFA(int numStates, Alphabet alphabet) {
         this.numStates = numStates;
         this.alphabet = alphabet;
 
-        this.DFATransitions = new ArrayList<DFATransition>();
-        this.index = new HashMap<String, DFATransition>();
+        this.transitions = new ArrayList<Transition>();
+        this.index = new HashMap<String, Transition>();
         this.finalStates = new ArrayList<Integer>();
     }
 
@@ -45,10 +43,10 @@ public class DefaultDFA implements DFA {
         if (alphabet != null && alphabet.getIndex(reading) == -1)
             return;
 
-        DFATransition DFATransition = new DefaultDFATransition(from, reading, to);
+        Transition transition = new DefaultTransition(from, reading, to);
 
-        this.DFATransitions.add(DFATransition);
-        this.index.put(String.format("%d_%s", from, reading), DFATransition);
+        this.transitions.add(transition);
+        this.index.put(String.format("%d_%s", from, reading), transition);
     }
 
     public void addTransition(int from, Character start, Character end, int to) {
@@ -57,12 +55,12 @@ public class DefaultDFA implements DFA {
     }
 
 
-    public DFATransition getTransitionAt(int index) {
-        return DFATransitions.get(index);
+    public Transition getTransitionAt(int index) {
+        return transitions.get(index);
     }
 
     public int getNumTransitions() {
-        return DFATransitions.size();
+        return transitions.size();
     }
 
     public boolean accept(String w) {
@@ -91,7 +89,7 @@ public class DefaultDFA implements DFA {
         return 0;
     }
 
-    public DFATransition getTransition(int from, Character reading) {
+    public Transition getTransition(int from, Character reading) {
         return index.get(String.format("%d_%s", from, reading));
     }
 
@@ -104,12 +102,13 @@ public class DefaultDFA implements DFA {
     }
 
 
-    public static class DefaultDFATransition implements DFATransition {
+
+    public static class DefaultTransition implements Transition {
         private int from;
         private Character reading;
         private int to;
 
-        public DefaultDFATransition(int from, Character reading, int to) {
+        public DefaultTransition(int from, Character reading, int to) {
             this.from = from;
             this.reading = reading;
             this.to = to;
@@ -129,20 +128,30 @@ public class DefaultDFA implements DFA {
 
     }
 
+    public static class DefaultAlphabet implements Alphabet {
+        private int size;
+        private Map<Character, Integer> map;
 
-    public static void main(String[] args) {
-        DefaultDFA dfa = new DefaultDFA(2);
+        public DefaultAlphabet() {
+            this.size = 0;
+            this.map = new HashMap<Character, Integer>();
+        }
 
-        dfa.addFinalState(0);
+        public void addLetter(Character... characters) {
+            for (Character character : characters) {
+                map.put(character, size++);
+            }
+        }
 
-        dfa.addTransition(0, '0', 1);
-        dfa.addTransition(0, '1', 0);
-        dfa.addTransition(1, '0', 0);
-        dfa.addTransition(1, '1', 1);
+        public int getSize() {
+            return size;
+        }
 
-        boolean accepted = dfa.accept("01111000");
+        public int getIndex(Character character) {
+            if (map.containsKey(character))
+                return map.get(character);
 
-        System.out.println("accepted = " + accepted);
+            return -1;
+        }
     }
-
 }

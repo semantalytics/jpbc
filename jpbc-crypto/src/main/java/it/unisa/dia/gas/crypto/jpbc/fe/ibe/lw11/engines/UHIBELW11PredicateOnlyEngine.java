@@ -44,8 +44,8 @@ public class UHIBELW11PredicateOnlyEngine extends PredicateOnlyPairingAsymmetric
             UHIBELW11SecretKeyParameters sk = (UHIBELW11SecretKeyParameters) key;
 
             PairingStreamReader streamParser = new PairingStreamReader(pairing, in, inOff);
-            Element C = streamParser.loadGT();
-            Element C0 = streamParser.loadG1();
+            Element C = streamParser.readGTElement();
+            Element C0 = streamParser.readG1Element();
 
             // Run the decryption
             Element numerator = pairing.getGT().newOneElement();
@@ -53,11 +53,11 @@ public class UHIBELW11PredicateOnlyEngine extends PredicateOnlyPairingAsymmetric
             for (int i = 0; i < depth; i++) {
                 numerator
                         .mul(pairing.pairing(C0, sk.getK0At(i)))
-                        .mul(pairing.pairing(streamParser.loadG1(), sk.getK2At(i))); // C2
+                        .mul(pairing.pairing(streamParser.readG1Element(), sk.getK2At(i))); // C2
 
                 denominator
-                        .mul(pairing.pairing(streamParser.loadG1(), sk.getK1At(i)))  // C1
-                        .mul(pairing.pairing(streamParser.loadG1(), sk.getK3At(i))); // C3
+                        .mul(pairing.pairing(streamParser.readG1Element(), sk.getK1At(i)))  // C1
+                        .mul(pairing.pairing(streamParser.readG1Element(), sk.getK3At(i))); // C3
             }
             Element M = C.div(numerator.div(denominator));
 

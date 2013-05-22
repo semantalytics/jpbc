@@ -21,6 +21,7 @@ public class PairingStreamReader {
     private DataInputStream dis;
     private ExByteArrayInputStream bais;
 
+
     public PairingStreamReader(Pairing pairing, byte[] buffer, int offset) {
         this.pairing = pairing;
         this.buffer = buffer;
@@ -33,7 +34,7 @@ public class PairingStreamReader {
     }
 
 
-    public Element[] load(Pairing.PairingFieldIdentifier... ids) {
+    public Element[] readElements(Pairing.PairingFieldIdentifier... ids) {
         Element[] elements = new Element[ids.length];
 
         for (int i = 0; i < ids.length; i++) {
@@ -47,7 +48,7 @@ public class PairingStreamReader {
         return elements;
     }
 
-    public Element[] load(Pairing.PairingFieldIdentifier id, int count) {
+    public Element[] readElements(Pairing.PairingFieldIdentifier id, int count) {
         Element[] elements = new Element[count];
 
         Field field = pairing.getField(id);
@@ -61,22 +62,12 @@ public class PairingStreamReader {
         return elements;
     }
 
-    public Element[] loadG1(int count) {
-        Element[] elements = new Element[count];
-
-        Field field = pairing.getG1();
-        for (int i = 0; i < count; i++) {
-            elements[i] = field.newElement();
-            int length = elements[i].setFromBytes(buffer, cursor);
-            cursor += length;
-            bais.skip(length);
-        }
-
-        return elements;
+    public Element[] readG1Elements(int count) {
+        return readElements(Pairing.PairingFieldIdentifier.G1, count);
     }
 
 
-    public Element load(Pairing.PairingFieldIdentifier id) {
+    public Element readElement(Pairing.PairingFieldIdentifier id) {
         Field field = pairing.getField(id);
         Element element = field.newElement();
         int length = element.setFromBytes(buffer, cursor);
@@ -86,7 +77,7 @@ public class PairingStreamReader {
         return element;
     }
 
-    public Element loadG1() {
+    public Element readG1Element() {
         Element element = pairing.getG1().newElement();
         int length = element.setFromBytes(buffer, cursor);
         cursor += length;
@@ -95,7 +86,7 @@ public class PairingStreamReader {
         return element;
     }
 
-    public Element loadGT() {
+    public Element readGTElement() {
         Element element = pairing.getGT().newElement();
         int length = element.setFromBytes(buffer, cursor);
         cursor += length;
@@ -105,7 +96,7 @@ public class PairingStreamReader {
     }
 
 
-    public String loadString() {
+    public String readString() {
         try {
             return dis.readUTF();
         } catch (Exception e) {

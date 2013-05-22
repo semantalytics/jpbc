@@ -40,15 +40,15 @@ public class GGHSW13KemEngine extends PairingKeyEncapsulationMechanism {
             // Load the ciphertext
             PairingStreamReader streamParser = new PairingStreamReader(pairing, in, inOff);
 
-            String assignment = streamParser.loadString();
+            String assignment = streamParser.readString();
 
-            Element gs = streamParser.loadG1();
+            Element gs = streamParser.readG1Element();
 
             // compute hamming with
             Element[] cs = new Element[sk.getParameters().getN()];
             for (int i = 0; i < assignment.length(); i++)
                 if (assignment.charAt(i) == '1')
-                    cs[i] = streamParser.loadG1();
+                    cs[i] = streamParser.readG1Element();
 
             // Evaluate the circuit against the ciphertext
             Circuit circuit = sk.getCircuit();
@@ -56,10 +56,7 @@ public class GGHSW13KemEngine extends PairingKeyEncapsulationMechanism {
 
             // evaluate the circuit
             for (Gate gate : sk.getCircuit()) {
-                System.out.println("evaluate gate = " + gate);
-
                 int index = gate.getIndex();
-                int depth = gate.getDepth();
 
                 switch (gate.getType()) {
                     case INPUT:
@@ -127,21 +124,14 @@ public class GGHSW13KemEngine extends PairingKeyEncapsulationMechanism {
                 }
             }
 
-            System.out.println("circuit.getOutputGate().isValue() = " + circuit.getOutputGate().isValue());
+            Element result = circuit.getEval().mul(circuit.getOutputGate().getEval());
 
-//            if (circuit.getOutputGate().isValue()) {
-                Element result = circuit.getEval().mul(circuit.getOutputGate().getEval());
+            // extract key from result
+            BigInteger value =  ((CTL13MMPairing) pairing).getCTL13MMInstance().extract(
+                    result.toBigInteger(),
+                    ((CTL13MMElement) result).getIndex());
 
-                // extract key from result
-                BigInteger value =  ((CTL13MMPairing) pairing).getCTL13MMInstance().extract(
-                        result.toBigInteger(),
-                        ((CTL13MMElement) result).getIndex());
-                System.out.println("value = " + value);
-
-                return value.toByteArray();
-//            }
-
-//            return null;
+            return value.toByteArray();
         } else {
             // Encrypt the massage under the specified attributes
             GGHSW13EncryptionParameters encKey = (GGHSW13EncryptionParameters) key;
@@ -158,21 +148,21 @@ public class GGHSW13KemEngine extends PairingKeyEncapsulationMechanism {
 
                 BigInteger value = ((CTL13MMPairing) pairing).getCTL13MMInstance().extract(mask.toBigInteger(), pairing.getDegree());
                 System.out.println("value = " + value);
-                writer.writeBytes(value.toByteArray());
+                writer.write(value.toByteArray());
 
                 // Store assignment
-                writer.writeString(assignment);
-                writer.writeElement(pairing.getFieldAt(1).newElement().powZn(s));
+                writer.write(assignment);
+                writer.write(pairing.getFieldAt(1).newElement().powZn(s));
                 int n = publicKey.getParameters().getN();
                 for (int i = 0; i < n; i++) {
                     if (assignment.charAt(i) == '1')
-                        writer.writeElement(publicKey.getHAt(i).powZn(s));
+                        writer.write(publicKey.getHAt(i).powZn(s));
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
 
-            return writer.getBytes();
+            return writer.toBytes();
         }
     }
 

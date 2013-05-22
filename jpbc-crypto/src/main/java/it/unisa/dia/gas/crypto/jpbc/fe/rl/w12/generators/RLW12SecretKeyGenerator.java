@@ -33,7 +33,7 @@ public class RLW12SecretKeyGenerator {
         int ns = dfa.getNumStates();
 
         Element[] kStarts = new Element[2];
-        Map<DFATransition, Element[]> kTransitions = new HashMap<DFATransition, Element[]>();
+        Map<DFA.Transition, Element[]> kTransitions = new HashMap<DFA.Transition, Element[]>();
         Map<Integer, Element[]> kEnds = new HashMap<Integer, Element[]>();
 
         Element[] Ds = new Element[ns];
@@ -48,16 +48,16 @@ public class RLW12SecretKeyGenerator {
 
         // Transitions
         for (int i = 0, size = dfa.getNumTransitions(); i < size; i++) {
-            DFATransition DFATransition = dfa.getTransitionAt(i);
+            DFA.Transition transition = dfa.getTransitionAt(i);
 
             Element rt = pairing.getZr().newRandomElement();
 
             kTransitions.put(
-                    DFATransition,
+                    transition,
                     new Element[]{
-                            Ds[DFATransition.getFrom()].invert().mul(pk.getZ().powZn(rt)),
+                            Ds[transition.getFrom()].invert().mul(pk.getZ().powZn(rt)),
                             pk.getParameters().getG().powZn(rt),
-                            Ds[DFATransition.getTo()].mul(pk.getHAt(DFATransition.getReading()).powZn(rt))
+                            Ds[transition.getTo()].mul(pk.getHAt(transition.getReading()).powZn(rt))
                     }
             );
         }

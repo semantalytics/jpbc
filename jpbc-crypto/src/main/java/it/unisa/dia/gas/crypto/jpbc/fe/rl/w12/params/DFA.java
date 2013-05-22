@@ -5,19 +5,40 @@ package it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.params;
  */
 public interface DFA {
 
+    static interface Alphabet {
+
+        int getSize();
+
+        int getIndex(Character character);
+
+    }
+
+    static interface Transition {
+
+        int getFrom();
+
+        Character getReading();
+
+        int getTo();
+
+    }
+
+
     int getInitialState();
 
-    DFATransition getTransition(int from, Character reading);
+    Transition getTransition(int from, Character reading);
 
     boolean isFinalState(int state);
 
     int getNumTransitions();
 
-    DFATransition getTransitionAt(int index);
+    Transition getTransitionAt(int index);
 
     int getNumStates();
 
     int getNumFinalStates();
 
     int getFinalStateAt(int index);
+
+
 }
