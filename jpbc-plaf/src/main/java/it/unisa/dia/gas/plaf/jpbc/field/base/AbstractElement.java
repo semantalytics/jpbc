@@ -92,6 +92,10 @@ public abstract class AbstractElement implements Element {
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
+    public byte[] toCanonicalRepresentation() {
+        return toBytes();
+    }
+
     public Element mulZn(Element z) {
         return mul(z.toBigInteger());
     }

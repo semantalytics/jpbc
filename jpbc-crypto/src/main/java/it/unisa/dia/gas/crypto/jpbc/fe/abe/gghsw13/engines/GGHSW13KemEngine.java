@@ -3,12 +3,10 @@ package it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.engines;
 import it.unisa.dia.gas.crypto.engines.kem.PairingKeyEncapsulationMechanism;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.params.*;
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.pairing.CTL13MMPairing;
 import it.unisa.dia.gas.plaf.jpbc.util.io.PairingStreamReader;
 import it.unisa.dia.gas.plaf.jpbc.util.io.PairingStreamWriter;
 
 import java.io.IOException;
-import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,8 +27,7 @@ public class GGHSW13KemEngine extends PairingKeyEncapsulationMechanism {
         GGHSW13KeyParameters gghswKey = (GGHSW13KeyParameters) key;
 
         this.pairing = gghswKey.getParameters().getPairing();
-        this.keyBytes =
-                ((CTL13MMPairing)gghswKey.getParameters().getPairing()).getCTL13MMInstance().getParameters().getBound()/8;
+        this.keyBytes = pairing.getFieldAt(pairing.getDegree()).getCanonicalRepresentationLengthInBytes();
     }
 
     public byte[] process(byte[] in, int inOff, int inLen) {
@@ -136,10 +133,7 @@ public class GGHSW13KemEngine extends PairingKeyEncapsulationMechanism {
             if (circuit.getOutputGate().isSet()) {
                 Element result = root.mul(evaluations.get(circuit.getOutputGate().getIndex()));
 
-                // extract key from result
-                BigInteger value = ((CTL13MMPairing) pairing).extract(result);
-
-                return value.toByteArray();
+                return result.toCanonicalRepresentation();
             } else
                 return new byte[]{-1};
         } else {
@@ -154,8 +148,7 @@ public class GGHSW13KemEngine extends PairingKeyEncapsulationMechanism {
                 Element s = pairing.getZr().newRandomElement().getImmutable();
 
                 Element mask = publicKey.getH().powZn(s);
-                BigInteger value = ((CTL13MMPairing) pairing).extract(mask);
-                writer.write(value.toByteArray());
+                writer.write(mask.toCanonicalRepresentation());
 
                 writer.write(assignment);
                 writer.write(pairing.getFieldAt(1).newElement().powZn(s));

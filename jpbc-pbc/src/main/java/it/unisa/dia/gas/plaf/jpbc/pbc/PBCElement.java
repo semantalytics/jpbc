@@ -246,6 +246,10 @@ public class PBCElement implements Element {
         return bytes;
     }
 
+    public byte[] toCanonicalRepresentation() {
+        return toBytes();
+    }
+
     public boolean isEqual(Element e) {
         return this == e || WrapperLibraryProvider.getWrapperLibrary().pbc_element_cmp(value, ((PBCElement) e).value) == 0;
 

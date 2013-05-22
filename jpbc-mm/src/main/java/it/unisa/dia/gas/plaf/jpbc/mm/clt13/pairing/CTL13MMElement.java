@@ -136,6 +136,10 @@ public class CTL13MMElement implements Element {
         }
     }
 
+    public byte[] toCanonicalRepresentation() {
+        return field.getInstance().extract(value, index).toByteArray();
+    }
+
     public Element setToZero() {
         this.value = field.getInstance().encodeZeroAt(index);
 

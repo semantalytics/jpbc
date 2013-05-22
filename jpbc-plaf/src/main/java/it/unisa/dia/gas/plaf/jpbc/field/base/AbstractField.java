@@ -60,6 +60,10 @@ public abstract class AbstractField<E extends Element> implements Field<E> {
         return orderIsOdd;
     }
 
+    public int getCanonicalRepresentationLengthInBytes() {
+        return getLengthInBytes();
+    }
+
     public Element[] twice(Element[] elements) {
         for (Element element : elements) {
             element.twice();

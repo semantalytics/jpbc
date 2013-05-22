@@ -104,10 +104,4 @@ public class CTL13MMPairing implements Pairing {
         return instance;
     }
 
-
-    public BigInteger extract(Element element) {
-        CTL13MMElement e = (CTL13MMElement) element;
-
-        return instance.extract(e.value, e.index);
-    }
 }

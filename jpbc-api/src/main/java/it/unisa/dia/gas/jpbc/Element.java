@@ -139,6 +139,13 @@ public interface Element extends ElementPow {
     byte[] toBytes();
 
     /**
+     * todo
+     * @return
+     * @since 1.3.0
+     */
+    byte[] toCanonicalRepresentation();
+
+    /**
      * Sets this element to zero.
      *
      * @return this element set to zero.

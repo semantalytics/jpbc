@@ -97,6 +97,13 @@ public interface Field<E extends Element> {
     int getLengthInBytes();
 
     /**
+     * todo
+     * @return
+     * @since 1.3.0
+     */
+    int getCanonicalRepresentationLengthInBytes();
+
+    /**
      * Computes the component-wise twice
      * in one shot.
      *
