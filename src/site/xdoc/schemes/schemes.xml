@@ -22,6 +22,12 @@
                 <ol>
                     <li>
                         <font style="font-weight: bold;color:red">
+                            <a href="./abe_gghsw13.html">[GGHSW'13]</a>
+                        </font>: S. Garg and C. Gentry and S. Halevi and A. Sahai and B. Waters,
+                        Attribute-Based Encryption for Circuits from Multilinear Maps
+                    </li>
+                    <li>
+                        <font style="font-weight: bold;color:red">
                             <a href="./rl_w12.html">[W'12]</a>
                         </font>: B. Waters, Functional Encryption for Regular Languages
                     </li>
@@ -64,16 +70,6 @@
                 </ol>
             </subsection>
 
-            <a name="es"/>
-            <subsection name="Other">
-                <ol>
-                    <li>
-                        <font style="font-weight: bold;color:red">
-                            <a href="ut_bdp10.html">[BDP'10]</a>
-                        </font>: C. Blundo and A. De Caro and G. Persiano, Untraceable (RIFD) Tags based on Mild Assumptions.
-                    </li>
-                </ol>
-            </subsection>
         </section>
     </body>
 </document>

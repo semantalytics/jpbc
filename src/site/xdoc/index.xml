@@ -69,12 +69,12 @@
                 <li>
                     <p>
                         a <font style="font-weight: bold;color:red">Java Implementation</font>
-                        of a candidate multilinear map.
+                        of practical multilinear maps over the integer.
                     </p>
                 </li>
             </ul>
 
-            jPBC consists of the following three core modules:
+            jPBC consists of the following core modules:
             <ul>
                 <li>
                     <font style="font-weight: bold;color:green">jpbc-api</font> :
@@ -83,19 +83,19 @@
 
                 <li>
                     <font style="font-weight: bold;color:green">jpbc-plaf</font> :
-                    the PBC port implementation of the API.
+                    the PBC port.
                 </li>
 
                 <li>
                     <font style="font-weight: bold;color:green">jpbc-pbc</font> :
-                    the PBC wrapper implementation of the API.
+                    the PBC wrapper.
                 </li>
                 <li>
                     <font style="font-weight: bold;color:green">jpbc-mm</font> :
-                    the multilinear map implementation of the API.
+                    the multilinear map package.
                 </li>
     	    </ul>
-	    and the following support modules:
+	        and the following support modules:
 	      <ul>
             	<li>
                     <font style="font-weight: bold;color:green">jpbc-crypto</font> :

@@ -108,15 +108,15 @@
                             <font style="font-weight: bold;color:red">Pairing</font>
                         </code>
                     </a>
-                    interface is to generate (or load) the parameters describing the elliptic
-                    curve to be used. Have a look
+                    interface is to generate (or load) the parameters describing the pairing to be used.
+                    Have a look
                     <a href="./parametersgenerator.html">here</a>
                     to know how to generate such parameters.
                 </p>
 
                 <p>
-                    Now let's assume that the curve parameters are stored in a file
-                    called <code>curve.properties</code>. Then
+                    Now let's assume that the parameters are stored in a file
+                    called <code>params.properties</code>. Then
                     JPBC provides a Factory to create instances of the
                     <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Pairing.html">
                         <code>
@@ -133,7 +133,7 @@
                         </p>
 <source>import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
-Pairing pairing = <font style="font-weight: bold;color:green">PairingFactory.getPairing("curve.properties");</font>
+Pairing pairing = <font style="font-weight: bold;color:green">PairingFactory.getPairing("params.properties");</font>
 </source>
                     </li>
                     <li>
@@ -145,13 +145,13 @@ Pairing pairing = <font style="font-weight: bold;color:green">PairingFactory.get
 // Ask the PairingFactory to try to use the PBC wrapper when possible.
 <font style="font-weight: bold;color:green">PairingFactory.getInstance().setUsePBCWhenPossible(true);</font>
 
-Pairing pairing = <font style="font-weight: bold;color:green">PairingFactory.getPairing("curve.properties");</font>
+Pairing pairing = <font style="font-weight: bold;color:green">PairingFactory.getPairing("params.properties");</font>
 </source>
                     </li>
                     <p>
-                        Notice that if PBC and the wrapper around it are not installed then
+                        Notice that if PBC and the wrapper around it are not installed properly then
                         the factory will use the JPBC classes for the pairing computation.
-                        To know how install the wrapper have a look
+                        To know how to install the wrapper have a look
                         <a href="./pbcwrapper.html">here</a>.
                     </p>
                 </ol>

@@ -8,7 +8,7 @@
     </properties>
 
     <body>
-        <section name="Functional Encryption for Regular Languages">
+        <section name="Attribute-Based Encryption for Circuits from Multilinear Maps">
             <subsection name="Authors">
                 Sanjam Garg and Craig Gentry and Shai Halevi and Amit Sahai and Brent Waters
             </subsection>
