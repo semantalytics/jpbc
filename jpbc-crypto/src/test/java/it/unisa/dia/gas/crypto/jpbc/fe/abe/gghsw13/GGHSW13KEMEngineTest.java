@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13;
 
 import it.unisa.dia.gas.crypto.engines.kem.KeyEncapsulationMechanism;
+import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.engines.DefaultCircuit;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.engines.GGHSW13KemEngine;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.generators.GGHSW13KeyPairGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.generators.GGHSW13ParametersGenerator;
@@ -18,6 +19,8 @@ import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Collection;
 
+import static it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.engines.DefaultCircuit.DefaultGate;
+import static it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.params.Circuit.Gate.Type.*;
 import static org.junit.Assert.*;
 
 /**
@@ -26,17 +29,15 @@ import static org.junit.Assert.*;
 @RunWith(value = Parameterized.class)
 public class GGHSW13KEMEngineTest {
 
-
     static SecureRandom random;
     static {
         random = new SecureRandom();
-
     }
 
     @Parameterized.Parameters
     public static Collection parameters() {
         Object[][] data = {
-                {CTL13InstanceParameters.TOY.setKappa(7)}
+                {CTL13InstanceParameters.TOY}
         };
 
         return Arrays.asList(data);
@@ -56,36 +57,33 @@ public class GGHSW13KEMEngineTest {
         SecureRandom random = new SecureRandom();
         int n = 4;
         int q = 3;
-        Circuit circuit = new Circuit(n, q, 3, new Gate[]{
-                new Gate(Gate.Type.INPUT, 0, 1, null),
-                new Gate(Gate.Type.INPUT, 1, 1, null),
-                new Gate(Gate.Type.INPUT, 2, 1, null),
-                new Gate(Gate.Type.INPUT, 3, 1, null),
+        Circuit circuit = new DefaultCircuit(n, q, 3, new DefaultGate[]{
+                new DefaultGate(INPUT, 0, 1, null),
+                new DefaultGate(INPUT, 1, 1, null),
+                new DefaultGate(INPUT, 2, 1, null),
+                new DefaultGate(INPUT, 3, 1, null),
 
-                new Gate(Gate.Type.AND, 4, 2, new int[]{0, 1}),
-                new Gate(Gate.Type.OR, 5, 2, new int[]{2, 3}),
+                new DefaultGate(AND, 4, 2, new int[]{0, 1}),
+                new DefaultGate(OR, 5, 2, new int[]{2, 3}),
 
-                new Gate(Gate.Type.AND, 6, 3, new int[]{4, 5}),
+                new DefaultGate(AND, 6, 3, new int[]{4, 5}),
         });
-
 
         AsymmetricCipherKeyPair keyPair = setup(createParameters(random, n));
         CipherParameters secretKey = keyGen(keyPair.getPublic(), keyPair.getPrivate(), circuit);
 
         String assignment = "1101";
-//        assertTrue(circuit.accept(assignment));
         byte[][] ct = encaps(keyPair.getPublic(), assignment);
         assertEquals(true, Arrays.equals(ct[0], decaps(secretKey, ct[1])));
 
         assignment = "1001";
-//        assertFalse(circuit.accept(assignment));
         ct = encaps(keyPair.getPublic(), assignment);
         assertEquals(false, Arrays.equals(ct[0], decaps(secretKey, ct[1])));
     }
 
 
     protected GGHSW13Parameters createParameters(SecureRandom random, int n) {
-        return new GGHSW13ParametersGenerator(random, instanceParameters, n).init().generateParameters();
+        return new GGHSW13ParametersGenerator().init(random, instanceParameters, n).generateParameters();
     }
 
     protected AsymmetricCipherKeyPair setup(GGHSW13Parameters parameters) {
@@ -132,7 +130,6 @@ public class GGHSW13KEMEngineTest {
         return keyGen.generateKey();
     }
 
-
     protected byte[] decaps(CipherParameters secretKey, byte[] ciphertext) {
         try {
             KeyEncapsulationMechanism kem = new GGHSW13KemEngine();
@@ -152,6 +149,4 @@ public class GGHSW13KEMEngineTest {
         return null;
     }
 
-
 }
-

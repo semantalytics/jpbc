@@ -6,6 +6,9 @@ import it.unisa.dia.gas.jpbc.Pairing;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.KeyGenerationParameters;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
@@ -26,17 +29,21 @@ public class GGHSW13SecretKeyGenerator {
         GGHSW13MasterSecretKeyParameters msk = param.getMasterSecretKeyParameters();
         GGHSW13PublicKeyParameters pk = param.getPublicKeyParameters();
 
-        Circuit circuit = this.circuit.duplicate();
+        Circuit circuit = this.circuit/*TODO.duplicate()*/;
 
         // sample the randomness
         Element[] rs = new Element[circuit.getN() + circuit.getQ()];
         for (int i = 0; i < rs.length; i++)
             rs[i] = pairing.getZr().newRandomElement().getImmutable();
 
-        circuit.setKey(pairing.getFieldAt(circuit.getDepth()).newElement().powZn(msk.getAlpha().sub(rs[rs.length - 1])));
-
         // encode the circuit
-        for (Gate gate : circuit) {
+
+        Map<Integer, Element[]> keys = new HashMap<Integer, Element[]>();
+
+        Element ePrime = pairing.getFieldAt(circuit.getDepth()).newElement().powZn(msk.getAlpha().sub(rs[rs.length - 1]));
+        keys.put(-1, new Element[]{ePrime});
+
+        for (Circuit.Gate gate : circuit) {
             int index = gate.getIndex();
             int depth = gate.getDepth();
 
@@ -48,7 +55,7 @@ public class GGHSW13SecretKeyGenerator {
                     Element e1 = pairing.getG1().newElement().powZn(rs[index]).mul(pk.getHAt(index).powZn(z));
                     Element e2 = pairing.getG1().newElement().powZn(z.negate());
 
-                    gate.setKeys(e1, e2);
+                    keys.put(index, new Element[]{e1, e2});
 
                     break;
 
@@ -66,7 +73,7 @@ public class GGHSW13SecretKeyGenerator {
                             rs[index].sub(b.mul(rs[gate.getInputIndexAt(1)]))
                     );
 
-                    gate.setKeys(e1, e2, e3, e4);
+                    keys.put(index, new Element[]{e1, e2, e3, e4});
                     break;
 
                 case AND:
@@ -81,13 +88,13 @@ public class GGHSW13SecretKeyGenerator {
                                     .sub(b.mul(rs[gate.getInputIndexAt(1)]))
                     );
 
-                    gate.setKeys(e1, e2, e3);
+                    keys.put(index, new Element[]{e1, e2, e3});
                     break;
             }
         }
 
         return new GGHSW13SecretKeyParameters(
-                param.getPublicKeyParameters().getParameters(), circuit
+                param.getPublicKeyParameters().getParameters(), circuit, keys
         );
     }
 

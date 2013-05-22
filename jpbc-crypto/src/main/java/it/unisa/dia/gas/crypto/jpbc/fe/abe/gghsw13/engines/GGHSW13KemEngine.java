@@ -10,6 +10,8 @@ import it.unisa.dia.gas.plaf.jpbc.util.io.PairingStreamWriter;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -38,100 +40,111 @@ public class GGHSW13KemEngine extends PairingKeyEncapsulationMechanism {
             GGHSW13SecretKeyParameters sk = (GGHSW13SecretKeyParameters) key;
 
             // Load the ciphertext
-            PairingStreamReader streamParser = new PairingStreamReader(pairing, in, inOff);
+            PairingStreamReader reader = new PairingStreamReader(pairing, in, inOff);
 
-            String assignment = streamParser.readString();
-
-            Element gs = streamParser.readG1Element();
+            String assignment = reader.readString();
+            Element gs = reader.readG1Element();
 
             // compute hamming with
             Element[] cs = new Element[sk.getParameters().getN()];
             for (int i = 0; i < assignment.length(); i++)
                 if (assignment.charAt(i) == '1')
-                    cs[i] = streamParser.readG1Element();
+                    cs[i] = reader.readG1Element();
 
             // Evaluate the circuit against the ciphertext
             Circuit circuit = sk.getCircuit();
-            circuit.setEval(pairing.pairing(circuit.getKey(), gs));
+            Element root = pairing.pairing(sk.getKeyElementsAt(-1)[0], gs);
 
             // evaluate the circuit
-            for (Gate gate : sk.getCircuit()) {
+            Map<Integer, Element> evaluations = new HashMap<Integer, Element>();
+            for (Circuit.Gate gate : sk.getCircuit()) {
                 int index = gate.getIndex();
 
                 switch (gate.getType()) {
                     case INPUT:
-                        gate.setValue(assignment.charAt(index) == '1');
+                        gate.set(assignment.charAt(index) == '1');
 
-                        if (gate.isValue()) {
-                            Element t1 = pairing.pairing(gate.getKeyAt(0), gs);
-                            Element t2 = pairing.pairing(gate.getKeyAt(1), cs[index]);
+                        if (gate.isSet()) {
+                            Element[] keys = sk.getKeyElementsAt(index);
+                            Element t1 = pairing.pairing(keys[0], gs);
+                            Element t2 = pairing.pairing(keys[1], cs[index]);
 
-                            gate.setEval(t1.mul(t2));
+                            evaluations.put(index, t1.mul(t2));
                         }
+
                         break;
 
                     case OR:
+                        gate.evaluate();
 
-                        if (gate.getInputAt(0).isValue()) {
+                        if (gate.getInputAt(0).isSet()) {
+                            Element[] keys = sk.getKeyElementsAt(index);
                             Element t1 = pairing.pairing(
-                                    gate.getInputAt(0).getEval(),
-                                    gate.getKeyAt(0)
+                                    evaluations.get(gate.getInputAt(0).getIndex()),
+                                    keys[0]
                             );
 
                             Element t2 = pairing.pairing(
-                                    gate.getKeyAt(2),
+                                    keys[2],
                                     gs
                             );
 
-                            gate.setEval(t1.mul(t2));
-
-                        } else if (gate.getInputAt(1).isValue()) {
+                            evaluations.put(index, t1.mul(t2));
+                        } else if (gate.getInputAt(1).isSet()) {
+                            Element[] keys = sk.getKeyElementsAt(index);
                             Element t1 = pairing.pairing(
-                                    gate.getInputAt(1).getEval(),
-                                    gate.getKeyAt(1)
+                                    evaluations.get(gate.getInputAt(1).getIndex()),
+                                    keys[1]
                             );
 
                             Element t2 = pairing.pairing(
-                                    gate.getKeyAt(3),
+                                    keys[3],
                                     gs
                             );
 
-                            gate.setEval(t1.mul(t2));
+                            evaluations.put(index, t1.mul(t2));
                         }
-                        gate.eval();
+
                         break;
 
                     case AND:
-                        Element t1 = pairing.pairing(
-                                gate.getInputAt(0).getEval(),
-                                gate.getKeyAt(0)
-                        );
+                        gate.evaluate();
 
-                        Element t2 = pairing.pairing(
-                                gate.getInputAt(1).getEval(),
-                                gate.getKeyAt(1)
-                        );
+                        if (gate.isSet()) {
+                            Element[] keys = sk.getKeyElementsAt(index);
+                            Element t1 = pairing.pairing(
+                                    evaluations.get(gate.getInputAt(0).getIndex()),
+                                    keys[0]
+                            );
 
-                        Element t3 = pairing.pairing(
-                                gate.getKeyAt(2),
-                                gs
-                        );
+                            Element t2 = pairing.pairing(
+                                    evaluations.get(gate.getInputAt(1).getIndex()),
+                                    keys[1]
+                            );
 
-                        gate.eval();
-                        gate.setEval(t1.mul(t2).mul(t3));
+                            Element t3 = pairing.pairing(
+                                    keys[2],
+                                    gs
+                            );
+
+                            evaluations.put(index, t1.mul(t2).mul(t3));
+                        }
 
                         break;
                 }
             }
 
-            Element result = circuit.getEval().mul(circuit.getOutputGate().getEval());
+            if (circuit.getOutputGate().isSet()) {
+                Element result = root.mul(evaluations.get(circuit.getOutputGate().getIndex()));
 
-            // extract key from result
-            BigInteger value =  ((CTL13MMPairing) pairing).getCTL13MMInstance().extract(
-                    result.toBigInteger(),
-                    ((CTL13MMElement) result).getIndex());
+                // extract key from result
+                BigInteger value =  ((CTL13MMPairing) pairing).getCTL13MMInstance().extract(
+                        result.toBigInteger(),
+                        ((CTL13MMElement) result).getIndex());
 
-            return value.toByteArray();
+                return value.toByteArray();
+            } else
+                return new byte[]{-1};
         } else {
             // Encrypt the massage under the specified attributes
             GGHSW13EncryptionParameters encKey = (GGHSW13EncryptionParameters) key;
@@ -140,17 +153,13 @@ public class GGHSW13KemEngine extends PairingKeyEncapsulationMechanism {
 
             PairingStreamWriter writer = new PairingStreamWriter(getOutputBlockSize());
             try {
-
                 // Sample the randomness
                 Element s = pairing.getZr().newRandomElement().getImmutable();
 
                 Element mask = publicKey.getH().powZn(s);
-
                 BigInteger value = ((CTL13MMPairing) pairing).getCTL13MMInstance().extract(mask.toBigInteger(), pairing.getDegree());
-                System.out.println("value = " + value);
                 writer.write(value.toByteArray());
 
-                // Store assignment
                 writer.write(assignment);
                 writer.write(pairing.getFieldAt(1).newElement().powZn(s));
                 int n = publicKey.getParameters().getN();
