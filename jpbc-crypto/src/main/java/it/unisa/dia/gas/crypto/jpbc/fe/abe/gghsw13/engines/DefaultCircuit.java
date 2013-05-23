@@ -13,8 +13,8 @@ public class DefaultCircuit implements Circuit {
 
     private int n, q;
     private int depth;
-
     private Gate[] gates;
+
 
     public DefaultCircuit(int n, int q, int depth, DefaultGate[] gates) {
         this.n = n;
@@ -52,11 +52,6 @@ public class DefaultCircuit implements Circuit {
         return gates[n+q-1];
     }
 
-    public DefaultCircuit duplicate() {
-        // TODO:
-        return this;
-    }
-
 
     public static class DefaultGate implements Circuit.Gate {
 
@@ -75,11 +70,6 @@ public class DefaultCircuit implements Circuit {
             this.index = index;
             this.depth = depth;
             this.inputs = inputs;
-        }
-
-
-        public void setCircuit(Circuit circuit) {
-            this.circuit = circuit;
         }
 
 
@@ -139,6 +129,12 @@ public class DefaultCircuit implements Circuit {
                     ", value=" + value +
                     '}';
         }
+
+
+        protected void setCircuit(Circuit circuit) {
+            this.circuit = circuit;
+        }
+
     }
 
 }

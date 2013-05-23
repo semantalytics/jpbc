@@ -29,7 +29,7 @@ public class GGHSW13SecretKeyGenerator {
         GGHSW13MasterSecretKeyParameters msk = param.getMasterSecretKeyParameters();
         GGHSW13PublicKeyParameters pk = param.getPublicKeyParameters();
 
-        Circuit circuit = this.circuit/*TODO.duplicate()*/;
+        Circuit circuit = this.circuit;
 
         // sample the randomness
         Element[] rs = new Element[circuit.getN() + circuit.getQ()];
