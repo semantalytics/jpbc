@@ -3,7 +3,10 @@ package it.unisa.dia.gas.plaf.jpbc.util.mt;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.*;
+import java.util.concurrent.CompletionService;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorCompletionService;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -11,22 +14,16 @@ import java.util.concurrent.*;
  */
 public class TaskManager {
 
-    static ExecutorService executorService;
-    static {
-        executorService = Executors.newCachedThreadPool();
-    }
-
-
     private CompletionService pool;
     private int counter;
     private Map<String, ValueLatch> context;
     private Map<String, Object> view;
 
     public TaskManager() {
-        this.pool = new ExecutorCompletionService(executorService);
+        this.pool = new ExecutorCompletionService(MTUtils.executorService);
         this.counter = 0;
         this.context = Collections.synchronizedMap(new ValueLatchMap());
-        this.view = new HashMap<String, Object>();
+        this.view = new ConcurrentHashMap<String, Object>();
     }
 
     public TaskManager addTask(Task task) {
