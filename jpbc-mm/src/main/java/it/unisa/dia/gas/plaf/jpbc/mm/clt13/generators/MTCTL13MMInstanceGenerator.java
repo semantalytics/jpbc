@@ -1,14 +1,12 @@
 package it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators;
 
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine.CTL13MMInstance;
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine.DefaultCTL13MMInstance;
+import it.unisa.dia.gas.jpbc.PairingParameters;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstanceParameters;
-import it.unisa.dia.gas.plaf.jpbc.util.io.PairingObjectInput;
+import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.MapParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.io.PairingObjectOutput;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 import it.unisa.dia.gas.plaf.jpbc.util.mt.*;
 
-import java.io.File;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Map;
@@ -19,30 +17,24 @@ import static it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils.getRandom;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  * @since 1.3.0
  */
-public class AggressiveCTL13MMInstanceGenerator {
-
-    private SecureRandom random;
-    private CTL13MMInstanceParameters parameters;
-    private boolean storeGeneratedInstance;
+public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
 
 
-    public AggressiveCTL13MMInstanceGenerator(SecureRandom random, CTL13MMInstanceParameters parameters) {
-        this(random, parameters, true);
+    public MTCTL13MMInstanceGenerator(SecureRandom random, CTL13MMInstanceParameters parameters) {
+        super(random, parameters, true);
     }
 
-    public AggressiveCTL13MMInstanceGenerator(SecureRandom random, CTL13MMInstanceParameters parameters, boolean storeGeneratedInstance) {
-        this.random = random;
-        this.parameters = parameters;
-        this.storeGeneratedInstance = storeGeneratedInstance;
+    public MTCTL13MMInstanceGenerator(SecureRandom random, PairingParameters parameters) {
+        super(random, parameters);
     }
 
 
-    public CTL13MMInstance generateInstance() {
+    public PairingParameters generate() {
         if (storeGeneratedInstance) {
             try {
-                CTL13MMInstance instance = load();
-                if (instance != null)
-                    return instance;
+                PairingParameters params = load();
+                if (params != null)
+                    return params;
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -225,17 +217,11 @@ public class AggressiveCTL13MMInstanceGenerator {
         if (storeGeneratedInstance)
             store(taskManager.getContext());
 
-        return new DefaultCTL13MMInstance(random, parameters,
-                (BigInteger) taskManager.get("x0"),
-                (BigInteger) taskManager.get("y"),
-                (BigInteger) taskManager.get("pzt"),
-                (BigInteger) taskManager.get("z"),
-                (BigInteger) taskManager.get("zInv"),
-                (BigInteger[]) taskManager.get("xsp"),
-                (BigInteger[]) taskManager.get("crtCoefficients"),
-                (BigInteger[]) taskManager.get("xs"),
-                (BigInteger[]) taskManager.get("gs"),
-                (BigInteger[]) taskManager.get("ps"));
+        MapParameters mapParameters = new MapParameters();
+        mapParameters.put("params", parameters);
+        mapParameters.putAll(taskManager.getContext());
+
+        return mapParameters;
     }
 
 
@@ -269,45 +255,9 @@ public class AggressiveCTL13MMInstanceGenerator {
         }
     }
 
-    protected CTL13MMInstance load() {
-        try {
-            // file name
-            String fileName = String.format(
-                    "MTCTL13IP_eta_%d_n_%d_alpha_%d_ell_%d_rho_%d_delta_%d_kappa_%d_beta_%d_theta_%d_bound_%d.dat",
-                    parameters.getEta(), parameters.getN(), parameters.getAlpha(), parameters.getEll(),
-                    parameters.getRho(), parameters.getDelta(),
-                    parameters.getKappa(), parameters.getBeta(), parameters.getTheta(), parameters.getBound());
-
-            if (!new File(fileName).exists())
-                return null;
-
-            PairingObjectInput dos = new PairingObjectInput(fileName);
-
-            BigInteger x0 = dos.readBigInteger();
-            BigInteger y = dos.readBigInteger();
-            BigInteger pzt = dos.readBigInteger();
-            BigInteger z = dos.readBigInteger();
-            BigInteger zInv = dos.readBigInteger();
-
-            BigInteger[] xsp = dos.readBigIntegers();
-            BigInteger[] crtCoefficients = dos.readBigIntegers();
-            BigInteger[] xs = dos.readBigIntegers();
-            BigInteger[] gs = dos.readBigIntegers();
-            BigInteger[] p = dos.readBigIntegers();
-
-            dos.close();
-
-            return new DefaultCTL13MMInstance(random, parameters,
-                    x0, y, pzt, z, zInv, xsp, crtCoefficients, xs, gs, p
-            );
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public static void main(String[] args) {
-        AggressiveCTL13MMInstanceGenerator gen = new AggressiveCTL13MMInstanceGenerator(new SecureRandom(), CTL13MMInstanceParameters.SMALL);
-        gen.generateInstance();
+        MTCTL13MMInstanceGenerator gen = new MTCTL13MMInstanceGenerator(new SecureRandom(), CTL13MMInstanceParameters.SMALL);
+        gen.generate();
     }
 
 }

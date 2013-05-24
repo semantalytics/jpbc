@@ -4,6 +4,7 @@ import it.unisa.dia.gas.jpbc.PairingParameters;
 
 import java.math.BigInteger;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -91,6 +92,10 @@ public class MapParameters implements PairingParameters{
         return parameters != null ? parameters.hashCode() : 0;
     }
 
+
+    public void putAll(Map<? extends String, ?> m) {
+        parameters.putAll(m);
+    }
 
     public void put(String key, Object o) {
         parameters.put(key, o);

@@ -20,9 +20,9 @@ import static it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils.getRandom;
  */
 public class CTL13MMInstanceGenerator implements PairingParametersGenerator {
 
-    private SecureRandom random;
-    private CTL13MMInstanceParameters parameters;
-    private boolean storeGeneratedInstance;
+    protected SecureRandom random;
+    protected CTL13MMInstanceParameters parameters;
+    protected boolean storeGeneratedInstance;
 
 
     public CTL13MMInstanceGenerator(SecureRandom random, CTL13MMInstanceParameters parameters) {
