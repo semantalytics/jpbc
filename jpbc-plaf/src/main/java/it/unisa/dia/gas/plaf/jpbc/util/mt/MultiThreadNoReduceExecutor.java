@@ -7,7 +7,6 @@ package it.unisa.dia.gas.plaf.jpbc.util.mt;
 public class MultiThreadNoReduceExecutor<T> extends  MultiThreadExecutor<T> {
 
     public void reduce(T value) {
-
     }
 
 }

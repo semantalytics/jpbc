@@ -2,7 +2,6 @@ package it.unisa.dia.gas.plaf.jpbc.mm.clt13.pairing;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine.CTL13MMInstance;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators.CTL13MMInstanceGenerator;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstanceParameters;
 import junit.framework.Assert;
@@ -38,7 +37,6 @@ public class CTL13MMPairingTest {
 
 
     protected CTL13MMInstanceParameters instanceParameters;
-    protected CTL13MMInstance instance;
     protected Pairing pairing;
 
 
@@ -49,14 +47,16 @@ public class CTL13MMPairingTest {
     @Before
     public void before() {
         SecureRandom random = new SecureRandom();
-        instance = new CTL13MMInstanceGenerator(random, instanceParameters).generateInstance();
-        pairing = new CTL13MMPairing(random, instance);
+        pairing = new CTL13MMPairing(
+                random,
+                new CTL13MMInstanceGenerator(random, instanceParameters).generate()
+        );
     }
 
 
     @org.junit.Test
     public void testMultilinearity() {
-        for (int num = 2; num < instance.getParameters().getKappa() + 1; num++) {
+        for (int num = 2; num < instanceParameters.getKappa() + 1; num++) {
             System.out.printf("Checking level %d...\n", num);
 
             Element[] as = new Element[num];
@@ -100,7 +100,7 @@ public class CTL13MMPairingTest {
 
     @org.junit.Test
     public void testToBytes() {
-        for (int index = 0; index < instance.getParameters().getKappa() + 1; index++) {
+        for (int index = 0; index < instanceParameters.getKappa() + 1; index++) {
             System.out.printf("Checking level %d...\n", index);
             Element a = pairing.getFieldAt(index).newRandomElement();
             System.out.println("a = " + a);

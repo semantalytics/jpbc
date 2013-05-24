@@ -7,10 +7,14 @@ import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.generators.GGHSW13KeyPairGene
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.generators.GGHSW13ParametersGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.generators.GGHSW13SecretKeyGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.params.*;
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstanceParameters;
+import it.unisa.dia.gas.jpbc.Pairing;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators.CTL13MMInstanceGenerator;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.pairing.CTL13MMPairing;
+import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.InvalidCipherTextException;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -30,6 +34,7 @@ import static org.junit.Assert.*;
 public class GGHSW13KEMEngineTest {
 
     static SecureRandom random;
+
     static {
         random = new SecureRandom();
     }
@@ -37,18 +42,30 @@ public class GGHSW13KEMEngineTest {
     @Parameterized.Parameters
     public static Collection parameters() {
         Object[][] data = {
-                {CTL13MMInstanceParameters.TOY}
+                {"it/unisa/dia/gas/plaf/jpbc/crypto/ctl13_toy.properties"}
         };
 
         return Arrays.asList(data);
     }
 
 
-    protected CTL13MMInstanceParameters instanceParameters;
+    protected String paramsPath;
+    protected Pairing pairing;
 
 
-    public GGHSW13KEMEngineTest(CTL13MMInstanceParameters instanceParameters) {
-        this.instanceParameters = instanceParameters;
+    public GGHSW13KEMEngineTest(String paramsPath) {
+        this.paramsPath = paramsPath;
+    }
+
+    @Before
+    public void before() throws Exception {
+        this.pairing = new CTL13MMPairing(
+                random,
+                new CTL13MMInstanceGenerator(
+                        random,
+                        PairingFactory.getInstance().loadParameters(paramsPath)
+                ).generate()
+        );
     }
 
 
@@ -83,7 +100,7 @@ public class GGHSW13KEMEngineTest {
 
 
     protected GGHSW13Parameters createParameters(SecureRandom random, int n) {
-        return new GGHSW13ParametersGenerator().init(random, instanceParameters, n).generateParameters();
+        return new GGHSW13ParametersGenerator().init(random, pairing, n).generateParameters();
     }
 
     protected AsymmetricCipherKeyPair setup(GGHSW13Parameters parameters) {

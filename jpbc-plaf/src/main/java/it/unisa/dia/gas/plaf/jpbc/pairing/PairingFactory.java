@@ -9,6 +9,8 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.d.TypeDPairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.e.TypeEPairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.f.TypeFPairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.g.TypeGPairing;
+import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.DefaultPropertiesParameters;
+import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.PropertiesParameters;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -139,14 +141,14 @@ public class PairingFactory {
     }
 
     public CurveParameters loadCurveParameters(String path) {
-        DefaultCurveParameters curveParams = new DefaultCurveParameters();
+        DefaultPropertiesParameters curveParams = new DefaultPropertiesParameters();
         curveParams.load(path);
 
         return curveParams;
     }
 
     public PairingParameters loadParameters(String path) {
-        DefaultParameters curveParams = new DefaultParameters();
+        PropertiesParameters curveParams = new PropertiesParameters();
         curveParams.load(path);
 
         return curveParams;

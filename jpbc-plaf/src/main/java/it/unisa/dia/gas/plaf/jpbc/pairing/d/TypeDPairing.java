@@ -10,7 +10,7 @@ import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyModField;
 import it.unisa.dia.gas.plaf.jpbc.field.quadratic.QuadraticField;
 import it.unisa.dia.gas.plaf.jpbc.field.z.ZrField;
 import it.unisa.dia.gas.plaf.jpbc.pairing.AbstractPairing;
-import it.unisa.dia.gas.plaf.jpbc.pairing.DefaultParameters;
+import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.PropertiesParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
 import java.math.BigInteger;
@@ -59,8 +59,8 @@ public class TypeDPairing extends AbstractPairing {
     }
 
 
-    public DefaultParameters saveTwist() {
-        DefaultParameters params = (DefaultParameters) curveParams;
+    public PropertiesParameters saveTwist() {
+        PropertiesParameters params = (PropertiesParameters) curveParams;
 
         params.putBytes("twist.a", Etwist.getA().toBytes());
         params.putBytes("twist.b", Etwist.getB().toBytes());

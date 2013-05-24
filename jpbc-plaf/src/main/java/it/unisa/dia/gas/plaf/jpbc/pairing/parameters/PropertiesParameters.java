@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.plaf.jpbc.pairing;
+package it.unisa.dia.gas.plaf.jpbc.pairing.parameters;
 
 import it.unisa.dia.gas.jpbc.PairingParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.io.Base64;
@@ -10,16 +10,14 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 /**
- * TODO: introduce immutable...
- *
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class DefaultParameters implements PairingParameters, Externalizable {
+public class PropertiesParameters implements PairingParameters, Externalizable {
 
     protected final LinkedHashMap<String, String> parameters;
 
 
-    public DefaultParameters() {
+    public PropertiesParameters() {
         this.parameters = new LinkedHashMap<String, String>();
     }
 
@@ -117,12 +115,34 @@ public class DefaultParameters implements PairingParameters, Externalizable {
         }
     }
 
+    public Object getObject(String key) {
+        return parameters.get(key);
+    }
+
+    public String toString(String separator) {
+        StringBuilder buffer = new StringBuilder();
+
+        for (Map.Entry<String, String> entry : parameters.entrySet()) {
+            buffer.append(entry.getKey()).append(separator).append(entry.getValue()).append("\n");
+        }
+
+        return buffer.toString();
+    }
+
+
+    public void put(String key, String value) {
+        parameters.put(key, value);
+    }
+
     public void putBytes(String key, byte[] bytes) {
         parameters.put(key, Base64.encodeBytes(bytes, 0, bytes.length));
     }
 
+    public String remove(String key) {
+        return parameters.remove(key);
+    }
 
-    public DefaultParameters load(InputStream inputStream) {
+    public PropertiesParameters load(InputStream inputStream) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         try {
             while (true) {
@@ -148,7 +168,7 @@ public class DefaultParameters implements PairingParameters, Externalizable {
         return this;
     }
 
-    public DefaultParameters load(String path) {
+    public PropertiesParameters load(String path) {
         InputStream inputStream;
 
         File file = new File(path);
@@ -177,15 +197,6 @@ public class DefaultParameters implements PairingParameters, Externalizable {
     }
 
 
-    public String toString(String separator) {
-        StringBuilder buffer = new StringBuilder();
-
-        for (Map.Entry<String, String> entry : parameters.entrySet()) {
-            buffer.append(entry.getKey()).append(separator).append(entry.getValue()).append("\n");
-        }
-
-        return buffer.toString();
-    }
 
     public String toString() {
         return toString(" ");
@@ -204,7 +215,7 @@ public class DefaultParameters implements PairingParameters, Externalizable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        DefaultParameters that = (DefaultParameters) o;
+        PropertiesParameters that = (PropertiesParameters) o;
 
         if (parameters != null ? !parameters.equals(that.parameters) : that.parameters != null) return false;
 
@@ -216,11 +227,4 @@ public class DefaultParameters implements PairingParameters, Externalizable {
         return parameters != null ? parameters.hashCode() : 0;
     }
 
-    public void put(String key, String value) {
-        parameters.put(key, value);
-    }
-
-    public String remove(String key) {
-        return parameters.remove(key);
-    }
 }

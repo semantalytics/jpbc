@@ -1,10 +1,8 @@
 package it.unisa.dia.gas.plaf.jpbc.mm.clt13.pairing;
 
-import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.jpbc.PairingPreProcessing;
+import it.unisa.dia.gas.jpbc.*;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine.CTL13MMInstance;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine.DefaultCTL13MMInstance;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -23,6 +21,13 @@ public class CTL13MMPairing implements Pairing {
     public CTL13MMPairing(SecureRandom random, CTL13MMInstance instance) {
         this.random = random;
         this.instance = instance;
+        this.fields = new CTL13MMField[instance.getParameters().getKappa() + 1];
+    }
+
+
+    public CTL13MMPairing(SecureRandom random, PairingParameters parameters) {
+        this.random = random;
+        this.instance = new DefaultCTL13MMInstance(random, parameters);
         this.fields = new CTL13MMField[instance.getParameters().getKappa() + 1];
     }
 

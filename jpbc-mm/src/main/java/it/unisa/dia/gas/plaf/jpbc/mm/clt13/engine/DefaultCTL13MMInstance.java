@@ -1,5 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine;
 
+import it.unisa.dia.gas.jpbc.PairingParameters;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstanceParameters;
 
 import java.math.BigInteger;
@@ -26,16 +27,18 @@ public class DefaultCTL13MMInstance implements CTL13MMInstance {
     protected BigInteger[] xsp;   // level-zero encoding using for samp
     protected BigInteger[] crtCoefficients;
     protected BigInteger[] xs;    // level-zero and level-one encoding for re-randomization
-    protected BigInteger[] gs, p;
+    protected BigInteger[] gs, ps;
 
     protected long isZeroBound;
 
 
-    public DefaultCTL13MMInstance(SecureRandom random, CTL13MMInstanceParameters parameters,
+    public DefaultCTL13MMInstance(SecureRandom random,
+                                  CTL13MMInstanceParameters parameters,
                                   BigInteger x0, BigInteger y, BigInteger pzt, BigInteger z, BigInteger zInv,
                                   BigInteger[] xsp, BigInteger[] crtCoefficients, BigInteger[] xs,
-                                  BigInteger[] gs, BigInteger[] p) {
+                                  BigInteger[] gs, BigInteger[] ps) {
         this.random = random;
+
         this.parameters = parameters;
         this.x0 = x0;
         this.y = y;
@@ -46,9 +49,27 @@ public class DefaultCTL13MMInstance implements CTL13MMInstance {
         this.crtCoefficients = crtCoefficients;
         this.xs = xs;
         this.gs = gs;
-        this.p = p;
+        this.ps = ps;
 
         this.isZeroBound = (x0.bitLength() - parameters.getBound());
+    }
+
+    public DefaultCTL13MMInstance(SecureRandom random, PairingParameters parameters) {
+        this.random = random;
+
+        this.parameters = (CTL13MMInstanceParameters) parameters.getObject("params");
+        this.x0 = parameters.getBigInteger("x0");
+        this.y = parameters.getBigInteger("y");
+        this.pzt = parameters.getBigInteger("pzt");
+        this.z = parameters.getBigInteger("z");
+        this.zInv = parameters.getBigInteger("zInv");
+        this.xsp = (BigInteger[]) parameters.getObject("xsp");
+        this.crtCoefficients = (BigInteger[]) parameters.getObject("crtCoefficients");
+        this.xs = (BigInteger[]) parameters.getObject("xs");
+        this.gs = (BigInteger[]) parameters.getObject("gs");
+        this.ps = (BigInteger[]) parameters.getObject("ps");
+
+        this.isZeroBound = (x0.bitLength() - this.parameters.getBound());
     }
 
 
@@ -182,7 +203,7 @@ public class DefaultCTL13MMInstance implements CTL13MMInstance {
 
         BigInteger m[] = new BigInteger[parameters.getN()];
         for (int i = 0; i < parameters.getN(); i++) {
-            m[i] = modNear(modNear(value, p[i]), gs[i]);
+            m[i] = modNear(modNear(value, ps[i]), gs[i]);
         }
 
         return m;

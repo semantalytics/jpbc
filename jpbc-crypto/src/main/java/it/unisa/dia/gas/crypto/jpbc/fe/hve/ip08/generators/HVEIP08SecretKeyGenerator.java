@@ -9,10 +9,11 @@ import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import it.unisa.dia.gas.plaf.jpbc.util.mt.MultiThreadExecutor;
 import it.unisa.dia.gas.plaf.jpbc.util.mt.MultiThreadNoReduceExecutor;
+import it.unisa.dia.gas.plaf.jpbc.util.mt.Pool;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.KeyGenerationParameters;
 
-import java.util.concurrent.Callable;
+import static it.unisa.dia.gas.plaf.jpbc.util.mt.MultiThreadExecutor.IndexRunnable;
 
 
 /**
@@ -65,29 +66,15 @@ public class HVEIP08SecretKeyGenerator {
 
 
         if (masterSecretKey.isPreProcessed()) {
-//            for (int i = 0, j = 0; i < n; i++) {
-//                if (param.isStarAt(i)) {
-//                    Y[i] = null;
-//                    L[i] = null;
-//                } else {
-//                    Y[i] = g.powZn(a[j].duplicate().mul(masterSecretKey.getPreTAt(i, param.getPatternAt(i)))).getImmutable();
-//                    L[i] = g.powZn(a[j].duplicate().mul(masterSecretKey.getPreVAt(i, param.getPatternAt(i)))).getImmutable();
-//                    j++;
-//                }
-//            }
-            MultiThreadExecutor executor = new MultiThreadNoReduceExecutor();
+            Pool executor = new MultiThreadNoReduceExecutor();
             for (int i = 0, j = 0; i < n; i++) {
                 if (param.isStarAt(i)) {
-                    Y[i] = null;
-                    L[i] = null;
+                    Y[i] = L[i] = null;
                 } else {
-                    final int finalI = i;
-                    final int finalJ = j;
-                    executor.submit(new Callable() {
-                        public Object call() throws Exception {
-                            Y[finalI] = g.powZn(a[finalJ].duplicate().mul(masterSecretKey.getPreTAt(finalI, param.getPatternAt(finalI)))).getImmutable();
-                            L[finalI] = g.powZn(a[finalJ].duplicate().mul(masterSecretKey.getPreVAt(finalI, param.getPatternAt(finalI)))).getImmutable();
-                            return null;
+                    executor.submit(new MultiThreadExecutor.IndexRunnable(i,j) {
+                        public void run() {
+                            Y[i] = g.powZn(a[j].duplicate().mul(masterSecretKey.getPreTAt(i, param.getPatternAt(i)))).getImmutable();
+                            L[i] = g.powZn(a[j].duplicate().mul(masterSecretKey.getPreVAt(i, param.getPatternAt(i)))).getImmutable();
                         }
                     });
                     j++;
@@ -96,29 +83,16 @@ public class HVEIP08SecretKeyGenerator {
             executor.process();
 
         } else {
-//            for (int i = 0, j = 0; i < n; i++) {
-//                if (param.isStarAt(i)) {
-//                    Y[i] = null;
-//                    L[i] = null;
-//                } else {
-//                    Y[i] = g.powZn(a[j].duplicate().div(masterSecretKey.getTAt(i, param.getPatternAt(i)))).getImmutable();
-//                    L[i] = g.powZn(a[j].duplicate().div(masterSecretKey.getVAt(i, param.getPatternAt(i)))).getImmutable();
-//                    j++;
-//                }
-//            }
-            MultiThreadExecutor executor = new MultiThreadNoReduceExecutor();
+            Pool executor = new MultiThreadNoReduceExecutor();
             for (int i = 0, j = 0; i < n; i++) {
                 if (param.isStarAt(i)) {
                     Y[i] = null;
                     L[i] = null;
                 } else {
-                    final int finalI = i;
-                    final int finalJ = j;
-                    executor.submit(new Callable() {
-                        public Object call() throws Exception {
-                            Y[finalI] = g.powZn(a[finalJ].duplicate().div(masterSecretKey.getTAt(finalI, param.getPatternAt(finalI)))).getImmutable();
-                            L[finalI] = g.powZn(a[finalJ].duplicate().div(masterSecretKey.getVAt(finalI, param.getPatternAt(finalI)))).getImmutable();
-                            return null;
+                    executor.submit(new IndexRunnable(i,j) {
+                        public void run() {
+                            Y[i] = g.powZn(a[j].duplicate().div(masterSecretKey.getTAt(i, param.getPatternAt(i)))).getImmutable();
+                            L[i] = g.powZn(a[j].duplicate().div(masterSecretKey.getVAt(i, param.getPatternAt(i)))).getImmutable();
                         }
                     });
                     j++;

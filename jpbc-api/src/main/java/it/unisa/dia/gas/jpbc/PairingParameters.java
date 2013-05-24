@@ -133,4 +133,11 @@ public interface PairingParameters extends Serializable {
      * @since 1.2.0
      */
     String toString(String separator);
+
+    /**
+     * todo
+     * @param key
+     * @since 1.3.0
+     */
+    Object getObject(String key);
 }

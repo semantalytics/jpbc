@@ -6,8 +6,8 @@ import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.PairingParametersGenerator;
 import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveField;
 import it.unisa.dia.gas.plaf.jpbc.field.z.ZrField;
-import it.unisa.dia.gas.plaf.jpbc.pairing.DefaultCurveParameters;
-import it.unisa.dia.gas.plaf.jpbc.pairing.DefaultParameters;
+import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.DefaultPropertiesParameters;
+import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.PropertiesParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
 import java.math.BigInteger;
@@ -108,7 +108,7 @@ public class TypeECurveGenerator implements CurveGenerator {
         if (!curveField.newRandomElement().mul(n).isZero())
             curveField.twist();
 
-        DefaultCurveParameters params = new DefaultCurveParameters();
+        DefaultPropertiesParameters params = new DefaultPropertiesParameters();
         params.put("type", "e");
         params.put("q", q.toString());
         params.put("r", r.toString());
@@ -134,7 +134,7 @@ public class TypeECurveGenerator implements CurveGenerator {
         Integer qBits = Integer.parseInt(args[1]);
 
         PairingParametersGenerator generator = new TypeECurveGenerator(rBits, qBits);
-        DefaultParameters curveParams = (DefaultParameters) generator.generate();
+        PropertiesParameters curveParams = (PropertiesParameters) generator.generate();
 
         System.out.println(curveParams.toString(" "));
     }

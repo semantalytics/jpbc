@@ -20,7 +20,6 @@ import java.util.Collection;
 public class CTL13MMInstanceTest {
 
     static SecureRandom random;
-
     static {
         random = new SecureRandom();
     }
@@ -45,8 +44,10 @@ public class CTL13MMInstanceTest {
 
     @Before
     public void before() {
-        SecureRandom random = new SecureRandom();
-        instance = new CTL13MMInstanceGenerator(random, instanceParameters).generateInstance();
+        instance = new DefaultCTL13MMInstance(
+                random,
+                new CTL13MMInstanceGenerator(random, instanceParameters).generate()
+        );
     }
 
 

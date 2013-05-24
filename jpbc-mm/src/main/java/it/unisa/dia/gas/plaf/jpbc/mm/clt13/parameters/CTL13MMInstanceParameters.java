@@ -1,5 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters;
 
+import it.unisa.dia.gas.jpbc.PairingParameters;
+
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  * @since 1.3.0
@@ -51,6 +53,22 @@ public class CTL13MMInstanceParameters {
         this.theta = theta;
         this.bound = bound;
     }
+
+
+    public CTL13MMInstanceParameters(PairingParameters parameters) {
+        this.eta = parameters.getInt("eta");
+        this.n = parameters.getInt("n");
+        this.alpha = parameters.getInt("alpha");
+        this.ell = parameters.getInt("ell");
+        this.rho = parameters.getInt("rho");
+        this.delta = parameters.getInt("delta");
+        this.deltaSquare = delta * delta;
+        this.kappa = parameters.getInt("kappa");
+        this.beta = parameters.getInt("beta");
+        this.theta = parameters.getInt("theta");
+        this.bound = parameters.getInt("bound");
+    }
+
 
     public int getEta() {
         return eta;
