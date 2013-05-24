@@ -46,19 +46,21 @@ public class CTL13MMInstanceGenerator {
             }
         }
 
+        long start = System.currentTimeMillis();
+
         // Generate CRT modulo x0
         BigInteger x0 = BigInteger.ONE;
-        BigInteger[] p = new BigInteger[parameters.getN()];
+        BigInteger[] ps = new BigInteger[parameters.getN()];
         for (int i = 0; i < parameters.getN(); i++) {
-            p[i] = BigInteger.probablePrime(parameters.getEta(), random);
-            x0 = x0.multiply(p[i]);
+            ps[i] = BigInteger.probablePrime(parameters.getEta(), random);
+            x0 = x0.multiply(ps[i]);
         }
 
         // Generate CRT Coefficients
         BigInteger[] crtCoefficients = new BigInteger[parameters.getN()];
         for (int i = 0; i < parameters.getN(); i++) {
-            BigInteger temp = x0.divide(p[i]);
-            crtCoefficients[i] = temp.modInverse(p[i]).multiply(temp);
+            BigInteger temp = x0.divide(ps[i]);
+            crtCoefficients[i] = temp.modInverse(ps[i]).multiply(temp);
         }
 
         // Generate g_i's
@@ -106,8 +108,8 @@ public class CTL13MMInstanceGenerator {
         for (int i = 0; i < parameters.getN(); i++) {
             pzt = pzt.add(
                     getRandom(parameters.getBeta(), random)
-                            .multiply(gs[i].modInverse(p[i]).multiply(zPowKappa).mod(p[i]))
-                            .multiply(x0.divide(p[i]))
+                            .multiply(gs[i].modInverse(ps[i]).multiply(zPowKappa).mod(ps[i]))
+                            .multiply(x0.divide(ps[i]))
             );
         }
         pzt = pzt.mod(x0);
@@ -137,10 +139,15 @@ public class CTL13MMInstanceGenerator {
             xs[index] = xs[index].multiply(zInv).mod(x0);
         }
 
-        if (storeGeneratedInstance)
-            store(x0, y, pzt, z, zInv, xsp, crtCoefficients, xs, gs, p);
+        long end = System.currentTimeMillis();
 
-        return new DefaultCTL13MMInstance(random, parameters, x0, y, pzt, z, zInv, xsp, crtCoefficients, xs, gs, p);
+        System.out.println("end = " + (end-start));
+
+
+        if (storeGeneratedInstance)
+            store(x0, y, pzt, z, zInv, xsp, crtCoefficients, xs, gs, ps);
+
+        return new DefaultCTL13MMInstance(random, parameters, x0, y, pzt, z, zInv, xsp, crtCoefficients, xs, gs, ps);
     }
 
 
@@ -210,5 +217,11 @@ public class CTL13MMInstanceGenerator {
             throw new RuntimeException(e);
         }
     }
+
+    public static void main(String[] args) {
+        CTL13MMInstanceGenerator gen = new CTL13MMInstanceGenerator(new SecureRandom(), CTL13MMInstanceParameters.TOY);
+        gen.generateInstance();
+    }
+
 
 }
