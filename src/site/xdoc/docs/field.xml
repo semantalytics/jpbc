@@ -13,72 +13,47 @@
             <p>
                 The
                 <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Field.html">
-                    <code>
-                        <font style="font-weight: bold;color:red">it.unisa.dia.gas.jpbc.Field</font>
-                    </code>
+                    <code>Field</code>
                 </a>
-                interface represents a generic algebraic structures.
-            </p>
-            <p>
-                Instances of that interface are accessed using the
-                <code><font style="font-weight: bold;color:red">it.unisa.dia.gas.jpbc.Pairing</font></code>
-                interface. Go
-                <a href="./pairing.html#accessing">here</a>
-                to know how.
+                interface represents a generic algebraic structure.
+                Instances of this interface can be obtained from the
+                <code>Pairing</code>
+                interface as illustrated
+                <a href="./pairing.html#accessing">here</a>.
             </p>
 
             <a name="initializing"/>
             <subsection name="Initializing Elements">
                 <p>
-                    To obtain an instance of an
-                    <code><font style="font-weight: bold;color:red">it.unisa.dia.gas.jpbc.Element</font></code> interface
-                    then the following methods can be used:
+                    The following methods can be used
+                    to initialize a new
+                    <code>Element</code>.
                 </p>
 
-                <source>/* Create a new element. */
-<font style="font-weight: bold;color:green">Element element = field.newElement();</font>
+                <source>/* Create a new uninitialized element. */
+Element element = field.newElement();
                 </source>
 
                 <source>/* Create a new element whose value is zero. */
-<font style="font-weight: bold;color:green">Element element = field.newZeroElement();</font>
+Element element = field.newZeroElement();
                 </source>
 
                 <source>/* Create a new element whose value is one. */
-<font style="font-weight: bold;color:green">Element element = field.newOneElement();</font>
+Element element = field.newOneElement();
                 </source>
 
                 <source>/* Create a new random element. */
-<font style="font-weight: bold;color:green">Element element = field.newRandomElement();</font>
+Element element = field.newRandomElement();
                 </source>
 
                 <source>/* Create a new element with a specified value. */
-<font style="font-weight: bold;color:green">Element element = field.newElement(5);</font>
+Element element = field.newElement(5);
                 </source>
 
                 <source>/* Create a new element with a specified value. */
-<font style="font-weight: bold;color:green">Element element = field.newElement(new BigInteger("5390843849083028490328"));</font>
+Element element = field.newElement(new BigInteger("5390843849083028490328"));
                 </source>
             </subsection>
-
-            <a name="arithmetic"/>
-            <subsection name="Element Arithmetic">
-                The addition and the multiplication functions perform addition and multiplication operations in rings and
-                fields. For groups of points on an elliptic curve, such as the G1 and G2 groups associated with
-                pairings, both addition and multiplication represent the group operation (and similarly both
-                <code>0</code>
-                and
-                <code>1</code>
-                represent the identity element).
-
-                In contrast, the GT group is currently implemented as a subgroup of a finite field, so only
-                multiplicative operations should be used for GT.
-
-                <source>/* Performs the addition between element and a.*/
-Element a = element.getField().newElement(5);
-<font style="font-weight: bold;color:green">element.add(a);</font>
-                </source>
-            </subsection>
-
         </section>
     </body>
 </document>

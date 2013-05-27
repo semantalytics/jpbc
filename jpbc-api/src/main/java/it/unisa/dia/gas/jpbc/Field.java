@@ -104,8 +104,7 @@ public interface Field<E extends Element> {
     int getCanonicalRepresentationLengthInBytes();
 
     /**
-     * Computes the component-wise twice
-     * in one shot.
+     * Computes the component-wise twice.
      *
      * @param elements the vector of elements to be twiced.
      * @return elements twiced.
@@ -114,8 +113,7 @@ public interface Field<E extends Element> {
     Element[] twice(Element[] elements);
 
     /**
-     * Computes the component-wise addition between a and b
-     * in one shot.
+     * Computes the component-wise addition between a and b.
      *
      * @param a an array of elements of the field
      * @param b another array of elements of the field to be added to a

@@ -10,15 +10,13 @@
     <body>
         <section name="Elements">
             <p>
-                Elements of algebraic structures (groups, rings and fields) are accessible by using the
+                Elements of an algebraic structure (groups, rings and fields) are accessible through the
                 <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Element.html">
-                    <code>
-                        <font style="font-weight: bold;color:red">it.unisa.dia.gas.jpbc.Element</font>
-                    </code>
+                    <code>Element</code>
                 </a>
                 interface that represents a
                 <i>mutable</i>
-                value. Thus any method invoked on it affects the element's internal state.
+                value.
             </p>
 
             <a name="initializing"/>
@@ -39,27 +37,27 @@
                 </p>
 
                 <source>/* Sets an element to zero. */
-<font style="font-weight: bold;color:green">element.setToZero();</font>
+<font style="font-weight: bold;color:green">element.setToZero();
                 </source>
 
                 <source>/* Sets an element to one. */
-<font style="font-weight: bold;color:green">element.setToOne();</font>
+<font style="font-weight: bold;color:green">element.setToOne();
                 </source>
 
                 <source>/* If the element lies in a finite algebraic structure, assigns a uniformly random element to it. */
-<font style="font-weight: bold;color:green">element.setToRandom();</font>
+<font style="font-weight: bold;color:green">element.setToRandom();
                 </source>
 
                 <source>/* Sets the element to an int. */
-<font style="font-weight: bold;color:green">element.set(5);</font>
+<font style="font-weight: bold;color:green">element.set(5);
                 </source>
 
                 <source>/* Sets the element to a BigInteger. */
-<font style="font-weight: bold;color:green">element.set(new BigInteger("126785438"));</font>
+<font style="font-weight: bold;color:green">element.set(new BigInteger("126785438"));
                 </source>
 
                 <source>/* Returns a duplicate of the element. */
-<font style="font-weight: bold;color:green">Element duplicate = element.duplicate();</font>
+<font style="font-weight: bold;color:green">Element duplicate = element.duplicate();
                 </source>
             </subsection>
 
@@ -78,60 +76,60 @@
 
                 <source>/* Performs the addition between element and a.*/
 Element a = element.getField().newRandomElement();
-<font style="font-weight: bold;color:green">element.add(a);</font>
+<font style="font-weight: bold;color:green">element.add(a);
                 </source>
 
                 <source>/* Performs the substraction between element and a.
 Element a = element.getField().newRandomElement();
-<font style="font-weight: bold;color:green">element.sub(a);</font>
+<font style="font-weight: bold;color:green">element.sub(a);
                 </source>
 
                 <source>/* Performs the multiplication between element and a. */
 Element a = element.getField().newRandomElement();
-<font style="font-weight: bold;color:green">element.mul(a);</font>
+<font style="font-weight: bold;color:green">element.mul(a);
                 </source>
 
                 <source>/* Performs the multiplication between element and an int. */
-<font style="font-weight: bold;color:green">element.mul(5);</font>
+<font style="font-weight: bold;color:green">element.mul(5);
                 </source>
 
                 <source>/* Performs the multiplication between element and a BigInteger. */
-<font style="font-weight: bold;color:green">element.mul(new BigInteger("5"));</font>
+<font style="font-weight: bold;color:green">element.mul(new BigInteger("5"));
                 </source>
 
                 <source>/* Performs the multiplication between element and z
 where z must be an element of a integer mod ring (i.e. Zn for some n). */
 Element z = pairing.getZr().newRandomElement();
-<font style="font-weight: bold;color:green">element.mulZn(z);</font>
+<font style="font-weight: bold;color:green">element.mulZn(z);
                 </source>
 
                 <source>/* Performs the division between element and a. */
 Element a = element.getField().newRandomElement();
-<font style="font-weight: bold;color:green">element.div(a);</font>
+<font style="font-weight: bold;color:green">element.div(a);
                 </source>
 
                 <source>/* Performs the doubling of the element. */
-<font style="font-weight: bold;color:green">element.twice();</font>
+<font style="font-weight: bold;color:green">element.twice();
                 </source>
 
                 <source>/* Performs the halving of the element. */
-<font style="font-weight: bold;color:green">element.halve();</font>
+<font style="font-weight: bold;color:green">element.halve();
                 </source>
 
                 <source>/* Performs the inversion of the element. */
-<font style="font-weight: bold;color:green">element.invert();</font>
+<font style="font-weight: bold;color:green">element.invert();
                 </source>
 
                 <source>/* Performs the squaring of the element. */
-<font style="font-weight: bold;color:green">element.square();</font>
+<font style="font-weight: bold;color:green">element.square();
                 </source>
 
                 <source>/* Performs the negation of the element. */
-<font style="font-weight: bold;color:green">element.negate();</font>
+<font style="font-weight: bold;color:green">element.negate();
                 </source>
 
                 <source>/* Performs the square root of the element. */
-<font style="font-weight: bold;color:green">element.sqrt();</font>
+<font style="font-weight: bold;color:green">element.sqrt();
                 </source>
             </subsection>
 
@@ -139,13 +137,13 @@ Element a = element.getField().newRandomElement();
             <subsection name="Element Exponentiation">
                 <source>
 /* Raises element to a BigInteger. */
-<font style="font-weight: bold;color:green">element.pow(BigInteger.valueOf(5));</font>
+<font style="font-weight: bold;color:green">element.pow(BigInteger.valueOf(5));
                 </source>
 
                 <source>
 /* Raises element to a z which must be an element of a integer mod ring (i.e. Zn for some n). */
 Element z = pairing.getZr().newRandomElement();
-<font style="font-weight: bold;color:green">element.powZn(z);</font>
+<font style="font-weight: bold;color:green">element.powZn(z);
                 </source>
 
             </subsection>
@@ -157,30 +155,30 @@ Element z = pairing.getZr().newRandomElement();
                     then time can be saved in the long run by first calling the preprocessing function.
                     <br/>
                     The interface to be used is the
-                    <code><font style="font-weight: bold;color:red">it.unisa.dia.gas.jpbc.ElementPowPreProcessing</font></code>
+                    <code>it.unisa.dia.gas.jpbc.ElementPowPreProcessing</code>
                 </p>
 
                 <source xml:space="preserve">/* Prepare element to be raised and store preprocessing information in ppp.
 element will be not modified in any way.*/
 
-<font style="font-weight: bold;color:green">ElementPowPreProcessing ppp = element.pow();</font>
+<font style="font-weight: bold;color:green">ElementPowPreProcessing ppp = element.pow();
 
 /* Now let's raise using ppp which returns a new element which contains the result of the operation. */
 
-Element out = <font style="font-weight: bold;color:green">ppp.pow(BigInteger.valueOf(5));</font>
+Element out = <font style="font-weight: bold;color:green">ppp.pow(BigInteger.valueOf(5));
 
-out = <font style="font-weight: bold;color:green">ppp.pow(pairing.getZr().newRandomElement());</font>
+out = <font style="font-weight: bold;color:green">ppp.pow(pairing.getZr().newRandomElement());
                 </source>
 
                 The result of the precomputation can be stored to be used later.
                 The following code convert <code>ppp</code> to a byte array:
                 <source xml:space="preserve">
-                    byte[] pppBytes = <font style="font-weight: bold;color:green">ppp.toBytes()</font>;
+                    byte[] pppBytes = <font style="font-weight: bold;color:green">ppp.toBytes();
                 </source>
                 To convert the byte array to an instance of the ElementPowPreProcessing interface
                 use the following code:
                 <source xml:space="preserve">
-<font style="font-weight: bold;color:green">ElementPowPreProcessing ppp = element.getField().pow(pppBytes);</font>
+<font style="font-weight: bold;color:green">ElementPowPreProcessing ppp = element.getField().pow(pppBytes);
                 </source>
             </subsection>
             
@@ -188,27 +186,27 @@ out = <font style="font-weight: bold;color:green">ppp.pow(pairing.getZr().newRan
             <subsection name="Comparing Elements">
                                 
                 <source>/* Returns true if the element is 1. */
-<font style="font-weight: bold;color:green">element.isOne();</font>
+<font style="font-weight: bold;color:green">element.isOne();
                 </source>
 
                 <source>/* Returns true if the element is 0. */
-<font style="font-weight: bold;color:green">element.isZero();</font>
+<font style="font-weight: bold;color:green">element.isZero();
                 </source>
 
                 <source>/* Returns 0 if a and b are the same, nonzero otherwise. */
-<font style="font-weight: bold;color:green">a.compareTo(b);</font>
+<font style="font-weight: bold;color:green">a.compareTo(b);
                 </source>
 
                 <source>/* Returns true if a and b are the same, false otherwise. */
-<font style="font-weight: bold;color:green">a.isEqual(b);</font>
+<font style="font-weight: bold;color:green">a.isEqual(b);
                 </source>
 
                 <source>/* Returns true if this element is a perfect square (quadratic residue), false otherwise. */
-<font style="font-weight: bold;color:green">element.isSqr();</font>
+<font style="font-weight: bold;color:green">element.isSqr();
                 </source>
 
                 <source>/* If this element is zero, returns 0. For a non zero value the behaviour depends on the algebraic structure. */
-<font style="font-weight: bold;color:green">element.sign();</font>
+<font style="font-weight: bold;color:green">element.sign();
                 </source>
             </subsection>
 
@@ -217,20 +215,20 @@ out = <font style="font-weight: bold;color:green">ppp.pow(pairing.getZr().newRan
 
                 <source>/* Converts element to bytes. The number of bytes it will write can be determined
 calling getLengthInBytes(). */
-<font style="font-weight: bold;color:green">byte[] bytes = element.toBytes();</font>
+<font style="font-weight: bold;color:green">byte[] bytes = element.toBytes();
                 </source>
 
                 <source>/* Reads element from the buffer source and returns the number of bytes read. */
-<font style="font-weight: bold;color:green">element.setFromBytes(bytes);</font>
+<font style="font-weight: bold;color:green">element.setFromBytes(bytes);
                 </source>
 
                 <source>/* Reads element from the buffer source, starting from the passed offset,
 and returns the number of bytes read. */
-<font style="font-weight: bold;color:green">element.setFromBytes(bytes, 13);</font>
+<font style="font-weight: bold;color:green">element.setFromBytes(bytes, 13);
                 </source>
 
                 <source>/* Sets element deterministically from the buffer source.*/
-<font style="font-weight: bold;color:green">element.setFromHash(bytes, 0, bytes.length);</font>
+<font style="font-weight: bold;color:green">element.setFromHash(bytes, 0, bytes.length);
                 </source>
 
             </subsection>
@@ -240,14 +238,14 @@ and returns the number of bytes read. */
             <subsection name="Make Immutable">
 
                 <source>/* Returns <tt>true</tt> if this element is immutable, <tt>false</tt> otherwise. */
-<font style="font-weight: bold;color:green">element.isImmutable();</font>
+<font style="font-weight: bold;color:green">element.isImmutable();
                 </source>
 
                 <source>/* Returns the immutable version of the element.
 * When an element is immutable it means that every call to a method which modifies the value
 * of the element returns a new instance of the element and not the same one.
 */
-<font style="font-weight: bold;color:green">Element immutable = element.getImmutable();</font>
+<font style="font-weight: bold;color:green">Element immutable = element.getImmutable();
                 </source>
 
             </subsection>
