@@ -16,7 +16,7 @@
             <a href="mailto:decaro@dia.unisa.it">mailto:decaro@dia.unisa.it</a>.
             <br/>
             <p>
-                If you need help with something or just want to say hello, you can also use the forums or the support
+                If you need help please don't hesitate to use the forums or the support
                 section at sourceforge.net.
             </p>
             <ul>
@@ -32,20 +32,11 @@
                     </a>
                 </li>
             </ul>
-            <p>
-                By now you can chat with me. Try this Google service.
-            </p>
-            <div align="left">
-                <br/>
-                <iframe src="http://www.google.com/talk/service/badge/Show?tk=z01q6amlqb4ahfph9vs97sgi4b0791pbhjiirae5dfd186m87vf0m72h8n1e2v2b993h3ccgccna00u3s3b3qjgjt1n6ouaoprehp4depeuq6vsvilpvt3sljefdicaandkap91ugftg88jrmcbcktaq9pfqt2qss7jca7kpf&amp;w=200&amp;h=60"
-                        frameborder="0" aallowtransparency="true" width="200" height="60">
-                </iframe>
-            </div>
         </section>
 
         <section name="Contribute">
             You can contribute to jPBC in a number of ways. The most obvious way is to report bugs
-            or request new features that would make jPBC a better application.
+            or request new features that would make jPBC a better library.
             <ul>
                 <li>
                     <a href="http://sourceforge.net/tracker/?group_id=266486&amp;atid=1134346">Bug tracker

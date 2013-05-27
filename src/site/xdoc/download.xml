@@ -96,57 +96,72 @@
             </subsection>
 
             <a name="usage"/>
-            <subsection name="Usage">
-                <ol type="1">
-                    <li>Unzip
-                        <tt>jpbc-1.3.0.zip</tt>
-                        to the directory you wish to unzip it.
-                    </li>
-                    <li>To use jPBC add to your classpath the following jars:
-                        <ol type="1">
-                            <li>
-                                <font style="font-weight: bold;color:red"><tt>jpbc_1.3.0-api.jar</tt></font>
-                                and
-                            </li>
+            <subsection name="JPBC Usage">
+                <p>
+                    To use jPBC it is enough to add to your classpath the following jars:
+                    <ol type="1">
+                        <li>
+                            <font style="font-weight: bold;color:red"><tt>jpbc_1.3.0-api.jar</tt></font>
+                            and
+                        </li>
 
-                            <li>
-                                <font style="font-weight: bold;color:red"><tt>jpbc_1.3.0-plaf.jar</tt></font>.
-                            </li>
-                        </ol>
-                        To use the wrapper include also
-                        <ol>
-                            <li>
-                                <font style="font-weight: bold;color:green"><tt>jpbc_1.3.0-pbc.jar</tt></font>
-                                and
-                            </li>
-
-                            <li>
-                                <font style="font-weight: bold;color:green"><tt>jna-3.1.0.jar</tt></font>.
-                            </li>
-                        </ol>
-                        Remember that to use the wrapper you must compile the shared library
-                        to enable the communication between PBC and jPBC. Go
-                        <a href="./docs/pbcwrapper.html">here</a>
-                        to see how to do that.
-                    </li>
+                        <li>
+                            <font style="font-weight: bold;color:red"><tt>jpbc_1.3.0-plaf.jar</tt></font>.
+                        </li>
+                    </ol>
+                </p>
+                <p>
+                    Note that all these libraries can be found in the <tt>jars</tt> folder of the distro package.
+                </p>
+            </subsection>
+            <subsection name="PBC Wrapper Usage">
+                <p>
+                    To use the PBC wrapper you must compile the shared library
+                    that enables the communication between PBC and jPBC. Go
+                    <a href="./docs/pbcwrapper.html">here</a>
+                    for instructions on how to compile the shared library.
+                    <br/>
+                    Then, to use the wrapper include the following jars
+                </p>
+                <ol>
                     <li>
-                        If you want to use the implemented 
-                        <a href="schemes/schemes.html">pairing based crypto-systems</a>
-                        include:
-                        <ol>
-                            <li>
-                                <font style="font-weight: bold;color:green"><tt>jpbc_1.3.0-crypto.jar</tt></font>
-                                and
-                            </li>
-                            <li>
-                                <font style="font-weight: bold;color:green"><tt>bcprov-jdk16-140.jar</tt></font>.
-                            </li>
-                        </ol>
+                        <font style="font-weight: bold;color:green"><tt>jpbc_1.3.0-pbc.jar</tt></font>
+                        and
+                    </li>
+
+                    <li>
+                        <font style="font-weight: bold;color:green"><tt>jna-3.1.0.jar</tt></font>.
                     </li>
                 </ol>
+            </subsection>
+            <subsection name="Cryptosystems Usage">
                 <p>
-                    All these libraries can be found in the jars folder.
+                    If you want to use the already implemented
+                    <a href="schemes/schemes.html">pairing based crypto-systems</a>
+                    include the following jars:
                 </p>
+                <ol>
+                    <li>
+                        <font style="font-weight: bold;color:green"><tt>jpbc_1.3.0-crypto.jar</tt></font>
+                        and
+                    </li>
+                    <li>
+                        <font style="font-weight: bold;color:green"><tt>bcprov-jdk16-140.jar</tt></font>.
+                    </li>
+                </ol>
+            </subsection>
+            <subsection name="Multilinear Maps Usage">
+                <p>
+                    Finally, if you want to use the
+                    <a href="pairing.html#multimaps">Multilinear Maps</a>
+                    primitive include the following jar:
+                </p>
+                <ol>
+                    <li>
+                        <font style="font-weight: bold;color:green"><tt>jpbc_1.3.0-mm.jar</tt></font>
+                        and
+                    </li>
+                </ol>
             </subsection>
 
         </section>

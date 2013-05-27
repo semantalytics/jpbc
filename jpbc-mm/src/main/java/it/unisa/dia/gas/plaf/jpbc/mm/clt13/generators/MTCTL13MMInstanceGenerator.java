@@ -2,9 +2,9 @@ package it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators;
 
 import it.unisa.dia.gas.jpbc.PairingParameters;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstanceParameters;
+import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.MapParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.io.PairingObjectOutput;
-import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 import it.unisa.dia.gas.plaf.jpbc.util.mt.*;
 
 import java.math.BigInteger;
@@ -97,7 +97,7 @@ public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
                 // Generate z
                 BigInteger z, zInv;
                 do {
-                    z = BigIntegerUtils.getRandom(x0, random);
+                    z = getRandom(x0, random);
                     zInv = z.modInverse(x0);
                 } while (zInv.equals(BigInteger.ZERO));
 
@@ -256,7 +256,9 @@ public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
     }
 
     public static void main(String[] args) {
-        MTCTL13MMInstanceGenerator gen = new MTCTL13MMInstanceGenerator(new SecureRandom(), CTL13MMInstanceParameters.TOY);
+        MTCTL13MMInstanceGenerator gen = new MTCTL13MMInstanceGenerator(new SecureRandom(),
+                PairingFactory.getInstance().loadParameters("./params/mm/ctl13/toy.properties")
+        );
         gen.generate();
     }
 

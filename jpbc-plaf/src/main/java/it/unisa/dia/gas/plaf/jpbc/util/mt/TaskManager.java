@@ -14,10 +14,10 @@ import java.util.concurrent.ExecutorCompletionService;
  */
 public class TaskManager {
 
-    private CompletionService pool;
-    private int counter;
-    private Map<String, ValueLatch> context;
-    private Map<String, Object> view;
+    protected CompletionService pool;
+    protected int counter;
+    protected Map<String, ValueLatch> context;
+    protected Map<String, Object> view;
 
     public TaskManager() {
         this.pool = new ExecutorCompletionService(MTUtils.executorService);
