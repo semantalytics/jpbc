@@ -9,6 +9,15 @@ import java.math.BigInteger;
 public abstract class Task implements Runnable {
 
     private TaskManager taskManager;
+    private String name;
+
+
+    protected Task() {
+    }
+
+    protected Task(String name) {
+        this.name = name;
+    }
 
 
     public void put(String id, Object o) {
@@ -34,5 +43,13 @@ public abstract class Task implements Runnable {
 
     public TaskManager getTaskManager() {
         return taskManager;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "name='" + name + '\'' +
+                '}';
     }
 }

@@ -34,14 +34,14 @@ public class TaskManager {
     }
 
     public void put(String id, Object o) {
-//        System.out.println("PUT id = [" + id + "], o = [" + o + "]");
+        System.out.println(System.currentTimeMillis() + " PUT id = [" + id + "], o = [" + o + "]");
         context.get(id).set(o);
     }
 
     public Object get(String id) {
-//        System.out.println("GET id = [" + id + "]");
+        System.out.println(System.currentTimeMillis() + " GET id = [" + id + "]");
         Object value =  context.get(id).get();
-//        System.out.println("GET value = " + value);
+        System.out.println(System.currentTimeMillis() + " GET id = [" + id + "] Ready");
         return value;
     }
 
@@ -51,7 +51,7 @@ public class TaskManager {
                 Future f = pool.take();
                 f.get();
                 Task task = tasks.get(f);
-                System.out.println("task finished = " + task);
+                System.out.println(System.currentTimeMillis() + " Task finished = " + task);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

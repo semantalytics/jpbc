@@ -41,7 +41,7 @@ public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
         }
 
         TaskManager taskManager = new TaskManager();
-        taskManager.addTask(new Task() {
+        taskManager.addTask(new Task("x0+ps") {
             public void run() {
                 // Generate CRT modulo x0
                 final BigInteger[] ps = new BigInteger[parameters.getN()];
@@ -59,7 +59,7 @@ public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
                 put("ps", ps);
                 put("x0", x0.getResult());
             }
-        }).addTask(new Task() {
+        }).addTask(new Task("gs") {
             public void run() {
                 // Generate g_i's
                 BigInteger[] gs = new BigInteger[parameters.getN()];
@@ -69,7 +69,7 @@ public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
 
                 put("gs", gs);
             }
-        }).addTask(new Task() {
+        }).addTask(new Task("crtCoefficients") {
             public void run() {
                 // Generate CRT Coefficients
                 final BigInteger x0 = getBigInteger("x0");
@@ -90,7 +90,7 @@ public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
 
                 put("crtCoefficients", crtCoefficients);
             }
-        }).addTask(new Task() {
+        }).addTask(new Task("z+zInv") {
             public void run() {
                 BigInteger x0 = getBigInteger("x0");
 
@@ -104,7 +104,7 @@ public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
                 put("z", z);
                 put("zInv", zInv);
             }
-        }).addTask(new Task() {
+        }).addTask(new Task("xsp") {
             public void run() {
                 BigInteger x0 = getBigInteger("x0");
                 BigInteger[] crtCoefficients = getBigIntegers("crtCoefficients");
@@ -129,7 +129,7 @@ public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
 
                 put("xsp", xsp);
             }
-        }).addTask(new Task() {
+        }).addTask(new Task("y") {
             public void run() {
                 BigInteger x0 = getBigInteger("x0");
                 final BigInteger[] crtCoefficients = getBigIntegers("crtCoefficients");
@@ -151,7 +151,7 @@ public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
 
                 put("y", y.getResult().multiply(zInv).mod(x0));
             }
-        }).addTask(new Task() {
+        }).addTask(new Task("pzt") {
             public void run() {
                 final BigInteger x0 = getBigInteger("x0");
                 final BigInteger[] ps = getBigIntegers("ps");
@@ -173,7 +173,7 @@ public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
                 }
                 put("pzt", pzt.process().getResult().mod(x0));
             }
-        }).addTask(new Task() {
+        }).addTask(new Task("xs") {
             public void run() {
                 BigInteger x0 = getBigInteger("x0");
                 BigInteger[] crtCoefficients = getBigIntegers("crtCoefficients");
@@ -229,7 +229,7 @@ public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
         try {
             // file name
             String fileName = String.format(
-                    "MTCTL13IP_eta_%d_n_%d_alpha_%d_ell_%d_rho_%d_delta_%d_kappa_%d_beta_%d_theta_%d_bound_%d.dat",
+                    "CTL13IP_eta_%d_n_%d_alpha_%d_ell_%d_rho_%d_delta_%d_kappa_%d_beta_%d_theta_%d_bound_%d.dat",
                     parameters.getEta(), parameters.getN(), parameters.getAlpha(), parameters.getEll(),
                     parameters.getRho(), parameters.getDelta(),
                     parameters.getKappa(), parameters.getBeta(), parameters.getTheta(), parameters.getBound());
@@ -257,7 +257,7 @@ public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
 
     public static void main(String[] args) {
         MTCTL13MMInstanceGenerator gen = new MTCTL13MMInstanceGenerator(new SecureRandom(),
-                PairingFactory.getInstance().loadParameters("./params/mm/ctl13/toy.properties")
+                PairingFactory.getInstance().loadParameters("./params/mm/ctl13/small.properties")
         );
         gen.generate();
     }
