@@ -7,8 +7,8 @@ import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08PublicKeyParameter
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08SecretKeyParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
-import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingAccumulator;
-import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingAccumulatorFactory;
+import it.unisa.dia.gas.plaf.jpbc.pairing.accumulator.PairingAccumulator;
+import it.unisa.dia.gas.plaf.jpbc.pairing.accumulator.PairingAccumulatorFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

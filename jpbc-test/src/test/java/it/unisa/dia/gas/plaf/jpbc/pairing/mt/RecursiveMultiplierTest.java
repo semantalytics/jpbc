@@ -3,7 +3,7 @@ package it.unisa.dia.gas.plaf.jpbc.pairing.mt;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.plaf.jpbc.AbstractJPBCTest;
-import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.mt.RecursiveMultiplier;
+import it.unisa.dia.gas.plaf.jpbc.util.mt.RecursiveMultiplier;
 import org.junit.Test;
 import org.junit.runners.Parameterized;
 

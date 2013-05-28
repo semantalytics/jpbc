@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.plaf.jpbc.pairing.combiner;
+package it.unisa.dia.gas.plaf.jpbc.pairing.accumulator;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.PairingPreProcessing;

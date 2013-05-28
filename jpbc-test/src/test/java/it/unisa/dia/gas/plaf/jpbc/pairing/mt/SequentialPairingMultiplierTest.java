@@ -3,8 +3,8 @@ package it.unisa.dia.gas.plaf.jpbc.pairing.mt;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.plaf.jpbc.AbstractJPBCTest;
-import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.DefaultPairingAccumulator;
-import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingAccumulator;
+import it.unisa.dia.gas.plaf.jpbc.pairing.accumulator.DefaultPairingAccumulator;
+import it.unisa.dia.gas.plaf.jpbc.pairing.accumulator.PairingAccumulator;
 import org.junit.Test;
 import org.junit.runners.Parameterized;
 

@@ -3,10 +3,7 @@ package it.unisa.dia.gas.plaf.jpbc.util.mt;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.CompletionService;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorCompletionService;
+import java.util.concurrent.*;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -18,17 +15,19 @@ public class TaskManager {
     protected int counter;
     protected Map<String, ValueLatch> context;
     protected Map<String, Object> view;
+    protected Map<Future, Task> tasks;
 
     public TaskManager() {
         this.pool = new ExecutorCompletionService(MTUtils.executorService);
         this.counter = 0;
         this.context = Collections.synchronizedMap(new ValueLatchMap());
         this.view = new ConcurrentHashMap<String, Object>();
+        this.tasks = new HashMap<Future, Task>();
     }
 
     public TaskManager addTask(Task task) {
         task.setTaskManager(this);
-        pool.submit(task, null);
+        tasks.put(pool.submit(task, null), task);
         counter++;
 
         return this;
@@ -48,8 +47,12 @@ public class TaskManager {
 
     public void process(){
         try{
-            for(int i = 0; i < counter; i++)
-                pool.take().get();
+            for(int i = 0; i < counter; i++) {
+                Future f = pool.take();
+                f.get();
+                Task task = tasks.get(f);
+                System.out.println("task finished = " + task);
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {

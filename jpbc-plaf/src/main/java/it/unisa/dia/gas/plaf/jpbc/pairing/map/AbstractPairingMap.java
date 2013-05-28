@@ -4,8 +4,8 @@ import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.jpbc.PairingPreProcessing;
 import it.unisa.dia.gas.jpbc.Point;
-import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingAccumulator;
-import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingAccumulatorFactory;
+import it.unisa.dia.gas.plaf.jpbc.pairing.accumulator.PairingAccumulator;
+import it.unisa.dia.gas.plaf.jpbc.pairing.accumulator.PairingAccumulatorFactory;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)

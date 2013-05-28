@@ -4,8 +4,8 @@ import it.unisa.dia.gas.crypto.engines.kem.PairingKeyEncapsulationMechanism;
 import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.params.*;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
-import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingAccumulator;
-import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingAccumulatorFactory;
+import it.unisa.dia.gas.plaf.jpbc.pairing.accumulator.PairingAccumulator;
+import it.unisa.dia.gas.plaf.jpbc.pairing.accumulator.PairingAccumulatorFactory;
 import it.unisa.dia.gas.plaf.jpbc.util.io.PairingStreamReader;
 import it.unisa.dia.gas.plaf.jpbc.util.io.PairingStreamWriter;
 

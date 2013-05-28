@@ -1,8 +1,7 @@
-package it.unisa.dia.gas.plaf.jpbc.pairing.combiner;
+package it.unisa.dia.gas.plaf.jpbc.pairing.accumulator;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.mt.MultiThreadPairingAccumulator;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)

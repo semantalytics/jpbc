@@ -2,9 +2,9 @@ package it.unisa.dia.gas.plaf.jpbc.pairing.product;
 
 import it.unisa.dia.gas.jpbc.*;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorField;
-import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingAccumulator;
-import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.PairingAccumulatorFactory;
-import it.unisa.dia.gas.plaf.jpbc.pairing.combiner.ProductPairingAccumulator;
+import it.unisa.dia.gas.plaf.jpbc.pairing.accumulator.PairingAccumulator;
+import it.unisa.dia.gas.plaf.jpbc.pairing.accumulator.PairingAccumulatorFactory;
+import it.unisa.dia.gas.plaf.jpbc.pairing.accumulator.ProductPairingAccumulator;
 import it.unisa.dia.gas.plaf.jpbc.pairing.map.AbstractMillerPairingPreProcessing;
 
 import java.util.Random;
