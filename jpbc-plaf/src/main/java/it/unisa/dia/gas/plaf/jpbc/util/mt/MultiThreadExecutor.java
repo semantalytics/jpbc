@@ -2,6 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.util.mt;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletionService;
+import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorCompletionService;
 
 /**
@@ -15,7 +16,11 @@ public abstract class MultiThreadExecutor<T> implements Pool<T> {
 
 
     protected MultiThreadExecutor() {
-        this.pool = new ExecutorCompletionService<T>(MTUtils.executorService);
+        this(MTUtils.executorService);
+    }
+
+    protected MultiThreadExecutor(Executor executor) {
+        this.pool = new ExecutorCompletionService<T>(executor);
         this.counter = 0;
     }
 

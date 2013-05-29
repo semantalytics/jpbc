@@ -21,10 +21,10 @@ public class MTCTL13MMInstance implements CTL13MMInstance {
 
     protected SecureRandom random;
     protected CTL13MMInstanceParameters parameters;
+    protected PairingParameters params;
 
     protected BigInteger x0;
     protected BigInteger y;       // level-one random encoding of 1
-    protected BigInteger pzt;     // zero-tester
     protected BigInteger z;       // random invertible internet modulo x0
     protected BigInteger zInv;
 
@@ -39,35 +39,13 @@ public class MTCTL13MMInstance implements CTL13MMInstance {
     protected long isZeroBound;
 
 
-    public MTCTL13MMInstance(SecureRandom random,
-                             CTL13MMInstanceParameters parameters,
-                             BigInteger x0, BigInteger y, BigInteger pzt, BigInteger z, BigInteger zInv,
-                             BigInteger[] xsp, BigInteger[] crtCoefficients, BigInteger[] xs,
-                             BigInteger[] gs, BigInteger[] ps) {
-        this.random = random;
-
-        this.parameters = parameters;
-        this.x0 = x0;
-        this.y = y;
-        this.pzt = pzt;
-        this.z = z;
-        this.zInv = zInv;
-        this.xsp = xsp;
-        this.crtCoefficients = crtCoefficients;
-        this.xs = xs;
-        this.gs = gs;
-        this.ps = ps;
-
-        this.isZeroBound = (x0.bitLength() - parameters.getBound());
-    }
-
     public MTCTL13MMInstance(SecureRandom random, PairingParameters parameters) {
         this.random = random;
+        this.params = parameters;
 
         this.parameters = (CTL13MMInstanceParameters) parameters.getObject("params");
         this.x0 = parameters.getBigInteger("x0");
         this.y = parameters.getBigInteger("y");
-        this.pzt = parameters.getBigInteger("pzt");
         this.z = parameters.getBigInteger("z");
         this.zInv = parameters.getBigInteger("zInv");
         this.xsp = (BigInteger[]) parameters.getObject("xsp");
@@ -103,7 +81,7 @@ public class MTCTL13MMInstance implements CTL13MMInstance {
     }
 
     public boolean isZero(BigInteger value, int index) {
-        value = modNear(value.multiply(pzt).multiply(yPows[parameters.getKappa() - index]), x0);
+        value = modNear(value.multiply(params.getBigInteger("pzt")).multiply(yPows[parameters.getKappa() - index]), x0);
 
         return (value.bitLength() < isZeroBound);
     }
@@ -214,7 +192,7 @@ public class MTCTL13MMInstance implements CTL13MMInstance {
 
 
     public BigInteger extract(BigInteger value, int index) {
-        value = modNear(value.multiply(pzt).multiply(yPows[parameters.getKappa() - index]), x0);
+        value = modNear(value.multiply(params.getBigInteger("pzt")).multiply(yPows[parameters.getKappa() - index]), x0);
 //
         return value.shiftRight(
                 x0.bitLength() - parameters.getBound()

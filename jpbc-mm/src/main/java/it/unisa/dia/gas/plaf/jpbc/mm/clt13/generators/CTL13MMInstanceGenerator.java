@@ -39,6 +39,10 @@ public class CTL13MMInstanceGenerator implements PairingParametersGenerator {
         this.storeGeneratedInstance = storeGeneratedInstance;
     }
 
+    public CTL13MMInstanceGenerator(SecureRandom random, PairingParameters parameters, boolean storeGeneratedInstance) {
+        this(random, new CTL13MMInstanceParameters(parameters), storeGeneratedInstance);
+    }
+
 
     public PairingParameters generate() {
         if (storeGeneratedInstance) {

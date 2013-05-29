@@ -11,7 +11,10 @@ public class MTUtils {
 
     static ExecutorService executorService;
     static {
-        executorService = Executors.newCachedThreadPool();
+//        executorService = Executors.newCachedThreadPool();
+        executorService = Executors.newFixedThreadPool(
+                Runtime.getRuntime().availableProcessors() * 8
+        );
     }
 
 }

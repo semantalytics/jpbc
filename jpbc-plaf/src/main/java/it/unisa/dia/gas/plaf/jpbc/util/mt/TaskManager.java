@@ -34,7 +34,7 @@ public class TaskManager {
     }
 
     public void put(String id, Object o) {
-        System.out.println(System.currentTimeMillis() + " PUT id = [" + id + "], o = [" + o + "]");
+        System.out.println(System.currentTimeMillis() + " PUT id = [" + id + "]");
         context.get(id).set(o);
     }
 
