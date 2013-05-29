@@ -73,7 +73,14 @@ public interface PairingParameters extends Serializable {
      */
     BigInteger getBigInteger(String key);
 
-//    BigInteger getBigIntegerAt(String key, int index);
+    /**
+     * TODO
+     * @param key
+     * @param index
+     * @return
+     * @since 1.3.0
+     */
+    BigInteger getBigIntegerAt(String key, int index);
 
 
     /**

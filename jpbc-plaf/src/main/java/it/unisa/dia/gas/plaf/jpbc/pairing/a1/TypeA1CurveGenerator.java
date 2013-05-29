@@ -2,7 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.pairing.a1;
 
 import it.unisa.dia.gas.jpbc.CurveGenerator;
 import it.unisa.dia.gas.jpbc.CurveParameters;
-import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.DefaultPropertiesParameters;
+import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.DefaultCurveParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.PropertiesParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
@@ -84,7 +84,7 @@ public class TypeA1CurveGenerator implements CurveGenerator {
         }
         System.out.printf("order hamming weight=%d\n", BigIntegerUtils.hammingWeight(order));
 
-        DefaultPropertiesParameters params = new DefaultPropertiesParameters();
+        DefaultCurveParameters params = new DefaultCurveParameters();
         params.put("type", "a1");
         params.put("p", p.toString());
         params.put("n", order.toString());

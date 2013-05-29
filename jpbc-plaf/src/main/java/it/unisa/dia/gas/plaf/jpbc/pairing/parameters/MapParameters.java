@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class MapParameters implements PairingParameters{
+public class MapParameters implements PairingParameters {
 
     protected final LinkedHashMap<String, Object> parameters;
 
@@ -45,6 +45,10 @@ public class MapParameters implements PairingParameters{
 
     public BigInteger getBigInteger(String key) {
         return (BigInteger) parameters.get(key);
+    }
+
+    public BigInteger getBigIntegerAt(String key, int index) {
+        return ((BigInteger[]) getObject(key))[index];
     }
 
     public BigInteger getBigInteger(String key, BigInteger defaultValue) {

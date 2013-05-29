@@ -5,9 +5,9 @@ import it.unisa.dia.gas.jpbc.CurveParameters;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class DefaultPropertiesParameters extends PropertiesParameters implements CurveParameters {
+public class DefaultCurveParameters extends PropertiesParameters implements CurveParameters {
 
-    public DefaultPropertiesParameters() {
+    public DefaultCurveParameters() {
     }
 
 }

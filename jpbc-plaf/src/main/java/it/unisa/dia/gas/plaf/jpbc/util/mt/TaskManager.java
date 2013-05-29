@@ -18,10 +18,13 @@ public class TaskManager {
     protected Map<String, Object> view;
     protected Map<Future, Task> tasks;
 
+
     public TaskManager() {
         this.pool = new ExecutorCompletionService(MTUtils.executorService);
         this.counter = 0;
+
         this.context = Collections.synchronizedMap(new ValueLatchMap());
+
         this.view = new ConcurrentHashMap<String, Object>();
         this.tasks = new HashMap<Future, Task>();
     }
@@ -33,6 +36,7 @@ public class TaskManager {
 
         return this;
     }
+
 
     public void put(String id, Object o) {
         System.out.println(System.currentTimeMillis() + " PUT id = [" + id + "]");
@@ -96,6 +100,7 @@ public class TaskManager {
         void set(Object value) {
             this.value = value;
             view .put((String) K, value);
+
             countDown();
         }
 

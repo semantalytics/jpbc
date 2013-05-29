@@ -43,22 +43,22 @@ public class CTL13MMInstanceValues {
     }
 
     public BigInteger getXspAt(int index) {
-        return ((BigInteger[])parameters.getObject("xsp"))[index];
+        return parameters.getBigIntegerAt("xsp", index);
     }
 
     public BigInteger getCrtCoefficientAt(int index) {
-        return ((BigInteger[])parameters.getObject("crtCoefficients"))[index];
+        return parameters.getBigIntegerAt("crtCoefficients", index);
     }
 
     public BigInteger getXsAt(int index) {
-        return ((BigInteger[])parameters.getObject("xs"))[index];
+        return parameters.getBigIntegerAt("xs", index);
     }
 
     public BigInteger getGsAt(int index) {
-        return ((BigInteger[])parameters.getObject("gs"))[index];
+        return parameters.getBigIntegerAt("gs", index);
     }
 
     public BigInteger getPsAt(int index) {
-        return ((BigInteger[])parameters.getObject("ps"))[index];
+        return parameters.getBigIntegerAt("ps", index);
     }
 }

@@ -40,7 +40,7 @@ public class ElementUtils {
         BigInteger prod = BigInteger.ONE;
         for (int j = 0; j < numPrimes; j++) {
             if (j != subgroupIndex)
-                prod = prod.multiply(parameters.getBigInteger("n" +j));
+                prod = prod.multiply(parameters.getBigIntegerAt("n", j));
         }
 
         return generator.pow(prod);

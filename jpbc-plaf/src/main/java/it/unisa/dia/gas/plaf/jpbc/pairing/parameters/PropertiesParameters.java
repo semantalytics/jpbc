@@ -71,6 +71,10 @@ public class PropertiesParameters implements PairingParameters, Externalizable {
         return new BigInteger(value);
     }
 
+    public BigInteger getBigIntegerAt(String key, int index) {
+        return getBigInteger(key+index);
+    }
+
     public BigInteger getBigInteger(String key, BigInteger defaultValue) {
         String value = getString(key);
         if (value == null)

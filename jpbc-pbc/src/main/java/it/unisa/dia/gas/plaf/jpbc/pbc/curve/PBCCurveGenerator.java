@@ -2,7 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.pbc.curve;
 
 import it.unisa.dia.gas.jpbc.CurveGenerator;
 import it.unisa.dia.gas.jpbc.CurveParameters;
-import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.DefaultPropertiesParameters;
+import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.DefaultCurveParameters;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,9 +16,9 @@ public abstract class PBCCurveGenerator implements CurveGenerator {
     public CurveParameters generate() {
         pbcGenerate("jpbc_pbc_params.prm");
 
-        DefaultPropertiesParameters curveParams;
+        DefaultCurveParameters curveParams;
         try {
-            curveParams = new DefaultPropertiesParameters();
+            curveParams = new DefaultCurveParameters();
             File file = new File("jpbc_pbc_params.prm");
             if (!file.exists())
                 throw new IllegalStateException("Failed to load parameters.");

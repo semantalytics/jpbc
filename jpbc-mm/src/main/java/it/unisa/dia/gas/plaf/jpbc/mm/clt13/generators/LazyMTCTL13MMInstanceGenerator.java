@@ -16,22 +16,22 @@ import static it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils.getRandom;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  * @since 1.3.0
  */
-public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
+public class LazyMTCTL13MMInstanceGenerator extends MTCTL13MMInstanceGenerator {
 
 
-    public MTCTL13MMInstanceGenerator(SecureRandom random, CTL13MMInstanceParameters parameters) {
+    public LazyMTCTL13MMInstanceGenerator(SecureRandom random, CTL13MMInstanceParameters parameters) {
         super(random, parameters);
     }
 
-    public MTCTL13MMInstanceGenerator(SecureRandom random, PairingParameters parameters) {
+    public LazyMTCTL13MMInstanceGenerator(SecureRandom random, PairingParameters parameters) {
         super(random, parameters);
     }
 
-    public MTCTL13MMInstanceGenerator(SecureRandom random, CTL13MMInstanceParameters parameters, boolean storeGeneratedInstance) {
+    public LazyMTCTL13MMInstanceGenerator(SecureRandom random, CTL13MMInstanceParameters parameters, boolean storeGeneratedInstance) {
         super(random, parameters, storeGeneratedInstance);
     }
 
-    public MTCTL13MMInstanceGenerator(SecureRandom random, PairingParameters parameters, boolean storeGeneratedInstance) {
+    public LazyMTCTL13MMInstanceGenerator(SecureRandom random, PairingParameters parameters, boolean storeGeneratedInstance) {
         super(random, parameters, storeGeneratedInstance);
     }
 
@@ -52,19 +52,17 @@ public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
             public void run() {
                 // Generate CRT modulo x0
                 Accumulator<BigInteger> x0 = new BigIntegerMulAccumulator();
-
-                final BigInteger[] ps = new BigInteger[parameters.getN()];
                 for (int i = 0; i < parameters.getN(); i++) {
                     x0.submit(new IndexCallable<BigInteger>(i) {
                         public BigInteger call() throws Exception {
-                            return (ps[i] = BigInteger.probablePrime(parameters.getEta(), random));
+                            return putBigIntegerAt("ps", i, BigInteger.probablePrime(parameters.getEta(), random));
                         }
 
                     });
                 }
                 x0.process();
 
-                put("ps", ps);
+                putFlag("ps");
                 put("x0", x0.getResult());
             }
 
@@ -82,7 +80,6 @@ public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
             public void run() {
                 // Generate CRT Coefficients
                 final BigInteger x0 = getBigInteger("x0");
-                final BigInteger[] ps = getBigIntegers("ps");
 
                 final BigInteger[] crtCoefficients = new BigInteger[parameters.getN()];
 
@@ -90,8 +87,8 @@ public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
                 for (int i = 0; i < parameters.getN(); i++) {
                     executor.submit(new MultiThreadExecutor.IndexRunnable(i) {
                         public void run() {
-                            BigInteger temp = x0.divide(ps[i]);
-                            crtCoefficients[i] = temp.modInverse(ps[i]).multiply(temp);
+                            BigInteger temp = x0.divide(getBigIntegerAt("ps", i));
+                            crtCoefficients[i] = temp.modInverse(getBigIntegerAt("ps", i)).multiply(temp);
                         }
                     });
                 }
@@ -163,7 +160,6 @@ public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
         }).addTask(new Task("pzt") {
             public void run() {
                 final BigInteger x0 = getBigInteger("x0");
-                final BigInteger[] ps = getBigIntegers("ps");
                 final BigInteger[] gs = getBigIntegers("gs");
                 BigInteger z = getBigInteger("z");
 
@@ -175,8 +171,8 @@ public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
                     pzt.accumulate(new IndexCallable<BigInteger>(i) {
                         public BigInteger call() throws Exception {
                             return getRandom(parameters.getBeta(), random)
-                                    .multiply(gs[i].modInverse(ps[i]).multiply(zPowKappa).mod(ps[i]))
-                                    .multiply(x0.divide(ps[i]));
+                                    .multiply(gs[i].modInverse(getBigIntegerAt("ps", i)).multiply(zPowKappa).mod(getBigIntegerAt("ps", i)))
+                                    .multiply(x0.divide(getBigIntegerAt("ps", i)));
                         }
                     });
                 }
@@ -255,7 +251,10 @@ public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
             dos.writeBigIntegers((BigInteger[]) taskManager.get("crtCoefficients"));
             dos.writeBigIntegers((BigInteger[]) taskManager.get("xs"));
             dos.writeBigIntegers((BigInteger[]) taskManager.get("gs"));
-            dos.writeBigIntegers((BigInteger[]) taskManager.get("ps"));
+
+            dos.writeInt(parameters.getN());
+            for (int i = 0; i < parameters.getN(); i++)
+                dos.writeBigInteger(taskManager.getBigIntegerAt("ps", i));
 
             dos.flush();
             dos.close();
@@ -265,7 +264,7 @@ public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
     }
 
     public static void main(String[] args) {
-        MTCTL13MMInstanceGenerator gen = new MTCTL13MMInstanceGenerator(new SecureRandom(),
+        LazyMTCTL13MMInstanceGenerator gen = new LazyMTCTL13MMInstanceGenerator(new SecureRandom(),
                 PairingFactory.getInstance().loadParameters("./params/mm/ctl13/toy.properties")
         );
         gen.generate();

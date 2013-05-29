@@ -110,7 +110,7 @@ public class TypeDPairing extends AbstractPairing {
         PolyElement<Element> irreduciblePoly = polyField.newElement();
         List<Element> irreduciblePolyCoeff = irreduciblePoly.getCoefficients();
         for (int i = 0; i < d; i++) {
-            irreduciblePolyCoeff.add(polyField.getTargetField().newElement().set(curveParams.getBigInteger("coeff" + i)));
+            irreduciblePolyCoeff.add(polyField.getTargetField().newElement().set(curveParams.getBigIntegerAt("coeff", i)));
         }
         irreduciblePolyCoeff.add(polyField.getTargetField().newElement().setToOne());
 
