@@ -73,6 +73,9 @@ public interface PairingParameters extends Serializable {
      */
     BigInteger getBigInteger(String key);
 
+//    BigInteger getBigIntegerAt(String key, int index);
+
+
     /**
      * Returns the value as a BigInteger to which the specified key is mapped.
      * If the mapping does not exist the passed defaultValue is returned.

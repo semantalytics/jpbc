@@ -24,6 +24,16 @@ public abstract class Task implements Runnable {
         taskManager.put(id, o);
     }
 
+    public BigInteger putBigIntegerAt(String key, int index, BigInteger o) {
+        put(key+index, o);
+        return o;
+    }
+
+    public void putFlag(String key) {
+        put(key, true);
+    }
+
+
     public Object get(String id) {
         return taskManager.get(id);
     }
@@ -31,6 +41,11 @@ public abstract class Task implements Runnable {
     public BigInteger getBigInteger(String id) {
         return (BigInteger) taskManager.get(id);
     }
+
+    public BigInteger getBigIntegerAt(String key, int index) {
+        return (BigInteger) get(key+index);
+    }
+
 
     public BigInteger[] getBigIntegers(String id) {
         return (BigInteger[]) taskManager.get(id);

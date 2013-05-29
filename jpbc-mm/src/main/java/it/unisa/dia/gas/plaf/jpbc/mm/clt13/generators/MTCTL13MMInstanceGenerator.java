@@ -9,7 +9,6 @@ import it.unisa.dia.gas.plaf.jpbc.util.mt.*;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.util.Map;
 
 import static it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils.getRandom;
 
@@ -44,21 +43,21 @@ public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
         taskManager.addTask(new Task("x0+ps") {
             public void run() {
                 // Generate CRT modulo x0
-                final BigInteger[] ps = new BigInteger[parameters.getN()];
-
                 Accumulator<BigInteger> x0 = new BigIntegerMulAccumulator();
                 for (int i = 0; i < parameters.getN(); i++) {
                     x0.submit(new IndexCallable<BigInteger>(i) {
                         public BigInteger call() throws Exception {
-                            return (ps[i] = BigInteger.probablePrime(parameters.getEta(), random));
+                            return putBigIntegerAt("ps", i, BigInteger.probablePrime(parameters.getEta(), random));
                         }
+
                     });
                 }
                 x0.process();
 
-                put("ps", ps);
+                putFlag("ps");
                 put("x0", x0.getResult());
             }
+
         }).addTask(new Task("gs") {
             public void run() {
                 // Generate g_i's
@@ -73,7 +72,6 @@ public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
             public void run() {
                 // Generate CRT Coefficients
                 final BigInteger x0 = getBigInteger("x0");
-                final BigInteger[] ps = getBigIntegers("ps");
 
                 final BigInteger[] crtCoefficients = new BigInteger[parameters.getN()];
 
@@ -81,8 +79,8 @@ public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
                 for (int i = 0; i < parameters.getN(); i++) {
                     executor.submit(new MultiThreadExecutor.IndexRunnable(i) {
                         public void run() {
-                            BigInteger temp = x0.divide(ps[i]);
-                            crtCoefficients[i] = temp.modInverse(ps[i]).multiply(temp);
+                            BigInteger temp = x0.divide(getBigIntegerAt("ps", i));
+                            crtCoefficients[i] = temp.modInverse(getBigIntegerAt("ps", i)).multiply(temp);
                         }
                     });
                 }
@@ -154,7 +152,6 @@ public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
         }).addTask(new Task("pzt") {
             public void run() {
                 final BigInteger x0 = getBigInteger("x0");
-                final BigInteger[] ps = getBigIntegers("ps");
                 final BigInteger[] gs = getBigIntegers("gs");
                 BigInteger z = getBigInteger("z");
 
@@ -166,8 +163,8 @@ public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
                     pzt.accumulate(new IndexCallable<BigInteger>(i) {
                         public BigInteger call() throws Exception {
                             return getRandom(parameters.getBeta(), random)
-                                    .multiply(gs[i].modInverse(ps[i]).multiply(zPowKappa).mod(ps[i]))
-                                    .multiply(x0.divide(ps[i]));
+                                    .multiply(gs[i].modInverse(getBigIntegerAt("ps", i)).multiply(zPowKappa).mod(getBigIntegerAt("ps", i)))
+                                    .multiply(x0.divide(getBigIntegerAt("ps", i)));
                         }
                     });
                 }
@@ -183,7 +180,7 @@ public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
                 // Quadratic re-randomization stuff
                 BigInteger[] xs = new BigInteger[2 * parameters.getDelta()];
                 for (int i = 0; i < parameters.getDelta(); i++) {
-//            xs[i] = encodeZero();
+                    // xs[i] = encodeZero();
                     xs[i] = BigInteger.ZERO;
                     for (int j = 0; j < parameters.getN(); j++)
                         xs[i] = xs[i].add(
@@ -192,7 +189,7 @@ public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
                         );
                     xs[i] = xs[i].mod(x0);
 
-//            xs[parameters.getDelta() + i] = encodeAt(1);
+                    // xs[parameters.getDelta() + i] = encodeAt(1);
                     int index = parameters.getDelta() + i;
                     xs[index] = BigInteger.ZERO;
                     for (int j = 0; j < parameters.getN(); j++) {
@@ -215,7 +212,7 @@ public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
         System.out.println("end = " + (end - start));
 
         if (storeGeneratedInstance)
-            store(taskManager.getContext());
+            store(taskManager);
 
         MapParameters mapParameters = new MapParameters();
         mapParameters.put("params", parameters);
@@ -225,7 +222,7 @@ public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
     }
 
 
-    protected void store(Map<String, Object> values) {
+    protected void store(TaskManager taskManager) {
         try {
             // file name
             String fileName = String.format(
@@ -236,17 +233,20 @@ public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
 
             PairingObjectOutput dos = new PairingObjectOutput(fileName);
 
-            dos.writeBigInteger((BigInteger) values.get("x0"));
-            dos.writeBigInteger((BigInteger) values.get("y"));
-            dos.writeBigInteger((BigInteger) values.get("pzt"));
-            dos.writeBigInteger((BigInteger) values.get("z"));
-            dos.writeBigInteger((BigInteger) values.get("zInv"));
+            dos.writeBigInteger((BigInteger) taskManager.get("x0"));
+            dos.writeBigInteger((BigInteger) taskManager.get("y"));
+            dos.writeBigInteger((BigInteger) taskManager.get("pzt"));
+            dos.writeBigInteger((BigInteger) taskManager.get("z"));
+            dos.writeBigInteger((BigInteger) taskManager.get("zInv"));
 
-            dos.writeBigIntegers((BigInteger[]) values.get("xsp"));
-            dos.writeBigIntegers((BigInteger[]) values.get("crtCoefficients"));
-            dos.writeBigIntegers((BigInteger[]) values.get("xs"));
-            dos.writeBigIntegers((BigInteger[]) values.get("gs"));
-            dos.writeBigIntegers((BigInteger[]) values.get("ps"));
+            dos.writeBigIntegers((BigInteger[]) taskManager.get("xsp"));
+            dos.writeBigIntegers((BigInteger[]) taskManager.get("crtCoefficients"));
+            dos.writeBigIntegers((BigInteger[]) taskManager.get("xs"));
+            dos.writeBigIntegers((BigInteger[]) taskManager.get("gs"));
+
+            dos.writeInt(parameters.getN());
+            for (int i = 0; i < parameters.getN(); i++)
+                dos.writeBigInteger(taskManager.getBigIntegerAt("ps", i));
 
             dos.flush();
             dos.close();

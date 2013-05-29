@@ -1,5 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.util.mt;
 
+import java.math.BigInteger;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -62,6 +63,10 @@ public class TaskManager {
 
     public Map<String, Object> getContext() {
         return view;
+    }
+
+    public BigInteger getBigIntegerAt(String key, int index) {
+        return (BigInteger) get(key+index);
     }
 
 
