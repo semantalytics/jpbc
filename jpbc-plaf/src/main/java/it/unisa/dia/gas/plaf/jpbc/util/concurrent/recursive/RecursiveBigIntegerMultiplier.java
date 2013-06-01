@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.plaf.jpbc.util.mt;
+package it.unisa.dia.gas.plaf.jpbc.util.concurrent.recursive;
 
 import java.math.BigInteger;
 import java.util.concurrent.RecursiveTask;
@@ -22,7 +22,7 @@ public class RecursiveBigIntegerMultiplier extends RecursiveTask<BigInteger> {
 
     protected BigInteger compute() {
         if (high == low) {
-          return value[low];
+            return value[low];
         }
 
         if (high - low < SEQUENTIAL_THRESHOLD) {

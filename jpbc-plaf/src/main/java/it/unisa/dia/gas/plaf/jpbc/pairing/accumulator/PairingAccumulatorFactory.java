@@ -24,12 +24,12 @@ public class PairingAccumulatorFactory {
 
 
     public PairingAccumulator getPairingMultiplier(Pairing pairing) {
-        return isMultiThreadSupport() ? new MultiThreadPairingAccumulator(pairing)
+        return isMultiThreadSupport() ? new PoolPairingAccumulator(pairing)
                 : new DefaultPairingAccumulator(pairing);
     }
 
     public PairingAccumulator getPairingMultiplier(Pairing pairing, Element element) {
-        return isMultiThreadSupport() ? new MultiThreadPairingAccumulator(pairing, element)
+        return isMultiThreadSupport() ? new PoolPairingAccumulator(pairing, element)
                 : new DefaultPairingAccumulator(pairing, element);
     }
 

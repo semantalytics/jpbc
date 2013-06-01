@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.plaf.jpbc.util.mt;
+package it.unisa.dia.gas.plaf.jpbc.util.concurrent.task;
 
 import java.math.BigInteger;
 
@@ -25,7 +25,7 @@ public abstract class Task implements Runnable {
     }
 
     public BigInteger putBigIntegerAt(String key, int index, BigInteger o) {
-        put(key+index, o);
+        put(key + index, o);
         return o;
     }
 
@@ -43,7 +43,7 @@ public abstract class Task implements Runnable {
     }
 
     public BigInteger getBigIntegerAt(String key, int index) {
-        return (BigInteger) get(key+index);
+        return (BigInteger) get(key + index);
     }
 
 

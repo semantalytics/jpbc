@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.plaf.jpbc.util.mt;
+package it.unisa.dia.gas.plaf.jpbc.util.concurrent.recursive;
 
 import it.unisa.dia.gas.jpbc.Element;
 
@@ -23,7 +23,7 @@ public class RecursiveMultiplier extends RecursiveTask<Element> {
 
     protected Element compute() {
         if (high == low) {
-          return elements[low];
+            return elements[low];
         }
 
         if (high - low < SEQUENTIAL_THRESHOLD) {

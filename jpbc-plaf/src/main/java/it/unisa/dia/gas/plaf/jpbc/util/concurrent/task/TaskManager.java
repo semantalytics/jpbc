@@ -1,4 +1,6 @@
-package it.unisa.dia.gas.plaf.jpbc.util.mt;
+package it.unisa.dia.gas.plaf.jpbc.util.concurrent.task;
+
+import it.unisa.dia.gas.plaf.jpbc.util.concurrent.ExecutorServiceUtils;
 
 import java.math.BigInteger;
 import java.util.Collections;
@@ -20,7 +22,7 @@ public class TaskManager {
 
 
     public TaskManager() {
-        this.pool = new ExecutorCompletionService(MTUtils.executorService);
+        this.pool = new ExecutorCompletionService(ExecutorServiceUtils.getExecutorService());
         this.counter = 0;
 
         this.context = Collections.synchronizedMap(new ValueLatchMap());
@@ -45,14 +47,14 @@ public class TaskManager {
 
     public Object get(String id) {
         System.out.println(System.currentTimeMillis() + " GET id = [" + id + "]");
-        Object value =  context.get(id).get();
+        Object value = context.get(id).get();
         System.out.println(System.currentTimeMillis() + " GET id = [" + id + "] Ready");
         return value;
     }
 
-    public void process(){
-        try{
-            for(int i = 0; i < counter; i++) {
+    public void process() {
+        try {
+            for (int i = 0; i < counter; i++) {
                 Future f = pool.take();
                 f.get();
                 Task task = tasks.get(f);
@@ -70,7 +72,7 @@ public class TaskManager {
     }
 
     public BigInteger getBigIntegerAt(String key, int index) {
-        return (BigInteger) get(key+index);
+        return (BigInteger) get(key + index);
     }
 
 
@@ -99,7 +101,7 @@ public class TaskManager {
 
         void set(Object value) {
             this.value = value;
-            view .put((String) K, value);
+            view.put((String) K, value);
 
             countDown();
         }

@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.plaf.jpbc.util.mt;
+package it.unisa.dia.gas.plaf.jpbc.util.concurrent;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletionService;
@@ -9,17 +9,17 @@ import java.util.concurrent.ExecutorCompletionService;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  * @since 1.3.0
  */
-public abstract class MultiThreadExecutor<T> implements Pool<T> {
+public abstract class PoolExecutor<T> implements Pool<T> {
 
     private CompletionService<T> pool;
     private int counter;
 
 
-    protected MultiThreadExecutor() {
-        this(MTUtils.executorService);
+    protected PoolExecutor() {
+        this(ExecutorServiceUtils.getExecutorService());
     }
 
-    protected MultiThreadExecutor(Executor executor) {
+    protected PoolExecutor(Executor executor) {
         this.pool = new ExecutorCompletionService<T>(executor);
         this.counter = 0;
     }
@@ -39,9 +39,9 @@ public abstract class MultiThreadExecutor<T> implements Pool<T> {
         return this;
     }
 
-    public Pool<T> process(){
-        try{
-            for(int i = 0; i < counter; i++)
+    public Pool<T> process() {
+        try {
+            for (int i = 0; i < counter; i++)
                 reduce(pool.take().get());
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -51,20 +51,6 @@ public abstract class MultiThreadExecutor<T> implements Pool<T> {
         return this;
     }
 
-    public abstract void reduce(T value);
-
-
-    public static abstract class IndexRunnable implements Runnable {
-        protected int i, j;
-
-        protected IndexRunnable(int i) {
-            this.i = i;
-        }
-
-        protected IndexRunnable(int i, int j) {
-            this.i = i;
-            this.j = j;
-        }
-    }
+    protected abstract void reduce(T value);
 
 }

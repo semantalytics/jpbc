@@ -4,12 +4,20 @@ import it.unisa.dia.gas.jpbc.PairingParameters;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstanceParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.MapParameters;
+import it.unisa.dia.gas.plaf.jpbc.util.concurrent.DummyPoolExecutor;
+import it.unisa.dia.gas.plaf.jpbc.util.concurrent.ExecutorServiceUtils;
+import it.unisa.dia.gas.plaf.jpbc.util.concurrent.Pool;
+import it.unisa.dia.gas.plaf.jpbc.util.concurrent.accumultor.Accumulator;
+import it.unisa.dia.gas.plaf.jpbc.util.concurrent.accumultor.BigIntegerAddAccumulator;
+import it.unisa.dia.gas.plaf.jpbc.util.concurrent.accumultor.BigIntegerMulAccumulator;
+import it.unisa.dia.gas.plaf.jpbc.util.concurrent.task.Task;
+import it.unisa.dia.gas.plaf.jpbc.util.concurrent.task.TaskManager;
 import it.unisa.dia.gas.plaf.jpbc.util.io.PairingObjectOutput;
-import it.unisa.dia.gas.plaf.jpbc.util.mt.*;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
+import static it.unisa.dia.gas.plaf.jpbc.util.concurrent.ExecutorServiceUtils.IndexCallable;
 import static it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils.getRandom;
 
 /**
@@ -59,7 +67,6 @@ public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
                         public BigInteger call() throws Exception {
                             return (ps[i] = BigInteger.probablePrime(parameters.getEta(), random));
                         }
-
                     });
                 }
                 x0.process();
@@ -86,9 +93,9 @@ public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
 
                 final BigInteger[] crtCoefficients = new BigInteger[parameters.getN()];
 
-                Pool executor = new MultiThreadNoReduceExecutor();
+                Pool executor = new DummyPoolExecutor();
                 for (int i = 0; i < parameters.getN(); i++) {
-                    executor.submit(new MultiThreadExecutor.IndexRunnable(i) {
+                    executor.submit(new ExecutorServiceUtils.IndexRunnable(i) {
                         public void run() {
                             BigInteger temp = x0.divide(ps[i]);
                             crtCoefficients[i] = temp.modInverse(ps[i]).multiply(temp);
@@ -156,9 +163,7 @@ public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
                         }
                     });
                 }
-                y.process();
-
-                put("y", y.getResult().multiply(zInv).mod(x0));
+                put("y", y.doFinal().multiply(zInv).mod(x0));
             }
         }).addTask(new Task("pzt") {
             public void run() {
@@ -180,7 +185,7 @@ public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
                         }
                     });
                 }
-                put("pzt", pzt.process().getResult().mod(x0));
+                put("pzt", pzt.doFinal().mod(x0));
             }
         }).addTask(new Task("xs") {
             public void run() {

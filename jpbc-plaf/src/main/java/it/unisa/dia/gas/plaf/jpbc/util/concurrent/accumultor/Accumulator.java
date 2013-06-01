@@ -1,4 +1,6 @@
-package it.unisa.dia.gas.plaf.jpbc.util.mt;
+package it.unisa.dia.gas.plaf.jpbc.util.concurrent.accumultor;
+
+import it.unisa.dia.gas.plaf.jpbc.util.concurrent.Pool;
 
 import java.util.concurrent.Callable;
 
@@ -13,5 +15,7 @@ public interface Accumulator<T> extends Pool<T> {
     Accumulator<T> process();
 
     T getResult();
+
+    T doFinal();
 
 }

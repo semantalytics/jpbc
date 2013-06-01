@@ -3,14 +3,14 @@ package it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine;
 import it.unisa.dia.gas.jpbc.PairingParameters;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstanceParameters;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstanceValues;
-import it.unisa.dia.gas.plaf.jpbc.util.mt.Accumulator;
-import it.unisa.dia.gas.plaf.jpbc.util.mt.BigIntegerAddAccumulator;
-import it.unisa.dia.gas.plaf.jpbc.util.mt.IndexCallable;
+import it.unisa.dia.gas.plaf.jpbc.util.concurrent.accumultor.Accumulator;
+import it.unisa.dia.gas.plaf.jpbc.util.concurrent.accumultor.BigIntegerAddAccumulator;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.concurrent.Callable;
 
+import static it.unisa.dia.gas.plaf.jpbc.util.concurrent.ExecutorServiceUtils.IndexCallable;
 import static it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils.getRandom;
 import static it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils.modNear;
 
@@ -111,7 +111,7 @@ public class MTCTL13MMInstance implements CTL13MMInstance {
             });
         }
 
-        BigInteger res = accumulator.process().getResult().mod(x0);
+        BigInteger res = accumulator.doFinal().mod(x0);
         if (degree > 0)
             res = res.multiply(zInvPows[degree - 1]).mod(x0);
 
@@ -133,7 +133,7 @@ public class MTCTL13MMInstance implements CTL13MMInstance {
             });
         }
 
-        BigInteger res = accumulator.process().getResult().mod(x0);
+        BigInteger res = accumulator.doFinal().mod(x0);
         if (index > 0)
             res = res.multiply(zInvPows[index - 1]).mod(x0);
 
@@ -156,7 +156,7 @@ public class MTCTL13MMInstance implements CTL13MMInstance {
             });
         }
 
-        BigInteger res = accumulator.process().getResult().mod(x0);
+        BigInteger res = accumulator.doFinal().mod(x0);
         if (index > 0)
             res = res.multiply(zInvPows[index - 1]).mod(x0);
 
@@ -179,7 +179,7 @@ public class MTCTL13MMInstance implements CTL13MMInstance {
                 }
             });
         }
-        return accumulator.getResult().add(value).mod(x0);
+        return accumulator.doFinal().add(value).mod(x0);
     }
 
 

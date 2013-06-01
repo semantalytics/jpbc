@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.plaf.jpbc.util.mt;
+package it.unisa.dia.gas.plaf.jpbc.util.concurrent.task;
 
 import java.lang.ref.SoftReference;
 
