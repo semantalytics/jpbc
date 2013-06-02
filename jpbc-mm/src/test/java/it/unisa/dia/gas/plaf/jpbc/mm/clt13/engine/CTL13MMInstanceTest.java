@@ -12,8 +12,8 @@ import java.math.BigInteger;
  */
 public class CTL13MMInstanceTest extends AbstractCTL13MMTest {
 
-    public CTL13MMInstanceTest(CTL13MMInstanceParameters instanceParameters, boolean mt) {
-        super(instanceParameters, mt);
+    public CTL13MMInstanceTest(CTL13MMInstanceParameters instanceParameters, int genType) {
+        super(instanceParameters, genType);
     }
 
     @org.junit.Test

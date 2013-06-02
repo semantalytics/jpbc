@@ -16,8 +16,8 @@ public class CTL13MMPairingTest extends AbstractCTL13MMTest {
     protected Pairing pairing;
 
 
-    public CTL13MMPairingTest(CTL13MMInstanceParameters instanceParameters, boolean mt) {
-        super(instanceParameters, mt);
+    public CTL13MMPairingTest(CTL13MMInstanceParameters instanceParameters, int genType) {
+        super(instanceParameters, genType);
     }
 
 

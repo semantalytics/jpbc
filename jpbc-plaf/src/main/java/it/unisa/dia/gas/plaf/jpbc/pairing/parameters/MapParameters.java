@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public class MapParameters implements PairingParameters {
 
-    protected final LinkedHashMap<String, Object> parameters;
+    protected LinkedHashMap<String, Object> parameters;
 
 
     public MapParameters() {

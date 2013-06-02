@@ -3,12 +3,9 @@ package it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators;
 import it.unisa.dia.gas.jpbc.PairingParameters;
 import it.unisa.dia.gas.jpbc.PairingParametersGenerator;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstanceParameters;
-import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.MapParameters;
-import it.unisa.dia.gas.plaf.jpbc.util.io.PairingObjectInput;
-import it.unisa.dia.gas.plaf.jpbc.util.io.PairingObjectOutput;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMMapParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
-import java.io.File;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
@@ -45,16 +42,18 @@ public class CTL13MMInstanceGenerator implements PairingParametersGenerator {
 
 
     public PairingParameters generate() {
-        if (storeGeneratedInstance) {
-            try {
-                PairingParameters params = load();
-                if (params != null)
-                    return params;
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
+        if (storeGeneratedInstance)
+            return new CTL13MMMapParameters(parameters).load();
 
+        CTL13MMMapParameters params = generateInternal();
+
+        if (storeGeneratedInstance)
+            params.store();
+
+        return params;
+    }
+
+    protected CTL13MMMapParameters generateInternal() {
         long start = System.currentTimeMillis();
 
         // Generate CRT modulo x0
@@ -152,11 +151,7 @@ public class CTL13MMInstanceGenerator implements PairingParametersGenerator {
 
         System.out.println("end = " + (end-start));
 
-
-        if (storeGeneratedInstance)
-            store(x0, y, pzt, z, zInv, xsp, crtCoefficients, xs, gs, ps);
-
-        MapParameters mapParameters = new MapParameters();
+        CTL13MMMapParameters mapParameters = new CTL13MMMapParameters(parameters);
         mapParameters.put("params", parameters);
         mapParameters.put("x0", x0);
         mapParameters.put("y", y);
@@ -170,86 +165,6 @@ public class CTL13MMInstanceGenerator implements PairingParametersGenerator {
         mapParameters.put("ps", ps);
 
         return mapParameters;
-    }
-
-
-    protected void store(BigInteger x0, BigInteger y, BigInteger pzt, BigInteger z, BigInteger zInv,
-                         BigInteger[] xsp, BigInteger[] crtCoefficients, BigInteger[] xs,
-                         BigInteger[] gs, BigInteger[] p) {
-        try {
-            // file name
-            String fileName = String.format(
-                    "CTL13IP_eta_%d_n_%d_alpha_%d_ell_%d_rho_%d_delta_%d_kappa_%d_beta_%d_theta_%d_bound_%d.dat",
-                    parameters.getEta(), parameters.getN(), parameters.getAlpha(), parameters.getEll(),
-                    parameters.getRho(), parameters.getDelta(),
-                    parameters.getKappa(), parameters.getBeta(), parameters.getTheta(), parameters.getBound());
-
-            PairingObjectOutput dos = new PairingObjectOutput(fileName);
-
-            dos.writeBigInteger(x0);
-            dos.writeBigInteger(y);
-            dos.writeBigInteger(pzt);
-            dos.writeBigInteger(z);
-            dos.writeBigInteger(zInv);
-
-            dos.writeBigIntegers(xsp);
-            dos.writeBigIntegers(crtCoefficients);
-            dos.writeBigIntegers(xs);
-            dos.writeBigIntegers(gs);
-            dos.writeBigIntegers(p);
-
-            dos.flush();
-            dos.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    protected PairingParameters load() {
-        try {
-            // file name
-            String fileName = String.format(
-                    "CTL13IP_eta_%d_n_%d_alpha_%d_ell_%d_rho_%d_delta_%d_kappa_%d_beta_%d_theta_%d_bound_%d.dat",
-                    parameters.getEta(), parameters.getN(), parameters.getAlpha(), parameters.getEll(),
-                    parameters.getRho(), parameters.getDelta(),
-                    parameters.getKappa(), parameters.getBeta(), parameters.getTheta(), parameters.getBound());
-
-            if (!new File(fileName).exists())
-                return null;
-
-            PairingObjectInput dos = new PairingObjectInput(fileName);
-
-            BigInteger x0 = dos.readBigInteger();
-            BigInteger y = dos.readBigInteger();
-            BigInteger pzt = dos.readBigInteger();
-            BigInteger z = dos.readBigInteger();
-            BigInteger zInv = dos.readBigInteger();
-
-            BigInteger[] xsp = dos.readBigIntegers();
-            BigInteger[] crtCoefficients = dos.readBigIntegers();
-            BigInteger[] xs = dos.readBigIntegers();
-            BigInteger[] gs = dos.readBigIntegers();
-            BigInteger[] ps = dos.readBigIntegers();
-
-            dos.close();
-
-            MapParameters mapParameters = new MapParameters();
-            mapParameters.put("params", parameters);
-            mapParameters.put("x0", x0);
-            mapParameters.put("y", y);
-            mapParameters.put("pzt", pzt);
-            mapParameters.put("z", z);
-            mapParameters.put("zInv", zInv);
-            mapParameters.put("xsp", xsp);
-            mapParameters.put("crtCoefficients", crtCoefficients);
-            mapParameters.put("xs", xs);
-            mapParameters.put("gs", gs);
-            mapParameters.put("ps", ps);
-
-            return mapParameters;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 
 

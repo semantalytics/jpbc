@@ -12,7 +12,6 @@ import it.unisa.dia.gas.plaf.jpbc.util.concurrent.accumultor.BigIntegerAddAccumu
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.accumultor.BigIntegerMulAccumulator;
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.task.Task;
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.task.TaskManager;
-import it.unisa.dia.gas.plaf.jpbc.util.io.PairingObjectOutput;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -45,15 +44,6 @@ public class LazyMTCTL13MMInstanceGenerator extends MTCTL13MMInstanceGenerator {
 
 
     public PairingParameters generate() {
-        if (storeGeneratedInstance) {
-            try {
-                PairingParameters params = load();
-                if (params != null)
-                    return params;
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
 
         TaskManager taskManager = new TaskManager();
         taskManager.addTask(new Task("x0+ps") {
@@ -225,9 +215,6 @@ public class LazyMTCTL13MMInstanceGenerator extends MTCTL13MMInstanceGenerator {
         long end = System.currentTimeMillis();
         System.out.println("end = " + (end - start));
 
-        if (storeGeneratedInstance)
-            store(taskManager);
-
         MapParameters mapParameters = new MapParameters();
         mapParameters.put("params", parameters);
         mapParameters.putAll(taskManager.getContext());
@@ -235,39 +222,6 @@ public class LazyMTCTL13MMInstanceGenerator extends MTCTL13MMInstanceGenerator {
         return mapParameters;
     }
 
-
-    protected void store(TaskManager taskManager) {
-        try {
-            // file name
-            String fileName = String.format(
-                    "CTL13IP_eta_%d_n_%d_alpha_%d_ell_%d_rho_%d_delta_%d_kappa_%d_beta_%d_theta_%d_bound_%d.dat",
-                    parameters.getEta(), parameters.getN(), parameters.getAlpha(), parameters.getEll(),
-                    parameters.getRho(), parameters.getDelta(),
-                    parameters.getKappa(), parameters.getBeta(), parameters.getTheta(), parameters.getBound());
-
-            PairingObjectOutput dos = new PairingObjectOutput(fileName);
-
-            dos.writeBigInteger((BigInteger) taskManager.get("x0"));
-            dos.writeBigInteger((BigInteger) taskManager.get("y"));
-            dos.writeBigInteger((BigInteger) taskManager.get("pzt"));
-            dos.writeBigInteger((BigInteger) taskManager.get("z"));
-            dos.writeBigInteger((BigInteger) taskManager.get("zInv"));
-
-            dos.writeBigIntegers((BigInteger[]) taskManager.get("xsp"));
-            dos.writeBigIntegers((BigInteger[]) taskManager.get("crtCoefficients"));
-            dos.writeBigIntegers((BigInteger[]) taskManager.get("xs"));
-            dos.writeBigIntegers((BigInteger[]) taskManager.get("gs"));
-
-            dos.writeInt(parameters.getN());
-            for (int i = 0; i < parameters.getN(); i++)
-                dos.writeBigInteger(taskManager.getBigIntegerAt("ps", i));
-
-            dos.flush();
-            dos.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     public static void main(String[] args) {
         LazyMTCTL13MMInstanceGenerator gen = new LazyMTCTL13MMInstanceGenerator(new SecureRandom(),

@@ -2,8 +2,8 @@ package it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators;
 
 import it.unisa.dia.gas.jpbc.PairingParameters;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstanceParameters;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMMapParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
-import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.MapParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.DummyPoolExecutor;
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.ExecutorServiceUtils;
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.Pool;
@@ -12,7 +12,6 @@ import it.unisa.dia.gas.plaf.jpbc.util.concurrent.accumultor.BigIntegerAddAccumu
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.accumultor.BigIntegerMulAccumulator;
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.task.Task;
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.task.TaskManager;
-import it.unisa.dia.gas.plaf.jpbc.util.io.PairingObjectOutput;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -44,17 +43,7 @@ public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
     }
 
 
-    public PairingParameters generate() {
-        if (storeGeneratedInstance) {
-            try {
-                PairingParameters params = load();
-                if (params != null)
-                    return params;
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
-
+    public CTL13MMMapParameters generateInternal() {
         TaskManager taskManager = new TaskManager();
         taskManager.addTask(new Task("x0+ps") {
             public void run() {
@@ -228,46 +217,22 @@ public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
         long end = System.currentTimeMillis();
         System.out.println("end = " + (end - start));
 
-        if (storeGeneratedInstance)
-            store(taskManager);
-
-        MapParameters mapParameters = new MapParameters();
+        CTL13MMMapParameters mapParameters = new CTL13MMMapParameters(parameters);
         mapParameters.put("params", parameters);
-        mapParameters.putAll(taskManager.getContext());
+        mapParameters.put("x0", taskManager.get("0"));
+        mapParameters.put("y", taskManager.get("y"));
+        mapParameters.put("pzt", taskManager.get("pzt"));
+        mapParameters.put("z", taskManager.get("z"));
+        mapParameters.put("zInv", taskManager.get("zInv"));
+        mapParameters.put("xsp", taskManager.get("xsp"));
+        mapParameters.put("crtCoefficients", taskManager.get("crtCoefficients"));
+        mapParameters.put("xs", taskManager.get("xs"));
+        mapParameters.put("gs", taskManager.get("gs"));
+        mapParameters.put("ps", taskManager.get("ps"));
 
         return mapParameters;
     }
 
-
-    protected void store(TaskManager taskManager) {
-        try {
-            // file name
-            String fileName = String.format(
-                    "CTL13IP_eta_%d_n_%d_alpha_%d_ell_%d_rho_%d_delta_%d_kappa_%d_beta_%d_theta_%d_bound_%d.dat",
-                    parameters.getEta(), parameters.getN(), parameters.getAlpha(), parameters.getEll(),
-                    parameters.getRho(), parameters.getDelta(),
-                    parameters.getKappa(), parameters.getBeta(), parameters.getTheta(), parameters.getBound());
-
-            PairingObjectOutput dos = new PairingObjectOutput(fileName);
-
-            dos.writeBigInteger((BigInteger) taskManager.get("x0"));
-            dos.writeBigInteger((BigInteger) taskManager.get("y"));
-            dos.writeBigInteger((BigInteger) taskManager.get("pzt"));
-            dos.writeBigInteger((BigInteger) taskManager.get("z"));
-            dos.writeBigInteger((BigInteger) taskManager.get("zInv"));
-
-            dos.writeBigIntegers((BigInteger[]) taskManager.get("xsp"));
-            dos.writeBigIntegers((BigInteger[]) taskManager.get("crtCoefficients"));
-            dos.writeBigIntegers((BigInteger[]) taskManager.get("xs"));
-            dos.writeBigIntegers((BigInteger[]) taskManager.get("gs"));
-            dos.writeBigIntegers((BigInteger[]) taskManager.get("ps"));
-
-            dos.flush();
-            dos.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     public static void main(String[] args) {
         MTCTL13MMInstanceGenerator gen = new MTCTL13MMInstanceGenerator(new SecureRandom(),

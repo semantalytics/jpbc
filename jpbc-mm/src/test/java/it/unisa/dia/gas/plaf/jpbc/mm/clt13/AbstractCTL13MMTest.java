@@ -4,6 +4,7 @@ import it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine.CTL13MMInstance;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine.DefaultCTL13MMInstance;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine.MTCTL13MMInstance;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators.CTL13MMInstanceGenerator;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators.MTCTL13MMInstanceGenerator;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstanceParameters;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -29,8 +30,8 @@ public abstract class AbstractCTL13MMTest {
     @Parameterized.Parameters
     public static Collection parameters() {
         Object[][] data = {
-                {CTL13MMInstanceParameters.TOY, false},
-                {CTL13MMInstanceParameters.TOY, true}
+                {CTL13MMInstanceParameters.TOY, 0},
+                {CTL13MMInstanceParameters.TOY, 1}
         };
 
         return Arrays.asList(data);
@@ -38,26 +39,31 @@ public abstract class AbstractCTL13MMTest {
 
 
     protected CTL13MMInstanceParameters instanceParameters;
-    protected boolean mt;
+    protected int type;
     protected CTL13MMInstance instance;
 
 
-    public AbstractCTL13MMTest(CTL13MMInstanceParameters instanceParameters, boolean mt) {
+    public AbstractCTL13MMTest(CTL13MMInstanceParameters instanceParameters, int type) {
         this.instanceParameters = instanceParameters;
-        this.mt = mt;
+        this.type = type;
     }
 
     @Before
     public void before() {
-        if (mt)
-            instance = new MTCTL13MMInstance(
-                    random,
-                    new CTL13MMInstanceGenerator(random, instanceParameters).generate()
-            );
-        else
-            instance = new DefaultCTL13MMInstance(
-                    random,
-                    new CTL13MMInstanceGenerator(random, instanceParameters).generate()
-            );
+        switch (type) {
+            case 0:
+                instance = new DefaultCTL13MMInstance(
+                        random,
+                        new CTL13MMInstanceGenerator(random, instanceParameters).generate()
+                );
+            case 1:
+                instance = new MTCTL13MMInstance(
+                        random,
+                        new MTCTL13MMInstanceGenerator(random, instanceParameters).generate()
+                );
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid instance type.");
+        }
     }
 }
