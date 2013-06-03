@@ -2,7 +2,9 @@ package it.unisa.dia.gas.plaf.jpbc.mm.clt13.pairing;
 
 import it.unisa.dia.gas.jpbc.*;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine.CTL13MMInstance;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine.DefaultCTL13MMInstance;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine.MTCTL13MMInstance;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators.CTL13MMInstanceGenerator;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -26,7 +28,9 @@ public class CTL13MMPairing implements Pairing {
 
 
     public CTL13MMPairing(SecureRandom random, PairingParameters parameters) {
-        this(random, new MTCTL13MMInstance(random, parameters));
+        this.random = random;
+        this.instance = initInstance(parameters);
+        this.fields = new CTL13MMField[instance.getParameters().getKappa() + 1];
     }
 
 
@@ -72,7 +76,7 @@ public class CTL13MMPairing implements Pairing {
     }
 
     public boolean isProductPairingSupported() {
-        return false;  
+        return false;
     }
 
     public Element pairing(Element[] in1, Element[] in2) {
@@ -105,6 +109,26 @@ public class CTL13MMPairing implements Pairing {
 
     public CTL13MMInstance getCTL13MMInstance() {
         return instance;
+    }
+
+
+    protected CTL13MMInstance initInstance(PairingParameters parameters) {
+        String instanceType = parameters.getString("instanceType", "mt");
+
+        if ("mt".equals(instanceType))
+            return new MTCTL13MMInstance(random,
+                    new CTL13MMInstanceGenerator(
+                            random,
+                            parameters
+                    ).generate()
+            );
+
+        return new DefaultCTL13MMInstance(random,
+                new CTL13MMInstanceGenerator(
+                        random,
+                        parameters
+                ).generate()
+        );
     }
 
 }

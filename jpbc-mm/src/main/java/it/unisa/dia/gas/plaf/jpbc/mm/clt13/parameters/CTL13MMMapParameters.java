@@ -21,6 +21,11 @@ public class CTL13MMMapParameters extends MapParameters {
         this.parameters = parameters;
     }
 
+    public CTL13MMMapParameters(PairingParameters parameters) {
+        this.parameters = new CTL13MMInstanceParameters(parameters);
+    }
+
+
     public void store() {
         store(String.format(
                 "CTL13IP_eta_%d_n_%d_alpha_%d_ell_%d_rho_%d_delta_%d_kappa_%d_beta_%d_theta_%d_bound_%d.dat",

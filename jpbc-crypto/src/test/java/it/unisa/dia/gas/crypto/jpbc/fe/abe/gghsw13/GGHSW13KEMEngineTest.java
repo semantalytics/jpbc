@@ -8,7 +8,6 @@ import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.generators.GGHSW13ParametersG
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.generators.GGHSW13SecretKeyGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.params.*;
 import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators.CTL13MMInstanceGenerator;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.pairing.CTL13MMPairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
@@ -59,13 +58,7 @@ public class GGHSW13KEMEngineTest {
 
     @Before
     public void before() throws Exception {
-        this.pairing = new CTL13MMPairing(
-                random,
-                new CTL13MMInstanceGenerator(
-                        random,
-                        PairingFactory.getInstance().loadParameters(paramsPath)
-                ).generate()
-        );
+        this.pairing = new CTL13MMPairing(random, PairingFactory.getInstance().loadParameters(paramsPath));
     }
 
 
