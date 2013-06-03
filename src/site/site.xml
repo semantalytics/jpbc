@@ -49,16 +49,16 @@
             </item>
 
             <item name="Parameter Generators" href="/docs/parametersgenerator.html">
-                <item name="Elliptic Curves" href="/docs/parametersgenerator.html#TypeA">
-                    <item name="Type A" href="/docs/parametersgenerator.html#TypeA"/>
-                    <item name="Type A1" href="/docs/parametersgenerator.html#TypeA1"/>
-                    <item name="Type D" href="/docs/parametersgenerator.html#TypeD"/>
-                    <item name="Type E" href="/docs/parametersgenerator.html#TypeE"/>
-                    <item name="Type F" href="/docs/parametersgenerator.html#TypeF"/>
-                    <item name="Type G" href="/docs/parametersgenerator.html#TypeG"/>
+                <item name="Elliptic Curves" href="/docs/ec.html">
+                    <item name="Type A" href="/docs/ec.html#TypeA"/>
+                    <item name="Type A1" href="/docs/ec.html#TypeA1"/>
+                    <item name="Type D" href="/docs/ec.html#TypeD"/>
+                    <item name="Type E" href="/docs/ec.html#TypeE"/>
+                    <item name="Type F" href="/docs/ec.html#TypeF"/>
+                    <item name="Type G" href="/docs/ec.html#TypeG"/>
                 </item>
-                <item name="Multilinear Maps" href="/docs/parametersgenerator.html#ctl13">
-                    <item name="Over the Integers [CTL'13]" href="/docs/parametersgenerator.html#ctl13"/>
+                <item name="Multilinear Maps" href="/docs/mm.html">
+                    <item name="Over the Integers [CTL'13]" href="/docs/mm.html#ctl13"/>
                 </item>
             </item>
 

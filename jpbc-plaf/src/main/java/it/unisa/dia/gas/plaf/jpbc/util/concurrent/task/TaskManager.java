@@ -22,7 +22,7 @@ public class TaskManager {
 
 
     public TaskManager() {
-        this.pool = new ExecutorCompletionService(ExecutorServiceUtils.getExecutorService());
+        this.pool = new ExecutorCompletionService(ExecutorServiceUtils.getCachedThreadPool());
         this.counter = 0;
 
         this.context = Collections.synchronizedMap(new ValueLatchMap());

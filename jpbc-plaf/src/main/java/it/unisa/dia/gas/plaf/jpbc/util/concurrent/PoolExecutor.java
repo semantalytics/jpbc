@@ -16,7 +16,7 @@ public abstract class PoolExecutor<T> implements Pool<T> {
 
 
     protected PoolExecutor() {
-        this(ExecutorServiceUtils.getExecutorService());
+        this(ExecutorServiceUtils.getFixedThreadPool());
     }
 
     protected PoolExecutor(Executor executor) {

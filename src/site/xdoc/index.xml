@@ -100,9 +100,7 @@
             	<li>
                     <font style="font-weight: bold;color:green">jpbc-crypto</font> :
                     the implementation of some pairing based crypto-systems.
-                    Have a look
-                    <a href="./schemes/schemes.html">here</a>
-                    to start.
+                    <a href="./schemes/schemes.html">Here</a> is the list of schemes implemented.
                 </li>
                 <li>
                     <font style="font-weight: bold;color:green">jpbc-benchmark</font> :

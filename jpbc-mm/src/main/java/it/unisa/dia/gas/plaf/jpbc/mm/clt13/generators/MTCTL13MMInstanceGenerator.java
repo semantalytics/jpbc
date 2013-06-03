@@ -236,7 +236,7 @@ public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
 
     public static void main(String[] args) {
         MTCTL13MMInstanceGenerator gen = new MTCTL13MMInstanceGenerator(new SecureRandom(),
-                PairingFactory.getInstance().loadParameters("./params/mm/ctl13/medium.properties")
+                PairingFactory.getInstance().loadParameters("./params/mm/ctl13/toy.properties")
         );
         gen.generate();
     }

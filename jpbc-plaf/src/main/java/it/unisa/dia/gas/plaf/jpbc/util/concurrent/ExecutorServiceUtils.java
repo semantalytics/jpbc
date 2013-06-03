@@ -10,13 +10,14 @@ import java.util.concurrent.Executors;
  */
 public class ExecutorServiceUtils {
 
-    private static ExecutorService executorService;
+    private static ExecutorService fixedThreadPool;
+    private static ExecutorService cachedThreadPool;
 
     static {
-//        executorService = Executors.newCachedThreadPool();
-        executorService = Executors.newFixedThreadPool(
-                Runtime.getRuntime().availableProcessors() * 10
+        fixedThreadPool = Executors.newFixedThreadPool(
+                Runtime.getRuntime().availableProcessors() * 2
         );
+        cachedThreadPool = Executors.newCachedThreadPool();
     }
 
 
@@ -24,9 +25,15 @@ public class ExecutorServiceUtils {
     }
 
 
-    public static ExecutorService getExecutorService() {
-        return executorService;
+    public static ExecutorService getFixedThreadPool() {
+        return fixedThreadPool;
     }
+
+    public static ExecutorService getCachedThreadPool() {
+        return cachedThreadPool;
+    }
+
+
 
     /**
      * @author Angelo De Caro (angelo.decaro@gmail.com)
