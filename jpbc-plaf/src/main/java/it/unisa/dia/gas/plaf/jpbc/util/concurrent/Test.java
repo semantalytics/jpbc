@@ -23,7 +23,6 @@ public class Test {
         System.out.println("Finished writing");
         for (int i = length / 2; i < length / 2 + 6; i++)
             System.out.print((char) out.get(i));
-
     }
 
 }

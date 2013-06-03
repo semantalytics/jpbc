@@ -219,7 +219,7 @@ public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
 
         CTL13MMMapParameters mapParameters = new CTL13MMMapParameters(parameters);
         mapParameters.put("params", parameters);
-        mapParameters.put("x0", taskManager.get("0"));
+        mapParameters.put("x0", taskManager.get("x0"));
         mapParameters.put("y", taskManager.get("y"));
         mapParameters.put("pzt", taskManager.get("pzt"));
         mapParameters.put("z", taskManager.get("z"));

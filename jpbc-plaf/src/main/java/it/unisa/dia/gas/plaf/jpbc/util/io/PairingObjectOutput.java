@@ -144,6 +144,7 @@ public class PairingObjectOutput implements ObjectOutput {
     }
 
     public void writeBytes(byte[] buffer) throws IOException{
+        System.out.println("buffer.length = " + buffer.length);
         writeInt(buffer.length);
         write(buffer);
     }

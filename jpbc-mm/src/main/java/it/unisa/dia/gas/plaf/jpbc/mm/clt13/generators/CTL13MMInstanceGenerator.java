@@ -42,8 +42,11 @@ public class CTL13MMInstanceGenerator implements PairingParametersGenerator {
 
 
     public PairingParameters generate() {
-        if (storeGeneratedInstance)
-            return new CTL13MMMapParameters(parameters).load();
+        if (storeGeneratedInstance) {
+            PairingParameters params = new CTL13MMMapParameters(parameters).load();
+            if (params != null)
+                return params;
+        }
 
         CTL13MMMapParameters params = generateInternal();
 
