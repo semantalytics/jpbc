@@ -28,14 +28,25 @@
             <p>
                 The general pattern to generate pairing parameters is the following:
             </p>
-
 <source>import it.unisa.dia.gas.jpbc.PairingParametersGenerator;
+import it.unisa.dia.gas.jpbc.PairingParameters;
 
-// First initialize the parameters generator for the type of pairing you want use:
-ParametersGenerator parametersGenerator = ...
+// First initialize the pairing parameters generator.
+// In this example, the Elliptic Curve Type A generator is used.
+ParametersGenerator parametersGenerator = new TypeAParametersGenerator(160, 512);
 
-// Then, generate the parameters as follows:
-PairingParameters params = <font style="font-weight: bold;color:green">parametersGenerator.generate();</font>
+// Then, generate the parameters by invoking the generate method.
+PairingParameters params = parametersGenerator.generate();
+</source>
+            <p>
+                JPBC provides methods to load pairing parameters stored in a
+                file through the <code>PairingFactory</code> class :
+            </p>
+
+<source>import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
+import it.unisa.dia.gas.jpbc.PairingParameters;
+
+PairingParameters params = PairingFactory.getInstance().loadParameters("params.properties");
 </source>
         </section>
     </body>

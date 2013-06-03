@@ -48,17 +48,17 @@
                 <item name="Preprocessing" href="/docs/element.html#preprocessing"/>
             </item>
 
-            <item name="Parameter Generators" href="/docs/parametersgenerator.html">
-                <item name="Elliptic Curves" href="/docs/ec.html">
-                    <item name="Type A" href="/docs/ec.html#TypeA"/>
-                    <item name="Type A1" href="/docs/ec.html#TypeA1"/>
-                    <item name="Type D" href="/docs/ec.html#TypeD"/>
-                    <item name="Type E" href="/docs/ec.html#TypeE"/>
-                    <item name="Type F" href="/docs/ec.html#TypeF"/>
-                    <item name="Type G" href="/docs/ec.html#TypeG"/>
+            <item name="Parameter Generators" href="/docs/pg.html">
+                <item name="Elliptic Curves" href="/docs/ecpg.html">
+                    <item name="Type A" href="/docs/ecpg.html#TypeA"/>
+                    <item name="Type A1" href="/docs/ecpg.html#TypeA1"/>
+                    <item name="Type D" href="/docs/ecpg.html#TypeD"/>
+                    <item name="Type E" href="/docs/ecpg.html#TypeE"/>
+                    <item name="Type F" href="/docs/ecpg.html#TypeF"/>
+                    <item name="Type G" href="/docs/ecpg.html#TypeG"/>
                 </item>
-                <item name="Multilinear Maps" href="/docs/mm.html">
-                    <item name="Over the Integers [CTL'13]" href="/docs/mm.html#ctl13"/>
+                <item name="Multilinear Maps" href="/docs/mmpg.html">
+                    <item name="Over the Integers [CTL'13]" href="/docs/mmpg.html#ctl13"/>
                 </item>
             </item>
 

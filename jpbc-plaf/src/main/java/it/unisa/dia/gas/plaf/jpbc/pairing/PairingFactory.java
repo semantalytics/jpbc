@@ -59,7 +59,7 @@ public class PairingFactory {
         try {
             Class pbcPairingFactoryClass = Class.forName("it.unisa.dia.gas.plaf.jpbc.pbc.PairingFactory");
             Method isPBCAvailable = pbcPairingFactoryClass.getMethod("isPBCAvailable", null);
-            pbcAvailable = ((Boolean)isPBCAvailable.invoke(null));
+            pbcAvailable = ((Boolean) isPBCAvailable.invoke(null));
             if (pbcAvailable)
                 getPairingMethod = pbcPairingFactoryClass.getMethod("getPairing", PairingParameters.class);
         } catch (Exception e) {
