@@ -1,17 +1,13 @@
 package it.unisa.dia.gas.plaf.jpbc.util.concurrent.accumultor;
 
-import it.unisa.dia.gas.plaf.jpbc.util.concurrent.PoolExecutor;
-
 import java.math.BigInteger;
-import java.util.concurrent.Callable;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
- * @since 1.0.0
+ * @since 1.3.0
  */
-public class BigIntegerAddModAccumulator extends PoolExecutor<BigInteger> implements Accumulator<BigInteger> {
+public class BigIntegerAddModAccumulator extends AbstractAccumulator<BigInteger> {
 
-    private BigInteger result;
     private BigInteger modulo;
 
 
@@ -20,28 +16,7 @@ public class BigIntegerAddModAccumulator extends PoolExecutor<BigInteger> implem
         this.modulo = modulo;
     }
 
-
-    public Accumulator<BigInteger> accumulate(Callable<BigInteger> callable) {
-        submit(callable);
-
-        return this;
-    }
-
-    public BigInteger getResult() {
-        return result;
-    }
-
-    public BigInteger doFinal() {
-        return process().getResult();
-    }
-
-    public Accumulator<BigInteger> process() {
-        super.process();
-
-        return this;
-    }
-
-    public void reduce(BigInteger value) {
+    protected void reduce(BigInteger value) {
         result = result.add(value).mod(modulo);
     }
 

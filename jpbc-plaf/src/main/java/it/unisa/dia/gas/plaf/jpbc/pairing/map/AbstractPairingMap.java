@@ -27,7 +27,7 @@ public abstract class AbstractPairingMap implements PairingMap {
         PairingAccumulator combiner = PairingAccumulatorFactory.getInstance().getPairingMultiplier(pairing);
         for(int i = 0; i < in1.length; i++)
             combiner.addPairing(in1[i], in2[i]);
-        return combiner.doFinal();
+        return combiner.awaitResult();
     }
 
     public int getPairingPreProcessingLengthInBytes() {

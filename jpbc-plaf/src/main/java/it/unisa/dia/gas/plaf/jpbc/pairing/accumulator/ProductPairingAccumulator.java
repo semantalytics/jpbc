@@ -28,12 +28,13 @@ public class ProductPairingAccumulator implements PairingAccumulator {
         this.cursor = 0;
     }
 
+
     public Accumulator<Element> accumulate(Callable<Element> callable) {
         throw new IllegalStateException("Not supported!!!");
     }
 
-    public Accumulator<Element> process() {
-        doFinal();
+    public Accumulator<Element> awaitTermination() {
+        awaitResult();
 
         return this;
     }
@@ -42,11 +43,11 @@ public class ProductPairingAccumulator implements PairingAccumulator {
         return result;
     }
 
-    public Pool submit(Callable<Element> callable) {
+    public Pool<Element> submit(Callable<Element> callable) {
         throw new IllegalStateException("Not supported!!!");
     }
 
-    public Pool submit(Runnable runnable) {
+    public Pool<Element> submit(Runnable runnable) {
         throw new IllegalStateException("Not supported!!!");
     }
 
@@ -67,7 +68,7 @@ public class ProductPairingAccumulator implements PairingAccumulator {
         throw new IllegalStateException("Not supported!!!");
     }
 
-    public Element doFinal(){
+    public Element awaitResult(){
         return (result = pairing.pairing(in1, in2));
     }
 

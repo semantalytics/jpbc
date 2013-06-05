@@ -9,17 +9,17 @@ import java.util.concurrent.ExecutorCompletionService;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  * @since 1.3.0
  */
-public abstract class PoolExecutor<T> implements Pool<T> {
+public class PoolExecutor<T> implements Pool<T> {
 
-    private CompletionService<T> pool;
-    private int counter;
+    protected CompletionService<T> pool;
+    protected int counter;
 
 
-    protected PoolExecutor() {
+    public PoolExecutor() {
         this(ExecutorServiceUtils.getFixedThreadPool());
     }
 
-    protected PoolExecutor(Executor executor) {
+    public PoolExecutor(Executor executor) {
         this.pool = new ExecutorCompletionService<T>(executor);
         this.counter = 0;
     }
@@ -39,18 +39,17 @@ public abstract class PoolExecutor<T> implements Pool<T> {
         return this;
     }
 
-    public Pool<T> process() {
+    public Pool<T> awaitTermination() {
         try {
             for (int i = 0; i < counter; i++)
-                reduce(pool.take().get());
+                pool.take().get();
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
             counter = 0;
         }
+
         return this;
     }
-
-    protected abstract void reduce(T value);
 
 }

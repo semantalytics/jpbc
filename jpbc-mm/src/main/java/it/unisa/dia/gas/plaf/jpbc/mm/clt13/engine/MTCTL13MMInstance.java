@@ -111,7 +111,7 @@ public class MTCTL13MMInstance implements CTL13MMInstance {
             });
         }
 
-        BigInteger res = accumulator.doFinal().mod(x0);
+        BigInteger res = accumulator.awaitResult().mod(x0);
         if (degree > 0)
             res = res.multiply(zInvPows[degree - 1]).mod(x0);
 
@@ -133,7 +133,7 @@ public class MTCTL13MMInstance implements CTL13MMInstance {
             });
         }
 
-        BigInteger res = accumulator.doFinal().mod(x0);
+        BigInteger res = accumulator.awaitResult().mod(x0);
         if (index > 0)
             res = res.multiply(zInvPows[index - 1]).mod(x0);
 
@@ -156,7 +156,7 @@ public class MTCTL13MMInstance implements CTL13MMInstance {
             });
         }
 
-        BigInteger res = accumulator.doFinal().mod(x0);
+        BigInteger res = accumulator.awaitResult().mod(x0);
         if (index > 0)
             res = res.multiply(zInvPows[index - 1]).mod(x0);
 
@@ -179,7 +179,7 @@ public class MTCTL13MMInstance implements CTL13MMInstance {
                 }
             });
         }
-        return accumulator.doFinal().add(value).mod(x0);
+        return accumulator.awaitResult().add(value).mod(x0);
     }
 
 

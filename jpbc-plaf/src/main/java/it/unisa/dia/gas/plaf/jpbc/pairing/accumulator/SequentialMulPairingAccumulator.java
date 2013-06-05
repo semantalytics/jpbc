@@ -12,18 +12,18 @@ import java.util.concurrent.Callable;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  * @since 1.3.0
  */
-public class DefaultPairingAccumulator implements PairingAccumulator {
+public class SequentialMulPairingAccumulator implements PairingAccumulator {
 
     private Pairing pairing;
     private Element value;
 
 
-    public DefaultPairingAccumulator(Pairing pairing) {
+    public SequentialMulPairingAccumulator(Pairing pairing) {
         this.pairing = pairing;
         this.value = pairing.getGT().newOneElement();
     }
 
-    public DefaultPairingAccumulator(Pairing pairing, Element value) {
+    public SequentialMulPairingAccumulator(Pairing pairing, Element value) {
         this.pairing = pairing;
         this.value = value;
     }
@@ -32,7 +32,7 @@ public class DefaultPairingAccumulator implements PairingAccumulator {
         throw new IllegalStateException("Not supported!!!");
     }
 
-    public Accumulator<Element> process() {
+    public Accumulator<Element> awaitTermination() {
         return this;
     }
 
@@ -66,7 +66,7 @@ public class DefaultPairingAccumulator implements PairingAccumulator {
         return this;
     }
 
-    public Element doFinal(){
+    public Element awaitResult(){
         return value;
     }
 

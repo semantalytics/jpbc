@@ -75,7 +75,7 @@ public class ProductPairing implements Pairing {
         for (int i = 0; i < v1.getSize(); i++) {
             combiner.addPairing(v1.getAt(i), v2.getAt(i));
         }
-        return combiner.doFinal();
+        return combiner.awaitResult();
     }
 
     public boolean isProductPairingSupported() {
@@ -87,7 +87,7 @@ public class ProductPairing implements Pairing {
         for (int i = 0; i < in1.length; i++) {
             combiner.addPairing(in1[i], in2[i]);
         }
-        return combiner.doFinal();
+        return combiner.awaitResult();
     }
 
     public PairingPreProcessing pairing(final Element in1) {

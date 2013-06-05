@@ -12,6 +12,6 @@ public interface Pool<T> {
 
     Pool<T> submit(Runnable runnable);
 
-    Pool<T> process();
+    Pool<T> awaitTermination();
 
 }

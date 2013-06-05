@@ -7,9 +7,9 @@ import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.ElementPow;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
-import it.unisa.dia.gas.plaf.jpbc.util.concurrent.DummyPoolExecutor;
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.ExecutorServiceUtils;
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.Pool;
+import it.unisa.dia.gas.plaf.jpbc.util.concurrent.PoolExecutor;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.KeyGenerationParameters;
 
@@ -64,7 +64,7 @@ public class HVEIP08SecretKeyGenerator {
 
 
         if (masterSecretKey.isPreProcessed()) {
-            Pool executor = new DummyPoolExecutor();
+            Pool executor = new PoolExecutor();
             for (int i = 0, j = 0; i < n; i++) {
                 if (param.isStarAt(i)) {
                     Y[i] = L[i] = null;
@@ -78,10 +78,10 @@ public class HVEIP08SecretKeyGenerator {
                     j++;
                 }
             }
-            executor.process();
+            executor.awaitTermination();
 
         } else {
-            Pool executor = new DummyPoolExecutor();
+            Pool executor = new PoolExecutor();
             for (int i = 0, j = 0; i < n; i++) {
                 if (param.isStarAt(i)) {
                     Y[i] = null;
@@ -96,7 +96,7 @@ public class HVEIP08SecretKeyGenerator {
                     j++;
                 }
             }
-            executor.process();
+            executor.awaitTermination();
 
         }
 

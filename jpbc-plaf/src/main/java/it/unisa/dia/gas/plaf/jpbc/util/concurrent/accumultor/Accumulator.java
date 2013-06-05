@@ -12,10 +12,10 @@ public interface Accumulator<T> extends Pool<T> {
 
     Accumulator<T> accumulate(Callable<T> callable);
 
-    Accumulator<T> process();
+    Accumulator<T> awaitTermination();
+
+    T awaitResult();
 
     T getResult();
-
-    T doFinal();
 
 }

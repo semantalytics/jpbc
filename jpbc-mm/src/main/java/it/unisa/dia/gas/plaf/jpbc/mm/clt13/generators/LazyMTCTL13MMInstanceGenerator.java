@@ -4,9 +4,9 @@ import it.unisa.dia.gas.jpbc.PairingParameters;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstanceParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.MapParameters;
-import it.unisa.dia.gas.plaf.jpbc.util.concurrent.DummyPoolExecutor;
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.ExecutorServiceUtils;
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.Pool;
+import it.unisa.dia.gas.plaf.jpbc.util.concurrent.PoolExecutor;
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.accumultor.Accumulator;
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.accumultor.BigIntegerAddAccumulator;
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.accumultor.BigIntegerMulAccumulator;
@@ -58,7 +58,7 @@ public class LazyMTCTL13MMInstanceGenerator extends MTCTL13MMInstanceGenerator {
 
                     });
                 }
-                x0.process();
+                x0.awaitTermination();
 
                 putFlag("ps");
                 put("x0", x0.getResult());
@@ -81,7 +81,7 @@ public class LazyMTCTL13MMInstanceGenerator extends MTCTL13MMInstanceGenerator {
 
                 final BigInteger[] crtCoefficients = new BigInteger[parameters.getN()];
 
-                Pool executor = new DummyPoolExecutor();
+                Pool executor = new PoolExecutor();
                 for (int i = 0; i < parameters.getN(); i++) {
                     executor.submit(new ExecutorServiceUtils.IndexRunnable(i) {
                         public void run() {
@@ -90,7 +90,7 @@ public class LazyMTCTL13MMInstanceGenerator extends MTCTL13MMInstanceGenerator {
                         }
                     });
                 }
-                executor.process();
+                executor.awaitTermination();
 
                 put("crtCoefficients", crtCoefficients);
             }
@@ -151,7 +151,7 @@ public class LazyMTCTL13MMInstanceGenerator extends MTCTL13MMInstanceGenerator {
                         }
                     });
                 }
-                put("y", y.doFinal().multiply(zInv).mod(x0));
+                put("y", y.awaitResult().multiply(zInv).mod(x0));
             }
         }).addTask(new Task("pzt") {
             public void run() {
@@ -172,7 +172,7 @@ public class LazyMTCTL13MMInstanceGenerator extends MTCTL13MMInstanceGenerator {
                         }
                     });
                 }
-                put("pzt", pzt.doFinal().mod(x0));
+                put("pzt", pzt.awaitResult().mod(x0));
             }
         }).addTask(new Task("xs") {
             public void run() {
