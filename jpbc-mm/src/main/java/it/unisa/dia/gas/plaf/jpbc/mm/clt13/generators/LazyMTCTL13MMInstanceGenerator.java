@@ -2,8 +2,8 @@ package it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators;
 
 import it.unisa.dia.gas.jpbc.PairingParameters;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstanceParameters;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMMapParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
-import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.MapParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.ExecutorServiceUtils;
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.Pool;
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.PoolExecutor;
@@ -23,7 +23,7 @@ import static it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils.getRandom;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  * @since 1.3.0
  */
-public class LazyMTCTL13MMInstanceGenerator extends MTCTL13MMInstanceGenerator {
+public class LazyMTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
 
 
     public LazyMTCTL13MMInstanceGenerator(SecureRandom random, CTL13MMInstanceParameters parameters) {
@@ -43,8 +43,7 @@ public class LazyMTCTL13MMInstanceGenerator extends MTCTL13MMInstanceGenerator {
     }
 
 
-    public PairingParameters generate() {
-
+    public PairingParameters generate(CTL13MMMapParameters mapParameters) {
         TaskManager taskManager = new TaskManager();
         taskManager.addTask(new Task("x0+ps") {
             public void run() {
@@ -215,7 +214,6 @@ public class LazyMTCTL13MMInstanceGenerator extends MTCTL13MMInstanceGenerator {
         long end = System.currentTimeMillis();
         System.out.println("end = " + (end - start));
 
-        MapParameters mapParameters = new MapParameters();
         mapParameters.put("params", parameters);
         mapParameters.putAll(taskManager.getContext());
 

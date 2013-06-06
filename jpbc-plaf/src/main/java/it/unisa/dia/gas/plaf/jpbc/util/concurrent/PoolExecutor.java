@@ -25,14 +25,14 @@ public class PoolExecutor<T> implements Pool<T> {
     }
 
 
-    public Pool submit(Callable<T> callable) {
+    public Pool<T> submit(Callable<T> callable) {
         counter++;
         pool.submit(callable);
 
         return this;
     }
 
-    public Pool submit(Runnable runnable) {
+    public Pool<T> submit(Runnable runnable) {
         counter++;
         pool.submit(runnable, null);
 

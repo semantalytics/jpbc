@@ -3,6 +3,7 @@ package it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators;
 import it.unisa.dia.gas.jpbc.PairingParameters;
 import it.unisa.dia.gas.jpbc.PairingParametersGenerator;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstanceParameters;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMLazyMapParameters;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMMapParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
@@ -42,21 +43,22 @@ public class CTL13MMInstanceGenerator implements PairingParametersGenerator {
 
 
     public PairingParameters generate() {
+        CTL13MMMapParameters mapParameters = new CTL13MMLazyMapParameters(parameters);
         if (storeGeneratedInstance) {
-            PairingParameters params = new CTL13MMMapParameters(parameters).load();
-            if (params != null)
-                return params;
+            if (mapParameters.load())
+                return mapParameters;
         }
 
-        CTL13MMMapParameters params = generateInternal();
+        mapParameters.init();
+        generateInternal(mapParameters);
 
         if (storeGeneratedInstance)
-            params.store();
+            mapParameters.store();
 
-        return params;
+        return mapParameters;
     }
 
-    protected CTL13MMMapParameters generateInternal() {
+    protected CTL13MMMapParameters generateInternal(CTL13MMMapParameters mapParameters) {
         long start = System.currentTimeMillis();
 
         // Generate CRT modulo x0
@@ -154,7 +156,6 @@ public class CTL13MMInstanceGenerator implements PairingParametersGenerator {
 
         System.out.println("end = " + (end-start));
 
-        CTL13MMMapParameters mapParameters = new CTL13MMMapParameters(parameters);
         mapParameters.put("params", parameters);
         mapParameters.put("x0", x0);
         mapParameters.put("y", y);
@@ -172,7 +173,7 @@ public class CTL13MMInstanceGenerator implements PairingParametersGenerator {
 
 
     public static void main(String[] args) {
-        CTL13MMInstanceGenerator gen = new CTL13MMInstanceGenerator(new SecureRandom(), CTL13MMInstanceParameters.SMALL);
+        CTL13MMInstanceGenerator gen = new CTL13MMInstanceGenerator(new SecureRandom(), CTL13MMInstanceParameters.TOY);
         gen.generate();
     }
 

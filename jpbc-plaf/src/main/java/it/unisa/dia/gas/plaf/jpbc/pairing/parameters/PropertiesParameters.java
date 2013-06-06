@@ -14,7 +14,7 @@ import java.util.StringTokenizer;
  */
 public class PropertiesParameters implements PairingParameters, Externalizable {
 
-    protected final LinkedHashMap<String, String> parameters;
+    protected final Map<String, String> parameters;
 
 
     public PropertiesParameters() {

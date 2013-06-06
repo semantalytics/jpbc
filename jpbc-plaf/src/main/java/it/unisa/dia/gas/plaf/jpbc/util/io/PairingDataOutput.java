@@ -2,102 +2,83 @@ package it.unisa.dia.gas.plaf.jpbc.util.io;
 
 import it.unisa.dia.gas.jpbc.*;
 
-import java.io.FileOutputStream;
+import java.io.DataOutput;
 import java.io.IOException;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
 import java.math.BigInteger;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class PairingObjectOutput implements ObjectOutput {
-    private ObjectOutput objectOutput;
+public class PairingDataOutput implements DataOutput {
+    private DataOutput dataOutput;
 
     private Pairing pairing;
 
 
-    public PairingObjectOutput(ObjectOutput objectOutput) {
-        this.objectOutput = objectOutput;
+    public PairingDataOutput(DataOutput dataOutput) {
+        this(null, dataOutput);
     }
 
-    public PairingObjectOutput(Pairing pairing, ObjectOutput objectOutput) {
+    public PairingDataOutput(Pairing pairing, DataOutput dataOutput) {
         this.pairing = pairing;
-        this.objectOutput = objectOutput;
+        this.dataOutput = dataOutput;
     }
 
-    public PairingObjectOutput(String fileName) throws IOException {
-        this.objectOutput = new ObjectOutputStream(new FileOutputStream(fileName));
-
-    }
-
-
-    public void writeObject(Object obj) throws IOException {
-        objectOutput.writeObject(obj);
-    }
 
     public void write(int b) throws IOException {
-        objectOutput.write(b);
+        dataOutput.write(b);
     }
 
     public void write(byte[] b) throws IOException {
-        objectOutput.write(b);
+        dataOutput.write(b);
     }
 
     public void write(byte[] b, int off, int len) throws IOException {
-        objectOutput.write(b, off, len);
-    }
-
-    public void flush() throws IOException {
-        objectOutput.flush();
-    }
-
-    public void close() throws IOException {
-        objectOutput.close();
+        dataOutput.write(b, off, len);
     }
 
     public void writeBoolean(boolean v) throws IOException {
-        objectOutput.writeBoolean(v);
+        dataOutput.writeBoolean(v);
     }
 
     public void writeByte(int v) throws IOException {
-        objectOutput.writeByte(v);
+        dataOutput.writeByte(v);
     }
 
     public void writeShort(int v) throws IOException {
-        objectOutput.writeShort(v);
+        dataOutput.writeShort(v);
     }
 
     public void writeChar(int v) throws IOException {
-        objectOutput.writeChar(v);
+        dataOutput.writeChar(v);
     }
 
     public void writeInt(int v) throws IOException {
-        objectOutput.writeInt(v);
+        dataOutput.writeInt(v);
     }
 
     public void writeLong(long v) throws IOException {
-        objectOutput.writeLong(v);
+        dataOutput.writeLong(v);
     }
 
     public void writeFloat(float v) throws IOException {
-        objectOutput.writeFloat(v);
+        dataOutput.writeFloat(v);
     }
 
     public void writeDouble(double v) throws IOException {
-        objectOutput.writeDouble(v);
+        dataOutput.writeDouble(v);
     }
 
     public void writeBytes(String s) throws IOException {
-        objectOutput.writeBytes(s);
+        dataOutput.writeBytes(s);
     }
 
     public void writeChars(String s) throws IOException {
-        objectOutput.writeChars(s);
+        dataOutput.writeChars(s);
     }
 
     public void writeUTF(String s) throws IOException {
-        objectOutput.writeUTF(s);
+        dataOutput.writeUTF(s);
     }
 
 
@@ -160,10 +141,30 @@ public class PairingObjectOutput implements ObjectOutput {
         writeBytes(bigInteger.toByteArray());
     }
 
+
+    public void writeBigInteger(BigInteger bigInteger, int ensureLength) throws IOException {
+        byte[] bytes = bigInteger.toByteArray();
+
+        if (bytes.length < ensureLength) {
+            byte[] result = new byte[ensureLength];
+            System.arraycopy(bytes, 0, result, ensureLength - bytes.length, bytes.length);
+            bytes = result;
+        }
+
+        writeBytes(bytes);
+    }
+
     public void writeBigIntegers(BigInteger[] bigIntegers) throws IOException {
         writeInt(bigIntegers.length);
         for (BigInteger bigInteger : bigIntegers) {
             writeBigInteger(bigInteger);
+        }
+    }
+
+    public void writeBigIntegers(BigInteger[] bigIntegers, int ensureLength) throws IOException {
+        writeInt(bigIntegers.length);
+        for (BigInteger bigInteger : bigIntegers) {
+            writeBigInteger(bigInteger, ensureLength);
         }
     }
 
@@ -173,7 +174,5 @@ public class PairingObjectOutput implements ObjectOutput {
             throw new IllegalArgumentException("The field does not belong to the current pairing instance.");
         writeInt(identifier.ordinal());
     }
-
-
 
 }

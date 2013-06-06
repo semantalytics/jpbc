@@ -43,7 +43,7 @@ public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
     }
 
 
-    public CTL13MMMapParameters generateInternal() {
+    public CTL13MMMapParameters generateInternal(CTL13MMMapParameters mapParameters) {
         TaskManager taskManager = new TaskManager();
         taskManager.addTask(new Task("x0+ps") {
             public void run() {
@@ -217,7 +217,6 @@ public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
         long end = System.currentTimeMillis();
         System.out.println("end = " + (end - start));
 
-        CTL13MMMapParameters mapParameters = new CTL13MMMapParameters(parameters);
         mapParameters.put("params", parameters);
         mapParameters.put("x0", taskManager.get("x0"));
         mapParameters.put("y", taskManager.get("y"));

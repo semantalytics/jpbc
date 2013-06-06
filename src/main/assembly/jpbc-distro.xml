@@ -146,8 +146,8 @@
 
     <files>
         <file>
-            <source>./src/main/assembly/distro/pom.xml</source>
-            <outputDirectory>.</outputDirectory>
+            <source>./src/main/assembly/distro/distro_pom.xml</source>
+            <outputDirectory>./pom.xml</outputDirectory>
         </file>
         <file>
             <source>jpbc.xml</source>

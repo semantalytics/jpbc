@@ -11,20 +11,20 @@ import java.util.Map;
  */
 public class MapParameters implements PairingParameters {
 
-    protected LinkedHashMap<String, Object> parameters;
+    protected Map<String, Object> values;
 
 
     public MapParameters() {
-        this.parameters = new LinkedHashMap<String, Object>();
+        this.values = new LinkedHashMap<String, Object>();
     }
 
 
     public String getType() {
-        return (String) parameters.get("type");
+        return (String) values.get("type");
     }
 
     public boolean containsKey(String key) {
-        return parameters.containsKey(key);
+        return values.containsKey(key);
     }
 
     public int getInt(String key) {
@@ -44,7 +44,7 @@ public class MapParameters implements PairingParameters {
     }
 
     public BigInteger getBigInteger(String key) {
-        return (BigInteger) parameters.get(key);
+        return (BigInteger) values.get(key);
     }
 
     public BigInteger getBigIntegerAt(String key, int index) {
@@ -72,7 +72,7 @@ public class MapParameters implements PairingParameters {
     }
 
     public Object getObject(String key) {
-        return parameters.get(key);
+        return values.get(key);
     }
 
     public String toString(String separator) {
@@ -86,23 +86,23 @@ public class MapParameters implements PairingParameters {
 
         MapParameters that = (MapParameters) o;
 
-        if (parameters != null ? !parameters.equals(that.parameters) : that.parameters != null) return false;
+        if (values != null ? !values.equals(that.values) : that.values != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return parameters != null ? parameters.hashCode() : 0;
+        return values != null ? values.hashCode() : 0;
     }
 
 
     public void putAll(Map<? extends String, ?> m) {
-        parameters.putAll(m);
+        values.putAll(m);
     }
 
     public void put(String key, Object o) {
-        parameters.put(key, o);
+        values.put(key, o);
     }
 
 }

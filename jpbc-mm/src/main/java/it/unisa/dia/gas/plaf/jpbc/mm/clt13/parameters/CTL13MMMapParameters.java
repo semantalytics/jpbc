@@ -2,17 +2,18 @@ package it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters;
 
 import it.unisa.dia.gas.jpbc.PairingParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.MapParameters;
-import it.unisa.dia.gas.plaf.jpbc.util.io.PairingObjectInput;
-import it.unisa.dia.gas.plaf.jpbc.util.io.PairingObjectOutput;
+import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.MutablePairingParameters;
+import it.unisa.dia.gas.plaf.jpbc.util.io.PairingDataInput;
+import it.unisa.dia.gas.plaf.jpbc.util.io.PairingDataOutput;
 
-import java.io.File;
+import java.io.*;
 import java.math.BigInteger;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  * @since 1.3.0
  */
-public class CTL13MMMapParameters extends MapParameters {
+public class CTL13MMMapParameters extends MapParameters implements MutablePairingParameters {
 
     protected CTL13MMInstanceParameters parameters;
 
@@ -23,6 +24,10 @@ public class CTL13MMMapParameters extends MapParameters {
 
     public CTL13MMMapParameters(PairingParameters parameters) {
         this.parameters = new CTL13MMInstanceParameters(parameters);
+    }
+
+
+    public void init() {
     }
 
 
@@ -37,29 +42,32 @@ public class CTL13MMMapParameters extends MapParameters {
 
     public void store(String fileName) {
         try {
-            PairingObjectOutput dos = new PairingObjectOutput(fileName);
+            DataOutputStream os = new DataOutputStream(new FileOutputStream(fileName));
+            PairingDataOutput pdo = new PairingDataOutput(os);
 
-            dos.writeBigInteger(getBigInteger("x0"));
-            dos.writeBigInteger(getBigInteger("y"));
-            dos.writeBigInteger(getBigInteger("pzt"));
-            dos.writeBigInteger(getBigInteger("z"));
-            dos.writeBigInteger(getBigInteger("zInv"));
+            int x0NumBytes = getBigInteger("x0").toByteArray().length;
 
-            dos.writeBigIntegers((BigInteger[]) getObject("xsp"));
-            dos.writeBigIntegers((BigInteger[]) getObject("crtCoefficients"));
-            dos.writeBigIntegers((BigInteger[]) getObject("xs"));
-            dos.writeBigIntegers((BigInteger[]) getObject("gs"));
-            dos.writeBigIntegers((BigInteger[]) getObject("ps"));
+            pdo.writeBigInteger(getBigInteger("x0"));
+            pdo.writeBigInteger(getBigInteger("y"), x0NumBytes);
+            pdo.writeBigInteger(getBigInteger("pzt"), x0NumBytes);
+            pdo.writeBigInteger(getBigInteger("z"), x0NumBytes);
+            pdo.writeBigInteger(getBigInteger("zInv"), x0NumBytes);
 
-            dos.flush();
-            dos.close();
+            pdo.writeBigIntegers((BigInteger[]) getObject("xsp"), x0NumBytes);
+            pdo.writeBigIntegers((BigInteger[]) getObject("crtCoefficients"), x0NumBytes);
+            pdo.writeBigIntegers((BigInteger[]) getObject("xs"), x0NumBytes);
+            pdo.writeBigIntegers((BigInteger[]) getObject("gs"), (parameters.getAlpha() + 7) / 8);
+            pdo.writeBigIntegers((BigInteger[]) getObject("ps"), (parameters.getEta() + 7) / 8);
+
+            os.flush();
+            os.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
 
-    public PairingParameters load() {
+    public boolean load() {
         return load(String.format(
                 "CTL13IP_eta_%d_n_%d_alpha_%d_ell_%d_rho_%d_delta_%d_kappa_%d_beta_%d_theta_%d_bound_%d.dat",
                 parameters.getEta(), parameters.getN(), parameters.getAlpha(), parameters.getEll(),
@@ -68,12 +76,13 @@ public class CTL13MMMapParameters extends MapParameters {
         );
     }
 
-    public PairingParameters load(String path) {
+    public boolean load(String path) {
         try {
             if (!new File(path).exists())
-                return null;
+                return false;
 
-            PairingObjectInput dos = new PairingObjectInput(path);
+            DataInputStream is = new DataInputStream(new FileInputStream(path));
+            PairingDataInput dos = new PairingDataInput(is);
 
             BigInteger x0 = dos.readBigInteger();
             BigInteger y = dos.readBigInteger();
@@ -87,7 +96,7 @@ public class CTL13MMMapParameters extends MapParameters {
             BigInteger[] gs = dos.readBigIntegers();
             BigInteger[] ps = dos.readBigIntegers();
 
-            dos.close();
+            is.close();
 
             put("params", parameters);
             put("x0", x0);
@@ -101,7 +110,7 @@ public class CTL13MMMapParameters extends MapParameters {
             put("gs", gs);
             put("ps", ps);
 
-            return this;
+            return true;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

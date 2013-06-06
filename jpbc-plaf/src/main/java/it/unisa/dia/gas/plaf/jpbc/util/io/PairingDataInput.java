@@ -1,126 +1,84 @@
 package it.unisa.dia.gas.plaf.jpbc.util.io;
 
 import it.unisa.dia.gas.jpbc.*;
-import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
-import java.io.FileInputStream;
+import java.io.DataInput;
 import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectInputStream;
 import java.math.BigInteger;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class PairingObjectInput implements ObjectInput {
+public class PairingDataInput implements DataInput {
 
-    private ObjectInput objectInput;
+    private DataInput dataInput;
     private PairingParameters parameters;
     private Pairing pairing;
 
 
-    public PairingObjectInput(ObjectInput objectInput) {
-        this.objectInput = objectInput;
+    public PairingDataInput(DataInput dataInput) {
+        this.dataInput = dataInput;
     }
 
-    public PairingObjectInput(String fileName) throws IOException {
-        this.objectInput = new ObjectInputStream(new FileInputStream(fileName));
-    }
-
-
-    public Object readObject() throws ClassNotFoundException, IOException {
-        return objectInput.readObject();
-    }
-
-    public int read() throws IOException {
-        return objectInput.read();
-    }
-
-    public int read(byte[] b) throws IOException {
-        return objectInput.read(b);
-    }
-
-    public int read(byte[] b, int off, int len) throws IOException {
-        return objectInput.read(b, off, len);
-    }
-
-    public long skip(long n) throws IOException {
-        return objectInput.skip(n);
-    }
-
-    public int available() throws IOException {
-        return objectInput.available();
-    }
-
-    public void close() throws IOException {
-        objectInput.close();
-    }
 
     public void readFully(byte[] b) throws IOException {
-        objectInput.readFully(b);
+        dataInput.readFully(b);
     }
 
     public void readFully(byte[] b, int off, int len) throws IOException {
-        objectInput.readFully(b, off, len);
+        dataInput.readFully(b, off, len);
     }
 
     public int skipBytes(int n) throws IOException {
-        return objectInput.skipBytes(n);
+        return dataInput.skipBytes(n);
     }
 
     public boolean readBoolean() throws IOException {
-        return objectInput.readBoolean();
+        return dataInput.readBoolean();
     }
 
     public byte readByte() throws IOException {
-        return objectInput.readByte();
+        return dataInput.readByte();
     }
 
     public int readUnsignedByte() throws IOException {
-        return objectInput.readUnsignedByte();
+        return dataInput.readUnsignedByte();
     }
 
     public short readShort() throws IOException {
-        return objectInput.readShort();
+        return dataInput.readShort();
     }
 
     public int readUnsignedShort() throws IOException {
-        return objectInput.readUnsignedShort();
+        return dataInput.readUnsignedShort();
     }
 
     public char readChar() throws IOException {
-        return objectInput.readChar();
+        return dataInput.readChar();
     }
 
     public int readInt() throws IOException {
-        return objectInput.readInt();
+        return dataInput.readInt();
     }
 
     public long readLong() throws IOException {
-        return objectInput.readLong();
+        return dataInput.readLong();
     }
 
     public float readFloat() throws IOException {
-        return objectInput.readFloat();
+        return dataInput.readFloat();
     }
 
     public double readDouble() throws IOException {
-        return objectInput.readDouble();
+        return dataInput.readDouble();
     }
 
     public String readLine() throws IOException {
-        return objectInput.readLine();
+        return dataInput.readLine();
     }
 
     public String readUTF() throws IOException {
-        return objectInput.readUTF();
-    }
-
-    public PairingParameters readParameters() throws IOException, ClassNotFoundException {
-        this.parameters = (PairingParameters) objectInput.readObject();
-        this.pairing = PairingFactory.getPairing(parameters);
-
-        return parameters;
+        return dataInput.readUTF();
     }
 
     public Pairing getPairing() {
