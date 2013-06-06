@@ -10,10 +10,15 @@ import java.math.BigInteger;
  */
 public abstract class ContextRunnable implements Runnable, MutablePairingParameters {
 
+    private String name;
     private ContextExecutor executor;
 
 
-    protected ContextRunnable() {
+    public ContextRunnable() {
+    }
+
+    public ContextRunnable(String name) {
+        this.name = name;
     }
 
 
@@ -25,6 +30,21 @@ public abstract class ContextRunnable implements Runnable, MutablePairingParamet
         this.executor = executor;
     }
 
+    public void putBigInteger(String key, BigInteger value) {
+        executor.putBigInteger(key, value);
+    }
+
+    public void putBigIntegerAt(String key, int index, BigInteger value) {
+        executor.putBigIntegerAt(key, index, value);
+    }
+
+    public void putBoolean(String key, boolean value) {
+        executor.putBoolean(key, value);
+    }
+
+    public void putObject(String key, Object value) {
+        executor.putObject(key, value);
+    }
 
     public boolean containsKey(String key) {
         return executor.containsKey(key);

@@ -2,8 +2,8 @@ package it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators;
 
 import it.unisa.dia.gas.jpbc.PairingParameters;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstanceParameters;
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMMapParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
+import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.MutablePairingParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.ExecutorServiceUtils;
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.Pool;
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.PoolExecutor;
@@ -23,27 +23,27 @@ import static it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils.getRandom;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  * @since 1.3.0
  */
-public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
+public class CTL13MMMulthiThreadInstanceGenerator extends CTL13MMInstanceGenerator {
 
 
-    public MTCTL13MMInstanceGenerator(SecureRandom random, CTL13MMInstanceParameters parameters) {
+    public CTL13MMMulthiThreadInstanceGenerator(SecureRandom random, CTL13MMInstanceParameters parameters) {
         super(random, parameters);
     }
 
-    public MTCTL13MMInstanceGenerator(SecureRandom random, PairingParameters parameters) {
+    public CTL13MMMulthiThreadInstanceGenerator(SecureRandom random, PairingParameters parameters) {
         super(random, parameters);
     }
 
-    public MTCTL13MMInstanceGenerator(SecureRandom random, CTL13MMInstanceParameters parameters, boolean storeGeneratedInstance) {
+    public CTL13MMMulthiThreadInstanceGenerator(SecureRandom random, CTL13MMInstanceParameters parameters, boolean storeGeneratedInstance) {
         super(random, parameters, storeGeneratedInstance);
     }
 
-    public MTCTL13MMInstanceGenerator(SecureRandom random, PairingParameters parameters, boolean storeGeneratedInstance) {
+    public CTL13MMMulthiThreadInstanceGenerator(SecureRandom random, PairingParameters parameters, boolean storeGeneratedInstance) {
         super(random, parameters, storeGeneratedInstance);
     }
 
 
-    public CTL13MMMapParameters generateInternal(CTL13MMMapParameters mapParameters) {
+    public void generateInternal(MutablePairingParameters mapParameters) {
         TaskManager taskManager = new TaskManager();
         taskManager.addTask(new Task("x0+ps") {
             public void run() {
@@ -217,24 +217,22 @@ public class MTCTL13MMInstanceGenerator extends CTL13MMInstanceGenerator {
         long end = System.currentTimeMillis();
         System.out.println("end = " + (end - start));
 
-        mapParameters.put("params", parameters);
-        mapParameters.put("x0", taskManager.get("x0"));
-        mapParameters.put("y", taskManager.get("y"));
-        mapParameters.put("pzt", taskManager.get("pzt"));
-        mapParameters.put("z", taskManager.get("z"));
-        mapParameters.put("zInv", taskManager.get("zInv"));
-        mapParameters.put("xsp", taskManager.get("xsp"));
-        mapParameters.put("crtCoefficients", taskManager.get("crtCoefficients"));
-        mapParameters.put("xs", taskManager.get("xs"));
-        mapParameters.put("gs", taskManager.get("gs"));
-        mapParameters.put("ps", taskManager.get("ps"));
-
-        return mapParameters;
+        mapParameters.putObject("params", parameters);
+        mapParameters.putObject("x0", taskManager.get("x0"));
+        mapParameters.putObject("y", taskManager.get("y"));
+        mapParameters.putObject("pzt", taskManager.get("pzt"));
+        mapParameters.putObject("z", taskManager.get("z"));
+        mapParameters.putObject("zInv", taskManager.get("zInv"));
+        mapParameters.putObject("xsp", taskManager.get("xsp"));
+        mapParameters.putObject("crtCoefficients", taskManager.get("crtCoefficients"));
+        mapParameters.putObject("xs", taskManager.get("xs"));
+        mapParameters.putObject("gs", taskManager.get("gs"));
+        mapParameters.putObject("ps", taskManager.get("ps"));
     }
 
 
     public static void main(String[] args) {
-        MTCTL13MMInstanceGenerator gen = new MTCTL13MMInstanceGenerator(new SecureRandom(),
+        CTL13MMMulthiThreadInstanceGenerator gen = new CTL13MMMulthiThreadInstanceGenerator(new SecureRandom(),
                 PairingFactory.getInstance().loadParameters("./params/mm/ctl13/toy.properties")
         );
         gen.generate();

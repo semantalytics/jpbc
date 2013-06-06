@@ -92,13 +92,13 @@ public class CTL13MMLazyMapParameters extends CTL13MMMapParameters {
             BigInteger z = dos.readBigInteger();
             BigInteger zInv = dos.readBigInteger();
 
-            put("params", parameters);
+            putObject("params", parameters);
 
-            put("x0", x0);
-            put("y", y);
-            put("pzt", pzt);
-            put("z", z);
-            put("zInv", zInv);
+            putObject("x0", x0);
+            putObject("y", y);
+            putObject("pzt", pzt);
+            putObject("z", z);
+            putObject("zInv", zInv);
 
             int x0Length = x0.toByteArray().length;
             int cursor = (x0Length + 4) * 5;

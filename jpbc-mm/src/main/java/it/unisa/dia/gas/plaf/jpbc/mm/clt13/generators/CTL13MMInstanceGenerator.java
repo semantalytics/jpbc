@@ -5,6 +5,7 @@ import it.unisa.dia.gas.jpbc.PairingParametersGenerator;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstanceParameters;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMLazyMapParameters;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMMapParameters;
+import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.MutablePairingParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
 import java.math.BigInteger;
@@ -58,7 +59,7 @@ public class CTL13MMInstanceGenerator implements PairingParametersGenerator {
         return mapParameters;
     }
 
-    protected CTL13MMMapParameters generateInternal(CTL13MMMapParameters mapParameters) {
+    protected void generateInternal(MutablePairingParameters mapParameters) {
         long start = System.currentTimeMillis();
 
         // Generate CRT modulo x0
@@ -156,19 +157,17 @@ public class CTL13MMInstanceGenerator implements PairingParametersGenerator {
 
         System.out.println("end = " + (end-start));
 
-        mapParameters.put("params", parameters);
-        mapParameters.put("x0", x0);
-        mapParameters.put("y", y);
-        mapParameters.put("pzt", pzt);
-        mapParameters.put("z", z);
-        mapParameters.put("zInv", zInv);
-        mapParameters.put("xsp", xsp);
-        mapParameters.put("crtCoefficients", crtCoefficients);
-        mapParameters.put("xs", xs);
-        mapParameters.put("gs", gs);
-        mapParameters.put("ps", ps);
-
-        return mapParameters;
+        mapParameters.putObject("params", parameters);
+        mapParameters.putObject("x0", x0);
+        mapParameters.putObject("y", y);
+        mapParameters.putObject("pzt", pzt);
+        mapParameters.putObject("z", z);
+        mapParameters.putObject("zInv", zInv);
+        mapParameters.putObject("xsp", xsp);
+        mapParameters.putObject("crtCoefficients", crtCoefficients);
+        mapParameters.putObject("xs", xs);
+        mapParameters.putObject("gs", gs);
+        mapParameters.putObject("ps", ps);
     }
 
 

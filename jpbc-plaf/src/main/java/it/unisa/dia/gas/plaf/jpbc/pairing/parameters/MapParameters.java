@@ -1,15 +1,15 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing.parameters;
 
-import it.unisa.dia.gas.jpbc.PairingParameters;
-
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class MapParameters implements PairingParameters {
+public class MapParameters implements MutablePairingParameters {
 
     protected Map<String, Object> values;
 
@@ -48,7 +48,18 @@ public class MapParameters implements PairingParameters {
     }
 
     public BigInteger getBigIntegerAt(String key, int index) {
-        return ((BigInteger[]) getObject(key))[index];
+        Object value = getObject(key);
+
+        if (value instanceof List) {
+            List list = (List) value;
+            return (BigInteger) list.get(index);
+        }
+
+        if (value instanceof BigInteger[]) {
+            return ((BigInteger[])value)[index];
+        }
+
+        throw new IllegalArgumentException("Key not found or invalid");
     }
 
     public BigInteger getBigInteger(String key, BigInteger defaultValue) {
@@ -79,6 +90,32 @@ public class MapParameters implements PairingParameters {
         throw new IllegalStateException("Not Implemented yet!");
     }
 
+
+    public void putObject(String key, Object value) {
+        values.put(key, value);
+    }
+
+    public void putBigIntegerAt(String key, int index, BigInteger value) {
+        Object obj = getObject(key);
+        if (obj instanceof List) {
+            List list = (List) obj;
+            list.add(index, value);
+        } else {
+            List<BigInteger> list = new ArrayList<BigInteger>();
+            list.add(index, value);
+
+            values.put(key, list);
+        }
+    }
+
+    public void putBigInteger(String key, BigInteger value) {
+        values.put(key, value);
+    }
+
+    public void putBoolean(String key, boolean value) {
+        values.put(key, value);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -96,13 +133,5 @@ public class MapParameters implements PairingParameters {
         return values != null ? values.hashCode() : 0;
     }
 
-
-    public void putAll(Map<? extends String, ?> m) {
-        values.putAll(m);
-    }
-
-    public void put(String key, Object o) {
-        values.put(key, o);
-    }
 
 }

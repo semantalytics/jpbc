@@ -28,9 +28,31 @@ public class ContextExecutor extends PoolExecutor implements MutablePairingParam
 
 
     public Pool submit(Callable callable) {
-        throw new IllegalStateException();
+        throw new IllegalStateException("Invalid method invocation!");
     }
 
+    public ContextExecutor submit(ContextRunnable runnable) {
+        runnable.setExecutor(this);
+        super.submit(runnable);
+
+        return this;
+    }
+
+    public void putBigIntegerAt(String key, int index, BigInteger value) {
+        parameters.putBigIntegerAt(key, index, value);
+    }
+
+    public void putBigInteger(String key, BigInteger value) {
+        parameters.putBigInteger(key, value);
+    }
+
+    public void putBoolean(String key, boolean value) {
+        parameters.putBoolean(key, value);
+    }
+
+    public void putObject(String key, Object value) {
+        parameters.putObject(key, value);
+    }
 
     public boolean containsKey(String key) {
         return parameters.containsKey(key);

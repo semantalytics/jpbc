@@ -2,7 +2,6 @@ package it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters;
 
 import it.unisa.dia.gas.jpbc.PairingParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.MapParameters;
-import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.MutablePairingParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.io.PairingDataInput;
 import it.unisa.dia.gas.plaf.jpbc.util.io.PairingDataOutput;
 
@@ -13,7 +12,7 @@ import java.math.BigInteger;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  * @since 1.3.0
  */
-public class CTL13MMMapParameters extends MapParameters implements MutablePairingParameters {
+public class CTL13MMMapParameters extends MapParameters {
 
     protected CTL13MMInstanceParameters parameters;
 
@@ -98,17 +97,17 @@ public class CTL13MMMapParameters extends MapParameters implements MutablePairin
 
             is.close();
 
-            put("params", parameters);
-            put("x0", x0);
-            put("y", y);
-            put("pzt", pzt);
-            put("z", z);
-            put("zInv", zInv);
-            put("xsp", xsp);
-            put("crtCoefficients", crtCoefficients);
-            put("xs", xs);
-            put("gs", gs);
-            put("ps", ps);
+            putObject("params", parameters);
+            putObject("x0", x0);
+            putObject("y", y);
+            putObject("pzt", pzt);
+            putObject("z", z);
+            putObject("zInv", zInv);
+            putObject("xsp", xsp);
+            putObject("crtCoefficients", crtCoefficients);
+            putObject("xs", xs);
+            putObject("gs", gs);
+            putObject("ps", ps);
 
             return true;
         } catch (Exception e) {
