@@ -2,6 +2,8 @@ package it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators;
 
 import it.unisa.dia.gas.jpbc.PairingParameters;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstanceParameters;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMLazyMapParameters;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMMapParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.MutablePairingParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.ExecutorServiceUtils;
@@ -42,6 +44,10 @@ public class CTL13MMLazyInstanceGenerator extends CTL13MMInstanceGenerator {
         super(random, parameters, storeGeneratedInstance);
     }
 
+
+    protected CTL13MMMapParameters newCTL13MMMapParameters() {
+        return new CTL13MMLazyMapParameters(parameters);
+    }
 
     protected void generateInternal(MutablePairingParameters mapParameters) {
         ContextExecutor executor = new ContextExecutor(mapParameters);

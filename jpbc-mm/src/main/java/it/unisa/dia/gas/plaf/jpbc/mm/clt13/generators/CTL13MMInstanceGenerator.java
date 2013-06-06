@@ -59,6 +59,10 @@ public class CTL13MMInstanceGenerator implements PairingParametersGenerator {
         return mapParameters;
     }
 
+    protected CTL13MMMapParameters newCTL13MMMapParameters() {
+        return new CTL13MMMapParameters(parameters);
+    }
+
     protected void generateInternal(MutablePairingParameters mapParameters) {
         long start = System.currentTimeMillis();
 
