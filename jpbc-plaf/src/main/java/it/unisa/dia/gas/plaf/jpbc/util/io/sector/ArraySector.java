@@ -6,10 +6,15 @@ package it.unisa.dia.gas.plaf.jpbc.util.io.sector;
  */
 public interface ArraySector<T> extends Sector {
 
-    public int getSize();
+    int getSize();
 
-    public T getAt(int index);
+    T getAt(int index);
 
-    public void setAt(int index, T value);
+    void setAt(int index, T value);
+
+
+    T getAt(String label);
+
+    void setAt(String label, T value);
 
 }

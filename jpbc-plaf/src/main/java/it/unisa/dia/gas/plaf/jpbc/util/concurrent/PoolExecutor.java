@@ -16,7 +16,7 @@ public class PoolExecutor<T> implements Pool<T> {
 
 
     public PoolExecutor() {
-        this(ExecutorServiceUtils.getFixedThreadPool());
+        this(ExecutorServiceUtils.getCachedThreadPool());
     }
 
     public PoolExecutor(Executor executor) {

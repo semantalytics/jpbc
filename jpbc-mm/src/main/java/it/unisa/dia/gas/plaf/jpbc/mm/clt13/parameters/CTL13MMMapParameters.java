@@ -44,19 +44,21 @@ public class CTL13MMMapParameters extends MapParameters {
             DataOutputStream os = new DataOutputStream(new FileOutputStream(fileName));
             PairingDataOutput pdo = new PairingDataOutput(os);
 
-            int x0NumBytes = getBigInteger("x0").toByteArray().length;
+            int x0Length = (parameters.getEta() * parameters.getN() + 7) / 8;
+            int gLength = (parameters.getAlpha() + 7) / 8;
+            int pLength = (parameters.getEta() + 7) / 8;
 
-            pdo.writeBigInteger(getBigInteger("x0"));
-            pdo.writeBigInteger(getBigInteger("y"), x0NumBytes);
-            pdo.writeBigInteger(getBigInteger("pzt"), x0NumBytes);
-            pdo.writeBigInteger(getBigInteger("z"), x0NumBytes);
-            pdo.writeBigInteger(getBigInteger("zInv"), x0NumBytes);
+            pdo.writeBigInteger(getBigInteger("x0"), x0Length);
+            pdo.writeBigInteger(getBigInteger("y"), x0Length);
+            pdo.writeBigInteger(getBigInteger("pzt"), x0Length);
+            pdo.writeBigInteger(getBigInteger("z"), x0Length);
+            pdo.writeBigInteger(getBigInteger("zInv"), x0Length);
 
-            pdo.writeBigIntegers((BigInteger[]) getObject("xsp"), x0NumBytes);
-            pdo.writeBigIntegers((BigInteger[]) getObject("crtCoefficients"), x0NumBytes);
-            pdo.writeBigIntegers((BigInteger[]) getObject("xs"), x0NumBytes);
-            pdo.writeBigIntegers((BigInteger[]) getObject("gs"), (parameters.getAlpha() + 7) / 8);
-            pdo.writeBigIntegers((BigInteger[]) getObject("ps"), (parameters.getEta() + 7) / 8);
+            pdo.writeBigIntegers((BigInteger[]) getObject("xsp"), x0Length);
+            pdo.writeBigIntegers((BigInteger[]) getObject("crtCoefficients"), x0Length);
+            pdo.writeBigIntegers((BigInteger[]) getObject("xs"), x0Length);
+            pdo.writeBigIntegers((BigInteger[]) getObject("gs"), gLength);
+            pdo.writeBigIntegers((BigInteger[]) getObject("ps"), pLength);
 
             os.flush();
             os.close();

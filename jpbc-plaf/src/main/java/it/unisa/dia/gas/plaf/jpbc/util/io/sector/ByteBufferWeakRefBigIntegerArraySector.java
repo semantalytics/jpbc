@@ -1,15 +1,8 @@
 package it.unisa.dia.gas.plaf.jpbc.util.io.sector;
 
-import it.unisa.dia.gas.plaf.jpbc.util.io.ByteBufferDataInput;
-import it.unisa.dia.gas.plaf.jpbc.util.io.ByteBufferDataOutput;
-import it.unisa.dia.gas.plaf.jpbc.util.io.PairingDataInput;
-import it.unisa.dia.gas.plaf.jpbc.util.io.PairingDataOutput;
-
 import java.io.IOException;
 import java.lang.ref.SoftReference;
 import java.math.BigInteger;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -17,47 +10,23 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  * @since 1.3.0
  */
-public class ByteBufferWeakRefBigIntegerArraySector implements ArraySector<BigInteger> {
+public class ByteBufferWeakRefBigIntegerArraySector extends ByteBufferBigIntegerArraySector {
 
-    private ByteBuffer buffer;
-    private int offset;
-    private int recordSize;
-
-    private int lengthInBytes;
-
-    private PairingDataInput in;
-    private PairingDataOutput out;
-
-    private Map<Integer, SoftReference<BigInteger>> cache;
+    protected Map<Integer, SoftReference<BigInteger>> cache;
 
 
-    public ByteBufferWeakRefBigIntegerArraySector(ByteBuffer buffer, int offset, int recordSize) {
-        this.buffer = buffer;
-        this.offset = offset + 4;
-        this.recordSize = recordSize + 4;
-        this.lengthInBytes = buffer.capacity();
+    public ByteBufferWeakRefBigIntegerArraySector(int recordSize, int numRecords) throws IOException {
+        super(recordSize, numRecords);
 
-        this.in = new PairingDataInput(new ByteBufferDataInput(buffer));
-        this.out = new PairingDataOutput(new ByteBufferDataOutput(buffer));
         this.cache = new ConcurrentHashMap<Integer, SoftReference<BigInteger>>();
     }
 
-    public ByteBufferWeakRefBigIntegerArraySector(ByteBuffer buffer, int recordSize) {
-        this(buffer, 0, recordSize);
+    public ByteBufferWeakRefBigIntegerArraySector(int recordSize, int numRecords, String... labels) throws IOException {
+        super(recordSize, numRecords, labels);
+
+        this.cache = new ConcurrentHashMap<Integer, SoftReference<BigInteger>>();
     }
 
-    public ByteBufferWeakRefBigIntegerArraySector(FileChannel channel, int offset, int recordSize, int numRecords) throws IOException {
-        this(channel.map(FileChannel.MapMode.READ_ONLY, offset, 4 + ((recordSize + 4) * numRecords)), 0, recordSize);
-    }
-
-
-    public int getLengthInBytes() {
-        return lengthInBytes;
-    }
-
-    public int getSize() {
-        throw new IllegalStateException();
-    }
 
     public synchronized BigInteger getAt(int index) {
         BigInteger result = null;
@@ -68,7 +37,7 @@ public class ByteBufferWeakRefBigIntegerArraySector implements ArraySector<BigIn
 
         if (result == null) {
             try {
-                buffer.position(offset + (index * recordSize));
+                buffer.position(offset + (index * recordLength));
                 result = in.readBigInteger();
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -83,8 +52,8 @@ public class ByteBufferWeakRefBigIntegerArraySector implements ArraySector<BigIn
         cache.put(index, new SoftReference<BigInteger>(value));
 
         try {
-            buffer.position(offset + (index * recordSize));
-            out.writeBigInteger(value);
+            buffer.position(offset + (index * recordLength));
+            out.writeBigInteger(value, recordSize);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

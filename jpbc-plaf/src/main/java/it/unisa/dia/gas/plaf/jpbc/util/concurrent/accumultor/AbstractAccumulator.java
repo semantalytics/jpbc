@@ -1,5 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.util.concurrent.accumultor;
 
+import it.unisa.dia.gas.plaf.jpbc.util.concurrent.ExecutorServiceUtils;
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.Pool;
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.PoolExecutor;
 
@@ -17,6 +18,7 @@ public abstract class AbstractAccumulator<T> extends PoolExecutor<T> implements 
 
 
     public AbstractAccumulator() {
+        this(ExecutorServiceUtils.getFixedThreadPool());
     }
 
     public AbstractAccumulator(Executor executor) {

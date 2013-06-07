@@ -1,67 +1,33 @@
 package it.unisa.dia.gas.plaf.jpbc.util.io.sector;
 
-import it.unisa.dia.gas.plaf.jpbc.util.io.ByteBufferDataInput;
-import it.unisa.dia.gas.plaf.jpbc.util.io.ByteBufferDataOutput;
-import it.unisa.dia.gas.plaf.jpbc.util.io.PairingDataInput;
-import it.unisa.dia.gas.plaf.jpbc.util.io.PairingDataOutput;
-
 import java.io.IOException;
 import java.lang.ref.SoftReference;
 import java.math.BigInteger;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  * @since 1.3.0
  */
-public class ByteBufferLatchWeakRefBigIntegerArraySector implements ArraySector<BigInteger> {
-
-    protected ByteBuffer buffer;
-    protected int offset;
-    protected int recordSize;
-
-    protected int lengthInBytes;
-
-    protected PairingDataInput in;
-    protected PairingDataOutput out;
+public class ByteBufferLatchWeakRefBigIntegerArraySector extends ByteBufferWeakRefBigIntegerArraySector {
 
     protected Map<Integer, FlagLatch> latches;
-    protected Map<Integer, SoftReference<BigInteger>> cache;
 
 
-    public ByteBufferLatchWeakRefBigIntegerArraySector(ByteBuffer buffer, int offset, int recordSize) {
-        this.buffer = buffer;
-        this.offset = offset + 4;
-        this.recordSize = recordSize + 4;
-        this.lengthInBytes = buffer.capacity();
+    public ByteBufferLatchWeakRefBigIntegerArraySector(int recordSize, int numRecords) throws IOException {
+        super(recordSize, numRecords);
 
-        this.in = new PairingDataInput(new ByteBufferDataInput(buffer));
-        this.out = new PairingDataOutput(new ByteBufferDataOutput(buffer));
         this.latches = new FlagLatchMap<Integer>();
-        this.cache = new ConcurrentHashMap<Integer, SoftReference<BigInteger>>();
     }
 
-    public ByteBufferLatchWeakRefBigIntegerArraySector(ByteBuffer buffer, int recordSize) {
-        this(buffer, 0, recordSize);
+    public ByteBufferLatchWeakRefBigIntegerArraySector(int recordSize, int numRecords, String... labels) throws IOException {
+        super(recordSize, numRecords, labels);
+
+        this.latches = new FlagLatchMap<Integer>();
     }
 
-    public ByteBufferLatchWeakRefBigIntegerArraySector(FileChannel channel, int offset, int recordSize, int numRecords) throws IOException {
-        this(channel.map(FileChannel.MapMode.READ_ONLY, offset, 4 + ((recordSize + 4) * numRecords)), 0, recordSize);
-    }
-
-
-    public int getLengthInBytes() {
-        return lengthInBytes;
-    }
-
-    public int getSize() {
-        throw new IllegalStateException();
-    }
 
     public BigInteger getAt(int index) {
         latches.get(index).get();
@@ -75,7 +41,7 @@ public class ByteBufferLatchWeakRefBigIntegerArraySector implements ArraySector<
         if (result == null) {
             synchronized (this) {
                 try {
-                    buffer.position(offset + (index * recordSize));
+                    buffer.position(offset + (index * recordLength));
                     result = in.readBigInteger();
                 } catch (Exception e) {
                     throw new RuntimeException(e);
@@ -92,8 +58,8 @@ public class ByteBufferLatchWeakRefBigIntegerArraySector implements ArraySector<
 
         synchronized (this) {
             try {
-                buffer.position(offset + (index * recordSize));
-                out.writeBigInteger(value);
+                buffer.position(offset + (index * recordLength));
+                out.writeBigInteger(value, recordSize);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

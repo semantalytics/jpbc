@@ -8,7 +8,8 @@ import it.unisa.dia.gas.plaf.jpbc.util.io.PairingDataOutput;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -16,38 +17,33 @@ import java.nio.channels.FileChannel;
  */
 public class ByteBufferBigIntegerArraySector implements ArraySector<BigInteger> {
 
-    private ByteBuffer buffer;
-    private int offset;
-    private int recordSize;
+    protected ByteBuffer buffer;
+    protected int offset, recordSize, recordLength, numRecords;
+    protected int lengthInBytes;
 
-    private int lengthInBytes;
+    protected PairingDataInput in;
+    protected PairingDataOutput out;
 
-    private PairingDataInput in;
-    private PairingDataOutput out;
+    protected Map<String, Integer> labelsMap;
 
-    public ByteBufferBigIntegerArraySector(ByteBuffer buffer, int offset, int recordSize) {
-        this.buffer = buffer;
-        this.offset = offset + 4;
-        this.recordSize = recordSize + 4;
-        this.lengthInBytes = buffer.capacity();
 
-        this.in = new PairingDataInput(new ByteBufferDataInput(buffer));
-        this.out = new PairingDataOutput(new ByteBufferDataOutput(buffer));
-    }
 
-    public ByteBufferBigIntegerArraySector(ByteBuffer buffer, int recordSize) {
-        this(buffer, 0, recordSize);
-    }
-
-    public ByteBufferBigIntegerArraySector(FileChannel channel, int offset, int recordSize, int numRecords) throws IOException {
+    public ByteBufferBigIntegerArraySector(int recordSize, int numRecords) throws IOException {
         this.lengthInBytes = 4 + ((recordSize + 4) * numRecords);
 
-        this.buffer = channel.map(FileChannel.MapMode.READ_ONLY, offset, lengthInBytes);
         this.offset = 4;
-        this.recordSize = recordSize + 4;
+        this.recordSize = recordSize;
+        this.recordLength = recordSize + 4;
+        this.numRecords = numRecords;
+    }
 
-        this.in = new PairingDataInput(new ByteBufferDataInput(buffer));
-        this.out = new PairingDataOutput(new ByteBufferDataOutput(buffer));
+    public ByteBufferBigIntegerArraySector(int recordSize, int numRecords, String... labels) throws IOException {
+        this(recordSize, numRecords);
+
+        labelsMap = new HashMap<String, Integer>(labels.length);
+        for (int i = 0; i < labels.length; i++) {
+            labelsMap.put(labels[i], i);
+        }
     }
 
 
@@ -56,12 +52,21 @@ public class ByteBufferBigIntegerArraySector implements ArraySector<BigInteger> 
     }
 
     public int getSize() {
-        throw new IllegalStateException();
+        return numRecords;
+    }
+
+    public ArraySector<BigInteger> mapTo(ByteBuffer buffer) {
+        this.buffer = buffer;
+
+        this.in = new PairingDataInput(new ByteBufferDataInput(buffer));
+        this.out = new PairingDataOutput(new ByteBufferDataOutput(buffer));
+
+        return this;
     }
 
     public synchronized BigInteger getAt(int index) {
         try {
-            buffer.position(offset + (index * recordSize));
+            buffer.position(offset + (index * recordLength));
             return in.readBigInteger();
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -70,11 +75,24 @@ public class ByteBufferBigIntegerArraySector implements ArraySector<BigInteger> 
 
     public synchronized void setAt(int index, BigInteger value) {
         try {
-            buffer.position(offset + (index * recordSize));
-            out.writeBigInteger(value);
+            buffer.position(offset + (index * recordLength));
+            out.writeBigInteger(value, recordSize);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
+    public BigInteger getAt(String label) {
+        if (labelsMap == null)
+            throw new IllegalStateException();
+
+        return getAt(labelsMap.get(label));
+    }
+
+    public void setAt(String label, BigInteger value) {
+        if (labelsMap == null)
+            throw new IllegalStateException();
+
+        setAt(labelsMap.get(label), value);
+    }
 }

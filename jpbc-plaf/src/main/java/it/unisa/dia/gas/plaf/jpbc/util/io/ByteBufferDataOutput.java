@@ -22,7 +22,7 @@ public class ByteBufferDataOutput implements DataOutput {
     }
 
     public void write(byte[] b) throws IOException {
-        throw new IllegalStateException();
+        buffer.put(b);
     }
 
     public void write(byte[] b, int off, int len) throws IOException {
@@ -46,7 +46,7 @@ public class ByteBufferDataOutput implements DataOutput {
     }
 
     public void writeInt(int v) throws IOException {
-        throw new IllegalStateException();
+        buffer.putInt(v);
     }
 
     public void writeLong(long v) throws IOException {
