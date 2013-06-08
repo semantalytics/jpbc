@@ -72,7 +72,7 @@ public class ByteBufferLatchWeakRefBigIntegerArraySector extends ByteBufferWeakR
     class FlagLatchMap<K> extends HashMap<K, FlagLatch> {
 
         @Override
-        public FlagLatch get(Object key) {
+        public synchronized FlagLatch get(Object key) {
             if (containsKey(key))
                 return super.get(key);
 

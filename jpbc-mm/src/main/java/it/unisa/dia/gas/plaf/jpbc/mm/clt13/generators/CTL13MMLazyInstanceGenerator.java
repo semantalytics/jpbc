@@ -85,13 +85,16 @@ public class CTL13MMLazyInstanceGenerator extends CTL13MMInstanceGenerator {
             public void run() {
                 // Generate CRT Coefficients
                 final BigInteger x0 = getBigInteger("x0");
+                getObject("ps");
 
+                System.out.println("GEN CRTCOEFF");
                 Pool executor = new PoolExecutor();
                 for (int i = 0; i < parameters.getN(); i++) {
                     executor.submit(new ExecutorServiceUtils.IndexRunnable(i) {
                         public void run() {
                             BigInteger temp = x0.divide(getBigIntegerAt("ps", i));
                             temp = temp.modInverse(getBigIntegerAt("ps", i)).multiply(temp);
+
                             putBigIntegerAt("crtCoefficients", i, temp);
                         }
                     });
@@ -117,6 +120,8 @@ public class CTL13MMLazyInstanceGenerator extends CTL13MMInstanceGenerator {
         }).submit(new ContextRunnable("xsp") {
             public void run() {
                 BigInteger x0 = getBigInteger("x0");
+                getObject("crtCoefficients");
+                getObject("gs");
 
                 // Generate xp_i's
                 BigInteger[] xsp = new BigInteger[parameters.getEll()];
@@ -141,6 +146,8 @@ public class CTL13MMLazyInstanceGenerator extends CTL13MMInstanceGenerator {
             public void run() {
                 BigInteger x0 = getBigInteger("x0");
                 BigInteger zInv = getBigInteger("zInv");
+                getObject("crtCoefficients");
+                getObject("gs");
 
                 // Generate y = encodeOneAt(1)
                 Accumulator<BigInteger> y = new BigIntegerAddAccumulator();
@@ -153,12 +160,15 @@ public class CTL13MMLazyInstanceGenerator extends CTL13MMInstanceGenerator {
                         }
                     });
                 }
+
                 putBigInteger("y", y.awaitResult().multiply(zInv).mod(x0));
             }
         }).submit(new ContextRunnable("pzt") {
             public void run() {
                 final BigInteger x0 = getBigInteger("x0");
                 BigInteger z = getBigInteger("z");
+                getObject("gs");
+                getObject("ps");
 
                 // Generate zero-tester pzt
                 final BigInteger zPowKappa = z.modPow(BigInteger.valueOf(parameters.getKappa()), x0);
@@ -180,6 +190,8 @@ public class CTL13MMLazyInstanceGenerator extends CTL13MMInstanceGenerator {
             public void run() {
                 BigInteger x0 = getBigInteger("x0");
                 BigInteger zInv = getBigInteger("zInv");
+                getObject("crtCoefficients");
+                getObject("gs");
 
                 // Quadratic re-randomization stuff
                 for (int i = 0; i < parameters.getDelta(); i++) {

@@ -1,13 +1,11 @@
 package it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters;
 
 import it.unisa.dia.gas.jpbc.PairingParameters;
-import it.unisa.dia.gas.plaf.jpbc.util.io.PairingDataOutput;
+import it.unisa.dia.gas.plaf.jpbc.util.collection.LatchHashMap;
 import it.unisa.dia.gas.plaf.jpbc.util.io.sector.*;
 
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.math.BigInteger;
 
 /**
@@ -20,11 +18,11 @@ public class CTL13MMLazyMapParameters extends CTL13MMMapParameters {
 
 
     public CTL13MMLazyMapParameters(CTL13MMInstanceParameters parameters) {
-        super(parameters);
+        super(new LatchHashMap<String, Object>(), parameters);
     }
 
     public CTL13MMLazyMapParameters(PairingParameters parameters) {
-        this(new CTL13MMInstanceParameters(parameters));
+        super(new LatchHashMap<String, Object>(), new CTL13MMInstanceParameters(parameters));
     }
 
 
@@ -40,13 +38,13 @@ public class CTL13MMLazyMapParameters extends CTL13MMMapParameters {
     }
 
     public void putBigInteger(String key, BigInteger value) {
-        System.out.println("PUT key = [" + key + "], value = [" + value + "]");
+        System.out.println("PUT key = [" + key + "]");
 
         disk.getSector("header").setAt(key, value);
     }
 
     public void putBigIntegerAt(String key, int index, BigInteger value) {
-        System.out.println("PUT key = [" + key + "], index = [" + index + "], value = [" + value + "]");
+        System.out.println("PUT key = [" + key + "], index = [" + index + "]");
 
         disk.getSector(key).setAt(index, value);
     }
@@ -65,7 +63,12 @@ public class CTL13MMLazyMapParameters extends CTL13MMMapParameters {
                     .addSector("xs", new ByteBufferLatchWeakRefBigIntegerArraySector(x0Length, parameters.getDelta() * 2))
                     .addSector("gs", new ByteBufferLatchWeakRefBigIntegerArraySector(gLength, parameters.getN()))
                     .addSector("ps", new ByteBufferLatchWeakRefBigIntegerArraySector(pLength, parameters.getN()))
-                    .mapTo("hello.dat");
+                    .mapTo(String.format(
+                            "CTL13IP_eta_%d_n_%d_alpha_%d_ell_%d_rho_%d_delta_%d_kappa_%d_beta_%d_theta_%d_bound_%d.dat",
+                            parameters.getEta(), parameters.getN(), parameters.getAlpha(), parameters.getEll(),
+                            parameters.getRho(), parameters.getDelta(),
+                            parameters.getKappa(), parameters.getBeta(), parameters.getTheta(), parameters.getBound())
+                    );
 
             this.disk = fileChannelDisk;
         } catch (Exception e) {
@@ -75,25 +78,7 @@ public class CTL13MMLazyMapParameters extends CTL13MMMapParameters {
 
     public void store(String fileName) {
         try {
-            DataOutputStream os = new DataOutputStream(new FileOutputStream(fileName));
-            PairingDataOutput pdo = new PairingDataOutput(os);
-
-            int x0NumBytes = getBigInteger("x0").toByteArray().length;
-
-            pdo.writeBigInteger(getBigInteger("x0"));
-            pdo.writeBigInteger(getBigInteger("y"), x0NumBytes);
-            pdo.writeBigInteger(getBigInteger("pzt"), x0NumBytes);
-            pdo.writeBigInteger(getBigInteger("z"), x0NumBytes);
-            pdo.writeBigInteger(getBigInteger("zInv"), x0NumBytes);
-
-            pdo.writeBigIntegers((BigInteger[]) getObject("xsp"), x0NumBytes);
-            pdo.writeBigIntegers((BigInteger[]) getObject("crtCoefficients"), x0NumBytes);
-            pdo.writeBigIntegers((BigInteger[]) getObject("xs"), x0NumBytes);
-            pdo.writeBigIntegers((BigInteger[]) getObject("gs"), (parameters.getAlpha() + 7) / 8);
-            pdo.writeBigIntegers((BigInteger[]) getObject("ps"), (parameters.getEta() + 7) / 8);
-
-            os.flush();
-            os.close();
+            disk.flush();
         } catch (Exception e) {
             e.printStackTrace();
         }

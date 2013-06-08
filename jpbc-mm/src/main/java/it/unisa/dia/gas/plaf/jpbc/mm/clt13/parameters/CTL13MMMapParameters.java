@@ -7,6 +7,7 @@ import it.unisa.dia.gas.plaf.jpbc.util.io.PairingDataOutput;
 
 import java.io.*;
 import java.math.BigInteger;
+import java.util.Map;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -22,7 +23,12 @@ public class CTL13MMMapParameters extends MapParameters {
     }
 
     public CTL13MMMapParameters(PairingParameters parameters) {
-        this.parameters = new CTL13MMInstanceParameters(parameters);
+        this(new CTL13MMInstanceParameters(parameters));
+    }
+
+    public CTL13MMMapParameters(Map<String, Object> values, CTL13MMInstanceParameters parameters) {
+        super(values);
+        this.parameters = parameters;
     }
 
 

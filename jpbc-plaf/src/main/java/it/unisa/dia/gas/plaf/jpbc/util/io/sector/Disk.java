@@ -10,4 +10,5 @@ public interface Disk<S extends Sector> {
 
     S getSector(String key);
 
+    void flush();
 }

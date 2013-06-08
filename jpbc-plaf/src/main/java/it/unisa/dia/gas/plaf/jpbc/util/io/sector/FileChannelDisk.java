@@ -29,6 +29,9 @@ public class FileChannelDisk<S extends Sector> implements Disk<S> {
         return (S) sectorsMap.get(key);
     }
 
+    public void flush() {
+    }
+
 
     public FileChannelDisk<S> mapTo(FileChannel channel) {
         try {

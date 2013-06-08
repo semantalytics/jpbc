@@ -18,6 +18,10 @@ public class MapParameters implements MutablePairingParameters {
         this.values = new LinkedHashMap<String, Object>();
     }
 
+    public MapParameters(Map<String, Object> values) {
+        this.values = values;
+    }
+
 
     public String getType() {
         return (String) values.get("type");

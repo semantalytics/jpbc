@@ -15,7 +15,7 @@ public class ExecutorServiceUtils {
 
     static {
         fixedThreadPool = Executors.newFixedThreadPool(
-                Runtime.getRuntime().availableProcessors() * 2
+                Runtime.getRuntime().availableProcessors() * 4
         );
         cachedThreadPool = Executors.newCachedThreadPool();
     }
