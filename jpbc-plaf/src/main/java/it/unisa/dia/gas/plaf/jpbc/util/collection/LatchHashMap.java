@@ -42,7 +42,7 @@ public class LatchHashMap<K, V> implements Map<K, V> {
     }
 
     public V put(K key, V value) {
-        System.out.println("L PUT key = [" + key + "], value = [" + value + "]");
+        System.out.println("L PUT key = [" + key + "]");
 
         return getLatch(key).set(value);
     }

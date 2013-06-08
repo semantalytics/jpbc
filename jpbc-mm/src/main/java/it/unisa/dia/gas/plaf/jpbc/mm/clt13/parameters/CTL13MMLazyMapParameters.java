@@ -94,12 +94,12 @@ public class CTL13MMLazyMapParameters extends CTL13MMMapParameters {
             int pLength = (parameters.getEta() + 7) / 8;
 
             FileChannelDisk<ArraySector<BigInteger>> fileChannelDisk = new FileChannelDisk<ArraySector<BigInteger>>();
-            fileChannelDisk.addSector("header", new ByteBufferLatchWeakRefBigIntegerFixedArraySector(x0Length, 5, "x0", "y", "pzt", "z", "zInv"))
-                    .addSector("xsp", new ByteBufferLatchWeakRefBigIntegerArraySector(x0Length, parameters.getEll()))
-                    .addSector("crtCoefficients", new ByteBufferLatchWeakRefBigIntegerArraySector(x0Length, parameters.getN()))
-                    .addSector("xs", new ByteBufferLatchWeakRefBigIntegerArraySector(x0Length, parameters.getDelta() * 2))
-                    .addSector("gs", new ByteBufferLatchWeakRefBigIntegerArraySector(gLength, parameters.getN()))
-                    .addSector("ps", new ByteBufferLatchWeakRefBigIntegerArraySector(pLength, parameters.getN()))
+            fileChannelDisk.addSector("header", new ByteBufferWeakRefBigIntegerFixedArraySector(x0Length, 5, "x0", "y", "pzt", "z", "zInv"))
+                    .addSector("xsp", new ByteBufferWeakRefBigIntegerArraySector(x0Length, parameters.getEll()))
+                    .addSector("crtCoefficients", new ByteBufferWeakRefBigIntegerArraySector(x0Length, parameters.getN()))
+                    .addSector("xs", new ByteBufferWeakRefBigIntegerArraySector(x0Length, parameters.getDelta() * 2))
+                    .addSector("gs", new ByteBufferWeakRefBigIntegerArraySector(gLength, parameters.getN()))
+                    .addSector("ps", new ByteBufferWeakRefBigIntegerArraySector(pLength, parameters.getN()))
                     .mapTo(new FileInputStream(path).getChannel());
 
             putObject("params", parameters);

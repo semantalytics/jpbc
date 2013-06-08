@@ -16,6 +16,8 @@ public class FileChannelDisk<S extends Sector> implements Disk<S> {
     protected List<Sector> sectors;
     protected Map<String, Sector> sectorsMap;
 
+    protected FileChannel channel;
+
     public FileChannelDisk() {
         this.sectors = new ArrayList<Sector>();
         this.sectorsMap = new HashMap<String, Sector>();
@@ -30,6 +32,12 @@ public class FileChannelDisk<S extends Sector> implements Disk<S> {
     }
 
     public void flush() {
+        if (channel != null)
+            try {
+                channel.force(true);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
     }
 
 

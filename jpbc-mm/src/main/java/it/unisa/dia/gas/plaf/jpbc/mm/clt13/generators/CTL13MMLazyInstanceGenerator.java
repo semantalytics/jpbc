@@ -124,19 +124,20 @@ public class CTL13MMLazyInstanceGenerator extends CTL13MMInstanceGenerator {
                 getObject("gs");
 
                 // Generate xp_i's
-                BigInteger[] xsp = new BigInteger[parameters.getEll()];
                 for (int i = 0; i < parameters.getEll(); i++) {
 
-                    // xsp[i] = encodeAt(0);
-                    xsp[i] = BigInteger.ZERO;
+                    // xsp = encodeAt(0);
+                    BigInteger xsp = BigInteger.ZERO;
                     for (int j = 0; j < parameters.getN(); j++) {
-                        xsp[i] = xsp[i].add(
+                        xsp = xsp.add(
                                 getBigIntegerAt("gs", j).multiply(getRandom(parameters.getRho(), random))
                                         .add(getRandom(parameters.getAlpha(), random))
                                         .multiply(getBigIntegerAt("crtCoefficients", j))
                         );
                     }
-                    xsp[i] = xsp[i].mod(x0);
+                    xsp = xsp.mod(x0);
+
+                    putBigIntegerAt("xsp", i, xsp);
 
                 }
 
@@ -230,8 +231,13 @@ public class CTL13MMLazyInstanceGenerator extends CTL13MMInstanceGenerator {
 
 
     public static void main(String[] args) {
-        CTL13MMLazyInstanceGenerator gen = new CTL13MMLazyInstanceGenerator(new SecureRandom(),
-                PairingFactory.getInstance().loadParameters("./params/mm/ctl13/toy.properties")
+        String params = "./params/mm/ctl13/toy.properties";
+        if (args.length > 0)
+            params = args[0];
+
+        CTL13MMLazyInstanceGenerator gen = new CTL13MMLazyInstanceGenerator(
+                new SecureRandom(),
+                PairingFactory.getInstance().loadParameters(params)
         );
         gen.generate();
     }

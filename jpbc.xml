@@ -94,4 +94,17 @@
         </java>
     </target>
 
+    <!-- CTL13MM Generators -->
+
+    <target name="ctl13">
+        <java fork="true" classname="it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators.CTL13MMLazyInstanceGenerator">
+            <arg line="${args}"/>
+            <classpath>
+                <path refid="runtime.classpath"/>
+            </classpath>
+        </java>
+    </target>
+
+
+
 </project>

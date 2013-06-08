@@ -5,6 +5,7 @@ import it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine.CTL13MMInstance;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine.DefaultCTL13MMInstance;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine.MTCTL13MMInstance;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators.CTL13MMInstanceGenerator;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators.CTL13MMLazyInstanceGenerator;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -117,7 +118,7 @@ public class CTL13MMPairing implements Pairing {
 
         if ("mt".equals(instanceType))
             return new MTCTL13MMInstance(random,
-                    new CTL13MMInstanceGenerator(
+                    new CTL13MMLazyInstanceGenerator(
                             random,
                             parameters
                     ).generate()

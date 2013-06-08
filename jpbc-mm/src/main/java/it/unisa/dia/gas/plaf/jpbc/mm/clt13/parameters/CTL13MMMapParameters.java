@@ -20,6 +20,7 @@ public class CTL13MMMapParameters extends MapParameters {
 
     public CTL13MMMapParameters(CTL13MMInstanceParameters parameters) {
         this.parameters = parameters;
+        putObject("params", parameters);
     }
 
     public CTL13MMMapParameters(PairingParameters parameters) {
@@ -28,7 +29,9 @@ public class CTL13MMMapParameters extends MapParameters {
 
     public CTL13MMMapParameters(Map<String, Object> values, CTL13MMInstanceParameters parameters) {
         super(values);
+
         this.parameters = parameters;
+        putObject("params", parameters);
     }
 
 
