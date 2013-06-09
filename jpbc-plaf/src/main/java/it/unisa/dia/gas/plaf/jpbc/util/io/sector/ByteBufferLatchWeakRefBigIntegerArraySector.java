@@ -57,6 +57,7 @@ public class ByteBufferLatchWeakRefBigIntegerArraySector extends ByteBufferWeakR
 
         synchronized (this) {
             try {
+                System.out.printf("index %d, offset %d, recordSize %d, limit %d \n", index, offset + (index * recordLength), recordLength, buffer.limit());
                 buffer.position(offset + (index * recordLength));
                 out.writeBigInteger(value, recordSize);
             } catch (Exception e) {

@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.util.io;
 
 import it.unisa.dia.gas.jpbc.*;
+import it.unisa.dia.gas.plaf.jpbc.util.Arrays;
 
 import java.io.DataOutput;
 import java.io.IOException;
@@ -125,7 +126,7 @@ public class PairingDataOutput implements DataOutput {
     }
 
     public void writeBytes(byte[] buffer) throws IOException{
-//        System.out.println("buffer.length = " + buffer.length);
+        System.out.println("buffer.length = " + buffer.length);
         writeInt(buffer.length);
         write(buffer);
     }
@@ -145,7 +146,14 @@ public class PairingDataOutput implements DataOutput {
     public void writeBigInteger(BigInteger bigInteger, int ensureLength) throws IOException {
         byte[] bytes = bigInteger.toByteArray();
 
-        if (bytes.length < ensureLength) {
+        if (bytes.length > ensureLength) {
+            // strip the zero prefix
+            if (bytes[0] == 0 && bytes.length == ensureLength + 1) {
+                // Remove it
+                bytes = Arrays.copyOfRange(bytes, 1, bytes.length);
+            } else
+                throw new IllegalStateException("result has more than allowed bytes.");
+        } else if (bytes.length < ensureLength) {
             byte[] result = new byte[ensureLength];
             System.arraycopy(bytes, 0, result, ensureLength - bytes.length, bytes.length);
             bytes = result;
