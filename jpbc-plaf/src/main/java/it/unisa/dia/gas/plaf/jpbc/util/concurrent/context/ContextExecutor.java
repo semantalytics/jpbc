@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.util.concurrent.context;
 
 import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.MutablePairingParameters;
+import it.unisa.dia.gas.plaf.jpbc.util.concurrent.ExecutorServiceUtils;
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.Pool;
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.PoolExecutor;
 
@@ -18,6 +19,7 @@ public class ContextExecutor extends PoolExecutor implements MutablePairingParam
 
 
     public ContextExecutor(MutablePairingParameters parameters) {
+        super(ExecutorServiceUtils.getCachedThreadPool());
         this.parameters = parameters;
     }
 

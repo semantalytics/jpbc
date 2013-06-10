@@ -27,7 +27,7 @@ public class LatchHashMap<K, V> implements Map<K, V> {
         return internalMap.isEmpty();
     }
 
-    public synchronized boolean containsKey(Object key) {
+    public boolean containsKey(Object key) {
         return internalMap.containsKey(key);
     }
 
