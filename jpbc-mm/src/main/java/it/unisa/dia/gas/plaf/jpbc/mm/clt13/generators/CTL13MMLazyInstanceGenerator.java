@@ -231,7 +231,7 @@ public class CTL13MMLazyInstanceGenerator extends CTL13MMInstanceGenerator {
 
 
     public static void main(String[] args) {
-        String params = "./params/mm/ctl13/medi.properties";
+        String params = "./params/mm/ctl13/medium.properties";
         if (args.length > 0)
             params = args[0];
 

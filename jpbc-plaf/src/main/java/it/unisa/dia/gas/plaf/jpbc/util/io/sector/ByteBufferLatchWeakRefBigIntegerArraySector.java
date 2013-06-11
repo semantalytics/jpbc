@@ -47,7 +47,8 @@ public class ByteBufferLatchWeakRefBigIntegerArraySector extends ByteBufferWeakR
                     throw new RuntimeException(e);
                 }
                 cache.put(index, new SoftReference<BigInteger>(result));
-            }
+            } else
+                System.out.printf("GET SUCCESS index %d, offset %d, recordSize %d, limit %d \n", index, offset + (index * recordLength), recordLength, buffer.limit());
         }
 
         return result;
