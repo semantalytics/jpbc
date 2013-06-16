@@ -18,7 +18,7 @@ import static it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils.modNear;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  * @since 1.3.0
  */
-public class MTCTL13MMInstance implements CTL13MMInstance {
+public class MultiThreadCTL13MMInstance implements CTL13MMInstance {
 
     protected SecureRandom random;
     protected CTL13MMInstanceValues values;
@@ -35,7 +35,7 @@ public class MTCTL13MMInstance implements CTL13MMInstance {
 
     protected long isZeroBound;
 
-    public MTCTL13MMInstance(SecureRandom random, PairingParameters parameters) {
+    public MultiThreadCTL13MMInstance(SecureRandom random, PairingParameters parameters) {
         this.random = random;
         this.values = new CTL13MMInstanceValues(parameters);
 
@@ -163,10 +163,7 @@ public class MTCTL13MMInstance implements CTL13MMInstance {
         return res;
     }
 
-    public BigInteger reRandomize(BigInteger value, int index) {
-        if (index != 1)
-            throw new IllegalArgumentException("index must be 1");
-
+    public BigInteger reRandomize(BigInteger value, final int index) {
         // Re-randomize.
         Accumulator<BigInteger> accumulator = new BigIntegerAddAccumulator();
         for (int i = 0; i < parameters.getTheta(); i++) {
@@ -174,8 +171,8 @@ public class MTCTL13MMInstance implements CTL13MMInstance {
                 public BigInteger call() throws Exception {
                     // TODO : Ensure no duplicates are used.
                     int pos = random.nextInt(parameters.getDeltaSquare());
-                    return values.getXsAt(pos % parameters.getDelta())
-                            .multiply(values.getXsAt(parameters.getDelta() + pos / parameters.getDelta()));
+                    return values.getXsAt(index, pos % parameters.getDelta())
+                            .multiply(values.getXsAt(index, parameters.getDelta() + pos / parameters.getDelta()));
                 }
             });
         }

@@ -62,10 +62,10 @@ public class CTL13MMMapParameters extends MapParameters {
             pdo.writeBigInteger(getBigInteger("pzt"), x0Length);
             pdo.writeBigInteger(getBigInteger("z"), x0Length);
             pdo.writeBigInteger(getBigInteger("zInv"), x0Length);
-
             pdo.writeBigIntegers((BigInteger[]) getObject("xsp"), x0Length);
             pdo.writeBigIntegers((BigInteger[]) getObject("crtCoefficients"), x0Length);
-            pdo.writeBigIntegers((BigInteger[]) getObject("xs"), x0Length);
+            for (int level = 1; level < parameters.getKappa(); level++)
+                pdo.writeBigIntegers((BigInteger[]) getObject("xs" + level), x0Length);
             pdo.writeBigIntegers((BigInteger[]) getObject("gs"), gLength);
             pdo.writeBigIntegers((BigInteger[]) getObject("ps"), pLength);
 
@@ -94,31 +94,20 @@ public class CTL13MMMapParameters extends MapParameters {
             DataInputStream is = new DataInputStream(new FileInputStream(path));
             PairingDataInput dos = new PairingDataInput(is);
 
-            BigInteger x0 = dos.readBigInteger();
-            BigInteger y = dos.readBigInteger();
-            BigInteger pzt = dos.readBigInteger();
-            BigInteger z = dos.readBigInteger();
-            BigInteger zInv = dos.readBigInteger();
-
-            BigInteger[] xsp = dos.readBigIntegers();
-            BigInteger[] crtCoefficients = dos.readBigIntegers();
-            BigInteger[] xs = dos.readBigIntegers();
-            BigInteger[] gs = dos.readBigIntegers();
-            BigInteger[] ps = dos.readBigIntegers();
+            putObject("params", parameters);
+            putObject("x0", dos.readBigInteger());
+            putObject("y", dos.readBigInteger());
+            putObject("pzt", dos.readBigInteger());
+            putObject("z", dos.readBigInteger());
+            putObject("zInv", dos.readBigInteger());
+            putObject("xsp", dos.readBigIntegers());
+            putObject("crtCoefficients", dos.readBigIntegers());
+            for (int level = 1; level < parameters.getKappa(); level++)
+                putObject("xs" + level, dos.readBigIntegers());
+            putObject("gs", dos.readBigIntegers());
+            putObject("ps", dos.readBigIntegers());
 
             is.close();
-
-            putObject("params", parameters);
-            putObject("x0", x0);
-            putObject("y", y);
-            putObject("pzt", pzt);
-            putObject("z", z);
-            putObject("zInv", zInv);
-            putObject("xsp", xsp);
-            putObject("crtCoefficients", crtCoefficients);
-            putObject("xs", xs);
-            putObject("gs", gs);
-            putObject("ps", ps);
 
             return true;
         } catch (Exception e) {

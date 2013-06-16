@@ -2,7 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters;
 
 import it.unisa.dia.gas.jpbc.PairingParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.collection.LatchHashMap;
-import it.unisa.dia.gas.plaf.jpbc.util.io.sector.*;
+import it.unisa.dia.gas.plaf.jpbc.util.io.disk.*;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -59,9 +59,12 @@ public class CTL13MMLazyMapParameters extends CTL13MMMapParameters {
             FileChannelDisk<ArraySector<BigInteger>> fileChannelDisk = new FileChannelDisk<ArraySector<BigInteger>>();
             fileChannelDisk.addSector("header", new ByteBufferLatchWeakRefBigIntegerFixedArraySector(x0Length, 5, "x0", "y", "pzt", "z", "zInv"))
                     .addSector("xsp", new ByteBufferLatchWeakRefBigIntegerArraySector(x0Length, parameters.getEll()))
-                    .addSector("crtCoefficients", new ByteBufferLatchWeakRefBigIntegerArraySector(x0Length, parameters.getN()))
-                    .addSector("xs", new ByteBufferLatchWeakRefBigIntegerArraySector(x0Length, parameters.getDelta() * 2))
-                    .addSector("gs", new ByteBufferLatchWeakRefBigIntegerArraySector(gLength, parameters.getN()))
+                    .addSector("crtCoefficients", new ByteBufferLatchWeakRefBigIntegerArraySector(x0Length, parameters.getN()));
+
+            for (int level = 1; level < parameters.getKappa(); level++)
+                fileChannelDisk.addSector("xs" + level, new ByteBufferLatchWeakRefBigIntegerArraySector(x0Length, parameters.getDelta() * 2));
+
+            fileChannelDisk.addSector("gs", new ByteBufferLatchWeakRefBigIntegerArraySector(gLength, parameters.getN()))
                     .addSector("ps", new ByteBufferLatchWeakRefBigIntegerArraySector(pLength, parameters.getN()))
                     .mapTo(String.format(
                             "CTL13IP_eta_%d_n_%d_alpha_%d_ell_%d_rho_%d_delta_%d_kappa_%d_beta_%d_theta_%d_bound_%d.dat",
@@ -96,9 +99,12 @@ public class CTL13MMLazyMapParameters extends CTL13MMMapParameters {
             FileChannelDisk<ArraySector<BigInteger>> fileChannelDisk = new FileChannelDisk<ArraySector<BigInteger>>();
             fileChannelDisk.addSector("header", new ByteBufferWeakRefBigIntegerFixedArraySector(x0Length, 5, "x0", "y", "pzt", "z", "zInv"))
                     .addSector("xsp", new ByteBufferWeakRefBigIntegerArraySector(x0Length, parameters.getEll()))
-                    .addSector("crtCoefficients", new ByteBufferWeakRefBigIntegerArraySector(x0Length, parameters.getN()))
-                    .addSector("xs", new ByteBufferWeakRefBigIntegerArraySector(x0Length, parameters.getDelta() * 2))
-                    .addSector("gs", new ByteBufferWeakRefBigIntegerArraySector(gLength, parameters.getN()))
+                    .addSector("crtCoefficients", new ByteBufferWeakRefBigIntegerArraySector(x0Length, parameters.getN()));
+
+            for (int level = 1; level < parameters.getKappa(); level++)
+                fileChannelDisk.addSector("xs" + level, new ByteBufferLatchWeakRefBigIntegerArraySector(x0Length, parameters.getDelta() * 2));
+
+            fileChannelDisk.addSector("gs", new ByteBufferWeakRefBigIntegerArraySector(gLength, parameters.getN()))
                     .addSector("ps", new ByteBufferWeakRefBigIntegerArraySector(pLength, parameters.getN()))
                     .mapTo(new FileInputStream(path).getChannel());
 

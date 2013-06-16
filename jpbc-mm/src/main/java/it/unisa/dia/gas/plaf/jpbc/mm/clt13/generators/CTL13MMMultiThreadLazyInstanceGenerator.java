@@ -25,22 +25,22 @@ import static it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils.getRandom;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  * @since 1.3.0
  */
-public class CTL13MMLazyInstanceGenerator extends CTL13MMInstanceGenerator {
+public class CTL13MMMultiThreadLazyInstanceGenerator extends CTL13MMInstanceGenerator {
 
 
-    public CTL13MMLazyInstanceGenerator(SecureRandom random, CTL13MMInstanceParameters parameters) {
+    public CTL13MMMultiThreadLazyInstanceGenerator(SecureRandom random, CTL13MMInstanceParameters parameters) {
         super(random, parameters);
     }
 
-    public CTL13MMLazyInstanceGenerator(SecureRandom random, PairingParameters parameters) {
+    public CTL13MMMultiThreadLazyInstanceGenerator(SecureRandom random, PairingParameters parameters) {
         super(random, parameters);
     }
 
-    public CTL13MMLazyInstanceGenerator(SecureRandom random, CTL13MMInstanceParameters parameters, boolean storeGeneratedInstance) {
+    public CTL13MMMultiThreadLazyInstanceGenerator(SecureRandom random, CTL13MMInstanceParameters parameters, boolean storeGeneratedInstance) {
         super(random, parameters, storeGeneratedInstance);
     }
 
-    public CTL13MMLazyInstanceGenerator(SecureRandom random, PairingParameters parameters, boolean storeGeneratedInstance) {
+    public CTL13MMMultiThreadLazyInstanceGenerator(SecureRandom random, PairingParameters parameters, boolean storeGeneratedInstance) {
         super(random, parameters, storeGeneratedInstance);
     }
 
@@ -235,7 +235,7 @@ public class CTL13MMLazyInstanceGenerator extends CTL13MMInstanceGenerator {
         if (args.length > 0)
             params = args[0];
 
-        CTL13MMLazyInstanceGenerator gen = new CTL13MMLazyInstanceGenerator(
+        CTL13MMMultiThreadLazyInstanceGenerator gen = new CTL13MMMultiThreadLazyInstanceGenerator(
                 new SecureRandom(),
                 PairingFactory.getInstance().loadParameters(params)
         );

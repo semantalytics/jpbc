@@ -257,7 +257,7 @@ public class CTL13MMElement implements Element {
 
         this.value = field.getInstance().reduce(value.multiply(((CTL13MMElement) n).value));
 
-        if (index == 1)
+        if (index > 0)
             this.value = field.getInstance().reRandomize(value, index);
 
         return this;

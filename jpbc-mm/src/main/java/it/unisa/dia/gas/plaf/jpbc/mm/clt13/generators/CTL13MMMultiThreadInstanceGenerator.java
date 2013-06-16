@@ -23,22 +23,22 @@ import static it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils.getRandom;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  * @since 1.3.0
  */
-public class CTL13MMMulthiThreadInstanceGenerator extends CTL13MMInstanceGenerator {
+public class CTL13MMMultiThreadInstanceGenerator extends CTL13MMInstanceGenerator {
 
 
-    public CTL13MMMulthiThreadInstanceGenerator(SecureRandom random, CTL13MMInstanceParameters parameters) {
+    public CTL13MMMultiThreadInstanceGenerator(SecureRandom random, CTL13MMInstanceParameters parameters) {
         super(random, parameters);
     }
 
-    public CTL13MMMulthiThreadInstanceGenerator(SecureRandom random, PairingParameters parameters) {
+    public CTL13MMMultiThreadInstanceGenerator(SecureRandom random, PairingParameters parameters) {
         super(random, parameters);
     }
 
-    public CTL13MMMulthiThreadInstanceGenerator(SecureRandom random, CTL13MMInstanceParameters parameters, boolean storeGeneratedInstance) {
+    public CTL13MMMultiThreadInstanceGenerator(SecureRandom random, CTL13MMInstanceParameters parameters, boolean storeGeneratedInstance) {
         super(random, parameters, storeGeneratedInstance);
     }
 
-    public CTL13MMMulthiThreadInstanceGenerator(SecureRandom random, PairingParameters parameters, boolean storeGeneratedInstance) {
+    public CTL13MMMultiThreadInstanceGenerator(SecureRandom random, PairingParameters parameters, boolean storeGeneratedInstance) {
         super(random, parameters, storeGeneratedInstance);
     }
 
@@ -232,7 +232,7 @@ public class CTL13MMMulthiThreadInstanceGenerator extends CTL13MMInstanceGenerat
 
 
     public static void main(String[] args) {
-        CTL13MMMulthiThreadInstanceGenerator gen = new CTL13MMMulthiThreadInstanceGenerator(new SecureRandom(),
+        CTL13MMMultiThreadInstanceGenerator gen = new CTL13MMMultiThreadInstanceGenerator(new SecureRandom(),
                 PairingFactory.getInstance().loadParameters("./params/mm/ctl13/toy.properties")
         );
         gen.generate();

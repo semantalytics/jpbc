@@ -149,8 +149,8 @@ public class DefaultCTL13MMInstance implements CTL13MMInstance {
             // TODO : Ensure no duplicates are used.
             int pos = random.nextInt(parameters.getDeltaSquare());
             value = value.add(
-                    values.getXsAt(pos % parameters.getDelta())
-                            .multiply(values.getXsAt(parameters.getDelta() + pos / parameters.getDelta()))
+                    values.getXsAt(index, pos % parameters.getDelta())
+                            .multiply(values.getXsAt(index, parameters.getDelta() + pos / parameters.getDelta()))
             );
         }
 

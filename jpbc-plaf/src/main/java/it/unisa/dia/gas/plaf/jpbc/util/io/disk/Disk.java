@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.plaf.jpbc.util.io.sector;
+package it.unisa.dia.gas.plaf.jpbc.util.io.disk;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)

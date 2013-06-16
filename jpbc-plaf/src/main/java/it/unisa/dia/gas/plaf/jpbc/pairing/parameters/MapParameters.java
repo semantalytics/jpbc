@@ -1,10 +1,10 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing.parameters;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -60,7 +60,7 @@ public class MapParameters implements MutablePairingParameters {
         }
 
         if (value instanceof BigInteger[]) {
-            return ((BigInteger[])value)[index];
+            return ((BigInteger[]) value)[index];
         }
 
         throw new IllegalArgumentException("Key not found or invalid");
@@ -101,14 +101,15 @@ public class MapParameters implements MutablePairingParameters {
 
     public void putBigIntegerAt(String key, int index, BigInteger value) {
         Object obj = getObject(key);
-        if (obj instanceof List) {
-            List list = (List) obj;
-            list.add(index, value);
+        if (obj instanceof Vector) {
+            Vector vector = (Vector) obj;
+            vector.ensureCapacity(index+1);
+            vector.insertElementAt(value, index);
         } else {
-            List<BigInteger> list = new ArrayList<BigInteger>();
-            list.add(index, value);
+            Vector<BigInteger> vecotr = new Vector<BigInteger>();
+            vecotr.add(index, value);
 
-            values.put(key, list);
+            values.put(key, vecotr);
         }
     }
 

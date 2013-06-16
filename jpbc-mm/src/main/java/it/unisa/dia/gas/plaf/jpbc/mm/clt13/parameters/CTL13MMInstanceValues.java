@@ -1,7 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters;
 
 import it.unisa.dia.gas.jpbc.PairingParameters;
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstanceParameters;
 
 import java.math.BigInteger;
 
@@ -50,8 +49,8 @@ public class CTL13MMInstanceValues {
         return parameters.getBigIntegerAt("crtCoefficients", index);
     }
 
-    public BigInteger getXsAt(int index) {
-        return parameters.getBigIntegerAt("xs", index);
+    public BigInteger getXsAt(int level, int index) {
+        return parameters.getBigIntegerAt("xs" + level, index);
     }
 
     public BigInteger getGsAt(int index) {

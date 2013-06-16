@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.plaf.jpbc.util.io.sector;
+package it.unisa.dia.gas.plaf.jpbc.util.io.disk;
 
 import it.unisa.dia.gas.plaf.jpbc.util.io.ByteBufferDataInput;
 import it.unisa.dia.gas.plaf.jpbc.util.io.ByteBufferDataOutput;
