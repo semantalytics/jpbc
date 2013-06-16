@@ -141,10 +141,6 @@ public class DefaultCTL13MMInstance implements CTL13MMInstance {
     }
 
     public BigInteger reRandomize(BigInteger value, int index) {
-        if (index != 1)
-            throw new IllegalArgumentException("index must be 1");
-
-        // Re-randomize.
         for (int i = 0; i < parameters.getTheta(); i++) {
             // TODO : Ensure no duplicates are used.
             int pos = random.nextInt(parameters.getDeltaSquare());
