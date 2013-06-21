@@ -173,8 +173,6 @@ public class CTL13MMInstanceGenerator implements PairingParametersGenerator {
         long end = System.currentTimeMillis();
 
         System.out.println("end = " + (end-start));
-
-        mapParameters.putObject("params", parameters);
     }
 
 
