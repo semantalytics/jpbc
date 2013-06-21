@@ -76,8 +76,8 @@ public class CTL13MMInstanceGenerator implements PairingParametersGenerator {
 
         // Generate CRT Coefficients
         for (int i = 0; i < parameters.getN(); i++) {
-            BigInteger temp = x0.divide(mapParameters.getBigIntegerAt("ps",i));
-            temp = temp.modInverse(mapParameters.getBigIntegerAt("ps",i)).multiply(temp);
+            BigInteger temp = x0.divide(mapParameters.getBigIntegerAt("ps", i));
+            temp = temp.modInverse(mapParameters.getBigIntegerAt("ps", i)).multiply(temp);
             mapParameters.putBigIntegerAt("crtCoefficients", i, temp);
         }
 
@@ -103,7 +103,7 @@ public class CTL13MMInstanceGenerator implements PairingParametersGenerator {
             for (int j = 0; j < parameters.getN(); j++) {
                 xsp = xsp.add(
                         mapParameters.getBigIntegerAt("gs", j)
-                            .multiply(getRandom(parameters.getRho(), random))
+                                .multiply(getRandom(parameters.getRho(), random))
                                 .add(getRandom(parameters.getAlpha(), random))
                                 .multiply(mapParameters.getBigIntegerAt("crtCoefficients", j))
                 );
@@ -138,13 +138,13 @@ public class CTL13MMInstanceGenerator implements PairingParametersGenerator {
         pzt = pzt.mod(x0);
         mapParameters.putBigInteger("pzt", pzt);
 
-        for (int level = 1; level<= parameters.getKappa(); level++) {
+        for (int level = 1; level <= parameters.getKappa(); level++) {
 
             String xsLevel = "xs" + level;
 
             // Quadratic re-randomization stuff
             for (int i = 0; i < parameters.getDelta(); i++) {
-    //            xs[i] = encodeZero();
+                //            xs[i] = encodeZero();
                 BigInteger xs = BigInteger.ZERO;
                 for (int j = 0; j < parameters.getN(); j++)
                     xs = xs.add(
@@ -154,7 +154,7 @@ public class CTL13MMInstanceGenerator implements PairingParametersGenerator {
                 xs = xs.mod(x0);
                 mapParameters.putBigIntegerAt(xsLevel, i, xs);
 
-    //            xs[parameters.getDelta() + i] = encodeAt(1);
+                //            xs[parameters.getDelta() + i] = encodeAt(1);
                 int index = parameters.getDelta() + i;
                 xs = BigInteger.ZERO;
                 for (int j = 0; j < parameters.getN(); j++) {
@@ -172,7 +172,7 @@ public class CTL13MMInstanceGenerator implements PairingParametersGenerator {
 
         long end = System.currentTimeMillis();
 
-        System.out.println("end = " + (end-start));
+        System.out.println("end = " + (end - start));
     }
 
 

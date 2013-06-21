@@ -2,7 +2,6 @@ package it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators;
 
 import it.unisa.dia.gas.jpbc.PairingParameters;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstanceParameters;
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMMapParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.MutablePairingParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.ExecutorServiceUtils;
@@ -24,29 +23,25 @@ import static it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils.getRandom;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  * @since 1.3.0
  */
-public class CTL13MMMultiThreadLazyInstanceGenerator extends CTL13MMInstanceGenerator {
+public class CTL13MMMultiThreadInstanceGenerator extends CTL13MMInstanceGenerator {
 
 
-    public CTL13MMMultiThreadLazyInstanceGenerator(SecureRandom random, CTL13MMInstanceParameters parameters) {
+    public CTL13MMMultiThreadInstanceGenerator(SecureRandom random, CTL13MMInstanceParameters parameters) {
         super(random, parameters);
     }
 
-    public CTL13MMMultiThreadLazyInstanceGenerator(SecureRandom random, PairingParameters parameters) {
+    public CTL13MMMultiThreadInstanceGenerator(SecureRandom random, PairingParameters parameters) {
         super(random, parameters);
     }
 
-    public CTL13MMMultiThreadLazyInstanceGenerator(SecureRandom random, CTL13MMInstanceParameters parameters, boolean storeGeneratedInstance) {
+    public CTL13MMMultiThreadInstanceGenerator(SecureRandom random, CTL13MMInstanceParameters parameters, boolean storeGeneratedInstance) {
         super(random, parameters, storeGeneratedInstance);
     }
 
-    public CTL13MMMultiThreadLazyInstanceGenerator(SecureRandom random, PairingParameters parameters, boolean storeGeneratedInstance) {
+    public CTL13MMMultiThreadInstanceGenerator(SecureRandom random, PairingParameters parameters, boolean storeGeneratedInstance) {
         super(random, parameters, storeGeneratedInstance);
     }
 
-
-    protected CTL13MMMapParameters newCTL13MMMapParameters() {
-        return new CTL13MMMapParameters(parameters);
-    }
 
     protected void generateInternal(MutablePairingParameters mapParameters) {
         ContextExecutor executor = new ContextExecutor(mapParameters);
@@ -193,6 +188,7 @@ public class CTL13MMMultiThreadLazyInstanceGenerator extends CTL13MMInstanceGene
                 getObject("crtCoefficients");
                 getObject("gs");
 
+                // TODO: add per level generation.
                 // Quadratic re-randomization stuff
                 for (int i = 0; i < parameters.getDelta(); i++) {
                     // xs[i] = encodeZero();
@@ -234,7 +230,7 @@ public class CTL13MMMultiThreadLazyInstanceGenerator extends CTL13MMInstanceGene
         if (args.length > 0)
             params = args[0];
 
-        CTL13MMMultiThreadLazyInstanceGenerator gen = new CTL13MMMultiThreadLazyInstanceGenerator(
+        CTL13MMMultiThreadInstanceGenerator gen = new CTL13MMMultiThreadInstanceGenerator(
                 new SecureRandom(),
                 PairingFactory.getInstance().loadParameters(params)
         );

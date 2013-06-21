@@ -4,7 +4,7 @@ import it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine.CTL13MMInstance;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine.DefaultCTL13MMInstance;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine.MultiThreadCTL13MMInstance;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators.CTL13MMInstanceGenerator;
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators.CTL13MMMultiThreadLazyInstanceGenerator;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators.CTL13MMMultiThreadInstanceGenerator;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstanceParameters;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -59,7 +59,7 @@ public abstract class AbstractCTL13MMTest {
             case 1:
                 instance = new MultiThreadCTL13MMInstance(
                         random,
-                        new CTL13MMMultiThreadLazyInstanceGenerator(random, instanceParameters).generate()
+                        new CTL13MMMultiThreadInstanceGenerator(random, instanceParameters).generate()
                 );
                 break;
             default:

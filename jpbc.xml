@@ -97,7 +97,7 @@
     <!-- CTL13MM Generators -->
 
     <target name="ctl13">
-        <java fork="true" classname="it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators.CTL13MMMultiThreadLazyInstanceGenerator">
+        <java fork="true" classname="it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators.CTL13MMMultiThreadInstanceGenerator">
             <arg line="${args}"/>
             <classpath>
                 <path refid="runtime.classpath"/>
