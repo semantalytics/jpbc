@@ -1,28 +1,39 @@
 package it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters;
 
 import it.unisa.dia.gas.jpbc.PairingParameters;
+import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.MapParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.collection.LatchHashMap;
 import it.unisa.dia.gas.plaf.jpbc.util.io.disk.*;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.math.BigInteger;
+import java.util.Map;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  * @since 1.3.0
  */
-public class CTL13MMLazyMapParameters extends CTL13MMMapParameters {
+public class CTL13MMLazyMapParameters extends MapParameters {
 
+    protected CTL13MMInstanceParameters parameters;
     protected Disk<ArraySector<BigInteger>> disk;
 
 
     public CTL13MMLazyMapParameters(CTL13MMInstanceParameters parameters) {
-        super(new LatchHashMap<String, Object>(), parameters);
+        this(new LatchHashMap<String, Object>(), parameters);
     }
 
+    public CTL13MMLazyMapParameters(Map<String, Object> values, CTL13MMInstanceParameters parameters) {
+        super(values);
+
+        this.parameters = parameters;
+        putObject("params", parameters);
+    }
+
+
     public CTL13MMLazyMapParameters(PairingParameters parameters) {
-        super(new LatchHashMap<String, Object>(), new CTL13MMInstanceParameters(parameters));
+        this(new LatchHashMap<String, Object>(), new CTL13MMInstanceParameters(parameters));
     }
 
 
@@ -79,12 +90,30 @@ public class CTL13MMLazyMapParameters extends CTL13MMMapParameters {
         }
     }
 
+    public void store() {
+        store(String.format(
+                "CTL13IP_eta_%d_n_%d_alpha_%d_ell_%d_rho_%d_delta_%d_kappa_%d_beta_%d_theta_%d_bound_%d.dat",
+                parameters.getEta(), parameters.getN(), parameters.getAlpha(), parameters.getEll(),
+                parameters.getRho(), parameters.getDelta(),
+                parameters.getKappa(), parameters.getBeta(), parameters.getTheta(), parameters.getBound())
+        );
+    }
+
     public void store(String fileName) {
         try {
             disk.flush();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean load() {
+        return load(String.format(
+                "CTL13IP_eta_%d_n_%d_alpha_%d_ell_%d_rho_%d_delta_%d_kappa_%d_beta_%d_theta_%d_bound_%d.dat",
+                parameters.getEta(), parameters.getN(), parameters.getAlpha(), parameters.getEll(),
+                parameters.getRho(), parameters.getDelta(),
+                parameters.getKappa(), parameters.getBeta(), parameters.getTheta(), parameters.getBound())
+        );
     }
 
     public boolean load(String path) {
