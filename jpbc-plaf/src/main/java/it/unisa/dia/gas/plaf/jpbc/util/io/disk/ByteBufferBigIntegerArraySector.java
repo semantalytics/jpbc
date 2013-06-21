@@ -55,11 +55,24 @@ public class ByteBufferBigIntegerArraySector implements ArraySector<BigInteger> 
         return numRecords;
     }
 
-    public ArraySector<BigInteger> mapTo(ByteBuffer buffer) {
+    public ArraySector<BigInteger> mapTo(Mode mode, ByteBuffer buffer) {
         this.buffer = buffer;
-
         this.in = new PairingDataInput(new ByteBufferDataInput(buffer));
         this.out = new PairingDataOutput(new ByteBufferDataOutput(buffer));
+
+        switch (mode) {
+            case INIT:
+                try {
+                    out.writeInt(numRecords);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                break;
+            case READ:
+                break;
+            default:
+                throw new IllegalStateException("Invalid mode!");
+        }
 
         return this;
     }

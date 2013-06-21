@@ -8,8 +8,11 @@ import java.nio.ByteBuffer;
  */
 public interface Sector {
 
+    enum Mode {INIT, READ}
+
+
     int getLengthInBytes();
 
-    Sector mapTo(ByteBuffer buffer);
+    Sector mapTo(Mode mode, ByteBuffer buffer);
 
 }

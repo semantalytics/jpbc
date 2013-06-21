@@ -102,7 +102,9 @@ public class MapParameters implements MutablePairingParameters {
     public void putBigIntegerAt(String key, int index, BigInteger value) {
         Object obj = getObject(key);
         if (obj instanceof Vector) {
+            // todo: replace vector with a designed list
             Vector vector = (Vector) obj;
+
             vector.ensureCapacity(index+1);
             vector.insertElementAt(value, index);
         } else {

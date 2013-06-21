@@ -45,7 +45,10 @@ public class FileChannelDisk<S extends Sector> implements Disk<S> {
         try {
             int channelCursor = 0;
             for (Sector sector : sectors) {
-                channelCursor += sector.mapTo(channel.map(FileChannel.MapMode.READ_ONLY, channelCursor, sector.getLengthInBytes())).getLengthInBytes();
+                channelCursor += sector.mapTo(
+                        Sector.Mode.READ,
+                        channel.map(FileChannel.MapMode.READ_ONLY, channelCursor, sector.getLengthInBytes())
+                ).getLengthInBytes();
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -67,7 +70,10 @@ public class FileChannelDisk<S extends Sector> implements Disk<S> {
 
             int channelCursor = 0;
             for (Sector sector : sectors) {
-                channelCursor += sector.mapTo(channel.map(FileChannel.MapMode.READ_WRITE, channelCursor, sector.getLengthInBytes())).getLengthInBytes();
+                channelCursor += sector.mapTo(
+                        Sector.Mode.INIT,
+                        channel.map(FileChannel.MapMode.READ_WRITE, channelCursor, sector.getLengthInBytes())
+                ).getLengthInBytes();
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
