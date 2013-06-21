@@ -3,7 +3,7 @@ package it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators;
 import it.unisa.dia.gas.jpbc.PairingParameters;
 import it.unisa.dia.gas.jpbc.PairingParametersGenerator;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstanceParameters;
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMLazyMapParameters;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMMapParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.MutablePairingParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
@@ -43,7 +43,7 @@ public class CTL13MMInstanceGenerator implements PairingParametersGenerator {
 
 
     public PairingParameters generate() {
-        CTL13MMLazyMapParameters mapParameters = newCTL13MMMapParameters();
+        CTL13MMMapParameters mapParameters = newCTL13MMMapParameters();
         if (storeGeneratedInstance) {
             if (mapParameters.load())
                 return mapParameters;
@@ -58,8 +58,8 @@ public class CTL13MMInstanceGenerator implements PairingParametersGenerator {
         return mapParameters;
     }
 
-    protected CTL13MMLazyMapParameters newCTL13MMMapParameters() {
-        return new CTL13MMLazyMapParameters(parameters);
+    protected CTL13MMMapParameters newCTL13MMMapParameters() {
+        return new CTL13MMMapParameters(parameters);
     }
 
     protected void generateInternal(MutablePairingParameters mapParameters) {

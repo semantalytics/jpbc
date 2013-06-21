@@ -14,17 +14,17 @@ import java.util.Map;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  * @since 1.3.0
  */
-public class CTL13MMLazyMapParameters extends MapParameters {
+public class CTL13MMMapParameters extends MapParameters {
 
     protected CTL13MMInstanceParameters parameters;
     protected Disk<ArraySector<BigInteger>> disk;
 
 
-    public CTL13MMLazyMapParameters(CTL13MMInstanceParameters parameters) {
+    public CTL13MMMapParameters(CTL13MMInstanceParameters parameters) {
         this(new LatchHashMap<String, Object>(), parameters);
     }
 
-    public CTL13MMLazyMapParameters(Map<String, Object> values, CTL13MMInstanceParameters parameters) {
+    public CTL13MMMapParameters(Map<String, Object> values, CTL13MMInstanceParameters parameters) {
         super(values);
 
         this.parameters = parameters;
@@ -32,7 +32,7 @@ public class CTL13MMLazyMapParameters extends MapParameters {
     }
 
 
-    public CTL13MMLazyMapParameters(PairingParameters parameters) {
+    public CTL13MMMapParameters(PairingParameters parameters) {
         this(new LatchHashMap<String, Object>(), new CTL13MMInstanceParameters(parameters));
     }
 
