@@ -188,30 +188,34 @@ public class CTL13MMMultiThreadInstanceGenerator extends CTL13MMInstanceGenerato
                 getObject("crtCoefficients");
                 getObject("gs");
 
-                // TODO: add per level generation.
-                // Quadratic re-randomization stuff
-                for (int i = 0; i < parameters.getDelta(); i++) {
-                    // xs[i] = encodeZero();
-                    BigInteger xs = BigInteger.ZERO;
-                    for (int j = 0; j < parameters.getN(); j++)
-                        xs = xs.add(
-                                getBigIntegerAt("gs", j).multiply(getRandom(parameters.getRho(), random))
-                                        .multiply(getBigIntegerAt("crtCoefficients", j))
-                        );
-                    xs = xs.mod(x0);
-                    putBigIntegerAt("xs", i, xs);
+                for (int level = 1; level < parameters.getKappa(); level++) {
+                    String xsLevel = "xs" + level;
 
-                    // xs[parameters.getDelta() + i] = encodeAt(1);
-                    xs = BigInteger.ZERO;
-                    for (int j = 0; j < parameters.getN(); j++) {
-                        xs = xs.add(
-                                getBigIntegerAt("gs", j).multiply(getRandom(parameters.getRho(), random))
-                                        .add(getRandom(parameters.getAlpha(), random))
-                                        .multiply(getBigIntegerAt("crtCoefficients", j))
-                        );
+                    // Quadratic re-randomization stuff
+                    for (int i = 0; i < parameters.getDelta(); i++) {
+                        // xs[i] = encodeZero();
+                        BigInteger xs = BigInteger.ZERO;
+                        for (int j = 0; j < parameters.getN(); j++)
+                            xs = xs.add(
+                                    getBigIntegerAt("gs", j).multiply(getRandom(parameters.getRho(), random))
+                                            .multiply(getBigIntegerAt("crtCoefficients", j))
+                            );
+                        xs = xs.mod(x0);
+                        putBigIntegerAt(xsLevel, i, xs);
+
+                        // xs[parameters.getDelta() + i] = encodeAt(1);
+                        xs = BigInteger.ZERO;
+                        for (int j = 0; j < parameters.getN(); j++) {
+                            xs = xs.add(
+                                    getBigIntegerAt("gs", j).multiply(getRandom(parameters.getRho(), random))
+                                            .add(getRandom(parameters.getAlpha(), random))
+                                            .multiply(getBigIntegerAt("crtCoefficients", j))
+                            );
+                        }
+                        xs = xs.multiply(zInv).mod(x0);
+                        putBigIntegerAt(xsLevel, parameters.getDelta() + i, xs);
                     }
-                    xs = xs.multiply(zInv).mod(x0);
-                    putBigIntegerAt("xs", parameters.getDelta() + i, xs);
+
                 }
 
                 putBoolean("xs", true);
@@ -226,7 +230,7 @@ public class CTL13MMMultiThreadInstanceGenerator extends CTL13MMInstanceGenerato
 
 
     public static void main(String[] args) {
-        String params = "./params/mm/ctl13/medium.properties";
+        String params = "./params/mm/ctl13/toy.properties";
         if (args.length > 0)
             params = args[0];
 

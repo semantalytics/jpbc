@@ -68,7 +68,8 @@ public class CTL13MMMapParameters extends MapParameters {
             int pLength = (parameters.getEta() + 7) / 8;
 
             FileChannelDisk<ArraySector<BigInteger>> fileChannelDisk = new FileChannelDisk<ArraySector<BigInteger>>();
-            fileChannelDisk.addSector("header", new ByteBufferLatchWeakRefBigIntegerFixedArraySector(x0Length, 5, "x0", "y", "pzt", "z", "zInv"))
+            fileChannelDisk
+                    .addSector("header", new ByteBufferLatchWeakRefBigIntegerArraySector(x0Length, 5, "x0", "y", "pzt", "z", "zInv"))
                     .addSector("xsp", new ByteBufferLatchWeakRefBigIntegerArraySector(x0Length, parameters.getEll()))
                     .addSector("crtCoefficients", new ByteBufferLatchWeakRefBigIntegerArraySector(x0Length, parameters.getN()));
 
@@ -91,15 +92,6 @@ public class CTL13MMMapParameters extends MapParameters {
     }
 
     public void store() {
-        store(String.format(
-                "CTL13IP_eta_%d_n_%d_alpha_%d_ell_%d_rho_%d_delta_%d_kappa_%d_beta_%d_theta_%d_bound_%d.dat",
-                parameters.getEta(), parameters.getN(), parameters.getAlpha(), parameters.getEll(),
-                parameters.getRho(), parameters.getDelta(),
-                parameters.getKappa(), parameters.getBeta(), parameters.getTheta(), parameters.getBound())
-        );
-    }
-
-    public void store(String fileName) {
         try {
             disk.flush();
         } catch (Exception e) {
@@ -126,7 +118,7 @@ public class CTL13MMMapParameters extends MapParameters {
             int pLength = (parameters.getEta() + 7) / 8;
 
             FileChannelDisk<ArraySector<BigInteger>> fileChannelDisk = new FileChannelDisk<ArraySector<BigInteger>>();
-            fileChannelDisk.addSector("header", new ByteBufferWeakRefBigIntegerFixedArraySector(x0Length, 5, "x0", "y", "pzt", "z", "zInv"))
+            fileChannelDisk.addSector("header", new ByteBufferWeakRefBigIntegerArraySector(x0Length, 5, "x0", "y", "pzt", "z", "zInv"))
                     .addSector("xsp", new ByteBufferWeakRefBigIntegerArraySector(x0Length, parameters.getEll()))
                     .addSector("crtCoefficients", new ByteBufferWeakRefBigIntegerArraySector(x0Length, parameters.getN()));
 
