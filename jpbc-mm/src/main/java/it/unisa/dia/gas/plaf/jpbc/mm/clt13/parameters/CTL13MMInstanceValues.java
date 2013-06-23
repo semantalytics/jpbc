@@ -60,4 +60,12 @@ public class CTL13MMInstanceValues {
     public BigInteger getPsAt(int index) {
         return parameters.getBigIntegerAt("ps", index);
     }
+
+    public BigInteger getZInvPowAt(int index) {
+        return parameters.getBigIntegerAt("zInvPow", index);
+    }
+
+    public BigInteger getYPowAt(int index) {
+        return parameters.getBigIntegerAt("yPow", index);
+    }
 }

@@ -78,6 +78,8 @@ public class CTL13MMMapParameters extends MapParameters {
 
             fileChannelDisk.addSector("gs", new ByteBufferLatchWeakRefBigIntegerArraySector(gLength, parameters.getN()))
                     .addSector("ps", new ByteBufferLatchWeakRefBigIntegerArraySector(pLength, parameters.getN()))
+                    .addSector("zInvPow", new ByteBufferLatchWeakRefBigIntegerArraySector(x0Length, parameters.getKappa()))
+                    .addSector("yPow", new ByteBufferLatchWeakRefBigIntegerArraySector(x0Length, parameters.getKappa() + 1))
                     .mapTo(String.format(
                             "CTL13IP_eta_%d_n_%d_alpha_%d_ell_%d_rho_%d_delta_%d_kappa_%d_beta_%d_theta_%d_bound_%d.dat",
                             parameters.getEta(), parameters.getN(), parameters.getAlpha(), parameters.getEll(),
@@ -127,6 +129,8 @@ public class CTL13MMMapParameters extends MapParameters {
 
             fileChannelDisk.addSector("gs", new ByteBufferWeakRefBigIntegerArraySector(gLength, parameters.getN()))
                     .addSector("ps", new ByteBufferWeakRefBigIntegerArraySector(pLength, parameters.getN()))
+                    .addSector("zInvPow", new ByteBufferWeakRefBigIntegerArraySector(x0Length, parameters.getKappa()))
+                    .addSector("yPow", new ByteBufferWeakRefBigIntegerArraySector(x0Length, parameters.getKappa() + 1))
                     .mapTo(new FileInputStream(path).getChannel());
 
             putObject("params", parameters);

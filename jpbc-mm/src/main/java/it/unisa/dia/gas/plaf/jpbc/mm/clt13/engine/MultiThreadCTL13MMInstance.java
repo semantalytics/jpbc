@@ -30,9 +30,6 @@ public class MultiThreadCTL13MMInstance implements CTL13MMInstance {
     protected BigInteger zInv;
     protected BigInteger pzt;
 
-    protected BigInteger[] zInvPows;
-    protected BigInteger[] yPows;
-
     protected long isZeroBound;
 
     public MultiThreadCTL13MMInstance(SecureRandom random, PairingParameters parameters) {
@@ -47,19 +44,6 @@ public class MultiThreadCTL13MMInstance implements CTL13MMInstance {
         this.pzt = values.getPzt();
 
         this.isZeroBound = (x0.bitLength() - this.parameters.getBound());
-
-        zInvPows = new BigInteger[this.parameters.getKappa()];
-        yPows = new BigInteger[this.parameters.getKappa() + 1];
-
-        BigInteger temp = BigInteger.ONE;
-        for (int i = 0; i < this.parameters.getKappa(); i++) {
-            temp = temp.multiply(zInv).mod(x0);
-            zInvPows[i] = temp;
-        }
-
-        yPows[0] = BigInteger.ONE;
-        for (int i = 1; i <= this.parameters.getKappa(); i++)
-            yPows[i] = yPows[i - 1].multiply(y).mod(x0);
     }
 
 
@@ -73,7 +57,7 @@ public class MultiThreadCTL13MMInstance implements CTL13MMInstance {
     }
 
     public boolean isZero(BigInteger value, int index) {
-        value = modNear(value.multiply(pzt).multiply(yPows[parameters.getKappa() - index]), x0);
+        value = modNear(value.multiply(pzt).multiply(values.getYPowAt(parameters.getKappa() - index)), x0);
 
         return (value.bitLength() < isZeroBound);
     }
@@ -96,7 +80,7 @@ public class MultiThreadCTL13MMInstance implements CTL13MMInstance {
 
 
     public BigInteger encodeAt(BigInteger value, int startIndex, int endIndex) {
-        return modNear(value.multiply(yPows[endIndex - startIndex]), x0);
+        return modNear(value.multiply(values.getYPowAt(endIndex - startIndex)), x0);
     }
 
     public BigInteger encodeAt(int degree) {
@@ -113,7 +97,7 @@ public class MultiThreadCTL13MMInstance implements CTL13MMInstance {
 
         BigInteger res = accumulator.awaitResult().mod(x0);
         if (degree > 0)
-            res = res.multiply(zInvPows[degree - 1]).mod(x0);
+            res = res.multiply(values.getZInvPowAt(degree - 1)).mod(x0);
 
         return res;
     }
@@ -135,7 +119,7 @@ public class MultiThreadCTL13MMInstance implements CTL13MMInstance {
 
         BigInteger res = accumulator.awaitResult().mod(x0);
         if (index > 0)
-            res = res.multiply(zInvPows[index - 1]).mod(x0);
+            res = res.multiply(values.getZInvPowAt(index - 1)).mod(x0);
 
         return res;
     }
@@ -158,7 +142,7 @@ public class MultiThreadCTL13MMInstance implements CTL13MMInstance {
 
         BigInteger res = accumulator.awaitResult().mod(x0);
         if (index > 0)
-            res = res.multiply(zInvPows[index - 1]).mod(x0);
+            res = res.multiply(values.getZInvPowAt(index - 1)).mod(x0);
 
         return res;
     }
@@ -181,7 +165,7 @@ public class MultiThreadCTL13MMInstance implements CTL13MMInstance {
 
 
     public BigInteger extract(BigInteger value, int index) {
-        value = modNear(value.multiply(pzt).multiply(yPows[parameters.getKappa() - index]), x0);
+        value = modNear(value.multiply(pzt).multiply(values.getYPowAt(parameters.getKappa() - index)), x0);
 //
         return value.shiftRight(
                 x0.bitLength() - parameters.getBound()

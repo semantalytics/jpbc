@@ -50,7 +50,7 @@ public class CTL13MMMultiThreadInstanceGenerator extends CTL13MMInstanceGenerato
                 // Generate CRT modulo x0
                 Accumulator<BigInteger> x0 = new BigIntegerMulAccumulator();
                 for (int i = 0; i < parameters.getN(); i++) {
-                    x0.submit(new IndexCallable<BigInteger>(i) {
+                    x0.accumulate(new IndexCallable<BigInteger>(i) {
                         public BigInteger call() throws Exception {
                             BigInteger value = BigInteger.probablePrime(parameters.getEta(), random);
                             putBigIntegerAt("ps", i, value);
@@ -69,9 +69,15 @@ public class CTL13MMMultiThreadInstanceGenerator extends CTL13MMInstanceGenerato
         }).submit(new ContextRunnable("gs") {
             public void run() {
                 // Generate g_i's
+                Pool executor = new PoolExecutor();
                 for (int i = 0; i < parameters.getN(); i++) {
-                    putBigIntegerAt("gs", i, BigInteger.probablePrime(parameters.getAlpha(), random));
+                    executor.submit(new ExecutorServiceUtils.IndexRunnable(i) {
+                        public void run() {
+                            putBigIntegerAt("gs", i, BigInteger.probablePrime(parameters.getAlpha(), random));
+                        }
+                    });
                 }
+                executor.awaitTermination();
 
                 putBoolean("gs", true);
             }
@@ -81,7 +87,6 @@ public class CTL13MMMultiThreadInstanceGenerator extends CTL13MMInstanceGenerato
                 final BigInteger x0 = getBigInteger("x0");
                 getObject("ps");
 
-                System.out.println("GEN CRTCOEFF");
                 Pool executor = new PoolExecutor();
                 for (int i = 0; i < parameters.getN(); i++) {
                     executor.submit(new ExecutorServiceUtils.IndexRunnable(i) {
@@ -108,6 +113,12 @@ public class CTL13MMMultiThreadInstanceGenerator extends CTL13MMInstanceGenerato
                     zInv = z.modInverse(x0);
                 } while (zInv.equals(BigInteger.ZERO));
 
+                BigInteger temp = BigInteger.ONE;
+                for (int i = 0; i < parameters.getKappa(); i++) {
+                    temp = temp.multiply(zInv).mod(x0);
+                    putBigIntegerAt("zInvPow", i, temp);
+                }
+
                 putBigInteger("z", z);
                 putBigInteger("zInv", zInv);
             }
@@ -120,18 +131,19 @@ public class CTL13MMMultiThreadInstanceGenerator extends CTL13MMInstanceGenerato
                 // Generate xp_i's
                 for (int i = 0; i < parameters.getEll(); i++) {
 
-                    // xsp = encodeAt(0);
-                    BigInteger xsp = BigInteger.ZERO;
+                    Accumulator<BigInteger> xsp = new BigIntegerAddAccumulator();
                     for (int j = 0; j < parameters.getN(); j++) {
-                        xsp = xsp.add(
-                                getBigIntegerAt("gs", j).multiply(getRandom(parameters.getRho(), random))
+                        xsp.accumulate(new IndexCallable<BigInteger>(i) {
+                            public BigInteger call() throws Exception {
+                                return getBigIntegerAt("gs", i)
+                                        .multiply(getRandom(parameters.getRho(), random))
                                         .add(getRandom(parameters.getAlpha(), random))
-                                        .multiply(getBigIntegerAt("crtCoefficients", j))
-                        );
-                    }
-                    xsp = xsp.mod(x0);
+                                        .multiply(getBigIntegerAt("crtCoefficients", i));
+                            }
 
-                    putBigIntegerAt("xsp", i, xsp);
+                        });
+                    }
+                    putBigIntegerAt("xsp", i, xsp.awaitResult().mod(x0));
 
                 }
 
@@ -147,7 +159,7 @@ public class CTL13MMMultiThreadInstanceGenerator extends CTL13MMInstanceGenerato
                 // Generate y = encodeOneAt(1)
                 Accumulator<BigInteger> y = new BigIntegerAddAccumulator();
                 for (int i = 0; i < parameters.getN(); i++) {
-                    y.submit(new IndexCallable<BigInteger>(i) {
+                    y.accumulate(new IndexCallable<BigInteger>(i) {
                         public BigInteger call() throws Exception {
                             return getBigIntegerAt("gs", i).multiply(getRandom(parameters.getRho(), random))
                                     .add(BigInteger.ONE)
@@ -156,7 +168,15 @@ public class CTL13MMMultiThreadInstanceGenerator extends CTL13MMInstanceGenerato
                     });
                 }
 
-                putBigInteger("y", y.awaitResult().multiply(zInv).mod(x0));
+                BigInteger finalY = y.awaitResult().multiply(zInv).mod(x0);
+                putBigInteger("y", finalY);
+
+                BigInteger yPow = BigInteger.ONE;
+                putBigIntegerAt("yPow", 0, yPow);
+                for (int i = 1; i <= parameters.getKappa(); i++) {
+                    yPow = yPow.multiply(finalY).mod(x0);
+                    putBigIntegerAt("yPow", i, yPow);
+                }
             }
         }).submit(new ContextRunnable("pzt") {
             public void run() {
