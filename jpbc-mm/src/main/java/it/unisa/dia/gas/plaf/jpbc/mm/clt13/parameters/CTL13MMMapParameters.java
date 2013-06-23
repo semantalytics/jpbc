@@ -73,7 +73,7 @@ public class CTL13MMMapParameters extends MapParameters {
                     .addSector("xsp", new ByteBufferLatchWeakRefBigIntegerArraySector(x0Length, parameters.getEll()))
                     .addSector("crtCoefficients", new ByteBufferLatchWeakRefBigIntegerArraySector(x0Length, parameters.getN()));
 
-            for (int level = 1; level < parameters.getKappa(); level++)
+            for (int level = 1; level <= parameters.getKappa(); level++)
                 fileChannelDisk.addSector("xs" + level, new ByteBufferLatchWeakRefBigIntegerArraySector(x0Length, parameters.getDelta() * 2));
 
             fileChannelDisk.addSector("gs", new ByteBufferLatchWeakRefBigIntegerArraySector(gLength, parameters.getN()))
@@ -122,8 +122,8 @@ public class CTL13MMMapParameters extends MapParameters {
                     .addSector("xsp", new ByteBufferWeakRefBigIntegerArraySector(x0Length, parameters.getEll()))
                     .addSector("crtCoefficients", new ByteBufferWeakRefBigIntegerArraySector(x0Length, parameters.getN()));
 
-            for (int level = 1; level < parameters.getKappa(); level++)
-                fileChannelDisk.addSector("xs" + level, new ByteBufferLatchWeakRefBigIntegerArraySector(x0Length, parameters.getDelta() * 2));
+            for (int level = 1; level <= parameters.getKappa(); level++)
+                fileChannelDisk.addSector("xs" + level, new ByteBufferWeakRefBigIntegerArraySector(x0Length, parameters.getDelta() * 2));
 
             fileChannelDisk.addSector("gs", new ByteBufferWeakRefBigIntegerArraySector(gLength, parameters.getN()))
                     .addSector("ps", new ByteBufferWeakRefBigIntegerArraySector(pLength, parameters.getN()))

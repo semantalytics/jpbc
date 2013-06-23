@@ -188,7 +188,7 @@ public class CTL13MMMultiThreadInstanceGenerator extends CTL13MMInstanceGenerato
                 getObject("crtCoefficients");
                 getObject("gs");
 
-                for (int level = 1; level < parameters.getKappa(); level++) {
+                for (int level = 1; level <= parameters.getKappa(); level++) {
                     String xsLevel = "xs" + level;
 
                     // Quadratic re-randomization stuff
@@ -212,7 +212,10 @@ public class CTL13MMMultiThreadInstanceGenerator extends CTL13MMInstanceGenerato
                                             .multiply(getBigIntegerAt("crtCoefficients", j))
                             );
                         }
-                        xs = xs.multiply(zInv).mod(x0);
+                        xs = xs.mod(x0);
+                        for (int j = level; j > 0; j--)
+                            xs = xs.multiply(zInv).mod(x0);
+
                         putBigIntegerAt(xsLevel, parameters.getDelta() + i, xs);
                     }
 

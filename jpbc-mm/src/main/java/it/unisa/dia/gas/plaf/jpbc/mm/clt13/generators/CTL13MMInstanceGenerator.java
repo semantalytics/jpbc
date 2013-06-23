@@ -138,7 +138,7 @@ public class CTL13MMInstanceGenerator implements PairingParametersGenerator {
         pzt = pzt.mod(x0);
         mapParameters.putBigInteger("pzt", pzt);
 
-        for (int level = 1; level < parameters.getKappa(); level++) {
+        for (int level = 1; level <= parameters.getKappa(); level++) {
 
             String xsLevel = "xs" + level;
 
@@ -164,7 +164,10 @@ public class CTL13MMInstanceGenerator implements PairingParametersGenerator {
                                     .multiply(mapParameters.getBigIntegerAt("crtCoefficients", j))
                     );
                 }
-                xs = xs.multiply(zInv).mod(x0);
+                xs = xs.mod(x0);
+                for (int j = level; j > 0; j--)
+                    xs = xs.multiply(zInv).mod(x0);
+
                 mapParameters.putBigIntegerAt(xsLevel, index, xs);
             }
 
