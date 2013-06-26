@@ -3,7 +3,6 @@ package it.unisa.dia.gas.plaf.jpbc.util.io.disk;
 import it.unisa.dia.gas.plaf.jpbc.util.collection.FlagMap;
 
 import java.io.IOException;
-import java.lang.ref.SoftReference;
 import java.math.BigInteger;
 
 /**
@@ -31,39 +30,11 @@ public class ByteBufferLatchWeakRefBigIntegerArraySector extends ByteBufferWeakR
     public BigInteger getAt(int index) {
         flags.get(index);
 
-        BigInteger result = null;
-        SoftReference<BigInteger> sr = cache.get(index);
-
-        if (sr != null)
-            result = sr.get();
-
-        if (result == null) {
-            synchronized (this) {
-                try {
-                    buffer.position(offset + (index * recordLength));
-                    result = in.readBigInteger();
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            cache.put(index, new SoftReference<BigInteger>(result));
-        }
-
-        return result;
+        return super.getAt(index);
     }
 
     public void setAt(int index, BigInteger value) {
-        cache.put(index, new SoftReference<BigInteger>(value));
-
-        synchronized (this) {
-            try {
-                System.out.printf("index %d, offset %d, recordSize %d, limit %d \n", index, offset + (index * recordLength), recordLength, buffer.limit());
-                buffer.position(offset + (index * recordLength));
-                out.writeBigInteger(value, recordSize);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
+        super.setAt(index, value);
 
         flags.set(index);
     }

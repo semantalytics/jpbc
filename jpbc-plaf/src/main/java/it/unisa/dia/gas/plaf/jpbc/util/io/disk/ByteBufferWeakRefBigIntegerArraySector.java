@@ -36,12 +36,7 @@ public class ByteBufferWeakRefBigIntegerArraySector extends ByteBufferBigInteger
             result = sr.get();
 
         if (result == null) {
-            try {
-                buffer.position(offset + (index * recordLength));
-                result = in.readBigInteger();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+            result = super.getAt(index);
             cache.put(index, new SoftReference<BigInteger>(result));
         }
 
@@ -51,12 +46,7 @@ public class ByteBufferWeakRefBigIntegerArraySector extends ByteBufferBigInteger
     public synchronized void setAt(int index, BigInteger value) {
         cache.put(index, new SoftReference<BigInteger>(value));
 
-        try {
-            buffer.position(offset + (index * recordLength));
-            out.writeBigInteger(value, recordSize);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        super.setAt(index, value);
     }
 
 }
