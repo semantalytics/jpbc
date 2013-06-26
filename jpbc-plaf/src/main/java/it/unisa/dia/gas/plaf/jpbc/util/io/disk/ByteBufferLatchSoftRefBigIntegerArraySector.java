@@ -9,18 +9,18 @@ import java.math.BigInteger;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  * @since 1.3.0
  */
-public class ByteBufferLatchWeakRefBigIntegerArraySector extends ByteBufferWeakRefBigIntegerArraySector {
+public class ByteBufferLatchSoftRefBigIntegerArraySector extends ByteBufferSoftRefBigIntegerArraySector {
 
     protected FlagMap<Integer> flags;
 
 
-    public ByteBufferLatchWeakRefBigIntegerArraySector(int recordSize, int numRecords) throws IOException {
+    public ByteBufferLatchSoftRefBigIntegerArraySector(int recordSize, int numRecords) throws IOException {
         super(recordSize, numRecords);
 
         this.flags = new FlagMap<Integer>();
     }
 
-    public ByteBufferLatchWeakRefBigIntegerArraySector(int recordSize, int numRecords, String... labels) throws IOException {
+    public ByteBufferLatchSoftRefBigIntegerArraySector(int recordSize, int numRecords, String... labels) throws IOException {
         super(recordSize, numRecords, labels);
 
         this.flags = new FlagMap<Integer>();

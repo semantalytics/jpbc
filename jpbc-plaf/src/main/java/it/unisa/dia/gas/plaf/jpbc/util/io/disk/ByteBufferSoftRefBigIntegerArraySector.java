@@ -10,18 +10,18 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  * @since 1.3.0
  */
-public class ByteBufferWeakRefBigIntegerArraySector extends ByteBufferBigIntegerArraySector {
+public class ByteBufferSoftRefBigIntegerArraySector extends ByteBufferBigIntegerArraySector {
 
     protected Map<Integer, SoftReference<BigInteger>> cache;
 
 
-    public ByteBufferWeakRefBigIntegerArraySector(int recordSize, int numRecords) throws IOException {
+    public ByteBufferSoftRefBigIntegerArraySector(int recordSize, int numRecords) throws IOException {
         super(recordSize, numRecords);
 
         this.cache = new ConcurrentHashMap<Integer, SoftReference<BigInteger>>();
     }
 
-    public ByteBufferWeakRefBigIntegerArraySector(int recordSize, int numRecords, String... labels) throws IOException {
+    public ByteBufferSoftRefBigIntegerArraySector(int recordSize, int numRecords, String... labels) throws IOException {
         super(recordSize, numRecords, labels);
 
         this.cache = new ConcurrentHashMap<Integer, SoftReference<BigInteger>>();
