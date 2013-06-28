@@ -52,11 +52,11 @@ public class LatchHashMap<K, V> implements Map<K, V> {
     }
 
     public void clear() {
-        internalMap.clear();
+        throw new IllegalStateException("Not implemented yet!");
     }
 
     public Set<K> keySet() {
-        return internalMap.keySet();
+        throw new IllegalStateException("Not implemented yet!");
     }
 
     public Collection<V> values() {
