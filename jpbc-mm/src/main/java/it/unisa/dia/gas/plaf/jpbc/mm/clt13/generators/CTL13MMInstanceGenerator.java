@@ -96,6 +96,12 @@ public class CTL13MMInstanceGenerator implements PairingParametersGenerator {
         mapParameters.putBigInteger("z", z);
         mapParameters.putBigInteger("zInv", zInv);
 
+        BigInteger temp = BigInteger.ONE;
+        for (int i = 0; i < parameters.getKappa(); i++) {
+            temp = temp.multiply(zInv).mod(x0);
+            mapParameters.putBigIntegerAt("zInvPow", i, temp);
+        }
+
         // Generate xp_i's
         for (int i = 0; i < parameters.getEll(); i++) {
             // xsp[i] = encodeAt(0);
@@ -123,6 +129,13 @@ public class CTL13MMInstanceGenerator implements PairingParametersGenerator {
         }
         y = y.multiply(zInv).mod(x0);
         mapParameters.putBigInteger("y", y);
+
+        BigInteger yPow = BigInteger.ONE;
+        mapParameters.putBigIntegerAt("yPow", 0, yPow);
+        for (int i = 1; i <= parameters.getKappa(); i++) {
+            yPow = yPow.multiply(y).mod(x0);
+            mapParameters.putBigIntegerAt("yPow", i, yPow);
+        }
 
         // Generate zero-tester pzt
         BigInteger zPowKappa = z.modPow(BigInteger.valueOf(parameters.getKappa()), x0);

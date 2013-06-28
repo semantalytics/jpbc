@@ -36,14 +36,10 @@ public class LatchHashMap<K, V> implements Map<K, V> {
     }
 
     public V get(Object key) {
-        System.out.println("L GET key = [" + key + "]");
-
         return getLatch(key).get();
     }
 
     public V put(K key, V value) {
-        System.out.println("L PUT key = [" + key + "]");
-
         return getLatch(key).set(value);
     }
 

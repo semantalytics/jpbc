@@ -31,32 +31,24 @@ public class CTL13MMMapParameters extends MapParameters {
         putObject("params", parameters);
     }
 
-
     public CTL13MMMapParameters(PairingParameters parameters) {
         this(new LatchHashMap<String, Object>(), new CTL13MMInstanceParameters(parameters));
     }
 
 
     public BigInteger getBigInteger(String key) {
-        System.out.println("GET key = [" + key + "]");
-
         return disk.getSector("header").getAt(key);
     }
 
     public BigInteger getBigIntegerAt(String key, int index) {
-        System.out.println("GET key = [" + key + "], index = [" + index + "]");
         return disk.getSector(key).getAt(index);
     }
 
     public void putBigInteger(String key, BigInteger value) {
-        System.out.println("PUT key = [" + key + "]");
-
         disk.getSector("header").setAt(key, value);
     }
 
     public void putBigIntegerAt(String key, int index, BigInteger value) {
-        System.out.println("PUT key = [" + key + "], index = [" + index + "]");
-
         disk.getSector(key).setAt(index, value);
     }
 
