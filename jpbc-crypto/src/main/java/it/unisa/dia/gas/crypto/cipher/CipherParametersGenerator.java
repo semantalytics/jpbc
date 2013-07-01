@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.crypto.engines;
+package it.unisa.dia.gas.crypto.cipher;
 
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.KeyGenerationParameters;

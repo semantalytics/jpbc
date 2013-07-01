@@ -1,7 +1,8 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13;
 
+import it.unisa.dia.gas.crypto.circuit.Circuit;
+import it.unisa.dia.gas.crypto.circuit.DefaultCircuit;
 import it.unisa.dia.gas.crypto.engines.kem.KeyEncapsulationMechanism;
-import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.engines.DefaultCircuit;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.engines.GGHSW13KemEngine;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.generators.GGHSW13KeyPairGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.generators.GGHSW13ParametersGenerator;
@@ -22,8 +23,8 @@ import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Collection;
 
-import static it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.engines.DefaultCircuit.DefaultGate;
-import static it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.params.Circuit.Gate.Type.*;
+import static it.unisa.dia.gas.crypto.circuit.Circuit.Gate.Type.*;
+import static it.unisa.dia.gas.crypto.circuit.DefaultCircuit.DefaultGate;
 import static org.junit.Assert.*;
 
 /**

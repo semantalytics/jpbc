@@ -1,6 +1,7 @@
-package it.unisa.dia.gas.crypto.engines.kem;
+package it.unisa.dia.gas.crypto.jpbc.kem;
 
-import it.unisa.dia.gas.crypto.engines.PairingAsymmetricBlockCipher;
+import it.unisa.dia.gas.crypto.engines.kem.KeyEncapsulationMechanism;
+import it.unisa.dia.gas.crypto.jpbc.cipher.PairingAsymmetricBlockCipher;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)

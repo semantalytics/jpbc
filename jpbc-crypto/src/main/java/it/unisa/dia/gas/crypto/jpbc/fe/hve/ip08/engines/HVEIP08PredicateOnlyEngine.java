@@ -1,6 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.engines;
 
-import it.unisa.dia.gas.crypto.engines.PredicateOnlyPairingAsymmetricBlockCipher;
+import it.unisa.dia.gas.crypto.jpbc.cipher.PredicateOnlyPairingAsymmetricBlockCipher;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08EncryptionParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08KeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.HVEIP08PublicKeyParameters;

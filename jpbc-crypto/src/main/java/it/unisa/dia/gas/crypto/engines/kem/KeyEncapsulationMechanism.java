@@ -7,6 +7,6 @@ import org.bouncycastle.crypto.AsymmetricBlockCipher;
  */
 public interface KeyEncapsulationMechanism extends AsymmetricBlockCipher{
 
-    public int getKeyBlockSize();
+    int getKeyBlockSize();
 
 }

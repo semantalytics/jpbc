@@ -1,5 +1,6 @@
-package it.unisa.dia.gas.crypto.jpbc.utils;
+package it.unisa.dia.gas.crypto.jpbc.dpvs;
 
+import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtils;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Pairing;

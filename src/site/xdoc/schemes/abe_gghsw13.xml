@@ -37,7 +37,7 @@
 <a name="l1"><span class="ln">1    </span></a><span class="s0">package </span><span class="s1">it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13;
 <a name="l2"><span class="ln">2    </span></a>
 <a name="l3"><span class="ln">3    </span></a></span><span class="s0">import </span><span class="s1">it.unisa.dia.gas.crypto.engines.kem.KeyEncapsulationMechanism;
-<a name="l4"><span class="ln">4    </span></a></span><span class="s0">import </span><span class="s1">it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.engines.DefaultCircuit;
+<a name="l4"><span class="ln">4    </span></a></span><span class="s0">import </span><span class="s1">it.unisa.dia.gas.crypto.circuit.DefaultCircuit;
 <a name="l5"><span class="ln">5    </span></a></span><span class="s0">import </span><span class="s1">it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.engines.GGHSW13KemEngine;
 <a name="l6"><span class="ln">6    </span></a></span><span class="s0">import </span><span class="s1">it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.generators.GGHSW13KeyPairGenerator;
 <a name="l7"><span class="ln">7    </span></a></span><span class="s0">import </span><span class="s1">it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.generators.GGHSW13ParametersGenerator;
@@ -55,8 +55,8 @@
 <a name="l19"><span class="ln">19   </span></a></span><span class="s0">import </span><span class="s1">java.util.Arrays;
 <a name="l20"><span class="ln">20   </span></a></span><span class="s0">import </span><span class="s1">java.util.Collection;
 <a name="l21"><span class="ln">21   </span></a>
-<a name="l22"><span class="ln">22   </span></a></span><span class="s0">import static </span><span class="s1">it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.engines.DefaultCircuit.DefaultGate;
-<a name="l23"><span class="ln">23   </span></a></span><span class="s0">import static </span><span class="s1">it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.params.Circuit.Gate.Type.*;
+<a name="l22"><span class="ln">22   </span></a></span><span class="s0">import static </span><span class="s1">it.unisa.dia.gas.crypto.circuit.DefaultCircuit.DefaultGate;
+<a name="l23"><span class="ln">23   </span></a></span><span class="s0">import static </span><span class="s1">it.unisa.dia.gas.crypto.circuit.Circuit.Gate.Type.*;
 <a name="l24"><span class="ln">24   </span></a></span><span class="s0">import static </span><span class="s1">org.junit.Assert.*;
 <a name="l25"><span class="ln">25   </span></a>
 <a name="l26"><span class="ln">26   </span></a></span><span class="s2">/**

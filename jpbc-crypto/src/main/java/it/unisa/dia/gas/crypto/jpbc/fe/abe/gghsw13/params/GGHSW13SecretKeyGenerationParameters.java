@@ -1,5 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.params;
 
+import it.unisa.dia.gas.crypto.circuit.Circuit;
 import org.bouncycastle.crypto.KeyGenerationParameters;
 
 /**

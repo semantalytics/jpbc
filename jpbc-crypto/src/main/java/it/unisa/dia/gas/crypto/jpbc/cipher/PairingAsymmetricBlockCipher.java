@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.crypto.engines;
+package it.unisa.dia.gas.crypto.jpbc.cipher;
 
 import it.unisa.dia.gas.jpbc.Pairing;
 import org.bouncycastle.crypto.AsymmetricBlockCipher;

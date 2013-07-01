@@ -1,8 +1,8 @@
-package it.unisa.dia.gas.crypto.kem.engines;
+package it.unisa.dia.gas.crypto.kemcipher.engines;
 
 import it.unisa.dia.gas.crypto.engines.kem.KeyEncapsulationMechanism;
-import it.unisa.dia.gas.crypto.kem.params.KEMCipherDecryptionParameters;
-import it.unisa.dia.gas.crypto.kem.params.KEMCipherEncryptionParameters;
+import it.unisa.dia.gas.crypto.kemcipher.params.KEMCipherDecryptionParameters;
+import it.unisa.dia.gas.crypto.kemcipher.params.KEMCipherEncryptionParameters;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.CryptoException;
 import org.bouncycastle.crypto.InvalidCipherTextException;

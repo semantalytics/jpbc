@@ -1,6 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.engines;
 
-import it.unisa.dia.gas.crypto.engines.PredicateOnlyPairingAsymmetricBlockCipher;
+import it.unisa.dia.gas.crypto.jpbc.cipher.PredicateOnlyPairingAsymmetricBlockCipher;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10EncryptionParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10KeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params.IPLOSTW10PublicKeyParameters;

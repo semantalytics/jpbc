@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.params;
+package it.unisa.dia.gas.crypto.circuit;
 
 import java.util.Iterator;
 

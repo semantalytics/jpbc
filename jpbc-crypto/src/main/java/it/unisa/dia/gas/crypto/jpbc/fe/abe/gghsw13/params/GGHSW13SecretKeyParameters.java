@@ -1,5 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.params;
 
+import it.unisa.dia.gas.crypto.circuit.Circuit;
 import it.unisa.dia.gas.jpbc.Element;
 
 import java.util.Map;
@@ -9,18 +10,18 @@ import java.util.Map;
  */
 public class GGHSW13SecretKeyParameters extends GGHSW13KeyParameters {
 
-    private it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.params.Circuit circuit;
+    private Circuit circuit;
     private Map<Integer, Element[]> keys;
 
 
-    public GGHSW13SecretKeyParameters(GGHSW13Parameters parameters, it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.params.Circuit circuit, Map<Integer, Element[]> keys) {
+    public GGHSW13SecretKeyParameters(GGHSW13Parameters parameters, Circuit circuit, Map<Integer, Element[]> keys) {
         super(true, parameters);
 
         this.circuit = circuit;
         this.keys = keys;
     }
 
-    public it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.params.Circuit getCircuit() {
+    public Circuit getCircuit() {
         return circuit;
     }
 

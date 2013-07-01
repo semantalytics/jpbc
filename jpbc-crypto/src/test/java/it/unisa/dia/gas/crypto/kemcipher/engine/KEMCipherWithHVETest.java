@@ -1,13 +1,13 @@
-package it.unisa.dia.gas.crypto.kem.engine;
+package it.unisa.dia.gas.crypto.kemcipher.engine;
 
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.HVEIP08AbstractTest;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.engines.HVEIP08KEMEngine;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08KeyPairGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08SecretKeyGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.*;
-import it.unisa.dia.gas.crypto.kem.engines.KEMCipher;
-import it.unisa.dia.gas.crypto.kem.params.KEMCipherDecryptionParameters;
-import it.unisa.dia.gas.crypto.kem.params.KEMCipherEncryptionParameters;
+import it.unisa.dia.gas.crypto.kemcipher.engines.KEMCipher;
+import it.unisa.dia.gas.crypto.kemcipher.params.KEMCipherDecryptionParameters;
+import it.unisa.dia.gas.crypto.kemcipher.params.KEMCipherEncryptionParameters;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;

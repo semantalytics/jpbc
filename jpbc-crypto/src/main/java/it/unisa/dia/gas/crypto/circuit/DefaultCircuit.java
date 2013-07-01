@@ -1,6 +1,4 @@
-package it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.engines;
-
-import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.params.Circuit;
+package it.unisa.dia.gas.crypto.circuit;
 
 import java.util.Arrays;
 import java.util.Iterator;
