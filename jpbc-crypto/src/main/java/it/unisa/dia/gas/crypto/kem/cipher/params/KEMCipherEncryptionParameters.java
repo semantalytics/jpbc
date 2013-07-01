@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.crypto.kemcipher.params;
+package it.unisa.dia.gas.crypto.kem.cipher.params;
 
 import org.bouncycastle.crypto.CipherParameters;
 
