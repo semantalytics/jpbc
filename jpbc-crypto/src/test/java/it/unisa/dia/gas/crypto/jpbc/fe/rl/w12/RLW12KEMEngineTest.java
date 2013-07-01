@@ -1,6 +1,5 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.rl.w12;
 
-import it.unisa.dia.gas.crypto.engines.kem.KeyEncapsulationMechanism;
 import it.unisa.dia.gas.crypto.jpbc.AbstractJPBCCryptoTest;
 import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.engines.DefaultDFA;
 import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.engines.RLW12KemEngine;
@@ -8,6 +7,7 @@ import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.generators.RLW12KeyPairGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.generators.RLW12ParametersGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.generators.RLW12SecretKeyGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.params.*;
+import it.unisa.dia.gas.crypto.kem.KeyEncapsulationMechanism;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.InvalidCipherTextException;

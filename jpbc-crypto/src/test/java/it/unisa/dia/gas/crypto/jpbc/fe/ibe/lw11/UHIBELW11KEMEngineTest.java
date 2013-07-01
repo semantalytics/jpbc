@@ -1,11 +1,11 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ibe.lw11;
 
-import it.unisa.dia.gas.crypto.engines.kem.KeyEncapsulationMechanism;
 import it.unisa.dia.gas.crypto.jpbc.AbstractJPBCCryptoTest;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.lw11.engines.UHIBELW11KEMEngine;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.lw11.generators.UHIBELW11KeyPairGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.lw11.generators.UHIBELW11SecretKeyGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.lw11.params.*;
+import it.unisa.dia.gas.crypto.kem.KeyEncapsulationMechanism;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;

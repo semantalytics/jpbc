@@ -1,11 +1,11 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10;
 
-import it.unisa.dia.gas.crypto.engines.kem.KeyEncapsulationMechanism;
 import it.unisa.dia.gas.crypto.jpbc.AbstractJPBCCryptoTest;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.engines.AHIBEDIP10KEMEngine;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.generators.AHIBEDIP10KeyPairGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.generators.AHIBEDIP10SecretKeyGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params.*;
+import it.unisa.dia.gas.crypto.kem.KeyEncapsulationMechanism;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;

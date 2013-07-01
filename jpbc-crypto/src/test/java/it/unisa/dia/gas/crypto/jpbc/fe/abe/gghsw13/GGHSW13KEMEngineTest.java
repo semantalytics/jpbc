@@ -2,12 +2,12 @@ package it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13;
 
 import it.unisa.dia.gas.crypto.circuit.Circuit;
 import it.unisa.dia.gas.crypto.circuit.DefaultCircuit;
-import it.unisa.dia.gas.crypto.engines.kem.KeyEncapsulationMechanism;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.engines.GGHSW13KemEngine;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.generators.GGHSW13KeyPairGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.generators.GGHSW13ParametersGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.generators.GGHSW13SecretKeyGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.params.*;
+import it.unisa.dia.gas.crypto.kem.KeyEncapsulationMechanism;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.pairing.CTL13MMPairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
