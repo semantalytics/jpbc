@@ -5,18 +5,18 @@ import org.bouncycastle.crypto.params.AsymmetricKeyParameter;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class TORGVW13KeyParameters extends AsymmetricKeyParameter {
+public class WTORGVW13KeyParameters extends AsymmetricKeyParameter {
 
-    private TORGVW13Parameters parameters;
+    private WTORGVW13Parameters parameters;
 
 
-    public TORGVW13KeyParameters(boolean isPrivate, TORGVW13Parameters parameters) {
+    public WTORGVW13KeyParameters(boolean isPrivate, WTORGVW13Parameters parameters) {
         super(isPrivate);
         this.parameters = parameters;
     }
 
 
-    public TORGVW13Parameters getParameters() {
+    public WTORGVW13Parameters getParameters() {
         return parameters;
     }
 }

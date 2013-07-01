@@ -7,7 +7,7 @@ import org.bouncycastle.crypto.CipherParameters;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class TORGVW13Parameters implements CipherParameters {
+public class WTORGVW13Parameters implements CipherParameters {
     private PairingParameters parameters;
     private Element g1;
     private Element g2;
@@ -15,7 +15,7 @@ public class TORGVW13Parameters implements CipherParameters {
     private Element g1a;
     private Element g2a;
 
-    public TORGVW13Parameters(PairingParameters parameters, Element g1, Element g2, Element g1a, Element g2a) {
+    public WTORGVW13Parameters(PairingParameters parameters, Element g1, Element g2, Element g1a, Element g2a) {
         this.parameters = parameters;
         this.g1 = g1;
         this.g2 = g2;

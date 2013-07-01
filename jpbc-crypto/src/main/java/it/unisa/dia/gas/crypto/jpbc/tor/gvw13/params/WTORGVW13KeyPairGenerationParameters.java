@@ -7,19 +7,19 @@ import java.security.SecureRandom;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class TORGVW13KeyPairGenerationParameters extends KeyGenerationParameters {
+public class WTORGVW13KeyPairGenerationParameters extends KeyGenerationParameters {
 
-    private TORGVW13Parameters params;
+    private WTORGVW13Parameters params;
     private int level;
 
-    public TORGVW13KeyPairGenerationParameters(SecureRandom random, TORGVW13Parameters params, int level) {
+    public WTORGVW13KeyPairGenerationParameters(SecureRandom random, WTORGVW13Parameters params, int level) {
         super(random, params.getG1().getField().getLengthInBytes());
 
         this.params = params;
         this.level = level;
     }
 
-    public TORGVW13Parameters getParameters() {
+    public WTORGVW13Parameters getParameters() {
         return params;
     }
 

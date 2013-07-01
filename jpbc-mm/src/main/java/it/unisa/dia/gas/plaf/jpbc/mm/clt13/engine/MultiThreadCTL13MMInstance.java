@@ -172,17 +172,4 @@ public class MultiThreadCTL13MMInstance implements CTL13MMInstance {
         );
     }
 
-
-    protected BigInteger[] decodeAtLevel(BigInteger value, int degree) {
-        for (int i = degree; i > 0; i--)
-            value = value.multiply(z).mod(x0);
-
-        BigInteger m[] = new BigInteger[parameters.getN()];
-        for (int i = 0; i < parameters.getN(); i++) {
-            m[i] = modNear(modNear(value, values.getPsAt(i)), values.getGsAt(i));
-        }
-
-        return m;
-    }
-
 }

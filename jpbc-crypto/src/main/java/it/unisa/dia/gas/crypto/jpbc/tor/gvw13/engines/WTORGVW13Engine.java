@@ -1,8 +1,8 @@
 package it.unisa.dia.gas.crypto.jpbc.tor.gvw13.engines;
 
-import it.unisa.dia.gas.crypto.jpbc.tor.gvw13.params.TORGVW13KeyParameters;
-import it.unisa.dia.gas.crypto.jpbc.tor.gvw13.params.TORGVW13PublicKeyParameters;
-import it.unisa.dia.gas.crypto.jpbc.tor.gvw13.params.TORGVW13RecodeParameters;
+import it.unisa.dia.gas.crypto.jpbc.tor.gvw13.params.WTORGVW13KeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.tor.gvw13.params.WTORGVW13PublicKeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.tor.gvw13.params.WTORGVW13RecodeParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
@@ -15,7 +15,7 @@ import org.bouncycastle.crypto.InvalidCipherTextException;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  * @since 1.3.0
  */
-public class TORGVW13Engine implements AsymmetricBlockCipher {
+public class WTORGVW13Engine implements AsymmetricBlockCipher {
 
     private CipherParameters param;
     private Pairing pairing;
@@ -24,15 +24,15 @@ public class TORGVW13Engine implements AsymmetricBlockCipher {
     public void init(boolean forEncryption, CipherParameters param) {
         this.param = param;
 
-        TORGVW13KeyParameters keyParameters = (TORGVW13KeyParameters) param;
+        WTORGVW13KeyParameters keyParameters = (WTORGVW13KeyParameters) param;
         pairing = PairingFactory.getPairing(keyParameters.getParameters().getParameters());
 
-        if (param instanceof TORGVW13PublicKeyParameters) {
+        if (param instanceof WTORGVW13PublicKeyParameters) {
             inputBlockSize = pairing.getZr().getLengthInBytes();
-            outputBlockSize = ((TORGVW13PublicKeyParameters) param).getLevel() == 0 ?
+            outputBlockSize = ((WTORGVW13PublicKeyParameters) param).getLevel() == 0 ?
                     pairing.getG1().getLengthInBytes() :
                     pairing.getGT().getLengthInBytes();
-        } else if (param instanceof TORGVW13RecodeParameters) {
+        } else if (param instanceof WTORGVW13RecodeParameters) {
             inputBlockSize = pairing.getG1().getLengthInBytes() + pairing.getGT().getLengthInBytes();
             outputBlockSize = pairing.getGT().getLengthInBytes();
         } else
@@ -49,8 +49,8 @@ public class TORGVW13Engine implements AsymmetricBlockCipher {
     }
 
     public byte[] processBlock(byte[] in, int inOff, int len) throws InvalidCipherTextException {
-        if (param instanceof TORGVW13PublicKeyParameters) {
-            TORGVW13PublicKeyParameters keyParameters = (TORGVW13PublicKeyParameters) param;
+        if (param instanceof WTORGVW13PublicKeyParameters) {
+            WTORGVW13PublicKeyParameters keyParameters = (WTORGVW13PublicKeyParameters) param;
 
             // Read Input
             Element s = new PairingStreamReader(pairing, in, inOff).readG1Element();
@@ -68,7 +68,7 @@ public class TORGVW13Engine implements AsymmetricBlockCipher {
 
             return result.toBytes();
         } else {
-            TORGVW13RecodeParameters keyParameters = (TORGVW13RecodeParameters) param;
+            WTORGVW13RecodeParameters keyParameters = (WTORGVW13RecodeParameters) param;
 
             // Read Input
             PairingStreamReader reader = new PairingStreamReader(pairing, in, inOff);

@@ -5,12 +5,12 @@ import it.unisa.dia.gas.jpbc.Element;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class TORGVW13SecretKeyParameters extends TORGVW13KeyParameters {
+public class WTORGVW13SecretKeyParameters extends WTORGVW13KeyParameters {
 
     private Element t;
 
 
-    public TORGVW13SecretKeyParameters(TORGVW13Parameters parameters, Element t) {
+    public WTORGVW13SecretKeyParameters(WTORGVW13Parameters parameters, Element t) {
         super(true, parameters);
 
         this.t = t.getImmutable();

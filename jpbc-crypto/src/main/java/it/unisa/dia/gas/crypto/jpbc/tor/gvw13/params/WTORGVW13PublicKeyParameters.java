@@ -5,13 +5,13 @@ import it.unisa.dia.gas.jpbc.Element;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class TORGVW13PublicKeyParameters extends TORGVW13KeyParameters {
+public class WTORGVW13PublicKeyParameters extends WTORGVW13KeyParameters {
 
     private Element left;
     private Element right;
     private int level;
 
-    public TORGVW13PublicKeyParameters(TORGVW13Parameters parameters, Element left, Element right, int level) {
+    public WTORGVW13PublicKeyParameters(WTORGVW13Parameters parameters, Element left, Element right, int level) {
         super(false, parameters);
 
         this.left = left;
