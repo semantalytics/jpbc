@@ -1,6 +1,10 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.engines;
 
-import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.params.*;
+import it.unisa.dia.gas.crypto.dfa.DFA;
+import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.params.RLW12EncryptionParameters;
+import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.params.RLW12KeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.params.RLW12PublicKeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.params.RLW12SecretKeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.kem.PairingKeyEncapsulationMechanism;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;

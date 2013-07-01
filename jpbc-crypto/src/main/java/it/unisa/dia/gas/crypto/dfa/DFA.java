@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.params;
+package it.unisa.dia.gas.crypto.dfa;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)

@@ -1,7 +1,8 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.rl.w12;
 
+import it.unisa.dia.gas.crypto.dfa.DFA;
+import it.unisa.dia.gas.crypto.dfa.DefaultDFA;
 import it.unisa.dia.gas.crypto.jpbc.AbstractJPBCCryptoTest;
-import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.engines.DefaultDFA;
 import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.engines.RLW12KemEngine;
 import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.generators.RLW12KeyPairGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.generators.RLW12ParametersGenerator;

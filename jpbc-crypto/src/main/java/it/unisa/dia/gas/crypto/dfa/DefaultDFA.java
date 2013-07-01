@@ -1,6 +1,4 @@
-package it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.engines;
-
-import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.params.DFA;
+package it.unisa.dia.gas.crypto.dfa;
 
 import java.util.ArrayList;
 import java.util.HashMap;

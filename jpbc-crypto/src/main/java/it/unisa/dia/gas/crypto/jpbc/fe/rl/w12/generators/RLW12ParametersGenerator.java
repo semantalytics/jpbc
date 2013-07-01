@@ -1,6 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.generators;
 
-import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.params.DFA;
+import it.unisa.dia.gas.crypto.dfa.DFA;
 import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.params.RLW12Parameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;

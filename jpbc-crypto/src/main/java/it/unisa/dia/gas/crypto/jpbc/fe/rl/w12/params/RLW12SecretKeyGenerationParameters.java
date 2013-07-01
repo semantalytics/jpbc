@@ -1,5 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.params;
 
+import it.unisa.dia.gas.crypto.dfa.DFA;
 import org.bouncycastle.crypto.KeyGenerationParameters;
 
 /**

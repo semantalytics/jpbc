@@ -1,5 +1,7 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.engines;
 
+import it.unisa.dia.gas.crypto.dfa.DefaultDFA;
+
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  * @since 1.0.0

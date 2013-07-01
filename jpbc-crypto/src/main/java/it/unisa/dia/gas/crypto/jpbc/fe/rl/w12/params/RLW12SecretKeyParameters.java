@@ -1,5 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.params;
 
+import it.unisa.dia.gas.crypto.dfa.DFA;
 import it.unisa.dia.gas.jpbc.Element;
 
 import java.util.Map;
