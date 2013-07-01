@@ -1,12 +1,12 @@
-package it.unisa.dia.gas.crypto.kemcipher.engine;
+package it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10;
 
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.engines.AHIBEDIP10KEMEngine;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.generators.AHIBEDIP10KeyPairGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.generators.AHIBEDIP10SecretKeyGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params.*;
-import it.unisa.dia.gas.crypto.kemcipher.engines.KEMCipher;
-import it.unisa.dia.gas.crypto.kemcipher.params.KEMCipherDecryptionParameters;
-import it.unisa.dia.gas.crypto.kemcipher.params.KEMCipherEncryptionParameters;
+import it.unisa.dia.gas.crypto.kem.cipher.engines.KEMCipher;
+import it.unisa.dia.gas.crypto.kem.cipher.params.KEMCipherDecryptionParameters;
+import it.unisa.dia.gas.crypto.kem.cipher.params.KEMCipherEncryptionParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
@@ -24,7 +24,7 @@ import java.util.Arrays;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class KEMCipherTest extends TestCase {
+public class KEMCipherAHIBETest extends TestCase {
 
     public void testKEMCipherWithAESAHIBE() {
         Security.addProvider(new BouncyCastleProvider());

@@ -1,6 +1,5 @@
-package it.unisa.dia.gas.crypto.kem.cipher.engine;
+package it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08;
 
-import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.HVEIP08AbstractTest;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.engines.HVEIP08KEMEngine;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08KeyPairGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08SecretKeyGenerator;
@@ -27,10 +26,10 @@ import static org.junit.Assert.fail;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class KEMCipherWithHVETest extends HVEIP08AbstractTest {
+public class KEMCipherHVETest extends HVEIP08AbstractTest {
 
 
-    public KEMCipherWithHVETest(boolean usePBC, String curvePath) {
+    public KEMCipherHVETest(boolean usePBC, String curvePath) {
         super(usePBC, curvePath);
     }
 
