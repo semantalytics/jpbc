@@ -1,8 +1,8 @@
-package it.unisa.dia.gas.crypto.jpbc.tor.gvw13.engines;
+package it.unisa.dia.gas.crypto.jpbc.wtor.gvw13.engines;
 
-import it.unisa.dia.gas.crypto.jpbc.tor.gvw13.params.WTORGVW13KeyParameters;
-import it.unisa.dia.gas.crypto.jpbc.tor.gvw13.params.WTORGVW13PublicKeyParameters;
-import it.unisa.dia.gas.crypto.jpbc.tor.gvw13.params.WTORGVW13RecodeParameters;
+import it.unisa.dia.gas.crypto.jpbc.wtor.gvw13.params.WTORGVW13KeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.wtor.gvw13.params.WTORGVW13PublicKeyParameters;
+import it.unisa.dia.gas.crypto.jpbc.wtor.gvw13.params.WTORGVW13RecodeParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;

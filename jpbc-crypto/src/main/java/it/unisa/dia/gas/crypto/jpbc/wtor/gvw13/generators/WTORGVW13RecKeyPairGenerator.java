@@ -1,8 +1,8 @@
-package it.unisa.dia.gas.crypto.jpbc.tor.gvw13.generators;
+package it.unisa.dia.gas.crypto.jpbc.wtor.gvw13.generators;
 
 import it.unisa.dia.gas.crypto.cipher.CipherParametersGenerator;
-import it.unisa.dia.gas.crypto.jpbc.tor.gvw13.params.WTORGVW13ReKeyPairGenerationParameters;
-import it.unisa.dia.gas.crypto.jpbc.tor.gvw13.params.WTORGVW13RecodeParameters;
+import it.unisa.dia.gas.crypto.jpbc.wtor.gvw13.params.WTORGVW13ReKeyPairGenerationParameters;
+import it.unisa.dia.gas.crypto.jpbc.wtor.gvw13.params.WTORGVW13RecodeParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.KeyGenerationParameters;

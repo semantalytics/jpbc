@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.crypto.jpbc.tor.gvw13.params;
+package it.unisa.dia.gas.crypto.jpbc.wtor.gvw13.params;
 
 import org.bouncycastle.crypto.params.AsymmetricKeyParameter;
 
