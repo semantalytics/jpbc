@@ -27,6 +27,7 @@ public class PolyElementTest extends TestCase {
 */
     public void testBytes(){
         PolyField field = new PolyField(new ZrField(BigInteger.valueOf(17)));
+
         PolyElement source = field.newElement();
         source.setToRandomMonic(5);
 
@@ -34,8 +35,11 @@ public class PolyElementTest extends TestCase {
         PolyElement target = field.newElement();
         int len = target.setFromBytes(buffer);
 
-        assertEquals(true, source.isEqual(target));
+        System.out.println("source = " + source);
+        System.out.println("target = " + target);
+
         assertEquals(buffer.length, len);
+        assertEquals(true, source.isEqual(target));
     }
 
     public void testFindRoot() {

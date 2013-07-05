@@ -23,6 +23,7 @@
                 <outputDirectory>jars</outputDirectory>
                 <includeDependencies>true</includeDependencies>
                 <unpack>false</unpack>
+<!--
                 <dependencySets>
                     <dependencySet>
                         <excludes>
@@ -30,6 +31,7 @@
                         </excludes>
                     </dependencySet>
                 </dependencySets>
+-->
             </binaries>
         </moduleSet>
 
