@@ -97,7 +97,8 @@ public interface Field<E extends Element> {
     int getLengthInBytes();
 
     /**
-     * todo
+     * Returns the length in bytes needed to canonical represent an element of this Field.
+     *
      * @return
      * @since 1.3.0
      */

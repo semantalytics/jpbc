@@ -59,15 +59,22 @@ public interface Pairing {
     Field getZr();
 
     /**
-     * TODO
-     * @return
+     * Returns the degree of the pairing.
+     * For bilinear maps, this value is 2.
+     * For multilinear maps, this value represents
+     * the degree of linearity supported.
+     *
+     * @return the degree of the pairing.
      * @since 1.3.0
      */
     int getDegree();
 
     /**
-     * TODO
-     * @return
+     * Returns the field at level <tt>index</tt>.
+     * For bilinear maps, Zr has index 0, G1 has index 1,
+     * G2 has index 2 and GT has index 3.
+     *
+     * @return Returns the field at level <tt>index</tt>
      * @since 1.3.0
      */
     Field getFieldAt(int index);
@@ -83,9 +90,19 @@ public interface Pairing {
     Element pairing(Element in1, Element in2);
 
     /**
-     * TODO
-     * @return
+     * Returns <tt>true</tt> if optimized
+     * product of pairing is supported,
+     * <tt>false</tt> otherwise.
+     *
+     * If optimized product of pairing is supported then
+     * invoking the #pairing(Element[], Element[]) method should
+     * guarantee better performance.
+     *
+     * @return <tt>true</tt> if optimized
+     * product of pairing is supported,
+     * <tt>false</tt> otherwise.
      * @since 1.3.0
+     * @see #pairing(Element[], Element[])
      */
     boolean isProductPairingSupported();
 
@@ -152,8 +169,12 @@ public interface Pairing {
     PairingFieldIdentifier getPairingFieldIdentifier(Field field);
 
     /**
-     * TODO
+     * Returns the field corresponding to the
+     * passed identifier.
+     *
      * @see PairingFieldIdentifier
+     * @return the field corresponding to the
+     * passed identifier.
      * @since 1.2.0
      */
     Field getField(PairingFieldIdentifier id);

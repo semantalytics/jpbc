@@ -74,25 +74,27 @@ public interface PairingParameters extends Serializable {
     BigInteger getBigInteger(String key);
 
     /**
-     * TODO
-     * @param key
-     * @param index
-     * @return
-     * @since 1.3.0
-     */
-    BigInteger getBigIntegerAt(String key, int index);
-
-
-    /**
-     * Returns the value as a BigInteger to which the specified key is mapped.
+     * Returns the BigInteger to which the specified key is mapped.
      * If the mapping does not exist the passed defaultValue is returned.
      *
      * @param key the key whose associated value is to be returned
-     * @return the value as a BigInteger to which the specified key is mapped.
+     * @return the BigInteger to which the specified key is mapped.
      * If the mapping does not exist the passed defaultValue is returned.
      * @since 1.2.0
      */
     BigInteger getBigInteger(String key, BigInteger defaultValue);
+
+    /**
+     * Returns the BigInteger at the specified index in the array to which
+     * the specified key is mapped.
+     *
+     * @param key the key whose associated array is to be used
+     * @param index the index relative to the array.
+     * @return the BigInteger at the specified index in the array to which
+     * the specified key is mapped.
+     * @since 1.3.0
+     */
+    BigInteger getBigIntegerAt(String key, int index);
 
     /**
      * Returns the value as a long to which the specified key is mapped.
@@ -136,17 +138,19 @@ public interface PairingParameters extends Serializable {
     byte[] getBytes(String key, byte[] defaultValue);
 
     /**
-     * Returns a string representation using the passed separator
-     * between the values.
-     * @param separator the separator to be used between the values.
-     * @return a string representation.
+     * Returns a string representation of the parameters
+     * using the specified key/value separator.
+     *
+     * @param separator key/value separator separator to be used .
+     * @return a string representation of the parameters.
      * @since 1.2.0
      */
     String toString(String separator);
 
     /**
-     * todo
-     * @param key
+     * Returns the value to which the specified key is mapped.
+     *
+     * @param key the key whose associated value is to be returned
      * @since 1.3.0
      */
     Object getObject(String key);

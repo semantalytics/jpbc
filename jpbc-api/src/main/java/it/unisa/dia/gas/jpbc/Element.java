@@ -139,8 +139,11 @@ public interface Element extends ElementPow {
     byte[] toBytes();
 
     /**
-     * todo
-     * @return
+     * Returns the canonical representation of this element.
+     * In most of the cases the output of this method
+     * is the same as that of the #toBytes method.
+     *
+     * @return the canonical representation of this element.
      * @since 1.3.0
      */
     byte[] toCanonicalRepresentation();
