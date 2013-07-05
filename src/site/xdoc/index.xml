@@ -46,69 +46,37 @@
         </div>
 
         <section name="Introduction">
-            The Java Pairing Based Cryptography Library (jPBC) is:
+            The Java Pairing Based Cryptography Library (jPBC) provides:
             <ul>
                 <li>
                     <p>
-                        a <font style="font-weight: bold;color:red">Java Port</font> of the
+                        A <a href="./docs/pairing.html">Java Port</a> of the
                         <a href="http://crypto.stanford.edu/pbc/">Pairing-Based Cryptography Library (PBC)</a>
                         library developed by <a href="http://crypto.stanford.edu/~blynn/">Ben Lynn</a>.
                     </p>
                 </li>
                 <li>
                     <p>
-                        a <font style="font-weight: bold;color:red">Java Wrapper</font> on the
+                        A
+                        <a href="./docs/pbcwrapper.html">
+                            Java Wrapper
+                        </a>
+                        around the
                         <a href="http://crypto.stanford.edu/pbc/">PBC</a>
-                        library. This means that you can delegate the pairing computation to PBC.
-                        Have a look
-                        <a href="./docs/pbcwrapper.html">here</a>
-                        to know how to use the wrapper.
+                        library. The wrapper provides a tiny and efficient layer
+                        to delegate in a transparent way the pairing computation
+                        directly to PBC to gain in efficiency.
                     </p>
                 </li>
 
                 <li>
                     <p>
-                        a <font style="font-weight: bold;color:red">Java Implementation</font>
-                        of practical multilinear maps over the integer.
+                        A
+                        <a href="./docs/multimaps.html">
+                            Java Implementation
+                        </a>
+                        of Practical Multilinear Maps over the Integer.
                     </p>
-                </li>
-            </ul>
-
-            jPBC consists of the following core modules:
-            <ul>
-                <li>
-                    <font style="font-weight: bold;color:green">jpbc-api</font> :
-                    the Application Program Interfaces (API).
-                </li>
-
-                <li>
-                    <font style="font-weight: bold;color:green">jpbc-plaf</font> :
-                    the PBC port.
-                </li>
-
-                <li>
-                    <font style="font-weight: bold;color:green">jpbc-pbc</font> :
-                    the PBC wrapper.
-                </li>
-                <li>
-                    <font style="font-weight: bold;color:green">jpbc-mm</font> :
-                    the multilinear map package.
-                </li>
-    	    </ul>
-	        and the following support modules:
-	      <ul>
-            	<li>
-                    <font style="font-weight: bold;color:green">jpbc-crypto</font> :
-                    the implementation of some pairing based crypto-systems.
-                    <a href="./schemes/schemes.html">Here</a> is the list of schemes implemented.
-                </li>
-                <li>
-                    <font style="font-weight: bold;color:green">jpbc-benchmark</font> :
-                    the suite used to benchmark jPBC.
-                </li>
-                <li>
-                    <font style="font-weight: bold;color:green">jpbc-android</font> :
-                    an Android App to benchmark jPBC on any Android 2.1+ terminal.
                 </li>
             </ul>
         </section>
