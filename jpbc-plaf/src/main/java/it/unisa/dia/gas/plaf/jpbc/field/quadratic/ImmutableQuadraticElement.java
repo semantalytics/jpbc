@@ -51,7 +51,7 @@ public class ImmutableQuadraticElement<E extends Element> extends QuadraticEleme
 
     @Override
     public int setFromBytes(byte[] source, int offset) {
-        return duplicate().setFromBytes(source, offset);    
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
@@ -121,22 +121,22 @@ public class ImmutableQuadraticElement<E extends Element> extends QuadraticEleme
 
     @Override
     public int setFromBytesCompressed(byte[] source) {
-        return duplicate().setFromBytesCompressed(source);    
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
     public int setFromBytesCompressed(byte[] source, int offset) {
-        return duplicate().setFromBytesCompressed(source, offset);    
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
     public int setFromBytesX(byte[] source) {
-        return duplicate().setFromBytesX(source);    
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
     public int setFromBytesX(byte[] source, int offset) {
-        return duplicate().setFromBytesX(source, offset);    
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override

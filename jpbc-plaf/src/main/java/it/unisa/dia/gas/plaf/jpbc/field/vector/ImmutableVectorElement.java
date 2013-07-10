@@ -57,7 +57,7 @@ public class ImmutableVectorElement<E extends Element> extends VectorElement<E> 
 
     @Override
     public int setFromBytes(byte[] source, int offset) {
-        return duplicate().setFromBytes(source, offset);    
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
@@ -107,7 +107,7 @@ public class ImmutableVectorElement<E extends Element> extends VectorElement<E> 
 
     @Override
     public int setFromBytes(byte[] source) {
-        return duplicate().setFromBytes(source);    
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override

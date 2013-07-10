@@ -56,17 +56,17 @@ public class ImmutableZrElement extends ZrElement {
 
     @Override
     public ZrElement setFromHash(byte[] source, int offset, int length) {
-        return duplicate().setFromHash(source, offset, length);    
+        return duplicate().setFromHash(source, offset, length);
     }
 
     @Override
     public int setFromBytes(byte[] source) {
-        return duplicate().setFromBytes(source);    
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
     public int setFromBytes(byte[] source, int offset) {
-        return duplicate().setFromBytes(source, offset);    
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
