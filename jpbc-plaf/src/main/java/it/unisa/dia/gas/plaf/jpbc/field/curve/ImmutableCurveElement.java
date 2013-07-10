@@ -11,8 +11,8 @@ public class ImmutableCurveElement<E extends Element> extends CurveElement<E> {
 
     public ImmutableCurveElement(CurveElement curveElement) {
         super(curveElement);
-        this.x = (E) this.x.getImmutable();
-        this.y = (E) this.y.getImmutable();
+        this.x = (E) curveElement.getX().getImmutable();
+        this.y = (E) curveElement.getY().getImmutable();
 
         this.immutable = true;
     }

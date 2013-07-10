@@ -12,8 +12,8 @@ public class ImmutableQuadraticElement<E extends Element> extends QuadraticEleme
     public ImmutableQuadraticElement(QuadraticElement<E> element) {
         super(element.getField());
 
-        this.x = (E) x.getImmutable();
-        this.y = (E) y.getImmutable();
+        this.x = (E) element.getX().getImmutable();
+        this.y = (E) element.getY().getImmutable();
 
         this.immutable = true;
     }

@@ -11,7 +11,7 @@ import it.unisa.dia.gas.jpbc.Vector;
 public abstract class AbstractPointElement<E extends Element> extends AbstractElement implements Point<E>, Vector<E> {
 
     protected AbstractFieldOver field;
-    protected E x, y;
+    protected E  x, y;
 
 
     protected AbstractPointElement(FieldOver field) {
