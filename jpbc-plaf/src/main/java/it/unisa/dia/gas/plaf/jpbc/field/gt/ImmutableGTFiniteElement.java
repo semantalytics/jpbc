@@ -11,7 +11,9 @@ public class ImmutableGTFiniteElement extends GTFiniteElement {
 
     public ImmutableGTFiniteElement(GTFiniteElement gtFiniteElement) {
         super(gtFiniteElement);
-        
+
+        // TODO should be value immutable?
+        this.value = gtFiniteElement.value.getImmutable();
         this.immutable = true;
     }
 

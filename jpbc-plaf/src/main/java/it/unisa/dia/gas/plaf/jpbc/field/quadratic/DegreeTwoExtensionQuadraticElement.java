@@ -145,4 +145,10 @@ public class DegreeTwoExtensionQuadraticElement<E extends Element> extends Quadr
         return String.format("{x=%s,y=%s}", x, y);
     }
 
+    @Override
+    public Element getImmutable() {
+        return new ImmutableDegreeTwoExtensionQuadraticElement(this);
+    }
+
+
 }
