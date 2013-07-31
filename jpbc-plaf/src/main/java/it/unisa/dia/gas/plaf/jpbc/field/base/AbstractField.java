@@ -80,11 +80,11 @@ public abstract class AbstractField<E extends Element> implements Field<E> {
         return a;
     }
 
-    public ElementPowPreProcessing pow(byte[] source) {
+    public ElementPowPreProcessing setElementPowPreProcessingFromBytes(byte[] source) {
         return new AbstractElementPowPreProcessing(this, AbstractElementPowPreProcessing.DEFAULT_K, source, 0);
     }
 
-    public ElementPowPreProcessing pow(byte[] source, int offset) {
+    public ElementPowPreProcessing setElementPowPreProcessingFromBytes(byte[] source, int offset) {
         return new AbstractElementPowPreProcessing(this, AbstractElementPowPreProcessing.DEFAULT_K, source, offset);
     }
 

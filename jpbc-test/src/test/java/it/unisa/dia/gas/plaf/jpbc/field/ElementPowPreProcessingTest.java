@@ -150,7 +150,7 @@ public class ElementPowPreProcessingTest extends AbstractJPBCTest {
         Element base = field.newElement().setToRandom().getImmutable();
 
         ElementPowPreProcessing ppp1 = base.pow();
-        ElementPowPreProcessing ppp2 = base.getField().pow(ppp1.toBytes());
+        ElementPowPreProcessing ppp2 = base.getField().setElementPowPreProcessingFromBytes(ppp1.toBytes());
 
         Element n = pairing.getZr().newElement().setToRandom();
 

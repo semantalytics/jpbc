@@ -29,16 +29,13 @@
                 <strong>bilinear pairing</strong>
                 or
                 <strong>bilinear map</strong>
-                <code>e</code>
                 is an efficiently computable function
                 <code>e : G1 x G2 -> GT</code>
                 such that:
             </p>
             <ol>
                 <li>
-                    <font style="font-weight: bold;color:red">
-                        Bilinearity
-                    </font>: for all
+                    <strong>Bilinearity</strong>: for all
                     <code>a, b</code>
                     in
                     <code>Zr</code>
@@ -47,9 +44,9 @@
                     <code>e(g1^a,g2^b) = e(g1,g2)^{ab}</code>.
                 </li>
                 <li>
-                    <font style="font-weight: bold;color:red">
+                    <strong>
                         Non-degeneracy
-                    </font>:
+                    </strong>:
                     <code>e(g1, g2) != 1</code>.
                 </li>
             </ol>
@@ -90,11 +87,7 @@
             <subsection name="Initializing Pairings">
                 <p>
                     The
-                    <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Pairing.html">
-                        <code>
-                            <font style="font-weight: bold;color:red">it.unisa.dia.gas.jpbc.Pairing</font>
-                        </code>
-                    </a>
+                    <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Pairing.html"><code>Pairing</code></a>
                     interface provides access to the algebraic structures underlying the pairing computation
                     <code>(G1,G2,GT,Zr)</code>
                     and the pairing function
@@ -103,12 +96,8 @@
 
                 <p>
                     The first step to create an instance of the
-                    <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Pairing.html">
-                        <code>
-                            <font style="font-weight: bold;color:red">Pairing</font>
-                        </code>
-                    </a>
-                    interface is to generate (or load) the parameters describing the pairing to be used.
+                    <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Pairing.html"><code>Pairing</code></a>
+                    interface is to generate (or load) the parameters describing the pairing.
                     Have a look
                     <a href="./parametersgenerator.html">here</a>
                     to know how to generate such parameters.
@@ -118,11 +107,7 @@
                     Now let's assume that the parameters are stored in a file
                     called <code>params.properties</code>. Then
                     JPBC provides a Factory to create instances of the
-                    <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Pairing.html">
-                        <code>
-                            <font style="font-weight: bold;color:red">Pairing</font>
-                        </code>
-                    </a>
+                    <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Pairing.html"><code>Pairing</code></a>
                     interface.
                 </p>
 
@@ -131,7 +116,8 @@
                         <p>
                             <font style="font-weight: bold;color:red">Port</font>:
                         </p>
-<source>import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
+<source>import it.unisa.dia.gas.jpbc.*;
+import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
 Pairing pairing = <font style="font-weight: bold;color:green">PairingFactory.getPairing("params.properties");</font>
 </source>
@@ -140,16 +126,17 @@ Pairing pairing = <font style="font-weight: bold;color:green">PairingFactory.get
                         <p>
                             <font style="font-weight: bold;color:red">Wrapper</font>:
                         </p>
-<source>import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
+<source>import it.unisa.dia.gas.jpbc.*;
+import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
-// Ask the PairingFactory to try to use the PBC wrapper when possible.
+// Enable the usage of the PBC wrapper when possible.
 <font style="font-weight: bold;color:green">PairingFactory.getInstance().setUsePBCWhenPossible(true);</font>
 
 Pairing pairing = <font style="font-weight: bold;color:green">PairingFactory.getPairing("params.properties");</font>
 </source>
                     </li>
                     <p>
-                        Notice that if PBC and the wrapper around it are not installed properly then
+                        Notice that, if PBC and the Wrapper are not installed properly then
                         the factory will use the JPBC classes for the pairing computation.
                         To know how to install the wrapper have a look
                         <a href="./pbcwrapper.html">here</a>.
@@ -160,11 +147,7 @@ Pairing pairing = <font style="font-weight: bold;color:green">PairingFactory.get
             <a name="accessing"/>
             <subsection name="Accessing Algebraic Structures">
                 The
-                <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Pairing.html">
-                    <code>
-                        <font style="font-weight: bold;color:red">Pairing</font>
-                    </code>
-                </a>
+                <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Pairing.html"><code>Pairing</code></a>
                 interface provides the methods to access the algebraic structures
                 (<code>G1, G2, GT, Zr</code>)
                 involved in the pairing computation.

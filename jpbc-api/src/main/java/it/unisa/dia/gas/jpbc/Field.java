@@ -99,7 +99,7 @@ public interface Field<E extends Element> {
     /**
      * Returns the length in bytes needed to canonical represent an element of this Field.
      *
-     * @return
+     * @return the length in bytes needed to canonical represent an element of this Field.
      * @since 1.3.0
      */
     int getCanonicalRepresentationLengthInBytes();
@@ -130,7 +130,7 @@ public interface Field<E extends Element> {
      * @return the ElementPowPreProcessing instance.
      * @since 1.2.0
      */
-    ElementPowPreProcessing pow(byte[] source);
+    ElementPowPreProcessing setElementPowPreProcessingFromBytes(byte[] source);
 
     /**
      * Reads an ElementPowPreProcessing from the buffer source starting from offset.
@@ -140,5 +140,5 @@ public interface Field<E extends Element> {
      * @return the ElementPowPreProcessing instance.
      * @since 1.2.0
      */
-    ElementPowPreProcessing pow(byte[] source, int offset);
+    ElementPowPreProcessing setElementPowPreProcessingFromBytes(byte[] source, int offset);
 }

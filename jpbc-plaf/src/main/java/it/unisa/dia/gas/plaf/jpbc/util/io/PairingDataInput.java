@@ -155,7 +155,7 @@ public class PairingDataInput implements DataInput {
         byte[] buffer = new byte[size];
         readFully(buffer);
 
-        return field.pow(buffer, 0);
+        return field.setElementPowPreProcessingFromBytes(buffer, 0);
     }
 
     public int[] readInts() throws IOException {

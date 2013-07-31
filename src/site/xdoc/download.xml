@@ -58,6 +58,7 @@
                         Browse all jPBC downloads
                     </a>
                 </font>
+                
             </subsection>
 
             <a name="requirements"/>
@@ -71,26 +72,6 @@
                             <td align="left">1.6 or above
                             </td>
                         </tr>
-                        <tr class="a">
-                            <td align="left">
-                                <b>Memory</b>
-                            </td>
-                            <td align="left">No minimum requirement</td>
-                        </tr>
-                        <tr class="b">
-                            <td align="left">
-                                <b>Disk</b>
-                            </td>
-                            <td align="left">The distro is approximately 3MB, but the core jars are approximately 0.7MB
-                            </td>
-                        </tr>
-                        <tr class="a">
-                            <td align="left">
-                                <b>Operating System</b>
-                            </td>
-                            <td align="left">No minimum requirement.
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
             </subsection>
@@ -101,12 +82,12 @@
                     To use jPBC it is enough to add to your classpath the following jars:
                     <ol type="1">
                         <li>
-                            <font style="font-weight: bold;color:red"><tt>jpbc_1.3.0-api.jar</tt></font>
+                            <tt>jpbc_1.3.0-api.jar</tt>
                             and
                         </li>
 
                         <li>
-                            <font style="font-weight: bold;color:red"><tt>jpbc_1.3.0-plaf.jar</tt></font>.
+                            <tt>jpbc_1.3.0-plaf.jar</tt>.
                         </li>
                     </ol>
                 </p>
@@ -116,49 +97,50 @@
             </subsection>
             <subsection name="PBC Wrapper Usage">
                 <p>
-                    To use the PBC wrapper you must compile the shared library
-                    that enables the communication between PBC and jPBC. Go
+                    To use the PBC wrapper you need to compile the shared library
+                    that enables the communication between PBC and jPBC. Please,
+                    find
                     <a href="./docs/pbcwrapper.html">here</a>
-                    for instructions on how to compile the shared library.
+                    the instructions to compile the shared library.
                     <br/>
                     Then, to use the wrapper include the following jars
                 </p>
                 <ol>
                     <li>
-                        <font style="font-weight: bold;color:green"><tt>jpbc_1.3.0-pbc.jar</tt></font>
+                        <tt>jpbc_1.3.0-pbc.jar</tt>
                         and
                     </li>
 
                     <li>
-                        <font style="font-weight: bold;color:green"><tt>jna-3.1.0.jar</tt></font>.
+                        <tt>jna-3.1.0.jar</tt>.
                     </li>
                 </ol>
             </subsection>
             <subsection name="Cryptosystems Usage">
                 <p>
-                    If you want to use the already implemented
-                    <a href="schemes/schemes.html">pairing based crypto-systems</a>
-                    include the following jars:
+                    To use the
+                    <a href="schemes/schemes.html">cryptosystems</a>
+                    jpbc provides, include the following jars:
                 </p>
                 <ol>
                     <li>
-                        <font style="font-weight: bold;color:green"><tt>jpbc_1.3.0-crypto.jar</tt></font>
+                        <tt>jpbc_1.3.0-crypto.jar</tt>
                         and
                     </li>
                     <li>
-                        <font style="font-weight: bold;color:green"><tt>bcprov-jdk16-140.jar</tt></font>.
+                        <tt>bcprov-jdk16-140.jar</tt>.
                     </li>
                 </ol>
             </subsection>
             <subsection name="Multilinear Maps Usage">
                 <p>
-                    Finally, if you want to use the
-                    <a href="pairing.html#multimaps">Multilinear Maps</a>
-                    primitive include the following jar:
+                    Finally, to use the
+                    <a href="docs/multimaps.html">Multilinear Maps over the Integers</a>
+                    primitive, include the following jar:
                 </p>
                 <ol>
                     <li>
-                        <font style="font-weight: bold;color:green"><tt>jpbc_1.3.0-mm.jar</tt></font>
+                        <tt>jpbc_1.3.0-mm.jar</tt>
                         and
                     </li>
                 </ol>

@@ -28,7 +28,7 @@
                     <a href="./field.html#initializing">here</a>.
                     <br/>
                     <br/>
-                    This is an brief example that shows how to obtain a random value.
+                    This is an brief example that shows how to get a random value.
 <source>
 Field G1 = pairing.getG1();
 Element e = G1.newRandomElement();
@@ -175,11 +175,9 @@ e.powZn(z);
                 <p>
                     If it knows in advance that a particular value will be raised several times
                     then time can be saved in the long run by first calling the preprocessing function.
-                    <br/>
-                    The interface to be used is the
-                    <a href="../java-docs/api/it/unisa/dia/gas/jpbc/ElementPowPreProcessing.html">
-                        <code>ElementPowPreProcessing</code>
-                    </a>
+                    The
+                    <a href="../java-docs/api/it/unisa/dia/gas/jpbc/ElementPowPreProcessing.html"><code>ElementPowPreProcessing</code></a>
+                    interface will do the job.
                 </p>
 
                 <source xml:space="preserve">/* Prepare e to be raised and store preprocessing information in ppp.
@@ -202,7 +200,7 @@ byte[] pppBytes = ppp.toBytes();
                 To get back an ElementPowPreProcessing object from a byte array
                 do the following
                 <source xml:space="preserve">
-ElementPowPreProcessing ppp = e.getField().pow(pppBytes);
+ElementPowPreProcessing ppp = e.getField().setElementPowPreProcessingFromBytes(pppBytes);
                 </source>
             </subsection>
             

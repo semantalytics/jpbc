@@ -87,11 +87,11 @@ public class CTL13MMField implements Field<CTL13MMElement> {
         throw new IllegalStateException("Not Implemented yet!");
     }
 
-    public ElementPowPreProcessing pow(byte[] source) {
+    public ElementPowPreProcessing setElementPowPreProcessingFromBytes(byte[] source) {
         throw new IllegalStateException("Not Implemented yet!");
     }
 
-    public ElementPowPreProcessing pow(byte[] source, int offset) {
+    public ElementPowPreProcessing setElementPowPreProcessingFromBytes(byte[] source, int offset) {
         throw new IllegalStateException("Not Implemented yet!");
     }
 
