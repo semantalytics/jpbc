@@ -9,6 +9,7 @@
         <option name="APK_PATH" value="/target/jpbc-android.apk" />
         <option name="RUN_PROCESS_RESOURCES_MAVEN_TASK" value="false" />
         <includeAssetsFromLibraries>true</includeAssetsFromLibraries>
+        <option name="COMPILE_CUSTOM_GENERATED_SOURCES" value="false" />
       </configuration>
     </facet>
   </component>

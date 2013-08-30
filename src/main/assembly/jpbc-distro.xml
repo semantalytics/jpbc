@@ -23,15 +23,6 @@
                 <outputDirectory>jars</outputDirectory>
                 <includeDependencies>true</includeDependencies>
                 <unpack>false</unpack>
-<!--
-                <dependencySets>
-                    <dependencySet>
-                        <excludes>
-                            <exclude>it.unisa.dia.gas:jpbc-plaf:tests</exclude>
-                        </excludes>
-                    </dependencySet>
-                </dependencySets>
--->
             </binaries>
         </moduleSet>
 
@@ -41,9 +32,10 @@
                 <include>it.unisa.dia.gas:jpbc-benchmark</include>
                 <include>it.unisa.dia.gas:jpbc-api</include>
                 <include>it.unisa.dia.gas:jpbc-plaf</include>
+                <include>it.unisa.dia.gas:jpbc-mm</include>
                 <include>it.unisa.dia.gas:jpbc-pbc</include>
                 <include>it.unisa.dia.gas:jpbc-crypto</include>
-                <!--<include>it.unisa.dia.gas:jpbc-site-skin</include>-->
+                <include>it.unisa.dia.gas:jpbc-site-skin</include>
                 <include>it.unisa.dia.gas:jpbc-test</include>
             </includes>
             <sources>
@@ -69,13 +61,11 @@
     </moduleSets>
 
     <fileSets>
-        <!--
-                <fileSet>
-                    <directory>src</directory>
-                    <outputDirectory>src</outputDirectory>
-                    <includes/>
-                </fileSet>
-        -->
+        <fileSet>
+            <directory>src</directory>
+            <outputDirectory>src</outputDirectory>
+            <includes/>
+        </fileSet>
 
         <fileSet>
             <directory>params</directory>
@@ -92,51 +82,8 @@
         </fileSet>
 
         <fileSet>
-            <directory>jpbc-benchmark/target</directory>
-            <outputDirectory>jars/test</outputDirectory>
-            <includes>
-                <include>*tests.jar</include>
-            </includes>
-        </fileSet>
-
-        <fileSet>
-            <directory>jpbc-api/target</directory>
-            <outputDirectory>jars/sources</outputDirectory>
-            <includes>
-                <include>*sources.jar</include>
-            </includes>
-        </fileSet>
-
-        <fileSet>
-            <directory>jpbc-plaf/target</directory>
-            <outputDirectory>jars/sources</outputDirectory>
-            <includes>
-                <include>*sources.jar</include>
-            </includes>
-        </fileSet>
-
-        <fileSet>
-            <directory>jpbc-pbc/target</directory>
-            <outputDirectory>jars/sources</outputDirectory>
-            <includes>
-                <include>*sources.jar</include>
-            </includes>
-        </fileSet>
-
-        <fileSet>
-            <directory>jpbc-crypto/target</directory>
-            <outputDirectory>jars/sources</outputDirectory>
-            <includes>
-                <include>*sources.jar</include>
-            </includes>
-        </fileSet>
-
-        <fileSet>
-            <directory>jpbc-android/target</directory>
-            <outputDirectory>jars/sources</outputDirectory>
-            <includes>
-                <include>*sources.jar</include>
-            </includes>
+            <directory>jpbc-android</directory>
+            <outputDirectory>jpbc-android</outputDirectory>
         </fileSet>
 
         <fileSet>
@@ -145,20 +92,5 @@
             <includes/>
         </fileSet>
     </fileSets>
-
-    <files>
-        <file>
-            <source>./src/main/assembly/distro/distro_pom.xml</source>
-            <outputDirectory>./pom.xml</outputDirectory>
-        </file>
-        <file>
-            <source>jpbc.xml</source>
-            <outputDirectory>.</outputDirectory>
-        </file>
-        <file>
-            <source>./src/main/assembly/jpbc-distro.xml</source>
-            <outputDirectory>./src/main/assembly/</outputDirectory>
-        </file>
-    </files>
 
 </assembly>

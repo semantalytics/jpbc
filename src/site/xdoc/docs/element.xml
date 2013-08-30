@@ -22,13 +22,14 @@
             <a name="initializing"/>
             <subsection name="Initializing Elements">
                 <p>
-                    Instances of the Element interface can be obtained
+                    Instances of the
+                    <code>Element</code> interface can be obtained
                     from an algebraic structure
                     as shown
                     <a href="./field.html#initializing">here</a>.
                     <br/>
                     <br/>
-                    This is an brief example that shows how to get a random value.
+                    This is a brief example that shows how to get a random value.
 <source>
 Field G1 = pairing.getG1();
 Element e = G1.newRandomElement();

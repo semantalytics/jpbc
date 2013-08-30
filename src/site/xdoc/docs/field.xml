@@ -18,7 +18,8 @@
                 interface represents a generic algebraic structure.
                 Instances of this interface can be obtained from the
                 <code>Pairing</code>
-                interface as illustrated
+                interface
+                as shown
                 <a href="./pairing.html#accessing">here</a>.
             </p>
 
