@@ -8,80 +8,87 @@
     </properties>
 
     <body>
-        <section name="Bilinear Maps or Pairing for Cryptography">
-            <p>
-                Let
-                <code>G1</code>,
-                <code>G2</code>
-                and
-                <code>GT</code>
-                be cyclic groups of prime order
-                <code>r</code>.
-                Let
-                <code>g1</code>
-                be a generator of
-                <code>G1</code>
-                and
-                <code>g2</code>
-                be a generator of
-                <code>G2</code>.
-                A
-                <strong>bilinear pairing</strong>
-                or
-                <strong>bilinear map</strong>
-                is an efficiently computable function
-                <code>e : G1 x G2 -> GT</code>
-                such that:
-            </p>
-            <ol>
-                <li>
-                    <strong>Bilinearity</strong>: for all
-                    <code>a, b</code>
-                    in
-                    <code>Zr</code>
-                    (the ring of integers modulo r)
-                    it holds that
-                    <code>e(g1^a,g2^b) = e(g1,g2)^{ab}</code>.
-                </li>
-                <li>
-                    <strong>
-                        Non-degeneracy
-                    </strong>:
-                    <code>e(g1, g2) != 1</code>.
-                </li>
-            </ol>
-            <p>
-                The tuple
-                <code>(r,g1,g2,G1,G2,GT)</code>
-                is called
-                <strong>asymmetric bilinear setting</strong>.
-                If
-                <code>G1=G2=G</code>
-                and g is a generator of
-                <code>G</code>
-                then the tuple
-                (r,g,G,GT) is a
-                <strong>symmetric bilinear setting</strong>.
-                In the symmetric setting the order of
-                <code>G</code>
-                and
-                <code>G_T</code>
-                need not to be prime.
-            </p>
-            <p>
-                The cryptographic relevance of a bilinear mapping stems from the fact that in cyclic
-                groups that admit such a mapping the
-                <strong>Decisional Diffie-Hellman</strong>
-                assumption does not hold.
-                Indeed, given
-                <code>(g,g^x,g^y,g^z)</code>
-                it is possible to check if z=xy
-                (and thus solve the Decisional DH problem) by testing
-                <code>e(g,g^z)</code>
-                and
-                <code>e(g^x,g^y)</code>
-                for equality.
-            </p>
+        <section name="Pairing for Cryptography">
+
+            <subsection name="Bilinear Setting">
+                <p>
+                    Let
+                    <code>G1</code>,
+                    <code>G2</code>
+                    and
+                    <code>GT</code>
+                    be cyclic groups of prime order
+                    <code>r</code>.
+                    Let
+                    <code>g1</code>
+                    be a generator of
+                    <code>G1</code>
+                    and
+                    <code>g2</code>
+                    be a generator of
+                    <code>G2</code>.
+                    A
+                    <strong>bilinear pairing</strong>
+                    or
+                    <strong>bilinear map</strong>
+                    is an efficiently computable function
+                    <code>e : G1 x G2 -> GT</code>
+                    such that:
+                </p>
+                <ol>
+                    <li>
+                        <strong>Bilinearity</strong>: for all
+                        <code>a, b</code>
+                        in
+                        <code>Zr</code>
+                        (the ring of integers modulo r)
+                        it holds that
+                        <code>e(g1^a,g2^b) = e(g1,g2)^{ab}</code>.
+                    </li>
+                    <li>
+                        <strong>
+                            Non-degeneracy
+                        </strong>:
+                        <code>e(g1, g2) != 1</code>.
+                    </li>
+                </ol>
+                <p>
+                    The tuple
+                    <code>(r,g1,g2,G1,G2,GT)</code>
+                    is called
+                    <strong>asymmetric bilinear setting</strong>.
+                    If
+                    <code>G1=G2=G</code>
+                    and g is a generator of
+                    <code>G</code>
+                    then the tuple
+                    (r,g,G,GT) is a
+                    <strong>symmetric bilinear setting</strong>.
+                    In the symmetric setting the order of
+                    <code>G</code>
+                    and
+                    <code>G_T</code>
+                    need not to be prime.
+                </p>
+                <p>
+                    The cryptographic relevance of a bilinear mapping stems from the fact that in cyclic
+                    groups that admit such a mapping the
+                    <strong>Decisional Diffie-Hellman</strong>
+                    assumption does not hold.
+                    Indeed, given
+                    <code>(g,g^x,g^y,g^z)</code>
+                    it is possible to check if z=xy
+                    (and thus solve the Decisional DH problem) by testing
+                    <code>e(g,g^z)</code>
+                    and
+                    <code>e(g^x,g^y)</code>
+                    for equality.
+                </p>
+            </subsection>
+
+            <subsection name="Multilinear Setting">
+
+            </subsection>
 
             <a name="initializing"/>
             <subsection name="Initializing Pairings">
@@ -89,18 +96,16 @@
                     The
                     <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Pairing.html"><code>Pairing</code></a>
                     interface provides access to the algebraic structures underlying the pairing computation
-                    <code>(G1,G2,GT,Zr)</code>
-                    and the pairing function
-                    <code>(e)</code>.
+                    and the pairing function.
                 </p>
 
                 <p>
-                    The first step to create an instance of the
+                    To obtain and instance the
                     <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Pairing.html"><code>Pairing</code></a>
-                    interface is to generate (or load) the parameters describing the pairing.
-                    Have a look
-                    <a href="./parametersgenerator.html">here</a>
-                    to know how to generate such parameters.
+                    interface, it is usually necessary to generate (or load) the parameters describing
+                    the pairing itself.
+                    To generate such parameters look at this
+                    <a href="./parametersgenerator.html">page</a>.
                 </p>
 
                 <p>
@@ -114,25 +119,25 @@
                 <ol>
                     <li>
                         <p>
-                            <font style="font-weight: bold;color:red">Port</font>:
+                            Port:
                         </p>
 <source>import it.unisa.dia.gas.jpbc.*;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
-Pairing pairing = <font style="font-weight: bold;color:green">PairingFactory.getPairing("params.properties");</font>
+Pairing pairing = PairingFactory.getPairing("params.properties");
 </source>
                     </li>
                     <li>
                         <p>
-                            <font style="font-weight: bold;color:red">Wrapper</font>:
+                            Wrapper:
                         </p>
 <source>import it.unisa.dia.gas.jpbc.*;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
 // Enable the usage of the PBC wrapper when possible.
-<font style="font-weight: bold;color:green">PairingFactory.getInstance().setUsePBCWhenPossible(true);</font>
+PairingFactory.getInstance().setUsePBCWhenPossible(true);
 
-Pairing pairing = <font style="font-weight: bold;color:green">PairingFactory.getPairing("params.properties");</font>
+Pairing pairing = PairingFactory.getPairing("params.properties");
 </source>
                     </li>
                     <p>
@@ -146,30 +151,69 @@ Pairing pairing = <font style="font-weight: bold;color:green">PairingFactory.get
 
             <a name="accessing"/>
             <subsection name="Accessing Algebraic Structures">
-                The
-                <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Pairing.html"><code>Pairing</code></a>
+            <p>
+                The <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Pairing.html"><code>Pairing</code></a>
                 interface provides the methods to access the algebraic structures
-                (<code>G1, G2, GT, Zr</code>)
                 involved in the pairing computation.
                 Here are the methods:
+            </p>
 
-<source xml:space="preserve">/* Return G1 */
-Field G1 = <font style="font-weight: bold;color:green">pairing.getG1();</font>
+<source xml:space="preserve">/* Return Zr */
+Field Zr = pairing.getZr();
+
+/* Return G1 */
+Field G1 = pairing.getG1();
 
 /* Return G2 */
-Field G2 = <font style="font-weight: bold;color:green">pairing.getG2();</font>
+Field G2 = pairing.getG2();
 
 /* Return GT */
-Field GT = <font style="font-weight: bold;color:green">pairing.getGT();</font>
-
-/* Return Zr */
-Field Zr = <font style="font-weight: bold;color:green">pairing.getZr();</font>
+Field GT = pairing.getGT();
 </source>
 
-                Elements of these algebraic structures can be initialized and manipulated
-                for cryptographic operations. Have a look
-                <a href="./field.html">here</a>
-                to see how to initialize elements.
+                <p>
+                These algebraic structures can be also accessed by index
+                with the following mapping.
+                </p>
+
+<source xml:space="preserve">/* Return Zr */
+Field Zr = pairing.getFieldAt(0);
+
+/* Return G1 */
+Field G1 = pairing.getFieldAt(1);
+
+/* Return G2 */
+Field G2 = pairing.getFieldAt(2);
+
+/* Return GT */
+Field GT = pairing.getFieldAt(3);
+</source>
+                <p>
+                This is especially useful when dealing with multilinear maps
+                to access the algebraic structures at different levels.
+                <br/>
+                The number of algebraic structures available is given by
+                the degree of the pairing that can be obtained by invoking the following method.
+                </p>
+
+<source xml:space="preserve">int degree = pairing.getDegree();</source>
+
+                <p>
+                In particular, if <code>degree</code> is larger than two then there are
+                <code>degree</code> algebraic structures available indexed from
+                <code>0</code> to <code>degree-1</code>.
+                The algebraic structure at level zero can be thought
+                as the equivalent of <code>Zr</code>.
+                <br/>
+                Bilinear maps have degree two but in this case there are four
+                algebraic structures available.
+                </p>
+
+                <p>
+                Finally, elements of these algebraic structures can be initialized and manipulated
+                for cryptographic operations as shown
+                <a href="./field.html">here</a>.
+                </p>
             </subsection>
 
 
@@ -193,7 +237,7 @@ Field Zr = <font style="font-weight: bold;color:green">pairing.getZr();</font>
 Element in1 = pairing.get<code>G1</code>().newRandomElement();
 Element in2 = pairing.get<code>G2</code>().newRandomElement();
 
-Element out = <font style="font-weight: bold;color:green">pairing.pairing(in1, in2);</font>
+Element out = pairing.pairing(in1, in2);
 </source>
 
                 <p>
@@ -209,7 +253,7 @@ Element in2[] = new Element[5];
 for (int i = 0; i &lt; 5; i++)
 in2[i] = pairing.get<code>G2</code>().newRandomElement();
 
-Element out = <font style="font-weight: bold;color:green">pairing.pairing(in1, in2);</font>
+Element out = pairing.pairing(in1, in2);
 </source>
             </subsection>
 
@@ -225,14 +269,14 @@ Element out = <font style="font-weight: bold;color:green">pairing.pairing(in1, i
 store the results of time-saving precomputation in ppp. */
 
 Element in1 = pairing.get<code>G1</code>().newRandomElement();
-<font style="font-weight: bold;color:green">PairingPreProcessing ppp = pairing.pairing(in1);</font>
+PairingPreProcessing ppp = pairing.pairing(in1);
 
 /* Compute the pairing using in2 and the preprocessed information
 stored in ppp. The inputs to the pairing are the element
 previously used to initialize ppp and the element in2. */
 
 Element in2 = pairing.get<code>G2</code>().newRandomElement();
-Element out = <font style="font-weight: bold;color:green">ppp.pairing(in2);</font>
+Element out = ppp.pairing(in2);
 </source>
 
                 <p>
@@ -242,14 +286,14 @@ Element out = <font style="font-weight: bold;color:green">ppp.pairing(in2);</fon
                     to a byte array:
                 </p>
 <source xml:space="preserve">
-byte[] pppBytes = <font style="font-weight: bold;color:green">ppp.toBytes()</font>;
+byte[] pppBytes = ppp.toBytes();
 </source>
                 <p>
                     To convert the byte array to an instance of the PairingPreProcessing interface
                     use the following code:
                 </p>
 <source xml:space="preserve">
-<font style="font-weight: bold;color:green">PairingPreProcessing ppp = pairing.pairing(pppBytes);</font>
+PairingPreProcessing ppp = pairing.pairing(pppBytes);
 </source>
             </subsection>
         </section>

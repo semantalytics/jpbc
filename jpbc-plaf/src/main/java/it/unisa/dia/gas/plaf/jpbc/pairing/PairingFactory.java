@@ -53,8 +53,10 @@ public class PairingFactory {
     private Throwable pbcPairingFailure;
 
     private Map<PairingParameters, Pairing> instances;
+    private Map<String, PairingCreator> creators;
 
-    public PairingFactory() {
+
+    private PairingFactory() {
         // Try to load jpbc-pbc factory
         try {
             Class pbcPairingFactoryClass = Class.forName("it.unisa.dia.gas.plaf.jpbc.pbc.PairingFactory");
@@ -68,7 +70,17 @@ public class PairingFactory {
         }
 
         this.instances = new HashMap<PairingParameters, Pairing>();
+
+        this.creators = new HashMap<String, PairingCreator>();
+        PairingCreator defaultCreator = new DefaultPairingCreator();
+        creators.put("a", defaultCreator);
+        creators.put("a1", defaultCreator);
+        creators.put("d", defaultCreator);
+        creators.put("e", defaultCreator);
+        creators.put("f", defaultCreator);
+        creators.put("g", defaultCreator);
     }
+
 
     public Pairing initPairing(String parametersPath) {
         return initPairing(loadParameters(parametersPath), null);
@@ -93,26 +105,14 @@ public class PairingFactory {
                 return pairing;
         }
 
-        if (usePBCWhenPossible && pbcAvailable)
-            pairing = getPBCPairing(parameters);
+        String type = parameters.getString("type");
+        PairingCreator creator = creators.get(type);
+        if (creator == null)
+            throw new IllegalArgumentException("Type not supported. Type = " + type);
 
-        if (pairing == null) {
-            String type = parameters.getString("type");
-            if ("a".equalsIgnoreCase(type))
-                pairing = new TypeAPairing(random, parameters);
-            else if ("a1".equalsIgnoreCase(type))
-                pairing = new TypeA1Pairing(random, parameters);
-            else if ("d".equalsIgnoreCase(type))
-                pairing = new TypeDPairing(random, parameters);
-            else if ("e".equalsIgnoreCase(type))
-                pairing = new TypeEPairing(random, parameters);
-            else if ("f".equalsIgnoreCase(type))
-                return new TypeFPairing(random, parameters);
-            else if ("g".equalsIgnoreCase(type))
-                return new TypeGPairing(random, parameters);
-            else
-                throw new IllegalArgumentException("Type not supported. Type = " + type);
-        }
+        pairing = creator.create(type, random, parameters);
+        if (pairing == null)
+            throw new IllegalArgumentException("Cannot create pairing instance. Type = " + type);
 
         if (reuseInstance)
             instances.put(parameters, pairing);
@@ -166,6 +166,48 @@ public class PairingFactory {
 
     public boolean isPBCAvailable() {
         return pbcAvailable;
+    }
+
+    public void addPairingCreator(String type, PairingCreator creator) {
+        creators.put(type, creator);
+    }
+
+
+    public static interface PairingCreator {
+
+        Pairing create(String type, Random random, PairingParameters pairingParameters);
+
+    }
+
+
+    public class DefaultPairingCreator implements PairingCreator {
+
+        public Pairing create(String type, Random random, PairingParameters parameters) {
+            Pairing pairing = null;
+
+            // Handle bilinear maps parameters
+            if (usePBCWhenPossible && pbcAvailable)
+                pairing = getPBCPairing(parameters);
+
+            if (pairing == null) {
+                if ("a".equalsIgnoreCase(type))
+                    pairing = new TypeAPairing(random, parameters);
+                else if ("a1".equalsIgnoreCase(type))
+                    pairing = new TypeA1Pairing(random, parameters);
+                else if ("d".equalsIgnoreCase(type))
+                    pairing = new TypeDPairing(random, parameters);
+                else if ("e".equalsIgnoreCase(type))
+                    pairing = new TypeEPairing(random, parameters);
+                else if ("f".equalsIgnoreCase(type))
+                    return new TypeFPairing(random, parameters);
+                else if ("g".equalsIgnoreCase(type))
+                    return new TypeGPairing(random, parameters);
+                else
+                    throw new IllegalArgumentException("Type not supported. Type = " + type);
+            }
+
+            return pairing;
+        }
     }
 
 }

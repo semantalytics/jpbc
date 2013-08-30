@@ -35,4 +35,5 @@ public class PairingFactory {
     public static Pairing getPairing(String parametersPath) {
         return getPairing(it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory.getInstance().loadParameters(parametersPath));
     }
+
 }

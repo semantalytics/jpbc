@@ -14,6 +14,7 @@ import java.security.SecureRandom;
  */
 public class CTL13MMField implements Field<CTL13MMElement> {
 
+    private SecureRandom random;
     private CTL13MMPairing pairing;
     private CTL13MMInstance instance;
     private int index;
@@ -25,6 +26,7 @@ public class CTL13MMField implements Field<CTL13MMElement> {
     }
 
     public CTL13MMField(SecureRandom random, CTL13MMPairing pairing, int index) {
+        this.random = random;
         this.pairing = pairing;
         this.instance = pairing.getCTL13MMInstance();
         this.index = index;

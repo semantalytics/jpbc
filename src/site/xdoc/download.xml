@@ -77,7 +77,7 @@
             </subsection>
 
             <a name="usage"/>
-            <subsection name="JPBC Usage">
+            <subsection name="jPBC Usage">
                 <p>
                     To use jPBC it is enough to add to your classpath the following jars:
                     <ol type="1">
@@ -92,7 +92,7 @@
                     </ol>
                 </p>
                 <p>
-                    Note that all these libraries can be found in the <tt>jars</tt> folder of the distro package.
+                    Note that the jars files can be found in the distro package under the <tt>jars</tt> folder.
                 </p>
             </subsection>
             <subsection name="PBC Wrapper Usage">
@@ -103,7 +103,7 @@
                     <a href="./docs/pbcwrapper.html">here</a>
                     the instructions to compile the shared library.
                     <br/>
-                    Then, to use the wrapper include the following jars
+                    Then, to use the wrapper include the following jars:
                 </p>
                 <ol>
                     <li>
@@ -116,32 +116,15 @@
                     </li>
                 </ol>
             </subsection>
-            <subsection name="Cryptosystems Usage">
-                <p>
-                    To use the
-                    <a href="schemes/schemes.html">cryptosystems</a>
-                    jpbc provides, include the following jars:
-                </p>
-                <ol>
-                    <li>
-                        <tt>jpbc_1.3.0-crypto.jar</tt>
-                        and
-                    </li>
-                    <li>
-                        <tt>bcprov-jdk16-140.jar</tt>.
-                    </li>
-                </ol>
-            </subsection>
             <subsection name="Multilinear Maps Usage">
                 <p>
                     Finally, to use the
-                    <a href="docs/multimaps.html">Multilinear Maps over the Integers</a>
-                    primitive, include the following jar:
+                    <a href="docs/multimaps.html">Multilinear Maps over the Integers</a>,
+                    include the following jar:
                 </p>
                 <ol>
                     <li>
-                        <tt>jpbc_1.3.0-mm.jar</tt>
-                        and
+                        <tt>jpbc_1.3.0-mm.jar</tt>.
                     </li>
                 </ol>
             </subsection>

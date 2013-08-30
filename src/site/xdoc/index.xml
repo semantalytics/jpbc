@@ -64,18 +64,18 @@
                         around the
                         <a href="http://crypto.stanford.edu/pbc/">PBC</a>
                         library. The wrapper provides a tiny and efficient layer
-                        to delegate in a transparent way the pairing computation
-                        directly to PBC to gain in efficiency.
+                        to enable the communication between PBC and jPBC.
+                        The pairing computation can be then
+                        directly delegated to PBC resulting in improved performance.
                     </p>
                 </li>
 
                 <li>
                     <p>
-                        A
                         <a href="./docs/multimaps.html">
-                            Java Implementation
+                            Practical Multilinear Maps over the Integer
                         </a>
-                        of Practical Multilinear Maps over the Integer.
+                        with full multi-thread support.
                     </p>
                 </li>
             </ul>
