@@ -100,26 +100,34 @@
                 </p>
 
                 <p>
-                    To obtain and instance the
+                    The easiest way to obtain an instance of the
                     <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Pairing.html"><code>Pairing</code></a>
-                    interface, it is usually necessary to generate (or load) the parameters describing
-                    the pairing itself.
-                    To generate such parameters look at this
+                    interface is by using the factory provided by jPBC.
+                    The factory takes in input the pairing parameters
+                    and instantiates the appropriate classes.
+                </p>
+
+                <p>
+                    To generate the pairing parameters look at this
                     <a href="./parametersgenerator.html">page</a>.
                 </p>
 
                 <p>
-                    Now let's assume that the parameters are stored in a file
-                    called <code>params.properties</code>. Then
-                    JPBC provides a Factory to create instances of the
-                    <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Pairing.html"><code>Pairing</code></a>
-                    interface.
+                    Let's now see a few examples of how to use the factory.
                 </p>
 
                 <ol>
                     <li>
                         <p>
-                            Port:
+                            Loading the paring parameters from a file.
+                        </p>
+
+                        <p>
+                            Assume that the pairing parameters are stored in a file
+                            called <code>params.properties</code>. Then
+                            JPBC provides a Factory to create instances of the
+                            <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Pairing.html"><code>Pairing</code></a>
+                            interface.
                         </p>
 <source>import it.unisa.dia.gas.jpbc.*;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
@@ -129,7 +137,7 @@ Pairing pairing = PairingFactory.getPairing("params.properties");
                     </li>
                     <li>
                         <p>
-                            Wrapper:
+                            Generate on fly
                         </p>
 <source>import it.unisa.dia.gas.jpbc.*;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
@@ -141,8 +149,8 @@ Pairing pairing = PairingFactory.getPairing("params.properties");
 </source>
                     </li>
                     <p>
-                        Notice that, if PBC and the Wrapper are not installed properly then
-                        the factory will use the JPBC classes for the pairing computation.
+                        Notice that, if PBC and the jPBC wrapper are not installed properly then
+                        the factory will use the jPBC classes instead for the pairing computation.
                         To know how to install the wrapper have a look
                         <a href="./pbcwrapper.html">here</a>.
                     </p>
@@ -153,7 +161,7 @@ Pairing pairing = PairingFactory.getPairing("params.properties");
             <subsection name="Accessing Algebraic Structures">
             <p>
                 The <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Pairing.html"><code>Pairing</code></a>
-                interface provides the methods to access the algebraic structures
+                interface provides methods to access the algebraic structures
                 involved in the pairing computation.
                 Here are the methods:
             </p>
@@ -220,25 +228,30 @@ Field GT = pairing.getFieldAt(3);
             <a name="applying"/>
             <subsection name="Applying pairings">
                 <p>
-                    Suppose you want to compute the following pairing
-                    <code>out = e(in1, in2)</code>,
-                    where
-                    <code>in1</code>
-                    must be in the group
-                    <code>G1</code>,
-                    <code>in2</code>
-                    must be in the group
-                    <code>G2</code>
-                    and out will lie in the target group
-                    <code>GT</code>.
-                    Then you can use the following code:
-                </p>
-<source>
-Element in1 = pairing.get<code>G1</code>().newRandomElement();
-Element in2 = pairing.get<code>G2</code>().newRandomElement();
+                    The <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Pairing.html"><code>Pairing</code></a>
+                    provides methods to apply the pairing function.
 
-Element out = pairing.pairing(in1, in2);
-</source>
+                    Given two elements <code>in1, in2</code>, belonging
+                    to the appropriate algebraic structures, their pairing
+                    can be computed by invoking the <code>pairing</code>
+                    methods on input <code>in1</code> and <code>in2</code>
+                    as follows:
+                </p>
+<source>Element out = pairing.pairing(in1, in2);</source>
+
+                For symmetric bilinear settings, both inputs must lie in
+                <code>G1</code>.
+                For asymmetric bilinear settings, <code>in1</code>
+                must be in <code>G1</code> and <code>in2</code>
+                in <code>G2</code>.
+
+                <br/>
+                For multilinear settings of degree <code>degree</code>,
+                let <code>in1</code> be in <code>Gi</code> and
+                <code>in2</code> be in <code>Gj</code>,
+                with <code>i,j</code> in <code>[1..degree]</code>,
+                it must hold that <code>i+j &lt; degree</code>.
+
 
                 <p>
                     Furthermore, you can compute the product of pairings in one shot using
@@ -260,8 +273,10 @@ Element out = pairing.pairing(in1, in2);
             <a name="preprocessing"/>
             <subsection name="Preprocessing">
                 <p>
-                    If it is known in advance that a particular value (in <code>G1</code>) will be paired several times
-                    then time can be saved in the long run by using preprocessing.
+                    If it is known in advance that a particular value (in <code>G1</code>)
+                    will be paired several times
+                    then time can be saved in the
+                    long run by using preprocessing.
                 </p>
 
 <source xml:space="preserve">
