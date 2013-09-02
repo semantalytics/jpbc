@@ -13,61 +13,55 @@
             <subsection name="Bilinear Setting">
                 <p>
                     Let
-                    <code>G1</code>,
-                    <code>G2</code>
+                    <span lang="latex">\mathbb{G}_1</span>,
+                    <span lang="latex">\mathbb{G}_2</span>
                     and
-                    <code>GT</code>
+                    <span lang="latex">\mathbb{G}_T</span>
                     be cyclic groups of prime order
-                    <code>r</code>.
+                    <span lang="latex">r</span>.
                     Let
-                    <code>g1</code>
+                    <span lang="latex">g_1</span>
                     be a generator of
-                    <code>G1</code>
+                    <span lang="latex">\mathbb{G}_1</span>
                     and
-                    <code>g2</code>
+                    <span lang="latex">g_2</span>
                     be a generator of
-                    <code>G2</code>.
+                    <span lang="latex">\mathbb{G}_2</span>.
                     A
                     <strong>bilinear pairing</strong>
                     or
                     <strong>bilinear map</strong>
                     is an efficiently computable function
-                    <code>e : G1 x G2 -> GT</code>
+                    <span lang="latex">e : \mathbb{G}_1 \times \mathbb{G}_2 \leftarrow \mathbb{G}_T</span>
                     such that:
                 </p>
                 <ol>
                     <li>
-                        <strong>Bilinearity</strong>: for all
-                        <code>a, b</code>
-                        in
-                        <code>Zr</code>
+                        <strong>Bilinearity</strong>: for all <span lang="latex">a,b\in\mathbb{Z}_r</span>
                         (the ring of integers modulo r)
                         it holds that
-                        <code>e(g1^a,g2^b) = e(g1,g2)^{ab}</code>.
+                        <span lang="latex">e(g_1^a,g_2^b) = e(g_1,g_2)^{ab}</span>
                     </li>
                     <li>
-                        <strong>
-                            Non-degeneracy
-                        </strong>:
-                        <code>e(g1, g2) != 1</code>.
+                        <strong>Non-degeneracy</strong>: <span lang="latex">e(g_1,g_2)\ne 1</span>.
                     </li>
                 </ol>
                 <p>
                     The tuple
-                    <code>(r,g1,g2,G1,G2,GT)</code>
+                    <span lang="latex">(r,g_1,g_2,\mathbb{G}_1,\mathbb{G}_2,\mathbb{G}_T)</span>
                     is called
                     <strong>asymmetric bilinear setting</strong>.
                     If
-                    <code>G1=G2=G</code>
+                    <span lang="latex">\mathbb{G}_1=\mathbb{G}_2=\mathbb{G}</span>
                     and g is a generator of
-                    <code>G</code>
+                    <span lang="latex">\mathbb{G}</span>
                     then the tuple
-                    (r,g,G,GT) is a
+                    <span lang="latex">\(r,g,\mathbb{G},\mathbb{G}_T)</span> is a
                     <strong>symmetric bilinear setting</strong>.
                     In the symmetric setting the order of
-                    <code>G</code>
+                    <span lang="latex">\mathbb{G}</span>
                     and
-                    <code>G_T</code>
+                    <span lang="latex">\mathbb{G}_T</span>
                     need not to be prime.
                 </p>
                 <p>
@@ -76,18 +70,27 @@
                     <strong>Decisional Diffie-Hellman</strong>
                     assumption does not hold.
                     Indeed, given
-                    <code>(g,g^x,g^y,g^z)</code>
-                    it is possible to check if z=xy
+                    <span lang="latex">(g,g^x,g^y,g^z)</span>
+                    it is possible to check if
+                    <span lang="latex">z=xy</span>
                     (and thus solve the Decisional DH problem) by testing
-                    <code>e(g,g^z)</code>
+                    <span lang="latex">e(g,g^z)</span>
                     and
-                    <code>e(g^x,g^y)</code>
+                    <span lang="latex">e(g^x,g^y)</span>
                     for equality.
                 </p>
             </subsection>
 
             <subsection name="Multilinear Setting">
+                <script type="text/javascript" src="http://latex.codecogs.com/latexit.js"/>
 
+                An <span lang="latex">\ell</span>-group system consists of <span lang="latex">\ell</span>
+                cyclic groups <span lang="latex">\mathbb{G}_1,\ldots,\mathbb{G}_\ell</span>
+                of prime order <span lang="latex">p</span>, along with bilinear maps
+                <span lang="latex">e_{i,j} : \mathbb{G}_i \times  \mathbb{G}_j \rightarrow \mathbb{G}_{i+j}</span>
+                for all <span lang="latex">i,j\geq 1</span>
+                with <span lang="latex">i+j\leq\ell</span>.
+                Let <span lang="latex">g_i</span>
             </subsection>
 
             <a name="initializing"/>
