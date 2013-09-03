@@ -170,7 +170,7 @@ public class TypeFCurveGenerator implements PairingParametersGenerator {
         Integer rBits = Integer.parseInt(args[0]);
 
         PairingParametersGenerator generator = new TypeFCurveGenerator(rBits);
-        PropertiesParameters curveParams = (PropertiesParameters) generator.generate();
+        PairingParameters curveParams = generator.generate();
 
         System.out.println(curveParams.toString(" "));
     }

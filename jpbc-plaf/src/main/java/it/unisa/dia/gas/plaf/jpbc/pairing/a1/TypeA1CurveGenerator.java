@@ -97,7 +97,7 @@ public class TypeA1CurveGenerator implements PairingParametersGenerator {
 
     public static void main(String[] args) {
         TypeA1CurveGenerator generator = new TypeA1CurveGenerator(3, 512);
-        PropertiesParameters curveParams = (PropertiesParameters) generator.generate();
+        PairingParameters curveParams = generator.generate();
 
         System.out.println(curveParams.toString(" "));
     }

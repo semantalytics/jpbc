@@ -136,7 +136,7 @@ public class TypeACurveGenerator implements PairingParametersGenerator {
         Integer qBits = Integer.parseInt(args[1]);
 
         TypeACurveGenerator generator = new TypeACurveGenerator(rBits, qBits, true);
-        PropertiesParameters curveParams = (PropertiesParameters) generator.generate();
+        PairingParameters curveParams = generator.generate();
 
         System.out.println(curveParams.toString(" "));
     }
