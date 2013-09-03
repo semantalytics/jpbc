@@ -2,7 +2,7 @@ package it.unisa.dia.gas.jpbc;
 
 /**
  * This interface lets the user to generate all the necessary parameters
- * to initialize an instance of Pairing interface.
+ * to initialize a pairing.
  *
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  * @since 1.3.0

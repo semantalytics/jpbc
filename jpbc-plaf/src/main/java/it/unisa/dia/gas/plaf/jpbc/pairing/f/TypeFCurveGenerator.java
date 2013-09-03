@@ -6,7 +6,6 @@ import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyElement;
 import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyField;
 import it.unisa.dia.gas.plaf.jpbc.field.quadratic.QuadraticField;
 import it.unisa.dia.gas.plaf.jpbc.field.z.ZrField;
-import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.DefaultCurveParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.PropertiesParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
@@ -18,7 +17,7 @@ import java.security.SecureRandom;
  * The curve is defined as E : y^2 = x^2 + b
  * for some b \in F_q.
  */
-public class TypeFCurveGenerator implements CurveGenerator {
+public class TypeFCurveGenerator implements PairingParametersGenerator {
     protected SecureRandom random;
     protected int rBits; // The number of bits in r, the order of the subgroup G1
 
@@ -33,7 +32,7 @@ public class TypeFCurveGenerator implements CurveGenerator {
     }
 
 
-    public CurveParameters generate() {
+    public PairingParameters generate() {
         //36 is a 6-bit number
         int xbit = (rBits - 6) / 4;
 
@@ -122,7 +121,7 @@ public class TypeFCurveGenerator implements CurveGenerator {
         }
 
         // Store parameters
-        DefaultCurveParameters params = new DefaultCurveParameters();
+        PropertiesParameters params = new PropertiesParameters();
         params.put("type", "f");
         params.put("q", q.toString());
         params.put("r", r.toString());

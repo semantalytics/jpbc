@@ -1,12 +1,10 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing.e;
 
-import it.unisa.dia.gas.jpbc.CurveGenerator;
-import it.unisa.dia.gas.jpbc.CurveParameters;
 import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.jpbc.PairingParameters;
 import it.unisa.dia.gas.jpbc.PairingParametersGenerator;
 import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveField;
 import it.unisa.dia.gas.plaf.jpbc.field.z.ZrField;
-import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.DefaultCurveParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.PropertiesParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
@@ -16,7 +14,7 @@ import java.security.SecureRandom;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class TypeECurveGenerator implements CurveGenerator {
+public class TypeECurveGenerator implements PairingParametersGenerator {
     protected SecureRandom random;
     protected int rBits, qBits;
 
@@ -32,7 +30,7 @@ public class TypeECurveGenerator implements CurveGenerator {
     }
 
     
-    public CurveParameters generate() {
+    public PairingParameters generate() {
         // 3 takes 2 bits to represent
         BigInteger q;
         BigInteger r;
@@ -107,7 +105,7 @@ public class TypeECurveGenerator implements CurveGenerator {
         if (!curveField.newRandomElement().mul(n).isZero())
             curveField.twist();
 
-        DefaultCurveParameters params = new DefaultCurveParameters();
+        PropertiesParameters params = new PropertiesParameters();
         params.put("type", "e");
         params.put("q", q.toString());
         params.put("r", r.toString());

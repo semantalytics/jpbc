@@ -5,7 +5,7 @@ import it.unisa.dia.gas.crypto.jpbc.signature.bls01.params.BLS01KeyGenerationPar
 import it.unisa.dia.gas.crypto.jpbc.signature.bls01.params.BLS01Parameters;
 import it.unisa.dia.gas.crypto.jpbc.signature.bls01.params.BLS01PrivateKeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.signature.bls01.params.BLS01PublicKeyParameters;
-import it.unisa.dia.gas.jpbc.CurveParameters;
+import it.unisa.dia.gas.jpbc.PairingParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.f.TypeFCurveGenerator;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
@@ -19,16 +19,16 @@ public class BLS {
     protected String curvePath;
     protected boolean usePBC;
 
-    protected CurveParameters curveParameters;
+    protected PairingParameters parameters;
 
     public BLS() {
 //        Load the curve parameters from a file
-//        curveParameters = PairingFactory.getInstance().loadCurveParameters("it/unisa/dia/gas/plaf/jpbc/pairing/f/f.properties");
+//        parameters = PairingFactory.getInstance().loadCurveParameters("it/unisa/dia/gas/plaf/jpbc/pairing/f/f.properties");
 
 //        Or you can generate the curve parameters in this way.
 //
         TypeFCurveGenerator curveGenerator = new TypeFCurveGenerator(new SecureRandom(),160);
-        curveParameters = curveGenerator.generate();
+        parameters = curveGenerator.generate();
     }
 
 
@@ -44,7 +44,7 @@ public class BLS {
 
     protected BLS01Parameters setup() {
         BLS01ParametersGenerator setup = new BLS01ParametersGenerator();
-        setup.init(curveParameters);
+        setup.init(parameters);
 
         return setup.generateParameters();
     }

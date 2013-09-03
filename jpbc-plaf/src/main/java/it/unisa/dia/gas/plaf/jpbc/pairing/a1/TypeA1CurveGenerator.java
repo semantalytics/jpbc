@@ -1,8 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing.a1;
 
-import it.unisa.dia.gas.jpbc.CurveGenerator;
-import it.unisa.dia.gas.jpbc.CurveParameters;
-import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.DefaultCurveParameters;
+import it.unisa.dia.gas.jpbc.PairingParameters;
+import it.unisa.dia.gas.jpbc.PairingParametersGenerator;
 import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.PropertiesParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
@@ -12,7 +11,7 @@ import java.security.SecureRandom;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class TypeA1CurveGenerator implements CurveGenerator {
+public class TypeA1CurveGenerator implements PairingParametersGenerator {
     protected SecureRandom random;
     protected int numPrimes, bits;
 
@@ -28,7 +27,7 @@ public class TypeA1CurveGenerator implements CurveGenerator {
     }
 
 
-    public CurveParameters generate() {
+    public PairingParameters generate() {
         BigInteger[] primes = new BigInteger[numPrimes];
         BigInteger order, n, p;
         long l;
@@ -83,7 +82,7 @@ public class TypeA1CurveGenerator implements CurveGenerator {
         }
         System.out.printf("order hamming weight=%d\n", BigIntegerUtils.hammingWeight(order));
 
-        DefaultCurveParameters params = new DefaultCurveParameters();
+        PropertiesParameters params = new PropertiesParameters();
         params.put("type", "a1");
         params.put("p", p.toString());
         params.put("n", order.toString());
