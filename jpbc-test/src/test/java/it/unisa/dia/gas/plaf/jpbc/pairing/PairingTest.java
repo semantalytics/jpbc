@@ -54,7 +54,7 @@ public class PairingTest extends AbstractJPBCTest {
 
         x1 = pairing.pairing(g, h);
 
-        PairingPreProcessing ppp = pairing.pairing(g);
+        PairingPreProcessing ppp = pairing.getPairingPreProcessingFromElement(g);
         x2 = ppp.pairing(h);
 
         assertTrue(x1.isEqual(x2));
@@ -68,8 +68,8 @@ public class PairingTest extends AbstractJPBCTest {
         g = pairing.getG1().newElement().setToRandom();
         h = pairing.getG2().newElement().setToRandom();
 
-        PairingPreProcessing ppp1 = pairing.pairing(g);
-        PairingPreProcessing ppp2 = pairing.pairing(ppp1.toBytes());
+        PairingPreProcessing ppp1 = pairing.getPairingPreProcessingFromElement(g);
+        PairingPreProcessing ppp2 = pairing.getPairingPreProcessingFromBytes(ppp1.toBytes());
 
         x1 = ppp1.pairing(h);
         x2 = ppp2.pairing(h);

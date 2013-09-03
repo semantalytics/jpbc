@@ -90,11 +90,11 @@ public class HVEIP08PredicateOnlyCTOptEngine extends PredicateOnlyPairingAsymmet
             List<PairingPreProcessing> W = new ArrayList<PairingPreProcessing>(n);
             int pairingPreProcessingLengthInBytes = pairing.getPairingPreProcessingLengthInBytes();
             for (int i = 0; i < n; i++) {
-                PairingPreProcessing x = pairing.pairing(in, offset);
+                PairingPreProcessing x = pairing.getPairingPreProcessingFromBytes(in, offset);
                 offset += pairingPreProcessingLengthInBytes;
                 X.add(x);
 
-                PairingPreProcessing w = pairing.pairing(in, offset);
+                PairingPreProcessing w = pairing.getPairingPreProcessingFromBytes(in, offset);
                 offset += pairingPreProcessingLengthInBytes;
                 W.add(w);
             }
@@ -125,11 +125,11 @@ public class HVEIP08PredicateOnlyCTOptEngine extends PredicateOnlyPairingAsymmet
                 for (int i = 0; i < n; i++) {
                     Element x = pairing.getG1().newElement();
                     offset += x.setFromBytes(in, offset);
-                    outputStream.write(pairing.pairing(x).toBytes());
+                    outputStream.write(pairing.getPairingPreProcessingFromElement(x).toBytes());
 
                     Element w = pairing.getG1().newElement();
                     offset += w.setFromBytes(in, offset);
-                    outputStream.write(pairing.pairing(w).toBytes());
+                    outputStream.write(pairing.getPairingPreProcessingFromElement(w).toBytes());
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);

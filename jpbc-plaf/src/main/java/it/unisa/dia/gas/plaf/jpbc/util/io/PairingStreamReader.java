@@ -34,12 +34,11 @@ public class PairingStreamReader {
     }
 
 
-    public Element[] readElements(Pairing.PairingFieldIdentifier... ids) {
+    public Element[] readElements(int... ids) {
         Element[] elements = new Element[ids.length];
 
         for (int i = 0; i < ids.length; i++) {
-            Pairing.PairingFieldIdentifier id = ids[i];
-            elements[i] = pairing.getField(id).newElement();
+            elements[i] = pairing.getFieldAt(ids[i]).newElement();
             int length = elements[i].setFromBytes(buffer, cursor);
             cursor += length;
             bais.skip(length);
@@ -48,10 +47,10 @@ public class PairingStreamReader {
         return elements;
     }
 
-    public Element[] readElements(Pairing.PairingFieldIdentifier id, int count) {
+    public Element[] readElements(int id, int count) {
         Element[] elements = new Element[count];
 
-        Field field = pairing.getField(id);
+        Field field = pairing.getFieldAt(id);
         for (int i = 0; i < count; i++) {
             elements[i] = field.newElement();
             int length = elements[i].setFromBytes(buffer, cursor);
@@ -63,19 +62,9 @@ public class PairingStreamReader {
     }
 
     public Element[] readG1Elements(int count) {
-        return readElements(Pairing.PairingFieldIdentifier.G1, count);
+        return readElements(1, count);
     }
 
-
-    public Element readElement(Pairing.PairingFieldIdentifier id) {
-        Field field = pairing.getField(id);
-        Element element = field.newElement();
-        int length = element.setFromBytes(buffer, cursor);
-        cursor += length;
-        bais.skip(length);
-
-        return element;
-    }
 
     public Element readG1Element() {
         Element element = pairing.getG1().newElement();

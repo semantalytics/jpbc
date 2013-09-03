@@ -5,8 +5,8 @@ import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.plaf.jpbc.field.base.AbstractFieldOver;
 
 import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.List;
-import java.util.Random;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -21,7 +21,7 @@ public class PolyModField<F extends Field> extends AbstractFieldOver<F, PolyModE
     protected PolyModElement[] xpwr;
 
 
-    public PolyModField(Random random, F targetField, int cyclotomicPolyDegree) {
+    public PolyModField(SecureRandom random, F targetField, int cyclotomicPolyDegree) {
         super(random, targetField);
 
         PolyField polyField = new PolyField(random, targetField);
@@ -37,11 +37,11 @@ public class PolyModField<F extends Field> extends AbstractFieldOver<F, PolyModE
         init(null);
     }
 
-    public PolyModField(Random random, PolyElement irreduciblePoly) {
+    public PolyModField(SecureRandom random, PolyElement irreduciblePoly) {
         this(random, irreduciblePoly, null);
     }
 
-    public PolyModField(Random random, PolyElement irreduciblePoly, BigInteger nqr) {
+    public PolyModField(SecureRandom random, PolyElement irreduciblePoly, BigInteger nqr) {
         super(random, (F) irreduciblePoly.getField().getTargetField());
 
         this.irreduciblePoly = irreduciblePoly;

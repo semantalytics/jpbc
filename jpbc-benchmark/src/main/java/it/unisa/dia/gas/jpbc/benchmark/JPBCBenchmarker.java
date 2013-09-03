@@ -49,7 +49,7 @@ public class JPBCBenchmarker implements Benchmarker {
                 t1 += Math.abs((end - start));
 
                 start = System.currentTimeMillis();
-                PairingPreProcessing ppp = pairing.pairing(g);
+                PairingPreProcessing ppp = pairing.getPairingPreProcessingFromElement(g);
                 end = System.currentTimeMillis();
                 t2 += Math.abs((end - start));
 

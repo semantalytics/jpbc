@@ -13,9 +13,9 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.DefaultCurveParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.PropertiesParameters;
 
 import java.lang.reflect.Method;
+import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -36,49 +36,36 @@ public class PairingFactory {
         return getInstance().initPairing(parametersPath);
     }
 
-    public static Pairing getPairing(PairingParameters parameters, Random random) {
+    public static Pairing getPairing(PairingParameters parameters, SecureRandom random) {
         return getInstance().initPairing(parameters, random);
     }
 
-    public static Pairing getPairing(String parametersPath, Random random) {
+    public static Pairing getPairing(String parametersPath, SecureRandom random) {
         return getInstance().initPairing(parametersPath, random);
     }
 
 
     private boolean usePBCWhenPossible = false;
     private boolean reuseInstance = true;
-
     private boolean pbcAvailable = false;
-    private Method getPairingMethod;
-    private Throwable pbcPairingFailure;
 
     private Map<PairingParameters, Pairing> instances;
     private Map<String, PairingCreator> creators;
 
 
     private PairingFactory() {
-        // Try to load jpbc-pbc factory
-        try {
-            Class pbcPairingFactoryClass = Class.forName("it.unisa.dia.gas.plaf.jpbc.pbc.PairingFactory");
-            Method isPBCAvailable = pbcPairingFactoryClass.getMethod("isPBCAvailable", null);
-            pbcAvailable = ((Boolean) isPBCAvailable.invoke(null));
-            if (pbcAvailable)
-                getPairingMethod = pbcPairingFactoryClass.getMethod("getPairing", PairingParameters.class);
-        } catch (Exception e) {
-            pbcAvailable = false;
-            pbcPairingFailure = e;
-        }
-
         this.instances = new HashMap<PairingParameters, Pairing>();
-
         this.creators = new HashMap<String, PairingCreator>();
-        PairingCreator defaultCreator = new DefaultPairingCreator();
+
+        PairingCreator defaultCreator = new EllipticCurvesPairingCreator();
         creators.put("a", defaultCreator);
         creators.put("a1", defaultCreator);
         creators.put("d", defaultCreator);
         creators.put("e", defaultCreator);
         creators.put("f", defaultCreator);
         creators.put("g", defaultCreator);
+
+        creators.put("ctl13", new CTL13MultilinearPairingCreator());
     }
 
 
@@ -90,11 +77,11 @@ public class PairingFactory {
         return initPairing(parameters, null);
     }
 
-    public Pairing initPairing(String parametersPath, Random random) {
+    public Pairing initPairing(String parametersPath, SecureRandom random) {
         return initPairing(loadParameters(parametersPath), random);
     }
 
-    public Pairing initPairing(PairingParameters parameters, Random random) {
+    public Pairing initPairing(PairingParameters parameters, SecureRandom random) {
         if (parameters == null)
             throw new IllegalArgumentException("parameters cannot be null.");
 
@@ -120,25 +107,6 @@ public class PairingFactory {
         return pairing;
     }
 
-    public boolean isUsePBCWhenPossible() {
-        return usePBCWhenPossible;
-    }
-
-    public void setUsePBCWhenPossible(boolean usePBCWhenPossible) {
-        this.usePBCWhenPossible = usePBCWhenPossible;
-    }
-
-    public boolean isReuseInstance() {
-        return reuseInstance;
-    }
-
-    public void setReuseInstance(boolean reuseInstance) {
-        this.reuseInstance = reuseInstance;
-    }
-
-    public Throwable getPbcPairingFailure() {
-        return pbcPairingFailure;
-    }
 
     public CurveParameters loadCurveParameters(String path) {
         DefaultCurveParameters curveParams = new DefaultCurveParameters();
@@ -155,34 +123,91 @@ public class PairingFactory {
     }
 
 
-    public Pairing getPBCPairing(PairingParameters parameters) {
-        try {
-            return (Pairing) getPairingMethod.invoke(null, parameters);
-        } catch (Exception e) {
-            // Ignore
-        }
-        return null;
-    }
-
     public boolean isPBCAvailable() {
         return pbcAvailable;
     }
+
+    public boolean isUsePBCWhenPossible() {
+        return usePBCWhenPossible;
+    }
+
+    public void setUsePBCWhenPossible(boolean usePBCWhenPossible) {
+        this.usePBCWhenPossible = usePBCWhenPossible;
+    }
+
+    public boolean isReuseInstance() {
+        return reuseInstance;
+    }
+
+    public void setReuseInstance(boolean reuseInstance) {
+        this.reuseInstance = reuseInstance;
+    }
+
 
     public void addPairingCreator(String type, PairingCreator creator) {
         creators.put(type, creator);
     }
 
 
+
     public static interface PairingCreator {
 
-        Pairing create(String type, Random random, PairingParameters pairingParameters);
+        Pairing create(String type, SecureRandom random, PairingParameters pairingParameters);
 
     }
 
+    public class CTL13MultilinearPairingCreator implements PairingCreator {
 
-    public class DefaultPairingCreator implements PairingCreator {
+        private Method getPairingMethod;
+        private Throwable throwable;
 
-        public Pairing create(String type, Random random, PairingParameters parameters) {
+        public CTL13MultilinearPairingCreator() {
+            try {
+                Class pbcPairingFactoryClass = Class.forName("it.unisa.dia.gas.plaf.jpbc.mm.clt13.pairing.CTL13PairingFactory");
+                getPairingMethod = pbcPairingFactoryClass.getMethod("getPairing", SecureRandom.class, PairingParameters.class);
+            } catch (Exception e) {
+                throwable = e;
+            }
+
+        }
+
+        public Pairing create(String type, SecureRandom random, PairingParameters parameters) {
+            try {
+                return (Pairing) getPairingMethod.invoke(null, random, parameters);
+            } catch (Exception e) {
+                // Ignore
+            }
+            return null;
+        }
+
+        public Throwable getThrowable() {
+            return throwable;
+        }
+    }
+
+    public class EllipticCurvesPairingCreator implements PairingCreator {
+
+        private Method getPairingMethod;
+        private Throwable pbcPairingFailure;
+
+        public EllipticCurvesPairingCreator() {
+            // Try to load jpbc-pbc factory
+            try {
+                Class pbcPairingFactoryClass = Class.forName("it.unisa.dia.gas.plaf.jpbc.pbc.PBCPairingFactory");
+                Method isPBCAvailable = pbcPairingFactoryClass.getMethod("isPBCAvailable", null);
+
+                pbcAvailable = ((Boolean) isPBCAvailable.invoke(null));
+                if (pbcAvailable)
+                    getPairingMethod = pbcPairingFactoryClass.getMethod("getPairing", PairingParameters.class);
+            } catch (Exception e) {
+                pbcAvailable = false;
+                pbcPairingFailure = e;
+            }
+
+        }
+
+
+        public Pairing create(String type, SecureRandom random, PairingParameters parameters) {
             Pairing pairing = null;
 
             // Handle bilinear maps parameters
@@ -207,6 +232,19 @@ public class PairingFactory {
             }
 
             return pairing;
+        }
+
+        public Pairing getPBCPairing(PairingParameters parameters) {
+            try {
+                return (Pairing) getPairingMethod.invoke(null, parameters);
+            } catch (Exception e) {
+                // Ignore
+            }
+            return null;
+        }
+
+        public Throwable getPbcPairingFailure() {
+            return pbcPairingFailure;
         }
     }
 

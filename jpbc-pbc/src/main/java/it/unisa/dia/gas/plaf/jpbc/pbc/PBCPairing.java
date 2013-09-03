@@ -82,15 +82,15 @@ public class PBCPairing extends AbstractPairing {
         return out;
     }
 
-    public PairingPreProcessing pairing(Element in1) {
+    public PairingPreProcessing getPairingPreProcessingFromElement(Element in1) {
         return new PBCPairingPreProcessing(in1);
     }
 
-    public PairingPreProcessing pairing(byte[] source) {
+    public PairingPreProcessing getPairingPreProcessingFromBytes(byte[] source) {
         return new PBCPairingPreProcessing(source);
     }
 
-    public PairingPreProcessing pairing(byte[] source, int offset) {
+    public PairingPreProcessing getPairingPreProcessingFromBytes(byte[] source, int offset) {
         return new PBCPairingPreProcessing(source, offset);
     }
 

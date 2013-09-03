@@ -2,7 +2,6 @@ package it.unisa.dia.gas.plaf.jpbc.util.math;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.util.Random;
 
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.ZERO;
@@ -90,7 +89,7 @@ public class BigIntegerUtils {
     }
     
 
-    public static BigInteger generateSolinasPrime(int bits, Random random) {
+    public static BigInteger generateSolinasPrime(int bits, SecureRandom random) {
         // r is picked to be a Solinas prime, that is,
         // r has the form 2a +- 2b +- 1 for some integers 0 < b < a.
         BigInteger r, q;
@@ -312,7 +311,7 @@ public class BigIntegerUtils {
         return getRandom(limit, new SecureRandom());
     }
 
-    public static BigInteger getRandom(BigInteger limit, Random random) {
+    public static BigInteger getRandom(BigInteger limit, SecureRandom random) {
         BigInteger result;
         do {
             result = new BigInteger(limit.bitLength(), random);
@@ -320,7 +319,7 @@ public class BigIntegerUtils {
         return result;
     }
 
-    public static BigInteger getRandom(int nbBits, Random random) {
+    public static BigInteger getRandom(int nbBits, SecureRandom random) {
         if (nbBits <= 1)
             return random.nextBoolean() ? BigInteger.ZERO : BigInteger.ONE;
         else

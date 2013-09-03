@@ -7,14 +7,14 @@ import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.jpbc.Vector;
 import it.unisa.dia.gas.plaf.jpbc.pairing.product.ProductPairing;
 
-import java.util.Random;
+import java.security.SecureRandom;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class DPVS {
 
-    public static Element[][] sampleRandomDualOrthonormalBases(Random random, Pairing pairing, Element g, int N) {
+    public static Element[][] sampleRandomDualOrthonormalBases(SecureRandom random, Pairing pairing, Element g, int N) {
         Pairing vectorPairing = new ProductPairing(random, pairing, N);
 
         // Generate canonical base

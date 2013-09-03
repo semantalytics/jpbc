@@ -18,7 +18,6 @@ import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.List;
-import java.util.Random;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -49,7 +48,7 @@ public class TypeFPairing extends AbstractPairing {
         this(new SecureRandom(), curveParams);
     }
 
-    public TypeFPairing(Random random, PairingParameters curveParams) {
+    public TypeFPairing(SecureRandom random, PairingParameters curveParams) {
         super(random);
 
         this.curveParams = curveParams;

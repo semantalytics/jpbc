@@ -82,11 +82,11 @@ public abstract class PBCField extends AbstractField {
         return a;
     }
 
-    public ElementPowPreProcessing setElementPowPreProcessingFromBytes(byte[] source) {
+    public ElementPowPreProcessing getElementPowPreProcessingFromBytes(byte[] source) {
         return new PBCElementPowPreProcessing(this, source, 0);
     }
 
-    public ElementPowPreProcessing setElementPowPreProcessingFromBytes(byte[] source, int offset) {
+    public ElementPowPreProcessing getElementPowPreProcessingFromBytes(byte[] source, int offset) {
         return new PBCElementPowPreProcessing(this, source, offset);
     }
 

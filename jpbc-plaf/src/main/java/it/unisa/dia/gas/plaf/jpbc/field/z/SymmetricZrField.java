@@ -5,7 +5,6 @@ import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.util.Random;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -23,7 +22,7 @@ public class SymmetricZrField extends AbstractField<SymmetricZrElement> {
         this(new SecureRandom(), order, null);
     }
 
-    public SymmetricZrField(Random random, BigInteger order) {
+    public SymmetricZrField(SecureRandom random, BigInteger order) {
         this(random, order, null);
     }
 
@@ -31,7 +30,7 @@ public class SymmetricZrField extends AbstractField<SymmetricZrElement> {
         this(new SecureRandom(), order, nqr);
     }
 
-    public SymmetricZrField(Random random, BigInteger order, BigInteger nqr) {
+    public SymmetricZrField(SecureRandom random, BigInteger order, BigInteger nqr) {
         super(random);
         this.order = order;
         this.orderIsOdd = BigIntegerUtils.isOdd(order);

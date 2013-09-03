@@ -5,7 +5,7 @@ import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
 import it.unisa.dia.gas.jpbc.Field;
 
 import java.math.BigInteger;
-import java.util.Random;
+import java.security.SecureRandom;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -13,10 +13,10 @@ import java.util.Random;
 public abstract class AbstractField<E extends Element> implements Field<E> {
 
     protected boolean orderIsOdd = false;
-    protected Random random;
+    protected SecureRandom random;
 
 
-    protected AbstractField(Random random) {
+    protected AbstractField(SecureRandom random) {
         this.random = random;
     }
 
@@ -80,15 +80,15 @@ public abstract class AbstractField<E extends Element> implements Field<E> {
         return a;
     }
 
-    public ElementPowPreProcessing setElementPowPreProcessingFromBytes(byte[] source) {
+    public ElementPowPreProcessing getElementPowPreProcessingFromBytes(byte[] source) {
         return new AbstractElementPowPreProcessing(this, AbstractElementPowPreProcessing.DEFAULT_K, source, 0);
     }
 
-    public ElementPowPreProcessing setElementPowPreProcessingFromBytes(byte[] source, int offset) {
+    public ElementPowPreProcessing getElementPowPreProcessingFromBytes(byte[] source, int offset) {
         return new AbstractElementPowPreProcessing(this, AbstractElementPowPreProcessing.DEFAULT_K, source, offset);
     }
 
-    public Random getRandom() {
+    public SecureRandom getRandom() {
         return random;
     }
 }

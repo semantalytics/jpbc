@@ -11,7 +11,6 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.AbstractPairing;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.util.Random;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -36,7 +35,7 @@ public class TypeA1Pairing extends AbstractPairing {
         this(new SecureRandom(), params);
     }
 
-    public TypeA1Pairing(Random random, PairingParameters params) {
+    public TypeA1Pairing(SecureRandom random, PairingParameters params) {
         super(random);
 
         initParams(params);

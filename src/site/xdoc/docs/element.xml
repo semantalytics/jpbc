@@ -201,7 +201,7 @@ byte[] pppBytes = ppp.toBytes();
                 To get back an ElementPowPreProcessing object from a byte array
                 do the following
                 <source xml:space="preserve">
-ElementPowPreProcessing ppp = e.getField().setElementPowPreProcessingFromBytes(pppBytes);
+ElementPowPreProcessing ppp = e.getField().getElementPowPreProcessingFromBytes(pppBytes);
                 </source>
             </subsection>
             

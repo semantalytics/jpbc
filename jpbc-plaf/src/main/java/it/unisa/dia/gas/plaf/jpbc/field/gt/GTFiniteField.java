@@ -5,7 +5,7 @@ import it.unisa.dia.gas.plaf.jpbc.field.base.AbstractFieldOver;
 import it.unisa.dia.gas.plaf.jpbc.pairing.map.PairingMap;
 
 import java.math.BigInteger;
-import java.util.Random;
+import java.security.SecureRandom;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -15,7 +15,7 @@ public class GTFiniteField<F extends Field> extends AbstractFieldOver<F, GTFinit
     protected BigInteger order;
 
 
-    public GTFiniteField(Random random, BigInteger order, PairingMap pairing, Field targetField) {
+    public GTFiniteField(SecureRandom random, BigInteger order, PairingMap pairing, Field targetField) {
         super(random, (F) targetField);
 
         this.order = order;

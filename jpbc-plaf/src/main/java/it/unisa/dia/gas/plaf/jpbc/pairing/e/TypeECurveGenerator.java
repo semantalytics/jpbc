@@ -12,17 +12,16 @@ import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.util.Random;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class TypeECurveGenerator implements CurveGenerator {
-    protected Random random;
+    protected SecureRandom random;
     protected int rBits, qBits;
 
 
-    public TypeECurveGenerator(Random random, int rBits, int qBits) {
+    public TypeECurveGenerator(SecureRandom random, int rBits, int qBits) {
         this.random = random;
         this.rBits = rBits;
         this.qBits = qBits;

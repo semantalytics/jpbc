@@ -6,7 +6,7 @@ package it.unisa.dia.gas.jpbc.android.benchmark;
 public class Benchmark {
     public static final String[] pairingBenchmarkNames = new String[]{
             "Pairing#pairing(in1, in2)",
-            "Pairing#pairing(in1)",
+            "Pairing#getPairingPreProcessingFromElement(in1)",
             "PairingPreProcessing#pairing(in2)",
     };
 

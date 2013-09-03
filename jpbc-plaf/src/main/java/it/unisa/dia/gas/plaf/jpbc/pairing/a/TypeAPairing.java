@@ -11,7 +11,6 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.AbstractPairing;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.util.Random;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -39,7 +38,7 @@ public class TypeAPairing extends AbstractPairing {
     protected Field<? extends Point> Eq;
 
 
-    public TypeAPairing(Random random, PairingParameters params) {
+    public TypeAPairing(SecureRandom random, PairingParameters params) {
         super(random);
 
         initParams(params);

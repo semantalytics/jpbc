@@ -9,7 +9,7 @@ import java.util.List;
 public class JPBCBenchmark implements Benchmark {
     public static final String[] pairingBenchmarkNames = new String[]{
             "Pairing#pairing(in1, in2)",
-            "Pairing#pairing(in1)",
+            "Pairing#getPairingPreProcessingFromElement(in1)",
             "PairingPreProcessing#pairing(in2)",
     };
 

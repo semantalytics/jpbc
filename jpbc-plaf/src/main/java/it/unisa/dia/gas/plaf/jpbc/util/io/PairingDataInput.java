@@ -86,41 +86,13 @@ public class PairingDataInput implements DataInput {
     }
 
     public Field readField() throws IOException {
-        Pairing.PairingFieldIdentifier identifier = Pairing.PairingFieldIdentifier.values()[readInt()];
-        switch (identifier) {
-            case G1:
-                return pairing.getG1();
-            case G2:
-                return pairing.getG2();
-            case GT:
-                return pairing.getGT();
-            case Zr:
-                return pairing.getZr();
-            default:
-                throw new IllegalArgumentException("Illegal Field Identifier.");
-        }
+        int identifier = readInt();
+        return pairing.getFieldAt(identifier);
     }
 
 
-    public Element readElement(Pairing.PairingFieldIdentifier fieldIdentifier) throws IOException {
-        Element e;
-        switch (fieldIdentifier) {
-            case G1:
-                e = pairing.getG1().newElement();
-                break;
-            case G2:
-                e = pairing.getG2().newElement();
-                break;
-            case GT:
-                e = pairing.getGT().newElement();
-                break;
-            case Zr:
-                e = pairing.getZr().newElement();
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid Field Type.");
-        }
-
+    public Element readElement(int fieldIdentifier) throws IOException {
+        Element e = pairing.getFieldAt(fieldIdentifier).newElement();
         byte[] buffer = new byte[readInt()];
         readFully(buffer);
         e.setFromBytes(buffer);
@@ -128,7 +100,7 @@ public class PairingDataInput implements DataInput {
         return e;
     }
 
-    public Element[] readElements(Pairing.PairingFieldIdentifier identifier) throws IOException{
+    public Element[] readElements(int identifier) throws IOException{
         int num = readInt();
         Element[] elements = new Element[num];
         for (int i = 0; i < num; i++) {
@@ -143,7 +115,7 @@ public class PairingDataInput implements DataInput {
         byte[] buffer = new byte[size];
         readFully(buffer);
 
-        return getPairing().pairing(buffer, 0);
+        return getPairing().getPairingPreProcessingFromBytes(buffer, 0);
     }
 
     public ElementPowPreProcessing readElementPowPreProcessing() throws IOException {
@@ -155,7 +127,7 @@ public class PairingDataInput implements DataInput {
         byte[] buffer = new byte[size];
         readFully(buffer);
 
-        return field.setElementPowPreProcessingFromBytes(buffer, 0);
+        return field.getElementPowPreProcessingFromBytes(buffer, 0);
     }
 
     public int[] readInts() throws IOException {

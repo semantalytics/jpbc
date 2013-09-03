@@ -84,7 +84,7 @@ public class CTL13MMPairing implements Pairing {
         throw new IllegalStateException("Not Implemented yet!");
     }
 
-    public PairingPreProcessing pairing(Element in1) {
+    public PairingPreProcessing getPairingPreProcessingFromElement(Element in1) {
         throw new IllegalStateException("Not Implemented yet!");
     }
 
@@ -92,20 +92,16 @@ public class CTL13MMPairing implements Pairing {
         throw new IllegalStateException("Not Implemented yet!");
     }
 
-    public PairingPreProcessing pairing(byte[] source) {
+    public PairingPreProcessing getPairingPreProcessingFromBytes(byte[] source) {
         throw new IllegalStateException("Not Implemented yet!");
     }
 
-    public PairingPreProcessing pairing(byte[] source, int offset) {
+    public PairingPreProcessing getPairingPreProcessingFromBytes(byte[] source, int offset) {
         throw new IllegalStateException("Not Implemented yet!");
     }
 
-    public PairingFieldIdentifier getPairingFieldIdentifier(Field field) {
+    public int getFieldIndex(Field field) {
         throw new IllegalStateException("Not Implemented yet!");
-    }
-
-    public Field getField(PairingFieldIdentifier id) {
-        return getFieldAt(id.ordinal());
     }
 
     public CTL13MMInstance getCTL13MMInstance() {

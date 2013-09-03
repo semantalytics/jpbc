@@ -8,17 +8,16 @@ import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.util.Random;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class TypeA1CurveGenerator implements CurveGenerator {
-    protected Random random;
+    protected SecureRandom random;
     protected int numPrimes, bits;
 
 
-    public TypeA1CurveGenerator(Random random, int numPrimes, int bits) {
+    public TypeA1CurveGenerator(SecureRandom random, int numPrimes, int bits) {
         this.random = random;
         this.numPrimes = numPrimes;
         this.bits = bits;

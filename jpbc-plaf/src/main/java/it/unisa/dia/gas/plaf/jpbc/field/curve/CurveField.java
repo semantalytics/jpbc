@@ -6,14 +6,14 @@ import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.plaf.jpbc.field.base.AbstractFieldOver;
 
 import java.math.BigInteger;
-import java.util.Random;
+import java.security.SecureRandom;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class CurveField<F extends Field> extends AbstractFieldOver<F, CurveElement> {
 
-    public static <F extends Field> CurveField<F> newCurveFieldJ(Random random, Element j, BigInteger order, BigInteger cofac) {
+    public static <F extends Field> CurveField<F> newCurveFieldJ(SecureRandom random, Element j, BigInteger order, BigInteger cofac) {
         // Assumes j != 0, 1728
 
         Element a, b;
@@ -43,11 +43,11 @@ public class CurveField<F extends Field> extends AbstractFieldOver<F, CurveEleme
     protected BigInteger quotientCmp = null;
 
 
-    public CurveField(Random random, Element a, Element b, BigInteger order) {
+    public CurveField(SecureRandom random, Element a, Element b, BigInteger order) {
         this(random, a, b, order, (BigInteger) null);
     }
 
-    public CurveField(Random random, Element a, Element b, BigInteger order, byte[] gen) {
+    public CurveField(SecureRandom random, Element a, Element b, BigInteger order, byte[] gen) {
         super(random, (F) a.getField());
 
         this.a = a;
@@ -57,7 +57,7 @@ public class CurveField<F extends Field> extends AbstractFieldOver<F, CurveEleme
         this.gen.setFromBytes(gen);
     }
 
-    public CurveField(Random random, Element a, Element b, BigInteger order, BigInteger cofac) {
+    public CurveField(SecureRandom random, Element a, Element b, BigInteger order, BigInteger cofac) {
         super(random, (F) a.getField());
 
         this.a = a;
@@ -68,7 +68,7 @@ public class CurveField<F extends Field> extends AbstractFieldOver<F, CurveEleme
         initGen();
     }
 
-    public CurveField(Random random, Element a, Element b, BigInteger order, BigInteger cofac, byte[] genNoCofac) {
+    public CurveField(SecureRandom random, Element a, Element b, BigInteger order, BigInteger cofac, byte[] genNoCofac) {
         super(random, (F) a.getField());
 
         this.random = random;
@@ -80,7 +80,7 @@ public class CurveField<F extends Field> extends AbstractFieldOver<F, CurveEleme
         initGen(genNoCofac);
     }
 
-    public CurveField(Random random, Element b, BigInteger order, BigInteger cofac) {
+    public CurveField(SecureRandom random, Element b, BigInteger order, BigInteger cofac) {
         this(random, b.getField().newZeroElement(), b, order, cofac);
     }
 

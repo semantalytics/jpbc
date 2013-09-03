@@ -4,7 +4,7 @@ import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.FieldOver;
 
-import java.util.Random;
+import java.security.SecureRandom;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -13,7 +13,7 @@ public abstract class AbstractFieldOver<F extends Field, E extends Element> exte
     protected F targetField;
 
 
-    protected AbstractFieldOver(Random random, F targetField) {
+    protected AbstractFieldOver(SecureRandom random, F targetField) {
         super(random);
         this.targetField = targetField;
     }

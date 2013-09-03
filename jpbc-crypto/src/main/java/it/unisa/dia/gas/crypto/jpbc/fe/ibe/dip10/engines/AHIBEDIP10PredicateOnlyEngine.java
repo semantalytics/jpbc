@@ -13,9 +13,6 @@ import it.unisa.dia.gas.plaf.jpbc.util.io.PairingStreamReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-import static it.unisa.dia.gas.jpbc.Pairing.PairingFieldIdentifier.G1;
-import static it.unisa.dia.gas.jpbc.Pairing.PairingFieldIdentifier.GT;
-
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
@@ -39,7 +36,7 @@ public class AHIBEDIP10PredicateOnlyEngine extends PredicateOnlyPairingAsymmetri
         if (key instanceof AHIBEDIP10SecretKeyParameters) {
             // Convert bytes to Elements...
 
-            Element[] Cs = new PairingStreamReader(pairing, in, inOff).readElements(GT, G1, G1);
+            Element[] Cs = new PairingStreamReader(pairing, in, inOff).readElements(3,1,1);
 
             // Run the test
             AHIBEDIP10SecretKeyParameters sk = (AHIBEDIP10SecretKeyParameters) key;

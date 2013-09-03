@@ -12,18 +12,17 @@ import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.util.Random;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class TypeACurveGenerator implements CurveGenerator {
-    protected Random random;
+    protected SecureRandom random;
     protected int rbits, qbits;
     protected boolean generateCurveFieldGen;
 
 
-    public TypeACurveGenerator(Random random, int rbits, int qbits, boolean generateCurveFieldGen) {
+    public TypeACurveGenerator(SecureRandom random, int rbits, int qbits, boolean generateCurveFieldGen) {
         this.random = random;
         this.rbits = rbits;
         this.qbits = qbits;

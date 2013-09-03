@@ -12,7 +12,6 @@ import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.util.Random;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -20,11 +19,11 @@ import java.util.Random;
  * for some b \in F_q.
  */
 public class TypeFCurveGenerator implements CurveGenerator {
-    protected Random random;
+    protected SecureRandom random;
     protected int rBits; // The number of bits in r, the order of the subgroup G1
 
 
-    public TypeFCurveGenerator(Random random, int rBits) {
+    public TypeFCurveGenerator(SecureRandom random, int rBits) {
         this.random = random;
         this.rBits = rBits;
     }

@@ -4,7 +4,7 @@ import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.plaf.jpbc.field.base.AbstractFieldOver;
 
 import java.math.BigInteger;
-import java.util.Random;
+import java.security.SecureRandom;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -14,7 +14,7 @@ public class QuadraticField<F extends Field, E extends QuadraticElement> extends
     protected int fixedLengthInBytes;
 
 
-    public QuadraticField(Random random, F targetField) {
+    public QuadraticField(SecureRandom random, F targetField) {
         super(random, targetField);
 
         this.order = targetField.getOrder().multiply(targetField.getOrder());

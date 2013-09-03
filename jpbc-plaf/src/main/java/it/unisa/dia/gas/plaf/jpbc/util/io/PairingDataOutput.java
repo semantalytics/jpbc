@@ -109,7 +109,7 @@ public class PairingDataOutput implements DataOutput {
         if (processing instanceof ElementPowPreProcessing) {
             // write additional information on the field
             ElementPowPreProcessing powPreProcessing = (ElementPowPreProcessing) processing;
-            writePairingFieldIdentifier(powPreProcessing.getField());
+            writePairingFieldIndex(powPreProcessing.getField());
         }
 
         writeInt(buffer.length);
@@ -175,11 +175,11 @@ public class PairingDataOutput implements DataOutput {
         }
     }
 
-    protected void writePairingFieldIdentifier(Field field) throws IOException {
-        Pairing.PairingFieldIdentifier identifier = getPairing().getPairingFieldIdentifier(field);
-        if (identifier == Pairing.PairingFieldIdentifier.Unknown)
+    protected void writePairingFieldIndex(Field field) throws IOException {
+        int index = getPairing().getFieldIndex(field);
+        if (index == -1)
             throw new IllegalArgumentException("The field does not belong to the current pairing instance.");
-        writeInt(identifier.ordinal());
+        writeInt(index);
     }
 
 }

@@ -130,7 +130,7 @@ public interface Field<E extends Element> {
      * @return the ElementPowPreProcessing instance.
      * @since 1.2.0
      */
-    ElementPowPreProcessing setElementPowPreProcessingFromBytes(byte[] source);
+    ElementPowPreProcessing getElementPowPreProcessingFromBytes(byte[] source);
 
     /**
      * Reads an ElementPowPreProcessing from the buffer source starting from offset.
@@ -140,5 +140,5 @@ public interface Field<E extends Element> {
      * @return the ElementPowPreProcessing instance.
      * @since 1.2.0
      */
-    ElementPowPreProcessing setElementPowPreProcessingFromBytes(byte[] source, int offset);
+    ElementPowPreProcessing getElementPowPreProcessingFromBytes(byte[] source, int offset);
 }

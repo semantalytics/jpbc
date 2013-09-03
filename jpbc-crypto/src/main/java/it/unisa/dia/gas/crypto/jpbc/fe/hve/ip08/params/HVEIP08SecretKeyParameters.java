@@ -102,8 +102,8 @@ public class HVEIP08SecretKeyParameters extends HVEIP08KeyParameters {
             Element Y = getYAt(i);
             Element L = getLAt(i);
 
-            preY[i] = Y != null ? pairing.pairing(Y) : null;
-            preL[i] = L != null ? pairing.pairing(L) : null;
+            preY[i] = Y != null ? pairing.getPairingPreProcessingFromElement(Y) : null;
+            preL[i] = L != null ? pairing.getPairingPreProcessingFromElement(L) : null;
 
         }
 

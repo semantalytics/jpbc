@@ -8,6 +8,8 @@
     </properties>
 
     <body>
+        <script type="text/javascript" src="http://latex.codecogs.com/latexit.js"/>
+
         <section name="Pairing for Cryptography">
 
             <subsection name="Bilinear Setting">
@@ -27,37 +29,35 @@
                     <span lang="latex">g_2</span>
                     be a generator of
                     <span lang="latex">\mathbb{G}_2</span>.
-                    A
-                    <strong>bilinear pairing</strong>
-                    or
-                    <strong>bilinear map</strong>
+                    A <span class="em">bilinear pairing</span>
+                    or <span class="em">bilinear map</span>
                     is an efficiently computable function
                     <span lang="latex">e : \mathbb{G}_1 \times \mathbb{G}_2 \leftarrow \mathbb{G}_T</span>
                     such that:
                 </p>
                 <ol>
                     <li>
-                        <strong>Bilinearity</strong>: for all <span lang="latex">a,b\in\mathbb{Z}_r</span>
+                        <span class="em">Bilinearity</span>: for all <span lang="latex">a,b\in\mathbb{Z}_r</span>
                         (the ring of integers modulo r)
                         it holds that
                         <span lang="latex">e(g_1^a,g_2^b) = e(g_1,g_2)^{ab}</span>
                     </li>
                     <li>
-                        <strong>Non-degeneracy</strong>: <span lang="latex">e(g_1,g_2)\ne 1</span>.
+                        <span class="em">Non-degeneracy</span>: <span lang="latex">e(g_1,g_2)\ne 1</span>.
                     </li>
                 </ol>
                 <p>
                     The tuple
                     <span lang="latex">(r,g_1,g_2,\mathbb{G}_1,\mathbb{G}_2,\mathbb{G}_T)</span>
                     is called
-                    <strong>asymmetric bilinear setting</strong>.
-                    If
+                    <span class="em">asymmetric bilinear setting</span>.
+                    On the other hand, if
                     <span lang="latex">\mathbb{G}_1=\mathbb{G}_2=\mathbb{G}</span>
                     and g is a generator of
                     <span lang="latex">\mathbb{G}</span>
                     then the tuple
-                    <span lang="latex">\(r,g,\mathbb{G},\mathbb{G}_T)</span> is a
-                    <strong>symmetric bilinear setting</strong>.
+                    <span lang="latex">\(r,g,\mathbb{G},\mathbb{G}_T)</span> is called
+                    <span class="em">symmetric bilinear setting</span>.
                     In the symmetric setting the order of
                     <span lang="latex">\mathbb{G}</span>
                     and
@@ -67,7 +67,7 @@
                 <p>
                     The cryptographic relevance of a bilinear mapping stems from the fact that in cyclic
                     groups that admit such a mapping the
-                    <strong>Decisional Diffie-Hellman</strong>
+                    <span class="em">Decisional Diffie-Hellman</span>
                     assumption does not hold.
                     Indeed, given
                     <span lang="latex">(g,g^x,g^y,g^z)</span>
@@ -82,15 +82,27 @@
             </subsection>
 
             <subsection name="Multilinear Setting">
-                <script type="text/javascript" src="http://latex.codecogs.com/latexit.js"/>
-
+                <p>
                 An <span lang="latex">\ell</span>-group system consists of <span lang="latex">\ell</span>
                 cyclic groups <span lang="latex">\mathbb{G}_1,\ldots,\mathbb{G}_\ell</span>
-                of prime order <span lang="latex">p</span>, along with bilinear maps
+                of prime order <span lang="latex">r</span>, along with bilinear maps
                 <span lang="latex">e_{i,j} : \mathbb{G}_i \times  \mathbb{G}_j \rightarrow \mathbb{G}_{i+j}</span>
                 for all <span lang="latex">i,j\geq 1</span>
                 with <span lang="latex">i+j\leq\ell</span>.
-                Let <span lang="latex">g_i</span>
+                Let <span lang="latex">g_i</span> be a canonical generator of
+                <span lang="latex">\mathbb{G}_i</span>,
+                the map <span lang="latex">e_{i,j}(g_i^a,g_j^b)=g_{i+j}^{ab}</span>.
+                Finally, it can also be useful to define the group
+                <span lang="latex">\mathbb{G}_0=\mathbb{Z}_{r}</span>
+                of exponents to which this pairing  naturally extends.
+                </p>
+
+                <p>
+                The tuple
+                <span lang="latex">\{r,\{\mathbb{G}_i,g_i\}_{i\in[\ell]}, \{e_{i,j}\}_{i,j\geq 1, i+j\leq\ell}\}</span>
+                is called
+                <span class="em">multilinear setting</span>.
+                </p>
             </subsection>
 
             <a name="initializing"/>
@@ -108,56 +120,42 @@
                     interface is by using the factory provided by jPBC.
                     The factory takes in input the pairing parameters
                     and instantiates the appropriate classes.
-                </p>
-
-                <p>
                     To generate the pairing parameters look at this
                     <a href="./parametersgenerator.html">page</a>.
                 </p>
 
                 <p>
-                    Let's now see a few examples of how to use the factory.
+                    Let's now see how to use the factory.
                 </p>
 
-                <ol>
-                    <li>
-                        <p>
-                            Loading the paring parameters from a file.
-                        </p>
-
-                        <p>
-                            Assume that the pairing parameters are stored in a file
-                            called <code>params.properties</code>. Then
-                            JPBC provides a Factory to create instances of the
-                            <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Pairing.html"><code>Pairing</code></a>
-                            interface.
-                        </p>
+                <p>
+                    Assume that the pairing parameters are stored in a file
+                    called <code>params.properties</code> which is available in the working director.
+                    Then, the following code can be used to instantiate the Pairing interface
+                    with parameters loaded from <code>params.properties</code>.
+                </p>
 <source>import it.unisa.dia.gas.jpbc.*;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
 Pairing pairing = PairingFactory.getPairing("params.properties");
 </source>
-                    </li>
-                    <li>
-                        <p>
-                            Generate on fly
-                        </p>
-<source>import it.unisa.dia.gas.jpbc.*;
-import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
-
-// Enable the usage of the PBC wrapper when possible.
-PairingFactory.getInstance().setUsePBCWhenPossible(true);
-
-Pairing pairing = PairingFactory.getPairing("params.properties");
-</source>
-                    </li>
-                    <p>
-                        Notice that, if PBC and the jPBC wrapper are not installed properly then
-                        the factory will use the jPBC classes instead for the pairing computation.
-                        To know how to install the wrapper have a look
-                        <a href="./pbcwrapper.html">here</a>.
-                    </p>
-                </ol>
+                <p>
+                    To use the wrapper and gain in performance,
+                    the <code>usePBCWhenPossible</code> property of the pairing
+                    factory must be set.
+                </p>
+<source>PairingFactory.getInstance().setUsePBCWhenPossible(true);</source>
+                <p>
+                    Notice that, to effectively use the wrapper
+                    the <code>usePBCWhenPossible</code> property must be set before invoking
+                    the <code>getPairing</code> method.
+                </p>
+                <p>
+                    Moreover, if PBC and the JPBC wrapper are not installed properly then
+                    the factory will resort to the JPBC pairing implementation.
+                    <br/>
+                    The instructions to properly setup the PBC wrapper are <a href="./pbcwrapper.html">here</a>.
+                </p>
             </subsection>
 
             <a name="accessing"/>
@@ -210,14 +208,9 @@ Field GT = pairing.getFieldAt(3);
 <source xml:space="preserve">int degree = pairing.getDegree();</source>
 
                 <p>
-                In particular, if <code>degree</code> is larger than two then there are
-                <code>degree</code> algebraic structures available indexed from
-                <code>0</code> to <code>degree-1</code>.
-                The algebraic structure at level zero can be thought
-                as the equivalent of <code>Zr</code>.
-                <br/>
-                Bilinear maps have degree two but in this case there are four
-                algebraic structures available.
+                In particular, there are
+                <code>degree+1</code> algebraic structures available indexed from
+                <code>0</code> to <code>degree</code>.
                 </p>
 
                 <p>
@@ -232,43 +225,26 @@ Field GT = pairing.getFieldAt(3);
             <subsection name="Applying pairings">
                 <p>
                     The <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Pairing.html"><code>Pairing</code></a>
-                    provides methods to apply the pairing function.
+                    interface provides methods to apply the pairing function.
 
-                    Given two elements <code>in1, in2</code>, belonging
+                    Given two elements <code>Element in1, in2</code>, belonging
                     to the appropriate algebraic structures, their pairing
                     can be computed by invoking the <code>pairing</code>
-                    methods on input <code>in1</code> and <code>in2</code>
+                    method on input <code>in1</code> and <code>in2</code>
                     as follows:
                 </p>
 <source>Element out = pairing.pairing(in1, in2);</source>
 
-                For symmetric bilinear settings, both inputs must lie in
-                <code>G1</code>.
-                For asymmetric bilinear settings, <code>in1</code>
-                must be in <code>G1</code> and <code>in2</code>
-                in <code>G2</code>.
-
-                <br/>
-                For multilinear settings of degree <code>degree</code>,
-                let <code>in1</code> be in <code>Gi</code> and
-                <code>in2</code> be in <code>Gj</code>,
-                with <code>i,j</code> in <code>[1..degree]</code>,
-                it must hold that <code>i+j &lt; degree</code>.
-
-
                 <p>
-                    Furthermore, you can compute the product of pairings in one shot using
-                    the following code:
+                    Furthermore, the <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Pairing.html"><code>Pairing</code></a>
+                    interface let us compute the product of pairings.
+                    Given two vectors of the same length <code>Element[] in1, in2</code>
+                    of elements belonging to the appropriate algebraic structures,
+                    their product pairing can be computed by invoking the <code>pairing</code>
+                    method on input <code>in1</code> and <code>in2</code>
+                    as follows:
                 </p>
 <source xml:space="preserve">
-Element in1[] = new Element[5];
-for (int i = 0; i &lt; 5; i++)
-in1[i] = pairing.get<code>G1</code>().newRandomElement();
-
-Element in2[] = new Element[5];
-for (int i = 0; i &lt; 5; i++)
-in2[i] = pairing.get<code>G2</code>().newRandomElement();
-
 Element out = pairing.pairing(in1, in2);
 </source>
             </subsection>
@@ -276,7 +252,7 @@ Element out = pairing.pairing(in1, in2);
             <a name="preprocessing"/>
             <subsection name="Preprocessing">
                 <p>
-                    If it is known in advance that a particular value (in <code>G1</code>)
+                    If it is known in advance that a particular value
                     will be paired several times
                     then time can be saved in the
                     long run by using preprocessing.
@@ -286,14 +262,14 @@ Element out = pairing.pairing(in1, in2);
 /* Get ready to perform a pairing whose first input is in1,
 store the results of time-saving precomputation in ppp. */
 
-Element in1 = pairing.get<code>G1</code>().newRandomElement();
+Element in1 = pairing.getG1().newRandomElement();
 PairingPreProcessing ppp = pairing.pairing(in1);
 
 /* Compute the pairing using in2 and the preprocessed information
 stored in ppp. The inputs to the pairing are the element
 previously used to initialize ppp and the element in2. */
 
-Element in2 = pairing.get<code>G2</code>().newRandomElement();
+Element in2 = pairing.getG2().newRandomElement();
 Element out = ppp.pairing(in2);
 </source>
 
@@ -311,7 +287,7 @@ byte[] pppBytes = ppp.toBytes();
                     use the following code:
                 </p>
 <source xml:space="preserve">
-PairingPreProcessing ppp = pairing.pairing(pppBytes);
+PairingPreProcessing ppp = pairing.getPairingPreProcessingFromBytes(pppBytes);
 </source>
             </subsection>
         </section>

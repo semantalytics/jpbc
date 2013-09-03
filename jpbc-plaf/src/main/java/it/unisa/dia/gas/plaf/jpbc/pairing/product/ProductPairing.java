@@ -7,7 +7,7 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.accumulator.PairingAccumulatorFactory;
 import it.unisa.dia.gas.plaf.jpbc.pairing.accumulator.ProductPairingAccumulator;
 import it.unisa.dia.gas.plaf.jpbc.pairing.map.AbstractMillerPairingPreProcessing;
 
-import java.util.Random;
+import java.security.SecureRandom;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
@@ -18,7 +18,7 @@ public class ProductPairing implements Pairing {
 
     protected Field G1, G2;
 
-    public ProductPairing(Random random, Pairing basePairing, int n) {
+    public ProductPairing(SecureRandom random, Pairing basePairing, int n) {
         this.basePairing = basePairing;
 
         this.G1 = new VectorField(random, basePairing.getG1(), n);
@@ -90,7 +90,7 @@ public class ProductPairing implements Pairing {
         return combiner.awaitResult();
     }
 
-    public PairingPreProcessing pairing(final Element in1) {
+    public PairingPreProcessing getPairingPreProcessingFromElement(final Element in1) {
         return new AbstractMillerPairingPreProcessing() {
             public Element pairing(Element in2) {
                 return ProductPairing.this.pairing(in1, in2);
@@ -102,11 +102,11 @@ public class ProductPairing implements Pairing {
         throw new IllegalStateException("Not implemented yet!!!");
     }
 
-    public PairingPreProcessing pairing(byte[] source) {
+    public PairingPreProcessing getPairingPreProcessingFromBytes(byte[] source) {
         throw new IllegalStateException("Not implemented yet!!!");
     }
 
-    public PairingPreProcessing pairing(byte[] source, int offset) {
+    public PairingPreProcessing getPairingPreProcessingFromBytes(byte[] source, int offset) {
         throw new IllegalStateException("Not implemented yet!!!");
     }
 
@@ -114,20 +114,8 @@ public class ProductPairing implements Pairing {
         throw new IllegalStateException("Not implemented yet!!!");
     }
 
-    public PairingFieldIdentifier getPairingFieldIdentifier(Field field) {
+    public int getFieldIndex(Field field) {
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
-    public Field getField(PairingFieldIdentifier id) {
-        switch (id) {
-            case G1:
-                return G1;
-            case G2:
-                return G2;
-            case GT:
-                return basePairing.getGT();
-            default:
-                throw new IllegalArgumentException("Invalid Identifier.");
-        }
-    }
 }
