@@ -147,7 +147,7 @@ public class AndroidBenchmark {
         return benchmark;
     }
 
-    protected Parameters getParameters(String curve) {
+    protected PairingParameters getParameters(String curve) {
         return PairingFactory.getInstance().loadParameters(curve);
     }
 
