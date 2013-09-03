@@ -85,8 +85,11 @@ public class PairingFactory {
         if (parameters == null)
             throw new IllegalArgumentException("parameters cannot be null.");
 
+        if (random == null)
+            random = new SecureRandom();
+
         Pairing pairing = null;
-        if (reuseInstance && random == null) {
+        if (reuseInstance) {
             pairing = instances.get(parameters);
             if (pairing != null)
                 return pairing;
