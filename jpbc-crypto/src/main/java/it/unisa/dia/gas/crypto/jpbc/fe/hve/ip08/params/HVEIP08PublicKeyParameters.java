@@ -65,8 +65,8 @@ public class HVEIP08PublicKeyParameters extends HVEIP08KeyParameters {
             List<ElementPow> listT = new ArrayList<ElementPow>(attributeNum);
             List<ElementPow> listV = new ArrayList<ElementPow>(attributeNum);
             for (int j = 0; j < attributeNum; j++) {
-                listT.add(getTAt(i, j).pow());
-                listV.add(getVAt(i, j).pow());
+                listT.add(getTAt(i, j).getElementPowPreProcessing());
+                listV.add(getVAt(i, j).getElementPowPreProcessing());
             }
 
             preT.add(listT);

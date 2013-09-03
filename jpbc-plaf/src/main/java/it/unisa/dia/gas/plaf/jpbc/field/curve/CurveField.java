@@ -353,7 +353,7 @@ public class CurveField<F extends Field> extends AbstractFieldOver<F, CurveEleme
 
     public ElementPow getGenPow() {
         if (genPow == null)
-            genPow = gen.pow();
+            genPow = gen.getElementPowPreProcessing();
         return genPow;
     }
 

@@ -255,7 +255,7 @@ public class PBCElement implements Element {
 
     }
 
-    public ElementPowPreProcessing pow() {
+    public ElementPowPreProcessing getElementPowPreProcessing() {
         return new PBCElementPowPreProcessing(field, value);
     }
 

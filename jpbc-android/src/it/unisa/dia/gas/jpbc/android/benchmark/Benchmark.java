@@ -13,7 +13,7 @@ public class Benchmark {
     public static final String[] elementBenchmarkNames = new String[]{
             "Element#pow(BigInteger)",
             "Element#powZn(Element)",
-            "Element#pow()",
+            "Element#getElementPowPreProcessing()",
             "ElementPowPreProcessing#pow(BigInteger)",
             "ElementPowPreProcessing#powZn(Element)",
             "Element#mul(BigInteger)",

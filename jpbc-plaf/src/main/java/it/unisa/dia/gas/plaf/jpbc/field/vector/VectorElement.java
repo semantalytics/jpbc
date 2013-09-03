@@ -219,7 +219,7 @@ public class VectorElement<E extends Element> extends AbstractVectorElement<E> {
         return this;
     }
 
-    public ElementPowPreProcessing pow() {
+    public ElementPowPreProcessing getElementPowPreProcessing() {
         return new VectorElementPowPreProcessing(this);
     }
 

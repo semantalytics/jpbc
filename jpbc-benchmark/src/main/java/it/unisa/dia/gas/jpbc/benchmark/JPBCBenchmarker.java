@@ -110,7 +110,7 @@ public class JPBCBenchmarker implements Benchmarker {
                     t2 += Math.abs((end - start));
 
                     start = System.currentTimeMillis();
-                    ElementPowPreProcessing ppp = e1.pow();
+                    ElementPowPreProcessing ppp = e1.getElementPowPreProcessing();
                     end = System.currentTimeMillis();
                     t3 += Math.abs((end - start));
 

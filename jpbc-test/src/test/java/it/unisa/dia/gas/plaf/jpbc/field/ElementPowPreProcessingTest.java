@@ -110,7 +110,7 @@ public class ElementPowPreProcessingTest extends AbstractJPBCTest {
 
         BigInteger n = pairing.getZr().newElement().setToRandom().toBigInteger();
 
-        Element r1 = base.pow().pow(n);
+        Element r1 = base.getElementPowPreProcessing().pow(n);
         Element r2 = base.pow(n);
 
         assertTrue(r1.isEqual(r2));
@@ -122,7 +122,7 @@ public class ElementPowPreProcessingTest extends AbstractJPBCTest {
 
         Element n = pairing.getZr().newElement().setToRandom();
 
-        Element r1 = base.pow().powZn(n);
+        Element r1 = base.getElementPowPreProcessing().powZn(n);
         Element r2 = base.powZn(n);
 
         assertTrue(r1.isEqual(r2));
@@ -132,7 +132,7 @@ public class ElementPowPreProcessingTest extends AbstractJPBCTest {
     public void testPowPreProcessingBytes() {
         Element base = field.newElement().setToRandom().getImmutable();
 
-        ElementPowPreProcessing ppp1 = base.pow();
+        ElementPowPreProcessing ppp1 = base.getElementPowPreProcessing();
         ElementPowPreProcessing ppp2 = base.getField().getElementPowPreProcessingFromBytes(ppp1.toBytes());
 
         Element n = pairing.getZr().newElement().setToRandom();

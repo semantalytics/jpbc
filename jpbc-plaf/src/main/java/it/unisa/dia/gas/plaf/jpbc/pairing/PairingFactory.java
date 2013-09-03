@@ -70,11 +70,11 @@ public class PairingFactory {
 
 
     public Pairing initPairing(String parametersPath) {
-        return initPairing(loadParameters(parametersPath), null);
+        return initPairing(loadParameters(parametersPath), new SecureRandom());
     }
 
     public Pairing initPairing(PairingParameters parameters) {
-        return initPairing(parameters, null);
+        return initPairing(parameters, new SecureRandom());
     }
 
     public Pairing initPairing(String parametersPath, SecureRandom random) {

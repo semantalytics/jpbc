@@ -83,7 +83,7 @@ public class HVEIP08Parameters implements CipherParameters {
         if (preProcessed)
             return;
 
-        this.powG = g.pow();
+        this.powG = g.getElementPowPreProcessing();
         this.preProcessed = true;
     }
 

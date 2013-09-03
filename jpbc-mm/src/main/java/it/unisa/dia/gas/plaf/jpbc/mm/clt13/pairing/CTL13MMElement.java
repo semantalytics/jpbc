@@ -263,7 +263,7 @@ public class CTL13MMElement implements Element {
         return this;
     }
 
-    public ElementPowPreProcessing pow() {
+    public ElementPowPreProcessing getElementPowPreProcessing() {
         throw new IllegalStateException("Not Implemented yet!");
     }
 

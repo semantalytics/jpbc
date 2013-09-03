@@ -61,7 +61,7 @@ public abstract class AbstractElement implements Element {
         return pow(n.toBigInteger());
     }
 
-    public ElementPowPreProcessing pow() {
+    public ElementPowPreProcessing getElementPowPreProcessing() {
         return new AbstractElementPowPreProcessing(this, AbstractElementPowPreProcessing.DEFAULT_K);
     }
 

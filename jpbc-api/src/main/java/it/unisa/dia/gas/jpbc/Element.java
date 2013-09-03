@@ -317,7 +317,7 @@ public interface Element extends ElementPow {
      * @return the pre-processing information used to execute the exponentation of this element.
      * @see it.unisa.dia.gas.jpbc.ElementPowPreProcessing
      */
-    ElementPowPreProcessing pow();
+    ElementPowPreProcessing getElementPowPreProcessing();
 
     /**
      * Sets this = sqrt(this).

@@ -146,7 +146,7 @@ public class CTL13MMImmutableElement extends CTL13MMElement {
         return duplicate().powZn(n);
     }
 
-    public ElementPowPreProcessing pow() {
+    public ElementPowPreProcessing getElementPowPreProcessing() {
         throw new IllegalStateException("Not Implemented yet!");
     }
 

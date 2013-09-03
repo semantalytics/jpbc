@@ -26,7 +26,7 @@ public class ElementUtils {
         ElementPow[] target = new ElementPow[source.length];
 
         for (int i = 0; i < target.length; i++) {
-            target[i] = source[i].pow();
+            target[i] = source[i].getElementPowPreProcessing();
         }
 
         return target;
