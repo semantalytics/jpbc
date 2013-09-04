@@ -23,6 +23,7 @@
             <item name="Benchmark" href="benchmark.html"/>
             <item name="Android" href="/docs/android.html"/>
             <item name="Who Uses jPBC?" href="who.html"/>
+            <item name="FAQ" href="faq.html"/>
         </menu>
 
         <menu name="Documentation">
@@ -49,7 +50,7 @@
             </item>
 
             <item name="Parameter Generators" href="/docs/pg.html">
-                <item name="Elliptic Curves" href="/docs/ecpg.html">
+                <item name="Bilinear Maps" href="/docs/ecpg.html">
                     <item name="Type A" href="/docs/ecpg.html#TypeA"/>
                     <item name="Type A1" href="/docs/ecpg.html#TypeA1"/>
                     <item name="Type D" href="/docs/ecpg.html#TypeD"/>
@@ -57,8 +58,8 @@
                     <item name="Type F" href="/docs/ecpg.html#TypeF"/>
                     <item name="Type G" href="/docs/ecpg.html#TypeG"/>
                 </item>
-                <item name="Multilinear Maps" href="/docs/multimaps.html">
-                    <item name="Over the Integers [CTL'13]" href="/docs/multimaps.html#ctl13"/>
+                <item name="Multilinear Maps" href="/docs/mmpg.html">
+                    <item name="Over the Integers [CTL'13]" href="/docs/mmpg.html#ctl13"/>
                 </item>
             </item>
 

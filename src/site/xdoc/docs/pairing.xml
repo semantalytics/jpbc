@@ -140,7 +140,8 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 Pairing pairing = PairingFactory.getPairing("params.properties");
 </source>
                 <p>
-                    To use the wrapper and gain in performance,
+                    For bilinear maps only,
+                    to use the PBC wrapper and gain in performance,
                     the <code>usePBCWhenPossible</code> property of the pairing
                     factory must be set.
                 </p>

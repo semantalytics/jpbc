@@ -1,0 +1,52 @@
+<!DOCTYPE document PUBLIC
+        "-//Apache Software Foundation//DTD XDOC 1.0//EN"
+        "http://maven.apache.org/dtd/xdoc_1_0.dtd">
+<document>
+    <properties>
+        <title>Java Pairing-Based Cryptography Library : Docs - Multilinear Maps</title>
+        <author email="decaro@dia.unisa.it">Angelo De Caro</author>
+    </properties>
+
+    <body>
+        <section name="Multilinear Pairing Parameters Generators">
+
+            <p>
+            We currently do not have candidates for multilinear
+            maps between groups with cryptographically hard problems. However, Garg,
+            Gentry, and Halevi (henceforth GGH) suggest a concrete candidate for an
+            <span class="em">approximation</span> of multilinear maps, named <span class="em">graded encoding systems</span>.
+            With the GGH candidate, group elements have a randomized (and thus non-unique) representation
+            dubbed <span class="em">encoding</span>. While it is possible to extract a unique
+            <span class="em">canonical bistring</span>, it is not possible to perform further computations
+            with this extracted bitstring. An encoding can be re-randomized (e.g., to hide
+            the sequence of operations that were performed), but only at the cost of introducing an
+            artificial <span class="em">noice</span> term in the encoding. Further operation
+            on this group element cause the noise to grow; once this
+            noise grows beyond a certain bound, encodings can no longer be worked with.
+            </p>
+
+
+            <a name="ctl13"/>
+            <subsection name="CTL13">
+                <p>
+                    Coron, Lepoint, and Tibouchi4
+
+                Our main contribution is to describe a dierent construction that works over
+                the integers instead of ideal lattices, similar to the DGHV fully homomorphic encryption scheme
+                [DGHV10] and its batch variant [CCK+13]. Our construction oers the same
+                exibility as the
+                original from [GGH13]; in particular it can be modied to support the analogue of asymmetric
+                maps and composite-order maps. Moreover, it does not seem vulnerable to the \zeroizing" attack
+                that breaks base group hardness assumptions like the analogues of DLIN and subgroup membership
+                for the multilinear maps of [GGH13]. Since those assumptions are believed necessary to adapt
+                constructions of primitives like adaptively secure functional encryption and NIZK, our construction
+                seems even more promising for applications than [GGH13]. In Appendix C, we provide a comparison
+                with the original scheme, to better highlight the similarities
+                </p>
+
+            </subsection>
+
+
+        </section>
+    </body>
+</document>
