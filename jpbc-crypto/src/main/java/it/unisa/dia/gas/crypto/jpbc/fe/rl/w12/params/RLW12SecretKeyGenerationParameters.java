@@ -4,7 +4,7 @@ import it.unisa.dia.gas.crypto.dfa.DFA;
 import org.bouncycastle.crypto.KeyGenerationParameters;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class RLW12SecretKeyGenerationParameters extends KeyGenerationParameters {
 

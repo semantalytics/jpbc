@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 1.0.0
  */
 public class FileChannelDisk<S extends Sector> implements Disk<S> {

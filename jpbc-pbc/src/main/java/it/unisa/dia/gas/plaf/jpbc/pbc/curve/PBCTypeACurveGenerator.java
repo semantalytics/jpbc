@@ -3,7 +3,7 @@ package it.unisa.dia.gas.plaf.jpbc.pbc.curve;
 import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.WrapperLibraryProvider;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class PBCTypeACurveGenerator extends PBCCurveGenerator {
     protected int rbits, qbits;

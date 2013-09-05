@@ -7,7 +7,7 @@ import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.ZERO;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class BigIntegerUtils {
     public static final BigInteger TWO = BigInteger.valueOf(2);

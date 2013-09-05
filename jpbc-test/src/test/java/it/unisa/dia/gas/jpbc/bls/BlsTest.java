@@ -11,7 +11,7 @@ import java.util.Collection;
 import static org.junit.Assert.assertTrue;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class BlsTest extends AbstractJPBCTest {
 

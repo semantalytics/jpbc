@@ -3,7 +3,7 @@ package it.unisa.dia.gas.crypto.circuit;
 import java.util.Iterator;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 2.0.0
  */
 public interface Circuit extends Iterable<Circuit.Gate> {

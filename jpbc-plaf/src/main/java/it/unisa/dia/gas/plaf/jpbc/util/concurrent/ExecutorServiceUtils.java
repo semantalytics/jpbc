@@ -5,7 +5,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 2.0.0
  */
 public class ExecutorServiceUtils {
@@ -36,7 +36,7 @@ public class ExecutorServiceUtils {
 
 
     /**
-     * @author Angelo De Caro (angelo.decaro@gmail.com)
+     * @author Angelo De Caro (jpbclib@gmail.com)
      * @since 2.0.0
      */
     public abstract static class IndexCallable<T> implements Callable<T> {
@@ -53,7 +53,7 @@ public class ExecutorServiceUtils {
     }
 
     /**
-     * @author Angelo De Caro (angelo.decaro@gmail.com)
+     * @author Angelo De Caro (jpbclib@gmail.com)
      * @since 1.2.2
      */
     public abstract static class IndexRunnable implements Runnable {
@@ -70,7 +70,7 @@ public class ExecutorServiceUtils {
     }
 
     /**
-     * @author Angelo De Caro (angelo.decaro@gmail.com)
+     * @author Angelo De Caro (jpbclib@gmail.com)
      * @since 2.0.0
      */
     public abstract static class IntervalCallable<T> implements Callable<T> {

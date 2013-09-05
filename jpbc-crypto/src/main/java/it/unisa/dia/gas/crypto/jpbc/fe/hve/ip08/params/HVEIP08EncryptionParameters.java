@@ -3,7 +3,7 @@ package it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params;
 import java.util.Arrays;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class HVEIP08EncryptionParameters extends HVEIP08KeyParameters {
 

@@ -4,7 +4,7 @@ import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtils;
 import it.unisa.dia.gas.jpbc.Element;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class GGHSW13PublicKeyParameters extends GGHSW13KeyParameters {
 

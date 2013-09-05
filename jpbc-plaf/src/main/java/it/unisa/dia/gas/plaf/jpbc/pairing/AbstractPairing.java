@@ -6,7 +6,7 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.map.PairingMap;
 import java.security.SecureRandom;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public abstract class AbstractPairing implements Pairing {
 

@@ -1,7 +1,7 @@
 package it.unisa.dia.gas.crypto.jpbc.cipher;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public abstract class PredicateOnlyPairingAsymmetricBlockCipher extends PairingAsymmetricBlockCipher {
 

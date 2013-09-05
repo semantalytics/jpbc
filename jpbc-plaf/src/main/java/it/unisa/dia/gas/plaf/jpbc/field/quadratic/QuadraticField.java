@@ -7,7 +7,7 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class QuadraticField<F extends Field, E extends QuadraticElement> extends AbstractFieldOver<F, E> {
     protected BigInteger order;

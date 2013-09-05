@@ -23,7 +23,7 @@ import java.io.FileOutputStream;
 import java.io.PrintStream;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class JPBCBenchmarkActivity extends Activity implements View.OnClickListener {
     private static final String TAG = "JPBCBenchmarkActivity";

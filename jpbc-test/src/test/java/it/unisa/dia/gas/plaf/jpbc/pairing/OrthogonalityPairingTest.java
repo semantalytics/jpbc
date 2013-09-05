@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assume.assumeTrue;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 @RunWith(value = Parameterized.class)
 public class OrthogonalityPairingTest extends AbstractJPBCTest {

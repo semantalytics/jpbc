@@ -13,7 +13,7 @@ import java.security.SecureRandom;
 import static it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils.getRandom;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 2.0.0
  */
 public class CTL13MMInstanceGenerator implements PairingParametersGenerator {

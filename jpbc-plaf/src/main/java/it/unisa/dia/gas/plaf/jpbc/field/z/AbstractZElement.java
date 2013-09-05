@@ -6,7 +6,7 @@ import it.unisa.dia.gas.plaf.jpbc.field.base.AbstractElement;
 import java.math.BigInteger;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public abstract class AbstractZElement extends AbstractElement {
 

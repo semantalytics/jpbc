@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 2.0.0
  */
 public class ByteBufferSoftRefBigIntegerArraySector extends ByteBufferBigIntegerArraySector {

@@ -3,7 +3,7 @@ package it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.params;
 import it.unisa.dia.gas.jpbc.Element;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class GGHSW13MasterSecretKeyParameters extends GGHSW13KeyParameters {
 

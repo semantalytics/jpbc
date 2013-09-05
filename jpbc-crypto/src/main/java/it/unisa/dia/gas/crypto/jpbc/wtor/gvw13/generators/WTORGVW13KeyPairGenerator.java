@@ -12,7 +12,7 @@ import org.bouncycastle.crypto.AsymmetricCipherKeyPairGenerator;
 import org.bouncycastle.crypto.KeyGenerationParameters;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class WTORGVW13KeyPairGenerator implements AsymmetricCipherKeyPairGenerator {
     private WTORGVW13KeyPairGenerationParameters params;

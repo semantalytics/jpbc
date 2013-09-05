@@ -3,7 +3,7 @@ package it.unisa.dia.gas.plaf.jpbc.util.concurrent;
 import java.util.concurrent.Callable;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 2.0.0
  */
 public interface Pool<T> {

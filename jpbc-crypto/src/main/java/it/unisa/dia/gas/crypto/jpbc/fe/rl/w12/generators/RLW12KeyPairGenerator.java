@@ -13,7 +13,7 @@ import org.bouncycastle.crypto.AsymmetricCipherKeyPairGenerator;
 import org.bouncycastle.crypto.KeyGenerationParameters;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class RLW12KeyPairGenerator implements AsymmetricCipherKeyPairGenerator {
     private RLW12KeyPairGenerationParameters params;

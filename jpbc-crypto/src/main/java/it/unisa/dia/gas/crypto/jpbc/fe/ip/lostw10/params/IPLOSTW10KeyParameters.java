@@ -3,7 +3,7 @@ package it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.params;
 import org.bouncycastle.crypto.params.AsymmetricKeyParameter;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class IPLOSTW10KeyParameters extends AsymmetricKeyParameter {
     private IPLOSTW10Parameters parameters;

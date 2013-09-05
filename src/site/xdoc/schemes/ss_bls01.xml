@@ -4,7 +4,7 @@
 <document>
     <properties>
         <title>Java Pairing-Based Cryptography Library : Schemes - Short signatures from the Weil pairing</title>
-        <author email="decaro@dia.unisa.it">Angelo De Caro</author>
+        <author email="jpbclib@gmail.com">Angelo De Caro</author>
     </properties>
 
     <body>
@@ -49,7 +49,7 @@
 <a name="l16"><span class="ln">16   </span></a></span><span class="s0">import static </span><span class="s1">org.junit.Assert.fail;
 <a name="l17"><span class="ln">17   </span></a>
 <a name="l18"><span class="ln">18   </span></a></span><span class="s2">/**
-<a name="l19"><span class="ln">19   </span></a> * </span><span class="s3">@author </span><span class="s2">Angelo De Caro (angelo.decaro@gmail.com)
+<a name="l19"><span class="ln">19   </span></a> * </span><span class="s3">@author </span><span class="s2">Angelo De Caro (jpbclib@gmail.com)
 <a name="l20"><span class="ln">20   </span></a> */</span><span class="s1">
 <a name="l21"><span class="ln">21   </span></a></span><span class="s0">public class </span><span class="s1">BLS01SignerTest </span><span class="s0">extends <a href="../../../../../../../../it/unisa/dia/gas/crypto/jpbc/AbstractJPBCCryptoTest.java.html">AbstractJPBCCryptoTest</a> </span><span class="s1">{
 <a name="l22"><span class="ln">22   </span></a>

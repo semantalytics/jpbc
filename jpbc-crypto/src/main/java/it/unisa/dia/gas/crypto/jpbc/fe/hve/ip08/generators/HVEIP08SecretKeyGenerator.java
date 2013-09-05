@@ -15,7 +15,7 @@ import org.bouncycastle.crypto.KeyGenerationParameters;
 
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class HVEIP08SecretKeyGenerator {
     protected HVEIP08SecretKeyGenerationParameters param;

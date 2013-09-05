@@ -11,7 +11,7 @@ import java.security.SecureRandom;
 import java.util.Random;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public abstract class HVEIP08AbstractTest extends AbstractJPBCCryptoTest {
 

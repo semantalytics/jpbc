@@ -4,7 +4,7 @@ package it.unisa.dia.gas.jpbc;
  * This interface represents an element with two coordinates.
  * (A point over an elliptic curve).
  *
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 1.0.0
  */
 public interface Point<E extends Element> extends Element, Vector<E> {

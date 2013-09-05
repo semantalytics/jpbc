@@ -13,7 +13,7 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class TypeAPairing extends AbstractPairing {
     public static final String NAF_MILLER_PROJECTTIVE_METHOD = "naf-miller-projective";

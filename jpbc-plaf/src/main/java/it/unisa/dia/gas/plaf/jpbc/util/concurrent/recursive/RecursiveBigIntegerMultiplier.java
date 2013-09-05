@@ -4,7 +4,7 @@ import java.math.BigInteger;
 import java.util.concurrent.RecursiveTask;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 2.0.0
  */
 public class RecursiveBigIntegerMultiplier extends RecursiveTask<BigInteger> {

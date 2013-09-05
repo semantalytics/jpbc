@@ -11,7 +11,7 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 2.0.0
  */
 public class CTL13MMPairing implements Pairing {

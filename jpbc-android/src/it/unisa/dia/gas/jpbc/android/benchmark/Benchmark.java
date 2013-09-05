@@ -1,7 +1,7 @@
 package it.unisa.dia.gas.jpbc.android.benchmark;
 
 /**
- * Angelo De Caro (decaro@dia.unisa.it)
+ * Angelo De Caro (jpbclib@gmail.com)
  */
 public class Benchmark {
     public static final String[] pairingBenchmarkNames = new String[]{

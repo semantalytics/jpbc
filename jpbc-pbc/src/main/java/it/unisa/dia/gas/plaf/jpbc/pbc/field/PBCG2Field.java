@@ -7,7 +7,7 @@ import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.PBCElementType;
 import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.PBCPairingType;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class PBCG2Field extends PBCField {
 

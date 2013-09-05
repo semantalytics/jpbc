@@ -7,7 +7,7 @@ import it.unisa.dia.gas.jpbc.PairingParameters;
 import java.util.Arrays;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class UHIBELW11SecretKeyParameters extends UHIBELW11KeyParameters {
     private Element[] K0s, K1s, K2s, K3s;

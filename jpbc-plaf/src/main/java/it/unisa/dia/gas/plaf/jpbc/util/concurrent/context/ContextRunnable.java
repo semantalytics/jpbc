@@ -5,7 +5,7 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.MutablePairingParameters;
 import java.math.BigInteger;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 2.0.0
  */
 public abstract class ContextRunnable implements Runnable, MutablePairingParameters {

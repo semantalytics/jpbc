@@ -12,7 +12,7 @@ import java.security.SecureRandom;
 import java.util.Arrays;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class MultiBlockAsymmetricBlockCipher implements AsymmetricBlockCipher {
 

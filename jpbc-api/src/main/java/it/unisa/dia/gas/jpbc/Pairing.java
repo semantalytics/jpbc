@@ -7,7 +7,7 @@ package it.unisa.dia.gas.jpbc;
  * Sometimes G1 and G2 are the same group (i.e. the pairing is symmetric) so their elements can be mixed freely.
  * In this case the #isSymmetric() function returns true.
  *
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 1.0.0
  */
 public interface Pairing {

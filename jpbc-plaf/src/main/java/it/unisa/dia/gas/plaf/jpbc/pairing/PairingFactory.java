@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class PairingFactory {
     private static final PairingFactory INSTANCE = new PairingFactory();

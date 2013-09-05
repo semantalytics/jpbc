@@ -5,7 +5,7 @@ import it.unisa.dia.gas.jpbc.PairingPreProcessing;
 import it.unisa.dia.gas.jpbc.Point;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public abstract class AbstractMillerPairingPreProcessing implements PairingPreProcessing {
 

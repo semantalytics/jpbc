@@ -5,7 +5,7 @@ import java.math.BigInteger;
 /**
  * Common interface for the exponentiation.
  *
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 1.2.0
  */
 public interface ElementPow {

@@ -6,7 +6,7 @@ import java.io.*;
 import java.math.BigInteger;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public abstract class AbstractMillerPairingMap<E extends Element> extends AbstractPairingMap {
 

@@ -1,7 +1,7 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class HVEIP08CiphertextPreprocessingParameters extends HVEIP08KeyParameters {
 

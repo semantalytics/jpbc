@@ -3,7 +3,7 @@ package it.unisa.dia.gas.crypto.jpbc.fe.ibe.lw11.params;
 import org.bouncycastle.crypto.KeyGenerationParameters;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class UHIBELW11KeyPairGenerationParameters extends KeyGenerationParameters {
 

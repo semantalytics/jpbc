@@ -8,7 +8,7 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public abstract class AbstractField<E extends Element> implements Field<E> {
 

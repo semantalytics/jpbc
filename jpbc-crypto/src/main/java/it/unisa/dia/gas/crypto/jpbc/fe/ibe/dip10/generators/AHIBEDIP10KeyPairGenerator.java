@@ -15,7 +15,7 @@ import org.bouncycastle.crypto.AsymmetricCipherKeyPairGenerator;
 import org.bouncycastle.crypto.KeyGenerationParameters;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class AHIBEDIP10KeyPairGenerator implements AsymmetricCipherKeyPairGenerator {
     private AHIBEDIP10KeyPairGenerationParameters parameters;

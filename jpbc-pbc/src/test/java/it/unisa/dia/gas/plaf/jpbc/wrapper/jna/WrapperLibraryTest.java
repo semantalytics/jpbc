@@ -3,7 +3,7 @@ package it.unisa.dia.gas.plaf.jpbc.wrapper.jna;
 import junit.framework.TestCase;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class WrapperLibraryTest extends TestCase {
 

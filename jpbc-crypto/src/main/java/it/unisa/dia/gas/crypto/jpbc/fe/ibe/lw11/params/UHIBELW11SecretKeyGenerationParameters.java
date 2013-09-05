@@ -7,7 +7,7 @@ import org.bouncycastle.crypto.KeyGenerationParameters;
 import java.util.Arrays;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class UHIBELW11SecretKeyGenerationParameters extends KeyGenerationParameters {
 

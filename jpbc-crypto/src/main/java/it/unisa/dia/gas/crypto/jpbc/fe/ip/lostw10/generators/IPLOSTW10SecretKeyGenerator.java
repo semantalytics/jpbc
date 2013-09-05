@@ -10,7 +10,7 @@ import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.KeyGenerationParameters;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class IPLOSTW10SecretKeyGenerator {
     private IPLOSTW10SecretKeyGenerationParameters param;

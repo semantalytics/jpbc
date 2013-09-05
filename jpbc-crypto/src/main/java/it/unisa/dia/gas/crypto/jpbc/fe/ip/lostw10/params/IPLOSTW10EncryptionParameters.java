@@ -6,7 +6,7 @@ import it.unisa.dia.gas.jpbc.Element;
 import java.util.Arrays;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class IPLOSTW10EncryptionParameters extends IPLOSTW10KeyParameters {
 

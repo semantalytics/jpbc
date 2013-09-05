@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 1.0.0
  */
 public class SequentialPairingMultiplierTest extends AbstractJPBCTest {

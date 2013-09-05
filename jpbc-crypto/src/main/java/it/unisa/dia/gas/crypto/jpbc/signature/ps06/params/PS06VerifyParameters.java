@@ -1,7 +1,7 @@
 package it.unisa.dia.gas.crypto.jpbc.signature.ps06.params;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class PS06VerifyParameters extends PS06KeyParameters {
     private PS06PublicKeyParameters publicKey;

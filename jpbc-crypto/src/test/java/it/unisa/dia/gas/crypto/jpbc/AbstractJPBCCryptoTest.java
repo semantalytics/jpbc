@@ -12,7 +12,7 @@ import java.util.Collection;
 import static org.junit.Assume.assumeTrue;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 @RunWith(value = Parameterized.class)
 public abstract class AbstractJPBCCryptoTest {

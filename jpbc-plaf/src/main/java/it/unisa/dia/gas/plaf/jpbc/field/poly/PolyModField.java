@@ -9,7 +9,7 @@ import java.security.SecureRandom;
 import java.util.List;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class PolyModField<F extends Field> extends AbstractFieldOver<F, PolyModElement> {
     protected PolyElement irreduciblePoly;

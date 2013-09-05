@@ -3,7 +3,7 @@ package it.unisa.dia.gas.jpbc;
 import java.math.BigInteger;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 1.0.0
  */
 public interface ElementPowPreProcessing extends ElementPow, PreProcessing {

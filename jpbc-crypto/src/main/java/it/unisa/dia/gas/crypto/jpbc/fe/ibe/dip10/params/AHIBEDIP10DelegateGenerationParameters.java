@@ -4,7 +4,7 @@ import it.unisa.dia.gas.jpbc.Element;
 import org.bouncycastle.crypto.KeyGenerationParameters;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class AHIBEDIP10DelegateGenerationParameters extends KeyGenerationParameters {
 

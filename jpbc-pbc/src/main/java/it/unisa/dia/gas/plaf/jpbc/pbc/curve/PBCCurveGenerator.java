@@ -9,7 +9,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public abstract class PBCCurveGenerator implements PairingParametersGenerator {
 

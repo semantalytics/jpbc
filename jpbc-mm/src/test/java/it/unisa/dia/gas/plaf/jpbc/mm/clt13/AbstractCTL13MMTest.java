@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 2.0.0
  */
 @RunWith(value = Parameterized.class)

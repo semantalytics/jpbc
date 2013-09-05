@@ -8,7 +8,7 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.d.TypeDPairing;
 import junit.framework.TestCase;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class PolyModElementTest extends TestCase {
 

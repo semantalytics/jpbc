@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 2.0.0
  */
 public class DefaultCircuit implements Circuit {

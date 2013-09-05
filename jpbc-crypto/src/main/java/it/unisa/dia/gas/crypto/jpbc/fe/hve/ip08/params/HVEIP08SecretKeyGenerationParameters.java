@@ -5,7 +5,7 @@ import org.bouncycastle.crypto.KeyGenerationParameters;
 import java.util.Arrays;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class HVEIP08SecretKeyGenerationParameters extends KeyGenerationParameters {
     private HVEIP08MasterSecretKeyParameters masterSecretKey;

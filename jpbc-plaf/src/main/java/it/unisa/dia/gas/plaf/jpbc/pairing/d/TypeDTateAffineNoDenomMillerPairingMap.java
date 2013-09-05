@@ -13,7 +13,7 @@ import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 import java.util.List;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class TypeDTateAffineNoDenomMillerPairingMap extends AbstractMillerPairingMap<Polynomial> {
     protected TypeDPairing pairing;

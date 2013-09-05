@@ -10,7 +10,7 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.map.AbstractMillerPairingPreProcessing
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class TypeA1TateNafProjectiveMillerPairingMap extends AbstractMillerPairingMap {
     protected final TypeA1Pairing pairing;

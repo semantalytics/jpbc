@@ -16,7 +16,7 @@ import java.util.Collection;
 import static junit.framework.Assert.assertEquals;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 2.0.0
  */
 @RunWith(value = Parameterized.class)

@@ -11,7 +11,7 @@ import org.bouncycastle.crypto.AsymmetricCipherKeyPairGenerator;
 import org.bouncycastle.crypto.KeyGenerationParameters;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class GGHSW13KeyPairGenerator implements AsymmetricCipherKeyPairGenerator {
     private GGHSW13KeyPairGenerationParameters params;

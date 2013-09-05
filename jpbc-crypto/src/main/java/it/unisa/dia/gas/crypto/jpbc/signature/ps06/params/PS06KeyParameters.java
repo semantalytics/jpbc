@@ -3,7 +3,7 @@ package it.unisa.dia.gas.crypto.jpbc.signature.ps06.params;
 import org.bouncycastle.crypto.params.AsymmetricKeyParameter;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class PS06KeyParameters extends AsymmetricKeyParameter {
     private PS06Parameters parameters;

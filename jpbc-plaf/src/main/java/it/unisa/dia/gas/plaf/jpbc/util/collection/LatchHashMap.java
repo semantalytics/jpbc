@@ -7,7 +7,7 @@ import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 2.0.0
  */
 public class LatchHashMap<K, V> implements Map<K, V> {

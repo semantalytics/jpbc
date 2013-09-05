@@ -7,7 +7,7 @@ import java.math.BigInteger;
  * interface. You can obtain an instance of an Element starting from an algebraic structure, such as a particular
  * finite field or elliptic curve group, represented by the <code>Field</code> interface.
  *
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  * @see Field
  * @since 1.0.0
  */

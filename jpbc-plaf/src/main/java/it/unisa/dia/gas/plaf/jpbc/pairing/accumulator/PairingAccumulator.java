@@ -5,7 +5,7 @@ import it.unisa.dia.gas.jpbc.PairingPreProcessing;
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.accumultor.Accumulator;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 2.0.0
  */
 public interface PairingAccumulator extends Accumulator<Element> {

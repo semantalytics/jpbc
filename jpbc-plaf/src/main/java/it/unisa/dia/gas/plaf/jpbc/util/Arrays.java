@@ -1,7 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.util;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class Arrays {
 

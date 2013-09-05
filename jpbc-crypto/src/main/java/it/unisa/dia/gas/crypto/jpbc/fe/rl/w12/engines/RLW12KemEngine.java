@@ -16,7 +16,7 @@ import it.unisa.dia.gas.plaf.jpbc.util.io.PairingStreamWriter;
 import java.io.IOException;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class RLW12KemEngine extends PairingKeyEncapsulationMechanism {
 

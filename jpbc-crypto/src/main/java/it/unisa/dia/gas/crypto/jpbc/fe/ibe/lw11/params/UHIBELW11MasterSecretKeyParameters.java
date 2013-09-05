@@ -4,7 +4,7 @@ import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.PairingParameters;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class UHIBELW11MasterSecretKeyParameters extends UHIBELW11KeyParameters {
 

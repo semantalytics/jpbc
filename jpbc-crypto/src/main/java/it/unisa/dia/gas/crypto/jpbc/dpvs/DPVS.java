@@ -10,7 +10,7 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.product.ProductPairing;
 import java.security.SecureRandom;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class DPVS {
 

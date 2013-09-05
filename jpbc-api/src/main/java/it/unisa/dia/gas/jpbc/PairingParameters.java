@@ -6,7 +6,7 @@ import java.math.BigInteger;
 /**
  * Represents the set of parameters describing a pairing.
  *
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 2.0.0
  */
 public interface PairingParameters extends Serializable {

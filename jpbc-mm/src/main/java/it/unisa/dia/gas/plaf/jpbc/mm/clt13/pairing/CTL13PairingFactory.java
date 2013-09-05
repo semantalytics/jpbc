@@ -6,7 +6,7 @@ import it.unisa.dia.gas.jpbc.PairingParameters;
 import java.security.SecureRandom;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class CTL13PairingFactory {
 

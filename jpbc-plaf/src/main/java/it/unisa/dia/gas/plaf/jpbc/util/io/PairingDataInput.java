@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class PairingDataInput implements DataInput {
 

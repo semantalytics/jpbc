@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Angelo De Caro (decaro@dia.unisa.it)
+ * Angelo De Caro (jpbclib@gmail.com)
  */
 public class JPBCBenchmark implements Benchmark {
     public static final String[] pairingBenchmarkNames = new String[]{

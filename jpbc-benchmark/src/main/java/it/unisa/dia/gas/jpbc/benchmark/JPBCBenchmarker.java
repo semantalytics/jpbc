@@ -6,7 +6,7 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import java.math.BigInteger;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class JPBCBenchmarker implements Benchmarker {
     

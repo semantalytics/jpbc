@@ -4,7 +4,7 @@ package it.unisa.dia.gas.jpbc;
  * This interface represents an algebraic structure defined
  * over another.
  *
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 1.0.0
  * @see Field
  */

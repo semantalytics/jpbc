@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Vector;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class MapParameters implements MutablePairingParameters {
 

@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public abstract class AbstractElement implements Element {
     protected AbstractField field;

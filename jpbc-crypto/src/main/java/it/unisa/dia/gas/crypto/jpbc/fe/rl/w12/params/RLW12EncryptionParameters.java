@@ -2,7 +2,7 @@ package it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.params;
 
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class RLW12EncryptionParameters extends RLW12KeyParameters {
 

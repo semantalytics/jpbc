@@ -13,7 +13,7 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  * The curve is defined as E : y^2 = x^2 + b
  * for some b \in F_q.
  */

@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * This element represents a polynomial through its coefficients.
  *
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 1.0.0
  */
 public interface Polynomial<E extends Element> extends Element, Vector {

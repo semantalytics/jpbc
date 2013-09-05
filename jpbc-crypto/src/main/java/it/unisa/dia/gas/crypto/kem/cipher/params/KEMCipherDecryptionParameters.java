@@ -6,7 +6,7 @@ import java.security.AlgorithmParameters;
 import java.util.Arrays;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class KEMCipherDecryptionParameters extends KEMCipherParameters {
     private CipherParameters kemCipherParameters;

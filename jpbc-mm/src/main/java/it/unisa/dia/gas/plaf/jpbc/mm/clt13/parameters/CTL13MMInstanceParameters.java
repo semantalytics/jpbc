@@ -3,7 +3,7 @@ package it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters;
 import it.unisa.dia.gas.jpbc.PairingParameters;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 2.0.0
  */
 public class CTL13MMInstanceParameters {

@@ -6,7 +6,7 @@ import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
 import java.math.BigInteger;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 2.0.0
  */
 public class CTL13MMImmutableElement extends CTL13MMElement {

@@ -1,7 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.util.io.disk;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 1.0.0
  */
 public interface Disk<S extends Sector> {

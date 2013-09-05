@@ -15,7 +15,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class PS06SignerTest extends AbstractJPBCCryptoTest {
 

@@ -7,7 +7,7 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class PolyField<F extends Field> extends AbstractFieldOver<F, PolyElement> {
 

@@ -5,7 +5,7 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.PropertiesParameters;
 import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.WrapperLibraryProvider;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class PBCTypeDCurveGenerator extends PBCCurveGenerator {
     protected int discriminant;

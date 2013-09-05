@@ -14,7 +14,7 @@ import org.bouncycastle.crypto.AsymmetricCipherKeyPairGenerator;
 import org.bouncycastle.crypto.KeyGenerationParameters;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class IPLOSTW10KeyPairGenerator implements AsymmetricCipherKeyPairGenerator {
     private IPLOSTW10KeyGenerationParameters param;

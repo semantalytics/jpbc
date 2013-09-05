@@ -4,7 +4,7 @@ import it.unisa.dia.gas.jpbc.Pairing;
 import junit.framework.TestCase;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class PairingFactoryTest extends TestCase {
 

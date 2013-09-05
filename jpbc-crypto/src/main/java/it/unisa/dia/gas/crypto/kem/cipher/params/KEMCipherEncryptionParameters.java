@@ -5,7 +5,7 @@ import org.bouncycastle.crypto.CipherParameters;
 import java.security.AlgorithmParameters;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class KEMCipherEncryptionParameters extends KEMCipherParameters {
     private int cipherKeyStrength;

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class HVEIP08PredicateOnlyCTOptEngine extends PredicateOnlyPairingAsymmetricBlockCipher {
 

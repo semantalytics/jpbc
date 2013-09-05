@@ -9,7 +9,7 @@ import it.unisa.dia.gas.plaf.jpbc.util.concurrent.accumultor.Accumulator;
 import java.util.concurrent.Callable;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 2.0.0
  */
 public class SequentialMulPairingAccumulator implements PairingAccumulator {

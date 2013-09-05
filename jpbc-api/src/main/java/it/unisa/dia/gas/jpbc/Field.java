@@ -5,7 +5,7 @@ import java.math.BigInteger;
 /**
  * Represents an algebraic structure.
  *
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 1.0.0
  */
 public interface Field<E extends Element> {

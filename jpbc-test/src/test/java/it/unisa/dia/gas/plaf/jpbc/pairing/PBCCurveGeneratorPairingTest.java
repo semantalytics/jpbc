@@ -10,7 +10,7 @@ import java.util.Collection;
 import static org.junit.Assume.assumeTrue;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class PBCCurveGeneratorPairingTest extends CurveGeneratorPairingTest {
 

@@ -5,7 +5,7 @@ import it.unisa.dia.gas.jpbc.PairingParameters;
 import org.bouncycastle.crypto.CipherParameters;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class PS06Parameters implements CipherParameters {
     private PairingParameters curveParams;

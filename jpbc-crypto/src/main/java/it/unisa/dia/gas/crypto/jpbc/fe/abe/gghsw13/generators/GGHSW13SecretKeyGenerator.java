@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class GGHSW13SecretKeyGenerator {
     private GGHSW13SecretKeyGenerationParameters param;

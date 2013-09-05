@@ -10,7 +10,7 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.*;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class BLS01HalfSigner implements Signer {
     private BLS01KeyParameters keyParameters;

@@ -6,7 +6,7 @@ import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.jpbc.Vector;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public abstract class AbstractPointElement<E extends Element> extends AbstractElement implements Point<E>, Vector<E> {
 

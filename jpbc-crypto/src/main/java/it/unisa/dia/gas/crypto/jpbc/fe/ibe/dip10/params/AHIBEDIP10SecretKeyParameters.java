@@ -7,7 +7,7 @@ import it.unisa.dia.gas.jpbc.PairingParameters;
 import java.util.Arrays;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class AHIBEDIP10SecretKeyParameters extends AHIBEDIP10KeyParameters {
     private Element k11, k12;

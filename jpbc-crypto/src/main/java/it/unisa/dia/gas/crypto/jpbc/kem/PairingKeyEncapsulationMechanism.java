@@ -4,7 +4,7 @@ import it.unisa.dia.gas.crypto.jpbc.cipher.PairingAsymmetricBlockCipher;
 import it.unisa.dia.gas.crypto.kem.KeyEncapsulationMechanism;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public abstract class PairingKeyEncapsulationMechanism extends PairingAsymmetricBlockCipher implements KeyEncapsulationMechanism {
     

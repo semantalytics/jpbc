@@ -8,7 +8,7 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.accumulator.PairingAccumulator;
 import it.unisa.dia.gas.plaf.jpbc.pairing.accumulator.PairingAccumulatorFactory;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public abstract class AbstractPairingMap implements PairingMap {
 

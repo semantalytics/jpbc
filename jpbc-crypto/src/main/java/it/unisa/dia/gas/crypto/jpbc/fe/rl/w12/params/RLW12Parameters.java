@@ -6,7 +6,7 @@ import it.unisa.dia.gas.jpbc.PairingParameters;
 import org.bouncycastle.crypto.CipherParameters;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class RLW12Parameters implements CipherParameters {
     private PairingParameters parameters;

@@ -8,7 +8,7 @@ import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 import java.math.BigInteger;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class PolyElement<E extends Element> extends AbstractPolyElement<E> {
     protected PolyField<Field> field;

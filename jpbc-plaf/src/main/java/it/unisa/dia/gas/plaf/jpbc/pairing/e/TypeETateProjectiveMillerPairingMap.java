@@ -8,7 +8,7 @@ import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteField;
 import it.unisa.dia.gas.plaf.jpbc.pairing.map.AbstractPairingMap;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class TypeETateProjectiveMillerPairingMap extends AbstractPairingMap {
     protected TypeEPairing pairing;

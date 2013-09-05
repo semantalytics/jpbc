@@ -9,7 +9,7 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class RLW12ParametersGenerator {
     private PairingParameters parameters;

@@ -6,7 +6,7 @@ import it.unisa.dia.gas.jpbc.Element;
 import java.util.Map;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class RLW12SecretKeyParameters extends RLW12KeyParameters {
     private DFA dfa;

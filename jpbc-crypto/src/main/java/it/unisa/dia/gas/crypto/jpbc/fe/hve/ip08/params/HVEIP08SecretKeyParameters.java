@@ -9,7 +9,7 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import java.util.Arrays;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class HVEIP08SecretKeyParameters extends HVEIP08KeyParameters {
     private int[] pattern;
