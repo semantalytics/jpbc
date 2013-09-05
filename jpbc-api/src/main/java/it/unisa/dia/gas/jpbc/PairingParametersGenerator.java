@@ -5,7 +5,7 @@ package it.unisa.dia.gas.jpbc;
  * to initialize a pairing.
  *
  * @author Angelo De Caro (angelo.decaro@gmail.com)
- * @since 1.3.0
+ * @since 2.0.0
  */
 public interface PairingParametersGenerator<P extends PairingParameters> {
 
@@ -13,7 +13,7 @@ public interface PairingParametersGenerator<P extends PairingParameters> {
      * Generates the parameters.
      *
      * @return a map with all the necessary parameters.
-     * @since 1.3.0
+     * @since 2.0.0
      */
     P generate();
 

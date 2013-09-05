@@ -14,7 +14,7 @@
     <orderEntry type="module" module-name="jpbc-api" />
     <orderEntry type="module" module-name="jpbc-plaf" />
     <orderEntry type="module" module-name="jpbc-plaf" scope="TEST" production-on-test="" />
-    <orderEntry type="library" scope="TEST" name="Maven: it.unisa.dia.gas:jpbc-plaf:tests:1.3.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: it.unisa.dia.gas:jpbc-plaf:tests:2.0.0" level="project" />
     <orderEntry type="module" module-name="jpbc-pbc" />
     <orderEntry type="library" name="Maven: net.java.dev.jna:jna:3.2.5" level="project" />
     <orderEntry type="module" module-name="jpbc-mm" />

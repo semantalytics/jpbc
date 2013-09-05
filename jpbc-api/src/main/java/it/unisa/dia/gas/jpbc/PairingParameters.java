@@ -7,7 +7,7 @@ import java.math.BigInteger;
  * Represents the set of parameters describing a pairing.
  *
  * @author Angelo De Caro (angelo.decaro@gmail.com)
- * @since 1.3.0
+ * @since 2.0.0
  */
 public interface PairingParameters extends Serializable {
 
@@ -17,7 +17,7 @@ public interface PairingParameters extends Serializable {
      *
      * @param key key whose presence is to be tested
      * @return <tt>true</tt> if a mapping for the specified key exists.
-     * @since 1.3.0
+     * @since 2.0.0
      */
     boolean containsKey(String key);
 
@@ -27,7 +27,7 @@ public interface PairingParameters extends Serializable {
      * @param key the key whose associated value is to be returned
      * @return the value as a string to which the specified key is mapped.
      * @throws IllegalArgumentException if the specified key does not exists.
-     * @since 1.3.0
+     * @since 2.0.0
      */
     String getString(String key);
 
@@ -38,7 +38,7 @@ public interface PairingParameters extends Serializable {
      * @param key the key whose associated value is to be returned
      * @return the value as a string to which the specified key is mapped.
      * If the mapping does not exist the passed defaultValue is returned.
-     * @since 1.3.0
+     * @since 2.0.0
      */
     String getString(String key, String defaultValue);
 
@@ -48,7 +48,7 @@ public interface PairingParameters extends Serializable {
      * @param key the key whose associated value is to be returned
      * @return the value as an int to which the specified key is mapped.
      * @throws IllegalArgumentException if the specified key does not exists.
-     * @since 1.3.0
+     * @since 2.0.0
      */
     int getInt(String key);
 
@@ -59,7 +59,7 @@ public interface PairingParameters extends Serializable {
      * @param key the key whose associated value is to be returned
      * @return the value as an int to which the specified key is mapped.
      * If the mapping does not exist the passed defaultValue is returned.
-     * @since 1.3.0
+     * @since 2.0.0
      */
     int getInt(String key, int defaultValue);
 
@@ -69,7 +69,7 @@ public interface PairingParameters extends Serializable {
      * @param key the key whose associated value is to be returned
      * @return the value as a BigInteger to which the specified key is mapped.
      * @throws IllegalArgumentException if the specified key does not exists.
-     * @since 1.3.0
+     * @since 2.0.0
      */
     BigInteger getBigInteger(String key);
 
@@ -80,7 +80,7 @@ public interface PairingParameters extends Serializable {
      * @param key the key whose associated value is to be returned
      * @return the BigInteger to which the specified key is mapped.
      * If the mapping does not exist the passed defaultValue is returned.
-     * @since 1.3.0
+     * @since 2.0.0
      */
     BigInteger getBigInteger(String key, BigInteger defaultValue);
 
@@ -92,7 +92,7 @@ public interface PairingParameters extends Serializable {
      * @param index the index relative to the array.
      * @return the BigInteger at the specified index in the array to which
      * the specified key is mapped.
-     * @since 1.3.0
+     * @since 2.0.0
      */
     BigInteger getBigIntegerAt(String key, int index);
 
@@ -102,7 +102,7 @@ public interface PairingParameters extends Serializable {
      * @param key the key whose associated value is to be returned
      * @return the value as a long to which the specified key is mapped.
      * @throws IllegalArgumentException if the specified key does not exists.
-     * @since 1.3.0
+     * @since 2.0.0
      */
     long getLong(String key);
 
@@ -113,7 +113,7 @@ public interface PairingParameters extends Serializable {
      * @param key the key whose associated value is to be returned
      * @return the value as a long to which the specified key is mapped.
      * If the mapping does not exist the passed defaultValue is returned.
-     * @since 1.3.0
+     * @since 2.0.0
      */
     long getLong(String key, long defaultValue);
 
@@ -123,7 +123,7 @@ public interface PairingParameters extends Serializable {
      * @param key the key whose associated value is to be returned
      * @return the value as an array of bytes to which the specified key is mapped.
      * @throws IllegalArgumentException if the specified key does not exists.
-     * @since 1.3.0
+     * @since 2.0.0
      */
     byte[] getBytes(String key);
 
@@ -133,7 +133,7 @@ public interface PairingParameters extends Serializable {
      * @param key the key whose associated value is to be returned
      * @return the value as an array of bytes to which the specified key is mapped.
      * @throws IllegalArgumentException if the specified key does not exists.
-     * @since 1.3.0
+     * @since 2.0.0
      */
     byte[] getBytes(String key, byte[] defaultValue);
 
@@ -143,7 +143,7 @@ public interface PairingParameters extends Serializable {
      *
      * @param separator key/value separator separator to be used .
      * @return a string representation of the parameters.
-     * @since 1.3.0
+     * @since 2.0.0
      */
     String toString(String separator);
 
@@ -151,7 +151,7 @@ public interface PairingParameters extends Serializable {
      * Returns the value to which the specified key is mapped.
      *
      * @param key the key whose associated value is to be returned
-     * @since 1.3.0
+     * @since 2.0.0
      */
     Object getObject(String key);
 }

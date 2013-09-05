@@ -17,7 +17,7 @@ import static junit.framework.Assert.assertEquals;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
- * @since 1.3.0
+ * @since 2.0.0
  */
 @RunWith(value = Parameterized.class)
 public class ImmutableElementTest {

@@ -7,7 +7,7 @@ import java.util.concurrent.ExecutorCompletionService;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
- * @since 1.3.0
+ * @since 2.0.0
  */
 public class PoolExecutor<T> implements Pool<T> {
 

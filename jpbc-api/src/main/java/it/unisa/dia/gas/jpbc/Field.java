@@ -100,7 +100,7 @@ public interface Field<E extends Element> {
      * Returns the length in bytes needed to canonical represent an element of this Field.
      *
      * @return the length in bytes needed to canonical represent an element of this Field.
-     * @since 1.3.0
+     * @since 2.0.0
      */
     int getCanonicalRepresentationLengthInBytes();
 

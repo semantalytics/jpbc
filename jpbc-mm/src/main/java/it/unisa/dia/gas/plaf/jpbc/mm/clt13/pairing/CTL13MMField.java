@@ -10,7 +10,7 @@ import java.security.SecureRandom;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
- * @since 1.3.0
+ * @since 2.0.0
  */
 public class CTL13MMField implements Field<CTL13MMElement> {
 

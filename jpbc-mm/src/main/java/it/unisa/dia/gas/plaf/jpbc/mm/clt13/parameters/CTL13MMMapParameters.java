@@ -12,7 +12,7 @@ import java.util.Map;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
- * @since 1.3.0
+ * @since 2.0.0
  */
 public class CTL13MMMapParameters extends MapParameters {
 

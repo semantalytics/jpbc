@@ -16,7 +16,7 @@ import java.util.Collection;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
- * @since 1.3.0
+ * @since 2.0.0
  */
 @RunWith(value = Parameterized.class)
 public abstract class AbstractCTL13MMTest {

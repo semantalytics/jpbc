@@ -5,7 +5,7 @@ import java.util.concurrent.RecursiveTask;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
- * @since 1.3.0
+ * @since 2.0.0
  */
 public class RecursiveBigIntegerMultiplier extends RecursiveTask<BigInteger> {
     static final int SEQUENTIAL_THRESHOLD = 2;

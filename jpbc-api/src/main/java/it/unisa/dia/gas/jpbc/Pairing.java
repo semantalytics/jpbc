@@ -27,7 +27,7 @@ public interface Pairing {
      * the degree of linearity supported.
      *
      * @return the degree of the pairing.
-     * @since 1.3.0
+     * @since 2.0.0
      */
     int getDegree();
 
@@ -69,7 +69,7 @@ public interface Pairing {
      * G2 has index 2 and GT has index 3.
      *
      * @return Returns the field at level <tt>index</tt>
-     * @since 1.3.0
+     * @since 2.0.0
      */
     Field getFieldAt(int index);
 
@@ -81,7 +81,7 @@ public interface Pairing {
      * @return the index of the field if it belongs
      * to this pairing, otherwise it returns Unknown.
      * @see #getFieldAt(int)
-     * @since 1.3.0
+     * @since 2.0.0
      */
     int getFieldIndex(Field field);
 
@@ -107,7 +107,7 @@ public interface Pairing {
      * @return <tt>true</tt> if optimized
      * product of pairing is supported,
      * <tt>false</tt> otherwise.
-     * @since 1.3.0
+     * @since 2.0.0
      * @see #pairing(Element[], Element[])
      */
     boolean isProductPairingSupported();

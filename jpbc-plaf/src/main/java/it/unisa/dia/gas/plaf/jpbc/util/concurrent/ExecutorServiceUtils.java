@@ -6,7 +6,7 @@ import java.util.concurrent.Executors;
 
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
- * @since 1.3.0
+ * @since 2.0.0
  */
 public class ExecutorServiceUtils {
 
@@ -37,7 +37,7 @@ public class ExecutorServiceUtils {
 
     /**
      * @author Angelo De Caro (angelo.decaro@gmail.com)
-     * @since 1.3.0
+     * @since 2.0.0
      */
     public abstract static class IndexCallable<T> implements Callable<T> {
         protected int i, j;
@@ -71,7 +71,7 @@ public class ExecutorServiceUtils {
 
     /**
      * @author Angelo De Caro (angelo.decaro@gmail.com)
-     * @since 1.3.0
+     * @since 2.0.0
      */
     public abstract static class IntervalCallable<T> implements Callable<T> {
         protected int from, to;

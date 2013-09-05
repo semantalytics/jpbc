@@ -36,7 +36,7 @@
 
                         <tr valign="top">
                             <td>jPBC</td>
-                            <td>1.3.0</td>
+                            <td>2.0.0</td>
                             <td>Stable</td>
                             <td>
                                 <em>
@@ -82,12 +82,12 @@
                     To use jPBC it is enough to add to your classpath the following jars:
                     <ol type="1">
                         <li>
-                            <tt>jpbc_1.3.0-api.jar</tt>
+                            <tt>jpbc_2.0.0-api.jar</tt>
                             and
                         </li>
 
                         <li>
-                            <tt>jpbc_1.3.0-plaf.jar</tt>.
+                            <tt>jpbc_2.0.0-plaf.jar</tt>.
                         </li>
                     </ol>
                 </p>
@@ -107,7 +107,7 @@
                 </p>
                 <ol>
                     <li>
-                        <tt>jpbc_1.3.0-pbc.jar</tt>
+                        <tt>jpbc_2.0.0-pbc.jar</tt>
                         and
                     </li>
 
@@ -124,7 +124,7 @@
                 </p>
                 <ol>
                     <li>
-                        <tt>jpbc_1.3.0-mm.jar</tt>.
+                        <tt>jpbc_2.0.0-mm.jar</tt>.
                     </li>
                 </ol>
             </subsection>
