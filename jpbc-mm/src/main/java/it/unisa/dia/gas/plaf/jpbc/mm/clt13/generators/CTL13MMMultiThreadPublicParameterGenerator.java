@@ -1,7 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators;
 
 import it.unisa.dia.gas.jpbc.PairingParameters;
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstanceParameters;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMSystemParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.MutablePairingParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.ExecutorServiceUtils;
@@ -23,22 +23,22 @@ import static it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils.getRandom;
  * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 2.0.0
  */
-public class CTL13MMMultiThreadInstanceGenerator extends CTL13MMInstanceGenerator {
+public class CTL13MMMultiThreadPublicParameterGenerator extends CTL13MMPublicParameterGenerator {
 
 
-    public CTL13MMMultiThreadInstanceGenerator(SecureRandom random, CTL13MMInstanceParameters parameters) {
+    public CTL13MMMultiThreadPublicParameterGenerator(SecureRandom random, CTL13MMSystemParameters parameters) {
         super(random, parameters);
     }
 
-    public CTL13MMMultiThreadInstanceGenerator(SecureRandom random, PairingParameters parameters) {
+    public CTL13MMMultiThreadPublicParameterGenerator(SecureRandom random, PairingParameters parameters) {
         super(random, parameters);
     }
 
-    public CTL13MMMultiThreadInstanceGenerator(SecureRandom random, CTL13MMInstanceParameters parameters, boolean storeGeneratedInstance) {
+    public CTL13MMMultiThreadPublicParameterGenerator(SecureRandom random, CTL13MMSystemParameters parameters, boolean storeGeneratedInstance) {
         super(random, parameters, storeGeneratedInstance);
     }
 
-    public CTL13MMMultiThreadInstanceGenerator(SecureRandom random, PairingParameters parameters, boolean storeGeneratedInstance) {
+    public CTL13MMMultiThreadPublicParameterGenerator(SecureRandom random, PairingParameters parameters, boolean storeGeneratedInstance) {
         super(random, parameters, storeGeneratedInstance);
     }
 
@@ -260,7 +260,7 @@ public class CTL13MMMultiThreadInstanceGenerator extends CTL13MMInstanceGenerato
         if (args.length > 0)
             params = args[0];
 
-        CTL13MMMultiThreadInstanceGenerator gen = new CTL13MMMultiThreadInstanceGenerator(
+        CTL13MMMultiThreadPublicParameterGenerator gen = new CTL13MMMultiThreadPublicParameterGenerator(
                 new SecureRandom(),
                 PairingFactory.getInstance().loadParameters(params)
         );

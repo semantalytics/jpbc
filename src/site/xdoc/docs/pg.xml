@@ -12,7 +12,6 @@
             <p>
                 JPBC provides a set of interfaces and classes
                 to generate and manage the parameters that describe a pairing setting.
-                <br/>
                 The
                 <a href="../java-docs/api/it/unisa/dia/gas/jpbc/PairingParametersGenerator.html">
                     <code>PairingParametersGenerator</code>
@@ -45,6 +44,7 @@ PairingParameters params = parametersGenerator.generate();
                 <code>toString</code>
                 method that returns a string representation of the parameters
                 that can be saved in a file to be loaded later.
+                <br/>
                 <br/>
                 Once the parameters are generated, an instance of
                 <code><a href="../java-docs/api/it/unisa/dia/gas/jpbc/Pairing.html">Pairing</a></code>

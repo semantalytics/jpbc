@@ -32,8 +32,8 @@ public class CTL13MMField implements Field<CTL13MMElement> {
         this.index = index;
 
         this.lengthInBytes =
-                ((pairing.getCTL13MMInstance().getParameters().getN() *
-                pairing.getCTL13MMInstance().getParameters().getEta() + 7) / 8) + 8;
+                ((pairing.getCTL13MMInstance().getSystemParameters().getN() *
+                pairing.getCTL13MMInstance().getSystemParameters().getEta() + 7) / 8) + 8;
     }
 
 
@@ -78,7 +78,7 @@ public class CTL13MMField implements Field<CTL13MMElement> {
     }
 
     public int getCanonicalRepresentationLengthInBytes() {
-        return instance.getParameters().getBound() / 8;
+        return instance.getSystemParameters().getBound() / 8;
     }
 
     public Element[] twice(Element[] elements) {

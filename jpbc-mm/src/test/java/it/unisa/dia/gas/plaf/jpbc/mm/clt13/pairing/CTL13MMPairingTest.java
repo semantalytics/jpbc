@@ -3,7 +3,7 @@ package it.unisa.dia.gas.plaf.jpbc.mm.clt13.pairing;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.AbstractCTL13MMTest;
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstanceParameters;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMSystemParameters;
 import junit.framework.Assert;
 import org.junit.Before;
 
@@ -16,7 +16,7 @@ public class CTL13MMPairingTest extends AbstractCTL13MMTest {
     protected Pairing pairing;
 
 
-    public CTL13MMPairingTest(CTL13MMInstanceParameters instanceParameters, int genType) {
+    public CTL13MMPairingTest(CTL13MMSystemParameters instanceParameters, int genType) {
         super(instanceParameters, genType);
     }
 

@@ -2,8 +2,8 @@ package it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators;
 
 import it.unisa.dia.gas.jpbc.PairingParameters;
 import it.unisa.dia.gas.jpbc.PairingParametersGenerator;
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstanceParameters;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMMapParameters;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMSystemParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.MutablePairingParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
@@ -16,29 +16,29 @@ import static it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils.getRandom;
  * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 2.0.0
  */
-public class CTL13MMInstanceGenerator implements PairingParametersGenerator {
+public class CTL13MMPublicParameterGenerator implements PairingParametersGenerator {
 
     protected SecureRandom random;
-    protected CTL13MMInstanceParameters parameters;
+    protected CTL13MMSystemParameters parameters;
     protected boolean storeGeneratedInstance;
 
 
-    public CTL13MMInstanceGenerator(SecureRandom random, CTL13MMInstanceParameters parameters) {
+    public CTL13MMPublicParameterGenerator(SecureRandom random, CTL13MMSystemParameters parameters) {
         this(random, parameters, true);
     }
 
-    public CTL13MMInstanceGenerator(SecureRandom random, PairingParameters parameters) {
-        this(random, new CTL13MMInstanceParameters(parameters), true);
+    public CTL13MMPublicParameterGenerator(SecureRandom random, PairingParameters parameters) {
+        this(random, new CTL13MMSystemParameters(parameters), true);
     }
 
-    public CTL13MMInstanceGenerator(SecureRandom random, CTL13MMInstanceParameters parameters, boolean storeGeneratedInstance) {
+    public CTL13MMPublicParameterGenerator(SecureRandom random, CTL13MMSystemParameters parameters, boolean storeGeneratedInstance) {
         this.random = random;
         this.parameters = parameters;
         this.storeGeneratedInstance = storeGeneratedInstance;
     }
 
-    public CTL13MMInstanceGenerator(SecureRandom random, PairingParameters parameters, boolean storeGeneratedInstance) {
-        this(random, new CTL13MMInstanceParameters(parameters), storeGeneratedInstance);
+    public CTL13MMPublicParameterGenerator(SecureRandom random, PairingParameters parameters, boolean storeGeneratedInstance) {
+        this(random, new CTL13MMSystemParameters(parameters), storeGeneratedInstance);
     }
 
 
@@ -193,7 +193,7 @@ public class CTL13MMInstanceGenerator implements PairingParametersGenerator {
 
 
     public static void main(String[] args) {
-        CTL13MMInstanceGenerator gen = new CTL13MMInstanceGenerator(new SecureRandom(), CTL13MMInstanceParameters.TOY);
+        CTL13MMPublicParameterGenerator gen = new CTL13MMPublicParameterGenerator(new SecureRandom(), CTL13MMSystemParameters.TOY);
         gen.generate();
     }
 

@@ -4,8 +4,8 @@ import it.unisa.dia.gas.jpbc.*;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine.CTL13MMInstance;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine.DefaultCTL13MMInstance;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine.MultiThreadCTL13MMInstance;
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators.CTL13MMInstanceGenerator;
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators.CTL13MMMultiThreadInstanceGenerator;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators.CTL13MMMultiThreadPublicParameterGenerator;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators.CTL13MMPublicParameterGenerator;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -24,14 +24,14 @@ public class CTL13MMPairing implements Pairing {
     public CTL13MMPairing(SecureRandom random, CTL13MMInstance instance) {
         this.random = random;
         this.instance = instance;
-        this.fields = new CTL13MMField[instance.getParameters().getKappa() + 1];
+        this.fields = new CTL13MMField[instance.getSystemParameters().getKappa() + 1];
     }
 
 
     public CTL13MMPairing(SecureRandom random, PairingParameters parameters) {
         this.random = random;
         this.instance = initInstance(parameters);
-        this.fields = new CTL13MMField[instance.getParameters().getKappa() + 1];
+        this.fields = new CTL13MMField[instance.getSystemParameters().getKappa() + 1];
     }
 
 
@@ -56,7 +56,7 @@ public class CTL13MMPairing implements Pairing {
     }
 
     public int getDegree() {
-        return instance.getParameters().getKappa();
+        return instance.getSystemParameters().getKappa();
     }
 
     public Field getFieldAt(int index) {
@@ -114,14 +114,14 @@ public class CTL13MMPairing implements Pairing {
 
         if ("mt".equals(instanceType))
             return new MultiThreadCTL13MMInstance(random,
-                    new CTL13MMMultiThreadInstanceGenerator(
+                    new CTL13MMMultiThreadPublicParameterGenerator(
                             random,
                             parameters
                     ).generate()
             );
 
         return new DefaultCTL13MMInstance(random,
-                new CTL13MMInstanceGenerator(
+                new CTL13MMPublicParameterGenerator(
                         random,
                         parameters
                 ).generate()

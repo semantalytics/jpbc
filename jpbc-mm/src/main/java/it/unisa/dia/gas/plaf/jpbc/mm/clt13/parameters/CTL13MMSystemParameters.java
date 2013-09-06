@@ -6,10 +6,10 @@ import it.unisa.dia.gas.jpbc.PairingParameters;
  * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 2.0.0
  */
-public class CTL13MMInstanceParameters {
+public class CTL13MMSystemParameters {
 
-    public static CTL13MMInstanceParameters TOY =
-            new CTL13MMInstanceParameters(
+    public static CTL13MMSystemParameters TOY =
+            new CTL13MMSystemParameters(
                     757, // eta
                     165, // n
                     10, // alpha
@@ -22,8 +22,8 @@ public class CTL13MMInstanceParameters {
                     160 // bound
             );
 
-    public static CTL13MMInstanceParameters SMALL =
-            new CTL13MMInstanceParameters(
+    public static CTL13MMSystemParameters SMALL =
+            new CTL13MMSystemParameters(
                     1779, // eta
                     540, // n
                     80, // alpha
@@ -38,9 +38,9 @@ public class CTL13MMInstanceParameters {
 
     protected int eta, n, alpha, ell, rho, delta, deltaSquare, kappa, beta, theta, bound;
 
-    public CTL13MMInstanceParameters(int eta, int n, int alpha, int ell,
-                                     int rho, int delta, int kappa, int beta,
-                                     int theta, int bound) {
+    public CTL13MMSystemParameters(int eta, int n, int alpha, int ell,
+                                   int rho, int delta, int kappa, int beta,
+                                   int theta, int bound) {
         this.eta = eta;
         this.n = n;
         this.alpha = alpha;
@@ -55,7 +55,7 @@ public class CTL13MMInstanceParameters {
     }
 
 
-    public CTL13MMInstanceParameters(PairingParameters parameters) {
+    public CTL13MMSystemParameters(PairingParameters parameters) {
         this.eta = parameters.getInt("eta");
         this.n = parameters.getInt("n");
         this.alpha = parameters.getInt("alpha");
@@ -114,7 +114,7 @@ public class CTL13MMInstanceParameters {
         return bound;
     }
 
-    public CTL13MMInstanceParameters setKappa(int kappa) {
+    public CTL13MMSystemParameters setKappa(int kappa) {
         this.kappa = kappa;
 
         return this;
@@ -122,7 +122,7 @@ public class CTL13MMInstanceParameters {
 
     @Override
     public String toString() {
-        return "CTL13MMInstanceParameters{" +
+        return "CTL13MMSystemParameters{" +
                 "eta=" + eta +
                 ", n=" + n +
                 ", alpha=" + alpha +

@@ -1,7 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine;
 
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.AbstractCTL13MMTest;
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstanceParameters;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMSystemParameters;
 import junit.framework.Assert;
 
 import java.math.BigInteger;
@@ -12,13 +12,13 @@ import java.math.BigInteger;
  */
 public class CTL13MMInstanceTest extends AbstractCTL13MMTest {
 
-    public CTL13MMInstanceTest(CTL13MMInstanceParameters instanceParameters, int genType) {
+    public CTL13MMInstanceTest(CTL13MMSystemParameters instanceParameters, int genType) {
         super(instanceParameters, genType);
     }
 
     @org.junit.Test
     public void test() {
-        for (int i = 0; i < instance.getParameters().getKappa() + 1; i++) {
+        for (int i = 0; i < instance.getSystemParameters().getKappa() + 1; i++) {
             System.out.printf("Check level %d...\n", i);
             Assert.assertTrue(instance.isZero(instance.encodeZeroAt(i), i));
             Assert.assertFalse(instance.isZero(instance.encodeOneAt(i), i));

@@ -43,7 +43,7 @@
 <a name="l7"><span class="ln">7    </span></a></span><span class="s0">import </span><span class="s1">it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.generators.GGHSW13ParametersGenerator;
 <a name="l8"><span class="ln">8    </span></a></span><span class="s0">import </span><span class="s1">it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.generators.GGHSW13SecretKeyGenerator;
 <a name="l9"><span class="ln">9    </span></a></span><span class="s0">import </span><span class="s1">it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.params.*;
-<a name="l10"><span class="ln">10   </span></a></span><span class="s0">import </span><span class="s1">it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstanceParameters;
+<a name="l10"><span class="ln">10   </span></a></span><span class="s0">import </span><span class="s1">it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMSystemParameters;
 <a name="l11"><span class="ln">11   </span></a></span><span class="s0">import </span><span class="s1">org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 <a name="l12"><span class="ln">12   </span></a></span><span class="s0">import </span><span class="s1">org.bouncycastle.crypto.CipherParameters;
 <a name="l13"><span class="ln">13   </span></a></span><span class="s0">import </span><span class="s1">org.bouncycastle.crypto.InvalidCipherTextException;

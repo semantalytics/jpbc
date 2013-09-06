@@ -16,15 +16,15 @@ import java.util.Map;
  */
 public class CTL13MMMapParameters extends MapParameters {
 
-    protected CTL13MMInstanceParameters parameters;
+    protected CTL13MMSystemParameters parameters;
     protected Disk<ArraySector<BigInteger>> disk;
 
 
-    public CTL13MMMapParameters(CTL13MMInstanceParameters parameters) {
+    public CTL13MMMapParameters(CTL13MMSystemParameters parameters) {
         this(new LatchHashMap<String, Object>(), parameters);
     }
 
-    public CTL13MMMapParameters(Map<String, Object> values, CTL13MMInstanceParameters parameters) {
+    public CTL13MMMapParameters(Map<String, Object> values, CTL13MMSystemParameters parameters) {
         super(values);
 
         this.parameters = parameters;
@@ -32,7 +32,7 @@ public class CTL13MMMapParameters extends MapParameters {
     }
 
     public CTL13MMMapParameters(PairingParameters parameters) {
-        this(new LatchHashMap<String, Object>(), new CTL13MMInstanceParameters(parameters));
+        this(new LatchHashMap<String, Object>(), new CTL13MMSystemParameters(parameters));
     }
 
 

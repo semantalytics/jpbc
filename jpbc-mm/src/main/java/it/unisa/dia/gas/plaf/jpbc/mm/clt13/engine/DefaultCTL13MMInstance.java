@@ -1,8 +1,8 @@
 package it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine;
 
 import it.unisa.dia.gas.jpbc.PairingParameters;
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstanceParameters;
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstanceValues;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMPublicParameters;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMSystemParameters;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -17,8 +17,8 @@ import static it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils.modNear;
 public class DefaultCTL13MMInstance implements CTL13MMInstance {
 
     protected SecureRandom random;
-    protected CTL13MMInstanceValues values;
-    protected CTL13MMInstanceParameters parameters;
+    protected CTL13MMPublicParameters publicParameters;
+    protected CTL13MMSystemParameters systemParameters;
 
     protected BigInteger x0;
     protected BigInteger y;       // level-one random encoding of 1
@@ -29,23 +29,23 @@ public class DefaultCTL13MMInstance implements CTL13MMInstance {
     protected long isZeroBound;
 
 
-    public DefaultCTL13MMInstance(SecureRandom random, PairingParameters parameters) {
+    public DefaultCTL13MMInstance(SecureRandom random, PairingParameters pairingParameters) {
         this.random = random;
-        this.values = new CTL13MMInstanceValues(parameters);
+        this.publicParameters = new CTL13MMPublicParameters(pairingParameters);
 
-        this.parameters = values.getInstanceParameters();
-        this.x0 = values.getX0();
-        this.y = values.getY();
-        this.z = values.getZ();
-        this.zInv = values.getZInv();
-        this.pzt = values.getPzt();
+        this.systemParameters = publicParameters.getSystemParameters();
+        this.x0 = publicParameters.getX0();
+        this.y = publicParameters.getY();
+        this.z = publicParameters.getZ();
+        this.zInv = publicParameters.getZInv();
+        this.pzt = publicParameters.getPzt();
 
-        this.isZeroBound = (x0.bitLength() - this.parameters.getBound());
+        this.isZeroBound = (x0.bitLength() - this.systemParameters.getBound());
     }
 
 
-    public CTL13MMInstanceParameters getParameters() {
-        return parameters;
+    public CTL13MMSystemParameters getSystemParameters() {
+        return systemParameters;
     }
 
 
@@ -55,7 +55,7 @@ public class DefaultCTL13MMInstance implements CTL13MMInstance {
 
     public boolean isZero(BigInteger value, int index) {
         value = modNear(value.multiply(pzt), x0);
-        for (long i = parameters.getKappa() - index; i > 0; i--)
+        for (long i = systemParameters.getKappa() - index; i > 0; i--)
             value = modNear(value.multiply(y), x0);
 
         return (value.bitLength() < isZeroBound);
@@ -69,9 +69,9 @@ public class DefaultCTL13MMInstance implements CTL13MMInstance {
     public BigInteger sampleAtZero() {
         BigInteger c = BigInteger.ZERO;
 
-        for (int i = 0; i < parameters.getEll(); i++)
+        for (int i = 0; i < systemParameters.getEll(); i++)
             if (random.nextBoolean())
-                c = c.add(values.getXspAt(i));
+                c = c.add(publicParameters.getXspAt(i));
 
         return c.mod(x0);
 
@@ -86,10 +86,10 @@ public class DefaultCTL13MMInstance implements CTL13MMInstance {
 
     public BigInteger encodeAt(int degree) {
         BigInteger res = BigInteger.ZERO;
-        for (int i = 0; i < parameters.getN(); i++) {
+        for (int i = 0; i < systemParameters.getN(); i++) {
             res = res.add(
-                    values.getGsAt(i).multiply(getRandom(parameters.getRho(), random)).add(getRandom(parameters.getAlpha(), random))
-                            .multiply(values.getCrtCoefficientAt(i))
+                    publicParameters.getGsAt(i).multiply(getRandom(systemParameters.getRho(), random)).add(getRandom(systemParameters.getAlpha(), random))
+                            .multiply(publicParameters.getCrtCoefficientAt(i))
             );
         }
 
@@ -106,10 +106,10 @@ public class DefaultCTL13MMInstance implements CTL13MMInstance {
 
     public BigInteger encodeZeroAt(int index) {
         BigInteger res = BigInteger.ZERO;
-        for (int i = 0; i < parameters.getN(); i++)
+        for (int i = 0; i < systemParameters.getN(); i++)
             res = res.add(
-                    values.getGsAt(i).multiply(getRandom(parameters.getRho(), random))
-                            .multiply(values.getCrtCoefficientAt(i))
+                    publicParameters.getGsAt(i).multiply(getRandom(systemParameters.getRho(), random))
+                            .multiply(publicParameters.getCrtCoefficientAt(i))
             );
 
         res = res.mod(x0);
@@ -125,11 +125,11 @@ public class DefaultCTL13MMInstance implements CTL13MMInstance {
 
     public BigInteger encodeOneAt(int index) {
         BigInteger res = BigInteger.ZERO;
-        for (int i = 0; i < parameters.getN(); i++) {
+        for (int i = 0; i < systemParameters.getN(); i++) {
             res = res.add(
-                    values.getGsAt(i).multiply(getRandom(parameters.getRho(), random))
+                    publicParameters.getGsAt(i).multiply(getRandom(systemParameters.getRho(), random))
                             .add(BigInteger.ONE)
-                            .multiply(values.getCrtCoefficientAt(i))
+                            .multiply(publicParameters.getCrtCoefficientAt(i))
             );
         }
 
@@ -141,12 +141,12 @@ public class DefaultCTL13MMInstance implements CTL13MMInstance {
     }
 
     public BigInteger reRandomize(BigInteger value, int index) {
-        for (int i = 0; i < parameters.getTheta(); i++) {
+        for (int i = 0; i < systemParameters.getTheta(); i++) {
             // TODO : Ensure no duplicates are used.
-            int pos = random.nextInt(parameters.getDeltaSquare());
+            int pos = random.nextInt(systemParameters.getDeltaSquare());
             value = value.add(
-                    values.getXsAt(index, pos % parameters.getDelta())
-                            .multiply(values.getXsAt(index, parameters.getDelta() + pos / parameters.getDelta()))
+                    publicParameters.getXsAt(index, pos % systemParameters.getDelta())
+                            .multiply(publicParameters.getXsAt(index, systemParameters.getDelta() + pos / systemParameters.getDelta()))
             );
         }
 
@@ -156,11 +156,11 @@ public class DefaultCTL13MMInstance implements CTL13MMInstance {
 
     public BigInteger extract(BigInteger value, int index) {
         value = modNear(value.multiply(pzt), x0);
-        for (long i = parameters.getKappa() - index; i > 0; i--)
+        for (long i = systemParameters.getKappa() - index; i > 0; i--)
             value = modNear(value.multiply(y), x0);
 
         return value.shiftRight(
-                x0.bitLength()-parameters.getBound()
+                x0.bitLength()- systemParameters.getBound()
         );
     }
 

@@ -29,23 +29,28 @@
             <a name="ctl13"/>
             <subsection name="CTL13">
                 <p>
-                    Coron, Lepoint, and Tibouchi4
-
-                Our main contribution is to describe a dierent construction that works over
-                the integers instead of ideal lattices, similar to the DGHV fully homomorphic encryption scheme
-                [DGHV10] and its batch variant [CCK+13]. Our construction oers the same
-                exibility as the
-                original from [GGH13]; in particular it can be modied to support the analogue of asymmetric
-                maps and composite-order maps. Moreover, it does not seem vulnerable to the \zeroizing" attack
-                that breaks base group hardness assumptions like the analogues of DLIN and subgroup membership
-                for the multilinear maps of [GGH13]. Since those assumptions are believed necessary to adapt
-                constructions of primitives like adaptively secure functional encryption and NIZK, our construction
-                seems even more promising for applications than [GGH13]. In Appendix C, we provide a comparison
-                with the original scheme, to better highlight the similarities
+                JPBC provides an implementation of multilinear maps
+                described by <span class="em">Coron, Lepoint, and Tibouchi</span> in the paper
+                <a name="http://eprint.iacr.org/2013/183.pdf"><span class="em">Practical Multilinear Maps over the Integers</span></a>.
+                They describe a different construction from the GGH one that works over the integers
+                instead of ideal lattices.
+                </p>
+                <p>
+                    In the CTL construction there are two sets of parameters:
+                </p>
+                <p>
+                    <span class="em">The System Parameters</span>:
+                    They govern the security and the correctness of the multilinear map.
+                    They must be set carefully to satisfy the constraints described by Coron et al
+                    in their paper in Section 3.1.
                 </p>
 
+                <p>
+                    <span class="em">The Public Parameters</span>:
+                    contain the cryptographic material corresponding to
+                    the multilinear map described by given system parameters.
+                </p>
             </subsection>
-
 
         </section>
     </body>

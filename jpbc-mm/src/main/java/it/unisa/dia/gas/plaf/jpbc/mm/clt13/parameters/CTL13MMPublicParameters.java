@@ -8,17 +8,17 @@ import java.math.BigInteger;
  * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 2.0.0
  */
-public class CTL13MMInstanceValues {
+public class CTL13MMPublicParameters {
     private PairingParameters parameters;
 
 
-    public CTL13MMInstanceValues(PairingParameters parameters) {
+    public CTL13MMPublicParameters(PairingParameters parameters) {
         this.parameters = parameters;
     }
 
 
-    public CTL13MMInstanceParameters getInstanceParameters() {
-        return (CTL13MMInstanceParameters) parameters.getObject("params");
+    public CTL13MMSystemParameters getSystemParameters() {
+        return (CTL13MMSystemParameters) parameters.getObject("params");
     }
 
     public BigInteger getX0() {

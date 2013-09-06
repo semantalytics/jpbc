@@ -1,8 +1,8 @@
 package it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine;
 
 import it.unisa.dia.gas.jpbc.PairingParameters;
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstanceParameters;
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMInstanceValues;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMPublicParameters;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMSystemParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.accumultor.Accumulator;
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.accumultor.BigIntegerAddAccumulator;
 
@@ -21,8 +21,8 @@ import static it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils.modNear;
 public class MultiThreadCTL13MMInstance implements CTL13MMInstance {
 
     protected SecureRandom random;
-    protected CTL13MMInstanceValues values;
-    protected CTL13MMInstanceParameters parameters;
+    protected CTL13MMPublicParameters values;
+    protected CTL13MMSystemParameters parameters;
 
     protected BigInteger x0;
     protected BigInteger y;       // level-one random encoding of 1
@@ -34,9 +34,9 @@ public class MultiThreadCTL13MMInstance implements CTL13MMInstance {
 
     public MultiThreadCTL13MMInstance(SecureRandom random, PairingParameters parameters) {
         this.random = random;
-        this.values = new CTL13MMInstanceValues(parameters);
+        this.values = new CTL13MMPublicParameters(parameters);
 
-        this.parameters = values.getInstanceParameters();
+        this.parameters = values.getSystemParameters();
         this.x0 = values.getX0();
         this.y = values.getY();
         this.z = values.getZ();
@@ -47,7 +47,7 @@ public class MultiThreadCTL13MMInstance implements CTL13MMInstance {
     }
 
 
-    public CTL13MMInstanceParameters getParameters() {
+    public CTL13MMSystemParameters getSystemParameters() {
         return parameters;
     }
 
