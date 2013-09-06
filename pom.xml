@@ -8,7 +8,7 @@
     <artifactId>jpbc</artifactId>
     <packaging>pom</packaging>
     <version>2.0.0</version>
-    <name>jPBC</name>
+    <name>JPBC</name>
     <url>http://gas.dia.unisa.it/</url>
     <description>
     </description>

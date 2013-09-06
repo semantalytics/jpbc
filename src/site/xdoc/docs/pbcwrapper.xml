@@ -10,13 +10,13 @@
     <body>
         <section name="PBC Wrapper">
             <p>
-                jPBC provides a wrapper around PBC.
+                JPBC provides a wrapper around PBC.
                 The wrapper provides a tiny and efficient layer to enable the communication between
-                jPBC and PBC. This layer has the form of a shared library written in
+                JPBC and PBC. This layer has the form of a shared library written in
                 <code>C</code>.
             </p>
             <p>
-                To compile the shared library, jPBC provides a
+                To compile the shared library, JPBC provides a
                 <a href="http://www.cmake.org/">cmake</a>
                 style build configuration file.
                 Thus, follow these instructions:
@@ -33,7 +33,7 @@
                     <font style="font-weight: bold;color:red; font-size=17">Compile the Shared Library: </font>
                     <p>
                         Assuming you are using a unix-like environment.
-                        Starting from a jPBC distribution, go to the
+                        Starting from a JPBC distribution, go to the
                         <code>jpbc-pbc</code>
                         folder and type in a shell the following:
                     </p>

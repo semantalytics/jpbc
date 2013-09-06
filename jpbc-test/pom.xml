@@ -11,7 +11,7 @@
     <artifactId>jpbc-test</artifactId>
     <packaging>jar</packaging>
     <version>2.0.0</version>
-    <name>jPBC - Test</name>
+    <name>JPBC - Test</name>
     <url>http://gas.dia.unisa.it/</url>
     <description>
     </description>

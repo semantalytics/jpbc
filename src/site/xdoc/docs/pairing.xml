@@ -117,7 +117,7 @@
                 <p>
                     The easiest way to obtain an instance of the
                     <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Pairing.html"><code>Pairing</code></a>
-                    interface is by using the factory provided by jPBC.
+                    interface is by using the factory provided by JPBC.
                     The factory takes in input the pairing parameters
                     and instantiates the appropriate classes.
                     To generate the pairing parameters look at this

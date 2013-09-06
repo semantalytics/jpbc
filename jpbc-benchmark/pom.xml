@@ -11,7 +11,7 @@
     <artifactId>jpbc-benchmark</artifactId>
     <packaging>jar</packaging>
     <version>2.0.0</version>
-    <name>jPBC - Benchmark</name>
+    <name>JPBC - Benchmark</name>
     <url>http://gas.dia.unisa.it/</url>
     <description>
     </description>

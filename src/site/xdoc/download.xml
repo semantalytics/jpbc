@@ -8,7 +8,7 @@
     </properties>
 
     <body>
-        <section name="Download jPBC">
+        <section name="Download JPBC">
 
             <subsection name="Releases">
                 <ul>
@@ -35,7 +35,7 @@
                         </tr>
 
                         <tr valign="top">
-                            <td>jPBC</td>
+                            <td>JPBC</td>
                             <td>2.0.0</td>
                             <td>Stable</td>
                             <td>
@@ -55,7 +55,7 @@
                 
                 <font style="font-weight: bold;">
                     <a href="http://prdownloads.sourceforge.net/jpbc/?sort_by=date&amp;sort=desc">
-                        Browse all jPBC downloads
+                        Browse all JPBC downloads
                     </a>
                 </font>
                 
@@ -77,9 +77,9 @@
             </subsection>
 
             <a name="usage"/>
-            <subsection name="jPBC Usage">
+            <subsection name="JPBC Usage">
                 <p>
-                    To use jPBC it is enough to add to your classpath the following jars:
+                    To use JPBC it is enough to add to your classpath the following jars:
                     <ol type="1">
                         <li>
                             <tt>jpbc_2.0.0-api.jar</tt>
@@ -98,7 +98,7 @@
             <subsection name="PBC Wrapper Usage">
                 <p>
                     To use the PBC wrapper you need to compile the shared library
-                    that enables the communication between PBC and jPBC. Please,
+                    that enables the communication between PBC and JPBC. Please,
                     find
                     <a href="./docs/pbcwrapper.html">here</a>
                     the instructions to compile the shared library.

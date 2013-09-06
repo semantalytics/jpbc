@@ -9,7 +9,7 @@
 
     <body>
         <section name="Contact">
-            jPBC is mainly developed by
+            JPBC is mainly developed by
             <a href="http://www.dia.unisa.it/dottorandi/decaro/">Angelo De Caro</a>.
             <br/>
             Feel free to contact me at
@@ -35,8 +35,8 @@
         </section>
 
         <section name="Contribute">
-            You can contribute to jPBC in a number of ways. The most obvious way is to report bugs
-            or request new features that would make jPBC a better library.
+            You can contribute to JPBC in a number of ways. The most obvious way is to report bugs
+            or request new features that would make JPBC a better library.
             <ul>
                 <li>
                     <a href="http://sourceforge.net/tracker/?group_id=266486&amp;atid=1134346">Bug tracker

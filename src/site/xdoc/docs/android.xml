@@ -10,14 +10,14 @@
     <body>
         <section name="Android">
             <p>
-                jPBC runs out of box on Android (2.1+ version).
+                JPBC runs out of box on Android (2.1+ version).
             </p>
 
             <subsection name="A Benchmark App">
                 <p>
                     Download the following
                     <a href="../android/jpbc-android.apk">APK</a>
-                    to benchmark jPBC on your terminal.
+                    to benchmark JPBC on your terminal.
                     Once the benchmark is finished the results can be found
                     on the external memory in a file called "benchmark.out".
                 </p>

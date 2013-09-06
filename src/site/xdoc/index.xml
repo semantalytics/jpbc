@@ -9,10 +9,10 @@
 
     <body>
         <div id="downloadbox">
-            <h5>Get jPBC 2.0.0 Now!!!</h5>
+            <h5>Get JPBC 2.0.0 Now!!!</h5>
 
             <p>
-                <a href="download.html">jPBC 2.0.0</a>
+                <a href="download.html">JPBC 2.0.0</a>
             </p>
 
             <ul>
@@ -20,7 +20,7 @@
                     <a href="download.html#requirements">System Requirements</a>
                 </li>
                 <li>
-                    <a href="download.html#usage">jPBC Usage</a>
+                    <a href="download.html#usage">JPBC Usage</a>
                 </li>
                 <li>
                     <a href="license.html">License (LGPL)</a>
@@ -46,7 +46,7 @@
         </div>
 
         <section name="Introduction">
-            The Java Pairing Based Cryptography Library (jPBC) provides:
+            The Java Pairing Based Cryptography Library (JPBC) provides:
             <ul>
                 <li>
                     <p>
@@ -64,7 +64,7 @@
                         around the
                         <a href="http://crypto.stanford.edu/pbc/">PBC</a>
                         library. The wrapper provides a tiny and efficient layer
-                        to enable the communication between PBC and jPBC.
+                        to enable the communication between PBC and JPBC.
                         The pairing computation can be then
                         directly delegated to PBC resulting in improved performance.
                     </p>
@@ -81,8 +81,8 @@
             </ul>
         </section>
 
-        <section name="Who Uses jPBC?">
-            If your project uses the jPBC library and you don’t mind it appearing here please
+        <section name="Who Uses JPBC?">
+            If your project uses the JPBC library and you don’t mind it appearing here please
             <a href="./contact.html">contact</a>
             me.
         </section>

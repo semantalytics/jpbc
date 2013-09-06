@@ -11,7 +11,7 @@
     <artifactId>jpbc-site-skin</artifactId>
     <packaging>jar</packaging>
     <version>2.0.0</version>
-    <name>jPBC - Skin</name>
+    <name>JPBC - Skin</name>
     <url>http://jpbc.sourceforge.net</url>
     <description></description>
 </project>

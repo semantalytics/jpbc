@@ -313,7 +313,7 @@
           #publishDate( "right" $decoration.publishDate $decoration.version )
       </div>
         <div class="xcenter">
-          The Java Pairing Based Cryptography Library (jPBC)
+          The Java Pairing Based Cryptography Library (JPBC)
         </div>
       <div class="clear">
         <hr/>

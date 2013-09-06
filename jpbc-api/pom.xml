@@ -11,7 +11,7 @@
     <artifactId>jpbc-api</artifactId>
     <packaging>jar</packaging>
     <version>2.0.0</version>
-    <name>jPBC - API</name>
+    <name>JPBC - API</name>
     <url>http://gas.dia.unisa.it/</url>
     <description>
     </description>

@@ -22,7 +22,7 @@
 
             <subsection name="Build System">
                 <p>
-                    jPBC is built using Maven 2. You can download it from
+                    JPBC is built using Maven 2. You can download it from
                     <a href="http://maven.apache.org">http://maven.apache.org</a>.
                     <br/>
                     There are a few dependencies which are hosted on any publicly available Maven Repository so Maven
@@ -30,7 +30,7 @@
                 </p>
 
                 <p>
-                    To build and install (into the local maven repository) jPBC simply type in a shell the following:
+                    To build and install (into the local maven repository) JPBC simply type in a shell the following:
                 </p>
                 <source>mvn clean package install</source>
                 <p>

@@ -3,7 +3,7 @@
         "http://maven.apache.org/dtd/xdoc_1_0.dtd">
 <document>
     <properties>
-        <title>jPBC : Schemes</title>
+        <title>JPBC : Schemes</title>
         <author email="jpbclib@gmail.com">Angelo De Caro</author>
     </properties>
 
@@ -11,7 +11,7 @@
         <section name="Schemes">
 
             <p>
-                The jPBC distribution package contains also the implementations of the
+                The JPBC distribution package contains also the implementations of the
                 following cryptosystems in the context of the
                 <a href="http://www.bouncycastle.org/java.html">Bouncy Castle</a>
                 framework. This will simplify the integration with the Java Cryptography Extension (JCE) framework.

@@ -11,7 +11,7 @@
     <artifactId>jpbc-pbc</artifactId>
     <packaging>jar</packaging>
     <version>2.0.0</version>
-    <name>jPBC - PBC Wrapper</name>
+    <name>JPBC - PBC Wrapper</name>
     <url>http://gas.dia.unisa.it/</url>
     <description>
     </description>
