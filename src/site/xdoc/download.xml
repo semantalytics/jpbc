@@ -10,56 +10,59 @@
     <body>
         <section name="Download JPBC">
 
-            <subsection name="Releases">
-                <ul>
-                    <li>
-                        Please see our
-                        <a href="license.html">License FAQ</a>
-                        before downloading.
-                    </li>
-                </ul>
+            <p>
+                JPBC comes in the form of a
+                <span class="em">distro package</span>
+                that contains the jars and the source code
+                of the library.
+                Please see our
+                <a href="license.html">License FAQ</a>
+                before downloading.
+            </p>
 
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <font style="font-weight: bold;">Package</font>
-                            </td>
-                            <td>
-                                <font style="font-weight: bold;">Version</font>
-                            </td>
-                            <td>
-                                <font style="font-weight: bold;">Category</font>
-                            </td>
-                            <td/>
-                        </tr>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <font style="font-weight: bold;">Package</font>
+                        </td>
+                        <td>
+                            <font style="font-weight: bold;">Version</font>
+                        </td>
+                        <td>
+                            <font style="font-weight: bold;">Category</font>
+                        </td>
+                        <td/>
+                    </tr>
 
-                        <tr valign="top">
-                            <td>JPBC</td>
-                            <td>2.0.0</td>
-                            <td>Stable</td>
-                            <td>
-                                <em>
-                                    <a href="http://sourceforge.net/projects/jpbc/files/">
-                                        Download
-                                    </a>
-                                </em>
-                            </td>
-                        </tr>
+                    <tr valign="top">
+                        <td>JPBC</td>
+                        <td>2.0.0</td>
+                        <td>Stable</td>
+                        <td>
+                            <em>
+                                <a href="http://sourceforge.net/projects/jpbc/files/">
+                                    Download
+                                </a>
+                            </em>
+                        </td>
+                    </tr>
 
-                    </tbody>
-                </table>
+                </tbody>
+            </table>
 
-                <br/>
-                <br/>
-                
-                <font style="font-weight: bold;">
-                    <a href="http://prdownloads.sourceforge.net/jpbc/?sort_by=date&amp;sort=desc">
-                        Browse all JPBC downloads
-                    </a>
-                </font>
-                
-            </subsection>
+            <p>
+                <span class="em">
+                    <a href="http://prdownloads.sourceforge.net/jpbc/?sort_by=date&amp;sort=desc">Browse all JPBC downloads</a>
+                </span>
+            </p>
+        </section>
+
+
+        <section name="Use JPBC">
+            <p>
+                Notice that, all the jars files can be found under the <code>jars</code> folder.
+            </p>
 
             <a name="requirements"/>
             <subsection name="System Requirements">
@@ -82,53 +85,65 @@
                     To use JPBC it is enough to add to your classpath the following jars:
                     <ol type="1">
                         <li>
-                            <tt>jpbc_2.0.0-api.jar</tt>
+                            <span class="em"><code>jpbc_2.0.0-api.jar</code></span>
                             and
                         </li>
-
                         <li>
-                            <tt>jpbc_2.0.0-plaf.jar</tt>.
+                            <span class="em"><code>jpbc_2.0.0-plaf.jar</code></span>.
                         </li>
                     </ol>
-                </p>
-                <p>
-                    Note that the jars files can be found in the distro package under the <tt>jars</tt> folder.
                 </p>
             </subsection>
             <subsection name="PBC Wrapper Usage">
                 <p>
-                    To use the PBC wrapper you need to compile the shared library
-                    that enables the communication between PBC and JPBC. Please,
-                    find
-                    <a href="./docs/pbcwrapper.html">here</a>
-                    the instructions to compile the shared library.
-                    <br/>
+                    To use the PBC Wrapper, a shared C library must be compiled
+                    and installed properly as shown
+                    <a href="http://crypto.stanford.edu/pbc/manual/ch08s03.html">here</a>.
+                </p>
+                <p>
                     Then, to use the wrapper include the following jars:
                 </p>
                 <ol>
                     <li>
-                        <tt>jpbc_2.0.0-pbc.jar</tt>
+                        <span class="em"><code>jpbc_2.0.0-pbc.jar</code></span>
                         and
                     </li>
-
                     <li>
-                        <tt>jna-3.1.0.jar</tt>.
+                        <span class="em"><code>jna-3.1.0.jar</code></span>.
                     </li>
                 </ol>
             </subsection>
+
             <subsection name="Multilinear Maps Usage">
                 <p>
-                    Finally, to use the
-                    <a href="docs/multimaps.html">Multilinear Maps over the Integers</a>,
+                    To use the
+                    <a href="docs/pairing.html">Multilinear Maps</a>,
                     include the following jar:
                 </p>
                 <ol>
                     <li>
-                        <tt>jpbc_2.0.0-mm.jar</tt>.
+                        <span class="em"><code>jpbc_2.0.0-mm.jar</code></span>.
                     </li>
                 </ol>
             </subsection>
 
+            <subsection name="Cryptosystems Usage">
+                <p>
+                    To use the
+                    <a href="schemes/schemes.html">cryptosystems</a>
+                    provided by JPBC
+                    include the following jars:
+                </p>
+                <ol>
+                    <li>
+                        <span class="em"><code>jpbc-crypto-2.0.0.jar</code></span>
+                        and
+                    </li>
+                    <li>
+                        <span class="em"><code>bcprov-jdk16-1.46</code></span>.
+                    </li>
+                </ol>
+            </subsection>
         </section>
     </body>
 </document>

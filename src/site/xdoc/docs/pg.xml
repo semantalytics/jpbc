@@ -56,6 +56,10 @@ PairingParameters params = parametersGenerator.generate();
                 JPBC provides pairing parameters generators for
                 <a href="./ecpg.html#initializing">bilinear</a> (based on elliptic curves) and
                 <a href="./mmpg.html#initializing">multilinear</a> maps.
+                <br/>
+                Pregenerated parameters can be found in the <code>params</code>
+                folder of the
+                <a href="../download.html">distro package</a>.
             </p>
         </section>
     </body>

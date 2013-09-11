@@ -29,9 +29,10 @@
             <a name="ctl13"/>
             <subsection name="CTL13">
                 <p>
-                JPBC provides an implementation of multilinear maps
-                described by <span class="em">Coron, Lepoint, and Tibouchi</span> in the paper
-                <a name="http://eprint.iacr.org/2013/183.pdf"><span class="em">Practical Multilinear Maps over the Integers</span></a>.
+                JPBC provides an implementation of <span class="em">Multilinear Maps</span>
+                based on the paper
+                <a name="http://eprint.iacr.org/2013/183.pdf"><span class="em">Practical Multilinear Maps over the Integers</span></a>
+                by <span class="em">Coron, Lepoint, and Tibouchi</span>.
                 They describe a different construction from the GGH one that works over the integers
                 instead of ideal lattices.
                 </p>
@@ -43,12 +44,45 @@
                     They govern the security and the correctness of the multilinear map.
                     They must be set carefully to satisfy the constraints described by Coron et al
                     in their paper in Section 3.1.
+                    JPBC provides a set of predefined system parameters that
+                    can be found in the <code>params/mm/ctl13</code> folder
+                    of the distro package.
                 </p>
 
                 <p>
                     <span class="em">The Public Parameters</span>:
-                    contain the cryptographic material corresponding to
-                    the multilinear map described by given system parameters.
+                    Represent an instance of a specific
+                    multilinear map described by the given system parameters.
+                    <br/>
+                    For CTL multilinear maps, JPBC provides a single thread and
+                    a multithreads generator. The generators take in input
+                    the system parameters and generate the public parameters
+                    which are saved in a file.
+                    <br/>
+                    Here is the code to use them.
+                </p>
+
+                <source>import it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators.CTL13MMMultiThreadPublicParameterGenerator;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators.CTL13MMPublicParameterGenerator;
+
+// JPBC CTL13 pairing generator single thread...
+ParametersGenerator pg = new CTL13MMPublicParameterGenerator(CTL13MMSystemParameters.TOY);
+// JPBC CTL13 pairing generator multi threads...
+ParametersGenerator mtPg = new CTL13MMMultiThreadPublicParameterGenerator(CTL13MMSystemParameters.TOY);
+                </source>
+
+                <p>
+                    Notice that, the multithreads generator does not have
+                    memory requirements. In fact, the generator uses
+                    memory mapped files to store the public parameters.
+                    Of course, the less the memory the system has
+                    the slower the generation process is.
+                </p>
+                <p>
+                    On the other hand, the single thread generator
+                    keeps all the public parameters in memory and
+                    thus, depending on the size of the system parameters,
+                    huge quantity of memory could be required.
                 </p>
             </subsection>
 

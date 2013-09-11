@@ -58,6 +58,7 @@ public class CTL13MMPublicParameterGenerator implements PairingParametersGenerat
         return mapParameters;
     }
 
+
     protected CTL13MMMapParameters newCTL13MMMapParameters() {
         return new CTL13MMMapParameters(parameters);
     }
