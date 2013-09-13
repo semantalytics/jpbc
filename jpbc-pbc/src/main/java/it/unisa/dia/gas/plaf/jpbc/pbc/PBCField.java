@@ -56,12 +56,12 @@ public abstract class PBCField extends AbstractField {
     }
 
     public Element[] twice(Element[] elements) {
-        Pointer[] pointers = new Pointer[elements.length];
+        Pointer[] ins = new Pointer[elements.length];
         for (int i = 0; i < elements.length; i++) {
-            pointers[i] = ((PBCElement) elements[i]).getValue();
+            ins[i] = ((PBCElement) elements[i]).getValue();
         }
 
-        WrapperLibraryProvider.getWrapperLibrary().pbc_element_multi_double(pointers, pointers, elements.length);
+        WrapperLibraryProvider.getWrapperLibrary().pbc_element_multi_double2(ins, elements.length);
 
         return elements;
     }

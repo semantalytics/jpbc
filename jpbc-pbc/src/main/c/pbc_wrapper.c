@@ -437,9 +437,30 @@ void pbc_element_clear(element_t element) {
     element_clear(element);
 }
 
-void pbc_element_multi_double(element_t n[], element_t a[], int m) {
-    element_multi_double(n, a, m);
+void pbc_element_multi_double(element_ptr n[], element_ptr a[], int m) {
+    element_t in1a[m];
+    element_t in2a[m];
+
+    int i;
+    for (i = 0; i < m; i++) {
+        in1a[i][0] = *n[i];
+        in2a[i][0] = *a[i];
+    }
+
+    element_multi_double(in1a, in2a, m);
 }
+
+void pbc_element_multi_double2(element_ptr a[], int m) {
+    element_t in1a[m];
+
+    int i;
+    for (i = 0; i < m; i++) {
+        in1a[i][0] = *a[i];
+    }
+
+    element_multi_double(in1a, in1a, m);
+}
+
 
 void pbc_element_multi_add(element_t n[], element_t a[], element_t b[], int m) {
     element_multi_add(n, a, b, m);

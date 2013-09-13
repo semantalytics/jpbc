@@ -167,6 +167,8 @@ public interface WrapperLibrary extends Library {
 
     void pbc_element_multi_double(Pointer n[], Pointer a[], int m);
 
+    void pbc_element_multi_double2(Pointer a[], int m);
+
     void pbc_element_multi_add(Pointer n[], Pointer a[], Pointer b[], int m);
 
     void pbc_element_pairing(Pointer out, Pointer in1, Pointer in2);

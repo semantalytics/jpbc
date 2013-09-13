@@ -18,15 +18,6 @@ public class CurveFieldTest extends AbstractJPBCTest {
         super(usePBC, curvePath);
     }
 
-    @Override
-    public void before() throws Exception {
-        super.before();
-
-        // TODO:  Invalid memory access of location when using PBC. Investigate.
-        assumeTrue(!usePBC);
-
-    }
-
     @Test
     public void testOne() {
         assumeTrue(pairing.isSymmetric());
