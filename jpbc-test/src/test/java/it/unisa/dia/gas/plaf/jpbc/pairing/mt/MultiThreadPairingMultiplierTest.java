@@ -3,7 +3,7 @@ package it.unisa.dia.gas.plaf.jpbc.pairing.mt;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.plaf.jpbc.AbstractJPBCTest;
-import it.unisa.dia.gas.plaf.jpbc.pairing.accumulator.MultiThreadMulPairingAccumulator;
+import it.unisa.dia.gas.plaf.jpbc.pairing.accumulator.MultiThreadedMulPairingAccumulator;
 import it.unisa.dia.gas.plaf.jpbc.pairing.accumulator.PairingAccumulator;
 import it.unisa.dia.gas.plaf.jpbc.pairing.accumulator.SequentialMulPairingAccumulator;
 import org.junit.Test;
@@ -62,7 +62,7 @@ public class MultiThreadPairingMultiplierTest extends AbstractJPBCTest {
 
         // Test multi thread
         System.out.println("MultiThread");
-        multiplier = new MultiThreadMulPairingAccumulator(pairing);
+        multiplier = new MultiThreadedMulPairingAccumulator(pairing);
         start = System.currentTimeMillis();
         for (int i=0; i <n;i++){
             multiplier.addPairing(in1s[i], in2s[i]);

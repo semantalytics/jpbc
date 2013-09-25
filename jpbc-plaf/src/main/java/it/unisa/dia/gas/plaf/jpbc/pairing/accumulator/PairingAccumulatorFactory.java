@@ -15,29 +15,30 @@ public class PairingAccumulatorFactory {
         return INSTANCE;
     }
 
-    private boolean multiThreadSupport;
+    private boolean multiThreadingEnabled;
 
 
     private PairingAccumulatorFactory() {
-        this.multiThreadSupport = false; // Runtime.getRuntime().availableProcessors() > 1;
+        this.multiThreadingEnabled = false; // Runtime.getRuntime().availableProcessors() > 1;
     }
 
 
     public PairingAccumulator getPairingMultiplier(Pairing pairing) {
-        return isMultiThreadSupport() ? new MultiThreadMulPairingAccumulator(pairing)
+        return isMultiThreadingEnabled() ? new MultiThreadedMulPairingAccumulator(pairing)
                 : new SequentialMulPairingAccumulator(pairing);
     }
 
     public PairingAccumulator getPairingMultiplier(Pairing pairing, Element element) {
-        return isMultiThreadSupport() ? new MultiThreadMulPairingAccumulator(pairing, element)
+        return isMultiThreadingEnabled() ? new MultiThreadedMulPairingAccumulator(pairing, element)
                 : new SequentialMulPairingAccumulator(pairing, element);
     }
 
-    public boolean isMultiThreadSupport() {
-        return multiThreadSupport;
+    public boolean isMultiThreadingEnabled() {
+        return multiThreadingEnabled;
     }
 
-    public void setMultiThreadSupport(boolean multiThreadSupport) {
-        this.multiThreadSupport = multiThreadSupport;
+    public void setMultiThreadingEnabled(boolean multiThreadingEnabled) {
+        this.multiThreadingEnabled = multiThreadingEnabled;
     }
+
 }
