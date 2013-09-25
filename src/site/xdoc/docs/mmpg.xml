@@ -48,16 +48,15 @@
                     can be found in the <code>params/mm/ctl13</code> folder
                     of the distro package.
                 </p>
-
                 <p>
                     <span class="em">The Public Parameters</span>:
-                    Represent an instance of a specific
-                    multilinear map described by the given system parameters.
-                    <br/>
-                    For CTL multilinear maps, JPBC provides a single thread and
-                    a multithreads generator. The generators take in input
-                    the system parameters and generate the public parameters
-                    which are saved in a file.
+                    They describe a specific instance of a
+                    multilinear map defined by the given system parameters.
+                </p>
+                <p>
+                    JPBC provides single and multithreads generators
+                    that take in input the system parameters and generate the public parameters
+                    which are then saved in a file.
                     <br/>
                     Here is the code to use them.
                 </p>
@@ -81,7 +80,7 @@ ParametersGenerator mtPg = new CTL13MMMultiThreadPublicParameterGenerator(CTL13M
                 <p>
                     On the other hand, the single thread generator
                     keeps all the public parameters in memory and
-                    thus, depending on the size of the system parameters,
+                    thus, depending on the system parameters,
                     huge quantity of memory could be required.
                 </p>
             </subsection>

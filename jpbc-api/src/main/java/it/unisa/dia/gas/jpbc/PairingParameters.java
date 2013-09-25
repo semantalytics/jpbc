@@ -148,9 +148,9 @@ public interface PairingParameters extends Serializable {
     String toString(String separator);
 
     /**
-     * Returns the value to which the specified key is mapped.
+     * Returns the object to which the specified key is mapped.
      *
-     * @param key the key whose associated value is to be returned
+     * @param key the key whose associated object is to be returned
      * @since 2.0.0
      */
     Object getObject(String key);

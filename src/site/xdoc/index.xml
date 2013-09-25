@@ -89,20 +89,20 @@
             </p>
         </section>
 
-        <section name="What is the appropriate way to cite JPBX in an academic context?">
+        <section name="What is the appropriate way to cite JPBC in an academic context?">
             <p>
                 If you use Bibtex for your citations, we recommend that
                 you add the following entry in your bibtex database:
             </p>
             <source>@inproceedings{ISCC:DeCIov11,
-author    = {Angelo {De Caro} and Vincenzo Iovino},
-title     = {jPBC: Java pairing based cryptography},
-year      = {2011},
-pages     = {850-855},
-booktitle = {Proceedings of the 16th IEEE Symposium on Computers and Communications, ISCC 2011},
-address   = {Kerkyra, Corfu, Greece, June 28 - July 1}
-publisher = {IEEE},
-url       = {\url{http://jpbc.sourceforge.net/}},
+    author    = {Angelo {De Caro} and Vincenzo Iovino},
+    title     = {jPBC: Java pairing based cryptography},
+    year      = {2011},                 UHIBELW11PredicateOnlyEngineTest
+    pages     = {850-855},
+    booktitle = {Proceedings of the 16th IEEE Symposium on Computers and Communications, ISCC 2011},
+    address   = {Kerkyra, Corfu, Greece, June 28 - July 1}
+    publisher = {IEEE},
+    url       = {\url{http://jpbc.sourceforge.net/}},
 }
             </source>
 

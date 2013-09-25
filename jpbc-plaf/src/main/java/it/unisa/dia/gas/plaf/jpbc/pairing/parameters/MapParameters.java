@@ -1,10 +1,10 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing.parameters;
 
 import java.math.BigInteger;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
@@ -101,17 +101,15 @@ public class MapParameters implements MutablePairingParameters {
 
     public void putBigIntegerAt(String key, int index, BigInteger value) {
         Object obj = getObject(key);
-        if (obj instanceof Vector) {
-            // todo: replace vector with a designed list
-            Vector vector = (Vector) obj;
 
-            vector.ensureCapacity(index+1);
-            vector.insertElementAt(value, index);
+        if (obj instanceof Map) {
+            Map map = (Map) obj;
+            map.put(index, value);
         } else {
-            Vector<BigInteger> vecotr = new Vector<BigInteger>();
-            vecotr.add(index, value);
+            Map map = new HashMap<Integer, BigInteger>();
+            map.put(index, value);
 
-            values.put(key, vecotr);
+            values.put(key, map);
         }
     }
 

@@ -19,7 +19,7 @@ public class PairingAccumulatorFactory {
 
 
     private PairingAccumulatorFactory() {
-        this.multiThreadSupport = Runtime.getRuntime().availableProcessors() > 1;
+        this.multiThreadSupport = false; // Runtime.getRuntime().availableProcessors() > 1;
     }
 
 

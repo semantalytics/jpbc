@@ -1,5 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc.signature.ps06;
 
+import it.unisa.dia.gas.crypto.jpbc.signature.ps06.engines.PS06Signer;
 import it.unisa.dia.gas.crypto.jpbc.signature.ps06.generators.PS06ParametersGenerator;
 import it.unisa.dia.gas.crypto.jpbc.signature.ps06.generators.PS06SecretKeyGenerator;
 import it.unisa.dia.gas.crypto.jpbc.signature.ps06.generators.PS06SetupGenerator;
@@ -16,11 +17,11 @@ import static org.junit.Assert.*;
 /**
  * @author Angelo De Caro
  */
-public class PS06Signer {
+public class PS06 {
 
     private PairingParameters parameters;
 
-    public PS06Signer() {
+    public PS06() {
         parameters = PairingFactory.getPairingParameters("params/curves/a.properties");
     }
 
@@ -48,7 +49,7 @@ public class PS06Signer {
     public byte[] sign(String message, CipherParameters secretKey) {
         byte[] bytes = message.getBytes();
 
-        it.unisa.dia.gas.crypto.jpbc.signature.ps06.engines.PS06Signer signer = new it.unisa.dia.gas.crypto.jpbc.signature.ps06.engines.PS06Signer(new SHA256Digest());
+        PS06Signer signer = new PS06Signer(new SHA256Digest());
         signer.init(true, new PS06SignParameters((PS06SecretKeyParameters) secretKey));
         signer.update(bytes, 0, bytes.length);
 
@@ -65,7 +66,7 @@ public class PS06Signer {
     public boolean verify(CipherParameters publicKey, String message, String identity, byte[] signature) {
         byte[] bytes = message.getBytes();
 
-        it.unisa.dia.gas.crypto.jpbc.signature.ps06.engines.PS06Signer signer = new it.unisa.dia.gas.crypto.jpbc.signature.ps06.engines.PS06Signer(new SHA256Digest());
+        PS06Signer signer = new PS06Signer(new SHA256Digest());
         signer.init(false, new PS06VerifyParameters((PS06PublicKeyParameters) publicKey, identity));
         signer.update(bytes, 0, bytes.length);
 
@@ -73,23 +74,23 @@ public class PS06Signer {
     }
 
     public static void main(String[] args) {
-        PS06Signer signer = new PS06Signer();
+        PS06 ps06 = new PS06();
 
         // Setup -> (Public Key, Master Secret Key)
-        AsymmetricCipherKeyPair keyPair = signer.setup(signer.createParameters(256, 256));
+        AsymmetricCipherKeyPair keyPair = ps06.setup(ps06.createParameters(256, 256));
 
         // Extract -> Secret Key for Identity "01001101"
-        CipherParameters secretKey = signer.extract(keyPair, "01001101");
+        CipherParameters secretKey = ps06.extract(keyPair, "01001101");
 
         // Sign
         String message = "Hello World!!!";
-        byte[] signature = signer.sign(message, secretKey);
+        byte[] signature = ps06.sign(message, secretKey);
 
         // verify with the same identity
-        assertTrue(signer.verify(keyPair.getPublic(), message, "01001101", signature));
+        assertTrue(ps06.verify(keyPair.getPublic(), message, "01001101", signature));
 
         // verify with another identity
-        assertFalse(signer.verify(keyPair.getPublic(), message, "01001100", signature));
+        assertFalse(ps06.verify(keyPair.getPublic(), message, "01001100", signature));
     }
 
 }

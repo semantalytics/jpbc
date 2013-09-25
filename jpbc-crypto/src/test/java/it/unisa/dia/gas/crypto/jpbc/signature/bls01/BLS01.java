@@ -1,5 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc.signature.bls01;
 
+import it.unisa.dia.gas.crypto.jpbc.signature.bls01.engines.BLS01Signer;
 import it.unisa.dia.gas.crypto.jpbc.signature.bls01.generators.BLS01KeyPairGenerator;
 import it.unisa.dia.gas.crypto.jpbc.signature.bls01.generators.BLS01ParametersGenerator;
 import it.unisa.dia.gas.crypto.jpbc.signature.bls01.params.BLS01KeyGenerationParameters;
@@ -17,11 +18,11 @@ import static org.junit.Assert.assertTrue;
 /**
  * @author Angelo De Caro
  */
-public class BLS01Signer {
+public class BLS01 {
 
     private PairingParameters parameters;
 
-    public BLS01Signer() {
+    public BLS01() {
         parameters = PairingFactory.getPairingParameters("params/curves/a.properties");
     }
 
@@ -43,7 +44,7 @@ public class BLS01Signer {
     public byte[] sign(String message, CipherParameters privateKey) {
         byte[] bytes = message.getBytes();
 
-        it.unisa.dia.gas.crypto.jpbc.signature.bls01.engines.BLS01Signer signer = new it.unisa.dia.gas.crypto.jpbc.signature.bls01.engines.BLS01Signer(new SHA256Digest());
+        BLS01Signer signer = new BLS01Signer(new SHA256Digest());
         signer.init(true, privateKey);
         signer.update(bytes, 0, bytes.length);
 
@@ -59,7 +60,7 @@ public class BLS01Signer {
     public boolean verify(byte[] signature, String message, CipherParameters publicKey) {
         byte[] bytes = message.getBytes();
 
-        it.unisa.dia.gas.crypto.jpbc.signature.bls01.engines.BLS01Signer signer = new it.unisa.dia.gas.crypto.jpbc.signature.bls01.engines.BLS01Signer(new SHA256Digest());
+        BLS01Signer signer = new BLS01Signer(new SHA256Digest());
         signer.init(false, publicKey);
         signer.update(bytes, 0, bytes.length);
 
@@ -67,17 +68,17 @@ public class BLS01Signer {
     }
 
     public static void main(String[] args) {
-        BLS01Signer signer = new BLS01Signer();
+        BLS01 bls01 = new BLS01();
 
         // Setup
-        AsymmetricCipherKeyPair keyPair = signer.keyGen(signer.setup());
+        AsymmetricCipherKeyPair keyPair = bls01.keyGen(bls01.setup());
 
         // Test same message
         String message = "Hello World!";
-        assertTrue(signer.verify(signer.sign(message, keyPair.getPrivate()), message, keyPair.getPublic()));
+        assertTrue(bls01.verify(bls01.sign(message, keyPair.getPrivate()), message, keyPair.getPublic()));
 
         // Test different message
-        assertFalse(signer.verify(signer.sign(message, keyPair.getPrivate()), "Hello Italy!", keyPair.getPublic()));
+        assertFalse(bls01.verify(bls01.sign(message, keyPair.getPrivate()), "Hello Italy!", keyPair.getPublic()));
     }
 
 }
