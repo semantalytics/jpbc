@@ -82,7 +82,7 @@
             <a name="usage"/>
             <subsection name="JPBC Usage">
                 <p>
-                    To use JPBC it is enough to add to your classpath the following jars:
+                    To use JPBC, add to your classpath the following jars:
                     <ol type="1">
                         <li>
                             <span class="em"><code>jpbc_2.0.0-api.jar</code></span>
@@ -101,7 +101,7 @@
                     <a href="http://crypto.stanford.edu/pbc/manual/ch08s03.html">here</a>.
                 </p>
                 <p>
-                    Then, to use the wrapper include the following jars:
+                    Then, to use the wrapper, include the following jars:
                 </p>
                 <ol>
                     <li>

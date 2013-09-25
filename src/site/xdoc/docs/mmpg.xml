@@ -54,7 +54,7 @@
                     multilinear map defined by the given system parameters.
                 </p>
                 <p>
-                    JPBC provides single and multithreads generators
+                    JPBC provides single and multithreaded generators
                     that take in input the system parameters and generate the public parameters
                     which are then saved in a file.
                     <br/>
@@ -63,16 +63,18 @@
 
                 <source>import it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators.CTL13MMMultiThreadPublicParameterGenerator;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators.CTL13MMPublicParameterGenerator;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMSystemParameters;
 
-// JPBC CTL13 pairing generator single thread...
+// Single thread pairing generator ...
 ParametersGenerator pg = new CTL13MMPublicParameterGenerator(CTL13MMSystemParameters.TOY);
-// JPBC CTL13 pairing generator multi threads...
+
+// Multithreaded pairing generator ...
 ParametersGenerator mtPg = new CTL13MMMultiThreadPublicParameterGenerator(CTL13MMSystemParameters.TOY);
                 </source>
 
                 <p>
-                    Notice that, the multithreads generator does not have
-                    memory requirements. In fact, the generator uses
+                    Notice that, the multithreaded generator does not have
+                    any special memory requirements. In fact, the generator uses
                     memory mapped files to store the public parameters.
                     Of course, the less the memory the system has
                     the slower the generation process is.
