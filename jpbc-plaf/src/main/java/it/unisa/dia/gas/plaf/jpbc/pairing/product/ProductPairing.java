@@ -5,7 +5,7 @@ import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorField;
 import it.unisa.dia.gas.plaf.jpbc.pairing.accumulator.PairingAccumulator;
 import it.unisa.dia.gas.plaf.jpbc.pairing.accumulator.PairingAccumulatorFactory;
 import it.unisa.dia.gas.plaf.jpbc.pairing.accumulator.ProductPairingAccumulator;
-import it.unisa.dia.gas.plaf.jpbc.pairing.map.AbstractMillerPairingPreProcessing;
+import it.unisa.dia.gas.plaf.jpbc.pairing.map.DefaultPairingPreProcessing;
 
 import java.security.SecureRandom;
 
@@ -91,11 +91,7 @@ public class ProductPairing implements Pairing {
     }
 
     public PairingPreProcessing getPairingPreProcessingFromElement(final Element in1) {
-        return new AbstractMillerPairingPreProcessing() {
-            public Element pairing(Element in2) {
-                return ProductPairing.this.pairing(in1, in2);
-            }
-        };
+        return new DefaultPairingPreProcessing(this, in1);
     }
 
     public int getPairingPreProcessingLengthInBytes() {
@@ -107,10 +103,6 @@ public class ProductPairing implements Pairing {
     }
 
     public PairingPreProcessing getPairingPreProcessingFromBytes(byte[] source, int offset) {
-        throw new IllegalStateException("Not implemented yet!!!");
-    }
-
-    public boolean isAlmostCoddh(Element a, Element b, Element c, Element d) {
         throw new IllegalStateException("Not implemented yet!!!");
     }
 

@@ -6,6 +6,9 @@ import it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine.DefaultCTL13MMInstance;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine.MultiThreadCTL13MMInstance;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators.CTL13MMMultiThreadPublicParameterGenerator;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators.CTL13MMPublicParameterGenerator;
+import it.unisa.dia.gas.plaf.jpbc.pairing.accumulator.PairingAccumulator;
+import it.unisa.dia.gas.plaf.jpbc.pairing.accumulator.PairingAccumulatorFactory;
+import it.unisa.dia.gas.plaf.jpbc.pairing.map.DefaultPairingPreProcessing;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -81,11 +84,17 @@ public class CTL13MMPairing implements Pairing {
     }
 
     public Element pairing(Element[] in1, Element[] in2) {
-        throw new IllegalStateException("Not Implemented yet!");
+        if (in1.length != in2.length)
+            throw new IllegalArgumentException("Array lengths mismatch.");
+
+        PairingAccumulator combiner = PairingAccumulatorFactory.getInstance().getPairingMultiplier(this);
+        for(int i = 0; i < in1.length; i++)
+            combiner.addPairing(in1[i], in2[i]);
+        return combiner.awaitResult();
     }
 
     public PairingPreProcessing getPairingPreProcessingFromElement(Element in1) {
-        throw new IllegalStateException("Not Implemented yet!");
+        return new DefaultPairingPreProcessing(this, in1);
     }
 
     public int getPairingPreProcessingLengthInBytes() {
@@ -101,7 +110,11 @@ public class CTL13MMPairing implements Pairing {
     }
 
     public int getFieldIndex(Field field) {
-        throw new IllegalStateException("Not Implemented yet!");
+        for (int i = 0; i < fields.length; i++)
+            if (fields[i] == field)
+                return i;
+
+        return -1;
     }
 
     public CTL13MMInstance getCTL13MMInstance() {

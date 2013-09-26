@@ -115,7 +115,7 @@ public abstract class AbstractPairing implements Pairing {
 
     public Element pairing(Element[] in1, Element[] in2) {
         if (in1.length != in2.length)
-            throw new IllegalArgumentException("The number of elements from G1 is different from the number of elements from G2.");
+            throw new IllegalArgumentException("Array lengths mismatch.");
 
         for (int i = 0; i < in1.length; i++) {
             if (!G1.equals(in1[i].getField()))
