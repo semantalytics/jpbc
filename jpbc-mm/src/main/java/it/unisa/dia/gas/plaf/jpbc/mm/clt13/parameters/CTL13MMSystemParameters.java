@@ -101,12 +101,6 @@ public class CTL13MMSystemParameters {
         return bound;
     }
 
-    public CTL13MMSystemParameters setKappa(int kappa) {
-        this.kappa = kappa;
-
-        return this;
-    }
-
     @Override
     public String toString() {
         return "CTL13MMSystemParameters{" +
@@ -122,25 +116,6 @@ public class CTL13MMSystemParameters {
                 ", theta=" + theta +
                 ", bound=" + bound +
                 '}';
-    }
-
-    public static void main(String[] args) {
-
-        long lambda = 10;
-        long kappa = 6;
-
-        long beta = 80;
-        long alpha = 80;
-        long l = 160;
-        long rho = lambda;
-        long mu = alpha+rho+lambda;
-
-        double v = Math.log(lambda) * (2*beta+alpha+kappa*(mu+rho+alpha+2)+rho+Math.log(l)/Math.log(2)+1);
-
-        System.out.println("v = " + v);
-
-
-
     }
 
 }
