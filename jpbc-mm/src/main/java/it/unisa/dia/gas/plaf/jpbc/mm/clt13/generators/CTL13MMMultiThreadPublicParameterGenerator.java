@@ -256,7 +256,7 @@ public class CTL13MMMultiThreadPublicParameterGenerator extends CTL13MMPublicPar
 
 
     public static void main(String[] args) {
-        String params = "./params/mm/ctl13/medium.properties";
+        String params = "./params/mm/ctl13/toy.properties";
         if (args.length > 0)
             params = args[0];
 

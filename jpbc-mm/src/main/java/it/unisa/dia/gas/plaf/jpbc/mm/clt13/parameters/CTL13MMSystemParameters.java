@@ -22,19 +22,6 @@ public class CTL13MMSystemParameters {
                     160 // bound
             );
 
-    public static CTL13MMSystemParameters SMALL =
-            new CTL13MMSystemParameters(
-                    1779, // eta
-                    540, // n
-                    80, // alpha
-                    160, // ell
-                    41, //rho
-                    23, // delta
-                    6, // kappa
-                    80, //beta
-                    16, // theta
-                    160 // bound
-            );
 
     protected int eta, n, alpha, ell, rho, delta, deltaSquare, kappa, beta, theta, bound;
 
@@ -136,4 +123,24 @@ public class CTL13MMSystemParameters {
                 ", bound=" + bound +
                 '}';
     }
+
+    public static void main(String[] args) {
+
+        long lambda = 10;
+        long kappa = 6;
+
+        long beta = 80;
+        long alpha = 80;
+        long l = 160;
+        long rho = lambda;
+        long mu = alpha+rho+lambda;
+
+        double v = Math.log(lambda) * (2*beta+alpha+kappa*(mu+rho+alpha+2)+rho+Math.log(l)/Math.log(2)+1);
+
+        System.out.println("v = " + v);
+
+
+
+    }
+
 }

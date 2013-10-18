@@ -52,14 +52,15 @@ public abstract class AbstractCTL13MMTest {
     public void before() {
         switch (type) {
             case 0:
-                instance = new DefaultCTL13MMInstance(
-                        random,
-                        new CTL13MMPublicParameterGenerator(random, instanceParameters).generate()
-                );
-            case 1:
                 instance = new MultiThreadCTL13MMInstance(
                         random,
                         new CTL13MMMultiThreadPublicParameterGenerator(random, instanceParameters).generate()
+                );
+                break;
+            case 1:
+                instance = new DefaultCTL13MMInstance(
+                        random,
+                        new CTL13MMPublicParameterGenerator(random, instanceParameters).generate()
                 );
                 break;
             default:

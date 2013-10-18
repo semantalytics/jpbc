@@ -37,7 +37,7 @@ public class SequentialPairingMultiplierTest extends AbstractJPBCTest {
         //TODO complete
         PairingAccumulator multiplier = new SequentialMulPairingAccumulator(pairing);
 
-        for (int i=0; i <1000;i++){
+        for (int i = 0; i < 1000; i++) {
             multiplier.addPairing(pairing.getG1().newRandomElement(),
                     pairing.getG2().newRandomElement()
             );
