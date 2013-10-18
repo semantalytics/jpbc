@@ -23,7 +23,7 @@
       <excludeFolder url="file://$MODULE_DIR$/target/generated-sources/combined-resources" />
       <excludeFolder url="file://$MODULE_DIR$/target/generated-sources/extracted-dependencies" />
     </content>
-    <orderEntry type="jdk" jdkName="Android 4.3 Platform" jdkType="Android SDK" />
+    <orderEntry type="jdk" jdkName="Maven Android 4.3 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="jpbc-api" />
     <orderEntry type="module" module-name="jpbc-plaf" />
