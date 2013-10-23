@@ -16,47 +16,47 @@ public class ImmutableZrElement extends ZrElement {
 
     @Override
     public ZrElement set(Element value) {
-        return duplicate().set(value);    
+        return (ZrElement) duplicate().set(value).getImmutable();    
     }
 
     @Override
     public ZrElement set(int value) {
-        return duplicate().set(value);    
+        return (ZrElement) duplicate().set(value).getImmutable();    
     }
 
     @Override
     public ZrElement set(BigInteger value) {
-        return duplicate().set(value);    
+        return (ZrElement) duplicate().set(value).getImmutable();    
     }
 
     @Override
     public ZrElement twice() {
-        return duplicate().twice();    
+        return (ZrElement) duplicate().twice().getImmutable();    
     }
 
     @Override
     public ZrElement mul(int z) {
-        return duplicate().mul(z);    
+        return (ZrElement) duplicate().mul(z).getImmutable();    
     }
 
     @Override
     public ZrElement setToZero() {
-        return duplicate().setToZero();    
+        return (ZrElement) duplicate().setToZero().getImmutable();    
     }
 
     @Override
     public ZrElement setToOne() {
-        return duplicate().setToOne();    
+        return (ZrElement) duplicate().setToOne().getImmutable();    
     }
 
     @Override
     public ZrElement setToRandom() {
-        return duplicate().setToRandom();    
+        return (ZrElement) duplicate().setToRandom().getImmutable();    
     }
 
     @Override
     public ZrElement setFromHash(byte[] source, int offset, int length) {
-        return duplicate().setFromHash(source, offset, length);
+        return (ZrElement) duplicate().setFromHash(source, offset, length).getImmutable();
     }
 
     @Override
@@ -71,67 +71,67 @@ public class ImmutableZrElement extends ZrElement {
 
     @Override
     public ZrElement square() {
-        return duplicate().square();    
+        return (ZrElement) duplicate().square().getImmutable();    
     }
 
     @Override
     public ZrElement invert() {
-        return duplicate().invert();    
+        return (ZrElement) duplicate().invert().getImmutable();    
     }
 
     @Override
     public ZrElement halve() {
-        return duplicate().halve();    
+        return (ZrElement) duplicate().halve().getImmutable();    
     }
 
     @Override
     public ZrElement negate() {
-        return duplicate().negate();    
+        return (ZrElement) duplicate().negate().getImmutable();    
     }
 
     @Override
     public ZrElement add(Element element) {
-        return duplicate().add(element);    
+        return (ZrElement) duplicate().add(element).getImmutable();    
     }
 
     @Override
     public ZrElement sub(Element element) {
-        return duplicate().sub(element);    
+        return (ZrElement) duplicate().sub(element).getImmutable();    
     }
 
     @Override
     public ZrElement div(Element element) {
-        return duplicate().div(element);    
+        return (ZrElement) duplicate().div(element).getImmutable();    
     }
 
     @Override
     public ZrElement mul(Element element) {
-        return duplicate().mul(element);    
+        return (ZrElement) duplicate().mul(element).getImmutable();    
     }
 
     @Override
     public ZrElement mul(BigInteger n) {
-        return duplicate().mul(n);    
+        return (ZrElement) duplicate().mul(n).getImmutable();    
     }
 
     @Override
     public ZrElement mulZn(Element z) {
-        return duplicate().mulZn(z);    
+        return (ZrElement) duplicate().mulZn(z).getImmutable();    
     }
 
     @Override
     public ZrElement sqrt() {
-        return duplicate().sqrt();    
+        return (ZrElement) duplicate().sqrt().getImmutable();    
     }
 
     @Override
     public ZrElement pow(BigInteger n) {
-        return duplicate().pow(n);    
+        return (ZrElement) duplicate().pow(n).getImmutable();    
     }
 
     @Override
     public ZrElement powZn(Element n) {
-        return duplicate().powZn(n);    
+        return (ZrElement) duplicate().powZn(n).getImmutable();    
     }
 
 }

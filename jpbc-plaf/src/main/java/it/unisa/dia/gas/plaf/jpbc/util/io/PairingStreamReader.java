@@ -51,9 +51,9 @@ public class PairingStreamReader {
         Element[] elements = new Element[count];
 
         Field field = pairing.getFieldAt(id);
+        int length = field.getLengthInBytes();
         for (int i = 0; i < count; i++) {
-            elements[i] = field.newElement();
-            int length = elements[i].setFromBytes(buffer, cursor);
+            elements[i] = field.newElementFromBytes(buffer, cursor);
             cursor += length;
             bais.skip(length);
         }

@@ -42,7 +42,7 @@ public class ZssTest extends AbstractJPBCTest {
 
         byte[] source = "Message".getBytes();
 
-        H = pairing.getZr().newElement().setFromHash(source, 0, source.length);
+        H = pairing.getZr().newElementFromHash(source, 0, source.length);
         t1 = pairing.getZr().newElement().set(H).add(x).invert();
         S = pairing.getG1().newElement().set(P).mulZn(t1);
 

@@ -94,7 +94,7 @@ public class KEMCipherAHIBETest extends TestCase {
         Element[] elements = new Element[ids.length];
         for (int i = 0; i < elements.length; i++) {
             byte[] id = ids[i].getBytes();
-            elements[i] = pairing.getZr().newElement().setFromHash(id, 0, id.length);
+            elements[i] = pairing.getZr().newElementFromHash(id, 0, id.length);
         }
         return elements;
     }

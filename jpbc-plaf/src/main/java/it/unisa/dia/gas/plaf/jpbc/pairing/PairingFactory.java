@@ -8,6 +8,7 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.d.TypeDPairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.e.TypeEPairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.f.TypeFPairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.g.TypeGPairing;
+import it.unisa.dia.gas.plaf.jpbc.pairing.immutable.ImmutableParing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.PropertiesParameters;
 
 import java.lang.reflect.Method;
@@ -50,6 +51,7 @@ public class PairingFactory {
     private boolean usePBCWhenPossible = false;
     private boolean reuseInstance = true;
     private boolean pbcAvailable = false;
+    private boolean immutable = false;
 
     private Map<PairingParameters, Pairing> instances;
     private Map<String, PairingCreator> creators;
@@ -106,6 +108,9 @@ public class PairingFactory {
         if (pairing == null)
             throw new IllegalArgumentException("Cannot create pairing instance. Type = " + type);
 
+        if (immutable)
+            pairing = new ImmutableParing(pairing);
+
         if (reuseInstance)
             instances.put(parameters, pairing);
 
@@ -141,11 +146,18 @@ public class PairingFactory {
         this.reuseInstance = reuseInstance;
     }
 
+    public boolean isImmutable() {
+        return immutable;
+    }
+
+    public void setImmutable(boolean immutable) {
+        this.immutable = immutable;
+    }
+
 
     public void addPairingCreator(String type, PairingCreator creator) {
         creators.put(type, creator);
     }
-
 
 
     public static interface PairingCreator {

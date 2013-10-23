@@ -35,6 +35,27 @@ public abstract class AbstractField<E extends Element> implements Field<E> {
         return e;
     }
 
+    public E newElementFromHash(byte[] source, int offset, int length) {
+        E e = newElement();
+        e.setFromHash(source, offset, length);
+
+        return e;
+    }
+
+    public E newElementFromBytes(byte[] source) {
+        E e = newElement();
+        e.setFromBytes(source);
+
+        return e;
+    }
+
+    public E newElementFromBytes(byte[] source, int offset) {
+        E e = newElement();
+        e.setFromBytes(source, offset);
+
+        return e;
+    }
+
     public E newZeroElement() {
         E e = newElement();
         e.setToZero();

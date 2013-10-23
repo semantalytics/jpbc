@@ -56,7 +56,7 @@ public class BLS01HalfSigner implements Signer {
         digest.doFinal(hash, 0);
 
         // Map the hash of the message m to some element of G1
-        Element h = pairing.getG1().newElement().setFromHash(hash, 0, hash.length);
+        Element h = pairing.getG1().newElementFromHash(hash, 0, hash.length);
 
         Element temp1 = pairing.pairing(sig, publicKey.getParameters().getG());
         Element temp2 = pairing.pairing(h, publicKey.getPk());
@@ -76,7 +76,7 @@ public class BLS01HalfSigner implements Signer {
         digest.doFinal(hash, 0);
 
         // Map the hash of the message m to some element of G1
-        Element h = pairing.getG1().newElement().setFromHash(hash, 0, hash.length);
+        Element h = pairing.getG1().newElementFromHash(hash, 0, hash.length);
 
         // Generate the signature
         Point sig = (Point) h.powZn(privateKey.getSk());

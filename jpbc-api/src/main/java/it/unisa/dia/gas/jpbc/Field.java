@@ -39,6 +39,37 @@ public interface Field<E extends Element> {
     E newElement(BigInteger value);
 
     /**
+     * Returns a new element whose value is set deterministically from the length bytes stored
+     * in the source parameter starting from the passed offset.
+     *
+     * @param source the buffer data.
+     * @param offset the starting offset.
+     * @param length the number of bytes to be used.
+     * @return this element modified.
+     * @since 2.0.0
+     */
+    E newElementFromHash(byte[] source, int offset, int length);
+
+    /**
+     * Returns a new element whose value is set from the buffer source.
+     *
+     * @param source the source of bytes.
+     * @return the number of bytes read.
+     * @since 2.0.0
+     */
+    E newElementFromBytes(byte[] source);
+
+    /**
+     * Returns a new element whose value is set from the buffer source starting from offset.
+     *
+     * @param source the source of bytes.
+     * @param offset the starting offset.
+     * @return the number of bytes read.
+     * @since 2.0.0
+     */
+    E newElementFromBytes(byte[] source, int offset);
+
+    /**
      * Returns a new element whose value is zero.
      *
      * @return a new element whose value is zero.

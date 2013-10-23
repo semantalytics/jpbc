@@ -45,7 +45,7 @@ public class BlsTest extends AbstractJPBCTest {
         // Map the hash of the message m to some element of G1
 
         byte[] hash = "ABCDEF".getBytes(); // Generate an hash from m (48-bit hash)
-        Element h = pairing.getG1().newElement().setFromHash(hash, 0, hash.length);
+        Element h = pairing.getG1().newElementFromHash(hash, 0, hash.length);
 
         // Generate the signature
 
@@ -54,7 +54,7 @@ public class BlsTest extends AbstractJPBCTest {
         // Map again the hash of the message m
 
         hash = "ABCDEF".getBytes(); // Generate an hash from m (48-bit hash)
-        h = pairing.getG1().newElement().setFromHash(hash, 0, hash.length);
+        h = pairing.getG1().newElementFromHash(hash, 0, hash.length);
 
         // Verify the signature
 

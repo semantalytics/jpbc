@@ -6,6 +6,7 @@ import it.unisa.dia.gas.crypto.jpbc.fe.ibe.lw11.params.UHIBELW11SecretKeyParamet
 import it.unisa.dia.gas.crypto.jpbc.kem.PairingKeyEncapsulationMechanism;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
+import it.unisa.dia.gas.plaf.jpbc.util.io.PairingStreamReader;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -45,29 +46,18 @@ public class UHIBELW11KEMEngine extends PairingKeyEncapsulationMechanism {
             // Decrypt
             UHIBELW11SecretKeyParameters sk = (UHIBELW11SecretKeyParameters) key;
 
-            // Convert bytes to Elements...
-            int offset = inOff;
+            PairingStreamReader streamParser = new PairingStreamReader(pairing, in, inOff);
 
-            // Load C
-            Element C = pairing.getGT().newElement();
-            offset += C.setFromBytes(in, offset);
-
-            // Load C0
-            Element C0 = pairing.getG1().newElement();
-            offset += C0.setFromBytes(in, offset);
+            Element C = streamParser.readGTElement();
+            Element C0 = streamParser.readG1Element();
 
             // Run the decryption
             Element numerator = pairing.getGT().newOneElement();
             Element denominator = pairing.getGT().newOneElement();
             for (int i = 0; i < length; i++) {
-                Element C1 = pairing.getG1().newElement();
-                offset += C1.setFromBytes(in, offset);
-
-                Element C2 = pairing.getG1().newElement();
-                offset += C2.setFromBytes(in, offset);
-
-                Element C3 = pairing.getG1().newElement();
-                offset += C3.setFromBytes(in, offset);
+                Element C1 = streamParser.readG1Element();
+                Element C2 = streamParser.readG1Element();
+                Element C3 = streamParser.readG1Element();
 
                 numerator.mul(pairing.pairing(C0, sk.getK0At(i))).mul(pairing.pairing(C2, sk.getK2At(i)));
                 denominator.mul(pairing.pairing(C1, sk.getK1At(i))).mul(pairing.pairing(C3, sk.getK3At(i)));

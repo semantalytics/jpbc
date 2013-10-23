@@ -46,8 +46,7 @@ public class BLS01Signer implements Signer {
 
         BLS01PublicKeyParameters publicKey = (BLS01PublicKeyParameters) keyParameters;
 
-        Element sig = pairing.getG1().newElement();
-        sig.setFromBytes(signature);
+        Element sig = pairing.getG1().newElementFromBytes(signature);
 
         // Generate the digest
         int digestSize = digest.getDigestSize();
@@ -55,7 +54,7 @@ public class BLS01Signer implements Signer {
         digest.doFinal(hash, 0);
 
         // Map the hash of the message m to some element of G1
-        Element h = pairing.getG1().newElement().setFromHash(hash, 0, hash.length);
+        Element h = pairing.getG1().newElementFromHash(hash, 0, hash.length);
 
         Element temp1 = pairing.pairing(sig, publicKey.getParameters().getG());
         Element temp2 = pairing.pairing(h, publicKey.getPk());
@@ -75,7 +74,7 @@ public class BLS01Signer implements Signer {
         digest.doFinal(hash, 0);
 
         // Map the hash of the message m to some element of G1
-        Element h = pairing.getG1().newElement().setFromHash(hash, 0, hash.length);
+        Element h = pairing.getG1().newElementFromHash(hash, 0, hash.length);
 
         // Generate the signature
         Element sig = h.powZn(privateKey.getSk());
