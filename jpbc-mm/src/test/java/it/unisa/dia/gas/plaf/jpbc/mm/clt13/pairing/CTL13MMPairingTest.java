@@ -1,11 +1,13 @@
 package it.unisa.dia.gas.plaf.jpbc.mm.clt13.pairing;
 
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.AbstractCTL13MMTest;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMSystemParameters;
-import junit.framework.Assert;
 import org.junit.Before;
+
+import static junit.framework.Assert.assertEquals;
 
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
@@ -57,7 +59,7 @@ public class CTL13MMPairingTest extends AbstractCTL13MMTest {
             System.out.println("left  = " + left);
             System.out.println("right = " + right);
 
-            Assert.assertEquals(true, left.isEqual(right));
+            assertEquals(true, left.isEqual(right));
         }
     }
 
@@ -69,23 +71,26 @@ public class CTL13MMPairingTest extends AbstractCTL13MMTest {
         Element b = pairing.getFieldAt(2).newElement().powZn(a);
         Element c = pairing.getFieldAt(5).newElement().powZn(a);
 
-        Assert.assertEquals(true, b.isEqual(c));
+        assertEquals(true, b.isEqual(c));
     }
 
 
     @org.junit.Test
     public void testToBytes() {
         for (int index = 0; index < instanceParameters.getKappa() + 1; index++) {
-            System.out.printf("Checking level %d...\n", index);
-            Element a = pairing.getFieldAt(index).newRandomElement();
-            System.out.println("a = " + a);
-            byte[] bytes = a.toBytes();
+            Field field = pairing.getFieldAt(index);
 
-            Element b = pairing.getFieldAt(0).newElement();
-            b.setFromBytes(bytes);
-            System.out.println("b = " + b);
+            Element a = field.newRandomElement();
+            Element b = field.newElementFromBytes(a.toBytes());
 
-            Assert.assertEquals(true, a.isEqual(b));
+            assertEquals(true, a.isEqual(b));
+
+            b = pairing.getFieldAt(index).newElement();
+            int length = b.setFromBytes(a.toBytes());
+
+            assertEquals(true, a.isEqual(b));
+            assertEquals(length, field.getLengthInBytes(b));
+
         }
     }
 }

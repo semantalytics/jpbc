@@ -92,12 +92,10 @@ public class PairingDataInput implements DataInput {
 
 
     public Element readElement(int fieldIdentifier) throws IOException {
-        Element e = pairing.getFieldAt(fieldIdentifier).newElement();
         byte[] buffer = new byte[readInt()];
         readFully(buffer);
-        e.setFromBytes(buffer);
 
-        return e;
+        return pairing.getFieldAt(fieldIdentifier).newElementFromBytes(buffer);
     }
 
     public Element[] readElements(int identifier) throws IOException{

@@ -1,8 +1,10 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing.map;
 
 import it.unisa.dia.gas.jpbc.*;
+import it.unisa.dia.gas.plaf.jpbc.util.io.PairingStreamReader;
+import it.unisa.dia.gas.plaf.jpbc.util.io.PairingStreamWriter;
 
-import java.io.*;
+import java.io.IOException;
 import java.math.BigInteger;
 
 /**
@@ -382,25 +384,16 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
         }
 
         public MillerPreProcessingInfo(Pairing pairing, byte[] source, int offset) {
-            try {
-                DataInputStream in = new DataInputStream(new ByteArrayInputStream(source, offset, source.length));
-                this.numRow = in.readInt();
+            PairingStreamReader in = new PairingStreamReader(pairing, source, offset);
+            this.numRow = in.readInt();
 
-                offset += 4;
-                this.table = new Element[numRow][3];
-                Field field = ((FieldOver) pairing.getG1()).getTargetField();
-                for (int i = 0; i < numRow; i++) {
-                    table[i][0] = field.newElement();
-                    offset += table[i][0].setFromBytes(source, offset);
-
-                    table[i][1] = field.newElement();
-                    offset += table[i][1].setFromBytes(source, offset);
-
-                    table[i][2] = field.newElement();
-                    offset += table[i][2].setFromBytes(source, offset);
-                }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+            offset += 4;
+            this.table = new Element[numRow][3];
+            Field field = ((FieldOver) pairing.getG1()).getTargetField();
+            for (int i = 0; i < numRow; i++) {
+                table[i][0] = in.readFieldElement(field);
+                table[i][1] = in.readFieldElement(field);
+                table[i][2] = in.readFieldElement(field);
             }
         }
 
@@ -414,17 +407,14 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
 
         public byte[] toBytes() {
             try {
-                ByteArrayOutputStream bOut = new ByteArrayOutputStream(table[0][0].getField().getLengthInBytes() * numRow * 3 + 4);
-                DataOutputStream out = new DataOutputStream(bOut);
+                PairingStreamWriter out = new PairingStreamWriter(table[0][0].getField().getLengthInBytes() * numRow * 3 + 4);
 
                 out.writeInt(numRow);
                 for (int i = 0; i < numRow; i++)  {
-                    for (Element element : table[i]) {
-                        out.write(element.toBytes());
-                    }
+                    for (Element element : table[i])
+                        out.write(element);
                 }
-
-                return bOut.toByteArray();
+                return out.toBytes();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

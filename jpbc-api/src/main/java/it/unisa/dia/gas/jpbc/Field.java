@@ -128,6 +128,14 @@ public interface Field<E extends Element> {
     int getLengthInBytes();
 
     /**
+     * Returns the length in bytes needed to represent an element of this Field.
+     *
+     * @return the length in bytes needed to represent an element of this Field.
+     * @since 1.0.0
+     */
+    int getLengthInBytes(Element e);
+
+    /**
      * Returns the length in bytes needed to canonical represent an element of this Field.
      *
      * @return the length in bytes needed to canonical represent an element of this Field.

@@ -39,15 +39,15 @@ public class ImmutableField implements Field {
     }
 
     public Element newElementFromHash(byte[] source, int offset, int length) {
-        return field.newElementFromHash(source, offset, length);
+        return field.newElementFromHash(source, offset, length).getImmutable();
     }
 
     public Element newElementFromBytes(byte[] source) {
-        return field.newElementFromBytes(source);
+        return field.newElementFromBytes(source).getImmutable();
     }
 
     public Element newElementFromBytes(byte[] source, int offset) {
-        return field.newElementFromBytes(source, offset);
+        return field.newElementFromBytes(source, offset).getImmutable();
     }
 
     public Element newRandomElement() {
@@ -68,6 +68,10 @@ public class ImmutableField implements Field {
 
     public int getLengthInBytes() {
         return field.getLengthInBytes();
+    }
+
+    public int getLengthInBytes(Element element) {
+        return field.getLengthInBytes(element);
     }
 
     public int getCanonicalRepresentationLengthInBytes() {

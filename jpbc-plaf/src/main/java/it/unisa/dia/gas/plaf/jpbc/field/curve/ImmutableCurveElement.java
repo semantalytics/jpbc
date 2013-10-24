@@ -55,7 +55,7 @@ public class ImmutableCurveElement<E extends Element> extends CurveElement<E> {
 
     @Override
     public int setFromBytes(byte[] source, int offset) {
-        return duplicate().setFromBytes(source, offset);    
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
@@ -100,32 +100,32 @@ public class ImmutableCurveElement<E extends Element> extends CurveElement<E> {
 
     @Override
     public CurveElement setFromHash(byte[] source, int offset, int length) {
-        return duplicate().setFromHash(source, offset, length);    
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
     public int setFromBytesCompressed(byte[] source) {
-        return duplicate().setFromBytesCompressed(source);    
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
     public int setFromBytesCompressed(byte[] source, int offset) {
-        return duplicate().setFromBytesCompressed(source, offset);    
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
     public int setFromBytesX(byte[] source) {
-        return duplicate().setFromBytesX(source);    
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
     public int setFromBytesX(byte[] source, int offset) {
-        return duplicate().setFromBytesX(source, offset);    
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
     public int setFromBytes(byte[] source) {
-        return duplicate().setFromBytes(source);    
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override

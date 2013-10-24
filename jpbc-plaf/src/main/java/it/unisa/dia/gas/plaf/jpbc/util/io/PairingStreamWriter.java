@@ -30,6 +30,10 @@ public class PairingStreamWriter {
         dos.write(element.toBytes());
     }
 
+    public void writeInt(int value) throws IOException {
+        dos.writeInt(value);
+    }
+
     public void write(byte[] bytes) throws IOException {
         dos.write(bytes);
     }

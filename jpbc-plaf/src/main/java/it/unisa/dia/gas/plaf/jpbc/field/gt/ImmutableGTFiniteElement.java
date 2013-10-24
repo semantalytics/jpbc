@@ -68,7 +68,7 @@ public class ImmutableGTFiniteElement extends GTFiniteElement {
 
     @Override
     public int setFromBytes(byte[] source, int offset) {
-        return duplicate().setFromBytes(source, offset);    
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override

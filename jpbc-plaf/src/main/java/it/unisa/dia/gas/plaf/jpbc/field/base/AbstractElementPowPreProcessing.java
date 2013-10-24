@@ -3,8 +3,9 @@ package it.unisa.dia.gas.plaf.jpbc.field.base;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
 import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.plaf.jpbc.util.io.FieldStreamReader;
+import it.unisa.dia.gas.plaf.jpbc.util.io.PairingStreamWriter;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
 
@@ -52,15 +53,11 @@ public class AbstractElementPowPreProcessing implements ElementPowPreProcessing 
 
     public byte[] toBytes() {
         try {
-            ByteArrayOutputStream out = new ByteArrayOutputStream(
-                    field.getLengthInBytes() * table.length * table[0].length
-            );
-            for (Element[] row : table) {
-                for (Element element : row) {
-                    out.write(element.toBytes());
-                }
-            }
-            return out.toByteArray();
+            PairingStreamWriter out = new PairingStreamWriter(field.getLengthInBytes() * table.length * table[0].length);
+            for (Element[] row : table) 
+                for (Element element : row) 
+                    out.write(element);
+            return out.toBytes();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -72,12 +69,11 @@ public class AbstractElementPowPreProcessing implements ElementPowPreProcessing 
         numLookups = bits / k + 1;
         table = new Element[numLookups][lookupSize];
 
-        for (int i = 0; i < numLookups; i++) {
-            for (int j = 0; j < lookupSize; j++) {
-                table[i][j] = field.newElement();
-                offset += table[i][j].setFromBytes(source, offset);
-            }
-        }
+        FieldStreamReader in = new FieldStreamReader(field, source, offset);
+
+        for (int i = 0; i < numLookups; i++)
+            for (int j = 0; j < lookupSize; j++)
+                table[i][j] = in.readElement();
     }
 
     /**

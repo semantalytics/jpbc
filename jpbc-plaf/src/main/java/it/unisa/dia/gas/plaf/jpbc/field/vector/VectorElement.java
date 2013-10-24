@@ -253,9 +253,9 @@ public class VectorElement<E extends Element> extends AbstractVectorElement<E> {
     public int setFromBytes(byte[] source, int offset) {
         int len = offset;
         for (int i = 0, size = coeff.size(); i < size; i++) {
-            len+=coeff.get(i).setFromBytes(source, len);
+            len += coeff.get(i).setFromBytes(source, len);
         }
-        return len-offset;
+        return len - offset;
     }
 
     public byte[] toBytes() {

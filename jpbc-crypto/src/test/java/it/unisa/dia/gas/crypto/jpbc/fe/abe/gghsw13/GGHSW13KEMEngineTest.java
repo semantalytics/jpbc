@@ -2,6 +2,7 @@ package it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13;
 
 import it.unisa.dia.gas.crypto.circuit.Circuit;
 import it.unisa.dia.gas.crypto.circuit.DefaultCircuit;
+import it.unisa.dia.gas.crypto.jpbc.AbstractJPBCCryptoTest;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.engines.GGHSW13KemEngine;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.generators.GGHSW13KeyPairGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.generators.GGHSW13ParametersGenerator;
@@ -13,9 +14,7 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.InvalidCipherTextException;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 import java.security.SecureRandom;
@@ -29,38 +28,29 @@ import static org.junit.Assert.*;
 /**
  * @author Angelo De Caro
  */
-@RunWith(value = Parameterized.class)
-public class GGHSW13KEMEngineTest {
-
-    static SecureRandom random;
-
-    static {
-        random = new SecureRandom();
-    }
+public class GGHSW13KEMEngineTest extends AbstractJPBCCryptoTest {
 
     @Parameterized.Parameters
     public static Collection parameters() {
         Object[][] data = {
-                {"it/unisa/dia/gas/plaf/jpbc/crypto/ctl13_toy.properties"}
+                {false, "it/unisa/dia/gas/plaf/jpbc/crypto/ctl13_toy.properties"}
         };
 
         return Arrays.asList(data);
     }
 
-
-    protected String paramsPath;
     protected Pairing pairing;
 
-
-    public GGHSW13KEMEngineTest(String paramsPath) {
-        this.paramsPath = paramsPath;
+    public GGHSW13KEMEngineTest(boolean usePBC, String curvePath) {
+        super(usePBC, curvePath);
     }
 
-    @Before
+    @Override
     public void before() throws Exception {
-        this.pairing = PairingFactory.getInstance().initPairing(paramsPath);
-    }
+        super.before();
 
+        this.pairing = PairingFactory.getPairing(parameters);
+    }
 
     @Test
     public void testGGHSW13KEMEngine() {

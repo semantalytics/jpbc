@@ -38,10 +38,9 @@ public class PairingStreamReader {
         Element[] elements = new Element[ids.length];
 
         for (int i = 0; i < ids.length; i++) {
-            elements[i] = pairing.getFieldAt(ids[i]).newElement();
-            int length = elements[i].setFromBytes(buffer, cursor);
-            cursor += length;
-            bais.skip(length);
+            Field field = pairing.getFieldAt(ids[i]);
+            elements[i] = field.newElementFromBytes(buffer, cursor);
+            jump(field.getLengthInBytes(elements[i]));
         }
 
         return elements;
@@ -51,11 +50,9 @@ public class PairingStreamReader {
         Element[] elements = new Element[count];
 
         Field field = pairing.getFieldAt(id);
-        int length = field.getLengthInBytes();
         for (int i = 0; i < count; i++) {
             elements[i] = field.newElementFromBytes(buffer, cursor);
-            cursor += length;
-            bais.skip(length);
+            jump(field.getLengthInBytes(elements[i]));
         }
 
         return elements;
@@ -67,23 +64,23 @@ public class PairingStreamReader {
 
 
     public Element readG1Element() {
-        Element element = pairing.getG1().newElement();
-        int length = element.setFromBytes(buffer, cursor);
-        cursor += length;
-        bais.skip(length);
+        Element element = pairing.getG1().newElementFromBytes(buffer, cursor);
+        jump(pairing.getG1().getLengthInBytes(element));
 
         return element;
     }
 
     public Element readGTElement() {
-        Element element = pairing.getGT().newElement();
-        int length = element.setFromBytes(buffer, cursor);
-        cursor += length;
-        bais.skip(length);
-
+        Element element = pairing.getGT().newElementFromBytes(buffer, cursor);
+        jump(pairing.getGT().getLengthInBytes(element));
         return element;
     }
 
+    public Element readFieldElement(Field field) {
+        Element element = field.newElementFromBytes(buffer, cursor);
+        jump(field.getLengthInBytes(element));
+        return element;
+    }
 
     public String readString() {
         try {
@@ -93,6 +90,22 @@ public class PairingStreamReader {
         } finally {
             cursor = bais.getPos();
         }
+    }
+
+    public int readInt() {
+        try {
+            return dis.readInt();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            cursor = bais.getPos();
+        }
+    }
+
+
+    private void jump(int length) {
+        cursor += length;
+        bais.skip(length);
     }
 
 }

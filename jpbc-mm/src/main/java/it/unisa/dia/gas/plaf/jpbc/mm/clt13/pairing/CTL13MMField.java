@@ -98,6 +98,10 @@ public class CTL13MMField implements Field<CTL13MMElement> {
         return lengthInBytes;
     }
 
+    public int getLengthInBytes(Element ctl13MMElement) {
+        return lengthInBytes;
+    }
+
     public int getCanonicalRepresentationLengthInBytes() {
         return instance.getSystemParameters().getBound() / 8;
     }

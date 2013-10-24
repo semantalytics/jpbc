@@ -81,6 +81,10 @@ public abstract class AbstractField<E extends Element> implements Field<E> {
         return orderIsOdd;
     }
 
+    public int getLengthInBytes(Element e) {
+        return getLengthInBytes();
+    }
+
     public int getCanonicalRepresentationLengthInBytes() {
         return getLengthInBytes();
     }

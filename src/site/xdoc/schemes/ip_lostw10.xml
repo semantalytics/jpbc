@@ -73,8 +73,8 @@
 <a name="l26"><span class="ln">26   </span></a></span><span class="s0">public class </span><span class="s1">IPLOSTW10PredicateOnlyEngineTest </span><span class="s0">extends <a href="../../../../../../../../../it/unisa/dia/gas/crypto/jpbc/AbstractJPBCCryptoTest.java.html">AbstractJPBCCryptoTest</a> </span><span class="s1">{
 <a name="l27"><span class="ln">27   </span></a>
 <a name="l28"><span class="ln">28   </span></a>
-<a name="l29"><span class="ln">29   </span></a>    </span><span class="s0">public </span><span class="s1">IPLOSTW10PredicateOnlyEngineTest(</span><span class="s0">boolean </span><span class="s1">usePBC, String curvePath) {
-<a name="l30"><span class="ln">30   </span></a>        </span><span class="s0">super</span><span class="s1">(usePBC, curvePath);
+<a name="l29"><span class="ln">29   </span></a>    </span><span class="s0">public </span><span class="s1">IPLOSTW10PredicateOnlyEngineTest(</span><span class="s0">boolean </span><span class="s1">usePBC, String parametersPath) {
+<a name="l30"><span class="ln">30   </span></a>        </span><span class="s0">super</span><span class="s1">(usePBC, parametersPath);
 <a name="l31"><span class="ln">31   </span></a>    }
 <a name="l32"><span class="ln">32   </span></a>
 <a name="l33"><span class="ln">33   </span></a>    @Test

@@ -12,6 +12,7 @@ import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Collection;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -64,10 +65,18 @@ public class ElementTest {
     public void testToFromBytes() {
         Element a = field.newRandomElement().getImmutable();
         Element c = field.newElement();
-        c.setFromBytes(a.toBytes());
+        int length = c.setFromBytes(a.toBytes());
+
+        assertTrue(c.isEqual(a));
+        assertEquals(length, field.getLengthInBytes(c));
+    }
+
+    @Test
+    public void testToFromBytes2() {
+        Element a = field.newRandomElement();
+        Element c = field.newElementFromBytes(a.toBytes());
 
         assertTrue(c.isEqual(a));
     }
-
 
 }

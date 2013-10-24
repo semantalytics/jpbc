@@ -32,14 +32,14 @@ public abstract class AbstractJPBCCryptoTest {
     }
 
 
-    protected String curvePath;
+    protected String parametersPath;
     protected boolean usePBC;
 
     protected PairingParameters parameters;
 
-    public AbstractJPBCCryptoTest(boolean usePBC, String curvePath) {
+    public AbstractJPBCCryptoTest(boolean usePBC, String parametersPath) {
         this.usePBC = usePBC;
-        this.curvePath = curvePath;
+        this.parametersPath = parametersPath;
     }
 
     @Before
@@ -47,7 +47,7 @@ public abstract class AbstractJPBCCryptoTest {
         assumeTrue(!usePBC || PairingFactory.getInstance().isPBCAvailable());
 
         PairingFactory.getInstance().setUsePBCWhenPossible(usePBC);
-        parameters = PairingFactory.getInstance().loadParameters(curvePath);
+        parameters = PairingFactory.getInstance().loadParameters(parametersPath);
 
         assumeTrue(parameters != null);
     }

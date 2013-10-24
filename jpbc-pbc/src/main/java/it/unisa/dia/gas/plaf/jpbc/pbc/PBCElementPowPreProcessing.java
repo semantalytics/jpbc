@@ -59,8 +59,7 @@ public class PBCElementPowPreProcessing implements ElementPowPreProcessing {
     }
 
     public void fromBytes(byte[] source, int offset) {
-        PBCElement temp = (PBCElement) field.newElement();
-        temp.setFromBytes(source, offset);
+        PBCElement temp = (PBCElement) field.newElementFromBytes(source, offset);
 
         this.element = temp.value;
         this.elementPPType = new PBCElementPPType(this.element);

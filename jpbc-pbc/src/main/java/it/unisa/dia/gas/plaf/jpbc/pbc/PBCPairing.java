@@ -169,8 +169,7 @@ public class PBCPairing extends AbstractPairing {
         }
 
         public void fromBytes(byte[] source, int offset) {
-            PBCElement tmep = (PBCElement) getG1().newElement();
-            tmep.setFromBytes(source, offset);
+            PBCElement tmep = (PBCElement) getG1().newElementFromBytes(source, offset);
 
             this.in1 = tmep.value;
             this.pairingPPType = new PBCPairingPPType(this.in1, pairing);

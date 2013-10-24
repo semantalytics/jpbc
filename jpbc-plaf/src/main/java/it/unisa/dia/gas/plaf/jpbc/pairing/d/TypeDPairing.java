@@ -137,10 +137,8 @@ public class TypeDPairing extends AbstractPairing {
         // init etwist
         if (curveParams.containsKey("twist.a")) {
             // load the twist
-            Element twistA = Fqd.newElement();
-            twistA.setFromBytes(curveParams.getBytes("twist.a"));
-            Element twistB = Fqd.newElement();
-            twistB.setFromBytes(curveParams.getBytes("twist.b"));
+            Element twistA = Fqd.newElementFromBytes(curveParams.getBytes("twist.a"));
+            Element twistB = Fqd.newElementFromBytes(curveParams.getBytes("twist.b"));
 
             Etwist = new CurveField(random, twistA, twistB, r, curveParams.getBytes("twist.gen"));
         } else {
