@@ -14,7 +14,7 @@ public class BLS01Parameters implements CipherParameters {
 
     public BLS01Parameters(PairingParameters parameters, Element g) {
         this.parameters = parameters;
-        this.g = g;
+        this.g = g.getImmutable();
     }
 
 

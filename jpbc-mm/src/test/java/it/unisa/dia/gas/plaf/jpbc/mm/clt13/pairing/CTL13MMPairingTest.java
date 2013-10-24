@@ -34,7 +34,6 @@ public class CTL13MMPairingTest extends AbstractCTL13MMTest {
     @org.junit.Test
     public void testMultilinearity() {
         for (int num = 2; num < instanceParameters.getKappa() + 1; num++) {
-            System.out.printf("Checking level %d...\n", num);
 
             Element[] as = new Element[num];
             Element[] gas = new Element[num];
@@ -42,7 +41,6 @@ public class CTL13MMPairingTest extends AbstractCTL13MMTest {
             for (int i = 0; i < as.length; i++) {
                 as[i] = pairing.getFieldAt(0).newRandomElement();
                 prod.mul(as[i]);
-                System.out.println("as[i] = " + as[i]);
 
                 gas[i] = pairing.getFieldAt(1).newElement().powZn(as[i]);
             }
@@ -55,9 +53,6 @@ public class CTL13MMPairingTest extends AbstractCTL13MMTest {
             for (int i = 1; i < as.length; i++) {
                 right = pairing.pairing(right, gas[i]);
             }
-
-            System.out.println("left  = " + left);
-            System.out.println("right = " + right);
 
             assertEquals(true, left.isEqual(right));
         }

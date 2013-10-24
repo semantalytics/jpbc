@@ -35,6 +35,7 @@ public class ZrElement extends AbstractZElement {
 
         this.value = zrElement.value;
         this.order = zrElement.field.getOrder();
+        this.immutable = zrElement.immutable;
     }
 
 

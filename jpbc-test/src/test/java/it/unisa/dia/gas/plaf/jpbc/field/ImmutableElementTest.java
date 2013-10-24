@@ -18,6 +18,7 @@ import static junit.framework.Assert.assertEquals;
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 2.0.0
+ * @todo to be continued...
  */
 @RunWith(value = Parameterized.class)
 public class ImmutableElementTest {
@@ -45,9 +46,15 @@ public class ImmutableElementTest {
     @Test
     public void testImmutable() {
         Element e = field.newRandomElement();
-        Element immutableE = e.duplicate();
+        Element ie = e.getImmutable();
+        Element cie = ie.duplicate();
 
-        assertEquals(true, e.equals(immutableE));
+        assertEquals(false, e.isImmutable());
+        assertEquals(true, ie.isImmutable());
+        assertEquals(true, cie.isImmutable());
+
+        assertEquals(true, ie.equals(e));
+        assertEquals(true, cie.equals(ie));
     }
 
 }
