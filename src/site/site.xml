@@ -70,6 +70,7 @@
             <item name="Schemes" href="/schemes/schemes.html">
                 <item name="Functional Encryption" href="/schemes/schemes.html#fe">
                     <item name="ABE for Circuits [GGHSW'13]" href="/schemes/abe_gghsw13.html"/>
+                    <item name="ABE for Circuits [GGHVV'13]" href="/schemes/abe_gghvv13.html"/>
                     <item name="Regular Languages [W'12]" href="/schemes/rl_w12.html"/>
                     <item name="Unbounded HIBE [LW'11]" href="/schemes/uhibe_lw11.html"/>
                     <item name="Inner Product [LOSTW'10]" href="/schemes/ip_lostw10.html"/>
