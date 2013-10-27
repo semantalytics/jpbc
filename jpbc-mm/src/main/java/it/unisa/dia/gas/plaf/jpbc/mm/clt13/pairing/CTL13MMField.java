@@ -38,7 +38,7 @@ public class CTL13MMField implements Field<CTL13MMElement> {
 
 
     public CTL13MMElement newElement() {
-        return (CTL13MMElement) new CTL13MMElement(this, index).setToOne();
+        return (CTL13MMElement) new CTL13MMElement(this, index);
     }
 
     public CTL13MMElement newElement(int value) {

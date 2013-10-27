@@ -32,6 +32,7 @@ public class CTL13MMElement implements Element {
     public CTL13MMElement(CTL13MMField field, int index) {
         this.field = field;
         this.index = index;
+        this.value = field.getInstance().encodeOneAt(index);
     }
 
 
@@ -151,7 +152,10 @@ public class CTL13MMElement implements Element {
     }
 
     public Element setToOne() {
-        this.value = field.getInstance().encodeOneAt(index);
+        if (index > 0)
+            setToZero();
+        else
+            this.value = field.getInstance().encodeOneAt(index);
 
         return this;
     }
