@@ -47,24 +47,24 @@ public class GGHVV13SecretKeyGenerator {
 
         // compute the matrix M
 
-        Element[][] M = new Element[n+1][n];
+        Element[][] M = new Element[n + 1][n];
 
         // first row
         for (int j = 0; j < n; j++)
-            M[0][j] = pairing.getG1().newElement().powZn(zs[j]).getImmutable();
+            M[0][j] = pairing.getG1().newElement().powZn(zs[j].negate()).getImmutable();
 
         // the rest fo the rows
 
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                M[i][j] = pk.getHAt(i).powZn(zs[j]);
-                if (i==j)
-                    M[i][j].mul(pairing.getG1().newElement().powZn(rs[i]));
-                M[i][j] = M[i][j].getImmutable();
+                M[i+1][j] = pk.getHAt(i).powZn(zs[j]);
+                if (i == j)
+                    M[i+1][j].mul(pairing.getG1().newElement().powZn(rs[i]));
+                M[i+1][j] = M[i+1][j].getImmutable();
             }
         }
 
-                // encode the circuit
+        // encode the circuit
         Map<Integer, Element[]> keys = new HashMap<Integer, Element[]>();
 
         Element ePrime = pairing.getFieldAt(circuit.getDepth()).newElement().powZn(msk.getAlpha().sub(rs[rs.length - 1]));

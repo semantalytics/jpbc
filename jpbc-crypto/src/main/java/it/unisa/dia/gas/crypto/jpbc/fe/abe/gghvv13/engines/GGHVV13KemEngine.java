@@ -60,12 +60,17 @@ public class GGHVV13KemEngine extends PairingKeyEncapsulationMechanism {
                         gate.set(assignment.charAt(index) == '1');
 
                         if (gate.isSet()) {
-                            // TODO to be continued
-//                            Element[] keys = sk.getKeyElementsAt(index);
-//                            Element t1 = pairing.pairing(keys[0], gs);
-//                            Element t2 = pairing.pairing(keys[1], cs[index]);
+                            Element t1 = pairing.getG1().newOneElement();
+                            for (int j = 0, n = assignment.length(); j < n; j++) {
+                                if (assignment.charAt(j) == '1')
+                                    t1.mul(sk.getMAt(j + 1, index));
+                            }
 
-//                            evaluations.put(index, t1.mul(t2));
+                            Element t2 = sk.getMAt(0, index);
+
+                            evaluations.put(index,
+                                    pairing.pairing(gs, t1).mul(pairing.pairing(gamma1, t2))
+                            );
                         }
 
                         break;

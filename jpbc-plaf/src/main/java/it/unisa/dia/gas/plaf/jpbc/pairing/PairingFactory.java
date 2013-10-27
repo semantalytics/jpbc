@@ -186,6 +186,7 @@ public class PairingFactory {
                 return (Pairing) getPairingMethod.invoke(null, random, parameters);
             } catch (Exception e) {
                 // Ignore
+                e.printStackTrace();
             }
             return null;
         }
@@ -215,7 +216,6 @@ public class PairingFactory {
             }
 
         }
-
 
         public Pairing create(String type, SecureRandom random, PairingParameters parameters) {
             Pairing pairing = null;
@@ -249,6 +249,7 @@ public class PairingFactory {
                 return (Pairing) getPairingMethod.invoke(null, parameters);
             } catch (Exception e) {
                 // Ignore
+                e.printStackTrace();
             }
             return null;
         }
