@@ -24,33 +24,38 @@ public class ImmutableQuadraticElement<E extends Element> extends QuadraticEleme
     }
 
     @Override
+    public Element getImmutable() {
+        return (QuadraticElement) this;
+    }
+
+    @Override
     public QuadraticElement set(Element e) {
-        return (QuadraticElement) super.duplicate().set(e).getImmutable();    
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
     public QuadraticElement set(int value) {
-        return (QuadraticElement) super.duplicate().set(value).getImmutable();    
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
     public QuadraticElement set(BigInteger value) {
-        return (QuadraticElement) super.duplicate().set(value).getImmutable();    
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
     public QuadraticElement setToZero() {
-        return (QuadraticElement) super.duplicate().setToZero().getImmutable();    
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
     public QuadraticElement setToOne() {
-        return (QuadraticElement) super.duplicate().setToOne().getImmutable();    
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
     public QuadraticElement setToRandom() {
-        return (QuadraticElement) super.duplicate().setToRandom().getImmutable();    
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
@@ -120,7 +125,7 @@ public class ImmutableQuadraticElement<E extends Element> extends QuadraticEleme
 
     @Override
     public QuadraticElement setFromHash(byte[] source, int offset, int length) {
-        return (QuadraticElement) super.duplicate().setFromHash(source, offset, length).getImmutable();    
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
@@ -141,11 +146,6 @@ public class ImmutableQuadraticElement<E extends Element> extends QuadraticEleme
     @Override
     public int setFromBytesX(byte[] source, int offset) {
         throw new IllegalStateException("Invalid call on an immutable element");
-    }
-
-    @Override
-    public Element getImmutable() {
-        return (QuadraticElement) this;
     }
 
     @Override

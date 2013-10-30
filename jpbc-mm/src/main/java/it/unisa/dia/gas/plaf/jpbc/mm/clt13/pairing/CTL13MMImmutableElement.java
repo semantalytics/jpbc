@@ -1,7 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.mm.clt13.pairing;
 
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
 
 import java.math.BigInteger;
 
@@ -11,16 +10,9 @@ import java.math.BigInteger;
  */
 public class CTL13MMImmutableElement extends CTL13MMElement {
 
-
     public CTL13MMImmutableElement(CTL13MMField field, BigInteger value, int index) {
         super(field, value, index);
     }
-
-
-    public CTL13MMImmutableElement(CTL13MMField field, int index) {
-        super(field, index);
-    }
-
 
     public boolean isImmutable() {
         return true;
@@ -35,135 +27,103 @@ public class CTL13MMImmutableElement extends CTL13MMElement {
     }
 
     public Element set(Element value) {
-        throw new IllegalStateException("Not Implemented yet!");
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     public Element set(int value) {
-        throw new IllegalStateException("Not Implemented yet!");
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     public Element set(BigInteger value) {
-        throw new IllegalStateException("Not Implemented yet!");
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     public BigInteger toBigInteger() {
-        throw new IllegalStateException("Not Implemented yet!");
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     public Element setToRandom() {
-        return duplicate().setToRandom();
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     public Element setFromHash(byte[] source, int offset, int length) {
-        throw new IllegalStateException("Not Implemented yet!");
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     public int setFromBytes(byte[] source) {
-        throw new IllegalStateException("Not Implemented yet!");
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     public int setFromBytes(byte[] source, int offset) {
-        throw new IllegalStateException("Not Implemented yet!");
-    }
-
-    public byte[] toBytes() {
-        throw new IllegalStateException("Not Implemented yet!");
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     public Element setToZero() {
-        return duplicate().setToZero();
-    }
-
-    public boolean isZero() {
-        return field.getInstance().isZero(value, index);
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     public Element setToOne() {
-        return duplicate().setToOne();
-    }
-
-    public boolean isEqual(Element value) {
-        return duplicate().sub(value).isZero();
-    }
-
-    public boolean isOne() {
-        throw new IllegalStateException("Not Implemented yet!");
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     public Element twice() {
-        throw new IllegalStateException("Not Implemented yet!");
+        return duplicate().twice().getImmutable();
     }
 
     public Element square() {
-        throw new IllegalStateException("Not Implemented yet!");
+        return duplicate().square().getImmutable();
     }
 
     public Element invert() {
-        throw new IllegalStateException("Not Implemented yet!");
+        return duplicate().invert().getImmutable();
     }
 
     public Element halve() {
-        throw new IllegalStateException("Not Implemented yet!");
+        return duplicate().halve().getImmutable();
     }
 
     public Element negate() {
-        return duplicate().negate();
+        return duplicate().negate().getImmutable();
     }
 
     public Element add(Element element) {
-        return duplicate().add(element);
+        return duplicate().add(element).getImmutable();
     }
 
     public Element sub(Element element) {
-        return duplicate().sub(element);
+        return duplicate().sub(element).getImmutable();
     }
 
     public Element mul(Element element) {
-        return duplicate().mul(element);
+        return duplicate().mul(element).getImmutable();
     }
 
     public Element mul(int z) {
-        throw new IllegalStateException("Not Implemented yet!");
+        return duplicate().mul(z).getImmutable();
     }
 
     public Element mul(BigInteger n) {
-        throw new IllegalStateException("Not Implemented yet!");
+        return duplicate().mul(n).getImmutable();
     }
 
     public Element mulZn(Element z) {
-        throw new IllegalStateException("Not Implemented yet!");
+        return duplicate().mulZn(z).getImmutable();
     }
 
     public Element div(Element element) {
-        throw new IllegalStateException("Not Implemented yet!");
+        return duplicate().div(element).getImmutable();
     }
 
     public Element pow(BigInteger n) {
-        throw new IllegalStateException("Not Implemented yet!");
+        return duplicate().pow(n).getImmutable();
     }
 
     public Element powZn(Element n) {
-        return duplicate().powZn(n);
-    }
-
-    public ElementPowPreProcessing getElementPowPreProcessing() {
-        throw new IllegalStateException("Not Implemented yet!");
+        return duplicate().powZn(n).getImmutable();
     }
 
     public Element sqrt() {
-        throw new IllegalStateException("Not Implemented yet!");
+        return duplicate().sqrt().getImmutable();
     }
 
-    public boolean isSqr() {
-        throw new IllegalStateException("Not Implemented yet!");
-    }
-
-    public int sign() {
-        throw new IllegalStateException("Not Implemented yet!");
-    }
-
-    @Override
-    public String toString() {
-        return String.format("{%s,%d}", value.toString(), index);
-    }
 }

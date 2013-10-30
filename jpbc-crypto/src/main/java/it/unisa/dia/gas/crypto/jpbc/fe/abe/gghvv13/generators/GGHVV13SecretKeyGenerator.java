@@ -57,7 +57,7 @@ public class GGHVV13SecretKeyGenerator {
 
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                M[i+1][j] = pk.getHAt(i).powZn(zs[j]);
+                M[i+1][j] = pk.getHAt(i).duplicate().powZn(zs[j]);
                 if (i == j)
                     M[i+1][j].mul(pairing.getG1().newElement().powZn(rs[i]));
                 M[i+1][j] = M[i+1][j].getImmutable();

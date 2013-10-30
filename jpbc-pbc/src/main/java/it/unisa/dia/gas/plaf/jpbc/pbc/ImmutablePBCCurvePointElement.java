@@ -17,48 +17,58 @@ public class ImmutablePBCCurvePointElement extends PBCCurvePointElement {
 
 
     @Override
+    public PBCElement duplicate() {
+        return super.duplicate();
+    }
+
+    @Override
+    public PBCElement getImmutable() {
+        return this;
+    }
+
+    @Override
     public PBCCurvePointElement set(Element value) {
-        return (PBCCurvePointElement) duplicate().set(value);
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
     public PBCCurvePointElement set(int value) {
-        return (PBCCurvePointElement) duplicate().set(value);
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
     public PBCCurvePointElement set(BigInteger value) {
-        return (PBCCurvePointElement) duplicate().set(value);
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
     public PBCCurvePointElement twice() {
-        return (PBCCurvePointElement) duplicate().twice();
+        return (PBCCurvePointElement) super.duplicate().twice().getImmutable();
     }
 
     @Override
     public PBCCurvePointElement mul(int z) {
-        return (PBCCurvePointElement) duplicate().mul(z);
+        return (PBCCurvePointElement) super.duplicate().mul(z).getImmutable();
     }
 
     @Override
     public PBCCurvePointElement setToZero() {
-        return (PBCCurvePointElement) duplicate().setToZero();
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
     public PBCCurvePointElement setToOne() {
-        return (PBCCurvePointElement) duplicate().setToOne();
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
     public PBCCurvePointElement setToRandom() {
-        return (PBCCurvePointElement) duplicate().setToRandom();
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
     public PBCCurvePointElement setFromHash(byte[] source, int offset, int length) {
-        return (PBCCurvePointElement) duplicate().setFromHash(source, offset, length);
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
@@ -73,67 +83,67 @@ public class ImmutablePBCCurvePointElement extends PBCCurvePointElement {
 
     @Override
     public PBCCurvePointElement square() {
-        return (PBCCurvePointElement) duplicate().square();
+        return (PBCCurvePointElement) super.duplicate().square().getImmutable();
     }
 
     @Override
     public PBCCurvePointElement invert() {
-        return (PBCCurvePointElement) duplicate().invert();
+        return (PBCCurvePointElement) super.duplicate().invert().getImmutable();
     }
 
     @Override
     public PBCCurvePointElement halve() {
-        return (PBCCurvePointElement) duplicate().halve();
+        return (PBCCurvePointElement) super.duplicate().halve().getImmutable();
     }
 
     @Override
     public PBCCurvePointElement negate() {
-        return (PBCCurvePointElement) duplicate().negate();
+        return (PBCCurvePointElement) super.duplicate().negate().getImmutable();
     }
 
     @Override
     public PBCCurvePointElement add(Element element) {
-        return (PBCCurvePointElement) duplicate().add(element);
+        return (PBCCurvePointElement) super.duplicate().add(element).getImmutable();
     }
 
     @Override
     public PBCCurvePointElement sub(Element element) {
-        return (PBCCurvePointElement) duplicate().sub(element);
+        return (PBCCurvePointElement) super.duplicate().sub(element).getImmutable();
     }
 
     @Override
     public PBCCurvePointElement div(Element element) {
-        return (PBCCurvePointElement) duplicate().div(element);
+        return (PBCCurvePointElement) super.duplicate().div(element).getImmutable();
     }
 
     @Override
     public PBCCurvePointElement mul(Element element) {
-        return (PBCCurvePointElement) duplicate().mul(element);
+        return (PBCCurvePointElement) super.duplicate().mul(element).getImmutable();
     }
 
     @Override
     public PBCCurvePointElement mul(BigInteger n) {
-        return (PBCCurvePointElement) duplicate().mul(n);
+        return (PBCCurvePointElement) super.duplicate().mul(n).getImmutable();
     }
 
     @Override
     public PBCCurvePointElement mulZn(Element z) {
-        return (PBCCurvePointElement) duplicate().mulZn(z);
+        return (PBCCurvePointElement) super.duplicate().mulZn(z).getImmutable();
     }
 
     @Override
     public PBCCurvePointElement sqrt() {
-        return (PBCCurvePointElement) duplicate().sqrt();
+        return (PBCCurvePointElement) super.duplicate().sqrt().getImmutable();
     }
 
     @Override
     public PBCCurvePointElement pow(BigInteger n) {
-        return (PBCCurvePointElement) duplicate().pow(n);
+        return (PBCCurvePointElement) super.duplicate().pow(n).getImmutable();
     }
 
     @Override
     public PBCCurvePointElement powZn(Element n) {
-        return (PBCCurvePointElement) duplicate().powZn(n);
+        return (PBCCurvePointElement) super.duplicate().powZn(n).getImmutable();
     }
 
 }

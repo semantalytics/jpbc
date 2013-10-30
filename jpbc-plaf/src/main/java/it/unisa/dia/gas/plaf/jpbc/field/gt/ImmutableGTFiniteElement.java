@@ -17,18 +17,28 @@ public class ImmutableGTFiniteElement extends GTFiniteElement {
     }
 
     @Override
+    public GTFiniteElement duplicate() {
+        return super.duplicate();
+    }
+
+    @Override
+    public GTFiniteElement getImmutable() {
+        return this;
+    }
+
+    @Override
     public GTFiniteElement set(Element value) {
-        return duplicate().set(value);    
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
     public GTFiniteElement set(int value) {
-        return duplicate().set(value);    
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
     public GTFiniteElement set(BigInteger value) {
-        return duplicate().set(value);    
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
@@ -43,22 +53,22 @@ public class ImmutableGTFiniteElement extends GTFiniteElement {
 
     @Override
     public GTFiniteElement setToZero() {
-        return duplicate().setToZero();    
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
     public GTFiniteElement setToOne() {
-        return duplicate().setToOne();    
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
     public GTFiniteElement setToRandom() {
-        return duplicate().setToRandom();    
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
     public GTFiniteElement setFromHash(byte[] source, int offset, int length) {
-        return duplicate().setFromHash(source, offset, length);    
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override

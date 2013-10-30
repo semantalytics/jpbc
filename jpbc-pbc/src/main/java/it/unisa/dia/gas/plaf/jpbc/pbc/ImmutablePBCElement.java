@@ -14,51 +14,60 @@ public class ImmutablePBCElement extends PBCElement {
         
         this.immutable = true;
     }
-    
-    
+
+    @Override
+    public PBCElement duplicate() {
+        return super.duplicate();
+    }
+
+    @Override
+    public PBCElement getImmutable() {
+        return this;
+    }
+
     @Override
     public PBCElement set(Element value) {
-        return duplicate().set(value);    
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
     public PBCElement set(int value) {
-        return duplicate().set(value);    
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
     public PBCElement set(BigInteger value) {
-        return duplicate().set(value);    
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
     public PBCElement twice() {
-        return duplicate().twice();    
+        return super.duplicate().twice().getImmutable();    
     }
 
     @Override
     public PBCElement mul(int z) {
-        return duplicate().mul(z);    
+        return super.duplicate().mul(z).getImmutable();
     }
 
     @Override
     public PBCElement setToZero() {
-        return duplicate().setToZero();    
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
     public PBCElement setToOne() {
-        return duplicate().setToOne();    
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
     public PBCElement setToRandom() {
-        return duplicate().setToRandom();    
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
     public PBCElement setFromHash(byte[] source, int offset, int length) {
-        return duplicate().setFromHash(source, offset, length);    
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
@@ -73,67 +82,67 @@ public class ImmutablePBCElement extends PBCElement {
 
     @Override
     public PBCElement square() {
-        return duplicate().square();    
+        return super.duplicate().square().getImmutable();    
     }
 
     @Override
     public PBCElement invert() {
-        return duplicate().invert();    
+        return super.duplicate().invert().getImmutable();    
     }
 
     @Override
     public PBCElement halve() {
-        return duplicate().halve();    
+        return super.duplicate().halve().getImmutable();    
     }
 
     @Override
     public PBCElement negate() {
-        return duplicate().negate();    
+        return super.duplicate().negate().getImmutable();    
     }
 
     @Override
     public PBCElement add(Element element) {
-        return duplicate().add(element);    
+        return super.duplicate().add(element).getImmutable();
     }
 
     @Override
     public PBCElement sub(Element element) {
-        return duplicate().sub(element);    
+        return super.duplicate().sub(element).getImmutable();
     }
 
     @Override
     public PBCElement div(Element element) {
-        return duplicate().div(element);    
+        return super.duplicate().div(element).getImmutable();
     }
 
     @Override
     public PBCElement mul(Element element) {
-        return duplicate().mul(element);    
+        return super.duplicate().mul(element).getImmutable();
     }
 
     @Override
     public PBCElement mul(BigInteger n) {
-        return duplicate().mul(n);    
+        return super.duplicate().mul(n).getImmutable();
     }
 
     @Override
     public PBCElement mulZn(Element z) {
-        return duplicate().mulZn(z);    
+        return super.duplicate().mulZn(z).getImmutable();
     }
 
     @Override
     public PBCElement sqrt() {
-        return duplicate().sqrt();    
+        return super.duplicate().sqrt().getImmutable();    
     }
 
     @Override
     public PBCElement pow(BigInteger n) {
-        return duplicate().pow(n);    
+        return super.duplicate().pow(n).getImmutable();
     }
 
     @Override
     public PBCElement powZn(Element n) {
-        return duplicate().powZn(n);    
+        return super.duplicate().powZn(n).getImmutable();
     }
     
 }
