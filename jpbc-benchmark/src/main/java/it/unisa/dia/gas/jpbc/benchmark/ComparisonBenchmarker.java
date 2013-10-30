@@ -38,10 +38,10 @@ public class ComparisonBenchmarker implements Benchmarker {
         int iterations = Integer.parseInt(args[0]);
         String[] curves = Arrays.copyOfRange(args, 1, args.length);
 
-        System.out.printf("JPBC Benchmark.\n");
-        System.out.printf("#Iterations = %s\n", args[0]);
+        System.out.printf("JPBC Benchmark.%n");
+        System.out.printf("#Iterations = %s%n", args[0]);
         for (String curve : curves) {
-            System.out.printf("Curve = %s\n", curve);
+            System.out.printf("Curve = %s%n", curve);
         }
 
         ComparisonBenchmarker benchmarker = new ComparisonBenchmarker();
@@ -49,7 +49,7 @@ public class ComparisonBenchmarker implements Benchmarker {
         benchmarker.addBenchmarker(new JPBCBenchmarker(iterations, curves, true));
         Benchmark benchmark = benchmarker.benchmark();
 
-        System.out.printf("Results: \n %s\n", benchmark.toHTML());
-        System.out.printf("JPBC Benchmark. Finished.\n");
+        System.out.printf("Results: %n %s%n", benchmark.toHTML());
+        System.out.printf("JPBC Benchmark. Finished.%n");
     }
 }
