@@ -10,13 +10,10 @@ import java.math.BigInteger;
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
-public class PolyElement<E extends Element> extends AbstractPolyElement<E> {
-    protected PolyField<Field> field;
-
+public class PolyElement<E extends Element> extends AbstractPolyElement<E, PolyField> {
 
     public PolyElement(PolyField<Field> field) {
         super(field);
-        this.field = field;
     }
 
 
@@ -25,7 +22,7 @@ public class PolyElement<E extends Element> extends AbstractPolyElement<E> {
     }
 
     public PolyElement<E> duplicate() {
-        PolyElement copy = new PolyElement(field);
+        PolyElement copy = new PolyElement((PolyField<Field>) field);
 
         for (Element e : coefficients) {
             copy.coefficients.add(e.duplicate());
@@ -199,7 +196,7 @@ public class PolyElement<E extends Element> extends AbstractPolyElement<E> {
             return this;
         }
 
-        prod = field.newElement();
+        prod = (PolyElement) field.newElement();
         n = fcount + gcount - 1;
         prod.ensureSize(n);
 
@@ -504,10 +501,10 @@ public class PolyElement<E extends Element> extends AbstractPolyElement<E> {
         Polynomial x = fpxmod.newElement();
 
         BigInteger q = field.getTargetField().getOrder();
-        PolyElement g = field.newElement();
+        PolyElement g = (PolyElement) field.newElement();
 
         x.getCoefficient(1).setToOne();
-//        System.out.printf("findroot: degree %d...\n", this.getDegree());
+//        System.out.printf("findroot: degree %d...%n", this.getDegree());
 
         p.set(x).pow(q).sub(x);
         g.setFromPolyMod(p).gcd(this).makeMonic();
@@ -517,9 +514,9 @@ public class PolyElement<E extends Element> extends AbstractPolyElement<E> {
         }
 
         // Use Cantor-Zassenhaus to find a root
-        PolyElement fac = field.newElement();
-        PolyElement r = field.newElement();
-        x = field.newElement(1);
+        PolyElement fac = (PolyElement) field.newElement();
+        PolyElement r = (PolyElement) field.newElement();
+        x = (PolyElement) field.newElement(1);
 
         q = q.subtract(BigInteger.ONE);
         q = q.divide(BigIntegerUtils.TWO);
@@ -544,7 +541,7 @@ public class PolyElement<E extends Element> extends AbstractPolyElement<E> {
                     p = fpxmod.newElement();
                     p.setFromPolyTruncate(r);
 
-//                    System.out.printf("findroot: degree %d...\n", g.getDegree());
+//                    System.out.printf("findroot: degree %d...%n", g.getDegree());
                     p.pow(q);
                     r.setFromPolyMod(p);
 
@@ -560,7 +557,7 @@ public class PolyElement<E extends Element> extends AbstractPolyElement<E> {
             }
         }
 
-//        System.out.printf("findroot: found root\n");
+//        System.out.printf("findroot: found root%n");
         return (E) g.getCoefficient(0).negate();
     }
 

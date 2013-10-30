@@ -11,8 +11,7 @@ import java.math.BigInteger;
 public class ImmutableVectorElement<E extends Element> extends VectorElement<E> {
 
     public ImmutableVectorElement(VectorElement element) {
-        super(element.field);
-        this.field = element.field;
+        super(element.getField());
 
         this.coeff.clear();
         for (int i = 0; i < field.n; i++)

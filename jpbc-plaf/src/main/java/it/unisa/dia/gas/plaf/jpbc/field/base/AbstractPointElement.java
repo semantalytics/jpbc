@@ -1,23 +1,19 @@
 package it.unisa.dia.gas.plaf.jpbc.field.base;
 
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.jpbc.FieldOver;
 import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.jpbc.Vector;
 
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
-public abstract class AbstractPointElement<E extends Element> extends AbstractElement implements Point<E>, Vector<E> {
+public abstract class AbstractPointElement<E extends Element, F extends AbstractFieldOver> extends AbstractElement<F> implements Point<E>, Vector<E> {
 
-    protected AbstractFieldOver field;
     protected E  x, y;
 
 
-    protected AbstractPointElement(FieldOver field) {
+    protected AbstractPointElement(F field) {
         super(field);
-        
-        this.field = (AbstractFieldOver) field;
     }
 
 

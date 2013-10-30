@@ -15,8 +15,8 @@ public class GTFiniteField<F extends Field> extends AbstractFieldOver<F, GTFinit
     protected BigInteger order;
 
 
-    public GTFiniteField(SecureRandom random, BigInteger order, PairingMap pairing, Field targetField) {
-        super(random, (F) targetField);
+    public GTFiniteField(SecureRandom random, BigInteger order, PairingMap pairing, F targetField) {
+        super(random, targetField);
 
         this.order = order;
         this.pairing = pairing;

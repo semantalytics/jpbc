@@ -2,7 +2,6 @@ package it.unisa.dia.gas.plaf.jpbc.field.base;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
-import it.unisa.dia.gas.jpbc.Field;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -12,17 +11,18 @@ import java.util.StringTokenizer;
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
-public abstract class AbstractElement implements Element {
-    protected AbstractField field;
+public abstract class AbstractElement<F extends AbstractField> implements Element {
+
+    protected F field;
     protected boolean immutable = false;
 
 
-    public AbstractElement(Field field) {
-        this.field = (AbstractField) field;
+    public AbstractElement(F field) {
+        this.field = field;
     }
 
 
-    public Field getField() {
+    public F getField() {
         return field;
     }
 

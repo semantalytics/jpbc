@@ -8,22 +8,18 @@ import java.math.BigInteger;
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
-public class QuadraticElement<E extends Element> extends AbstractPointElement<E> {
+public class QuadraticElement<E extends Element> extends AbstractPointElement<E, QuadraticField> {
 
-    protected QuadraticField field;
 
-    
     public QuadraticElement(QuadraticField field) {
         super(field);
-        this.field = field;
 
         this.x = (E) field.getTargetField().newElement();
         this.y = (E) field.getTargetField().newElement();
     }
 
     public QuadraticElement(QuadraticElement element) {
-        super(element.field);
-        this.field = element.field;
+        super(element.getField());
 
         this.x = (E) element.x.duplicate();
         this.y = (E) element.y.duplicate();
@@ -46,7 +42,7 @@ public class QuadraticElement<E extends Element> extends AbstractPointElement<E>
     public QuadraticElement set(Element e) {
         QuadraticElement element = (QuadraticElement) e;
 
-        this.field = element.field;
+        // TODO: should set the field too?
 
         this.x = (E) element.x.duplicate();
         this.y = (E) element.y.duplicate();

@@ -34,7 +34,7 @@ public class JPBCBenchmarker implements Benchmarker {
 
         for (int col = 0; col < curvePaths.length; col++) {
             printStatMemory();
-            System.out.printf("Curve = %s...\n", curvePaths[col]);
+            System.out.printf("Curve = %s...%n", curvePaths[col]);
 
             Pairing pairing = getPairing(curvePaths[col]);
 
@@ -62,7 +62,7 @@ public class JPBCBenchmarker implements Benchmarker {
             pairingBenchmarks[0][col] = (double) t1 / iterations;
             pairingBenchmarks[1][col] = (double) t2 / iterations;
             pairingBenchmarks[2][col] = (double) t3 / iterations;
-            System.out.printf("finished.\n");
+            System.out.printf("finished.%n");
 
             printStatMemory();
             System.gc();
@@ -78,7 +78,7 @@ public class JPBCBenchmarker implements Benchmarker {
         double[][][] elementBenchmarks = benchmark.getElementBenchmarks();
 
         for (int col = 0; col < curvePaths.length; col++) {
-            System.out.printf("Curve = %s\n", curvePaths[col]);
+            System.out.printf("Curve = %s%n", curvePaths[col]);
 
             Pairing pairing = getPairing(curvePaths[col]);
             Field[] fields = new Field[]{
@@ -90,7 +90,7 @@ public class JPBCBenchmarker implements Benchmarker {
 
             for (int fieldIndex = 0; fieldIndex < fields.length; fieldIndex++) {
                 printStatMemory();
-                System.out.printf("Field %s...\n", JPBCBenchmark.fieldNames[fieldIndex]);
+                System.out.printf("Field %s...%n", JPBCBenchmark.fieldNames[fieldIndex]);
 
                 long t1 = 0, t2 = 0,t3 = 0,t4 = 0, t5 = 0, t6 = 0, t7 = 0;
                 for (int i = 0; i < iterations; i++) {
@@ -143,7 +143,7 @@ public class JPBCBenchmarker implements Benchmarker {
                 elementBenchmarks[fieldIndex][5][col] = (double ) t6 / iterations;
                 elementBenchmarks[fieldIndex][6][col] = (double ) t7 / iterations;
 
-                System.out.printf("finished.\n");
+                System.out.printf("finished.%n");
                 printStatMemory();
                 System.gc();
                 try {
@@ -167,7 +167,7 @@ public class JPBCBenchmarker implements Benchmarker {
     }
 
     protected void printStatMemory() {
-        System.out.printf("Memory. Max = %d, Free = %d, Total = %d\n",
+        System.out.printf("Memory. Max = %d, Free = %d, Total = %d%n",
                 Runtime.getRuntime().maxMemory(),
                 Runtime.getRuntime().freeMemory(),
                 Runtime.getRuntime().totalMemory());

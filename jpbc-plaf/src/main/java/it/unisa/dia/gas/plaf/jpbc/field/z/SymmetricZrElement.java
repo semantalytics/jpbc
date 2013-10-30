@@ -1,7 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.field.z;
 
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.plaf.jpbc.util.Arrays;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
@@ -10,37 +9,41 @@ import java.math.BigInteger;
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
-public class SymmetricZrElement extends AbstractZElement {
+public class SymmetricZrElement<F extends SymmetricZrField> extends AbstractZElement<F> {
 
     protected BigInteger order;
     protected BigInteger halfOrder;
 
 
-    public SymmetricZrElement(Field field) {
+    public SymmetricZrElement(F field) {
         super(field);
 
         this.value = BigInteger.ZERO;
 
         this.order = field.getOrder();
-        this.halfOrder = ((SymmetricZrField) field).halfOrder;
+        this.halfOrder = field.halfOrder;
     }
 
-    public SymmetricZrElement(Field field, BigInteger value) {
+    public SymmetricZrElement(F field, BigInteger value) {
         super(field);
 
         this.order = field.getOrder();
-        this.halfOrder = ((SymmetricZrField) field).halfOrder;
+        this.halfOrder = field.halfOrder;
         set(value);
     }
 
-    public SymmetricZrElement(SymmetricZrElement zrElement) {
+    public SymmetricZrElement(SymmetricZrElement<F> zrElement) {
         super(zrElement.getField());
 
         this.order = zrElement.field.getOrder();
-        this.halfOrder = ((SymmetricZrField) zrElement.field).halfOrder;
+        this.halfOrder = zrElement.field.halfOrder;
         set(zrElement);
     }
 
+
+    public F getField() {
+        return field;
+    }
 
     @Override
     public Element getImmutable() {
@@ -173,7 +176,7 @@ public class SymmetricZrElement extends AbstractZElement {
     }
 
     public SymmetricZrElement halve() {
-        value = value.multiply(((ZrField) field).twoInverse).mod(order);
+        value = value.multiply(field.twoInverse).mod(order);
 
         return mod();
     }

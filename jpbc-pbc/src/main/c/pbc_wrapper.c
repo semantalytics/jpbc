@@ -89,7 +89,7 @@ int pbc_curvegen_d_generate(pbc_cm_t cm, void *data) {
     pbc_param_t param;
     pbc_info("gendparam: computing Hilbert polynomial and finding roots...");
     pbc_param_init_d_gen(param, cm);
-    pbc_info("gendparam: bits in q = %zu\n", mpz_sizeinbase(cm->q, 2));
+    pbc_info("gendparam: bits in q = %zu%n", mpz_sizeinbase(cm->q, 2));
     FILE *pFile = fopen(pbc_curvegen_d_file_name, "w+");
     pbc_param_out_str(pFile, param);
     pbc_param_clear(param);
@@ -135,7 +135,7 @@ int pbc_curvegen_g_generate(pbc_cm_t cm, void *data) {
     pbc_param_t param;
     pbc_info("gendparam: computing Hilbert polynomial and finding roots...");
     pbc_param_init_g_gen(param, cm);
-    pbc_info("gendparam: bits in q = %zu\n", mpz_sizeinbase(cm->q, 2));
+    pbc_info("gendparam: bits in q = %zu%n", mpz_sizeinbase(cm->q, 2));
     FILE *pFile = fopen(pbc_curvegen_g_file_name, "w+");
     pbc_param_out_str(pFile, param);
     pbc_param_clear(param);
@@ -538,7 +538,7 @@ void pbc_element_pp_to_bytes(unsigned char *data, element_pp_t p) {
 // =============
 
 void pbc_field_order(element_t element, mpz_t order) {
-    //gmp_fprintf(stderr, "element->field->order = %Zd\n", element->field->order);
+    //gmp_fprintf(stderr, "element->field->order = %Zd%n", element->field->order);
     mpz_set(order, element->field->order);
-    //gmp_fprintf(stderr, "order = %Zd\n", order);
+    //gmp_fprintf(stderr, "order = %Zd%n", order);
 }

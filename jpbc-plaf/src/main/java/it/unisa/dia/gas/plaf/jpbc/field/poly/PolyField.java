@@ -12,8 +12,8 @@ import java.security.SecureRandom;
 public class PolyField<F extends Field> extends AbstractFieldOver<F, PolyElement> {
 
 
-    public PolyField(SecureRandom random, Field targetField) {
-        super(random, (F) targetField);
+    public PolyField(SecureRandom random, F targetField) {
+        super(random, targetField);
     }
 
     public PolyField(F targetField) {

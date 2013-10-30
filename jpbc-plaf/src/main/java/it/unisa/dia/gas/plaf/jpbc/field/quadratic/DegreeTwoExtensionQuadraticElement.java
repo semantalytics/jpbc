@@ -7,21 +7,16 @@ import it.unisa.dia.gas.jpbc.Element;
  */
 public class DegreeTwoExtensionQuadraticElement<E extends Element> extends QuadraticElement<E> {
 
-    protected DegreeTwoExtensionQuadraticField field;
-
-
 
     public DegreeTwoExtensionQuadraticElement(DegreeTwoExtensionQuadraticField field) {
         super(field);
-        this.field = field;
 
         this.x = (E) field.getTargetField().newElement();
         this.y = (E) field.getTargetField().newElement();
     }
 
     public DegreeTwoExtensionQuadraticElement(DegreeTwoExtensionQuadraticElement element) {
-        super(element.field);
-        this.field = element.field;
+        super((QuadraticField) element.field);
 
         this.x = (E) element.x.duplicate();
         this.y = (E) element.y.duplicate();

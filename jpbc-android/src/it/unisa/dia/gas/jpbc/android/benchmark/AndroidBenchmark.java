@@ -23,7 +23,7 @@ public class AndroidBenchmark {
 
 
     public Benchmark benchmark(String[] curves) {
-        Log.i(TAG, "Benchmarking...\n");
+        Log.i(TAG, "Benchmarking...%n");
 
         this.running = true;
         Benchmark benchmark = new Benchmark(curves);
@@ -62,7 +62,7 @@ public class AndroidBenchmark {
             pairingBenchmarks[0][col] = (double) t1 / iterations;
             pairingBenchmarks[1][col] = (double) t2 / iterations;
             pairingBenchmarks[2][col] = (double) t3 / iterations;
-            Log.i(TAG, "Finished.\n");
+            Log.i(TAG, "Finished.%n");
         }
 
         // Element Pow Benchmarks
@@ -137,11 +137,11 @@ public class AndroidBenchmark {
                 elementBenchmarks[fieldIndex][4][col] = (double) t5 / iterations;
                 elementBenchmarks[fieldIndex][5][col] = (double) t6 / iterations;
                 elementBenchmarks[fieldIndex][6][col] = (double) t7 / iterations;
-                Log.i(TAG, "Finished.\n");
+                Log.i(TAG, "Finished.%n");
             }
         }
 
-        Log.i(TAG, "Benchmarking Finished.\n");
+        Log.i(TAG, "Benchmarking Finished.%n");
         this.running = false;
 
         return benchmark;
@@ -157,7 +157,7 @@ public class AndroidBenchmark {
 
 
     public void stop() {
-        Log.i(TAG, "Stop.\n");
+        Log.i(TAG, "Stop.%n");
 
         this.running = false;
     }

@@ -1,7 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.field.z;
 
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.plaf.jpbc.util.Arrays;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
@@ -10,27 +9,26 @@ import java.math.BigInteger;
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
-public class ZrElement extends AbstractZElement {
+public class ZrElement<F extends ZrField> extends AbstractZElement<F> {
 
-//    protected BigInteger value;
     protected BigInteger order;
 
 
-    public ZrElement(Field field) {
+    public ZrElement(F field) {
         super(field);
 
         this.value = BigInteger.ZERO;
         this.order = field.getOrder();
     }
 
-    public ZrElement(Field field, BigInteger value) {
+    public ZrElement(F field, BigInteger value) {
         super(field);
 
         this.value = value;
         this.order = field.getOrder();
     }
 
-    public ZrElement(ZrElement zrElement) {
+    public ZrElement(ZrElement<F> zrElement) {
         super(zrElement.getField());
 
         this.value = zrElement.value;
@@ -38,6 +36,10 @@ public class ZrElement extends AbstractZElement {
         this.immutable = zrElement.immutable;
     }
 
+
+    public F getField() {
+        return field;
+    }
 
     @Override
     public Element getImmutable() {

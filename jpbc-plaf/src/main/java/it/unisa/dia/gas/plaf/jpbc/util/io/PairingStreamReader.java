@@ -34,6 +34,10 @@ public class PairingStreamReader {
     }
 
 
+    public void reset() {
+        this.cursor = this.offset;
+    }
+
     public Element[] readElements(int... ids) {
         Element[] elements = new Element[ids.length];
 

@@ -1,7 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.field.base;
 
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.jpbc.FieldOver;
 import it.unisa.dia.gas.jpbc.Vector;
 
 import java.util.ArrayList;
@@ -10,16 +9,13 @@ import java.util.List;
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
-public abstract class AbstractVectorElement<E extends Element> extends AbstractElement implements Vector<E> {
+public abstract class AbstractVectorElement<E extends Element, F extends AbstractFieldOver> extends AbstractElement<F> implements Vector<E> {
 
-    protected FieldOver field;
     protected List<E> coeff;
 
-
-    protected AbstractVectorElement(FieldOver field) {
+    protected AbstractVectorElement(F field) {
         super(field);
 
-        this.field = field;
         this.coeff = new ArrayList<E>();
     }
 

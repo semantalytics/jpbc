@@ -55,7 +55,7 @@ public class ByteBufferBigIntegerArraySector implements ArraySector<BigInteger> 
         return numRecords;
     }
 
-    public ArraySector<BigInteger> mapTo(Mode mode, ByteBuffer buffer) {
+    public synchronized ArraySector<BigInteger> mapTo(Mode mode, ByteBuffer buffer) {
         this.buffer = buffer;
         this.in = new PairingDataInput(new ByteBufferDataInput(buffer));
         this.out = new PairingDataOutput(new ByteBufferDataOutput(buffer));

@@ -33,6 +33,10 @@ public class FieldStreamReader {
     }
 
 
+    public void reset() {
+        this.cursor = this.offset;
+    }
+
     public Element readElement() {
         Element element = field.newElementFromBytes(buffer, cursor);
         jump(field.getLengthInBytes(element));

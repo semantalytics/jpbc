@@ -166,7 +166,7 @@ public class PairingFactory {
 
     }
 
-    public class CTL13MultilinearPairingCreator implements PairingCreator {
+    public static class CTL13MultilinearPairingCreator implements PairingCreator {
 
         private Method getPairingMethod;
         private Throwable throwable;

@@ -84,7 +84,7 @@ public class LatchHashMap<K, V> implements Map<K, V> {
             if (containsKey(key))
                 latch = internalMap.get(key);
             else {
-                latch = new ValueLatch(key);
+                latch = new ValueLatch();
                 internalMap.put((K) key, latch);
             }
         }
@@ -94,12 +94,10 @@ public class LatchHashMap<K, V> implements Map<K, V> {
 
     class ValueLatch<V> extends CountDownLatch {
 
-        Object K;
         V value;
 
-        ValueLatch(Object K) {
+        ValueLatch() {
             super(1);
-            this.K = K;
         }
 
         V set(V value) {

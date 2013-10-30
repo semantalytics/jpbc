@@ -12,24 +12,20 @@ import java.util.List;
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
-public class PolyModElement<E extends Element> extends AbstractPolyElement<E> {
-    protected PolyModField field;
+public class PolyModElement<E extends Element> extends AbstractPolyElement<E, PolyModField> {
 
 
     public PolyModElement(PolyModField field) {
         super(field);
-        this.field = field;
 
-        for (int i = 0; i < field.n; i++) {
+        for (int i = 0; i < field.n; i++)
             coefficients.add((E) field.getTargetField().newElement());
-        }
     }
 
     public PolyModElement(PolyModField field, List<E> coeff) {
         super(field);
-        this.field = field;
 
-        this.coefficients = coeff;
+        this.coefficients = coeff; // TODO: should clone?
     }
 
 

@@ -11,13 +11,11 @@ import java.util.List;
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
-public class VectorElement<E extends Element> extends AbstractVectorElement<E> {
-    protected VectorField field;
+public class VectorElement<E extends Element> extends AbstractVectorElement<E, VectorField> {
 
 
     public VectorElement(VectorField field) {
         super(field);
-        this.field = field;
 
         for (int i = 0; i < field.n; i++) {
             coeff.add((E) field.getTargetField().newElement());

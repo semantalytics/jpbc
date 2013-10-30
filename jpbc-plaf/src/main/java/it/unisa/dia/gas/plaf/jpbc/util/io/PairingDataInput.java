@@ -12,12 +12,16 @@ import java.math.BigInteger;
 public class PairingDataInput implements DataInput {
 
     private DataInput dataInput;
-    private PairingParameters parameters;
     private Pairing pairing;
 
 
     public PairingDataInput(DataInput dataInput) {
         this.dataInput = dataInput;
+    }
+
+    public PairingDataInput(DataInput dataInput, Pairing pairing) {
+        this.dataInput = dataInput;
+        this.pairing = pairing;
     }
 
 
