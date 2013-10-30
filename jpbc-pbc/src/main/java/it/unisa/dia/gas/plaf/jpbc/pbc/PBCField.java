@@ -6,6 +6,7 @@ import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
 import it.unisa.dia.gas.plaf.jpbc.field.base.AbstractField;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.MPZElementType;
+import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.PBCElementType;
 import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.PBCPairingType;
 import it.unisa.dia.gas.plaf.jpbc.wrapper.jna.WrapperLibraryProvider;
 
@@ -16,6 +17,7 @@ import java.math.BigInteger;
  */
 public abstract class PBCField extends AbstractField {
     protected PBCPairingType pairing;
+    protected PBCElementType baseElement;
 
     protected int fixedLengthInBytes;
     protected BigInteger order;
@@ -23,21 +25,28 @@ public abstract class PBCField extends AbstractField {
 
     protected PBCField(PBCPairingType pairing) {
         super(null);
-
         this.pairing = pairing;
 
-        if (pairing != null) {
-            PBCElement temp = (PBCElement) newElement();
+        PBCElement temp = (PBCElement) newElement();
+        MPZElementType mpzOrder = new MPZElementType();
+        mpzOrder.init();
+        WrapperLibraryProvider.getWrapperLibrary().pbc_field_order(temp.value, mpzOrder);
 
-            this.fixedLengthInBytes = WrapperLibraryProvider.getWrapperLibrary().pbc_element_length_in_bytes(temp.value);
-
-            MPZElementType mpzOrder = new MPZElementType();
-            mpzOrder.init();
-            WrapperLibraryProvider.getWrapperLibrary().pbc_field_order(temp.value, mpzOrder);
-            this.order = new BigInteger(mpzOrder.toString(10));
-        }
+        this.order = new BigInteger(mpzOrder.toString(10));
+        this.fixedLengthInBytes = WrapperLibraryProvider.getWrapperLibrary().pbc_element_length_in_bytes(temp.value);
     }
 
+    protected PBCField(PBCElementType baseElement) {
+        super(null);
+        this.baseElement = baseElement;
+
+        MPZElementType mpzOrder = new MPZElementType();
+        mpzOrder.init();
+        WrapperLibraryProvider.getWrapperLibrary().pbc_field_order(baseElement, mpzOrder);
+
+        this.order = new BigInteger(mpzOrder.toString(10));
+        this.fixedLengthInBytes = WrapperLibraryProvider.getWrapperLibrary().pbc_element_length_in_bytes(baseElement);
+    }
 
     public BigInteger getOrder() {
         return order;

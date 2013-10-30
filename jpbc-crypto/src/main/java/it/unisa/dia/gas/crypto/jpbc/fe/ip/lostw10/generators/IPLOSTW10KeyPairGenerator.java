@@ -35,11 +35,13 @@ public class IPLOSTW10KeyPairGenerator implements AsymmetricCipherKeyPairGenerat
         Element sigma = pairing.pairing(g, g);
 
         Element[][] dualOrthonormalBases = DPVS.sampleRandomDualOrthonormalBases(param.getRandom(), pairing, g, N);
+
         // B
         Element[] B = new Vector[n + 2];
         System.arraycopy(dualOrthonormalBases[0], 0, B, 0, n);
         B[n] = dualOrthonormalBases[0][N-3];
         B[n + 1] = dualOrthonormalBases[0][N-1];
+
         // BStart
         Element[] BStar = new Vector[n + 2];
         System.arraycopy(dualOrthonormalBases[1], 0, BStar, 0, n);

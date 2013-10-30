@@ -6,9 +6,10 @@ import java.math.BigInteger;
 
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
+ * @todo modify this, it will affect IPLOSTW
  */
 public class ImmutableVectorElement<E extends Element> extends VectorElement<E> {
-    
+
     public ImmutableVectorElement(VectorElement element) {
         super(element.field);
         this.field = element.field;
@@ -21,48 +22,38 @@ public class ImmutableVectorElement<E extends Element> extends VectorElement<E> 
     }
 
     @Override
-    public VectorElement<E> duplicate() {
-        return super.duplicate();
-    }
-
-    @Override
-    public Element getImmutable() {
-        return this;
-    }
-
-    @Override
     public VectorElement set(Element e) {
-        throw new IllegalStateException("Invalid call on an immutable element");
+        return duplicate().set(e);
     }
 
     @Override
     public VectorElement set(int value) {
-        throw new IllegalStateException("Invalid call on an immutable element");
+        return duplicate().set(value);
     }
 
     @Override
     public VectorElement set(BigInteger value) {
-        throw new IllegalStateException("Invalid call on an immutable element");
+        return duplicate().set(value);
     }
 
     @Override
     public VectorElement twice() {
-        return (VectorElement) super.duplicate().twice().getImmutable();    
+        return duplicate().twice();
     }
 
     @Override
     public VectorElement setToZero() {
-        throw new IllegalStateException("Invalid call on an immutable element");
+        return duplicate().setToZero();
     }
 
     @Override
     public VectorElement setToOne() {
-        throw new IllegalStateException("Invalid call on an immutable element");
+        return duplicate().setToOne();
     }
 
     @Override
     public VectorElement setToRandom() {
-        throw new IllegalStateException("Invalid call on an immutable element");
+        return duplicate().setToRandom();
     }
 
     @Override
@@ -72,47 +63,47 @@ public class ImmutableVectorElement<E extends Element> extends VectorElement<E> 
 
     @Override
     public VectorElement square() {
-        return (VectorElement) super.duplicate().square().getImmutable();
+        return duplicate().square();
     }
 
     @Override
     public VectorElement invert() {
-        return (VectorElement) super.duplicate().invert().getImmutable();
+        return duplicate().invert();
     }
 
     @Override
     public VectorElement negate() {
-        return (VectorElement) super.duplicate().negate().getImmutable();
+        return duplicate().negate();
     }
 
     @Override
     public VectorElement add(Element e) {
-        return (VectorElement) super.duplicate().add(e).getImmutable();
+        return duplicate().add(e);
     }
 
     @Override
     public VectorElement mul(Element e) {
-        return (VectorElement) super.duplicate().mul(e).getImmutable();
+        return duplicate().mul(e);
     }
 
     @Override
     public VectorElement mul(BigInteger n) {
-        return (VectorElement) super.duplicate().mul(n).getImmutable();
+        return duplicate().mul(n);
     }
 
     @Override
     public VectorElement mulZn(Element e) {
-        return (VectorElement) super.duplicate().mulZn(e).getImmutable();
+        return (VectorElement) duplicate().mulZn(e);
     }
 
     @Override
     public VectorElement powZn(Element e) {
-        return (VectorElement) super.duplicate().powZn(e).getImmutable();
+        return duplicate().powZn(e);
     }
 
     @Override
     public VectorElement setFromHash(byte[] source, int offset, int length) {
-        throw new IllegalStateException("Invalid call on an immutable element");
+        return duplicate().setFromHash(source, offset, length);
     }
 
     @Override
@@ -122,32 +113,32 @@ public class ImmutableVectorElement<E extends Element> extends VectorElement<E> 
 
     @Override
     public Element pow(BigInteger n) {
-        return (VectorElement) super.duplicate().pow(n).getImmutable();
+        return duplicate().pow(n);
     }
 
     @Override
     public Element halve() {
-        return (VectorElement) super.duplicate().halve().getImmutable();
+        return duplicate().halve();
     }
 
     @Override
     public VectorElement sub(Element element) {
-        return (VectorElement) super.duplicate().sub(element).getImmutable();
+        return duplicate().sub(element);
     }
 
     @Override
     public Element div(Element element) {
-        return (VectorElement) super.duplicate().div(element).getImmutable();
+        return duplicate().div(element);
     }
 
     @Override
     public VectorElement mul(int z) {
-        return (VectorElement) super.duplicate().mul(z).getImmutable();
+        return duplicate().mul(z);
     }
 
     @Override
     public VectorElement sqrt() {
-        return (VectorElement) super.duplicate().sqrt().getImmutable();
+        return duplicate().sqrt();
     }
-    
+
 }
