@@ -57,7 +57,7 @@ public class IPLOSTW10PredicateOnlyEngine extends PredicateOnlyPairingAsymmetric
             Element delta1 = pairing.getZr().newRandomElement();
             Element delta2 = pairing.getZr().newRandomElement();
 
-            Element c1 = pub.getBAt(0).powZn(encKey.getXAt(0));
+            Element c1 = pub.getBAt(0).duplicate().powZn(encKey.getXAt(0));
             for (int i = 1; i < n; i++) {
                 c1.add(pub.getBAt(i).powZn(encKey.getXAt(i)));
             }

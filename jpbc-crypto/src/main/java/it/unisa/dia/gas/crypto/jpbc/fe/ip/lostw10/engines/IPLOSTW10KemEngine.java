@@ -68,7 +68,7 @@ public class IPLOSTW10KemEngine extends PairingKeyEncapsulationMechanism {
 
             Element alpha = pairing.getZr().newRandomElement();
 
-            Element c1 = pub.getBAt(0).powZn(encKey.getXAt(0));
+            Element c1 = pub.getBAt(0).duplicate().powZn(encKey.getXAt(0));
             for (int i = 1; i < n; i++) {
                 c1.add(pub.getBAt(i).powZn(encKey.getXAt(i)));
             }

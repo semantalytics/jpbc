@@ -29,7 +29,7 @@ public class IPLOSTW10SecretKeyGenerator {
         Element sigma = pairing.getZr().newRandomElement();
         Element eta = pairing.getZr().newRandomElement();
 
-        Element k = secretKey.getBStarAt(0).powZn(param.getYAt(0));
+        Element k = secretKey.getBStarAt(0).duplicate().powZn(param.getYAt(0));
         for (int i = 1; i < n; i++) {
             k.add(secretKey.getBStarAt(i).powZn(param.getYAt(i)));
         }
