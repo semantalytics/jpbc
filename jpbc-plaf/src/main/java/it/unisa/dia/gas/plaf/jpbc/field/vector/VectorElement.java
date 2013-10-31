@@ -5,7 +5,6 @@ import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
 import it.unisa.dia.gas.plaf.jpbc.field.base.AbstractVectorElement;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,10 +16,17 @@ public class VectorElement<E extends Element> extends AbstractVectorElement<E, V
     public VectorElement(VectorField field) {
         super(field);
 
-        for (int i = 0; i < field.n; i++) {
+        for (int i = 0; i < field.n; i++)
             coeff.add((E) field.getTargetField().newElement());
-        }
     }
+
+    public VectorElement(VectorElement element) {
+        super(element.getField());
+
+        for (int i = 0; i < field.n; i++)
+            coeff.add((E) element.getAt(i).duplicate());
+    }
+
 
     public VectorElement(VectorField field, List<E> coeff) {
         super(field);
@@ -35,16 +41,10 @@ public class VectorElement<E extends Element> extends AbstractVectorElement<E, V
     }
 
     public VectorElement<E> duplicate() {
-        List<Element> duplicatedCoeff = new ArrayList<Element>(coeff.size());
-
-        for (Element element : coeff) {
-            duplicatedCoeff.add(element.duplicate());
-        }
-
-        return new VectorElement(field, duplicatedCoeff);
+        return new VectorElement<E>(this);
     }
 
-    public Element getImmutable() {
+    public VectorElement<E> getImmutable() {
         return new ImmutableVectorElement<E>(this);
     }
 

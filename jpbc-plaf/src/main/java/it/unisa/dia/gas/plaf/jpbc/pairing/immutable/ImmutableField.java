@@ -30,6 +30,10 @@ public class ImmutableField implements Field {
         return field.newElement(value).getImmutable();
     }
 
+    public Element newElement(Element element) {
+        return field.newElement(element).getImmutable();
+    }
+
     public Element newZeroElement() {
         return field.newZeroElement().getImmutable();
     }

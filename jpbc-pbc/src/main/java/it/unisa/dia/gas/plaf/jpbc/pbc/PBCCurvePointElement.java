@@ -22,9 +22,6 @@ public class PBCCurvePointElement extends PBCElement implements Point {
 
     @Override
     public PBCElement getImmutable() {
-        if (isImmutable())
-            return this;
-
         return new ImmutablePBCCurvePointElement(this);
     }
 

@@ -39,6 +39,15 @@ public interface Field<E extends Element> {
     E newElement(BigInteger value);
 
     /**
+     * Returns a new element whose value is copied from the passed element.
+     *
+     * @param e the element whose value is copied.
+     * @return a new element whose value is copied from the passed element.
+     * @since 2.0.0
+     */
+    E newElement(E e);
+
+    /**
      * Returns a new element whose value is set deterministically from the length bytes stored
      * in the source parameter starting from the passed offset.
      *

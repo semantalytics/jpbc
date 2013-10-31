@@ -6,7 +6,6 @@ import it.unisa.dia.gas.jpbc.Polynomial;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,10 +21,11 @@ public class PolyModElement<E extends Element> extends AbstractPolyElement<E, Po
             coefficients.add((E) field.getTargetField().newElement());
     }
 
-    public PolyModElement(PolyModField field, List<E> coeff) {
-        super(field);
+    public PolyModElement(PolyModElement<E> source) {
+        super(source.getField());
 
-        this.coefficients = coeff; // TODO: should clone?
+        for (int i = 0, n = source.getSize(); i < n; i++)
+            coefficients.add((E) source.getCoefficient(i).duplicate());
     }
 
 
@@ -39,13 +39,7 @@ public class PolyModElement<E extends Element> extends AbstractPolyElement<E, Po
     }
 
     public PolyModElement<E> duplicate() {
-        List<Element> duplicatedCoeff = new ArrayList<Element>(coefficients.size());
-
-        for (Element element : coefficients) {
-            duplicatedCoeff.add(element.duplicate());
-        }
-
-        return new PolyModElement(field, duplicatedCoeff);
+        return new PolyModElement<E>(this);
     }
 
     public PolyModElement<E> set(Element e) {

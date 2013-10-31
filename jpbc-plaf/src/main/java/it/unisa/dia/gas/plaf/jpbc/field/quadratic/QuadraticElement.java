@@ -32,7 +32,7 @@ public class QuadraticElement<E extends Element> extends AbstractPointElement<E,
 
     @Override
     public Element getImmutable() {
-        return new ImmutableQuadraticElement(this);
+        return new ImmutableQuadraticElement<E>(this);
     }
 
     public QuadraticElement duplicate() {

@@ -42,14 +42,11 @@ public class ZrElement<F extends ZrField> extends AbstractZElement<F> {
 
     @Override
     public Element getImmutable() {
-        if (isImmutable())
-            return this;
-
         return new ImmutableZrElement(this);
     }
 
-    public ZrElement duplicate() {
-        return new ZrElement(this);
+    public ZrElement<F> duplicate() {
+        return new ZrElement<F>(this);
     }
 
     public ZrElement set(Element value) {

@@ -26,7 +26,7 @@ public class ImmutableVectorElement<E extends Element> extends VectorElement<E> 
     }
 
     @Override
-    public Element getImmutable() {
+    public VectorElement<E> getImmutable() {
         return this;
     }
 

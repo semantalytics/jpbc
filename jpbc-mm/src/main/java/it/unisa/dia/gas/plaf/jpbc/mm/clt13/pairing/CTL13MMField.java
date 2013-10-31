@@ -49,6 +49,10 @@ public class CTL13MMField implements Field<CTL13MMElement> {
         throw new IllegalStateException("Not Implemented yet!");
     }
 
+    public CTL13MMElement newElement(CTL13MMElement ctl13MMElement) {
+        throw new IllegalStateException("Not Implemented yet!");
+    }
+
     public CTL13MMElement newElementFromHash(byte[] source, int offset, int length) {
         CTL13MMElement element = newElement();
         element.setFromHash(source, offset, length);

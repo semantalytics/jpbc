@@ -37,7 +37,7 @@ public class SymmetricZrElement<F extends SymmetricZrField> extends AbstractZEle
 
         this.order = zrElement.field.getOrder();
         this.halfOrder = zrElement.field.halfOrder;
-        set(zrElement);
+        this.value = zrElement.value.mod(order);
     }
 
 

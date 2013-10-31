@@ -33,6 +33,7 @@ public class PBCElement implements Element {
 
         this.value = duplicate.value;
         this.field = duplicate.field;
+        this.immutable = false;
     }
 
 
@@ -49,14 +50,11 @@ public class PBCElement implements Element {
     }
 
     public PBCElement getImmutable() {
-        if (isImmutable())
-            return this;
-
         return new ImmutablePBCElement(this);
     }
 
     public PBCElement duplicate() {
-        return (PBCElement) field.newElement().set(this);
+        return (PBCElement) field.newElement(this);
     }
 
     public PBCElement set(Element value) {

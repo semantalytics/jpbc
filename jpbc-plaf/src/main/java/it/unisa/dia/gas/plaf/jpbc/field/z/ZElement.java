@@ -36,9 +36,6 @@ public class ZElement extends AbstractZElement<ZField> {
 
     @Override
     public Element getImmutable() {
-        if (isImmutable())
-            return this;
-
         throw new IllegalStateException("Not implemented yet!!!");
     }
 
