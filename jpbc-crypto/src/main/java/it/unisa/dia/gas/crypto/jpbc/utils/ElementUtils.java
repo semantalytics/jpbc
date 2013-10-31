@@ -27,7 +27,7 @@ public class ElementUtils {
     public static <K> Map<K, Element[]> cloneImmutable(Map<K, Element[]> source) {
         Map<K, Element[]> dest = new HashMap<K, Element[]>(source.size());
 
-        for (Map.Entry<K, Element[]> kEntry : dest.entrySet())
+        for (Map.Entry<K, Element[]> kEntry : source.entrySet())
             dest.put(kEntry.getKey(), cloneImmutable(kEntry.getValue()));
 
         return dest;
@@ -36,7 +36,7 @@ public class ElementUtils {
     public static <K> Map<K, Element> cloneImmutable2(Map<K, Element> source) {
         Map<K, Element> dest = new HashMap<K, Element>(source.size());
 
-        for (Map.Entry<K, Element> kEntry : dest.entrySet())
+        for (Map.Entry<K, Element> kEntry : source.entrySet())
             dest.put(kEntry.getKey(), kEntry.getValue().getImmutable());
 
         return dest;
