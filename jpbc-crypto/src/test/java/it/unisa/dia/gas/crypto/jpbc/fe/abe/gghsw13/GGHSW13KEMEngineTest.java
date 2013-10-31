@@ -58,10 +58,10 @@ public class GGHSW13KEMEngineTest extends AbstractJPBCCryptoTest {
         int n = 4;
         int q = 3;
         Circuit circuit = new DefaultCircuit(n, q, 3, new DefaultGate[]{
-                new DefaultGate(INPUT, 0, 1, null),
-                new DefaultGate(INPUT, 1, 1, null),
-                new DefaultGate(INPUT, 2, 1, null),
-                new DefaultGate(INPUT, 3, 1, null),
+                new DefaultGate(INPUT, 0, 1),
+                new DefaultGate(INPUT, 1, 1),
+                new DefaultGate(INPUT, 2, 1),
+                new DefaultGate(INPUT, 3, 1),
 
                 new DefaultGate(AND, 4, 2, new int[]{0, 1}),
                 new DefaultGate(OR, 5, 2, new int[]{2, 3}),

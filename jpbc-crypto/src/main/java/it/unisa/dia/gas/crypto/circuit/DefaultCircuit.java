@@ -63,6 +63,12 @@ public class DefaultCircuit implements Circuit {
         private boolean value;
 
 
+        public DefaultGate(Type type, int index, int depth) {
+            this.type = type;
+            this.index = index;
+            this.depth = depth;
+        }
+
         public DefaultGate(Type type, int index, int depth, int[] inputs) {
             this.type = type;
             this.index = index;
