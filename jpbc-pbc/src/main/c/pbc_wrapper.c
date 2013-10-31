@@ -462,8 +462,19 @@ void pbc_element_multi_double2(element_ptr a[], int m) {
 }
 
 
-void pbc_element_multi_add(element_t n[], element_t a[], element_t b[], int m) {
-    element_multi_add(n, a, b, m);
+void pbc_element_multi_add(element_ptr n[], element_ptr a[], element_ptr b[], int m) {
+    element_t _n[m];
+    element_t _a[m];
+    element_t _b[m];
+
+    int i;
+    for (i = 0; i < m; i++) {
+        _n[i][0] = *n[i];
+        _a[i][0] = *a[i];
+        _b[i][0] = *b[i];
+    }
+
+    element_multi_add(_n, _a, _b, m);
 }
 
 void pbc_element_pairing(element_t out, element_t in1, element_t in2) {

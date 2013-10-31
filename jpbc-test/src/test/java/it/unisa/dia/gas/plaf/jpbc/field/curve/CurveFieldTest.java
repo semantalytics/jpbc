@@ -61,7 +61,7 @@ public class CurveFieldTest extends AbstractJPBCTest {
         assertEquals(true, a_c.isEqual(_a));
         assertEquals(true, b_c.isEqual(_b));
     }
-/*
+
     @Test
     public void testAdd() {
         if (pairing == null)
@@ -72,19 +72,16 @@ public class CurveFieldTest extends AbstractJPBCTest {
         Element a1 = pairing.getG1().newElement().setToRandom();
         Element b1 = pairing.getG1().newElement().setToRandom();
 
-        a.getField().add(new Element[]{a, a1}, new Element[]{b,b1});
+        Element c = a.duplicate().add(b);
+        Element c1 = a1.duplicate().add(b1);
 
-//        Element c = a.duplicate().add(b);
-//        Element c1 = a1.duplicate().add(b1);
-//
-//        Element _c = a.duplicate();
-//        Element _c1 = a1.duplicate();
-//
-//        a.getField().add(new Element[]{_c,_c1}, new Element[]{b,b1});
-//
-//        assertEquals(true, c.isEqual(_c));
-//        assertEquals(true, c1.isEqual(_c1));
+        Element _c = a.duplicate();
+        Element _c1 = a1.duplicate();
+
+        a.getField().add(new Element[]{_c,_c1}, new Element[]{b,b1});
+
+        assertEquals(true, c.isEqual(_c));
+        assertEquals(true, c1.isEqual(_c1));
     }
 
-*/
 }
