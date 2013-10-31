@@ -30,7 +30,6 @@ public class TypeEPairing extends AbstractPairing {
     protected Point R;
 
     protected Field Fq;
-    protected Field<? extends Point> Eq;
 
 
     public TypeEPairing(PairingParameters properties) {
@@ -75,7 +74,6 @@ public class TypeEPairing extends AbstractPairing {
 
         // Init Eq
         CurveField<Field> Eq = initEq();
-        this.Eq = Eq;
 
         // k=1, hence phikOnr = (q-1)/r
         phikonr = Fq.getOrder().subtract(BigInteger.ONE).divide(r);

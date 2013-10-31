@@ -14,8 +14,6 @@ import java.security.SecureRandom;
  */
 public class ProductPairing implements Pairing {
     protected Pairing basePairing;
-    protected int n;
-
     protected Field G1, G2;
 
     public ProductPairing(SecureRandom random, Pairing basePairing, int n) {

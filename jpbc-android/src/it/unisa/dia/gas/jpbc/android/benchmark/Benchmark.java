@@ -4,13 +4,13 @@ package it.unisa.dia.gas.jpbc.android.benchmark;
  * Angelo De Caro (jpbclib@gmail.com)
  */
 public class Benchmark {
-    public static final String[] pairingBenchmarkNames = new String[]{
+    protected static final String[] pairingBenchmarkNames = new String[]{
             "Pairing#pairing(in1, in2)",
             "Pairing#getPairingPreProcessingFromElement(in1)",
             "PairingPreProcessing#pairing(in2)",
     };
 
-    public static final String[] elementBenchmarkNames = new String[]{
+    protected static final String[] elementBenchmarkNames = new String[]{
             "Element#pow(BigInteger)",
             "Element#powZn(Element)",
             "Element#getElementPowPreProcessing()",
@@ -20,7 +20,7 @@ public class Benchmark {
             "Element#setToRandom()"
     };
 
-    public static final String[] fieldNames = new String[]{
+    protected static final String[] fieldNames = new String[]{
             "G1", "G2", "GT", "Zr"
     };
 

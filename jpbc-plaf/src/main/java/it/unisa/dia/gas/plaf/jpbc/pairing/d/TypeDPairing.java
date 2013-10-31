@@ -32,7 +32,7 @@ public class TypeDPairing extends AbstractPairing {
     protected Element nqrInverse, nqrInverseSquare;
     protected BigInteger tateExp, phikOnr;
 
-    protected Field Fq, Fqx;
+    protected Field Fq;
     protected Field<? extends Point<Polynomial>> Fqk;
     protected PolyModField Fqd;
     protected CurveField Eq, Etwist;
@@ -101,7 +101,6 @@ public class TypeDPairing extends AbstractPairing {
 
         // Init Fqx
         PolyField polyField = initPoly();
-        Fqx = polyField;
 
         // Init the irreducible polynomial
         int d = k / 2;

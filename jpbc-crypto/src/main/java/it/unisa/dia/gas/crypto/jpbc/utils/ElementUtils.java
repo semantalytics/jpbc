@@ -4,6 +4,8 @@ import it.unisa.dia.gas.jpbc.*;
 
 import java.math.BigInteger;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
@@ -20,6 +22,24 @@ public class ElementUtils {
         }
 
         return target;
+    }
+
+    public static <K> Map<K, Element[]> cloneImmutable(Map<K, Element[]> source) {
+        Map<K, Element[]> dest = new HashMap<K, Element[]>(source.size());
+
+        for (Map.Entry<K, Element[]> kEntry : dest.entrySet())
+            dest.put(kEntry.getKey(), cloneImmutable(kEntry.getValue()));
+
+        return dest;
+    }
+
+    public static <K> Map<K, Element> cloneImmutable2(Map<K, Element> source) {
+        Map<K, Element> dest = new HashMap<K, Element>(source.size());
+
+        for (Map.Entry<K, Element> kEntry : dest.entrySet())
+            dest.put(kEntry.getKey(), kEntry.getValue().getImmutable());
+
+        return dest;
     }
 
     public static ElementPow[] cloneToElementPow(Element[] source) {

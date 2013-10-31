@@ -43,6 +43,7 @@ public class FileChannelDisk<S extends Sector> implements Disk<S> {
 
     public FileChannelDisk<S> mapTo(FileChannel channel) {
         try {
+            this.channel = channel;
             int channelCursor = 0;
             for (Sector sector : sectors) {
                 channelCursor += sector.mapTo(
@@ -66,7 +67,7 @@ public class FileChannelDisk<S extends Sector> implements Disk<S> {
         try {
             RandomAccessFile f = new RandomAccessFile(filePath, "rw");
             f.setLength(size);
-            FileChannel channel = f.getChannel();
+            channel = f.getChannel();
 
             int channelCursor = 0;
             for (Sector sector : sectors) {

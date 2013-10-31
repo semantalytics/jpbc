@@ -23,7 +23,6 @@ public class TypeAPairing extends AbstractPairing {
     protected int exp2;
     protected int exp1;
     protected int sign1;
-    protected int sign0;
 
     protected BigInteger r;
     protected BigInteger q; 
@@ -61,7 +60,6 @@ public class TypeAPairing extends AbstractPairing {
         exp2 = curveParams.getInt("exp2");
         exp1 = curveParams.getInt("exp1");
         sign1 = curveParams.getInt("sign1");
-        sign0 = curveParams.getInt("sign0");
 
         r = curveParams.getBigInteger("r"); // r = 2^exp2 + sign1 * 2^exp1 + sign0 * 1
         q = curveParams.getBigInteger("q"); // we work in E(F_q) (and E(F_q^2))

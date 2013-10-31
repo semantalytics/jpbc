@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.params;
 
 import it.unisa.dia.gas.crypto.dfa.DFA;
+import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtils;
 import it.unisa.dia.gas.jpbc.Element;
 
 import java.util.Map;
@@ -23,9 +24,9 @@ public class RLW12SecretKeyParameters extends RLW12KeyParameters {
         super(true, parameters);
 
         this.dfa = dfa;
-        this.kStarts = kStarts;
-        this.kTransitions = kTransitions;
-        this.kEnds = kEnds;
+        this.kStarts = ElementUtils.cloneImmutable(kStarts);
+        this.kTransitions = ElementUtils.cloneImmutable(kTransitions);
+        this.kEnds = ElementUtils.cloneImmutable(kEnds);
     }
 
     public DFA getDfa() {

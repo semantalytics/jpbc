@@ -25,9 +25,6 @@ public class MultiThreadCTL13MMInstance implements CTL13MMInstance {
     protected CTL13MMSystemParameters parameters;
 
     protected BigInteger x0;
-    protected BigInteger y;       // level-one random encoding of 1
-    protected BigInteger z;       // random invertible internet modulo x0
-    protected BigInteger zInv;
     protected BigInteger pzt;
 
     protected long isZeroBound;
@@ -38,9 +35,6 @@ public class MultiThreadCTL13MMInstance implements CTL13MMInstance {
 
         this.parameters = values.getSystemParameters();
         this.x0 = values.getX0();
-        this.y = values.getY();
-        this.z = values.getZ();
-        this.zInv = values.getZInv();
         this.pzt = values.getPzt();
 
         this.isZeroBound = (x0.bitLength() - this.parameters.getBound());

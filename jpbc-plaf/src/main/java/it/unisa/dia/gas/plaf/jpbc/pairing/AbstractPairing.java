@@ -10,7 +10,6 @@ import java.security.SecureRandom;
  */
 public abstract class AbstractPairing implements Pairing {
 
-    protected PairingParameters parameters;
     protected SecureRandom random;
 
     protected Field G1, G2, GT, Zr;

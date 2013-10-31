@@ -7,6 +7,7 @@ import it.unisa.dia.gas.plaf.jpbc.util.io.disk.*;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.Map;
 
@@ -135,7 +136,7 @@ public class CTL13MMMapParameters extends MapParameters {
             this.disk = fileChannelDisk;
 
             return true;
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }

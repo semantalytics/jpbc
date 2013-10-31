@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.abe.gghvv13.params;
 
 import it.unisa.dia.gas.crypto.circuit.Circuit;
+import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtils;
 import it.unisa.dia.gas.jpbc.Element;
 
 import java.util.Map;
@@ -22,7 +23,7 @@ public class GGHVV13SecretKeyParameters extends GGHVV13KeyParameters {
         super(true, parameters);
 
         this.circuit = circuit;
-        this.keys = keys;
+        this.keys = ElementUtils.cloneImmutable(keys);
         this.M = M;
     }
 

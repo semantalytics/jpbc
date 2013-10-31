@@ -67,7 +67,7 @@ public class DefaultCircuit implements Circuit {
             this.type = type;
             this.index = index;
             this.depth = depth;
-            this.inputs = inputs;
+            this.inputs = Arrays.copyOf(inputs, inputs.length);
         }
 
 

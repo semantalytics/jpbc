@@ -7,13 +7,13 @@ import java.util.List;
  * Angelo De Caro (jpbclib@gmail.com)
  */
 public class JPBCBenchmark implements Benchmark {
-    public static final String[] pairingBenchmarkNames = new String[]{
+    protected static final String[] pairingBenchmarkNames = new String[]{
             "Pairing#pairing(in1, in2)",
             "Pairing#getPairingPreProcessingFromElement(in1)",
             "PairingPreProcessing#pairing(in2)",
     };
 
-    public static final String[] elementBenchmarkNames = new String[]{
+    protected static final String[] elementBenchmarkNames = new String[]{
             "Element#pow(BigInteger)",
             "Element#powZn(Element)",
             "Element#getElementPowPreProcessing()",
@@ -23,7 +23,7 @@ public class JPBCBenchmark implements Benchmark {
             "Element#setToRandom()"
     };
 
-    public static final String[] fieldNames = new String[]{
+    protected static final String[] fieldNames = new String[]{
             "G1", "G2", "GT", "Zr"
     };
 

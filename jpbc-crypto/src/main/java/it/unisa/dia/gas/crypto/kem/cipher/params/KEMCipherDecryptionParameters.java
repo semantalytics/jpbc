@@ -17,14 +17,14 @@ public class KEMCipherDecryptionParameters extends KEMCipherParameters {
     public KEMCipherDecryptionParameters(CipherParameters kemCipherParameters, byte[] encapsulation, int cipherKeyStrength) {
         super(null);
         this.kemCipherParameters = kemCipherParameters;
-        this.encapsulation = encapsulation;
+        this.encapsulation = Arrays.copyOf(encapsulation, encapsulation.length);
         this.cipherKeyStrength = cipherKeyStrength;
     }
 
     public KEMCipherDecryptionParameters(AlgorithmParameters algorithmParameters, CipherParameters kemCipherParameters, byte[] encapsulation, int cipherKeyStrength) {
         super(algorithmParameters);
         this.kemCipherParameters = kemCipherParameters;
-        this.encapsulation = encapsulation;
+        this.encapsulation = Arrays.copyOf(encapsulation, encapsulation.length);
         this.cipherKeyStrength = cipherKeyStrength;
     }
 

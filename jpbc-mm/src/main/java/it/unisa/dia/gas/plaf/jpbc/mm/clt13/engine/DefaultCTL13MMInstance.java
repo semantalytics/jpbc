@@ -23,7 +23,6 @@ public class DefaultCTL13MMInstance implements CTL13MMInstance {
     protected BigInteger x0;
     protected BigInteger y;       // level-one random encoding of 1
     protected BigInteger pzt;     // zero-tester
-    protected BigInteger z;       // random invertible internet modulo x0
     protected BigInteger zInv;
 
     protected long isZeroBound;
@@ -36,7 +35,6 @@ public class DefaultCTL13MMInstance implements CTL13MMInstance {
         this.systemParameters = publicParameters.getSystemParameters();
         this.x0 = publicParameters.getX0();
         this.y = publicParameters.getY();
-        this.z = publicParameters.getZ();
         this.zInv = publicParameters.getZInv();
         this.pzt = publicParameters.getPzt();
 

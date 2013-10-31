@@ -76,7 +76,7 @@ public class PropertiesParameters implements PairingParameters, Externalizable {
     }
 
     public BigInteger getBigInteger(String key, BigInteger defaultValue) {
-        String value = getString(key);
+        String value = parameters.get(key);
         if (value == null)
             return defaultValue;
 

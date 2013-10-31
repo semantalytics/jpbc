@@ -8,7 +8,7 @@ import it.unisa.dia.gas.jpbc.PairingParameters;
  */
 public class CTL13MMSystemParameters {
 
-    public static CTL13MMSystemParameters TOY =
+    public static final CTL13MMSystemParameters TOY =
             new CTL13MMSystemParameters(
                     757, // eta
                     165, // n

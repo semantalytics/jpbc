@@ -25,8 +25,6 @@ import java.util.List;
 public class TypeFPairing extends AbstractPairing {
     protected PairingParameters curveParams;
 
-    protected int k;
-
     protected BigInteger q;
     protected BigInteger r;
     protected BigInteger b;

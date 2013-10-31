@@ -22,15 +22,13 @@ import java.util.List;
 public class TypeGPairing extends AbstractPairing {
     protected PairingParameters curveParams;
 
-    protected int k;
-
     protected BigInteger q, n, r, h;
     protected BigInteger a, b;
     protected BigInteger nqr;
 
     protected PolyModElement xPowq, xPowq2, xPowq3, xPowq4;
     protected Element nqrInverse, nqrInverseSquare;
-    protected BigInteger tateExp, phikOnr;
+    protected BigInteger phikOnr;
 
     protected Field Fq, Fqx;
     protected Field<? extends Point<Polynomial>> Fqk;
