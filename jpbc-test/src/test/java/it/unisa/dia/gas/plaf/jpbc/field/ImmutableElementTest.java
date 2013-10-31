@@ -51,7 +51,7 @@ public class ImmutableElementTest {
 
         assertEquals(false, e.isImmutable());
         assertEquals(true, ie.isImmutable());
-        assertEquals(true, cie.isImmutable());
+        assertEquals(false, cie.isImmutable());
 
         assertEquals(true, ie.equals(e));
         assertEquals(true, cie.equals(ie));
