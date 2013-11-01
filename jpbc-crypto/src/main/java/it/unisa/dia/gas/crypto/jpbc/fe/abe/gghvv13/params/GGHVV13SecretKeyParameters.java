@@ -1,8 +1,8 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.abe.gghvv13.params;
 
 import it.unisa.dia.gas.crypto.circuit.Circuit;
-import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtils;
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.plaf.jpbc.util.ElementUtils;
 
 import java.util.Map;
 

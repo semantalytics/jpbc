@@ -1,10 +1,10 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params;
 
-import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtils;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.jpbc.PairingPreProcessing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
+import it.unisa.dia.gas.plaf.jpbc.util.ElementUtils;
 
 import java.util.Arrays;
 

@@ -1,7 +1,7 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ibe.lw11.params;
 
-import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtils;
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.plaf.jpbc.util.ElementUtils;
 import org.bouncycastle.crypto.CipherParameters;
 
 import java.util.Arrays;

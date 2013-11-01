@@ -4,10 +4,10 @@ import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.params.RLW12KeyPairGenerationParam
 import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.params.RLW12MasterSecretKeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.params.RLW12Parameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.params.RLW12PublicKeyParameters;
-import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtils;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
+import it.unisa.dia.gas.plaf.jpbc.util.ElementUtils;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPairGenerator;
 import org.bouncycastle.crypto.KeyGenerationParameters;

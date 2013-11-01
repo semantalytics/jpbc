@@ -57,9 +57,8 @@ public class ImmutableParing implements Pairing {
     }
 
     public int getFieldIndex(Field field) {
-        if (field instanceof ImmutableField) {
+        if (field instanceof ImmutableField)
             return pairing.getFieldIndex(((ImmutableField)field).field);
-        }
 
         return pairing.getFieldIndex(field);
     }
@@ -81,15 +80,14 @@ public class ImmutableParing implements Pairing {
     }
 
     public PairingPreProcessing getPairingPreProcessingFromElement(Element in1) {
-        // TODO: finish the following methods
-        return pairing.getPairingPreProcessingFromElement(in1);
+        return new ImmutablePairingPreProcessing(pairing.getPairingPreProcessingFromElement(in1));
     }
 
     public PairingPreProcessing getPairingPreProcessingFromBytes(byte[] source) {
-        return pairing.getPairingPreProcessingFromBytes(source);
+        return new ImmutablePairingPreProcessing(pairing.getPairingPreProcessingFromBytes(source));
     }
 
     public PairingPreProcessing getPairingPreProcessingFromBytes(byte[] source, int offset) {
-        return pairing.getPairingPreProcessingFromBytes(source, offset);
+        return new ImmutablePairingPreProcessing(pairing.getPairingPreProcessingFromBytes(source, offset));
     }
 }

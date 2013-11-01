@@ -1,7 +1,7 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.abe.gghvv13.params;
 
-import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtils;
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.plaf.jpbc.util.ElementUtils;
 
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)

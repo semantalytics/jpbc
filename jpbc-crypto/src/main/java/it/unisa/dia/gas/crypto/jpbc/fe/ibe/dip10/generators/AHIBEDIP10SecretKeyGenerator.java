@@ -2,10 +2,10 @@ package it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.generators;
 
 import it.unisa.dia.gas.crypto.cipher.CipherParametersGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params.*;
-import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtils;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
+import it.unisa.dia.gas.plaf.jpbc.util.ElementUtils;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.KeyGenerationParameters;
 

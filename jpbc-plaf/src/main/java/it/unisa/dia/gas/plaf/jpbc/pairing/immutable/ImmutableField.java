@@ -3,6 +3,7 @@ package it.unisa.dia.gas.plaf.jpbc.pairing.immutable;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
 import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.plaf.jpbc.util.ElementUtils;
 
 import java.math.BigInteger;
 
@@ -12,11 +13,13 @@ import java.math.BigInteger;
  */
 public class ImmutableField implements Field {
 
-    Field field;
+    protected Field field;
+
 
     public ImmutableField(Field field) {
         this.field = field;
     }
+
 
     public Element newElement() {
         return field.newElement().getImmutable();
@@ -83,19 +86,20 @@ public class ImmutableField implements Field {
     }
 
     public Element[] twice(Element[] elements) {
-        // TODO: finish the following methods..
-        return field.twice(elements);
+        Element[] temp = ElementUtils.duplicate(elements);
+        return ElementUtils.cloneImmutable(field.twice(temp));
     }
 
     public Element[] add(Element[] a, Element[] b) {
-        return field.add(a, b);
+        Element[] temp = ElementUtils.duplicate(a);
+        return ElementUtils.cloneImmutable(field.add(temp, b));
     }
 
     public ElementPowPreProcessing getElementPowPreProcessingFromBytes(byte[] source) {
-        return field.getElementPowPreProcessingFromBytes(source);
+        return new ImmutableElementPowPreProcessing(this, field.getElementPowPreProcessingFromBytes(source));
     }
 
     public ElementPowPreProcessing getElementPowPreProcessingFromBytes(byte[] source, int offset) {
-        return field.getElementPowPreProcessingFromBytes(source, offset);
+        return new ImmutableElementPowPreProcessing(this, field.getElementPowPreProcessingFromBytes(source, offset));
     }
 }

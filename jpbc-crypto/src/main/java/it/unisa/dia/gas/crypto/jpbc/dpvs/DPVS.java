@@ -1,11 +1,11 @@
 package it.unisa.dia.gas.crypto.jpbc.dpvs;
 
-import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtils;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.jpbc.Vector;
 import it.unisa.dia.gas.plaf.jpbc.pairing.product.ProductPairing;
+import it.unisa.dia.gas.plaf.jpbc.util.ElementUtils;
 
 import java.security.SecureRandom;
 

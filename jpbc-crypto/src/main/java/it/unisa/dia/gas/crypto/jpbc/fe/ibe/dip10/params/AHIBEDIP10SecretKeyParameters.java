@@ -1,8 +1,8 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params;
 
-import it.unisa.dia.gas.crypto.jpbc.utils.ElementUtils;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.PairingParameters;
+import it.unisa.dia.gas.plaf.jpbc.util.ElementUtils;
 
 import java.util.Arrays;
 

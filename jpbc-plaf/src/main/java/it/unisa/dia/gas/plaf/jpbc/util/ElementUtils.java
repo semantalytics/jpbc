@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.crypto.jpbc.utils;
+package it.unisa.dia.gas.plaf.jpbc.util;
 
 import it.unisa.dia.gas.jpbc.*;
 
@@ -11,6 +11,14 @@ import java.util.Map;
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class ElementUtils {
+
+    public static Element[] duplicate(Element[] source) {
+        Element[] target = new Element[source.length];
+        for (int i = 0; i < target.length; i++)
+            target[i] = source[i].duplicate();
+
+        return target;
+    }
 
     public static Element[] cloneImmutable(Element[] source) {
         Element[] target = Arrays.copyOf(source, source.length);
