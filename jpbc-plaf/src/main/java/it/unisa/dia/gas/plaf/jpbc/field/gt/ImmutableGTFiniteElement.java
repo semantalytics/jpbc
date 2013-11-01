@@ -43,12 +43,12 @@ public class ImmutableGTFiniteElement extends GTFiniteElement {
 
     @Override
     public GTFiniteElement twice() {
-        return (GTFiniteElement) duplicate().twice();
+        return (GTFiniteElement) duplicate().twice().getImmutable();
     }
 
     @Override
     public GTFiniteElement mul(int z) {
-        return (GTFiniteElement) duplicate().mul(z);
+        return (GTFiniteElement) duplicate().mul(z).getImmutable();
     }
 
     @Override
@@ -83,67 +83,67 @@ public class ImmutableGTFiniteElement extends GTFiniteElement {
 
     @Override
     public GTFiniteElement square() {
-        return (GTFiniteElement) duplicate().square();
+        return (GTFiniteElement) duplicate().square().getImmutable();
     }
 
     @Override
     public GTFiniteElement invert() {
-        return duplicate().invert();    
+        return duplicate().invert().getImmutable();
     }
 
     @Override
     public GTFiniteElement halve() {
-        return (GTFiniteElement) duplicate().halve();
+        return (GTFiniteElement) duplicate().halve().getImmutable();
     }
 
     @Override
     public GTFiniteElement negate() {
-        return duplicate().negate();    
+        return duplicate().negate().getImmutable();
     }
 
     @Override
     public GTFiniteElement add(Element element) {
-        return duplicate().add(element);    
+        return duplicate().add(element).getImmutable();
     }
 
     @Override
     public GTFiniteElement sub(Element element) {
-        return duplicate().sub(element);    
+        return duplicate().sub(element).getImmutable();
     }
 
     @Override
     public GTFiniteElement div(Element element) {
-        return duplicate().div(element);    
+        return duplicate().div(element).getImmutable();
     }
 
     @Override
     public GTFiniteElement mul(Element element) {
-        return duplicate().mul(element);    
+        return duplicate().mul(element).getImmutable();
     }
 
     @Override
     public GTFiniteElement mul(BigInteger n) {
-        return duplicate().mul(n);    
+        return duplicate().mul(n).getImmutable();
     }
 
     @Override
     public GTFiniteElement mulZn(Element z) {
-        return (GTFiniteElement) duplicate().mulZn(z);
+        return (GTFiniteElement) duplicate().mulZn(z).getImmutable();
     }
 
     @Override
     public GTFiniteElement sqrt() {
-        return (GTFiniteElement) duplicate().sqrt();    
+        return (GTFiniteElement) duplicate().sqrt().getImmutable();
     }
 
     @Override
     public GTFiniteElement pow(BigInteger n) {
-        return duplicate().pow(n);    
+        return duplicate().pow(n).getImmutable();
     }
 
     @Override
     public GTFiniteElement powZn(Element n) {
-        return duplicate().powZn(n);    
+        return duplicate().powZn(n).getImmutable();
     }
 
 }

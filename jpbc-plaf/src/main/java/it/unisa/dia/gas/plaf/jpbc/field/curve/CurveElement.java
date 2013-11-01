@@ -70,11 +70,21 @@ public class CurveElement<E extends Element, F extends CurveField> extends Abstr
     }
 
     public CurveElement set(int value) {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        if (value == 0 || value == 1)
+            setToZero();
+        else
+            throw new IllegalStateException("Value not supported.");
+
+        return this;
     }
 
     public CurveElement set(BigInteger value) {
-        throw new IllegalStateException("Not implemented yet!!!");
+        if (BigInteger.ZERO.equals(value) || BigInteger.ONE.equals(value))
+            setToZero();
+        else
+            throw new IllegalStateException("Value not supported.");
+
+        return this;
     }
 
     public boolean isZero() {
@@ -244,13 +254,15 @@ public class CurveElement<E extends Element, F extends CurveField> extends Abstr
     }
 
     public CurveElement powZn(Element e) {
-//        counter++;
         pow(e.toBigInteger());
         return this;
     }
 
     public BigInteger toBigInteger() {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        if (isOne())
+            return BigInteger.ZERO;
+        else
+            throw new IllegalStateException("Cannot convert to BigInteger.");
     }
 
     public byte[] toBytes() {
