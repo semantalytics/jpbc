@@ -6,7 +6,6 @@ import java.math.BigInteger;
 
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
- * @todo modify this, it will affect IPLOSTW
  */
 public class ImmutableVectorElement<E extends Element> extends VectorElement<E> {
 

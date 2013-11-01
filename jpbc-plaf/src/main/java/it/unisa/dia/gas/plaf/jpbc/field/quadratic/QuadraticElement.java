@@ -42,10 +42,8 @@ public class QuadraticElement<E extends Element> extends AbstractPointElement<E,
     public QuadraticElement set(Element e) {
         QuadraticElement element = (QuadraticElement) e;
 
-        // TODO: should set the field too?
-
-        this.x = (E) element.x.duplicate();
-        this.y = (E) element.y.duplicate();
+        this.x.set(element.x);
+        this.y.set(element.y);
 
         return this;
     }

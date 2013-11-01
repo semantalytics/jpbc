@@ -50,7 +50,7 @@ public class ZrElement<F extends ZrField> extends AbstractZElement<F> {
     }
 
     public ZrElement set(Element value) {
-        this.value = ((AbstractZElement) value).value.mod(order);
+        this.value = value.toBigInteger().mod(order);
 
         return this;
     }
