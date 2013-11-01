@@ -23,6 +23,7 @@ public class ImmutableParing implements Pairing {
         this.fieldMap = new HashMap<Integer, Field>();
     }
 
+
     public boolean isSymmetric() {
         return pairing.isSymmetric();
     }
