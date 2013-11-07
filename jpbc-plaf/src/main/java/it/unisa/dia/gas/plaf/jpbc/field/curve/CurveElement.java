@@ -44,9 +44,6 @@ public class CurveElement<E extends Element, F extends CurveField> extends Abstr
     }
 
     public Element getImmutable() {
-        if (isImmutable())
-            return this;
-
         return new ImmutableCurveElement<E, F>(this);
     }
 

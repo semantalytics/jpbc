@@ -42,14 +42,29 @@ public class CTL13MMField implements Field<CTL13MMElement> {
     }
 
     public CTL13MMElement newElement(int value) {
-        throw new IllegalStateException("Not Implemented yet!");
+        switch (value) {
+            case 0:
+                return newZeroElement();
+            case 1:
+                return newOneElement();
+            default:
+                throw new IllegalStateException("Not Implemented yet!");
+        }
     }
 
     public CTL13MMElement newElement(BigInteger value) {
+        if (BigInteger.ZERO.equals(value))
+            return newZeroElement();
+        if (BigInteger.ONE.equals(value))
+            return newOneElement();
+
         throw new IllegalStateException("Not Implemented yet!");
     }
 
     public CTL13MMElement newElement(CTL13MMElement ctl13MMElement) {
+        if (ctl13MMElement.index == index)
+            return new CTL13MMElement(this, ctl13MMElement.value, index);
+
         throw new IllegalStateException("Not Implemented yet!");
     }
 

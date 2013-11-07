@@ -146,4 +146,23 @@ public class ImmutablePBCCurvePointElement extends PBCCurvePointElement {
         return (PBCCurvePointElement) super.duplicate().powZn(n).getImmutable();
     }
 
+    @Override
+    public int setFromBytesCompressed(byte[] source) {
+        throw new IllegalStateException("Invalid call on an immutable element");
+    }
+
+    @Override
+    public int setFromBytesCompressed(byte[] source, int offset) {
+        throw new IllegalStateException("Invalid call on an immutable element");
+    }
+
+    @Override
+    public int setFromBytesX(byte[] source) {
+        throw new IllegalStateException("Invalid call on an immutable element");
+    }
+
+    @Override
+    public int setFromBytesX(byte[] source, int offset) {
+        throw new IllegalStateException("Invalid call on an immutable element");
+    }
 }

@@ -22,19 +22,23 @@ public class ImmutableCurveElement<E extends Element, F extends CurveField> exte
         return super.duplicate();
     }
 
+    public Element getImmutable() {
+        return this;
+    }
+
     @Override
     public CurveElement set(Element e) {
-        return (CurveElement) super.duplicate().set(e).getImmutable();
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
     public CurveElement set(int value) {
-        return (CurveElement) super.duplicate().set(value).getImmutable();
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
     public CurveElement set(BigInteger value) {
-        return (CurveElement) super.duplicate().set(value).getImmutable();
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
@@ -44,17 +48,17 @@ public class ImmutableCurveElement<E extends Element, F extends CurveField> exte
 
     @Override
     public CurveElement setToZero() {
-        return (CurveElement) super.duplicate().setToZero().getImmutable();
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
     public CurveElement setToOne() {
-        return (CurveElement) super.duplicate().setToOne().getImmutable();
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
     public CurveElement setToRandom() {
-        return (CurveElement) super.duplicate().setToRandom().getImmutable();
+        throw new IllegalStateException("Invalid call on an immutable element");
     }
 
     @Override
