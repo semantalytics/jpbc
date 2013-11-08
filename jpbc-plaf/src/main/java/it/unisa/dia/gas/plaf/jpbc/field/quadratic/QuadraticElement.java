@@ -231,9 +231,11 @@ public class QuadraticElement<E extends Element> extends AbstractPointElement<E,
     public boolean isEqual(Element e) {
         if (e == this)
             return true;
+
+        if (!(e instanceof QuadraticElement))
+            return false;
         
         QuadraticElement element = (QuadraticElement) e;
-
         return x.isEqual(element.x) && y.isEqual(element.y);
     }
 
@@ -278,9 +280,4 @@ public class QuadraticElement<E extends Element> extends AbstractPointElement<E,
         return String.format("{x=%s,y=%s}", x, y);
     }
 
-    public boolean equals(Object obj) {
-        if (obj instanceof QuadraticElement)
-            return isEqual((Element) obj);
-        return super.equals(obj);
-    }
 }

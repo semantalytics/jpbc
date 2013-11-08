@@ -94,7 +94,6 @@ public class CTL13MMElement implements Element {
             int length = dis.readInt();
             byte[] bytes = new byte[length];
             dis.readFully(bytes);
-//            System.out.println("set = " + java.util.Arrays.toString(bytes));
 
             this.value = new BigInteger(bytes);
             this.field = (CTL13MMField) field.getPairing().getFieldAt(index);
@@ -112,8 +111,6 @@ public class CTL13MMElement implements Element {
 
             byte[] bytes = value.toByteArray();
             dos.writeInt(bytes.length);
-
-//            System.out.println("to = " + java.util.Arrays.toString(bytes));
 
             int valueLengthInBytes = field.getLengthInBytes() - 8;
 
@@ -290,5 +287,10 @@ public class CTL13MMElement implements Element {
 
     public int getIndex() {
         return index;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof CTL13MMElement && isEqual((Element) obj);
     }
 }

@@ -164,14 +164,10 @@ public class ZrElement<F extends ZrField> extends AbstractZElement<F> {
     }
 
     public ZrElement invert() {
-        BigInteger before = value;
         try {
             value = value.modInverse(order);
         } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            System.out.println("before = " + before);
-            System.out.println("order = " + order);
-
+            e.printStackTrace();
             throw (RuntimeException) e;
         }
 
@@ -287,7 +283,7 @@ public class ZrElement<F extends ZrField> extends AbstractZElement<F> {
     }
 
     public boolean isEqual(Element e) {
-        return this == e || value.compareTo(((ZrElement) e).value) == 0;
+        return this == e || (e instanceof  ZrElement && value.compareTo(((ZrElement) e).value) == 0);
 
     }
 
@@ -327,12 +323,6 @@ public class ZrElement<F extends ZrField> extends AbstractZElement<F> {
 
     public String toString() {
         return value.toString();
-    }
-
-    public boolean equals(Object o) {
-        if (o instanceof ZrElement)
-            return isEqual((Element) o);
-        return isEqual((ZrElement) o);
     }
 
 }

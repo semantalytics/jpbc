@@ -32,7 +32,7 @@ public class GTFiniteField<F extends Field> extends AbstractFieldOver<F, GTFinit
     }
 
     public GTFiniteElement getNqr() {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        throw new IllegalStateException("Not Implemented yet!");
     }
 
     public int getLengthInBytes() {

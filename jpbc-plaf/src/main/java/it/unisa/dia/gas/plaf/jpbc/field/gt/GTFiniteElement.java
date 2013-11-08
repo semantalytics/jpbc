@@ -146,7 +146,7 @@ public class GTFiniteElement extends AbstractElement {
     }
 
     public boolean isSqr() {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        throw new IllegalStateException("Not Implemented yet!");
     }
 
     public GTFiniteElement pow(BigInteger n) {
@@ -156,7 +156,7 @@ public class GTFiniteElement extends AbstractElement {
     }
 
     public boolean isEqual(Element element) {
-        return this == element || value.isEqual(((GTFiniteElement) element).value);
+        return this == element || (element instanceof GTFiniteElement && value.isEqual(((GTFiniteElement) element).value));
 
     }
 
@@ -179,15 +179,8 @@ public class GTFiniteElement extends AbstractElement {
         throw new IllegalStateException("Not implemented yet!!!");
     }
 
-
     public String toString() {
         return value.toString();
-    }
-
-    public boolean equals(Object obj) {
-        if (obj instanceof GTFiniteElement)
-            return isEqual((Element) obj);
-        return super.equals(obj);
     }
 
 }

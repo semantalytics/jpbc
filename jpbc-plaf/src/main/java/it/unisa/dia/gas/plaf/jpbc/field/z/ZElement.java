@@ -186,7 +186,7 @@ public class ZElement extends AbstractZElement<ZField> {
     }
 
     public boolean isEqual(Element e) {
-        return this == e || value.compareTo(((ZElement) e).value) == 0;
+        return this == e || (e instanceof ZElement && value.compareTo(((ZElement) e).value) == 0);
 
     }
 
@@ -205,12 +205,6 @@ public class ZElement extends AbstractZElement<ZField> {
 
     public String toString() {
         return value.toString();
-    }
-
-    public boolean equals(Object o) {
-        if (o instanceof ZElement)
-            return isEqual((Element) o);
-        return isEqual((ZElement) o);
     }
 
 }

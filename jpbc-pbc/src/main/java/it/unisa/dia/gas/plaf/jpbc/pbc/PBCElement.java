@@ -249,7 +249,7 @@ public class PBCElement implements Element {
     }
 
     public boolean isEqual(Element e) {
-        return this == e || WrapperLibraryProvider.getWrapperLibrary().pbc_element_cmp(value, ((PBCElement) e).value) == 0;
+        return this == e || (e instanceof PBCElement && WrapperLibraryProvider.getWrapperLibrary().pbc_element_cmp(value, ((PBCElement) e).value) == 0);
 
     }
 

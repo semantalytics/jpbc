@@ -53,7 +53,6 @@ public class KEMCipherHVETest extends HVEIP08AbstractTest {
             AlgorithmParameterSpec iv = new IvParameterSpec(new byte[]{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 });
 
             int[][] vectors = createMatchingVectors(n);
-            System.out.println(Arrays.toString(vectors[1]));
             byte[] encapsulation = kemCipher.init(
                     true,
                     new KEMCipherEncryptionParameters(
@@ -101,8 +100,6 @@ public class KEMCipherHVETest extends HVEIP08AbstractTest {
             AlgorithmParameterSpec iv = new IvParameterSpec(new byte[]{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 });
 
             int[][] vectors = createNonMatchingVectors(n);
-            System.out.println(Arrays.toString(vectors[0]));
-            System.out.println(Arrays.toString(vectors[1]));
             byte[] encapsulation = kemCipher.init(
                     true,
                     new KEMCipherEncryptionParameters(

@@ -31,7 +31,7 @@ public abstract class AbstractElement<F extends AbstractField> implements Elemen
     }
 
     public Element getImmutable() {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        throw new IllegalStateException("Not Implemented yet!");
     }
 
     public int getLengthInBytes() {
@@ -43,7 +43,7 @@ public abstract class AbstractElement<F extends AbstractField> implements Elemen
     }
 
     public int setFromBytes(byte[] source, int offset) {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        throw new IllegalStateException("Not Implemented yet!");
     }
 
     public Element pow(BigInteger n) {
@@ -85,11 +85,11 @@ public abstract class AbstractElement<F extends AbstractField> implements Elemen
     }
 
     public Element sqrt() {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        throw new IllegalStateException("Not Implemented yet!");
     }
 
     public byte[] toBytes() {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        throw new IllegalStateException("Not Implemented yet!");
     }
 
     public byte[] toCanonicalRepresentation() {
@@ -106,6 +106,11 @@ public abstract class AbstractElement<F extends AbstractField> implements Elemen
 
     public Element twice() {
         return add(this);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Element && isEqual((Element) obj);
     }
 
 

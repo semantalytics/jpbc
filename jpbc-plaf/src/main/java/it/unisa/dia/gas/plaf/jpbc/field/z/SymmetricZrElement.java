@@ -284,8 +284,7 @@ public class SymmetricZrElement<F extends SymmetricZrField> extends AbstractZEle
     }
 
     public boolean isEqual(Element e) {
-        return this == e || value.compareTo(((SymmetricZrElement) e).value) == 0;
-
+        return this == e || (e instanceof SymmetricZrElement && value.compareTo(((SymmetricZrElement) e).value) == 0);
     }
 
     public BigInteger toBigInteger() {
@@ -325,13 +324,6 @@ public class SymmetricZrElement<F extends SymmetricZrField> extends AbstractZEle
     public String toString() {
         return value.toString();
     }
-
-    public boolean equals(Object o) {
-        if (o instanceof SymmetricZrElement)
-            return isEqual((Element) o);
-        return isEqual((SymmetricZrElement) o);
-    }
-
 
     private final SymmetricZrElement mod() {
         if (this.value.compareTo(halfOrder) > 0)

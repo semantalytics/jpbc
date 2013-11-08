@@ -236,8 +236,11 @@ public class CurveElement<E extends Element, F extends CurveField> extends Abstr
     }
 
     public boolean isEqual(Element e) {
-        if (this == e)
+        if (e == this)
             return true;
+
+        if (!(e instanceof CurveElement))
+            return false;
 
         CurveElement element = (CurveElement) e;
 
@@ -304,12 +307,6 @@ public class CurveElement<E extends Element, F extends CurveField> extends Abstr
 
     public String toString() {
         return String.format("%s,%s,%d", x, y, infFlag);
-    }
-
-    public boolean equals(Object obj) {
-        if (obj instanceof CurveElement)
-            return isEqual((Element) obj);
-        return super.equals(obj);    
     }
 
     public int getLengthInBytesCompressed() {

@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 2.0.0
  */
 public class ImmutableParing implements Pairing {
@@ -89,5 +89,12 @@ public class ImmutableParing implements Pairing {
 
     public PairingPreProcessing getPairingPreProcessingFromBytes(byte[] source, int offset) {
         return new ImmutablePairingPreProcessing(pairing.getPairingPreProcessingFromBytes(source, offset));
+    }
+
+    @Override
+    public String toString() {
+        return "ImmutableParing{" +
+                "pairing=" + pairing +
+                '}';
     }
 }

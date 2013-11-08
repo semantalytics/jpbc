@@ -94,7 +94,7 @@ public class CurveField<F extends Field> extends AbstractFieldOver<F, CurveEleme
     }
 
     public CurveElement getNqr() {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        throw new IllegalStateException("Not Implemented yet!");
     }
 
     public int getLengthInBytes() {

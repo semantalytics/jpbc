@@ -235,7 +235,7 @@ public class PolyModElement<E extends Element> extends AbstractPolyElement<E, Po
                 return this;
 //            case 6:
             // TODO: port the PBC code
-//                throw new IllegalStateException("Not Implemented yet!!!");
+//                throw new IllegalStateException("Not Implemented yet!");
 /*
             mfptr p = res->field->data;
             element_t *dst = res->data, *s0, *s1 = e->data, *s2 = f->data;
@@ -455,6 +455,12 @@ public class PolyModElement<E extends Element> extends AbstractPolyElement<E, Po
     }
 
     public boolean isEqual(Element e) {
+        if (e == this)
+            return true;
+
+        if (!(e instanceof PolyModElement))
+            return false;
+
         PolyModElement<E> element = (PolyModElement<E>) e;
 
         for (int i = 0; i < field.n; i++) {
@@ -500,12 +506,6 @@ public class PolyModElement<E extends Element> extends AbstractPolyElement<E, Po
         }
         buffer.append("]");
         return buffer.toString();
-    }
-
-    public boolean equals(Object obj) {
-        if (obj instanceof PolyModElement)
-            return isEqual((Element) obj);
-        return super.equals(obj);
     }
 
 

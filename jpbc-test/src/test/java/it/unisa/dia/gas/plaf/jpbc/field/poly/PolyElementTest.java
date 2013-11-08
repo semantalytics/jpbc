@@ -35,9 +35,6 @@ public class PolyElementTest extends TestCase {
         PolyElement target = field.newElement();
         int len = target.setFromBytes(buffer);
 
-        System.out.println("source = " + source);
-        System.out.println("target = " + target);
-
         assertEquals(buffer.length, len);
         assertEquals(true, source.isEqual(target));
     }

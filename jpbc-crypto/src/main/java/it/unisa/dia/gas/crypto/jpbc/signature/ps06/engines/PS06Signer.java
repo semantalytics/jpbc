@@ -60,16 +60,11 @@ public class PS06Signer implements Signer {
         Element Rm = pairing.getG1().newElement();
         Rm.setFromBytes(signature, offset);
 
-//        System.out.println("V = " + V);
-//        System.out.println("Ru = " + Ru);
-//        System.out.println("Rm = " + Rm);
-//
         // compute the digest
         int digestSize = digest.getDigestSize();
         byte[] hash = new byte[digestSize];
         digest.doFinal(hash, 0);
         BigInteger message = new BigInteger(hash);
-//        System.out.println("message = " + message);
 
         // compute left part
         Element left = pairing.pairing(V, parameters.getG());
@@ -82,7 +77,6 @@ public class PS06Signer implements Signer {
             if (identity.charAt(i) == '1')
                 idEncoding = idEncoding.mul(publicKey.getUAt(i));
         }
-//        System.out.println("idEncoding = " + idEncoding);
         Element r2 = pairing.pairing(idEncoding, Ru);
 
         Element msgEncoding = publicKey.getmPrime();
@@ -91,7 +85,6 @@ public class PS06Signer implements Signer {
                 msgEncoding = msgEncoding.mul(publicKey.getMAt(i));
             }
         }
-//        System.out.println("msgEncoding = " + msgEncoding);
 
         Element r3 = pairing.pairing(msgEncoding, Rm);
 
@@ -112,7 +105,6 @@ public class PS06Signer implements Signer {
         byte[] hash = new byte[digestSize];
         digest.doFinal(hash, 0);
         BigInteger message = new BigInteger(hash);
-//        System.out.println("message = " + message);
 
         // Compute the signature
         Element r = pairing.getZr().newRandomElement();
@@ -122,15 +114,10 @@ public class PS06Signer implements Signer {
             if (message.testBit(i))
                 msgEncoding = msgEncoding.mul(publicKey.getMAt(i));
         }
-//        System.out.println("msgEncoding = " + msgEncoding);
         Element V = secretKey.getD1().mul(msgEncoding.powZn(r));
 
         Element Ru = secretKey.getD2();
         Element Rm = publicKey.getParameters().getG().powZn(r);
-
-//        System.out.println("V = " + V);
-//        System.out.println("Ru = " + Ru);
-//        System.out.println("Rm = " + Rm);
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         try {

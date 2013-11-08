@@ -234,6 +234,11 @@ public class VectorElement<E extends Element> extends AbstractVectorElement<E, V
     }
 
     public boolean isEqual(Element e) {
+        if (e == this)
+            return true;
+        if ((e instanceof VectorElement))
+            return false;
+
         VectorElement<E> element = (VectorElement<E>) e;
 
         for (int i = 0; i < field.n; i++) {
@@ -279,12 +284,6 @@ public class VectorElement<E extends Element> extends AbstractVectorElement<E, V
         }
         buffer.append("]");
         return buffer.toString();
-    }
-
-    public boolean equals(Object obj) {
-        if (obj instanceof VectorElement)
-            return isEqual((Element) obj);
-        return super.equals(obj);
     }
 
 }

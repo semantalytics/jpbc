@@ -105,7 +105,7 @@ public class ProductPairing implements Pairing {
     }
 
     public int getFieldIndex(Field field) {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        throw new IllegalStateException("Not Implemented yet!");
     }
 
 }

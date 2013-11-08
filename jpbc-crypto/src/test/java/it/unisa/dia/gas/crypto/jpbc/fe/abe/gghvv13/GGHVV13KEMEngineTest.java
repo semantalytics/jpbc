@@ -109,8 +109,6 @@ public class GGHVV13KEMEngineTest extends AbstractJPBCCryptoTest {
             byte[] key = Arrays.copyOfRange(ciphertext, 0, kem.getKeyBlockSize());
             byte[] ct = Arrays.copyOfRange(ciphertext, kem.getKeyBlockSize(), ciphertext.length);
 
-            System.out.println(Arrays.toString(key));
-
             return new byte[][]{key, ct};
         } catch (InvalidCipherTextException e) {
             e.printStackTrace();
@@ -140,7 +138,6 @@ public class GGHVV13KEMEngineTest extends AbstractJPBCCryptoTest {
             byte[] key = kem.processBlock(ciphertext, 0, ciphertext.length);
 
             assertNotNull(key);
-            System.out.println(Arrays.toString(key));
             assertNotSame(0, key.length);
 
             return key;

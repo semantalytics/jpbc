@@ -8,7 +8,7 @@ import junit.framework.TestCase;
 public class WrapperLibraryTest extends TestCase {
 
     public void testSize() {
-        System.out.println(System.getProperty("java.library.path"));
+//        System.out.println(System.getProperty("java.library.path"));
 
         // Check for link library
         if (!WrapperLibraryProvider.isAvailable())
@@ -16,11 +16,11 @@ public class WrapperLibraryTest extends TestCase {
                 
         assertTrue(WrapperLibraryProvider.isAvailable());
 
-        System.out.println("pbc_pairing_sizeof() = " + WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_sizeof());
-        System.out.println("pbc_pairing_pp_sizeof() = " + WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_pp_sizeof());
-        System.out.println("gmp_mpz_sizeof() = " + WrapperLibraryProvider.getWrapperLibrary().gmp_mpz_sizeof());
-        System.out.println("pbc_element_sizeof() = " + WrapperLibraryProvider.getWrapperLibrary().pbc_element_sizeof());
-        System.out.println("pbc_element_pp_sizeof() = " + WrapperLibraryProvider.getWrapperLibrary().pbc_element_pp_sizeof());
+//        System.out.println("pbc_pairing_sizeof() = " + WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_sizeof());
+//        System.out.println("pbc_pairing_pp_sizeof() = " + WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_pp_sizeof());
+//        System.out.println("gmp_mpz_sizeof() = " + WrapperLibraryProvider.getWrapperLibrary().gmp_mpz_sizeof());
+//        System.out.println("pbc_element_sizeof() = " + WrapperLibraryProvider.getWrapperLibrary().pbc_element_sizeof());
+//        System.out.println("pbc_element_pp_sizeof() = " + WrapperLibraryProvider.getWrapperLibrary().pbc_element_pp_sizeof());
 
         assertNotSame(0, WrapperLibraryProvider.getWrapperLibrary().pbc_pairing_sizeof());
         assertNotSame(0, WrapperLibraryProvider.getWrapperLibrary().pbc_element_sizeof());

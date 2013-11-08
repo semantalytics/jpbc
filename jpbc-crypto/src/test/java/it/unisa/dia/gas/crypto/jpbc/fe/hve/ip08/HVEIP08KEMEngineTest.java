@@ -80,11 +80,7 @@ public class HVEIP08KEMEngineTest extends HVEIP08AbstractTest {
             KeyEncapsulationMechanism kem = new HVEIP08KEMEngine();
 
             kem.init(false, secretKey);
-            long start = System.currentTimeMillis();
             byte[] key = kem.processBlock(cipherText, 0, cipherText.length);
-            long end = System.currentTimeMillis();
-
-            System.out.println("(elapsed) = " + (end - start));
 
             assertNotNull(key);
             assertNotSame(0, key.length);

@@ -19,7 +19,6 @@ public class CTL13MMInstanceTest extends AbstractCTL13MMTest {
     @org.junit.Test
     public void test() {
         for (int i = 0; i < instance.getSystemParameters().getKappa() + 1; i++) {
-            System.out.printf("Check level %d...\n", i);
             Assert.assertTrue(instance.isZero(instance.encodeZeroAt(i), i));
             Assert.assertFalse(instance.isZero(instance.encodeOneAt(i), i));
         }

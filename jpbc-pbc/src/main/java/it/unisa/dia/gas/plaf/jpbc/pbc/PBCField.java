@@ -57,7 +57,7 @@ public abstract class PBCField extends AbstractField {
     }
 
     public Element getNqr() {
-        throw new IllegalStateException("Not Implemented yet!!!");
+        throw new IllegalStateException("Not Implemented yet!");
     }
 
     public int getLengthInBytes() {

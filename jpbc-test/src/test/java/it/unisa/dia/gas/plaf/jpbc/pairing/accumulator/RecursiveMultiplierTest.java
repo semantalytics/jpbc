@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.plaf.jpbc.pairing.mt;
+package it.unisa.dia.gas.plaf.jpbc.pairing.accumulator;
 
 
 import it.unisa.dia.gas.jpbc.Element;
@@ -10,6 +10,8 @@ import org.junit.runners.Parameterized;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.concurrent.ForkJoinPool;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
@@ -34,8 +36,6 @@ public class RecursiveMultiplierTest extends AbstractJPBCTest {
 
     @Test
     public void testRecursiveMultiplier() {
-        System.out.println(Runtime.getRuntime().availableProcessors());
-
         int n = 10000;
         Element elements[] = new Element[n];
 
@@ -43,23 +43,16 @@ public class RecursiveMultiplierTest extends AbstractJPBCTest {
             elements[i] = pairing.getGT().newRandomElement();
         }
 
-        long start = System.currentTimeMillis();
         Element product = pairing.getGT().newOneElement();
         for (int i = 0; i < n; i++) {
             product.mul(elements[i]);
         }
-        long end = System.currentTimeMillis();
-        System.out.println("elapsed = " + (end - start));
 
         // Test default
-        start = System.currentTimeMillis();
         ForkJoinPool pool = new ForkJoinPool();
         Element result = pool.invoke(new RecursiveMultiplier(elements, 0, n - 1));
-        end = System.currentTimeMillis();
 
-        System.out.println("elapsed = " + (end - start));
-        System.out.println("result = " + result);
-        System.out.println("isEqual = " + product.isEqual(result));
+        assertEquals(true, product.isEqual(result));
     }
 
 }

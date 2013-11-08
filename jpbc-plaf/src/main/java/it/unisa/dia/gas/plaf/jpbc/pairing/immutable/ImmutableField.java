@@ -8,7 +8,7 @@ import it.unisa.dia.gas.plaf.jpbc.util.ElementUtils;
 import java.math.BigInteger;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 2.0.0
  */
 public class ImmutableField implements Field {
@@ -101,5 +101,12 @@ public class ImmutableField implements Field {
 
     public ElementPowPreProcessing getElementPowPreProcessingFromBytes(byte[] source, int offset) {
         return new ImmutableElementPowPreProcessing(this, field.getElementPowPreProcessingFromBytes(source, offset));
+    }
+
+    @Override
+    public String toString() {
+        return "ImmutableField{" +
+                "field=" + field +
+                '}';
     }
 }

@@ -4,10 +4,13 @@ import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.plaf.jpbc.AbstractJPBCTest;
+import junit.framework.Assert;
 import org.junit.Test;
 import org.junit.runners.Parameterized;
 
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -15,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 /**
- * @author Angelo De Caro (angelo.decaro@gmail.com)
+ * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 2.0.0
  */
 public class ImmutablePairingTest extends AbstractJPBCTest {
@@ -54,6 +57,7 @@ public class ImmutablePairingTest extends AbstractJPBCTest {
 
     @Test
     public void testImmutablePairing() throws Exception {
+        SecureRandom random = new SecureRandom();
         int n = pairing.getDegree();
         if (n == 2)
             n = 4;
@@ -61,6 +65,17 @@ public class ImmutablePairingTest extends AbstractJPBCTest {
         for (int i = 0; i < n; i++) {
             Field field = pairing.getFieldAt(i);
             assertEquals(true, field instanceof ImmutableField);
+
+            // Check immutability for elements
+
+            Element e = field.newRandomElement();
+            Element ie = e.getImmutable();
+            Element cie = ie.duplicate();
+
+            Assert.assertEquals(true, ie.isImmutable());
+            Assert.assertEquals(false, cie.isImmutable());
+            Assert.assertEquals(true, ie.equals(e));
+            Assert.assertEquals(true, cie.equals(ie));
 
             assertEquals(true, field.newElement().isImmutable());
             assertEquals(true, field.newElement(1).isImmutable());
@@ -72,15 +87,20 @@ public class ImmutablePairingTest extends AbstractJPBCTest {
             assertEquals(true, field.newElementFromBytes(field.newOneElement().toBytes()).isImmutable());
             assertEquals(true, field.newElementFromBytes(field.newOneElement().toBytes(), 0).isImmutable());
 
-            verifySetMethods(field);
+//              TODO: disabled because PBC gives division by zero error on g type curves. Investigate more!
+//            byte[] hash = "ABCDEF".getBytes();
+//            assertEquals(true, field.newElementFromHash(hash, 0, 6).isImmutable());
 
-//            check(field, "add", "sub", "mulZn", "div", "powZn");
-//            check2(field, "twice", "square", "invert", "halve", "negate", "sqrt");
+            checkSetMethods(field);
+
+            checkImmutabilityArityOneMethods(field, "add", "sub", "mulZn", "div", "powZn");
+//            checkImmutabilityArityZeroMethods(field, "twice", "square", "invert", "halve", "negate", "sqrt");
+            checkImmutabilityArityZeroMethods(field, "twice", "square", "invert", "negate");
         }
     }
 
 
-    private void check(Field field, String... methods) {
+    private void checkImmutabilityArityOneMethods(Field field, String... methods) {
         try {
             for (String method : methods) {
                 Element a = field.newRandomElement();
@@ -88,12 +108,18 @@ public class ImmutablePairingTest extends AbstractJPBCTest {
                 assertEquals(true, b.isImmutable());
                 assertEquals(true, b != a);
             }
+        } catch (InvocationTargetException e) {
+            if (!"Not Implemented yet!".equals(e.getCause().getMessage())) {
+                e.printStackTrace();
+                fail(e.getMessage());
+            }
         } catch (Exception e) {
             e.printStackTrace();
+            fail(e.getMessage());
         }
     }
 
-    private void check2(Field field, String... methods) {
+    private void checkImmutabilityArityZeroMethods(Field field, String... methods) {
         try {
             for (String method : methods) {
                 Element a = field.newRandomElement();
@@ -101,12 +127,18 @@ public class ImmutablePairingTest extends AbstractJPBCTest {
                 assertEquals(true, b.isImmutable());
                 assertEquals(true, b != a);
             }
+        } catch (InvocationTargetException e) {
+            if (!"Not Implemented yet!".equals(e.getCause().getMessage())) {
+                e.printStackTrace();
+                fail(e.getMessage());
+            }
         } catch (Exception e) {
             e.printStackTrace();
+            fail(e.getMessage());
         }
     }
 
-    private void verifySetMethods(Field field) {
+    private void checkSetMethods(Field field) {
         Element a = field.newRandomElement();
         try {
             a.set(5);
