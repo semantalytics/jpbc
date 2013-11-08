@@ -19,10 +19,10 @@ import static org.junit.Assert.*;
 /**
  * @author Angelo De Caro
  */
-public class UHIBELW11KEM {
+public class UHIBELW11 {
 
 
-    public UHIBELW11KEM() {
+    public UHIBELW11() {
     }
 
 
@@ -108,45 +108,44 @@ public class UHIBELW11KEM {
     }
 
     public static void main(String[] args) {
-        UHIBELW11KEM kem = new UHIBELW11KEM();
+        UHIBELW11 engine = new UHIBELW11();
 
-        // Setup
-        AsymmetricCipherKeyPair keyPair = kem.setup(32);
+       // Setup
+        AsymmetricCipherKeyPair keyPair = engine.setup(32);
 
         // KeyGen
-        Element[] ids = kem.map(keyPair.getPublic(), "angelo", "de caro", "unisa");
+        Element[] ids = engine.map(keyPair.getPublic(), "angelo", "de caro", "unisa");
 
-        CipherParameters sk0 = kem.keyGen(keyPair, ids[0]);
-        CipherParameters sk01 = kem.keyGen(keyPair, ids[0], ids[1]);
-        CipherParameters sk012 = kem.keyGen(keyPair, ids[0], ids[1], ids[2]);
+        CipherParameters sk0 = engine.keyGen(keyPair, ids[0]);
+        CipherParameters sk01 = engine.keyGen(keyPair, ids[0], ids[1]);
+        CipherParameters sk012 = engine.keyGen(keyPair, ids[0], ids[1], ids[2]);
 
-        CipherParameters sk1 = kem.keyGen(keyPair, ids[1]);
-        CipherParameters sk10 = kem.keyGen(keyPair, ids[1], ids[0]);
-        CipherParameters sk021 = kem.keyGen(keyPair, ids[0], ids[2], ids[1]);
+        CipherParameters sk1 = engine.keyGen(keyPair, ids[1]);
+        CipherParameters sk10 = engine.keyGen(keyPair, ids[1], ids[0]);
+        CipherParameters sk021 = engine.keyGen(keyPair, ids[0], ids[2], ids[1]);
 
         // Encryption/Decryption
-        byte[][] ciphertext0 = kem.encaps(keyPair.getPublic(), ids[0]);
-        byte[][] ciphertext01 = kem.encaps(keyPair.getPublic(), ids[0], ids[1]);
-        byte[][] ciphertext012 = kem.encaps(keyPair.getPublic(), ids[0], ids[1], ids[2]);
+        byte[][] ciphertext0 = engine.encaps(keyPair.getPublic(), ids[0]);
+        byte[][] ciphertext01 = engine.encaps(keyPair.getPublic(), ids[0], ids[1]);
+        byte[][] ciphertext012 = engine.encaps(keyPair.getPublic(), ids[0], ids[1], ids[2]);
 
         // Decrypt
-        assertEquals(true, Arrays.equals(ciphertext0[0], kem.decaps(sk0, ciphertext0[1])));
-        assertEquals(true, Arrays.equals(ciphertext01[0], kem.decaps(sk01, ciphertext01[1])));
-        assertEquals(true, Arrays.equals(ciphertext012[0], kem.decaps(sk012, ciphertext012[1])));
+        assertEquals(true, Arrays.equals(ciphertext0[0], engine.decaps(sk0, ciphertext0[1])));
+        assertEquals(true, Arrays.equals(ciphertext01[0], engine.decaps(sk01, ciphertext01[1])));
+        assertEquals(true, Arrays.equals(ciphertext012[0], engine.decaps(sk012, ciphertext012[1])));
 
-        assertEquals(false, Arrays.equals(ciphertext0[0], kem.decaps(sk1, ciphertext0[1])));
-        assertEquals(false, Arrays.equals(ciphertext01[0], kem.decaps(sk10, ciphertext01[1])));
-        assertEquals(false, Arrays.equals(ciphertext012[0], kem.decaps(sk021, ciphertext012[1])));
+        assertEquals(false, Arrays.equals(ciphertext0[0], engine.decaps(sk1, ciphertext0[1])));
+        assertEquals(false, Arrays.equals(ciphertext01[0], engine.decaps(sk10, ciphertext01[1])));
+        assertEquals(false, Arrays.equals(ciphertext012[0], engine.decaps(sk021, ciphertext012[1])));
 
         // Delegate/Decrypt
-        assertEquals(true, Arrays.equals(ciphertext01[0], kem.decaps(kem.delegate(keyPair, sk0, ids[1]), ciphertext01[1])));
-        assertEquals(true, Arrays.equals(ciphertext012[0], kem.decaps(kem.delegate(keyPair, sk01, ids[2]), ciphertext012[1])));
-        assertEquals(true, Arrays.equals(ciphertext012[0], kem.decaps(kem.delegate(keyPair, kem.delegate(keyPair, sk0, ids[1]), ids[2]), ciphertext012[1])));
+        assertEquals(true, Arrays.equals(ciphertext01[0], engine.decaps(engine.delegate(keyPair, sk0, ids[1]), ciphertext01[1])));
+        assertEquals(true, Arrays.equals(ciphertext012[0], engine.decaps(engine.delegate(keyPair, sk01, ids[2]), ciphertext012[1])));
+        assertEquals(true, Arrays.equals(ciphertext012[0], engine.decaps(engine.delegate(keyPair, engine.delegate(keyPair, sk0, ids[1]), ids[2]), ciphertext012[1])));
 
-        assertEquals(false, Arrays.equals(ciphertext01[0], kem.decaps(kem.delegate(keyPair, sk0, ids[0]), ciphertext01[1])));
-        assertEquals(false, Arrays.equals(ciphertext012[0], kem.decaps(kem.delegate(keyPair, sk01, ids[1]), ciphertext012[1])));
-        assertEquals(false, Arrays.equals(ciphertext012[0], kem.decaps(kem.delegate(keyPair, kem.delegate(keyPair, sk0, ids[2]), ids[1]), ciphertext012[1])));
+        assertEquals(false, Arrays.equals(ciphertext01[0], engine.decaps(engine.delegate(keyPair, sk0, ids[0]), ciphertext01[1])));
+        assertEquals(false, Arrays.equals(ciphertext012[0], engine.decaps(engine.delegate(keyPair, sk01, ids[1]), ciphertext012[1])));
+        assertEquals(false, Arrays.equals(ciphertext012[0], engine.decaps(engine.delegate(keyPair, engine.delegate(keyPair, sk0, ids[2]), ids[1]), ciphertext012[1])));
     }
 
 }
-

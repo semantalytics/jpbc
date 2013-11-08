@@ -110,7 +110,7 @@
     <a name="l77"><span class="ln">77   </span></a>        String message = </span><span class="s4">&quot;Hello World!&quot;</span><span class="s1">;
     <a name="l78"><span class="ln">78   </span></a>        assertTrue(bls01.verify(bls01.sign(message, keyPair.getPrivate()), message, keyPair.getPublic()));
     <a name="l79"><span class="ln">79   </span></a>
-    <a name="l80"><span class="ln">80   </span></a>        </span><span class="s2">// Test different message</span><span class="s1">
+    <a name="l80"><span class="ln">80   </span></a>        </span><span class="s2">// Test different messages</span><span class="s1">
     <a name="l81"><span class="ln">81   </span></a>        assertFalse(bls01.verify(bls01.sign(message, keyPair.getPrivate()), </span><span class="s4">&quot;Hello Italy!&quot;</span><span class="s1">, keyPair.getPublic()));
     <a name="l82"><span class="ln">82   </span></a>    }
     <a name="l83"><span class="ln">83   </span></a>

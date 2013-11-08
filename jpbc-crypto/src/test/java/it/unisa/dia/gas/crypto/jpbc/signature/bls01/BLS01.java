@@ -77,7 +77,7 @@ public class BLS01 {
         String message = "Hello World!";
         assertTrue(bls01.verify(bls01.sign(message, keyPair.getPrivate()), message, keyPair.getPublic()));
 
-        // Test different message
+        // Test different messages
         assertFalse(bls01.verify(bls01.sign(message, keyPair.getPrivate()), "Hello Italy!", keyPair.getPublic()));
     }
 

@@ -56,8 +56,8 @@
                 <li>
                     <p>
                         A <span class="em">Port</span> of the
-                        <a href="http://crypto.stanford.edu/pbc/">Pairing-Based Cryptography Library (PBC)</a>
-                        library, developed by <a href="http://crypto.stanford.edu/~blynn/">Ben Lynn</a>.
+                        <a href="http://crypto.stanford.edu/pbc/">Pairing-Based Cryptography Library (PBC)</a>,
+                        library developed by <a href="http://crypto.stanford.edu/~blynn/">Ben Lynn</a>,
                         to performs the mathematical operations underlying pairing-based cryptosystems
                         directly in Java.
                     </p>
@@ -65,9 +65,8 @@
                 <li>
                     <p>
                         A <span class="em">Wrapper</span>
-                        that enables the delegation to the
+                        that enables the delegation of the pairing computation to the
                         <a href="http://crypto.stanford.edu/pbc/">PBC</a> library
-                        of the pairing computation
                         to gain in performance.
                     </p>
                 </li>
@@ -100,7 +99,7 @@
             <source>@inproceedings{ISCC:DeCIov11,
     author    = {Angelo {De Caro} and Vincenzo Iovino},
     title     = {jPBC: Java pairing based cryptography},
-    year      = {2011},                 UHIBELW11PredicateOnlyEngineTest
+    year      = {2011},
     pages     = {850-855},
     booktitle = {Proceedings of the 16th IEEE Symposium on Computers and Communications, ISCC 2011},
     address   = {Kerkyra, Corfu, Greece, June 28 - July 1}

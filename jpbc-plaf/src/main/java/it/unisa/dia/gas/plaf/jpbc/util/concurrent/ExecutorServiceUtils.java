@@ -33,6 +33,10 @@ public class ExecutorServiceUtils {
         return cachedThreadPool;
     }
 
+    public static void shutdown() {
+        fixedThreadPool.shutdown();
+        cachedThreadPool.shutdown();
+    }
 
 
     /**

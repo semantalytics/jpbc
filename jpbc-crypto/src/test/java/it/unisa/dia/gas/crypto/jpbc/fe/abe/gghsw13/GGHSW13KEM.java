@@ -35,7 +35,7 @@ public class GGHSW13KEM {
         this.pairing = PairingFactory.getPairing("params/mm/ctl13/toy.properties");
     }
 
-    protected AsymmetricCipherKeyPair setup(int n) {
+    public AsymmetricCipherKeyPair setup(int n) {
         GGHSW13KeyPairGenerator setup = new GGHSW13KeyPairGenerator();
         setup.init(new GGHSW13KeyPairGenerationParameters(
                 new SecureRandom(),
@@ -45,7 +45,7 @@ public class GGHSW13KEM {
         return setup.generateKeyPair();
     }
 
-    protected byte[][] encaps(CipherParameters publicKey, String w) {
+    public byte[][] encaps(CipherParameters publicKey, String w) {
         try {
             KeyEncapsulationMechanism kem = new GGHSW13KemEngine();
             kem.init(true, new GGHSW13EncryptionParameters((GGHSW13PublicKeyParameters) publicKey, w));
@@ -66,7 +66,7 @@ public class GGHSW13KEM {
         return null;
     }
 
-    protected CipherParameters keyGen(CipherParameters publicKey, CipherParameters masterSecretKey, Circuit circuit) {
+    public CipherParameters keyGen(CipherParameters publicKey, CipherParameters masterSecretKey, Circuit circuit) {
         GGHSW13SecretKeyGenerator keyGen = new GGHSW13SecretKeyGenerator();
         keyGen.init(new GGHSW13SecretKeyGenerationParameters(
                 (GGHSW13PublicKeyParameters) publicKey,
@@ -77,7 +77,7 @@ public class GGHSW13KEM {
         return keyGen.generateKey();
     }
 
-    protected byte[] decaps(CipherParameters secretKey, byte[] ciphertext) {
+    public byte[] decaps(CipherParameters secretKey, byte[] ciphertext) {
         try {
             KeyEncapsulationMechanism kem = new GGHSW13KemEngine();
 

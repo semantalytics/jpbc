@@ -81,6 +81,7 @@
                     <item name="SS [BLS'01]" href="/schemes/ss_bls01.html"/>
                     <item name="IBS [PS'06]" href="/schemes/ibs_ps06.html"/>
                 </item>
+                <item name="KEM" href="/schemes/kem.html"/>
             </item>
         </menu>
         
