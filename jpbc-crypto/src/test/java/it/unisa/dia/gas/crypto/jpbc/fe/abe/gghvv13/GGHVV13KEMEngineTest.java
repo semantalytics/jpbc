@@ -3,7 +3,7 @@ package it.unisa.dia.gas.crypto.jpbc.fe.abe.gghvv13;
 import it.unisa.dia.gas.crypto.circuit.Circuit;
 import it.unisa.dia.gas.crypto.circuit.DefaultCircuit;
 import it.unisa.dia.gas.crypto.jpbc.AbstractJPBCCryptoTest;
-import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghvv13.engines.GGHVV13KemEngine;
+import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghvv13.engines.GGHVV13KEMEngine;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghvv13.generators.GGHVV13KeyPairGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghvv13.generators.GGHVV13ParametersGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghvv13.generators.GGHVV13SecretKeyGenerator;
@@ -98,7 +98,7 @@ public class GGHVV13KEMEngineTest extends AbstractJPBCCryptoTest {
 
     protected byte[][] encaps(CipherParameters publicKey, String w) {
         try {
-            KeyEncapsulationMechanism kem = new GGHVV13KemEngine();
+            KeyEncapsulationMechanism kem = new GGHVV13KEMEngine();
             kem.init(true, new GGHVV13EncryptionParameters((GGHVV13PublicKeyParameters) publicKey, w));
 
             byte[] ciphertext = kem.processBlock(new byte[0], 0, 0);
@@ -132,7 +132,7 @@ public class GGHVV13KEMEngineTest extends AbstractJPBCCryptoTest {
 
     protected byte[] decaps(CipherParameters secretKey, byte[] ciphertext) {
         try {
-            KeyEncapsulationMechanism kem = new GGHVV13KemEngine();
+            KeyEncapsulationMechanism kem = new GGHVV13KEMEngine();
 
             kem.init(false, secretKey);
             byte[] key = kem.processBlock(ciphertext, 0, ciphertext.length);

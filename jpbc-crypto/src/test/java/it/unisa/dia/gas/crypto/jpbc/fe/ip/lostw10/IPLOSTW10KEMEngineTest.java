@@ -1,7 +1,7 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10;
 
 import it.unisa.dia.gas.crypto.jpbc.AbstractJPBCCryptoTest;
-import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.engines.IPLOSTW10KemEngine;
+import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.engines.IPLOSTW10KEMEngine;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators.IPLOSTW10KeyPairGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators.IPLOSTW10ParametersGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators.IPLOSTW10SecretKeyGenerator;
@@ -101,7 +101,7 @@ public class IPLOSTW10KEMEngineTest extends AbstractJPBCCryptoTest {
 
     protected byte[][] encaps(CipherParameters publicKey, Element[] x) {
         try {
-            KeyEncapsulationMechanism kem = new IPLOSTW10KemEngine();
+            KeyEncapsulationMechanism kem = new IPLOSTW10KEMEngine();
             kem.init(true, new IPLOSTW10EncryptionParameters((IPLOSTW10PublicKeyParameters) publicKey, x));
 
             byte[] ciphertext = kem.processBlock(new byte[0], 0, 0);
@@ -135,7 +135,7 @@ public class IPLOSTW10KEMEngineTest extends AbstractJPBCCryptoTest {
 
     protected byte[] decaps(CipherParameters secretKey, byte[] ciphertext) {
         try {
-            KeyEncapsulationMechanism kem = new IPLOSTW10KemEngine();
+            KeyEncapsulationMechanism kem = new IPLOSTW10KEMEngine();
 
             kem.init(false, secretKey);
             byte[] key = kem.processBlock(ciphertext, 0, ciphertext.length);

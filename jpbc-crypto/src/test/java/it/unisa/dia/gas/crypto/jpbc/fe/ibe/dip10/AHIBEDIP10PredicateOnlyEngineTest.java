@@ -1,5 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10;
 
+import it.unisa.dia.gas.crypto.fe.PredicateOnlyEncryptionScheme;
 import it.unisa.dia.gas.crypto.jpbc.AbstractJPBCCryptoTest;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.engines.AHIBEDIP10PredicateOnlyEngine;
 import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.generators.AHIBEDIP10KeyPairGenerator;
@@ -8,7 +9,6 @@ import it.unisa.dia.gas.crypto.jpbc.fe.ibe.dip10.params.*;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
-import org.bouncycastle.crypto.AsymmetricBlockCipher;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.InvalidCipherTextException;
@@ -28,7 +28,7 @@ public class AHIBEDIP10PredicateOnlyEngineTest extends AbstractJPBCCryptoTest {
     }
 
     @Test
-    public void testAHIBEDIP10PredicateOnlyEngine() {
+    public void test() {
         // Setup
         AsymmetricCipherKeyPair keyPair = setup(32, 10);
 
@@ -49,22 +49,22 @@ public class AHIBEDIP10PredicateOnlyEngineTest extends AbstractJPBCCryptoTest {
         byte[] ciphertext012 = encrypt(keyPair.getPublic(), ids[0], ids[1], ids[2]);
 
         // Test
-        assertEquals(true, test(sk0, ciphertext0));
-        assertEquals(true, test(sk01, ciphertext01));
-        assertEquals(true, test(sk012, ciphertext012));
+        assertEquals(true, evaluate(sk0, ciphertext0));
+        assertEquals(true, evaluate(sk01, ciphertext01));
+        assertEquals(true, evaluate(sk012, ciphertext012));
 
-        assertEquals(false, test(sk1, ciphertext0));
-        assertEquals(false, test(sk10, ciphertext01));
-        assertEquals(false, test(sk021, ciphertext012));
+        assertEquals(false, evaluate(sk1, ciphertext0));
+        assertEquals(false, evaluate(sk10, ciphertext01));
+        assertEquals(false, evaluate(sk021, ciphertext012));
 
         // Delegate/Test
-        assertEquals(true, test(delegate(keyPair, sk0, ids[1]), ciphertext01));
-        assertEquals(true, test(delegate(keyPair, sk01, ids[2]), ciphertext012));
-        assertEquals(true, test(delegate(keyPair, delegate(keyPair, sk0, ids[1]), ids[2]), ciphertext012));
+        assertEquals(true, evaluate(delegate(keyPair, sk0, ids[1]), ciphertext01));
+        assertEquals(true, evaluate(delegate(keyPair, sk01, ids[2]), ciphertext012));
+        assertEquals(true, evaluate(delegate(keyPair, delegate(keyPair, sk0, ids[1]), ids[2]), ciphertext012));
 
-        assertEquals(false, test(delegate(keyPair, sk0, ids[0]), ciphertext01));
-        assertEquals(false, test(delegate(keyPair, sk01, ids[1]), ciphertext012));
-        assertEquals(false, test(delegate(keyPair, delegate(keyPair, sk0, ids[2]), ids[1]), ciphertext012));
+        assertEquals(false, evaluate(delegate(keyPair, sk0, ids[0]), ciphertext01));
+        assertEquals(false, evaluate(delegate(keyPair, sk01, ids[1]), ciphertext012));
+        assertEquals(false, evaluate(delegate(keyPair, delegate(keyPair, sk0, ids[2]), ids[1]), ciphertext012));
     }
 
 
@@ -74,18 +74,6 @@ public class AHIBEDIP10PredicateOnlyEngineTest extends AbstractJPBCCryptoTest {
 
         return setup.generateKeyPair();
     }
-
-    protected Element[] map(CipherParameters publicKey, String... ids) {
-        Pairing pairing = PairingFactory.getPairing(((AHIBEDIP10PublicKeyParameters) publicKey).getParameters());
-
-        Element[] elements = new Element[ids.length];
-        for (int i = 0; i < elements.length; i++) {
-            byte[] id = ids[i].getBytes();
-            elements[i] = pairing.getZr().newElementFromHash(id, 0, id.length);
-        }
-        return elements;
-    }
-
 
     protected CipherParameters keyGen(AsymmetricCipherKeyPair masterKey, Element... ids) {
         AHIBEDIP10SecretKeyGenerator generator = new AHIBEDIP10SecretKeyGenerator();
@@ -113,9 +101,9 @@ public class AHIBEDIP10PredicateOnlyEngineTest extends AbstractJPBCCryptoTest {
         byte[] ciphertext = new byte[0];
 
         try {
-            AsymmetricBlockCipher engine = new AHIBEDIP10PredicateOnlyEngine();
+            PredicateOnlyEncryptionScheme engine = new AHIBEDIP10PredicateOnlyEngine();
             engine.init(true, new AHIBEDIP10EncryptionParameters((AHIBEDIP10PublicKeyParameters) publicKey, ids));
-            ciphertext = engine.processBlock(new byte[0], 0, 0);
+            ciphertext = engine.processBlock();
         } catch (InvalidCipherTextException e) {
             e.printStackTrace();
             fail(e.getMessage());
@@ -124,15 +112,27 @@ public class AHIBEDIP10PredicateOnlyEngineTest extends AbstractJPBCCryptoTest {
         return ciphertext;
     }
 
-    protected boolean test(CipherParameters secretKey, byte[] cipherText) {
+    protected boolean evaluate(CipherParameters secretKey, byte[] cipherText) {
         try {
-            AsymmetricBlockCipher engine = new AHIBEDIP10PredicateOnlyEngine();
+            PredicateOnlyEncryptionScheme engine = new AHIBEDIP10PredicateOnlyEngine();
             engine.init(false, secretKey);
-            return engine.processBlock(cipherText, 0, cipherText.length)[0] == 1; // Meaning that the predicate is satisfied.
+
+            return engine.evaluate(cipherText);
         } catch (InvalidCipherTextException e) {
-            e.printStackTrace();
-            fail(e.getMessage());
+            throw new RuntimeException(e);
         }
-        return false;
     }
+
+
+    protected Element[] map(CipherParameters publicKey, String... ids) {
+        Pairing pairing = PairingFactory.getPairing(((AHIBEDIP10PublicKeyParameters) publicKey).getParameters());
+
+        Element[] elements = new Element[ids.length];
+        for (int i = 0; i < elements.length; i++) {
+            byte[] id = ids[i].getBytes();
+            elements[i] = pairing.getZr().newElementFromHash(id, 0, id.length);
+        }
+        return elements;
+    }
+
 }

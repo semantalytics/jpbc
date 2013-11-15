@@ -18,7 +18,7 @@ import java.io.IOException;
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
-public class RLW12KemEngine extends PairingKeyEncapsulationMechanism {
+public class RLW12KEMEngine extends PairingKeyEncapsulationMechanism {
 
     public void initialize() {
         if (forEncryption) {

@@ -2,7 +2,7 @@ package it.unisa.dia.gas.crypto.jpbc.fe.rl.w12;
 
 import it.unisa.dia.gas.crypto.dfa.DFA;
 import it.unisa.dia.gas.crypto.dfa.DefaultDFA;
-import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.engines.RLW12KemEngine;
+import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.engines.RLW12KEMEngine;
 import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.generators.RLW12KeyPairGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.generators.RLW12ParametersGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.generators.RLW12SecretKeyGenerator;
@@ -43,7 +43,7 @@ public class RLW12KEM {
 
     public byte[][] encaps(CipherParameters publicKey, String w) {
         try {
-            KeyEncapsulationMechanism kem = new RLW12KemEngine();
+            KeyEncapsulationMechanism kem = new RLW12KEMEngine();
             kem.init(true, new RLW12EncryptionParameters((RLW12PublicKeyParameters) publicKey, w));
 
             byte[] ciphertext = kem.processBlock(new byte[0], 0, 0);
@@ -75,7 +75,7 @@ public class RLW12KEM {
 
     public byte[] decaps(CipherParameters secretKey, byte[] ciphertext) {
         try {
-            KeyEncapsulationMechanism kem = new RLW12KemEngine();
+            KeyEncapsulationMechanism kem = new RLW12KEMEngine();
 
             kem.init(false, secretKey);
             byte[] key = kem.processBlock(ciphertext, 0, ciphertext.length);

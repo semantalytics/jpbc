@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
-public class GGHSW13KemEngine extends PairingKeyEncapsulationMechanism {
+public class GGHSW13KEMEngine extends PairingKeyEncapsulationMechanism {
 
     public void initialize() {
         if (forEncryption) {

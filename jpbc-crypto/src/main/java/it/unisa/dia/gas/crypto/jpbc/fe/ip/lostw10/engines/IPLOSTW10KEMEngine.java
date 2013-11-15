@@ -16,7 +16,7 @@ import java.io.IOException;
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
-public class IPLOSTW10KemEngine extends PairingKeyEncapsulationMechanism {
+public class IPLOSTW10KEMEngine extends PairingKeyEncapsulationMechanism {
 
     private int n;
     private Pairing productPairing;

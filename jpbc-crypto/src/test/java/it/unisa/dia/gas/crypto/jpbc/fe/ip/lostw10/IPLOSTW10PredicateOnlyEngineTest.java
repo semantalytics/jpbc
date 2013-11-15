@@ -1,5 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10;
 
+import it.unisa.dia.gas.crypto.fe.PredicateOnlyEncryptionScheme;
 import it.unisa.dia.gas.crypto.jpbc.AbstractJPBCCryptoTest;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.engines.IPLOSTW10PredicateOnlyEngine;
 import it.unisa.dia.gas.crypto.jpbc.fe.ip.lostw10.generators.IPLOSTW10KeyPairGenerator;
@@ -30,7 +31,7 @@ public class IPLOSTW10PredicateOnlyEngineTest extends AbstractJPBCCryptoTest {
     }
 
     @Test
-    public void testIPLOSTW10PredicateOnlyEngine() {
+    public void test() {
         int n = 2;
 
         // Setup
@@ -38,17 +39,13 @@ public class IPLOSTW10PredicateOnlyEngineTest extends AbstractJPBCCryptoTest {
 
         // Encrypt
         Element[][] vectors = createOrthogonalVectors(keyPair.getPublic(), n);
-        assertEquals(true, test(keyGen(keyPair.getPrivate(), vectors[1]), encrypt(keyPair.getPublic(), vectors[0])));
+        assertEquals(true, evaluate(keyGen(keyPair.getPrivate(), vectors[1]), encrypt(keyPair.getPublic(), vectors[0])));
 
         // Gen non-matching SearchKey
         vectors = createNonOrthogonalVectors(keyPair.getPublic(), n);
-        assertEquals(false, test(keyGen(keyPair.getPrivate(), vectors[1]), encrypt(keyPair.getPublic(), vectors[0])));
+        assertEquals(false, evaluate(keyGen(keyPair.getPrivate(), vectors[1]), encrypt(keyPair.getPublic(), vectors[0])));
     }
 
-
-    protected IPLOSTW10Parameters createParameters(int n) {
-        return new IPLOSTW10ParametersGenerator().init(parameters, n).generateParameters();
-    }
 
     protected AsymmetricCipherKeyPair setup(IPLOSTW10Parameters parameters) {
         IPLOSTW10KeyPairGenerator setup = new IPLOSTW10KeyPairGenerator();
@@ -58,6 +55,42 @@ public class IPLOSTW10PredicateOnlyEngineTest extends AbstractJPBCCryptoTest {
         ));
 
         return setup.generateKeyPair();
+    }
+
+    protected byte[] encrypt(CipherParameters publicKey, Element[] x) {
+        try {
+            PredicateOnlyEncryptionScheme engine = new IPLOSTW10PredicateOnlyEngine();
+            engine.init(true, new IPLOSTW10EncryptionParameters((IPLOSTW10PublicKeyParameters) publicKey,  x));
+
+            return engine.processBlock();
+        } catch (InvalidCipherTextException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    protected CipherParameters keyGen(CipherParameters privateKey, Element[] y) {
+        IPLOSTW10SecretKeyGenerator keyGen = new IPLOSTW10SecretKeyGenerator();
+        keyGen.init(new IPLOSTW10SecretKeyGenerationParameters(
+                (IPLOSTW10MasterSecretKeyParameters) privateKey, y
+        ));
+        
+        return keyGen.generateKey();
+    }
+
+    protected boolean evaluate(CipherParameters secretKey, byte[] ciphertext) {
+        try {
+            PredicateOnlyEncryptionScheme engine = new IPLOSTW10PredicateOnlyEngine();
+            engine.init(false, secretKey);
+
+            return engine.evaluate(ciphertext);
+        } catch (InvalidCipherTextException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    protected IPLOSTW10Parameters createParameters(int n) {
+        return new IPLOSTW10ParametersGenerator().init(parameters, n).generateParameters();
     }
 
     protected Element[][] createOrthogonalVectors(CipherParameters publicKey, int n) {
@@ -96,43 +129,4 @@ public class IPLOSTW10PredicateOnlyEngineTest extends AbstractJPBCCryptoTest {
         }
         return result;
     }
-
-    protected Element[] createRandom(Pairing pairing, int n) {
-        Element[] result = new Element[n];
-        for (int i = 0; i < n; i++)
-            result[i] = pairing.getZr().newRandomElement();
-        return result;
-    }
-
-    protected byte[] encrypt(CipherParameters publicKey, Element[] x) {
-        try {
-            IPLOSTW10PredicateOnlyEngine engine = new IPLOSTW10PredicateOnlyEngine();
-            engine.init(true, new IPLOSTW10EncryptionParameters((IPLOSTW10PublicKeyParameters) publicKey,  x));
-
-            return engine.processBlock(new byte[0], 0, 0);
-        } catch (InvalidCipherTextException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    
-    protected CipherParameters keyGen(CipherParameters privateKey, Element[] y) {
-        IPLOSTW10SecretKeyGenerator keyGen = new IPLOSTW10SecretKeyGenerator();
-        keyGen.init(new IPLOSTW10SecretKeyGenerationParameters(
-                (IPLOSTW10MasterSecretKeyParameters) privateKey, y
-        ));
-        
-        return keyGen.generateKey();
-    }
-
-    protected boolean test(CipherParameters secretKey, byte[] ciphertext) {
-        try {
-            IPLOSTW10PredicateOnlyEngine engine = new IPLOSTW10PredicateOnlyEngine();
-            engine.init(false, secretKey);
-
-            return engine.processBlock(ciphertext, 0, ciphertext.length)[0] == 1; // Meaning that the predicate is satisfied.
-        } catch (InvalidCipherTextException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
 }

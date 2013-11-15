@@ -2,7 +2,7 @@ package it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13;
 
 import it.unisa.dia.gas.crypto.circuit.Circuit;
 import it.unisa.dia.gas.crypto.circuit.DefaultCircuit;
-import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.engines.GGHSW13KemEngine;
+import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.engines.GGHSW13KEMEngine;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.generators.GGHSW13KeyPairGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.generators.GGHSW13ParametersGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.generators.GGHSW13SecretKeyGenerator;
@@ -47,7 +47,7 @@ public class GGHSW13KEM {
 
     public byte[][] encaps(CipherParameters publicKey, String w) {
         try {
-            KeyEncapsulationMechanism kem = new GGHSW13KemEngine();
+            KeyEncapsulationMechanism kem = new GGHSW13KEMEngine();
             kem.init(true, new GGHSW13EncryptionParameters((GGHSW13PublicKeyParameters) publicKey, w));
 
             byte[] ciphertext = kem.processBlock(new byte[0], 0, 0);
@@ -79,7 +79,7 @@ public class GGHSW13KEM {
 
     public byte[] decaps(CipherParameters secretKey, byte[] ciphertext) {
         try {
-            KeyEncapsulationMechanism kem = new GGHSW13KemEngine();
+            KeyEncapsulationMechanism kem = new GGHSW13KEMEngine();
 
             kem.init(false, secretKey);
             byte[] key = kem.processBlock(ciphertext, 0, ciphertext.length);

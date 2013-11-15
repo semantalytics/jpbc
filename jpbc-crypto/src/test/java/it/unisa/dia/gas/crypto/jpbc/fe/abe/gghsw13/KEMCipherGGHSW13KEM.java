@@ -2,7 +2,7 @@ package it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13;
 
 import it.unisa.dia.gas.crypto.circuit.Circuit;
 import it.unisa.dia.gas.crypto.circuit.DefaultCircuit;
-import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.engines.GGHSW13KemEngine;
+import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.engines.GGHSW13KEMEngine;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.generators.GGHSW13KeyPairGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.generators.GGHSW13ParametersGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.generators.GGHSW13SecretKeyGenerator;
@@ -46,7 +46,7 @@ public class KEMCipherGGHSW13KEM {
 
         kemCipher = new KEMCipher(
                 Cipher.getInstance("AES/CBC/PKCS7Padding", "BC"),
-                new GGHSW13KemEngine()
+                new GGHSW13KEMEngine()
         );
         // build the initialization vector.  This example is all zeros, but it
         // could be any value or generated using a random number generator.
