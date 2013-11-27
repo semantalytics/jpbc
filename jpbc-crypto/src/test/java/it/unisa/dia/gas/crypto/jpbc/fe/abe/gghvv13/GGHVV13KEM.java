@@ -34,7 +34,6 @@ public class GGHVV13KEM {
         setup.init(new GGHVV13KeyPairGenerationParameters(
                 new SecureRandom(),
                 new GGHVV13ParametersGenerator().init(
-                        new SecureRandom(),
                         PairingFactory.getPairing("params/mm/ctl13/toy.properties"),
                         n).generateParameters()
         ));

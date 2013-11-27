@@ -50,12 +50,10 @@ public class KEMCipherGGHSW13KEM {
 
 
     public AsymmetricCipherKeyPair setup(int n) {
-        SecureRandom random = new SecureRandom();
         GGHSW13KeyPairGenerator setup = new GGHSW13KeyPairGenerator();
         setup.init(new GGHSW13KeyPairGenerationParameters(
-                random,
+                new SecureRandom(),
                 new GGHSW13ParametersGenerator().init(
-                        random,
                         PairingFactory.getPairing("params/mm/ctl13/toy.properties"),
                         n).generateParameters()
         ));

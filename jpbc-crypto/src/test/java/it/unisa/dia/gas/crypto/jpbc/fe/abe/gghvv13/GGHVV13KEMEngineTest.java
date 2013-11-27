@@ -69,7 +69,7 @@ public class GGHVV13KEMEngineTest extends AbstractJPBCCryptoTest {
                 new DefaultGate(AND, 6, 3, new int[]{4, 5}),
         });
 
-        AsymmetricCipherKeyPair keyPair = setup(createParameters(random, n));
+        AsymmetricCipherKeyPair keyPair = setup(createParameters(n));
         CipherParameters secretKey = keyGen(keyPair.getPublic(), keyPair.getPrivate(), circuit);
 
         String assignment = "1101";
@@ -82,8 +82,8 @@ public class GGHVV13KEMEngineTest extends AbstractJPBCCryptoTest {
     }
 
 
-    protected GGHVV13Parameters createParameters(SecureRandom random, int n) {
-        return new GGHVV13ParametersGenerator().init(random, pairing, n).generateParameters();
+    protected GGHVV13Parameters createParameters(int n) {
+        return new GGHVV13ParametersGenerator().init(pairing, n).generateParameters();
     }
 
     protected AsymmetricCipherKeyPair setup(GGHVV13Parameters parameters) {

@@ -34,7 +34,6 @@ public class GGHSW13KEM {
         setup.init(new GGHSW13KeyPairGenerationParameters(
                 new SecureRandom(),
                 new GGHSW13ParametersGenerator().init(
-                        new SecureRandom(),
                         PairingFactory.getPairing("params/mm/ctl13/toy.properties"),
                         n).generateParameters()
         ));

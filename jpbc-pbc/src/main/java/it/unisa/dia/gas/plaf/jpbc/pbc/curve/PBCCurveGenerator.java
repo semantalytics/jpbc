@@ -27,7 +27,8 @@ public abstract class PBCCurveGenerator implements PairingParametersGenerator {
             parameters.load(inputStream);
             inputStream.close();
 
-            file.delete();
+            if (!file.delete())
+                throw new IllegalStateException("File has not been deleted");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -6,7 +6,6 @@ import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine.CTL13MMInstance;
 
 import java.math.BigInteger;
-import java.security.SecureRandom;
 
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
@@ -14,19 +13,17 @@ import java.security.SecureRandom;
  */
 public class CTL13MMField implements Field<CTL13MMElement> {
 
-    private SecureRandom random;
     private CTL13MMPairing pairing;
     private CTL13MMInstance instance;
     private int index;
     private int lengthInBytes;
 
 
-    public CTL13MMField(SecureRandom random, CTL13MMPairing pairing) {
-        this(random, pairing, 0);
+    public CTL13MMField(CTL13MMPairing pairing) {
+        this(pairing, 0);
     }
 
-    public CTL13MMField(SecureRandom random, CTL13MMPairing pairing, int index) {
-        this.random = random;
+    public CTL13MMField(CTL13MMPairing pairing, int index) {
         this.pairing = pairing;
         this.instance = pairing.getCTL13MMInstance();
         this.index = index;

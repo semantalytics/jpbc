@@ -64,7 +64,7 @@ public class CTL13MMPairing implements Pairing {
 
     public Field getFieldAt(int index) {
         if (fields[index] == null)
-            fields[index] = new CTL13MMField(random, this, index);
+            fields[index] = new CTL13MMField(this, index);
 
         return fields[index];
     }

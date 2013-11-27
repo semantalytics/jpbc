@@ -47,7 +47,7 @@ public class DefaultCircuit implements Circuit {
     }
 
     public Gate getOutputGate() {
-        return gates[n+q-1];
+        return gates[n + q - 1];
     }
 
 
@@ -108,11 +108,11 @@ public class DefaultCircuit implements Circuit {
 
         public Circuit.Gate evaluate() {
             switch (type) {
-                case AND :
-                    this.value =getInputAt(0).isSet() && getInputAt(1).isSet();
+                case AND:
+                    this.value = getInputAt(0).isSet() && getInputAt(1).isSet();
                     break;
 
-                case OR :
+                case OR:
                     this.value = getInputAt(0).isSet() || getInputAt(1).isSet();
                     break;
 

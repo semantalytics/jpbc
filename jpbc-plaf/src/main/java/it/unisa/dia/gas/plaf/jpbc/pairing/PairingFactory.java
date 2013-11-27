@@ -55,11 +55,13 @@ public class PairingFactory {
 
     private Map<PairingParameters, Pairing> instances;
     private Map<String, PairingCreator> creators;
+    private SecureRandomCreator secureRandomCreator;
 
 
     private PairingFactory() {
         this.instances = new HashMap<PairingParameters, Pairing>();
         this.creators = new HashMap<String, PairingCreator>();
+        this.secureRandomCreator = new DefaultSecureRandomCreator();
 
         PairingCreator defaultCreator = new EllipticCurvesPairingCreator();
         creators.put("a", defaultCreator);
@@ -74,11 +76,11 @@ public class PairingFactory {
 
 
     public Pairing initPairing(String parametersPath) {
-        return initPairing(loadParameters(parametersPath), new SecureRandom());
+        return initPairing(loadParameters(parametersPath), secureRandomCreator.newSecureRandom());
     }
 
     public Pairing initPairing(PairingParameters parameters) {
-        return initPairing(parameters, new SecureRandom());
+        return initPairing(parameters, secureRandomCreator.newSecureRandom());
     }
 
     public Pairing initPairing(String parametersPath, SecureRandom random) {
@@ -90,7 +92,7 @@ public class PairingFactory {
             throw new IllegalArgumentException("parameters cannot be null.");
 
         if (random == null)
-            random = new SecureRandom();
+            random = secureRandomCreator.newSecureRandom();
 
         Pairing pairing = null;
         if (reuseInstance) {
@@ -256,6 +258,20 @@ public class PairingFactory {
 
         public Throwable getPbcPairingFailure() {
             return pbcPairingFailure;
+        }
+    }
+
+
+    public static interface SecureRandomCreator {
+
+        SecureRandom newSecureRandom();
+
+    }
+
+    public static class DefaultSecureRandomCreator implements SecureRandomCreator {
+
+        public SecureRandom newSecureRandom() {
+            return new SecureRandom();
         }
     }
 

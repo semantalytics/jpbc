@@ -154,6 +154,8 @@ public class JPBCBenchmarkActivity extends Activity implements View.OnClickListe
                     ((Button) findViewById(R.id.benchmark)).setText("Benchmark");
                     findViewById(R.id.progress).setVisibility(View.INVISIBLE);
                     break;
+                default:
+                    throw new IllegalStateException("Invalid state!!!");
             }
 
             // Store anyway the benchmark even if they are partial.
