@@ -73,12 +73,7 @@ public class CTL13MMMapParameters extends MapParameters {
                     .addSector("ps", new ByteBufferLatchSoftRefBigIntegerArraySector(pLength, parameters.getN()))
                     .addSector("zInvPow", new ByteBufferLatchSoftRefBigIntegerArraySector(x0Length, parameters.getKappa()))
                     .addSector("yPow", new ByteBufferLatchSoftRefBigIntegerArraySector(x0Length, parameters.getKappa() + 1))
-                    .mapTo(String.format(
-                            "CTL13IP_eta_%d_n_%d_alpha_%d_ell_%d_rho_%d_delta_%d_kappa_%d_beta_%d_theta_%d_bound_%d.dat",
-                            parameters.getEta(), parameters.getN(), parameters.getAlpha(), parameters.getEll(),
-                            parameters.getRho(), parameters.getDelta(),
-                            parameters.getKappa(), parameters.getBeta(), parameters.getTheta(), parameters.getBound())
-                    );
+                    .mapTo(toFileName());
 
             this.disk = fileChannelDisk;
         } catch (Exception e) {
@@ -95,12 +90,7 @@ public class CTL13MMMapParameters extends MapParameters {
     }
 
     public boolean load() {
-        return load(String.format(
-                "CTL13IP_eta_%d_n_%d_alpha_%d_ell_%d_rho_%d_delta_%d_kappa_%d_beta_%d_theta_%d_bound_%d.dat",
-                parameters.getEta(), parameters.getN(), parameters.getAlpha(), parameters.getEll(),
-                parameters.getRho(), parameters.getDelta(),
-                parameters.getKappa(), parameters.getBeta(), parameters.getTheta(), parameters.getBound())
-        );
+        return load(toFileName());
     }
 
     public boolean load(String path) {
@@ -141,4 +131,12 @@ public class CTL13MMMapParameters extends MapParameters {
         }
     }
 
+
+    public String toFileName() {
+        return String.format(
+                "CTL13MM_eta_%d_n_%d_alpha_%d_ell_%d_rho_%d_delta_%d_kappa_%d_beta_%d_theta_%d_bound_%d.dat",
+                parameters.getEta(), parameters.getN(), parameters.getAlpha(), parameters.getEll(),
+                parameters.getRho(), parameters.getDelta(),
+                parameters.getKappa(), parameters.getBeta(), parameters.getTheta(), parameters.getBound());
+    }
 }
