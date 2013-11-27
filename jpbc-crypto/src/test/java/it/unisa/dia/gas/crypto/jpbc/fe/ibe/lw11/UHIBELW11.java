@@ -17,7 +17,7 @@ import java.util.Arrays;
 import static org.junit.Assert.*;
 
 /**
- * @author Angelo De Caro
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class UHIBELW11 {
 
@@ -72,7 +72,7 @@ public class UHIBELW11 {
             KeyEncapsulationMechanism kem = new UHIBELW11KEMEngine();
             kem.init(true, new UHIBELW11EncryptionParameters((UHIBELW11PublicKeyParameters) publicKey, ids));
 
-            byte[] ciphertext = kem.processBlock(new byte[0], 0, 0);
+            byte[] ciphertext = kem.process();
 
             assertNotNull(ciphertext);
             assertNotSame(0, ciphertext.length);
@@ -93,7 +93,7 @@ public class UHIBELW11 {
             KeyEncapsulationMechanism kem = new UHIBELW11KEMEngine();
 
             kem.init(false, secretKey);
-            byte[] key = kem.processBlock(cipherText, 0, cipherText.length);
+            byte[] key = kem.processBlock(cipherText);
 
             assertNotNull(key);
             assertNotSame(0, key.length);

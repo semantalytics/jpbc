@@ -31,7 +31,6 @@ import static org.junit.Assert.assertEquals;
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class KEMCipherGGHSW13KEM {
-    protected SecureRandom random;
     protected KEMCipher kemCipher;
     protected AlgorithmParameterSpec iv;
 
@@ -39,7 +38,6 @@ public class KEMCipherGGHSW13KEM {
 
 
     public KEMCipherGGHSW13KEM() throws GeneralSecurityException {
-        this.random = new SecureRandom();
         this.kemCipher = new KEMCipher(
                 Cipher.getInstance("AES/CBC/PKCS7Padding", "BC"),
                 new GGHSW13KEMEngine()
@@ -52,6 +50,7 @@ public class KEMCipherGGHSW13KEM {
 
 
     public AsymmetricCipherKeyPair setup(int n) {
+        SecureRandom random = new SecureRandom();
         GGHSW13KeyPairGenerator setup = new GGHSW13KeyPairGenerator();
         setup.init(new GGHSW13KeyPairGenerationParameters(
                 random,

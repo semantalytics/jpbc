@@ -33,7 +33,7 @@ public abstract class PredicateOnlyPairingAsymmetricBlockCipher extends PairingA
         return 1;
     }
 
-    public byte[] processBlock() throws InvalidCipherTextException {
+    public byte[] process() throws InvalidCipherTextException {
         return processBlock(new byte[0], 0, 0);
     }
 

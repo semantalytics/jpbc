@@ -5,7 +5,6 @@ import it.unisa.dia.gas.crypto.jpbc.signature.ps06.generators.PS06ParametersGene
 import it.unisa.dia.gas.crypto.jpbc.signature.ps06.generators.PS06SecretKeyGenerator;
 import it.unisa.dia.gas.crypto.jpbc.signature.ps06.generators.PS06SetupGenerator;
 import it.unisa.dia.gas.crypto.jpbc.signature.ps06.params.*;
-import it.unisa.dia.gas.jpbc.PairingParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
@@ -15,20 +14,19 @@ import org.bouncycastle.crypto.digests.SHA256Digest;
 import static org.junit.Assert.*;
 
 /**
- * @author Angelo De Caro
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class PS06 {
 
-    private PairingParameters parameters;
-
     public PS06() {
-        parameters = PairingFactory.getPairingParameters("params/curves/a.properties");
     }
 
 
     public PS06Parameters createParameters(int nU, int nM) {
         // Generate Public PairingParameters
-        return new PS06ParametersGenerator().init(parameters, nU, nM).generateParameters();
+        return new PS06ParametersGenerator().init(
+                PairingFactory.getPairingParameters("params/curves/a.properties"),
+                nU, nM).generateParameters();
     }
 
     public AsymmetricCipherKeyPair setup(PS06Parameters parameters) {

@@ -1,12 +1,12 @@
-package it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13;
+package it.unisa.dia.gas.crypto.jpbc.fe.abe.gghvv13;
 
 import it.unisa.dia.gas.crypto.circuit.Circuit;
 import it.unisa.dia.gas.crypto.circuit.DefaultCircuit;
-import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.engines.GGHSW13KEMEngine;
-import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.generators.GGHSW13KeyPairGenerator;
-import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.generators.GGHSW13ParametersGenerator;
-import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.generators.GGHSW13SecretKeyGenerator;
-import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.params.*;
+import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghvv13.engines.GGHVV13KEMEngine;
+import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghvv13.generators.GGHVV13KeyPairGenerator;
+import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghvv13.generators.GGHVV13ParametersGenerator;
+import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghvv13.generators.GGHVV13SecretKeyGenerator;
+import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghvv13.params.*;
 import it.unisa.dia.gas.crypto.kem.KeyEncapsulationMechanism;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
@@ -23,17 +23,17 @@ import static org.junit.Assert.*;
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
-public class GGHSW13KEM {
+public class GGHVV13KEM {
 
-    public GGHSW13KEM() {
+    public GGHVV13KEM() {
     }
 
 
     public AsymmetricCipherKeyPair setup(int n) {
-        GGHSW13KeyPairGenerator setup = new GGHSW13KeyPairGenerator();
-        setup.init(new GGHSW13KeyPairGenerationParameters(
+        GGHVV13KeyPairGenerator setup = new GGHVV13KeyPairGenerator();
+        setup.init(new GGHVV13KeyPairGenerationParameters(
                 new SecureRandom(),
-                new GGHSW13ParametersGenerator().init(
+                new GGHVV13ParametersGenerator().init(
                         new SecureRandom(),
                         PairingFactory.getPairing("params/mm/ctl13/toy.properties"),
                         n).generateParameters()
@@ -44,8 +44,8 @@ public class GGHSW13KEM {
 
     public byte[][] encaps(CipherParameters publicKey, String w) {
         try {
-            KeyEncapsulationMechanism kem = new GGHSW13KEMEngine();
-            kem.init(true, new GGHSW13EncryptionParameters((GGHSW13PublicKeyParameters) publicKey, w));
+            KeyEncapsulationMechanism kem = new GGHVV13KEMEngine();
+            kem.init(true, new GGHVV13EncryptionParameters((GGHVV13PublicKeyParameters) publicKey, w));
 
             byte[] ciphertext = kem.process();
 
@@ -64,10 +64,10 @@ public class GGHSW13KEM {
     }
 
     public CipherParameters keyGen(CipherParameters publicKey, CipherParameters masterSecretKey, Circuit circuit) {
-        GGHSW13SecretKeyGenerator keyGen = new GGHSW13SecretKeyGenerator();
-        keyGen.init(new GGHSW13SecretKeyGenerationParameters(
-                (GGHSW13PublicKeyParameters) publicKey,
-                (GGHSW13MasterSecretKeyParameters) masterSecretKey,
+        GGHVV13SecretKeyGenerator keyGen = new GGHVV13SecretKeyGenerator();
+        keyGen.init(new GGHVV13SecretKeyGenerationParameters(
+                (GGHVV13PublicKeyParameters) publicKey,
+                (GGHVV13MasterSecretKeyParameters) masterSecretKey,
                 circuit
         ));
 
@@ -76,7 +76,7 @@ public class GGHSW13KEM {
 
     public byte[] decaps(CipherParameters secretKey, byte[] ciphertext) {
         try {
-            KeyEncapsulationMechanism kem = new GGHSW13KEMEngine();
+            KeyEncapsulationMechanism kem = new GGHVV13KEMEngine();
 
             kem.init(false, secretKey);
             byte[] key = kem.processBlock(ciphertext);
@@ -109,7 +109,7 @@ public class GGHSW13KEM {
                 new DefaultGate(AND, 6, 3, new int[]{4, 5}),
         });
 
-        GGHSW13KEM kem = new GGHSW13KEM();
+        GGHVV13KEM kem = new GGHVV13KEM();
 
         // Setup
         AsymmetricCipherKeyPair keyPair = kem.setup(n);

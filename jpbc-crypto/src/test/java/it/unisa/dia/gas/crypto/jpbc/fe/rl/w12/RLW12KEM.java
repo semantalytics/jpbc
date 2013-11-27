@@ -8,7 +8,6 @@ import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.generators.RLW12ParametersGenerato
 import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.generators.RLW12SecretKeyGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.rl.w12.params.*;
 import it.unisa.dia.gas.crypto.kem.KeyEncapsulationMechanism;
-import it.unisa.dia.gas.jpbc.PairingParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
@@ -20,15 +19,12 @@ import java.util.Arrays;
 import static org.junit.Assert.*;
 
 /**
- * @author Angelo De Caro
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class RLW12KEM {
 
-    private PairingParameters parameters;
-
 
     public RLW12KEM() {
-        parameters = PairingFactory.getPairingParameters("params/curves/a.properties");
     }
 
 
@@ -36,7 +32,9 @@ public class RLW12KEM {
         RLW12KeyPairGenerator setup = new RLW12KeyPairGenerator();
         setup.init(new RLW12KeyPairGenerationParameters(
                 new SecureRandom(),
-                new RLW12ParametersGenerator().init(parameters, alphabet).generateParameters()
+                new RLW12ParametersGenerator().init(
+                        PairingFactory.getPairingParameters("params/curves/a.properties"),
+                        alphabet).generateParameters()
         ));
         return setup.generateKeyPair();
     }
@@ -46,7 +44,7 @@ public class RLW12KEM {
             KeyEncapsulationMechanism kem = new RLW12KEMEngine();
             kem.init(true, new RLW12EncryptionParameters((RLW12PublicKeyParameters) publicKey, w));
 
-            byte[] ciphertext = kem.processBlock(new byte[0], 0, 0);
+            byte[] ciphertext = kem.process();
 
             assertNotNull(ciphertext);
             assertNotSame(0, ciphertext.length);
@@ -78,7 +76,7 @@ public class RLW12KEM {
             KeyEncapsulationMechanism kem = new RLW12KEMEngine();
 
             kem.init(false, secretKey);
-            byte[] key = kem.processBlock(ciphertext, 0, ciphertext.length);
+            byte[] key = kem.processBlock(ciphertext);
 
             assertNotNull(key);
             assertNotSame(0, key.length);

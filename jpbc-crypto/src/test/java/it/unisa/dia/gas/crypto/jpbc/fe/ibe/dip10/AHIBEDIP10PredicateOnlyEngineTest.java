@@ -103,7 +103,7 @@ public class AHIBEDIP10PredicateOnlyEngineTest extends AbstractJPBCCryptoTest {
         try {
             PredicateOnlyEncryptionScheme engine = new AHIBEDIP10PredicateOnlyEngine();
             engine.init(true, new AHIBEDIP10EncryptionParameters((AHIBEDIP10PublicKeyParameters) publicKey, ids));
-            ciphertext = engine.processBlock();
+            ciphertext = engine.process();
         } catch (InvalidCipherTextException e) {
             e.printStackTrace();
             fail(e.getMessage());

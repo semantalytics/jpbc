@@ -5,7 +5,6 @@ import it.unisa.dia.gas.crypto.jpbc.signature.bls01.generators.BLS01KeyPairGener
 import it.unisa.dia.gas.crypto.jpbc.signature.bls01.generators.BLS01ParametersGenerator;
 import it.unisa.dia.gas.crypto.jpbc.signature.bls01.params.BLS01KeyGenerationParameters;
 import it.unisa.dia.gas.crypto.jpbc.signature.bls01.params.BLS01Parameters;
-import it.unisa.dia.gas.jpbc.PairingParameters;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
@@ -16,20 +15,17 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
- * @author Angelo De Caro
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class BLS01 {
 
-    private PairingParameters parameters;
-
     public BLS01() {
-        parameters = PairingFactory.getPairingParameters("params/curves/a.properties");
     }
 
 
     public BLS01Parameters setup() {
         BLS01ParametersGenerator setup = new BLS01ParametersGenerator();
-        setup.init(parameters);
+        setup.init(PairingFactory.getPairingParameters("params/curves/a.properties"));
 
         return setup.generateParameters();
     }

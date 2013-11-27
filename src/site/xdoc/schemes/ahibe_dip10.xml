@@ -58,7 +58,7 @@
 <a name="l18"><span class="ln">18   </span></a>
 <a name="l19"><span class="ln">19   </span></a>
 <a name="l20"><span class="ln">20   </span></a></span><span class="s2">/**
-<a name="l21"><span class="ln">21   </span></a> * </span><span class="s3">@author </span><span class="s2">Angelo De Caro
+<a name="l21"><span class="ln">21   </span></a> * </span><span class="s3">@author </span><span class="s2">Angelo De Caro (jpbclib@gmail.com)
 <a name="l22"><span class="ln">22   </span></a> */</span><span class="s1">
 <a name="l23"><span class="ln">23   </span></a></span><span class="s0">public class </span><span class="s1">AHIBEDIP10 {
 <a name="l24"><span class="ln">24   </span></a>
@@ -113,7 +113,7 @@
 <a name="l73"><span class="ln">73   </span></a>            KeyEncapsulationMechanism kem = </span><span class="s0">new </span><span class="s1">AHIBEDIP10KEMEngine();
 <a name="l74"><span class="ln">74   </span></a>            kem.init(</span><span class="s0">true</span><span class="s1">, </span><span class="s0">new </span><span class="s1">AHIBEDIP10EncryptionParameters((AHIBEDIP10PublicKeyParameters) publicKey, ids));
 <a name="l75"><span class="ln">75   </span></a>
-<a name="l76"><span class="ln">76   </span></a>            </span><span class="s0">byte</span><span class="s1">[] ciphertext = kem.processBlock(</span><span class="s0">new byte</span><span class="s1">[</span><span class="s4">0</span><span class="s1">], </span><span class="s4">0</span><span class="s1">, </span><span class="s4">0</span><span class="s1">);
+<a name="l76"><span class="ln">76   </span></a>            </span><span class="s0">byte</span><span class="s1">[] ciphertext = kem.process();
 <a name="l77"><span class="ln">77   </span></a>
 <a name="l78"><span class="ln">78   </span></a>            assertNotNull(ciphertext);
 <a name="l79"><span class="ln">79   </span></a>            assertNotSame(</span><span class="s4">0</span><span class="s1">, ciphertext.length);
@@ -134,7 +134,7 @@
 <a name="l94"><span class="ln">94   </span></a>            KeyEncapsulationMechanism kem = </span><span class="s0">new </span><span class="s1">AHIBEDIP10KEMEngine();
 <a name="l95"><span class="ln">95   </span></a>
 <a name="l96"><span class="ln">96   </span></a>            kem.init(</span><span class="s0">false</span><span class="s1">, secretKey);
-<a name="l97"><span class="ln">97   </span></a>            </span><span class="s0">byte</span><span class="s1">[] key = kem.processBlock(cipherText, </span><span class="s4">0</span><span class="s1">, cipherText.length);
+<a name="l97"><span class="ln">97   </span></a>            </span><span class="s0">byte</span><span class="s1">[] key = kem.processBlock(cipherText);
 <a name="l98"><span class="ln">98   </span></a>
 <a name="l99"><span class="ln">99   </span></a>            assertNotNull(key);
 <a name="l100"><span class="ln">100  </span></a>            assertNotSame(</span><span class="s4">0</span><span class="s1">, key.length);
@@ -192,7 +192,7 @@
 <a name="l152"><span class="ln">152  </span></a>
 <a name="l153"><span class="ln">153  </span></a>
 <a name="l154"><span class="ln">154  </span></a>}</span></pre>
-        </section>
+</section>
 
     </body>
 </document>

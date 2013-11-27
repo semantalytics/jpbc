@@ -1,16 +1,15 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08;
 
 import it.unisa.dia.gas.crypto.fe.PredicateOnlyEncryptionScheme;
-import it.unisa.dia.gas.crypto.jpbc.AbstractJPBCCryptoTest;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.engines.HVEIP08PredicateOnlyEngine;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08KeyPairGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08ParametersGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.generators.HVEIP08PredicateOnlySecretKeyGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.hve.ip08.params.*;
+import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.InvalidCipherTextException;
-import org.junit.Test;
 
 import java.security.SecureRandom;
 import java.util.Random;
@@ -18,32 +17,19 @@ import java.util.Random;
 import static org.junit.Assert.assertEquals;
 
 /**
- * @author Angelo De Caro
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
-public class HVEIP08PredicateOnlyEngineTest extends AbstractJPBCCryptoTest {
+public class HVEIP08 {
 
 
-    public HVEIP08PredicateOnlyEngineTest(boolean usePBC, String curvePath) {
-        super(usePBC, curvePath);
+    public HVEIP08() {
     }
 
 
-    @Test
-    public void test() {
-        int n = 5;
-        AsymmetricCipherKeyPair keyPair = setup(genBinaryParam(n));
-
-        int[][] vectors = createMatchingVectors(n);
-        assertEquals(true, evaluate(keyGen(keyPair.getPrivate(), vectors[0]), enc(keyPair.getPublic(), vectors[1])));
-
-        vectors = createNonMatchingVectors(n);
-        assertEquals(false, evaluate(keyGen(keyPair.getPrivate(), vectors[0]), enc(keyPair.getPublic(), vectors[1])));
-    }
-
-
-    protected AsymmetricCipherKeyPair setup(HVEIP08Parameters hveParameters) {
+    protected AsymmetricCipherKeyPair setup(int n) {
         HVEIP08KeyPairGenerator generator = new HVEIP08KeyPairGenerator();
-        generator.init(new HVEIP08KeyGenerationParameters(new SecureRandom(), hveParameters));
+        generator.init(new HVEIP08KeyGenerationParameters(new SecureRandom(),
+                genBinaryParam(n)));
 
         return generator.generateKeyPair();
     }
@@ -82,7 +68,7 @@ public class HVEIP08PredicateOnlyEngineTest extends AbstractJPBCCryptoTest {
 
     protected HVEIP08Parameters genBinaryParam(int n) {
         HVEIP08ParametersGenerator generator = new HVEIP08ParametersGenerator();
-        generator.init(n, parameters);
+        generator.init(n, PairingFactory.getPairingParameters("params/curves/a.properties"));
 
         return generator.generateParameters();
     }
@@ -119,6 +105,28 @@ public class HVEIP08PredicateOnlyEngineTest extends AbstractJPBCCryptoTest {
         }
         return result;
     }
+
+
+    public static void main(String[] args) {
+        HVEIP08 hveip08 = new HVEIP08();
+
+        int n = 5;
+        AsymmetricCipherKeyPair keyPair = hveip08.setup(n);
+
+        int[][] vectors = hveip08.createMatchingVectors(n);
+        assertEquals(true,
+                hveip08.evaluate(
+                        hveip08.keyGen(keyPair.getPrivate(), vectors[0]),
+                        hveip08.enc(keyPair.getPublic(), vectors[1]))
+        );
+
+        vectors = hveip08.createNonMatchingVectors(n);
+        assertEquals(false, hveip08.evaluate(
+                hveip08.keyGen(keyPair.getPrivate(), vectors[0]),
+                hveip08.enc(keyPair.getPublic(), vectors[1])))
+        ;
+    }
+
 
 }
 

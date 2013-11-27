@@ -101,7 +101,7 @@ public class UHIBELW11PredicateOnlyEngineTest extends AbstractJPBCCryptoTest {
         try {
             PredicateOnlyEncryptionScheme engine = new UHIBELW11PredicateOnlyEngine();
             engine.init(true, new UHIBELW11EncryptionParameters((UHIBELW11PublicKeyParameters) publicKey, ids));
-            ciphertext = engine.processBlock();
+            ciphertext = engine.process();
 
             assertNotNull(ciphertext);
             assertNotSame(0, ciphertext.length);

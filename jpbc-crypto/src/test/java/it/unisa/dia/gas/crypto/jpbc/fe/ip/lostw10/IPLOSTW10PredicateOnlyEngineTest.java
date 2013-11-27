@@ -62,7 +62,7 @@ public class IPLOSTW10PredicateOnlyEngineTest extends AbstractJPBCCryptoTest {
             PredicateOnlyEncryptionScheme engine = new IPLOSTW10PredicateOnlyEngine();
             engine.init(true, new IPLOSTW10EncryptionParameters((IPLOSTW10PublicKeyParameters) publicKey,  x));
 
-            return engine.processBlock();
+            return engine.process();
         } catch (InvalidCipherTextException e) {
             throw new RuntimeException(e);
         }

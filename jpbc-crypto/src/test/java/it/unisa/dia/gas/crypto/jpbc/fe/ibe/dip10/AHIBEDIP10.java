@@ -18,7 +18,7 @@ import static org.junit.Assert.*;
 
 
 /**
- * @author Angelo De Caro
+ * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class AHIBEDIP10 {
 
@@ -73,7 +73,7 @@ public class AHIBEDIP10 {
             KeyEncapsulationMechanism kem = new AHIBEDIP10KEMEngine();
             kem.init(true, new AHIBEDIP10EncryptionParameters((AHIBEDIP10PublicKeyParameters) publicKey, ids));
 
-            byte[] ciphertext = kem.processBlock(new byte[0], 0, 0);
+            byte[] ciphertext = kem.process();
 
             assertNotNull(ciphertext);
             assertNotSame(0, ciphertext.length);
@@ -94,7 +94,7 @@ public class AHIBEDIP10 {
             KeyEncapsulationMechanism kem = new AHIBEDIP10KEMEngine();
 
             kem.init(false, secretKey);
-            byte[] key = kem.processBlock(cipherText, 0, cipherText.length);
+            byte[] key = kem.processBlock(cipherText);
 
             assertNotNull(key);
             assertNotSame(0, key.length);
