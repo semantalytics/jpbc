@@ -272,8 +272,8 @@ e.setFromHash(bytes, 0, bytes.length);
             <subsection name="Make Immutable">
                 <p>
                     For immutable elements the internal value cannot be modified after it is created.
-                    Then, any method designed to modify the internal state of an element will return
-                    a new element whose internal value represents the computation executed.
+                    Then, any method designed to modify the internal value of an element will return
+                    a new element whose internal value represents the result of the computation carried on.
                 </p>
 
                 <source>/* Returns <tt>true</tt> if e is immutable, <tt>false</tt> otherwise. */

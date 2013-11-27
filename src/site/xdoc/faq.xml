@@ -20,7 +20,7 @@
                     <a href="#hwigaiotpi">How do I get an instance of the Pairing interface?</a>
                 </li>
                 <li>
-                    <a href="#wiae">What is an Element?</a>
+                    <a href="#wiae">What an Element is?</a>
                 </li>
             </ol>
         </section>
@@ -119,15 +119,15 @@ Pairing pairing = PairingFactory.getPairing("params.properties");
         </subsection>
 
         <a name="wiae"/>
-        <subsection name="What is an Element?">
+        <subsection name="What an Element is?">
             <p>
                 The <a href="../java-docs/api/it/unisa/dia/gas/jpbc/Element.html">
                     <code>Element</code>
                 </a>
                 interface represents
                 elements belonging to an algebraic structure (groups, rings and fields).
-                The interface represents mutable values meaning that
-                the contents of an instance of the Element interface can be altered.
+                This objects are mutable meaning that the internal value can be modified
+                by invoking appropriate methods.
             </p>
         </subsection>
     </body>
