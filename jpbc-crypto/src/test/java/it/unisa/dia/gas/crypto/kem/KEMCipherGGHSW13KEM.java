@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13;
+package it.unisa.dia.gas.crypto.kem;
 
 import it.unisa.dia.gas.crypto.circuit.Circuit;
 import it.unisa.dia.gas.crypto.circuit.DefaultCircuit;
@@ -10,7 +10,6 @@ import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.params.*;
 import it.unisa.dia.gas.crypto.kem.cipher.engines.KEMCipher;
 import it.unisa.dia.gas.crypto.kem.cipher.params.KEMCipherDecryptionParameters;
 import it.unisa.dia.gas.crypto.kem.cipher.params.KEMCipherEncryptionParameters;
-import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.ExecutorServiceUtils;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
@@ -33,7 +32,6 @@ import static org.junit.Assert.assertEquals;
  */
 public class KEMCipherGGHSW13KEM {
     protected SecureRandom random;
-    protected Pairing pairing;
     protected KEMCipher kemCipher;
     protected AlgorithmParameterSpec iv;
 
@@ -42,12 +40,11 @@ public class KEMCipherGGHSW13KEM {
 
     public KEMCipherGGHSW13KEM() throws GeneralSecurityException {
         this.random = new SecureRandom();
-        this.pairing = PairingFactory.getPairing("params/mm/ctl13/toy.properties");
-
-        kemCipher = new KEMCipher(
+        this.kemCipher = new KEMCipher(
                 Cipher.getInstance("AES/CBC/PKCS7Padding", "BC"),
                 new GGHSW13KEMEngine()
         );
+
         // build the initialization vector.  This example is all zeros, but it
         // could be any value or generated using a random number generator.
         iv = new IvParameterSpec(new byte[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
@@ -58,11 +55,15 @@ public class KEMCipherGGHSW13KEM {
         GGHSW13KeyPairGenerator setup = new GGHSW13KeyPairGenerator();
         setup.init(new GGHSW13KeyPairGenerationParameters(
                 new SecureRandom(),
-                new GGHSW13ParametersGenerator().init(random, pairing, n).generateParameters()
+                new GGHSW13ParametersGenerator().init(
+                        random,
+                        PairingFactory.getPairing("params/mm/ctl13/toy.properties"),
+                        n).generateParameters()
         ));
 
         return (keyPair = setup.generateKeyPair());
     }
+
 
     public byte[] initEncryption(String assignment) {
         try {
@@ -90,6 +91,7 @@ public class KEMCipherGGHSW13KEM {
         }
     }
 
+
     public CipherParameters keyGen(Circuit circuit) {
         GGHSW13SecretKeyGenerator keyGen = new GGHSW13SecretKeyGenerator();
         keyGen.init(new GGHSW13SecretKeyGenerationParameters(
@@ -113,6 +115,8 @@ public class KEMCipherGGHSW13KEM {
             throw new RuntimeException(e);
         }
     }
+
+
 
     public static void main(String[] args) {
         Security.addProvider(new BouncyCastleProvider());

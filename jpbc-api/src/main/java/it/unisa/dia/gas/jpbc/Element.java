@@ -39,17 +39,22 @@ public interface Element extends ElementPow {
     boolean isImmutable();
 
     /**
-     * Returns the immutable version of this element.
-     * When an element is immutable it means that every call to a method which modifies the value
-     * of the element returns a new instance of the element and not the same one.
+     * Returns an immutable copy of this element if the
+     * element is not already immutable.
+     * <br/>
+     * For immutable elements the internal value cannot be modified after it is created,
+     * any method designed to modify the internal state of the element will return
+     * a new element whose internal value represents the computation executed.
      *
-     * @return the immutable version of this element.
+     * @return an immutable copy of this element if the
+     * element is not already immutable.
      * @see #isImmutable()
      */
     Element getImmutable();
 
     /**
-     * Returns a copy of this element.
+     * Returns a copy of this element. If this element
+     * is immutable then the copy is mutable.
      *
      * @return a copy of this element.
      * @since 1.0.0
