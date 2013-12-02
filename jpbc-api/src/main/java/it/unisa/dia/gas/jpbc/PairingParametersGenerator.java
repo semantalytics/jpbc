@@ -6,6 +6,7 @@ package it.unisa.dia.gas.jpbc;
  *
  * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 2.0.0
+ * @see PairingParameters
  */
 public interface PairingParametersGenerator<P extends PairingParameters> {
 

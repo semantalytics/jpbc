@@ -8,6 +8,8 @@ import java.math.BigInteger;
  *
  * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 2.0.0
+ * @see PairingParametersGenerator
+ * @see PairingParametersGenerator#generate()
  */
 public interface PairingParameters extends Serializable {
 

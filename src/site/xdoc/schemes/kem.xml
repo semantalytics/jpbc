@@ -27,9 +27,9 @@
             </p>
 
             <p>
-                Then, JPBC provides a support class called <code>KEMCipher</code>
+                JPBC provides a support class called <code>KEMCipher</code>
                 which simplifies the integration of a KEM and a Cipher.
-                An example of usage of this class is the following.
+                The following is an example of how to use the class.
             </p>
 
             <subsection name="Usage">

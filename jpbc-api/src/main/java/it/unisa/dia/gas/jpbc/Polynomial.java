@@ -7,6 +7,8 @@ import java.util.List;
  *
  * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 1.0.0
+ * @see Element
+ * @see Vector
  */
 public interface Polynomial<E extends Element> extends Element, Vector {
 

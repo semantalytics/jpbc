@@ -9,6 +9,9 @@ package it.unisa.dia.gas.jpbc;
  *
  * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 1.0.0
+ * @see Element
+ * @see Field
+ * @see PairingPreProcessing
  */
 public interface Pairing {
 

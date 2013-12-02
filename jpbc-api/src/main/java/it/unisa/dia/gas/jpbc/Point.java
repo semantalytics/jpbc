@@ -6,6 +6,8 @@ package it.unisa.dia.gas.jpbc;
  *
  * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 1.0.0
+ * @see Element
+ * @see Vector
  */
 public interface Point<E extends Element> extends Element, Vector<E> {
 

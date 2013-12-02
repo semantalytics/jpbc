@@ -3,8 +3,20 @@ package it.unisa.dia.gas.jpbc;
 import java.math.BigInteger;
 
 /**
+ * If it knows in advance that a particular value will be raised several times
+ * then time can be saved in the long run by using preprocessing.
+ *
+ * The, this interface is used to compute the power function when preprocessing information has
+ * been compute before on the base element which is so fixed for each instance of this interface.
+ *
  * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 1.0.0
+ * @see it.unisa.dia.gas.jpbc.Element#getElementPowPreProcessing()
+ * @see Field#getElementPowPreProcessingFromBytes(byte[])
+ * @see Field#getElementPowPreProcessingFromBytes(byte[], int)
+ * @see Field#getElementPowPreProcessingFromBytes(byte[], int)
+ * @see Field
+ * @see Element
  */
 public interface ElementPowPreProcessing extends ElementPow, PreProcessing {
 

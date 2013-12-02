@@ -7,6 +7,8 @@ import java.math.BigInteger;
  *
  * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 1.0.0
+ * @see Element
+ * @see ElementPowPreProcessing
  */
 public interface Field<E extends Element> {
 

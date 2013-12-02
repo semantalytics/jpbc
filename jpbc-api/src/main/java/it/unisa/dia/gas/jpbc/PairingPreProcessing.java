@@ -1,11 +1,20 @@
 package it.unisa.dia.gas.jpbc;
 
 /**
- * This interface is used to compute the pairing function when pre-processed information has
+ * If it is known in advance that a particular element will be paired several times
+ * then time can be saved in the long run by using preprocessing.
+ *
+ * The, this interface is used to compute the pairing function when preprocessing information has
  * been compute before on the first input which is so fixed for each instance of this interface.
  *
  * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 1.0.0
+ * @see Element
+ * @see Pairing
+ * @see Pairing#getPairingPreProcessingFromBytes(byte[])
+ * @see Pairing#getPairingPreProcessingFromBytes(byte[], int)
+ * @see Pairing#getPairingPreProcessingFromElement(Element)
+ * @see Pairing#getPairingPreProcessingLengthInBytes()
  */
 public interface PairingPreProcessing extends PreProcessing {
 

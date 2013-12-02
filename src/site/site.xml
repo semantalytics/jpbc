@@ -84,8 +84,8 @@
                 <item name="KEM" href="/schemes/kem.html"/>
             </item>
         </menu>
-        
-        ${reports}
+
+        <menu ref="reports"/>
     </body>
 
 </project>

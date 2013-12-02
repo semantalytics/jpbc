@@ -5,6 +5,9 @@ package it.unisa.dia.gas.jpbc;
  *
  * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 1.2.0
+ * @see Element
+ * @see Polynomial
+ * @see Point
  */
 public interface Vector<E extends Element> extends Element {
 
