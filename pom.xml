@@ -200,7 +200,6 @@
                         <reports>
                             <report>index</report>
                             <report>dependencies</report>
-                            <report>project-team</report>
                             <report>license</report>
                             <report>scm</report>
                         </reports>
