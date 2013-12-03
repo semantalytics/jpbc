@@ -305,10 +305,10 @@ $e(g^x,g^y)$
                 </p>
 
                 <p>
-                    Assume that the pairing parameters are stored in a file
-                    called <code>params.properties</code> which is available in the working director.
-                    Then, the following code can be used to instantiate the Pairing interface
-                    with parameters loaded from <code>params.properties</code>.
+                    Assume that the pairing parameters (for bilinear or multilinear maps) are stored in a file
+                    called <code>params.properties</code>.
+                    Then, the following code instantiate the appropriate class implementing
+                    the <code>Pairing</code> interface.
                 </p>
 <source>import it.unisa.dia.gas.jpbc.*;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;

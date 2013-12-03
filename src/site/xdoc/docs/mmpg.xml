@@ -13,8 +13,11 @@
             <p>
             We currently do not have candidates for multilinear
             maps between groups with cryptographically hard problems. However, Garg,
-            Gentry, and Halevi (henceforth GGH) suggest a concrete candidate for an
-            <span class="em">approximation</span> of multilinear maps, named <span class="em">graded encoding systems</span>.
+            Gentry, and Halevi (henceforth GGH), in their paper
+            <a href="http://eprint.iacr.org/2012/610.pdf"><span class="em">Candidate Multilinear Maps from Ideal Lattices
+            </span></a>, suggest a concrete candidate for an
+            <span class="em">approximation</span> of multilinear maps, named
+            <span class="em">graded encoding systems</span>.
             With the GGH candidate, group elements have a randomized (and thus non-unique) representation
             dubbed <span class="em">encoding</span>. While it is possible to extract a unique
             <span class="em">canonical bistring</span>, it is not possible to perform further computations
@@ -31,8 +34,8 @@
                 <p>
                 JPBC provides an implementation of <span class="em">Multilinear Maps</span>
                 based on the paper
-                <a name="http://eprint.iacr.org/2013/183.pdf"><span class="em">Practical Multilinear Maps over the Integers</span></a>
-                by <span class="em">Coron, Lepoint, and Tibouchi</span>.
+                <a href="http://eprint.iacr.org/2013/183.pdf"><span class="em">Practical Multilinear Maps over the Integers</span></a>
+                by <span class="em">Coron, Lepoint, and Tibouchi</span> (henceforth CTL).
                 They describe a different construction from the GGH one that works over the integers
                 instead of ideal lattices.
                 </p>
@@ -42,8 +45,8 @@
                 <p>
                     <span class="em">The System Parameters</span>:
                     They govern the security and the correctness of the multilinear map.
-                    They must be set carefully to satisfy the constraints described by Coron et al
-                    in their paper in Section 3.1.
+                    They must be set carefully to satisfy the constraints described in the CTL paper,
+                    Section 3.1.
                     In JPBC, the class <code>CTL13MMSystemParameters</code>
                     models the system parameters which can be set in two different
                     ways. The first is by passing the parameters to one
@@ -89,7 +92,7 @@ CTL13MMSystemParameters toy = new CTL13MMSystemParameters(
                     name used will be
                     <code>CTL13MM_eta_757_n_165_alpha_10_ell_160_rho_27_delta_12_kappa_5_beta_80_theta_16_bound_160.dat</code>.
                     <br/>
-                    Here is the code to use them.
+                    Here is an example on how to instantiate the generators.
                 </p>
 
                 <source>import it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators.CTL13MMMultiThreadPublicParameterGenerator;
@@ -112,8 +115,9 @@ ParametersGenerator mtPg = new CTL13MMMultiThreadPublicParameterGenerator(CTL13M
                 </p>
                 <p>
                     On the other hand, the single thread generator
-                    keeps all the public parameters in memory and
-                    thus, depending on the system parameters,
+                    keeps all the public parameters in memory and only
+                    at the end of process the parameters are stored to a file.
+                    Thus, depending on the system parameters,
                     huge quantity of memory could be required.
                 </p>
 

@@ -3,7 +3,7 @@
         "http://maven.apache.org/dtd/xdoc_1_0.dtd">
 <document>
     <properties>
-        <title>JPBC : Schemes</title>
+        <title>Java Pairing-Based Cryptography Library : Schemes</title>
         <author email="jpbclib@gmail.com">Angelo De Caro</author>
     </properties>
 

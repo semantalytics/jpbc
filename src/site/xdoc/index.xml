@@ -74,7 +74,7 @@
                     <p>
                         An implementation of <span class="em">Multilinear Maps</span>
                         based on the paper
-                        <a name="http://eprint.iacr.org/2013/183.pdf"><span class="em">Practical Multilinear Maps over the Integers</span></a>
+                        <a href="http://eprint.iacr.org/2013/183.pdf"><span class="em">Practical Multilinear Maps over the Integers</span></a>
                         by <span class="em">Coron, Lepoint, and Tibouchi</span>.
                         The implementation supports multithreading and uses memory mapped files
                         to save in primary memory requirements.
@@ -96,7 +96,7 @@
                 If you use Bibtex for your citations, we recommend that
                 you add the following entry in your bibtex database:
             </p>
-            <source>@inproceedings{ISCC:DeCIov11,
+            <source>@inproceedings{ISCC:DecIov11,
     author    = {Angelo {De Caro} and Vincenzo Iovino},
     title     = {jPBC: Java pairing based cryptography},
     year      = {2011},
@@ -110,13 +110,5 @@
 
         </section>
 
-
-        <section name="Lattice-Based Cryptography">
-            <p>
-            If you are interested in post-quantum cryptography then
-            have a look at
-            <a href="http://gas.dia.unisa.it/projects/jlbc/">JLBC - Java Lattice-Based Cryptography</a>.
-            </p>
-        </section>
     </body>
 </document>
