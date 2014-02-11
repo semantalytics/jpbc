@@ -9,7 +9,6 @@ import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.generators.GGHSW13SecretKeyGe
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.params.*;
 import it.unisa.dia.gas.crypto.kem.KeyEncapsulationMechanism;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
-import it.unisa.dia.gas.plaf.jpbc.util.concurrent.ExecutorServiceUtils;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.InvalidCipherTextException;
@@ -111,25 +110,21 @@ public class GGHSW13KEM {
 
         GGHSW13KEM kem = new GGHSW13KEM();
 
-        try {
-            // Setup
-            AsymmetricCipherKeyPair keyPair = kem.setup(n);
+        // Setup
+        AsymmetricCipherKeyPair keyPair = kem.setup(n);
 
-            // Keygen
-            CipherParameters secretKey = kem.keyGen(keyPair.getPublic(), keyPair.getPrivate(), circuit);
+        // Keygen
+        CipherParameters secretKey = kem.keyGen(keyPair.getPublic(), keyPair.getPrivate(), circuit);
 
-            // Encaps/Decaps for satisfying assignment
-            String assignment = "1101";
-            byte[][] ct = kem.encaps(keyPair.getPublic(), assignment);
-            assertEquals(true, Arrays.equals(ct[0], kem.decaps(secretKey, ct[1])));
+        // Encaps/Decaps for satisfying assignment
+        String assignment = "1101";
+        byte[][] ct = kem.encaps(keyPair.getPublic(), assignment);
+        assertEquals(true, Arrays.equals(ct[0], kem.decaps(secretKey, ct[1])));
 
-            // Encaps/Decaps for not-satisfying assignment
-            assignment = "1001";
-            ct = kem.encaps(keyPair.getPublic(), assignment);
-            assertEquals(false, Arrays.equals(ct[0], kem.decaps(secretKey, ct[1])));
-        } finally {
-            ExecutorServiceUtils.shutdown();
-        }
+        // Encaps/Decaps for not-satisfying assignment
+        assignment = "1001";
+        ct = kem.encaps(keyPair.getPublic(), assignment);
+        assertEquals(false, Arrays.equals(ct[0], kem.decaps(secretKey, ct[1])));
     }
 
 }

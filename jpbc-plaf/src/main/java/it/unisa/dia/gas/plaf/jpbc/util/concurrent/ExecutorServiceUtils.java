@@ -3,6 +3,7 @@ package it.unisa.dia.gas.plaf.jpbc.util.concurrent;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
@@ -14,10 +15,14 @@ public class ExecutorServiceUtils {
     private static ExecutorService cachedThreadPool;
 
     static {
+        DaemonThreadFactory threadFactory = new DaemonThreadFactory();
         fixedThreadPool = Executors.newFixedThreadPool(
-                Runtime.getRuntime().availableProcessors() * 4
+                Runtime.getRuntime().availableProcessors() * 4,
+                threadFactory
         );
-        cachedThreadPool = Executors.newCachedThreadPool();
+        cachedThreadPool = Executors.newCachedThreadPool(
+                threadFactory
+        );
     }
 
 
@@ -39,10 +44,16 @@ public class ExecutorServiceUtils {
     }
 
 
-    /**
-     * @author Angelo De Caro (jpbclib@gmail.com)
-     * @since 2.0.0
-     */
+    public static class DaemonThreadFactory implements ThreadFactory {
+
+        public Thread newThread(Runnable r) {
+            Thread thread = new Thread(r);
+            thread.setDaemon(true);
+            return thread;
+        }
+
+    }
+
     public abstract static class IndexCallable<T> implements Callable<T> {
         protected int i, j;
 
@@ -56,10 +67,6 @@ public class ExecutorServiceUtils {
         }
     }
 
-    /**
-     * @author Angelo De Caro (jpbclib@gmail.com)
-     * @since 1.2.2
-     */
     public abstract static class IndexRunnable implements Runnable {
         protected int i, j;
 
@@ -73,10 +80,6 @@ public class ExecutorServiceUtils {
         }
     }
 
-    /**
-     * @author Angelo De Caro (jpbclib@gmail.com)
-     * @since 2.0.0
-     */
     public abstract static class IntervalCallable<T> implements Callable<T> {
         protected int from, to;
 
