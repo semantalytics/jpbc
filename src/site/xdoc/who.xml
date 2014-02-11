@@ -30,7 +30,7 @@
             </subsection>
 
             <subsection name="NICS Crypto">
-                <a href="https://www.nics.uma.es/dnunez/nics-crypto">NICS Crypto</a>
+                <a href="https://www.nics.uma.es/development/nics-cryptography-library">NICS Crypto</a>
                 is a cryptography library written in Java, which extends Java Cryptography Architecture (JCA)
                 to support non-traditional cryptographic primitives, such as Proxy Re-Encryption.
             </subsection>

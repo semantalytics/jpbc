@@ -34,7 +34,7 @@ public abstract class PairingKeyEncapsulationMechanism extends PairingAsymmetric
 
 
     public byte[] processBlock(byte[] in) throws InvalidCipherTextException {
-        return processBlock(in, in.length, 0);
+        return processBlock(in, 0, in.length);
     }
 
     public byte[] process() throws InvalidCipherTextException {
