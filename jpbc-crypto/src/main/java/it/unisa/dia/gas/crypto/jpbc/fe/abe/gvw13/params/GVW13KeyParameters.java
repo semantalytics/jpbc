@@ -8,6 +8,7 @@ import org.bouncycastle.crypto.params.AsymmetricKeyParameter;
 public class GVW13KeyParameters extends AsymmetricKeyParameter {
 
     private GVW13Parameters parameters;
+    private Object randomnessField;
 
 
     public GVW13KeyParameters(boolean isPrivate, GVW13Parameters parameters) {
@@ -19,6 +20,7 @@ public class GVW13KeyParameters extends AsymmetricKeyParameter {
     public GVW13Parameters getParameters() {
         return parameters;
     }
+
 }
 
 

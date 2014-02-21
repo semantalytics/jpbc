@@ -14,8 +14,10 @@ public class TORGVW13RecKeyPairGenerator implements CipherParametersGenerator {
     private WTORGVW13ReKeyPairGenerationParameters params;
 
 
-    public void init(KeyGenerationParameters keyGenerationParameters) {
+    public CipherParametersGenerator init(KeyGenerationParameters keyGenerationParameters) {
         this.params = (WTORGVW13ReKeyPairGenerationParameters) keyGenerationParameters;
+
+        return this;
     }
 
     public CipherParameters generateKey() {

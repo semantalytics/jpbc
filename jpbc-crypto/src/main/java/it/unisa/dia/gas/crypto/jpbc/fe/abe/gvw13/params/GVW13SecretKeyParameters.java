@@ -1,44 +1,44 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.abe.gvw13.params;
 
 import it.unisa.dia.gas.crypto.circuit.Circuit;
-import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghvv13.params.GGHVV13KeyParameters;
-import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghvv13.params.GGHVV13Parameters;
-import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.plaf.jpbc.util.ElementUtils;
+import org.bouncycastle.crypto.CipherParameters;
 
 import java.util.Map;
 
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
-public class GVW13SecretKeyParameters extends GGHVV13KeyParameters {
+public class GVW13SecretKeyParameters extends GVW13KeyParameters {
 
     private Circuit circuit;
-    private Element[][] M;
-    private Map<Integer, Element[]> keys;
+    private Map<Integer, CipherParameters[]> keys;
 
 
-    public GVW13SecretKeyParameters(GGHVV13Parameters parameters,
+    public GVW13SecretKeyParameters(GVW13Parameters parameters,
                                     Circuit circuit,
-                                    Map<Integer, Element[]> keys,
-                                    Element[][] M) {
+                                    Map<Integer, CipherParameters[]> keys) {
         super(true, parameters);
 
         this.circuit = circuit;
-        this.keys = ElementUtils.cloneImmutable(keys);
-        this.M = M;
+        this.keys = keys;
     }
 
     public Circuit getCircuit() {
         return circuit;
     }
 
-    public Element[] getKeyElementsAt(int index) {
-        return keys.get(index);
+    public CipherParameters getCipherParametersAt(int index, int b0, int b1) {
+        if (b0 == 0 && b1 == 0)
+            return keys.get(index)[0];
+        if (b0 == 0 && b1 == 1)
+            return keys.get(index)[1];
+        if (b0 == 1 && b1 == 0)
+            return keys.get(index)[2];
+        if (b0 == 1 && b1 == 1)
+            return keys.get(index)[3];
+
+        throw new IllegalStateException("Impossible!!!");
     }
 
-    public Element getMAt(int i, int j) {
-        return M[i][j];
-    }
 
 }

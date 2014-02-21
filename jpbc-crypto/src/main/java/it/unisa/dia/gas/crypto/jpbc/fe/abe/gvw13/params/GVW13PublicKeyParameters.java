@@ -15,7 +15,15 @@ public class GVW13PublicKeyParameters extends GVW13KeyParameters {
         this.torPublicKeys = torPublicKeys;
     }
 
-    public CipherParameters getCipherParametersAt(int index) {
-        return torPublicKeys[index];
+    public CipherParameters getCipherParametersAt(int index, int b) {
+        return torPublicKeys[index * 2 + b];
+    }
+
+    public CipherParameters getCipherParametersAt(int index, boolean b) {
+        return torPublicKeys[index * 2 + (b ? 1 : 0)];
+    }
+
+    public CipherParameters getCipherParametersOut() {
+        return torPublicKeys[torPublicKeys.length - 1];
     }
 }

@@ -16,8 +16,10 @@ public class PS06SecretKeyGenerator implements CipherParametersGenerator {
     private PS06SecretKeyGenerationParameters param;
 
 
-    public void init(KeyGenerationParameters param) {
+    public CipherParametersGenerator init(KeyGenerationParameters param) {
         this.param = (PS06SecretKeyGenerationParameters) param;
+
+        return this;
     }
 
     public CipherParameters generateKey() {

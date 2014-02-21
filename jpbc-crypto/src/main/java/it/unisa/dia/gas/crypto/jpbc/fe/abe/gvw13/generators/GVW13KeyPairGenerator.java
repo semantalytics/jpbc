@@ -23,8 +23,8 @@ public class GVW13KeyPairGenerator implements AsymmetricCipherKeyPairGenerator {
     public AsymmetricCipherKeyPair generateKeyPair() {
         GVW13Parameters parameters = params.getParameters();
 
-        AsymmetricCipherKeyPairGenerator tor = null;
-        int n = parameters.getN();
+        AsymmetricCipherKeyPairGenerator tor = parameters.getTorKeyPairGenerater();
+        int n = parameters.getEll();
 
         CipherParameters[] publicKeys = new CipherParameters[n * 2 + 1];
         CipherParameters[] secretKeys = new CipherParameters[n * 2 + 1];

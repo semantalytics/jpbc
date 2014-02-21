@@ -17,8 +17,8 @@ public class GVW13MasterSecretKeyParameters extends GVW13KeyParameters {
     }
 
 
-    public CipherParameters getTorPrivateKeysAt(int index) {
-        return torPrivateKeys[index];
+    public CipherParameters getCipherParametersAt(int index, int b) {
+        return torPrivateKeys[index * 2 + b];
     }
 
 }

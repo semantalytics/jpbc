@@ -16,8 +16,10 @@ public class AHIBEDIP10SecretKeyGenerator implements CipherParametersGenerator {
     private KeyGenerationParameters params;
 
 
-    public void init(KeyGenerationParameters keyGenerationParameters) {
+    public CipherParametersGenerator init(KeyGenerationParameters keyGenerationParameters) {
         this.params = keyGenerationParameters;
+
+        return this;
     }
 
     public CipherParameters generateKey() {
