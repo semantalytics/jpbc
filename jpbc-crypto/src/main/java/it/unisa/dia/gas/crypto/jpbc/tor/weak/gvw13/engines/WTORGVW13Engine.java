@@ -19,11 +19,13 @@ public class WTORGVW13Engine implements ElementCipher {
     private CipherParameters param;
     private Pairing pairing;
 
-    public void init(CipherParameters param) {
+    public ElementCipher init(CipherParameters param) {
         this.param = param;
 
         WTORGVW13KeyParameters keyParameters = (WTORGVW13KeyParameters) param;
         pairing = PairingFactory.getPairing(keyParameters.getParameters().getParameters());
+
+        return this;
     }
 
 

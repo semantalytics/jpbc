@@ -20,6 +20,10 @@ public class ZrField extends AbstractField<ZrElement> {
         this(new SecureRandom(), order, null);
     }
 
+    public ZrField(long order) {
+        this(BigInteger.valueOf(order));
+    }
+
     public ZrField(SecureRandom random, BigInteger order) {
         this(random, order, null);
     }
@@ -35,7 +39,8 @@ public class ZrField extends AbstractField<ZrElement> {
 
         this.fixedLengthInBytes = (order.bitLength() + 7) / 8;
 
-        this.twoInverse = BigIntegerUtils.TWO.modInverse(order);
+//        TODO: renable this!
+//        this.twoInverse = BigIntegerUtils.TWO.modInverse(order);
 
         if (nqr != null)
             this.nqr = newElement().set(nqr);

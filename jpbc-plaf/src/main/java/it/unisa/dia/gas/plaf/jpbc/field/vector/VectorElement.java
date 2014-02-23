@@ -236,7 +236,7 @@ public class VectorElement<E extends Element> extends AbstractVectorElement<E, V
     public boolean isEqual(Element e) {
         if (e == this)
             return true;
-        if ((e instanceof VectorElement))
+        if (!(e instanceof VectorElement))
             return false;
 
         VectorElement<E> element = (VectorElement<E>) e;

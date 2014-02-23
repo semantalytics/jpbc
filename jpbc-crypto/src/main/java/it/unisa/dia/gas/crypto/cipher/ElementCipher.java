@@ -9,7 +9,7 @@ import org.bouncycastle.crypto.InvalidCipherTextException;
  */
 public interface ElementCipher {
 
-    public void init(CipherParameters param);
+    public ElementCipher init(CipherParameters param);
 
     public Element processElements(Element... input) throws InvalidCipherTextException;
 

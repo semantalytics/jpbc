@@ -9,9 +9,8 @@ import java.math.BigInteger;
  *
  * @author Angelo De Caro (jpbclib@gmail.com)
  * @see Field
- * @since 1.0.0
- * @see Field
  * @see ElementPowPreProcessing
+ * @since 1.0.0
  */
 public interface Element extends ElementPow {
 
