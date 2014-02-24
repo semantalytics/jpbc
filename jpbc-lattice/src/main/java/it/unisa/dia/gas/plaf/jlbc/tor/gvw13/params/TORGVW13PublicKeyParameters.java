@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.plaf.jlbc.tor.gvw13.params;
 
 import it.unisa.dia.gas.crypto.cipher.ElementCipher;
+import it.unisa.dia.gas.jpbc.Field;
 import org.bouncycastle.crypto.CipherParameters;
 
 /**
@@ -9,16 +10,26 @@ import org.bouncycastle.crypto.CipherParameters;
 public class TORGVW13PublicKeyParameters extends TORGVW13KeyParameters {
 
     private CipherParameters latticePublicKey;
-    private ElementCipher encoder;
+    private ElementCipher owf;
+    private Field owfInputField;
 
-    public TORGVW13PublicKeyParameters(TORGVW13Parameters parameters, CipherParameters latticePublicKey, ElementCipher encoder) {
+    public TORGVW13PublicKeyParameters(TORGVW13Parameters parameters, CipherParameters latticePublicKey, ElementCipher owf, Field owfInputField) {
         super(false, parameters);
 
         this.latticePublicKey = latticePublicKey;
-        this.encoder = encoder;
+        this.owf = owf;
+        this.owfInputField = owfInputField;
     }
 
-    public ElementCipher getEncoder() {
-        return encoder;
+    public CipherParameters getLatticePublicKey() {
+        return latticePublicKey;
+    }
+
+    public ElementCipher getOwf() {
+        return owf;
+    }
+
+    public Field getOwfInputField() {
+        return owfInputField;
     }
 }

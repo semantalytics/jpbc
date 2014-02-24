@@ -3,11 +3,8 @@ package it.unisa.dia.gas.plaf.jlbc.fe.abe.gvw13.params;
 import it.unisa.dia.gas.crypto.cipher.CipherParametersGenerator;
 import it.unisa.dia.gas.crypto.cipher.ElementCipher;
 import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.plaf.jlbc.tor.gvw13.engines.TORGVW13Engine;
-import it.unisa.dia.gas.plaf.jlbc.tor.gvw13.generators.TORGVW13KeyPairGenerator;
-import it.unisa.dia.gas.plaf.jlbc.tor.gvw13.generators.TORGVW13RecKeyPairGenerator;
 import it.unisa.dia.gas.plaf.jlbc.tor.gvw13.params.TORGVW13PublicKeyParameters;
-import it.unisa.dia.gas.plaf.jlbc.tor.gvw13.params.TORGVW13ReKeyPairGenerationParameters;
+import it.unisa.dia.gas.plaf.jlbc.tor.gvw13.params.TORGVW13ReKeyGenerationParameters;
 import it.unisa.dia.gas.plaf.jlbc.tor.gvw13.params.TORGVW13SecretKeyParameters;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPairGenerator;
 import org.bouncycastle.crypto.CipherParameters;
@@ -27,22 +24,24 @@ public class GVW13Parameters implements CipherParameters {
     private CipherParametersGenerator torReKeyPairGenerater;
     private ElementCipher tor;
 
-    public GVW13Parameters(SecureRandom random, int ell) {
+
+    public GVW13Parameters(SecureRandom random, int strength, int ell, AsymmetricCipherKeyPairGenerator torKeyPairGenerater, CipherParametersGenerator torReKeyPairGenerater, ElementCipher tor) {
         this.random = random;
-        this.strength = 12;
+        this.strength = strength;
         this.ell = ell;
 
-        this.torKeyPairGenerater = new TORGVW13KeyPairGenerator();
-        this.torReKeyPairGenerater = new TORGVW13RecKeyPairGenerator();
-        this.tor = new TORGVW13Engine();
+        this.torKeyPairGenerater = torKeyPairGenerater;
+        this.torReKeyPairGenerater = torReKeyPairGenerater;
+        this.tor = tor;
     }
+
 
     public int getEll() {
         return ell;
     }
 
     public KeyGenerationParameters getReKeyPairGenerationParameters(CipherParameters leftTorPK, CipherParameters leftTorSK, CipherParameters rightTorPK, CipherParameters targetTorPK) {
-        return new TORGVW13ReKeyPairGenerationParameters(
+        return new TORGVW13ReKeyGenerationParameters(
                 random, strength,
                 null,
                 (TORGVW13PublicKeyParameters) leftTorPK,

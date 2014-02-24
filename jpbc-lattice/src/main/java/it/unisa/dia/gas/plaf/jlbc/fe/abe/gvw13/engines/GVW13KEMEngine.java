@@ -85,6 +85,7 @@ public class GVW13KEMEngine extends PairingKeyEncapsulationMechanism {
             // Encrypt the massage under the specified attributes
             GVW13EncryptionParameters encKey = (GVW13EncryptionParameters) key;
             GVW13PublicKeyParameters publicKey = encKey.getPublicKey();
+
             ElementCipher cipher = publicKey.getParameters().getTor();
             String assignment = encKey.getAssignment();
 

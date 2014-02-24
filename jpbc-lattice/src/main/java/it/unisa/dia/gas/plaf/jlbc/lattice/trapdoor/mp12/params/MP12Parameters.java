@@ -24,4 +24,5 @@ public class MP12Parameters implements CipherParameters {
     public int getN() {
         return n;
     }
+
 }

@@ -7,7 +7,7 @@ import java.security.SecureRandom;
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
-public class TORGVW13ReKeyPairGenerationParameters extends KeyGenerationParameters {
+public class TORGVW13ReKeyGenerationParameters extends KeyGenerationParameters {
 
     private TORGVW13Parameters params;
 
@@ -19,11 +19,11 @@ public class TORGVW13ReKeyPairGenerationParameters extends KeyGenerationParamete
     private TORGVW13PublicKeyParameters targetPk;
 
 
-    public TORGVW13ReKeyPairGenerationParameters(SecureRandom random, int strength, TORGVW13Parameters params,
-                                                 TORGVW13PublicKeyParameters leftPk,
-                                                 TORGVW13SecretKeyParameters leftSk,
-                                                 TORGVW13PublicKeyParameters rightPk,
-                                                 TORGVW13PublicKeyParameters targetPk) {
+    public TORGVW13ReKeyGenerationParameters(SecureRandom random, int strength, TORGVW13Parameters params,
+                                             TORGVW13PublicKeyParameters leftPk,
+                                             TORGVW13SecretKeyParameters leftSk,
+                                             TORGVW13PublicKeyParameters rightPk,
+                                             TORGVW13PublicKeyParameters targetPk) {
         super(random, strength);
 
         this.params = params;

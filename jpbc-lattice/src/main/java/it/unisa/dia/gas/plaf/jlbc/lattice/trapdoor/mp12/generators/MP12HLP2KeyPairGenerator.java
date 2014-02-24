@@ -24,6 +24,8 @@ public class MP12HLP2KeyPairGenerator extends MP12PLP2KeyPairGenerator {
     }
 
     public AsymmetricCipherKeyPair generateKeyPair() {
+        super.generateKeyPair();
+
         // Construct Parity-check matrix
 
         // 1. Choose barA random in Z_q[n x barM]

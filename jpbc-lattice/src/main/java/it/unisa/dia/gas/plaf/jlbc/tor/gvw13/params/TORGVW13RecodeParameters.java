@@ -1,20 +1,21 @@
 package it.unisa.dia.gas.plaf.jlbc.tor.gvw13.params;
 
-import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.crypto.cipher.ElementCipher;
 
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class TORGVW13RecodeParameters extends TORGVW13KeyParameters {
 
-    private Element rk;
+    private ElementCipher recoder;
 
-    public TORGVW13RecodeParameters(TORGVW13Parameters parameters, Element rk) {
+    public TORGVW13RecodeParameters(TORGVW13Parameters parameters, ElementCipher recoder) {
         super(true, parameters);
-        this.rk = rk;
+
+        this.recoder = recoder;
     }
 
-    public Element getRk() {
-        return rk;
+    public ElementCipher getRecoder() {
+        return recoder;
     }
 }

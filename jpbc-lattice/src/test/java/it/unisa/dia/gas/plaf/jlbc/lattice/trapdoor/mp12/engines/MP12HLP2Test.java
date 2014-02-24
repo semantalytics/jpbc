@@ -18,22 +18,20 @@ import static org.junit.Assert.assertEquals;
  */
 public class MP12HLP2Test {
 
+    private AsymmetricCipherKeyPair keyPair;
+    private SecureRandom random = new SecureRandom();
+
     @Before
     public void setUp() throws Exception {
-    }
-
-    @Test
-    public void test1() throws Exception {
-        SecureRandom random = new SecureRandom();
-
         MP12HLP2KeyPairGenerator gen = new MP12HLP2KeyPairGenerator();
         gen.init(new MP12HLP2KeyPairGenerationParameters(
                 random, new MP12Parameters(random, 10), 6, new ZGaussianSampler(100, random, 4)
         ));
+        keyPair = gen.generateKeyPair();
+    }
 
-        AsymmetricCipherKeyPair keyPair = gen.generateKeyPair();
-
-
+    @Test
+    public void testSampleD() throws Exception {
         MP12HLP2SampleD sampler = new MP12HLP2SampleD();
         sampler.init(new MP12HLP2SampleParameters(keyPair));
 
@@ -53,17 +51,7 @@ public class MP12HLP2Test {
     }
 
     @Test
-    public void test2() throws Exception {
-        SecureRandom random = new SecureRandom();
-
-        MP12HLP2KeyPairGenerator gen = new MP12HLP2KeyPairGenerator();
-        gen.init(new MP12HLP2KeyPairGenerationParameters(
-                random, new MP12Parameters(random, 10), 6, new ZGaussianSampler(100, random, 4)
-        ));
-
-        AsymmetricCipherKeyPair keyPair = gen.generateKeyPair();
-
-
+    public void testOWF() throws Exception {
         ElementCipher owf = new MP12HLP2OneWayFunction();
         MP12HLP2OneWayFunctionParameters owfParams = new MP12HLP2OneWayFunctionParameters(
                 (MP12HLP2PublicKeyParameters) keyPair.getPublic(),

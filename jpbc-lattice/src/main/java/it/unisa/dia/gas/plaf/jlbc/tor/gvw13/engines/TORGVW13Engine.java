@@ -26,17 +26,11 @@ public class TORGVW13Engine implements ElementCipher {
         if (param instanceof TORGVW13PublicKeyParameters) {
             TORGVW13PublicKeyParameters keyParameters = (TORGVW13PublicKeyParameters) param;
 
-            return keyParameters.getEncoder().processElements(input[0]);
+            return keyParameters.getOwf().processElements(input[0]);
         } else {
             TORGVW13RecodeParameters keyParameters = (TORGVW13RecodeParameters) param;
 
-            // Read Input
-            Element c0 = input[0];
-            Element c1 = input[1];
-
-            // Recode
-            return null;
+            return keyParameters.getRecoder().processElements(input[0], input[1]);
        }
-
     }
 }

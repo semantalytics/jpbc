@@ -1,23 +1,22 @@
 package it.unisa.dia.gas.plaf.jlbc.tor.gvw13.params;
 
-import it.unisa.dia.gas.jpbc.Element;
+import org.bouncycastle.crypto.CipherParameters;
 
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class TORGVW13SecretKeyParameters extends TORGVW13KeyParameters {
 
-    private Element t;
+    private CipherParameters latticePrivateKey;
 
 
-    public TORGVW13SecretKeyParameters(TORGVW13Parameters parameters, Element t) {
+    public TORGVW13SecretKeyParameters(TORGVW13Parameters parameters, CipherParameters latticePrivateKey) {
         super(true, parameters);
 
-        this.t = t.getImmutable();
+        this.latticePrivateKey = latticePrivateKey;
     }
 
-
-    public Element getT() {
-        return t;
+    public CipherParameters getLatticePrivateKey() {
+        return latticePrivateKey;
     }
 }
