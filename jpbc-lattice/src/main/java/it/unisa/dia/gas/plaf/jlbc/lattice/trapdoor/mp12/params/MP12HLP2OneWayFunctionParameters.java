@@ -14,7 +14,7 @@ public class MP12HLP2OneWayFunctionParameters extends AsymmetricKeyParameter {
 
     protected MP12HLP2PublicKeyParameters pk;
     protected Sampler<BigInteger> sampler;
-    private Field inputField;
+    protected Field inputField, outputField;
 
     public MP12HLP2OneWayFunctionParameters(MP12HLP2PublicKeyParameters pk, Sampler<BigInteger> sampler) {
         super(false);
@@ -25,6 +25,11 @@ public class MP12HLP2OneWayFunctionParameters extends AsymmetricKeyParameter {
                 pk.getParameters().getRandom(),
                 pk.getZq(),
                 pk.getParameters().getN()
+        );
+        this.outputField = new VectorField(
+                pk.getParameters().getRandom(),
+                pk.getZq(),
+                pk.getM()
         );
     }
 
@@ -39,5 +44,9 @@ public class MP12HLP2OneWayFunctionParameters extends AsymmetricKeyParameter {
 
     public Field getInputField() {
         return inputField;
+    }
+
+    public Field getOutputField() {
+        return outputField;
     }
 }

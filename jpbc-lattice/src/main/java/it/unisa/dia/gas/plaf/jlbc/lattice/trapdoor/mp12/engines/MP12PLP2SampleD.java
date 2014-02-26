@@ -6,7 +6,6 @@ import it.unisa.dia.gas.plaf.jlbc.lattice.trapdoor.mp12.params.MP12PLP2PublicKey
 import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorElement;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 import org.bouncycastle.crypto.CipherParameters;
-import org.bouncycastle.crypto.InvalidCipherTextException;
 
 import java.math.BigInteger;
 
@@ -26,7 +25,7 @@ public class MP12PLP2SampleD implements ElementCipher {
         return this;
     }
 
-    public Element processElements(Element... input) throws InvalidCipherTextException {
+    public Element processElements(Element... input) {
         VectorElement syndrome = (VectorElement) input[0];
         if (syndrome.getSize() != n)
             throw new IllegalArgumentException("Invalid syndrome length.");

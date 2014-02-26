@@ -8,7 +8,7 @@ import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixElement;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixField;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorElement;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorField;
-import it.unisa.dia.gas.plaf.jpbc.field.z.ZrField;
+import it.unisa.dia.gas.plaf.jpbc.field.z.SymmetricZrField;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
 import java.math.BigInteger;
@@ -28,8 +28,8 @@ public class PrimitiveLatticePowerOfTwo {
 
     protected Field syndromeField;
 
-    protected ZrField Zq;
-    protected VectorField<ZrField> preimageField;
+    protected Field Zq;
+    protected VectorField<Field> preimageField;
 
     public PrimitiveLatticePowerOfTwo(SecureRandom random, int n, int k, Sampler<BigInteger> sampler) {
         this.n = n;
@@ -38,11 +38,11 @@ public class PrimitiveLatticePowerOfTwo {
 
         int q = 1 << k;
 
-        this.Zq = new ZrField(q);
-        this.syndromeField = new VectorField<ZrField>(random, Zq, n);
+        this.Zq = new SymmetricZrField(q);
+        this.syndromeField = new VectorField<Field>(random, Zq, n);
 
         // Construct primitive G
-        VectorField<ZrField> gField = new VectorField<ZrField>(random, Zq, k);
+        VectorField<Field> gField = new VectorField<Field>(random, Zq, k);
         this.g = gField.newElement();
         long value = 1;
         for (int i = 0; i < k; i++) {
@@ -50,10 +50,10 @@ public class PrimitiveLatticePowerOfTwo {
             value = value << 1;
         }
 
-        MatrixField<ZrField> GField = new MatrixField<ZrField>(random, Zq, n, n * k);
+        MatrixField<Field> GField = new MatrixField<Field>(random, Zq, n, n * k);
         this.G = GField.newDiagonalElement(g);
 
-        this.preimageField = new VectorField<ZrField>(random, Zq, n * k);
+        this.preimageField = new VectorField<Field>(random, Zq, n * k);
 
         System.out.println("g = " + this.g);
         System.out.println("G = " + this.G);

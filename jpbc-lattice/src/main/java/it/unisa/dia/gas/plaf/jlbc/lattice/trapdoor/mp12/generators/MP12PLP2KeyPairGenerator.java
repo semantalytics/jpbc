@@ -9,7 +9,7 @@ import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixElement;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixField;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorElement;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorField;
-import it.unisa.dia.gas.plaf.jpbc.field.z.ZrField;
+import it.unisa.dia.gas.plaf.jpbc.field.z.SymmetricZrField;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPairGenerator;
 import org.bouncycastle.crypto.KeyGenerationParameters;
@@ -32,8 +32,8 @@ public class MP12PLP2KeyPairGenerator implements AsymmetricCipherKeyPairGenerato
 
     protected Field syndromeField;
 
-    protected ZrField Zq;
-    protected VectorField<ZrField> preimageField;
+    protected Field Zq;
+    protected VectorField<Field> preimageField;
 
     protected AsymmetricCipherKeyPair keyPair;
 
@@ -46,13 +46,14 @@ public class MP12PLP2KeyPairGenerator implements AsymmetricCipherKeyPairGenerato
 
         SecureRandom random = params.getRandom();
         int q = 1 << params.getK();
+        System.out.println("q = " + q);
 
-        this.Zq = new ZrField(q);
-        this.syndromeField = new VectorField<ZrField>(random, Zq, n);
-        this.preimageField = new VectorField<ZrField>(random, Zq, n * k);
+        this.Zq = new SymmetricZrField(q);
+        this.syndromeField = new VectorField<Field>(random, Zq, n);
+        this.preimageField = new VectorField<Field>(random, Zq, n * k);
 
         // Construct primitive G
-        VectorField<ZrField> gField = new VectorField<ZrField>(random, Zq, k);
+        VectorField<Field> gField = new VectorField<Field>(random, Zq, k);
         this.g = gField.newElement();
         long value = 1;
         for (int i = 0; i < k; i++) {
@@ -60,15 +61,15 @@ public class MP12PLP2KeyPairGenerator implements AsymmetricCipherKeyPairGenerato
             value = value << 1;
         }
 
-        MatrixField<ZrField> GField = new MatrixField<ZrField>(random, Zq, n, n * k);
+        MatrixField<Field> GField = new MatrixField<Field>(random, Zq, n, n * k);
         this.G = GField.newDiagonalElement(g);
 
         this.keyPair = new AsymmetricCipherKeyPair(
                 new MP12PLP2PublicKeyParameters(
                         params.getParameters(),
-                        k,
-                        sampler,
-                        g, G, syndromeField, Zq, preimageField
+                        k, sampler,
+                        g, G,
+                        syndromeField, Zq, preimageField
                 ),
                 null
         );
@@ -79,7 +80,7 @@ public class MP12PLP2KeyPairGenerator implements AsymmetricCipherKeyPairGenerato
     }
 
     private Element sample(int n, int m) {
-        MatrixField<ZrField> RField = new MatrixField<ZrField>(random, Zq, n, m);
+        MatrixField<Field> RField = new MatrixField<Field>(random, Zq, n, m);
         MatrixElement R = RField.newElement();
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {

@@ -6,7 +6,6 @@ import it.unisa.dia.gas.plaf.jlbc.sampler.Sampler;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixElement;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorElement;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorField;
-import it.unisa.dia.gas.plaf.jpbc.field.z.ZrField;
 
 import java.math.BigInteger;
 
@@ -23,17 +22,18 @@ public class MP12PLP2PublicKeyParameters extends MP12KeyParameters {
 
     protected Field syndromeField;
 
-    protected ZrField Zq;
-    protected VectorField<ZrField> preimageField;
+    protected Field Zq;
+    protected VectorField<Field> preimageField;
 
 
     public MP12PLP2PublicKeyParameters(MP12Parameters parameters,
                                        int k, Sampler<BigInteger> sampler,
                                        VectorElement g, MatrixElement G,
                                        Field syndromeField,
-                                       ZrField Zq,
-                                       VectorField<ZrField> preimageField) {
+                                       Field Zq,
+                                       VectorField<Field> preimageField) {
         super(false, parameters);
+
         this.k = k;
         this.sampler = sampler;
         this.g = g;
@@ -47,7 +47,7 @@ public class MP12PLP2PublicKeyParameters extends MP12KeyParameters {
         return k;
     }
 
-    public VectorField<ZrField> getPreimageField() {
+    public VectorField<Field> getPreimageField() {
         return preimageField;
     }
 

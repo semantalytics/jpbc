@@ -69,5 +69,12 @@ public class ZrField extends AbstractField<ZrElement> {
     public int getLengthInBytes() {
         return fixedLengthInBytes;
     }
-    
+
+    @Override
+    public boolean equals(Object obj) {
+        if (super.equals(obj))
+            return true;
+
+        return obj instanceof ZrField && ((ZrField) obj).order.equals(this.order);
+    }
 }

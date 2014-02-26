@@ -8,7 +8,6 @@ import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import org.bouncycastle.crypto.CipherParameters;
-import org.bouncycastle.crypto.InvalidCipherTextException;
 
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
@@ -29,7 +28,7 @@ public class WTORGVW13Engine implements ElementCipher {
     }
 
 
-    public Element processElements(Element... input) throws InvalidCipherTextException {
+    public Element processElements(Element... input) {
         if (param instanceof WTORGVW13PublicKeyParameters) {
             WTORGVW13PublicKeyParameters keyParameters = (WTORGVW13PublicKeyParameters) param;
 

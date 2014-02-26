@@ -38,6 +38,13 @@ public class PairingStreamReader {
         this.cursor = this.offset;
     }
 
+    public Element readElement(Field field) {
+        Element e = field.newElementFromBytes(buffer, cursor);
+        jump(field.getLengthInBytes(e));
+
+        return e;
+    }
+
     public Element[] readElements(int... ids) {
         Element[] elements = new Element[ids.length];
 

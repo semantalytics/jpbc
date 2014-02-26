@@ -6,6 +6,7 @@ import it.unisa.dia.gas.plaf.jlbc.fe.abe.gvw13.params.GVW13MasterSecretKeyParame
 import it.unisa.dia.gas.plaf.jlbc.fe.abe.gvw13.params.GVW13PublicKeyParameters;
 import it.unisa.dia.gas.plaf.jlbc.fe.abe.gvw13.params.GVW13SecretKeyGenerationParameters;
 import it.unisa.dia.gas.plaf.jlbc.fe.abe.gvw13.params.GVW13SecretKeyParameters;
+import it.unisa.dia.gas.plaf.jlbc.tor.gvw13.params.TORGVW13SecretKeyParameters;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPairGenerator;
 import org.bouncycastle.crypto.CipherParameters;
@@ -59,8 +60,6 @@ public class GVW13SecretKeyGenerator {
         // encode the circuit
         Map<Integer, CipherParameters[]> keys = new HashMap<Integer, CipherParameters[]>();
 
-        keys.put(-1, new CipherParameters[]{null});
-
         for (Circuit.Gate gate : circuit) {
             int index = gate.getIndex();
             int depth = gate.getDepth();
@@ -85,12 +84,12 @@ public class GVW13SecretKeyGenerator {
 
                         CipherParameters rightTorPK = (right < n)
                                 ? pk.getCipherParametersAt(right, b1)
-                                : publicKeys[2 * (left - n) + b1];
+                                : publicKeys[2 * (right - n) + b1];
 
                         int target = b0 == 1 || b1 == 1 ? 1 : 0;
                         CipherParameters targetTorPK = (index < n)
                                 ? pk.getCipherParametersAt(index, target)
-                                : publicKeys[2 * (left - n) + target];
+                                : publicKeys[2 * (index - n) + target];
 
 
                         recKeys[i] = reKeyGen.init(
@@ -125,12 +124,12 @@ public class GVW13SecretKeyGenerator {
 
                         CipherParameters rightTorPK = (right < n)
                                 ? pk.getCipherParametersAt(right, b1)
-                                : publicKeys[2 * (left - n) + b1];
+                                : publicKeys[2 * (right - n) + b1];
 
                         int target = b0 == 1 && b1 == 1 ? 1 : 0;
                         CipherParameters targetTorPK = (index < n)
                                 ? pk.getCipherParametersAt(index, target)
-                                : publicKeys[2 * (left - n) + target];
+                                : publicKeys[2 * (index - n) + target];
 
 
                         recKeys[i] = reKeyGen.init(
@@ -151,8 +150,13 @@ public class GVW13SecretKeyGenerator {
             }
         }
 
+
         return new GVW13SecretKeyParameters(
-                param.getPublicKeyParameters().getParameters(), circuit, keys
+                param.getPublicKeyParameters().getParameters(),
+                circuit,
+                keys,
+                ((TORGVW13SecretKeyParameters)secretKeys[0]).getOwfInputField()
+
         );
     }
 

@@ -4,7 +4,6 @@ import it.unisa.dia.gas.crypto.cipher.ElementCipher;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.plaf.jlbc.lattice.trapdoor.mp12.params.MP12PLP2PublicKeyParameters;
 import org.bouncycastle.crypto.CipherParameters;
-import org.bouncycastle.crypto.InvalidCipherTextException;
 
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
@@ -19,7 +18,7 @@ public class MP12PLP2Decoder implements ElementCipher {
         return this;
     }
 
-    public Element processElements(Element... input) throws InvalidCipherTextException {
+    public Element processElements(Element... input) {
         return parameters.getG().mul(input[0]);
     }
 

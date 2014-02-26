@@ -4,10 +4,11 @@ import it.unisa.dia.gas.crypto.cipher.ElementCipher;
 import it.unisa.dia.gas.crypto.circuit.Circuit;
 import it.unisa.dia.gas.crypto.jpbc.kem.PairingKeyEncapsulationMechanism;
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.plaf.jlbc.fe.abe.gvw13.params.GVW13EncryptionParameters;
-import it.unisa.dia.gas.plaf.jlbc.fe.abe.gvw13.params.GVW13KeyParameters;
 import it.unisa.dia.gas.plaf.jlbc.fe.abe.gvw13.params.GVW13PublicKeyParameters;
 import it.unisa.dia.gas.plaf.jlbc.fe.abe.gvw13.params.GVW13SecretKeyParameters;
+import it.unisa.dia.gas.plaf.jlbc.tor.gvw13.params.TORGVW13PublicKeyParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.io.PairingStreamReader;
 import it.unisa.dia.gas.plaf.jpbc.util.io.PairingStreamWriter;
 
@@ -23,14 +24,16 @@ public class GVW13KEMEngine extends PairingKeyEncapsulationMechanism {
         if (forEncryption) {
             if (!(key instanceof GVW13EncryptionParameters))
                 throw new IllegalArgumentException("GVW13EncryptionParameters are required for encryption.");
+
+            GVW13EncryptionParameters encKey = (GVW13EncryptionParameters) key;
+            GVW13PublicKeyParameters publicKey = encKey.getPublicKey();
+
+            this.keyBytes = ((TORGVW13PublicKeyParameters)publicKey.getCipherParametersOut()).getOwfOutputField().getLengthInBytes();
+            this.outBytes = (encKey.getAssignment().length() + 1) * keyBytes;
         } else {
             if (!(key instanceof GVW13SecretKeyParameters))
                 throw new IllegalArgumentException("GVW13SecretKeyParameters are required for decryption.");
         }
-
-        GVW13KeyParameters gghswKey = (GVW13KeyParameters) key;
-
-        this.keyBytes = pairing.getFieldAt(pairing.getDegree()).getCanonicalRepresentationLengthInBytes();
     }
 
     public byte[] process(byte[] in, int inOff, int inLen) {
@@ -45,6 +48,7 @@ public class GVW13KEMEngine extends PairingKeyEncapsulationMechanism {
 
             // Evaluate the circuit against the ciphertext
             Circuit circuit = sk.getCircuit();
+            Field field = sk.getOutputField();
 
             // evaluate the circuit
             Map<Integer, Element> evaluations = new HashMap<Integer, Element>();
@@ -54,8 +58,12 @@ public class GVW13KEMEngine extends PairingKeyEncapsulationMechanism {
                 switch (gate.getType()) {
                     case INPUT:
                         gate.set(assignment.charAt(index) == '1');
-                        break;
 
+                        // Read input
+                        Element element = reader.readElement(field);
+                        evaluations.put(index, element);
+
+                        break;
                     case OR:
                     case AND:
                         gate.evaluate();
@@ -80,31 +88,28 @@ public class GVW13KEMEngine extends PairingKeyEncapsulationMechanism {
             if (circuit.getOutputGate().isSet()) {
                 return evaluations.get(circuit.getOutputGate().getIndex()).toBytes();
             } else
-                return new byte[]{-1};
+                return evaluations.get(circuit.getOutputGate().getIndex()).toBytes();
         } else {
             // Encrypt the massage under the specified attributes
             GVW13EncryptionParameters encKey = (GVW13EncryptionParameters) key;
             GVW13PublicKeyParameters publicKey = encKey.getPublicKey();
 
-            ElementCipher cipher = publicKey.getParameters().getTor();
+            ElementCipher tor = publicKey.getParameters().getTor();
             String assignment = encKey.getAssignment();
 
             PairingStreamWriter writer = new PairingStreamWriter(getOutputBlockSize());
             try {
                 Element s = publicKey.getParameters().getRandomnessField().newRandomElement();
 
+                tor.init(publicKey.getCipherParametersOut());
+                Element key = tor.processElements(s);
+                writer.write(key);
+
                 writer.write(assignment);
                 for (int i = 0, n = assignment.length(); i < n; i++) {
-                    cipher.init(publicKey.getCipherParametersAt(i, assignment.charAt(i) == '1'));
-                    writer.write(cipher.processElements(s));
+                    tor.init(publicKey.getCipherParametersAt(i, assignment.charAt(i) == '1'));
+                    writer.write(tor.processElements(s));
                 }
-
-                cipher.init(publicKey.getCipherParametersOut());
-                Element key = cipher.processElements(s);
-
-                // TODO: encrypt message using key
-
-                writer.write(key);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

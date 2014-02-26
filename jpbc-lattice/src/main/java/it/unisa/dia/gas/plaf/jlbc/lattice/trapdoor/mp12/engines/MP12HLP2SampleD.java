@@ -8,7 +8,6 @@ import it.unisa.dia.gas.plaf.jlbc.lattice.trapdoor.mp12.params.MP12HLP2SamplePar
 import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorField;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
-import org.bouncycastle.crypto.InvalidCipherTextException;
 
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
@@ -29,7 +28,7 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
         return this;
     }
 
-    public Element processElements(Element... input) throws InvalidCipherTextException {
+    public Element processElements(Element... input) {
         Element z = super.processElements(input[0]);
 
         Element z1 = sk.getR().mul(z);

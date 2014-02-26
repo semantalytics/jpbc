@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.plaf.jlbc.fe.abe.gvw13.params;
 
 import it.unisa.dia.gas.crypto.circuit.Circuit;
+import it.unisa.dia.gas.jpbc.Field;
 import org.bouncycastle.crypto.CipherParameters;
 
 import java.util.Map;
@@ -12,15 +13,17 @@ public class GVW13SecretKeyParameters extends GVW13KeyParameters {
 
     private Circuit circuit;
     private Map<Integer, CipherParameters[]> keys;
-
+    private Field outputField;
 
     public GVW13SecretKeyParameters(GVW13Parameters parameters,
                                     Circuit circuit,
-                                    Map<Integer, CipherParameters[]> keys) {
+                                    Map<Integer, CipherParameters[]> keys,
+                                    Field outputField) {
         super(true, parameters);
 
         this.circuit = circuit;
         this.keys = keys;
+        this.outputField = outputField;
     }
 
     public Circuit getCircuit() {
@@ -40,5 +43,7 @@ public class GVW13SecretKeyParameters extends GVW13KeyParameters {
         throw new IllegalStateException("Impossible!!!");
     }
 
-
+    public Field getOutputField() {
+        return outputField;
+    }
 }

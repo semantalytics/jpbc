@@ -82,6 +82,33 @@ public class MatrixField<F extends Field> extends AbstractFieldOver<F, MatrixEle
 
     }
 
+    public Element unionByRow(Element a, Element b) {
+        MatrixElement a1 = (MatrixElement) a;
+        MatrixElement b1 = (MatrixElement) b;
+
+        MatrixField f = new MatrixField(
+                random, targetField, a1.getField().n + b1.getField().n,
+                a1.getField().m
+        );
+
+        MatrixElement c = f.newElement();
+        for (int i = 0; i < f.m; i++) {
+
+            for (int j = 0; j < a1.getField().n; j++) {
+                c.getAt(j, i).set(a1.getAt(j,i));
+            }
+
+            for (int j = 0; j < b1.getField().n; j++) {
+                c.getAt(a1.getField().n + j,i).set(b1.getAt(j,i));
+            }
+        }
+
+
+        return c;
+
+    }
+
+
     public MatrixElement newDiagonalElement(Element g) {
         MatrixElement r = newElement();
 

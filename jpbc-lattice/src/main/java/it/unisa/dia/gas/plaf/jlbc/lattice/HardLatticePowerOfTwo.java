@@ -1,12 +1,12 @@
 package it.unisa.dia.gas.plaf.jlbc.lattice;
 
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.plaf.jlbc.sampler.Sampler;
 import it.unisa.dia.gas.plaf.jlbc.sampler.ZGaussianSampler;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixElement;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixField;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorField;
-import it.unisa.dia.gas.plaf.jpbc.field.z.ZrField;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -30,7 +30,7 @@ public class HardLatticePowerOfTwo extends PrimitiveLatticePowerOfTwo {
         int w = n * k;
         int m = barM + w;
 
-        MatrixField<ZrField> hatAField = new MatrixField<ZrField>(random, Zq, n,n);
+        MatrixField<Field> hatAField = new MatrixField<Field>(random, Zq, n,n);
         Element In = hatAField.newIdentity();
         System.out.println("In = " + In);
         Element hatA = hatAField.newRandomElement();
@@ -71,7 +71,7 @@ public class HardLatticePowerOfTwo extends PrimitiveLatticePowerOfTwo {
 
 
     private Element sample(int n, int m) {
-        MatrixField<ZrField> RField = new MatrixField<ZrField>(random, Zq, n, m);
+        MatrixField<Field> RField = new MatrixField<Field>(random, Zq, n, m);
         MatrixElement R = RField.newElement();
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {

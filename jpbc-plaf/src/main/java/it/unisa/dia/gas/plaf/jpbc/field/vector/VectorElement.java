@@ -190,7 +190,39 @@ public class VectorElement<E extends Element> extends AbstractVectorElement<E, V
     }
 
     public VectorElement<E> mul(Element e) {
-        throw new IllegalStateException("Not implemented yet!!!");
+        if (e instanceof MatrixElement) {
+            MatrixElement me = (MatrixElement) e;
+
+            if (field.getTargetField().equals(me.getField().getTargetField())) {
+                // Check dimensions
+
+                if (this.getSize() == me.getField().m) {
+                    throw new IllegalStateException("Not Implemented yet!!!");
+                } else if (this.getSize() == me.getField().n) {
+                    // Consider transpose
+
+                    VectorField f = new VectorField(field.getRandom(), field.getTargetField(), me.getField().m);
+                    VectorElement r = f.newElement();
+
+                    for (int i = 0; i < f.n; i++) {
+
+                        // row \times column
+                        Element temp = field.getTargetField().newElement();
+                        for (int k = 0; k < getSize(); k++) {
+                            temp.add(
+                                    getAt(k).duplicate().mul(me.getAt(k, i))
+                            );
+                        }
+
+                        r.getAt(i).set(temp);
+                    }
+
+                    return r;
+                }
+            }
+        }
+
+        throw new IllegalStateException("Not Implemented yet!!!");
     }
 
     public VectorElement<E> mul(int z) {

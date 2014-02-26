@@ -18,6 +18,10 @@ public class SymmetricZrField extends AbstractField<SymmetricZrElement> {
     protected BigInteger twoInverse;
 
 
+    public SymmetricZrField(int order) {
+        this(new SecureRandom(), BigInteger.valueOf(order), null);
+    }
+
     public SymmetricZrField(BigInteger order) {
         this(new SecureRandom(), order, null);
     }
@@ -37,7 +41,8 @@ public class SymmetricZrField extends AbstractField<SymmetricZrElement> {
 
         this.fixedLengthInBytes = (order.bitLength() + 7) / 8;
 
-        this.twoInverse = BigIntegerUtils.TWO.modInverse(order);
+        // TODO: reactivate this.
+//        this.twoInverse = BigIntegerUtils.TWO.modInverse(order);
 
         this.halfOrder = order.divide(BigInteger.valueOf(2));
 
@@ -68,5 +73,13 @@ public class SymmetricZrField extends AbstractField<SymmetricZrElement> {
     public int getLengthInBytes() {
         return fixedLengthInBytes;
     }
-    
+
+    @Override
+    public boolean equals(Object obj) {
+        if (super.equals(obj))
+            return true;
+
+        return obj instanceof SymmetricZrField && ((SymmetricZrField) obj).order.equals(this.order);
+    }
+
 }

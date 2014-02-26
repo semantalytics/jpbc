@@ -1,12 +1,12 @@
 package it.unisa.dia.gas.plaf.jlbc.lattice.trapdoor.mp12.generators;
 
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.plaf.jlbc.lattice.trapdoor.mp12.params.MP12HLP2KeyPairGenerationParameters;
 import it.unisa.dia.gas.plaf.jlbc.lattice.trapdoor.mp12.params.MP12HLP2PrivateKeyParameters;
 import it.unisa.dia.gas.plaf.jlbc.lattice.trapdoor.mp12.params.MP12HLP2PublicKeyParameters;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixElement;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixField;
-import it.unisa.dia.gas.plaf.jpbc.field.z.ZrField;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.KeyGenerationParameters;
 
@@ -33,7 +33,7 @@ public class MP12HLP2KeyPairGenerator extends MP12PLP2KeyPairGenerator {
         int w = n * k;
         int m = barM + w;
 
-        MatrixField<ZrField> hatAField = new MatrixField<ZrField>(random, Zq, n,n);
+        MatrixField<Field> hatAField = new MatrixField<Field>(random, Zq, n, n);
         Element In = hatAField.newIdentity();
         System.out.println("In = " + In);
         Element hatA = hatAField.newRandomElement();
@@ -48,21 +48,27 @@ public class MP12HLP2KeyPairGenerator extends MP12PLP2KeyPairGenerator {
 
         // 3. Compute G - barA R
         Element A1 = G.duplicate().sub(barA.duplicate().mul(R));
+        System.out.println("A1 = " + A1);
 
         Element A = hatAField.union(barA, A1);
 
+        System.out.println("A = " + A);
+
         return new AsymmetricCipherKeyPair(
-                new MP12HLP2PublicKeyParameters(params.getParameters(), k, sampler, g, G, syndromeField, Zq, preimageField, A, barA),
+                new MP12HLP2PublicKeyParameters(params.getParameters(), k, m, sampler,
+                        g, G,
+                        syndromeField, Zq, preimageField,
+                        A, barA),
                 new MP12HLP2PrivateKeyParameters(params.getParameters(), R)
         );
     }
 
     private Element sample(int n, int m) {
-        MatrixField<ZrField> RField = new MatrixField<ZrField>(random, Zq, n, m);
+        MatrixField<Field> RField = new MatrixField<Field>(random, Zq, n, m);
         MatrixElement R = RField.newElement();
         for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                R.getAt(i,j).set(sampler.sample());
+            for (int j = 0; j < m; j++) {
+                R.getAt(i, j).set(sampler.sample());
             }
         }
 

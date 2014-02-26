@@ -32,7 +32,7 @@ public class TORGVW13KeyPairGenerator implements AsymmetricCipherKeyPairGenerato
         gen.init(new MP12HLP2KeyPairGenerationParameters(
                 params.getRandom(),
                 new MP12Parameters(params.getRandom(), params.getParameters().getN()),
-                6,
+                12,
                 new ZGaussianSampler(100, params.getRandom(), 4)
         ));
         AsymmetricCipherKeyPair keyPair = gen.generateKeyPair();
@@ -49,11 +49,13 @@ public class TORGVW13KeyPairGenerator implements AsymmetricCipherKeyPairGenerato
                         params.getParameters(),
                         keyPair.getPublic(),
                         owf,
-                        owfParams.getInputField()
+                        owfParams.getInputField(),
+                        owfParams.getOutputField()
                 ),
                 new TORGVW13SecretKeyParameters(
                         params.getParameters(),
-                        keyPair.getPrivate())
+                        keyPair.getPrivate(),
+                        owfParams.getOutputField())
         );
     }
 

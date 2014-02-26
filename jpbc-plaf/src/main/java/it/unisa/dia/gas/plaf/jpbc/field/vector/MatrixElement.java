@@ -25,7 +25,7 @@ public class MatrixElement<E extends Element> extends AbstractMatrixElement<E, M
     }
 
     public MatrixElement(MatrixElement e) {
-        super((MatrixField) e.getField());
+        super(e.getField());
 
         this.matrix = new Element[field.n][field.m];
         for (int i = 0; i < field.n; i++) {
@@ -307,7 +307,7 @@ public class MatrixElement<E extends Element> extends AbstractMatrixElement<E, M
         } else if (e instanceof MatrixElement) {
             MatrixElement me = (MatrixElement) e;
 
-            if (field.getTargetField().equals(((FieldOver) me.getField()).getTargetField())) {
+            if (field.getTargetField().equals(me.getField().getTargetField())) {
                 MatrixField f = new MatrixField(
                         field.getRandom(), field.getTargetField(), field.n, me.getField().m
                 );
@@ -362,15 +362,19 @@ public class MatrixElement<E extends Element> extends AbstractMatrixElement<E, M
     }
 
     public boolean isEqual(Element e) {
-//        MatrixElement<E> element = (MatrixElement<E>) e;
-//
-//        for (int i = 0; i < field.n; i++) {
-//            if (!coefficients.get(i).isEqual(element.coefficients.get(i)))
-//                return false;
-//        }
-//
-//        return true;
-        throw new IllegalStateException("Not Implemented yet!!!");
+        MatrixElement<E> element = (MatrixElement<E>) e;
+
+        if (field.n != element.getField().n)
+            return false;
+        if (field.m != element.getField().m)
+            return false;
+
+        for (int i = 0; i < field.n; i++)
+            for (int j = 0; j < field.m; j++)
+                if (!matrix[i][j].isEqual(element.matrix[i][j]))
+                    return false;
+
+        return true;
     }
 
     public int setFromBytes(byte[] source) {
@@ -422,5 +426,48 @@ public class MatrixElement<E extends Element> extends AbstractMatrixElement<E, M
         return "MatrixElement{" +
                 "matrix=\n" + sb.toString() +
                 '}';
+    }
+
+    public Element rowAt(int row) {
+        VectorField f = new VectorField(field.getRandom(), field.getTargetField(), field.m);
+        VectorElement r = f.newElement();
+
+        for (int i = 0; i < f.n; i++) {
+            r.getAt(i).set(matrix[row][i]);
+        }
+
+        return r;
+    }
+
+    public Element columnAt(int col) {
+        VectorField f = new VectorField(field.getRandom(), field.getTargetField(), field.n);
+        VectorElement r = f.newElement();
+
+        for (int i = 0; i < f.n; i++) {
+            r.getAt(i).set(matrix[i][col]);
+        }
+
+        return r;
+    }
+
+
+    public Element setRowAt(int row, Element rowElement) {
+        VectorElement r = (VectorElement) rowElement;
+
+        for (int i = 0; i < field.m; i++) {
+            matrix[row][i].set(r.getAt(i));
+        }
+
+        return r;
+    }
+
+    public Element setColAt(int col, Element rowElement) {
+        VectorElement r = (VectorElement) rowElement;
+
+        for (int i = 0; i < field.n; i++) {
+            matrix[i][col].set(r.getAt(i));
+        }
+
+        return r;
     }
 }

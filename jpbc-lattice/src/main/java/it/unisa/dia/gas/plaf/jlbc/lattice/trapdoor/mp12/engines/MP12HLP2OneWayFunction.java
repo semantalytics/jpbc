@@ -5,7 +5,6 @@ import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Vector;
 import it.unisa.dia.gas.plaf.jlbc.lattice.trapdoor.mp12.params.MP12HLP2OneWayFunctionParameters;
 import org.bouncycastle.crypto.CipherParameters;
-import org.bouncycastle.crypto.InvalidCipherTextException;
 
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
@@ -20,12 +19,12 @@ public class MP12HLP2OneWayFunction implements ElementCipher {
         return this;
     }
 
-    public Element processElements(Element... input) throws InvalidCipherTextException {
+    public Element processElements(Element... input) {
         Vector vector = (Vector) parameters.getPk().getA().mul(input[0]);
 
         Vector error = (Vector) vector.getField().newElement();
         for (int i = 0; i < vector.getSize(); i++)
-            vector.getAt(i).set(parameters.getSampler().sample());
+            error.getAt(i).set(parameters.getSampler().sample());
 
         return vector.add(error);
     }

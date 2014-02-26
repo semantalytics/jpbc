@@ -23,9 +23,9 @@ public class GVW13Parameters implements CipherParameters {
     private AsymmetricCipherKeyPairGenerator torKeyPairGenerater;
     private CipherParametersGenerator torReKeyPairGenerater;
     private ElementCipher tor;
+    private Field randomnessField;
 
-
-    public GVW13Parameters(SecureRandom random, int strength, int ell, AsymmetricCipherKeyPairGenerator torKeyPairGenerater, CipherParametersGenerator torReKeyPairGenerater, ElementCipher tor) {
+    public GVW13Parameters(SecureRandom random, int strength, int ell, AsymmetricCipherKeyPairGenerator torKeyPairGenerater, CipherParametersGenerator torReKeyPairGenerater, ElementCipher tor, Field randomnessField) {
         this.random = random;
         this.strength = strength;
         this.ell = ell;
@@ -33,6 +33,7 @@ public class GVW13Parameters implements CipherParameters {
         this.torKeyPairGenerater = torKeyPairGenerater;
         this.torReKeyPairGenerater = torReKeyPairGenerater;
         this.tor = tor;
+        this.randomnessField = randomnessField;
     }
 
 
@@ -43,7 +44,6 @@ public class GVW13Parameters implements CipherParameters {
     public KeyGenerationParameters getReKeyPairGenerationParameters(CipherParameters leftTorPK, CipherParameters leftTorSK, CipherParameters rightTorPK, CipherParameters targetTorPK) {
         return new TORGVW13ReKeyGenerationParameters(
                 random, strength,
-                null,
                 (TORGVW13PublicKeyParameters) leftTorPK,
                 (TORGVW13SecretKeyParameters) leftTorSK,
                 (TORGVW13PublicKeyParameters) rightTorPK,
@@ -60,7 +60,7 @@ public class GVW13Parameters implements CipherParameters {
     }
 
     public Field getRandomnessField() {
-        return null;
+        return randomnessField;
     }
 
     public ElementCipher getTor() {
