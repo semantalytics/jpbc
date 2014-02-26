@@ -34,29 +34,16 @@ public class GVW13KEMEngineTest {
 
     @Test
     public void testGVW13KEMEngine() {
-//        int n = 4;
-//        int q = 3;
-//        Circuit circuit = new DefaultCircuit(n, q, 3, new DefaultCircuit.DefaultGate[]{
-//                new DefaultCircuit.DefaultGate(INPUT, 0, 1),
-//                new DefaultCircuit.DefaultGate(INPUT, 1, 1),
-//                new DefaultCircuit.DefaultGate(INPUT, 2, 1),
-//                new DefaultCircuit.DefaultGate(INPUT, 3, 1),
-//
-//                new DefaultCircuit.DefaultGate(AND, 4, 2, new int[]{0, 1}),
-//                new DefaultCircuit.DefaultGate(OR, 5, 2, new int[]{2, 3}),
-//
-//                new DefaultCircuit.DefaultGate(AND, 6, 3, new int[]{4, 5}),
-//        });
-        int n = 2;
+        int ell = 2;
         int q = 1;
-        Circuit circuit = new DefaultCircuit(n, q, 2, new DefaultCircuit.DefaultGate[]{
+        Circuit circuit = new DefaultCircuit(ell, q, 2, new DefaultCircuit.DefaultGate[]{
                 new DefaultCircuit.DefaultGate(INPUT, 0, 1),
                 new DefaultCircuit.DefaultGate(INPUT, 1, 1),
 
                 new DefaultCircuit.DefaultGate(AND, 2, 2, new int[]{0, 1}),
         });
 
-        AsymmetricCipherKeyPair keyPair = setup(createParameters(n));
+        AsymmetricCipherKeyPair keyPair = setup(createParameters(ell));
         CipherParameters secretKey = keyGen(keyPair.getPublic(), keyPair.getPrivate(), circuit);
 
         String assignment = "11";
@@ -73,8 +60,8 @@ public class GVW13KEMEngineTest {
     }
 
 
-    protected GVW13Parameters createParameters(int n) {
-        return new GVW13ParametersGenerator(new SecureRandom(), n).generateParameters();
+    protected GVW13Parameters createParameters(int ell) {
+        return new GVW13ParametersGenerator(new SecureRandom(), ell).generateParameters();
     }
 
     protected AsymmetricCipherKeyPair setup(GVW13Parameters parameters) {

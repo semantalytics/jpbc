@@ -85,6 +85,7 @@ public class GVW13KEMEngine extends PairingKeyEncapsulationMechanism {
                 }
             }
 
+            System.out.println("decrypt = " + evaluations.get(circuit.getOutputGate().getIndex()));
             if (circuit.getOutputGate().isSet()) {
                 return evaluations.get(circuit.getOutputGate().getIndex()).toBytes();
             } else
@@ -108,7 +109,9 @@ public class GVW13KEMEngine extends PairingKeyEncapsulationMechanism {
                 writer.write(assignment);
                 for (int i = 0, n = assignment.length(); i < n; i++) {
                     tor.init(publicKey.getCipherParametersAt(i, assignment.charAt(i) == '1'));
-                    writer.write(tor.processElements(s));
+                    Element e = tor.processElements(s);
+                    System.out.println("e = " + e);
+                    writer.write(e);
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);

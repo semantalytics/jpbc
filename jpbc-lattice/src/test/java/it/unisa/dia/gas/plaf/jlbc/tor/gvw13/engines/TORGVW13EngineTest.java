@@ -16,8 +16,8 @@ import java.security.SecureRandom;
  */
 public class TORGVW13EngineTest {
 
-    private AsymmetricCipherKeyPair keyPair0, keyPair1, keyPair2;
-    private TORGVW13PublicKeyParameters pk0, pk1, pk2;
+    private AsymmetricCipherKeyPair keyPair0, keyPair1, keyPair2, keyPair3;
+    private TORGVW13PublicKeyParameters pk0, pk1, pk2, pk3;
     private SecureRandom random;
 
     @Before
@@ -35,10 +35,12 @@ public class TORGVW13EngineTest {
         keyPair0 = keyPairGenerator.generateKeyPair();
         keyPair1 = keyPairGenerator.generateKeyPair();
         keyPair2 = keyPairGenerator.generateKeyPair();
+        keyPair3 = keyPairGenerator.generateKeyPair();
 
         pk0 =  (TORGVW13PublicKeyParameters) keyPair0.getPublic();
         pk1 =  (TORGVW13PublicKeyParameters) keyPair1.getPublic();
         pk2 =  (TORGVW13PublicKeyParameters) keyPair2.getPublic();
+        pk3 =  (TORGVW13PublicKeyParameters) keyPair3.getPublic();
     }
 
     @Test
@@ -67,6 +69,10 @@ public class TORGVW13EngineTest {
         Element e2 = engine.processElements(s);
         System.out.println("e2 = " + e2);
 
+        engine.init(pk3);
+        Element e3 = engine.processElements(s);
+        System.out.println("e3 = " + e3);
+
         // Recode
         TORGVW13RecKeyGenerator recKeyGenerator = new TORGVW13RecKeyGenerator();
         recKeyGenerator.init(new TORGVW13ReKeyGenerationParameters(
@@ -83,5 +89,12 @@ public class TORGVW13EngineTest {
 
         Element diff = e2.duplicate().sub(e2Prime);
         System.out.println("diff = " + diff);
+
+        e2Prime = engine.processElements(e0, e3);
+        System.out.println("e2Prime = " + e2Prime);
+
+        diff = e2.duplicate().sub(e2Prime);
+        System.out.println("diff = " + diff);
+
     }
 }

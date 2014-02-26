@@ -53,7 +53,7 @@ public class GVW13SecretKeyGenerator {
 
         AsymmetricCipherKeyPair keyPair = tor.generateKeyPair();
         publicKeys[2 * qMinus1] = keyPair.getPublic();
-        publicKeys[2 * qMinus1 + 1] = pk.getCipherParametersAt(n - 1, 1);
+        publicKeys[2 * qMinus1 + 1] = pk.getCipherParametersOut();
 
         secretKeys[2 * qMinus1] = keyPair.getPrivate();
 
@@ -62,7 +62,6 @@ public class GVW13SecretKeyGenerator {
 
         for (Circuit.Gate gate : circuit) {
             int index = gate.getIndex();
-            int depth = gate.getDepth();
 
             switch (gate.getType()) {
                 case INPUT:

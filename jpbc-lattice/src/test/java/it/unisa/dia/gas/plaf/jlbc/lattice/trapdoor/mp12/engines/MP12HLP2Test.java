@@ -21,18 +21,17 @@ import static org.junit.Assert.assertEquals;
  */
 public class MP12HLP2Test {
 
-    private AsymmetricCipherKeyPair keyPair, keyPair1, keyPair2;
+    private MP12HLP2KeyPairGenerator gen;
+    private AsymmetricCipherKeyPair keyPair;
     private SecureRandom random = new SecureRandom();
 
     @Before
     public void setUp() throws Exception {
-        MP12HLP2KeyPairGenerator gen = new MP12HLP2KeyPairGenerator();
+        gen = new MP12HLP2KeyPairGenerator();
         gen.init(new MP12HLP2KeyPairGenerationParameters(
                 random, new MP12Parameters(random, 4), 12, new ZGaussianSampler(100, random, 4)
         ));
         keyPair = gen.generateKeyPair();
-        keyPair1 = gen.generateKeyPair();
-        keyPair2 = gen.generateKeyPair();
     }
 
     @Test
@@ -57,6 +56,10 @@ public class MP12HLP2Test {
 
     @Test
     public void testSampleDMatrix() throws Exception {
+        AsymmetricCipherKeyPair keyPair1, keyPair2;
+        keyPair1 = gen.generateKeyPair();
+        keyPair2 = gen.generateKeyPair();
+
         MP12HLP2PublicKeyParameters latticePk = (MP12HLP2PublicKeyParameters) keyPair.getPublic();
 
         MP12HLP2SampleD sampler = new MP12HLP2SampleD();
