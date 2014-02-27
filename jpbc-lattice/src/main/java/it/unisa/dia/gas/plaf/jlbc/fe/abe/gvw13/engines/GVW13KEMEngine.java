@@ -4,14 +4,14 @@ import it.unisa.dia.gas.crypto.cipher.ElementCipher;
 import it.unisa.dia.gas.crypto.circuit.Circuit;
 import it.unisa.dia.gas.crypto.jpbc.kem.PairingKeyEncapsulationMechanism;
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.plaf.jlbc.fe.abe.gvw13.params.GVW13EncryptionParameters;
 import it.unisa.dia.gas.plaf.jlbc.fe.abe.gvw13.params.GVW13PublicKeyParameters;
 import it.unisa.dia.gas.plaf.jlbc.fe.abe.gvw13.params.GVW13SecretKeyParameters;
 import it.unisa.dia.gas.plaf.jlbc.tor.gvw13.params.TORGVW13PublicKeyParameters;
-import it.unisa.dia.gas.plaf.jpbc.util.io.PairingStreamReader;
+import it.unisa.dia.gas.plaf.jpbc.util.io.ElementStreamReader;
 import it.unisa.dia.gas.plaf.jpbc.util.io.PairingStreamWriter;
 
+import java.util.BitSet;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,13 +42,12 @@ public class GVW13KEMEngine extends PairingKeyEncapsulationMechanism {
             GVW13SecretKeyParameters sk = (GVW13SecretKeyParameters) key;
 
             // Load the ciphertext
-            PairingStreamReader reader = new PairingStreamReader(pairing, in, inOff);
+            ElementStreamReader reader = new ElementStreamReader(in, inOff);
 
             String assignment = reader.readString();
 
             // Evaluate the circuit against the ciphertext
             Circuit circuit = sk.getCircuit();
-            Field field = sk.getOutputField();
 
             // evaluate the circuit
             Map<Integer, Element> evaluations = new HashMap<Integer, Element>();
@@ -60,7 +59,8 @@ public class GVW13KEMEngine extends PairingKeyEncapsulationMechanism {
                         gate.set(assignment.charAt(index) == '1');
 
                         // Read input
-                        Element element = reader.readElement(field);
+                        Element element = reader.readElement(sk.getCiphertextElementField());
+                        System.out.println("element = " + element);
                         evaluations.put(index, element);
 
                         break;
@@ -68,30 +68,33 @@ public class GVW13KEMEngine extends PairingKeyEncapsulationMechanism {
                     case AND:
                         gate.evaluate();
 
-                        try {
-                            ElementCipher cipher = sk.getParameters().getTor();
-                            cipher.init(sk.getCipherParametersAt(index, gate.getInputAt(0).isSet()? 1 : 0, gate.getInputAt(1).isSet()? 1 : 0));
-                            evaluations.put(
-                                    index,
-                                    cipher.processElements(
-                                            evaluations.get(gate.getInputIndexAt(0)),
-                                            evaluations.get(gate.getInputIndexAt(1))
-                                    )
-                            );
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
-                        }
+                        // Init TOR for recoding
+                        ElementCipher tor = sk.getParameters().getTor();
+                        tor.init(sk.getCipherParametersAt(index, gate.getInputAt(0).isSet() ? 1 : 0, gate.getInputAt(1).isSet() ? 1 : 0));
+
+                        evaluations.put(
+                                index,
+                                // recode
+                                tor.processElements(
+                                        evaluations.get(gate.getInputIndexAt(0)),
+                                        evaluations.get(gate.getInputIndexAt(1))
+                                )
+                        );
                         break;
                 }
             }
 
-            System.out.println("decrypt = " + evaluations.get(circuit.getOutputGate().getIndex()));
+            Element key = evaluations.get(circuit.getOutputGate().getIndex());
+
+            System.out.println("decrypted key = " + key);
+
+            // Decrypt key
+
             if (circuit.getOutputGate().isSet()) {
                 return evaluations.get(circuit.getOutputGate().getIndex()).toBytes();
             } else
                 return evaluations.get(circuit.getOutputGate().getIndex()).toBytes();
         } else {
-            // Encrypt the massage under the specified attributes
             GVW13EncryptionParameters encKey = (GVW13EncryptionParameters) key;
             GVW13PublicKeyParameters publicKey = encKey.getPublicKey();
 
@@ -102,14 +105,24 @@ public class GVW13KEMEngine extends PairingKeyEncapsulationMechanism {
             try {
                 Element s = publicKey.getParameters().getRandomnessField().newRandomElement();
 
+                // choose random bit string
+                BitSet bitset = new BitSet();
+
+                // generate key
                 tor.init(publicKey.getCipherParametersOut());
                 Element key = tor.processElements(s);
+                System.out.println("key = " + key);
+
+                // encrypt bitset
                 writer.write(key);
 
                 writer.write(assignment);
                 for (int i = 0, n = assignment.length(); i < n; i++) {
+                    // init for encoding
                     tor.init(publicKey.getCipherParametersAt(i, assignment.charAt(i) == '1'));
+                    // encode
                     Element e = tor.processElements(s);
+
                     System.out.println("e = " + e);
                     writer.write(e);
                 }

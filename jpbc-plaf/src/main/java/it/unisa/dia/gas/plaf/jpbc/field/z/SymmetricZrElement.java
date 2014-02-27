@@ -156,7 +156,7 @@ public class SymmetricZrElement<F extends SymmetricZrField> extends AbstractZEle
 
     public int setFromBytes(byte[] source, int offset) {
         byte[] buffer = Arrays.copyOf(source, offset, field.getLengthInBytes());
-        value = new BigInteger(1, buffer).mod(order);
+        value = new BigInteger(buffer).mod(order);
         mod();
 
         return buffer.length;
@@ -293,7 +293,8 @@ public class SymmetricZrElement<F extends SymmetricZrField> extends AbstractZEle
 
     @Override
     public byte[] toBytes() {
-        byte[] bytes = value.toByteArray();
+        mod();
+        byte[] bytes = value.add(order).toByteArray();
 
         if (bytes.length > field.getLengthInBytes()) {
             // strip the zero prefix
@@ -331,6 +332,5 @@ public class SymmetricZrElement<F extends SymmetricZrField> extends AbstractZEle
 
         return this;
     }
-
 
 }

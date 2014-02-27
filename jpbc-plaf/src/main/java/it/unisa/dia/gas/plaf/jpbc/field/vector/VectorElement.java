@@ -300,6 +300,12 @@ public class VectorElement<E extends Element> extends AbstractVectorElement<E, V
         for (int len = 0, i = 0, size = coeff.size(); i < size; i++, len += targetLB) {
             byte[] temp = coeff.get(i).toBytes();
             System.arraycopy(temp, 0, buffer, len, targetLB);
+
+            if (!field.getTargetField().newElementFromBytes(temp).isEqual(coeff.get(i))) {
+                System.out.println("FATAL!");
+                byte[] temp1 = coeff.get(i).toBytes();
+            }
+
         }
         return buffer;
     }

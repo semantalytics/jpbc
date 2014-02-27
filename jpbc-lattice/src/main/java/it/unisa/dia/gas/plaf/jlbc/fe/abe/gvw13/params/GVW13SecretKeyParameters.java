@@ -13,17 +13,17 @@ public class GVW13SecretKeyParameters extends GVW13KeyParameters {
 
     private Circuit circuit;
     private Map<Integer, CipherParameters[]> keys;
-    private Field outputField;
+    private Field ciphertextElementField;
 
     public GVW13SecretKeyParameters(GVW13Parameters parameters,
                                     Circuit circuit,
                                     Map<Integer, CipherParameters[]> keys,
-                                    Field outputField) {
+                                    Field ciphertextElementField) {
         super(true, parameters);
 
         this.circuit = circuit;
         this.keys = keys;
-        this.outputField = outputField;
+        this.ciphertextElementField = ciphertextElementField;
     }
 
     public Circuit getCircuit() {
@@ -43,7 +43,7 @@ public class GVW13SecretKeyParameters extends GVW13KeyParameters {
         throw new IllegalStateException("Impossible!!!");
     }
 
-    public Field getOutputField() {
-        return outputField;
+    public Field getCiphertextElementField() {
+        return ciphertextElementField;
     }
 }

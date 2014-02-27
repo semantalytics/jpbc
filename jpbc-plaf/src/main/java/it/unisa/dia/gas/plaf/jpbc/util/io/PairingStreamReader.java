@@ -4,46 +4,21 @@ import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Pairing;
 
-import java.io.DataInputStream;
-
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 2.0.0
  */
-public class PairingStreamReader {
+public class PairingStreamReader extends ElementStreamReader {
 
     private Pairing pairing;
-    private byte[] buffer;
-    private int offset;
-
-    private int cursor;
-
-    private DataInputStream dis;
-    private ExByteArrayInputStream bais;
 
 
     public PairingStreamReader(Pairing pairing, byte[] buffer, int offset) {
+        super(buffer, offset);
+
         this.pairing = pairing;
-        this.buffer = buffer;
-        this.offset = offset;
-
-        this.cursor = offset;
-
-        this.bais = new ExByteArrayInputStream(buffer, offset, buffer.length - offset);
-        this.dis = new DataInputStream(bais);
     }
 
-
-    public void reset() {
-        this.cursor = this.offset;
-    }
-
-    public Element readElement(Field field) {
-        Element e = field.newElementFromBytes(buffer, cursor);
-        jump(field.getLengthInBytes(e));
-
-        return e;
-    }
 
     public Element[] readElements(int... ids) {
         Element[] elements = new Element[ids.length];
@@ -91,32 +66,6 @@ public class PairingStreamReader {
         Element element = field.newElementFromBytes(buffer, cursor);
         jump(field.getLengthInBytes(element));
         return element;
-    }
-
-    public String readString() {
-        try {
-            return dis.readUTF();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        } finally {
-            cursor = bais.getPos();
-        }
-    }
-
-    public int readInt() {
-        try {
-            return dis.readInt();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        } finally {
-            cursor = bais.getPos();
-        }
-    }
-
-
-    private void jump(int length) {
-        cursor += length;
-        bais.skip(length);
     }
 
 }

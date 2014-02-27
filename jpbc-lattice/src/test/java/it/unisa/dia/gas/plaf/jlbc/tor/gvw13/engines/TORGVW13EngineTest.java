@@ -95,6 +95,5 @@ public class TORGVW13EngineTest {
 
         diff = e2.duplicate().sub(e2Prime);
         System.out.println("diff = " + diff);
-
     }
 }
