@@ -11,8 +11,6 @@ public class TORGVW13SecretKeyParameters extends TORGVW13KeyParameters {
     private CipherParameters latticePrivateKey;
     private Field owfInputField;
 
-
-
     public TORGVW13SecretKeyParameters(TORGVW13Parameters parameters, CipherParameters latticePrivateKey, Field owfInputField) {
         super(true, parameters);
 
