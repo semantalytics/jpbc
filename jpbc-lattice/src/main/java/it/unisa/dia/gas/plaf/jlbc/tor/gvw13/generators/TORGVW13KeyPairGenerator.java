@@ -2,6 +2,7 @@ package it.unisa.dia.gas.plaf.jlbc.tor.gvw13.generators;
 
 
 import it.unisa.dia.gas.crypto.cipher.ElementCipher;
+import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.plaf.jlbc.lattice.trapdoor.mp12.engines.MP12HLP2ErrorTolerantOneTimePad;
 import it.unisa.dia.gas.plaf.jlbc.lattice.trapdoor.mp12.engines.MP12HLP2OneWayFunction;
 import it.unisa.dia.gas.plaf.jlbc.lattice.trapdoor.mp12.generators.MP12HLP2KeyPairGenerator;
@@ -21,22 +22,25 @@ import org.bouncycastle.crypto.KeyGenerationParameters;
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class TORGVW13KeyPairGenerator implements AsymmetricCipherKeyPairGenerator {
+
     private TORGVW13KeyPairGenerationParameters params;
+    private MP12HLP2KeyPairGenerator gen;
 
 
     public void init(KeyGenerationParameters keyGenerationParameters) {
         this.params = (TORGVW13KeyPairGenerationParameters) keyGenerationParameters;
-    }
 
-    public AsymmetricCipherKeyPair generateKeyPair() {
-        // Generate Lattice
-        MP12HLP2KeyPairGenerator gen = new MP12HLP2KeyPairGenerator();
+        // Init Lattice generator
+        gen = new MP12HLP2KeyPairGenerator();
         gen.init(new MP12HLP2KeyPairGenerationParameters(
                 params.getRandom(),
                 new MP12Parameters(params.getRandom(), params.getParameters().getN()),
                 12,
                 new ZGaussianSampler(100, params.getRandom(), 4)
         ));
+    }
+
+    public AsymmetricCipherKeyPair generateKeyPair() {
         AsymmetricCipherKeyPair keyPair = gen.generateKeyPair();
 
         // One-way function
@@ -55,15 +59,23 @@ public class TORGVW13KeyPairGenerator implements AsymmetricCipherKeyPairGenerato
                         params.getParameters(),
                         keyPair.getPublic(),
                         owf,
-                        owfParams.getInputField(),
-                        owfParams.getOutputField(),
+                        gen.getInputField(),
+                        gen.getOutputField(),
                         otp
                 ),
                 new TORGVW13SecretKeyParameters(
                         params.getParameters(),
                         keyPair.getPrivate(),
-                        owfParams.getOutputField())
+                        gen.getOutputField())
         );
     }
 
+
+    public int getKeyLengthInBytes() {
+        return (gen.getM() + 7) / 8; // TODO: move to gen...
+    }
+
+    public Field getOwfInputField() {
+        return gen.getInputField();
+    }
 }

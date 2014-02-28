@@ -6,7 +6,6 @@ import it.unisa.dia.gas.plaf.jlbc.tor.gvw13.generators.TORGVW13KeyPairGenerator;
 import it.unisa.dia.gas.plaf.jlbc.tor.gvw13.generators.TORGVW13RecKeyGenerator;
 import it.unisa.dia.gas.plaf.jlbc.tor.gvw13.params.TORGVW13KeyPairGenerationParameters;
 import it.unisa.dia.gas.plaf.jlbc.tor.gvw13.params.TORGVW13Parameters;
-import it.unisa.dia.gas.plaf.jlbc.tor.gvw13.params.TORGVW13PublicKeyParameters;
 
 import java.security.SecureRandom;
 
@@ -33,11 +32,13 @@ public class GVW13ParametersGenerator {
         ));
 
         return new GVW13Parameters(
-                random, 100, ell,
+                random, 100,
+                ell,
                 keyPairGenerator,
                 new TORGVW13RecKeyGenerator(),
                 new TORGVW13Engine(),
-                ((TORGVW13PublicKeyParameters)keyPairGenerator.generateKeyPair().getPublic()).getOwfInputField()
+                keyPairGenerator.getOwfInputField(),
+                keyPairGenerator.getKeyLengthInBytes()
         );
     }
 }

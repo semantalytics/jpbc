@@ -7,6 +7,7 @@ import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.plaf.jlbc.fe.abe.gvw13.params.GVW13EncryptionParameters;
 import it.unisa.dia.gas.plaf.jlbc.fe.abe.gvw13.params.GVW13PublicKeyParameters;
 import it.unisa.dia.gas.plaf.jlbc.fe.abe.gvw13.params.GVW13SecretKeyParameters;
+import it.unisa.dia.gas.plaf.jlbc.tor.gvw13.params.TORGVW13PublicKeyParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.io.ElementStreamReader;
 import it.unisa.dia.gas.plaf.jpbc.util.io.PairingStreamWriter;
 
@@ -26,8 +27,9 @@ public class GVW13KEMEngine extends AbstractKeyEncapsulationMechanism {
             GVW13EncryptionParameters encKey = (GVW13EncryptionParameters) key;
             GVW13PublicKeyParameters publicKey = encKey.getPublicKey();
 
-            this.keyBytes = 128; //((TORGVW13PublicKeyParameters)publicKey.getCipherParametersOut()).getOwfOutputField().getLengthInBytes();
-            this.outBytes = (encKey.getAssignment().length() + 1) * keyBytes;
+            this.keyBytes = publicKey.getParameters().getKeyLengthInBytes();
+            // TODO: adjust outBytes
+            this.outBytes = (encKey.getAssignment().length() + 1) * ((TORGVW13PublicKeyParameters)publicKey.getCipherParametersOut()).getOwfOutputField().getLengthInBytes();
         } else {
             if (!(key instanceof GVW13SecretKeyParameters))
                 throw new IllegalArgumentException("GVW13SecretKeyParameters are required for decryption.");
@@ -113,7 +115,7 @@ public class GVW13KEMEngine extends AbstractKeyEncapsulationMechanism {
                 Element s = publicKey.getParameters().getRandomnessField().newRandomElement();
 
                 // choose random bit string
-                byte[] bytes = new byte[128];
+                byte[] bytes = new byte[publicKey.getParameters().getKeyLengthInBytes()];
                 publicKey.getParameters().getRandom().nextBytes(bytes);
                 writer.write(bytes);
 

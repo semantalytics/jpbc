@@ -24,8 +24,14 @@ public class GVW13Parameters implements CipherParameters {
     private CipherParametersGenerator torReKeyPairGenerater;
     private ElementCipher tor;
     private Field randomnessField;
+    private int keyLengthInBytes;
 
-    public GVW13Parameters(SecureRandom random, int strength, int ell, AsymmetricCipherKeyPairGenerator torKeyPairGenerater, CipherParametersGenerator torReKeyPairGenerater, ElementCipher tor, Field randomnessField) {
+    public GVW13Parameters(SecureRandom random, int strength, int ell,
+                           AsymmetricCipherKeyPairGenerator torKeyPairGenerater,
+                           CipherParametersGenerator torReKeyPairGenerater,
+                           ElementCipher tor,
+                           Field randomnessField,
+                           int keyLengthInBytes) {
         this.random = random;
         this.strength = strength;
         this.ell = ell;
@@ -34,6 +40,7 @@ public class GVW13Parameters implements CipherParameters {
         this.torReKeyPairGenerater = torReKeyPairGenerater;
         this.tor = tor;
         this.randomnessField = randomnessField;
+        this.keyLengthInBytes = keyLengthInBytes;
     }
 
     public SecureRandom getRandom() {
@@ -70,4 +77,7 @@ public class GVW13Parameters implements CipherParameters {
         return tor;
     }
 
+    public int getKeyLengthInBytes() {
+        return keyLengthInBytes;
+    }
 }

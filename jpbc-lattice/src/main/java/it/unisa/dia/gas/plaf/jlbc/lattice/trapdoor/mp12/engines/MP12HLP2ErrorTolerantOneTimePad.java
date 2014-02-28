@@ -35,8 +35,6 @@ public class MP12HLP2ErrorTolerantOneTimePad extends AbstractElementCipher {
                 r.getAt(i).add(halfOrder);
         }
 
-        System.out.println("r = " + r);
-
         return r;
     }
 
@@ -46,9 +44,8 @@ public class MP12HLP2ErrorTolerantOneTimePad extends AbstractElementCipher {
         BigInteger oneFourthOrder = order.divide(BigIntegerUtils.FOUR);
 
         VectorElement r = (VectorElement) input[0].duplicate().sub(key);
-        System.out.println("ct = " + r);
 
-        BitSet bits = new BitSet(128 * 8);
+        BitSet bits = new BitSet(key.getSize());
         for (int i = 0; i < key.getSize(); i++) {
             bits.set(i, r.getAt(i).toBigInteger().abs().compareTo(oneFourthOrder) >= 0 );
         }

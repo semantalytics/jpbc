@@ -7,6 +7,7 @@ import it.unisa.dia.gas.plaf.jlbc.lattice.trapdoor.mp12.params.MP12HLP2PrivateKe
 import it.unisa.dia.gas.plaf.jlbc.lattice.trapdoor.mp12.params.MP12HLP2PublicKeyParameters;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixElement;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixField;
+import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorField;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.KeyGenerationParameters;
 
@@ -16,11 +17,20 @@ import org.bouncycastle.crypto.KeyGenerationParameters;
 public class MP12HLP2KeyPairGenerator extends MP12PLP2KeyPairGenerator {
     private MP12HLP2KeyPairGenerationParameters params;
 
+    private int barM, w, m;
+    private Field inputField, outputField;
 
     public void init(KeyGenerationParameters keyGenerationParameters) {
         this.params = (MP12HLP2KeyPairGenerationParameters) keyGenerationParameters;
 
         super.init(params);
+
+        this.barM = 2 * n;
+        this.w = n * k;
+        this.m = barM + w;
+
+        this.inputField = new VectorField(params.getRandom(), Zq, n);
+        this.outputField = new VectorField(params.getRandom(), Zq, m);
     }
 
     public AsymmetricCipherKeyPair generateKeyPair() {
@@ -29,9 +39,6 @@ public class MP12HLP2KeyPairGenerator extends MP12PLP2KeyPairGenerator {
         // Construct Parity-check matrix
 
         // 1. Choose barA random in Z_q[n x barM]
-        int barM = 2 * n;
-        int w = n * k;
-        int m = barM + w;
 
         MatrixField<Field> hatAField = new MatrixField<Field>(random, Zq, n, n);
         Element In = hatAField.newIdentity();
@@ -63,7 +70,20 @@ public class MP12HLP2KeyPairGenerator extends MP12PLP2KeyPairGenerator {
         );
     }
 
-    private Element sample(int n, int m) {
+    public int getM() {
+        return m;
+    }
+
+    public Field getInputField() {
+        return inputField;
+    }
+
+    public Field getOutputField() {
+        return outputField;
+    }
+
+
+    protected Element sample(int n, int m) {
         MatrixField<Field> RField = new MatrixField<Field>(random, Zq, n, m);
         MatrixElement R = RField.newElement();
         for (int i = 0; i < n; i++) {
