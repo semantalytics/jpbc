@@ -1,10 +1,8 @@
 package it.unisa.dia.gas.plaf.jlbc.fe.abe.gvw13.engines;
 
-import it.unisa.dia.gas.crypto.cipher.ElementCipher;
 import it.unisa.dia.gas.crypto.circuit.Circuit;
 import it.unisa.dia.gas.crypto.circuit.DefaultCircuit;
 import it.unisa.dia.gas.crypto.kem.KeyEncapsulationMechanism;
-import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.plaf.jlbc.fe.abe.gvw13.generators.GVW13KeyPairGenerator;
 import it.unisa.dia.gas.plaf.jlbc.fe.abe.gvw13.generators.GVW13ParametersGenerator;
 import it.unisa.dia.gas.plaf.jlbc.fe.abe.gvw13.generators.GVW13SecretKeyGenerator;
@@ -35,44 +33,6 @@ public class GVW13KEMEngineTest {
     }
 
     @Test
-    public void test() {
-        int ell = 2;
-        int q = 1;
-        Circuit circuit = new DefaultCircuit(ell, q, 2, new DefaultCircuit.DefaultGate[]{
-                new DefaultCircuit.DefaultGate(INPUT, 0, 1),
-                new DefaultCircuit.DefaultGate(INPUT, 1, 1),
-
-                new DefaultCircuit.DefaultGate(AND, 2, 2, new int[]{0, 1}),
-        });
-
-        AsymmetricCipherKeyPair keyPair = setup(createParameters(ell));
-        GVW13SecretKeyParameters secretKey = (GVW13SecretKeyParameters) keyGen(keyPair.getPublic(), keyPair.getPrivate(), circuit);
-
-        GVW13PublicKeyParameters mpk = (GVW13PublicKeyParameters) keyPair.getPublic();
-        GVW13MasterSecretKeyParameters msk = (GVW13MasterSecretKeyParameters) keyPair.getPrivate();
-
-        Element s = mpk.getParameters().getRandomnessField().newRandomElement();
-
-        ElementCipher tor = mpk.getParameters().getTor();
-        tor.init(mpk.getCipherParametersAt(0,1));
-        Element e0 = tor.processElements(s);
-        System.out.println("e0 = " + e0);
-
-        tor.init(mpk.getCipherParametersAt(1,1));
-        Element e1 = tor.processElements(s);
-        System.out.println("e1 = " + e1);
-
-        tor.init(mpk.getCipherParametersOut());
-        Element e2 = tor.processElements(s);
-        System.out.println("e2 = " + e2);
-
-        tor.init(secretKey.getCipherParametersAt(2, 1, 1));
-        Element e2Prime = tor.processElements(e0, e1);
-        System.out.println("e2Prime = " + e2Prime);
-    }
-
-
-    @Test
     public void testGVW13KEMEngine() {
         int ell = 2;
         int q = 1;
@@ -88,24 +48,20 @@ public class GVW13KEMEngineTest {
 
         String assignment = "11";
         byte[][] ct = encaps(keyPair.getPublic(), assignment);
-        Element key = secretKey.getCiphertextElementField().newElementFromBytes(ct[0]);
-        Element decKey = secretKey.getCiphertextElementField().newElementFromBytes(decaps(secretKey, ct[1]));
+        byte[] key = ct[0];
+        byte[] keyPrime = decaps(secretKey, ct[1]);
 
-        System.out.println("key = " + key);
-        System.out.println("decKey = " + decKey);
-        Element diff = key.duplicate().sub(decKey);
-        System.out.println("diff = " + diff);
+        System.out.println("key      = " + Arrays.toString(key));
+        System.out.println("keyPrime = " + Arrays.toString(keyPrime));
 
 
         assignment = "10";
         ct = encaps(keyPair.getPublic(), assignment);
-        key = secretKey.getCiphertextElementField().newElementFromBytes(ct[0]);
-        decKey = secretKey.getCiphertextElementField().newElementFromBytes(decaps(secretKey, ct[1]));
+        key = ct[0];
+        keyPrime = decaps(secretKey, ct[1]);
 
-        System.out.println("key = " + key);
-        System.out.println("decKey = " + decKey);
-        diff = key.duplicate().sub(decKey);
-        System.out.println("diff = " + diff);
+        System.out.println("key      = " + Arrays.toString(key));
+        System.out.println("keyPrime = " + Arrays.toString(keyPrime));
     }
 
 

@@ -154,8 +154,8 @@ public class GVW13SecretKeyGenerator {
                 param.getPublicKeyParameters().getParameters(),
                 circuit,
                 keys,
-                ((TORGVW13SecretKeyParameters)secretKeys[0]).getOwfInputField()
-
+                ((TORGVW13SecretKeyParameters)secretKeys[0]).getOwfInputField(),
+                pk.getCipherParametersOut()
         );
     }
 

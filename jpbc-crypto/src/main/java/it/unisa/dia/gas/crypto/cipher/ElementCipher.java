@@ -10,6 +10,12 @@ public interface ElementCipher {
 
     public ElementCipher init(CipherParameters param);
 
+    public ElementCipher init(Element key);
+
+    public Element processBytes(byte[] buffer);
+
     public Element processElements(Element... input);
+
+    public byte[] processElementsToBytes(Element... input);
 
 }

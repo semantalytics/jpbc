@@ -14,16 +14,19 @@ public class GVW13SecretKeyParameters extends GVW13KeyParameters {
     private Circuit circuit;
     private Map<Integer, CipherParameters[]> keys;
     private Field ciphertextElementField;
+    private CipherParameters cipherParametersOut;
 
     public GVW13SecretKeyParameters(GVW13Parameters parameters,
                                     Circuit circuit,
                                     Map<Integer, CipherParameters[]> keys,
-                                    Field ciphertextElementField) {
+                                    Field ciphertextElementField,
+                                    CipherParameters cipherParametersOut) {
         super(true, parameters);
 
         this.circuit = circuit;
         this.keys = keys;
         this.ciphertextElementField = ciphertextElementField;
+        this.cipherParametersOut = cipherParametersOut;
     }
 
     public Circuit getCircuit() {
@@ -45,5 +48,9 @@ public class GVW13SecretKeyParameters extends GVW13KeyParameters {
 
     public Field getCiphertextElementField() {
         return ciphertextElementField;
+    }
+
+    public CipherParameters getCipherParametersOut() {
+        return cipherParametersOut;
     }
 }

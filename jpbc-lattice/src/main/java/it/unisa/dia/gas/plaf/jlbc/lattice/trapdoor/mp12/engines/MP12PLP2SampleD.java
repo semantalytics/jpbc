@@ -1,5 +1,6 @@
 package it.unisa.dia.gas.plaf.jlbc.lattice.trapdoor.mp12.engines;
 
+import it.unisa.dia.gas.crypto.cipher.AbstractElementCipher;
 import it.unisa.dia.gas.crypto.cipher.ElementCipher;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.plaf.jlbc.lattice.trapdoor.mp12.params.MP12PLP2PublicKeyParameters;
@@ -12,7 +13,7 @@ import java.math.BigInteger;
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
-public class MP12PLP2SampleD implements ElementCipher {
+public class MP12PLP2SampleD extends AbstractElementCipher {
 
     protected MP12PLP2PublicKeyParameters parameters;
     protected int n, k;

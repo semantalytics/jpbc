@@ -1,5 +1,6 @@
 package it.unisa.dia.gas.plaf.jlbc.lattice.trapdoor.mp12.engines;
 
+import it.unisa.dia.gas.crypto.cipher.AbstractElementCipher;
 import it.unisa.dia.gas.crypto.cipher.ElementCipher;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Vector;
@@ -9,7 +10,7 @@ import org.bouncycastle.crypto.CipherParameters;
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
-public class MP12HLP2OneWayFunction implements ElementCipher {
+public class MP12HLP2OneWayFunction extends AbstractElementCipher {
 
     protected MP12HLP2OneWayFunctionParameters parameters;
 

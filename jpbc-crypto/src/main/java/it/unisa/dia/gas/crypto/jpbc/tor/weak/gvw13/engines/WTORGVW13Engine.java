@@ -1,5 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc.tor.weak.gvw13.engines;
 
+import it.unisa.dia.gas.crypto.cipher.AbstractElementCipher;
 import it.unisa.dia.gas.crypto.cipher.ElementCipher;
 import it.unisa.dia.gas.crypto.jpbc.tor.weak.gvw13.params.WTORGVW13KeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.tor.weak.gvw13.params.WTORGVW13PublicKeyParameters;
@@ -13,7 +14,7 @@ import org.bouncycastle.crypto.CipherParameters;
  * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 2.0.0
  */
-public class WTORGVW13Engine implements ElementCipher {
+public class WTORGVW13Engine extends AbstractElementCipher {
 
     private CipherParameters param;
     private Pairing pairing;

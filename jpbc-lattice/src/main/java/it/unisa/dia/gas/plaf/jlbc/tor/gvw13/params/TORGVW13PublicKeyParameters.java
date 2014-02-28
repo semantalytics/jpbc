@@ -12,14 +12,21 @@ public class TORGVW13PublicKeyParameters extends TORGVW13KeyParameters {
     private CipherParameters latticePublicKey;
     private ElementCipher owf;
     private Field owfInputField, owfOutputField;
+    private ElementCipher otp;
 
-    public TORGVW13PublicKeyParameters(TORGVW13Parameters parameters, CipherParameters latticePublicKey, ElementCipher owf, Field owfInputField, Field owfOutputField) {
+    public TORGVW13PublicKeyParameters(TORGVW13Parameters parameters,
+                                       CipherParameters latticePublicKey,
+                                       ElementCipher owf,
+                                       Field owfInputField,
+                                       Field owfOutputField,
+                                       ElementCipher otp) {
         super(false, parameters);
 
         this.latticePublicKey = latticePublicKey;
         this.owf = owf;
         this.owfInputField = owfInputField;
         this.owfOutputField = owfOutputField;
+        this.otp = otp;
     }
 
     public CipherParameters getLatticePublicKey() {
@@ -36,5 +43,9 @@ public class TORGVW13PublicKeyParameters extends TORGVW13KeyParameters {
 
     public Field getOwfOutputField() {
         return owfOutputField;
+    }
+
+    public ElementCipher getOtp() {
+        return otp;
     }
 }

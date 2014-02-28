@@ -36,6 +36,9 @@ public class GVW13Parameters implements CipherParameters {
         this.randomnessField = randomnessField;
     }
 
+    public SecureRandom getRandom() {
+        return random;
+    }
 
     public int getEll() {
         return ell;
@@ -66,4 +69,5 @@ public class GVW13Parameters implements CipherParameters {
     public ElementCipher getTor() {
         return tor;
     }
+
 }

@@ -2,6 +2,7 @@ package it.unisa.dia.gas.plaf.jlbc.tor.gvw13.generators;
 
 
 import it.unisa.dia.gas.crypto.cipher.ElementCipher;
+import it.unisa.dia.gas.plaf.jlbc.lattice.trapdoor.mp12.engines.MP12HLP2ErrorTolerantOneTimePad;
 import it.unisa.dia.gas.plaf.jlbc.lattice.trapdoor.mp12.engines.MP12HLP2OneWayFunction;
 import it.unisa.dia.gas.plaf.jlbc.lattice.trapdoor.mp12.generators.MP12HLP2KeyPairGenerator;
 import it.unisa.dia.gas.plaf.jlbc.lattice.trapdoor.mp12.params.MP12HLP2KeyPairGenerationParameters;
@@ -28,6 +29,7 @@ public class TORGVW13KeyPairGenerator implements AsymmetricCipherKeyPairGenerato
     }
 
     public AsymmetricCipherKeyPair generateKeyPair() {
+        // Generate Lattice
         MP12HLP2KeyPairGenerator gen = new MP12HLP2KeyPairGenerator();
         gen.init(new MP12HLP2KeyPairGenerationParameters(
                 params.getRandom(),
@@ -37,6 +39,7 @@ public class TORGVW13KeyPairGenerator implements AsymmetricCipherKeyPairGenerato
         ));
         AsymmetricCipherKeyPair keyPair = gen.generateKeyPair();
 
+        // One-way function
         ElementCipher owf = new MP12HLP2OneWayFunction();
         MP12HLP2OneWayFunctionParameters owfParams = new MP12HLP2OneWayFunctionParameters(
                 (MP12HLP2PublicKeyParameters) keyPair.getPublic(),
@@ -44,13 +47,17 @@ public class TORGVW13KeyPairGenerator implements AsymmetricCipherKeyPairGenerato
         );
         owf.init(owfParams);
 
+        // error-tolerant version of the one-time pad
+        ElementCipher otp = new MP12HLP2ErrorTolerantOneTimePad();
+
         return new AsymmetricCipherKeyPair(
                 new TORGVW13PublicKeyParameters(
                         params.getParameters(),
                         keyPair.getPublic(),
                         owf,
                         owfParams.getInputField(),
-                        owfParams.getOutputField()
+                        owfParams.getOutputField(),
+                        otp
                 ),
                 new TORGVW13SecretKeyParameters(
                         params.getParameters(),

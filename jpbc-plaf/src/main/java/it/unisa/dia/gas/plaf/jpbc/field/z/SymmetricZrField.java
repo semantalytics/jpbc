@@ -41,8 +41,11 @@ public class SymmetricZrField extends AbstractField<SymmetricZrElement> {
 
         this.fixedLengthInBytes = (order.bitLength() + 7) / 8;
 
-        // TODO: reactivate this.
-//        this.twoInverse = BigIntegerUtils.TWO.modInverse(order);
+        try {
+            this.twoInverse = BigIntegerUtils.TWO.modInverse(order);
+        } catch (Exception e) {
+            this.twoInverse = null;
+        }
 
         this.halfOrder = order.divide(BigInteger.valueOf(2));
 

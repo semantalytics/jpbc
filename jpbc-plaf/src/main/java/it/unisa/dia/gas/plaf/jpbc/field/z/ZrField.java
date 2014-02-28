@@ -39,8 +39,11 @@ public class ZrField extends AbstractField<ZrElement> {
 
         this.fixedLengthInBytes = (order.bitLength() + 7) / 8;
 
-//        TODO: renable this!
-//        this.twoInverse = BigIntegerUtils.TWO.modInverse(order);
+        try {
+            this.twoInverse = BigIntegerUtils.TWO.modInverse(order);
+        } catch (Exception e) {
+            this.twoInverse = null;
+        }
 
         if (nqr != null)
             this.nqr = newElement().set(nqr);

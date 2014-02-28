@@ -176,6 +176,9 @@ public class SymmetricZrElement<F extends SymmetricZrField> extends AbstractZEle
     }
 
     public SymmetricZrElement halve() {
+        if (field.twoInverse == null)
+            throw new IllegalStateException("Cannot halve. Check order!");
+
         value = value.multiply(field.twoInverse).mod(order);
 
         return mod();
