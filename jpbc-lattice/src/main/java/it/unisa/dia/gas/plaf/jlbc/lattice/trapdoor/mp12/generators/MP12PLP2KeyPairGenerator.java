@@ -46,7 +46,7 @@ public class MP12PLP2KeyPairGenerator implements AsymmetricCipherKeyPairGenerato
 
         SecureRandom random = params.getRandom();
         int q = 1 << params.getK();
-//        System.out.println("q = " + q);
+        System.out.println("q = " + q);
 
         this.Zq = new SymmetricZrField(q);
         this.syndromeField = new VectorField<Field>(random, Zq, n);

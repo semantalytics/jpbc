@@ -50,7 +50,6 @@ public class GVW13KEMEngine extends AbstractKeyEncapsulationMechanism {
             Circuit circuit = sk.getCircuit();
 
             Element e = reader.readElement(sk.getCiphertextElementField());
-            System.out.println("element = " + e);
 
             // evaluate the circuit
             Map<Integer, Element> evaluations = new HashMap<Integer, Element>();
@@ -63,7 +62,6 @@ public class GVW13KEMEngine extends AbstractKeyEncapsulationMechanism {
 
                         // Read input
                         Element element = reader.readElement(sk.getCiphertextElementField());
-                        System.out.println("element = " + element);
                         evaluations.put(index, element);
 
                         break;
@@ -89,20 +87,11 @@ public class GVW13KEMEngine extends AbstractKeyEncapsulationMechanism {
 
             Element key = evaluations.get(circuit.getOutputGate().getIndex());
 
-            System.out.println("decrypted key = " + key);
-
             ElementCipher tor = sk.getParameters().getTor();
             tor.init(sk.getCipherParametersOut());
             tor.init(key);
+
             return tor.processElementsToBytes(e);
-            // Decrypt key
-
-//            if (circuit.getOutputGate().isSet()) {
-                // use key to decrypt e
-
-
-//            } else
-//                return evaluations.get(circuit.getOutputGate().getIndex()).toBytes();
         } else {
             GVW13EncryptionParameters encKey = (GVW13EncryptionParameters) key;
             GVW13PublicKeyParameters publicKey = encKey.getPublicKey();
@@ -122,7 +111,6 @@ public class GVW13KEMEngine extends AbstractKeyEncapsulationMechanism {
                 // encrypt bytes
                 tor.init(publicKey.getCipherParametersOut());
                 Element key = tor.processElements(s);
-                System.out.println("key = " + key);
 
                 tor.init(key);
                 Element e = tor.processBytes(bytes);
@@ -132,10 +120,9 @@ public class GVW13KEMEngine extends AbstractKeyEncapsulationMechanism {
                 for (int i = 0, n = assignment.length(); i < n; i++) {
                     // init for encoding
                     tor.init(publicKey.getCipherParametersAt(i, assignment.charAt(i) == '1'));
+
                     // encode
                     e = tor.processElements(s);
-
-                    System.out.println("e = " + e);
                     writer.write(e);
                 }
             } catch (Exception e) {

@@ -17,7 +17,7 @@ public class MP12PLP2PublicKeyParameters extends MP12KeyParameters {
     protected int k;
     protected Sampler<BigInteger> sampler;
 
-    protected VectorElement g; // primitiv vector
+    protected VectorElement g; // primitive vector
     protected MatrixElement G; // parity-check matrix
 
     protected Field syndromeField;

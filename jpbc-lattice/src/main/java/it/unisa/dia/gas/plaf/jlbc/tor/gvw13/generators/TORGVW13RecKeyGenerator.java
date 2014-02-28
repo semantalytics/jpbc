@@ -29,6 +29,7 @@ public class TORGVW13RecKeyGenerator implements CipherParametersGenerator {
     public CipherParameters generateKey() {
         // Sample R1 from D_Z,s
         MP12HLP2PublicKeyParameters latticePk = (MP12HLP2PublicKeyParameters) params.getLeftPk().getLatticePublicKey();
+
         MatrixField<Field> RField = new MatrixField<Field>(
                 latticePk.getParameters().getRandom(),
                 latticePk.getZq(),
@@ -41,17 +42,17 @@ public class TORGVW13RecKeyGenerator implements CipherParametersGenerator {
                 R1.getAt(i, j).set(latticePk.getSampler().sample());
             }
         }
+
         // Compute U
         MatrixElement U = (MatrixElement) ((MP12HLP2PublicKeyParameters) params.getTargetPk().getLatticePublicKey()).getA().duplicate().sub(
                 ((MP12HLP2PublicKeyParameters) params.getRightPk().getLatticePublicKey()).getA().mul(R1)
         );
 
         // Sample R0
-
         MP12HLP2SampleD sampleD = new MP12HLP2SampleD();
         sampleD.init(new MP12HLP2SampleParameters(params.getLeftPk().getLatticePublicKey(), params.getLeftSk().getLatticePrivateKey()));
-        MatrixElement R0 = RField.newElement();
 
+        MatrixElement R0 = RField.newElement();
         for (int i = 0; i < latticePk.getM(); i++) {
             R0.setColAt(i, sampleD.processElements(U.columnAt(i)));
         }

@@ -17,7 +17,7 @@ import org.bouncycastle.crypto.KeyGenerationParameters;
 public class MP12HLP2KeyPairGenerator extends MP12PLP2KeyPairGenerator {
     private MP12HLP2KeyPairGenerationParameters params;
 
-    private int barM, w, m;
+    private int barM, w, m, mInBytes;
     private Field inputField, outputField;
 
     public void init(KeyGenerationParameters keyGenerationParameters) {
@@ -28,6 +28,7 @@ public class MP12HLP2KeyPairGenerator extends MP12PLP2KeyPairGenerator {
         this.barM = 2 * n;
         this.w = n * k;
         this.m = barM + w;
+        this.mInBytes = (m + 7) / 8;
 
         this.inputField = new VectorField(params.getRandom(), Zq, n);
         this.outputField = new VectorField(params.getRandom(), Zq, m);
@@ -72,6 +73,10 @@ public class MP12HLP2KeyPairGenerator extends MP12PLP2KeyPairGenerator {
 
     public int getM() {
         return m;
+    }
+
+    public int getMInBytes() {
+        return mInBytes;
     }
 
     public Field getInputField() {

@@ -54,7 +54,6 @@ public class GGHSW13KEMEngineTest extends AbstractJPBCCryptoTest {
 
     @Test
     public void testGGHSW13KEMEngine() {
-        SecureRandom random = new SecureRandom();
         int n = 4;
         int q = 3;
         Circuit circuit = new DefaultCircuit(n, q, 3, new DefaultGate[]{
