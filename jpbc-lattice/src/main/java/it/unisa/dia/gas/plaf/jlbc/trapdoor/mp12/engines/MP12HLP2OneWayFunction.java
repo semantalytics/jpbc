@@ -1,10 +1,10 @@
-package it.unisa.dia.gas.plaf.jlbc.lattice.trapdoor.mp12.engines;
+package it.unisa.dia.gas.plaf.jlbc.trapdoor.mp12.engines;
 
 import it.unisa.dia.gas.crypto.cipher.AbstractElementCipher;
 import it.unisa.dia.gas.crypto.cipher.ElementCipher;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Vector;
-import it.unisa.dia.gas.plaf.jlbc.lattice.trapdoor.mp12.params.MP12HLP2OneWayFunctionParameters;
+import it.unisa.dia.gas.plaf.jlbc.trapdoor.mp12.params.MP12HLP2OneWayFunctionParameters;
 import org.bouncycastle.crypto.CipherParameters;
 
 /**

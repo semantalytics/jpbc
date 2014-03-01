@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.plaf.jlbc.lattice.trapdoor.mp12.engines;
+package it.unisa.dia.gas.plaf.jlbc.trapdoor.mp12.engines;
 
 import it.unisa.dia.gas.crypto.cipher.AbstractElementCipher;
 import it.unisa.dia.gas.crypto.cipher.ElementCipher;

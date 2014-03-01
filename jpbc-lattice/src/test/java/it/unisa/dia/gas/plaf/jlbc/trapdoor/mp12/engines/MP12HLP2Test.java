@@ -1,11 +1,11 @@
-package it.unisa.dia.gas.plaf.jlbc.lattice.trapdoor.mp12.engines;
+package it.unisa.dia.gas.plaf.jlbc.trapdoor.mp12.engines;
 
 import it.unisa.dia.gas.crypto.cipher.ElementCipher;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.plaf.jlbc.lattice.trapdoor.mp12.generators.MP12HLP2KeyPairGenerator;
-import it.unisa.dia.gas.plaf.jlbc.lattice.trapdoor.mp12.params.*;
 import it.unisa.dia.gas.plaf.jlbc.sampler.ZGaussianSampler;
+import it.unisa.dia.gas.plaf.jlbc.trapdoor.mp12.generators.MP12HLP2KeyPairGenerator;
+import it.unisa.dia.gas.plaf.jlbc.trapdoor.mp12.params.*;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixElement;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixField;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;

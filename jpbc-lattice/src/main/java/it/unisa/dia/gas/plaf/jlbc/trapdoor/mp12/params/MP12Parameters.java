@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.plaf.jlbc.lattice.trapdoor.mp12.params;
+package it.unisa.dia.gas.plaf.jlbc.trapdoor.mp12.params;
 
 import org.bouncycastle.crypto.CipherParameters;
 

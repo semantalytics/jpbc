@@ -1,11 +1,11 @@
-package it.unisa.dia.gas.plaf.jlbc.lattice.trapdoor.mp12.engines;
+package it.unisa.dia.gas.plaf.jlbc.trapdoor.mp12.engines;
 
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.plaf.jlbc.lattice.trapdoor.mp12.generators.MP12PLP2KeyPairGenerator;
-import it.unisa.dia.gas.plaf.jlbc.lattice.trapdoor.mp12.params.MP12PLP2KeyPairGenerationParameters;
-import it.unisa.dia.gas.plaf.jlbc.lattice.trapdoor.mp12.params.MP12PLP2PublicKeyParameters;
-import it.unisa.dia.gas.plaf.jlbc.lattice.trapdoor.mp12.params.MP12Parameters;
 import it.unisa.dia.gas.plaf.jlbc.sampler.ZGaussianSampler;
+import it.unisa.dia.gas.plaf.jlbc.trapdoor.mp12.generators.MP12PLP2KeyPairGenerator;
+import it.unisa.dia.gas.plaf.jlbc.trapdoor.mp12.params.MP12PLP2KeyPairGenerationParameters;
+import it.unisa.dia.gas.plaf.jlbc.trapdoor.mp12.params.MP12PLP2PublicKeyParameters;
+import it.unisa.dia.gas.plaf.jlbc.trapdoor.mp12.params.MP12Parameters;
 import org.junit.Before;
 import org.junit.Test;
 
