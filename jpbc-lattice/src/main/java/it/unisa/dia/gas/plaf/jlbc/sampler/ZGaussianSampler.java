@@ -10,21 +10,21 @@ public class ZGaussianSampler implements Sampler<BigInteger> {
 
     protected SecureRandom random;
 
-    private int sigma;
+    private int gaussianParameter;
     private double sigmaSquare;
 
     private BigInteger tofk, left, right;
 
-    public ZGaussianSampler(int strength, SecureRandom random, int sigma) {
+    public ZGaussianSampler(SecureRandom random, int gaussianParameter) {
         if (random == null)
             random = new SecureRandom();
 
         this.random = random;
-        this.sigma = sigma;
-        this.sigmaSquare = Math.pow(sigma, 2);
-        this.tofk = BigInteger.valueOf(Math.round(Math.log(strength) / Math.log(2)));
+        this.gaussianParameter = gaussianParameter;
+        this.sigmaSquare = Math.pow(gaussianParameter, 2);
+        this.tofk = BigInteger.valueOf(Math.round(Math.log(90) / Math.log(2)));
 
-        BigInteger offset = tofk.multiply(BigInteger.valueOf(sigma));
+        BigInteger offset = tofk.multiply(BigInteger.valueOf(gaussianParameter));
         left = offset.negate();
         right = offset;
 

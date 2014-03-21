@@ -160,30 +160,14 @@ public class MatrixElement<E extends Element> extends AbstractMatrixElement<E, M
     }
 
     public MatrixElement<E> map(Element e) {
-//        coefficients.get(0).set(e);
-//        for (int i = 1; i < field.n; i++) {
-//            coefficients.get(i).setToZero();
-//        }
-//
-//        return this;
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
     public MatrixElement<E> twice() {
-//        for (int i = 0; i < field.n; i++) {
-//            coefficients.get(i).twice();
-//        }
-//
-//        return this;
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
     public MatrixElement<E> square() {
-//        for (int i = 0; i < field.n; i++) {
-//            coefficients.get(i).square();
-//        }
-//
-//        return this;
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 

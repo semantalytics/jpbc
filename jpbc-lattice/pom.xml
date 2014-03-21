@@ -12,4 +12,12 @@
     <artifactId>jpbc-lattice</artifactId>
 
 
+    <dependencies>
+        <dependency>
+            <groupId>org.apfloat</groupId>
+            <artifactId>apfloat</artifactId>
+            <version>1.8.1</version>
+        </dependency>
+    </dependencies>
+
 </project>
