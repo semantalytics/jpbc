@@ -478,4 +478,10 @@ public class MatrixElement<E extends Element> extends AbstractMatrixElement<E, M
         return true;
     }
 
+    public boolean isSquare() {
+        return field.n ==  field.m;
+    }
+
+
+
 }

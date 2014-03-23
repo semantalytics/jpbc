@@ -36,6 +36,8 @@ public interface Matrix <E extends Element> extends Element {
 
     public boolean isSymmetric();
 
+    public boolean isSquare();
+
 
     public static interface Transformer {
 

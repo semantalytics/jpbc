@@ -179,7 +179,9 @@ public class FloatingElement extends AbstractElement<FloatingField> {
     }
 
     public FloatingElement sqrt() {
-        throw new IllegalStateException("Not implemented yet!!!");
+        this.value = ApfloatMath.sqrt(this.value);
+
+        return this;
     }
 
 
