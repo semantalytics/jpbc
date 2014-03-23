@@ -189,11 +189,11 @@ public class ZGaussianCDTSampler implements Sampler<BigInteger> {
             data = new CDTData(CDT, CDT_inv_min, CDT_inv_max, CDT_length);
             this.dataMap.put(gaussianParameter, data);
 
-            System.out.println("CDT");
-            for (int i = 0; i < CDT.length; i++) {
-                BigInteger bigInteger = CDT[i];
-                System.out.println(bigInteger);
-            }
+//            System.out.println("CDT");
+//            for (int i = 0; i < CDT.length; i++) {
+//                BigInteger bigInteger = CDT[i];
+//                System.out.println(bigInteger);
+//            }
 
             return data;
         }

@@ -23,6 +23,13 @@ public class MatrixField<F extends Field> extends AbstractFieldOver<F, MatrixEle
         this.lenInBytes = n * m * targetField.getLengthInBytes();
     }
 
+    public MatrixField(SecureRandom random, F targetField, int n) {
+        super(random, targetField);
+
+        this.n = n;
+        this.m = n;
+        this.lenInBytes = n * n * targetField.getLengthInBytes();
+    }
 
     public MatrixElement newElement() {
         return new MatrixElement(this);

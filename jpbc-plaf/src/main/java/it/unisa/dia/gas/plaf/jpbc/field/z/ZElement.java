@@ -129,7 +129,7 @@ public class ZElement extends AbstractZElement<ZField> {
     }
 
     public ZElement negate() {
-        value = value.multiply(BigInteger.valueOf(-1));
+        value = value.negate();
 
         return this;
     }

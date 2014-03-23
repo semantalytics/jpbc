@@ -14,5 +14,8 @@ public abstract class AbstractMatrixElement<E extends Element, F extends Abstrac
         super(field);
     }
 
+    public E getAt(int row, int col) {
+        return (E) matrix[row][col];
+    }
 
 }

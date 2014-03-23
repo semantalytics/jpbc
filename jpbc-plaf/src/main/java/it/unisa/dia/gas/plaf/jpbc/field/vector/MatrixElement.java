@@ -1,9 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.field.vector;
 
-import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.jpbc.FieldOver;
-import it.unisa.dia.gas.jpbc.Matrix;
-import it.unisa.dia.gas.jpbc.Vector;
+import it.unisa.dia.gas.jpbc.*;
 import it.unisa.dia.gas.plaf.jpbc.field.base.AbstractMatrixElement;
 
 import java.math.BigInteger;
@@ -12,6 +9,7 @@ import java.math.BigInteger;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class MatrixElement<E extends Element> extends AbstractMatrixElement<E, MatrixField> implements Matrix<E> {
+
 
     public MatrixElement(MatrixField field) {
         super(field);
@@ -35,25 +33,14 @@ public class MatrixElement<E extends Element> extends AbstractMatrixElement<E, M
         }
     }
 
-    public E getAt(int row, int col) {
-        return (E) matrix[row][col];
-    }
 
-    public int getN() {
-        return field.n;
-    }
-
-    public int getM() {
-        return field.m;
-    }
 
     public boolean isSqr() {
         return false;
     }
 
-    @Override
     public MatrixField getField() {
-        return (MatrixField) super.getField();
+        return super.getField();
     }
 
     public MatrixElement<E> duplicate() {
@@ -99,63 +86,30 @@ public class MatrixElement<E extends Element> extends AbstractMatrixElement<E, M
     }
 
     public MatrixElement<E> setToRandom() {
-        for (int i = 0; i < field.n; i++) {
-            for (int j = 0; j < field.m; j++) {
+        for (int i = 0; i < field.n; i++)
+            for (int j = 0; j < field.m; j++)
                 matrix[i][j].setToRandom();
-            }
-        }
 
         return this;
     }
 
     public MatrixElement<E> setFromHash(byte[] source, int offset, int length) {
-//        for (int i = 0; i < field.n; i++) {
-//            coefficients.get(i).setFromHash(source, offset, length);
-//        }
-//
-//        return this;
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
     public MatrixElement<E> setToZero() {
-//        for (int i = 0; i < field.n; i++) {
-//            coefficients.get(i).setToZero();
-//        }
-//
-//        return this;
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
     public boolean isZero() {
-//        for (int i = 0; i < field.n; i++) {
-//            if (!coefficients.get(i).isZero())
-//                return false;
-//        }
-//        return true;
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
     public MatrixElement<E> setToOne() {
-//        coefficients.get(0).setToOne();
-//
-//        for (int i = 1; i < field.n; i++) {
-//            coefficients.get(i).setToZero();
-//        }
-//
-//        return this;
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
     public boolean isOne() {
-//        if (!coefficients.get(0).isOne())
-//            return false;
-//
-//        for (int i = 1; i < field.n; i++) {
-//            if (!coefficients.get(i).isZero())
-//                return false;
-//        }
-//
-//        return true;
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
@@ -176,32 +130,23 @@ public class MatrixElement<E extends Element> extends AbstractMatrixElement<E, M
     }
 
     public MatrixElement<E> negate() {
-        for (int i = 0; i < field.n; i++) {
-            for (int j = 0; j < field.m; j++) {
+        for (int i = 0; i < field.n; i++)
+            for (int j = 0; j < field.m; j++)
                 matrix[i][j].negate();
-            }
-        }
 
         return this;
     }
 
     public MatrixElement<E> add(Element e) {
-//        MatrixElement<E> element = (MatrixElement<E>) e;
-//
-//        for (int i = 0; i < field.n; i++) {
-//            coefficients.get(i).add(element.coefficients.get(i));
-//        }
-//
-//        return this;
-        throw new IllegalStateException("Not Implemented yet!!!");
+        throw new IllegalStateException("Not implemented yet!!!");
     }
 
     public MatrixElement<E> sub(Element e) {
-        MatrixElement me = (MatrixElement) e;
+        MatrixElement m = (MatrixElement) e;
 
         for (int i = 0; i < field.n; i++) {
             for (int j = 0; j < field.m; j++) {
-                matrix[i][j].sub(me.getAt(i, j));
+                matrix[i][j].sub(m.getAt(i, j));
             }
         }
 
@@ -292,27 +237,18 @@ public class MatrixElement<E extends Element> extends AbstractMatrixElement<E, M
             MatrixElement me = (MatrixElement) e;
 
             if (field.getTargetField().equals(me.getField().getTargetField())) {
-                MatrixField f = new MatrixField(
-                        field.getRandom(), field.getTargetField(), field.n, me.getField().m
-                );
+                MatrixField f = new MatrixField<Field>(field.getRandom(), field.getTargetField(), field.n, me.getField().m);
                 MatrixElement r = f.newElement();
 
                 for (int i = 0; i < f.n; i++) {
-
                     // row \times column
-
                     for (int j = 0; j < f.m; j++) {
-
                         Element temp = field.getTargetField().newElement();
 
                         for (int k = 0; k < field.m; k++) {
-                            temp.add(
-                                    getAt(i, k).duplicate().mul(me.getAt(k, j))
-                            );
+                            temp.add(getAt(i, k).duplicate().mul(me.getAt(k, j)));
                         }
-
                         r.getAt(i, j).set(temp);
-
                     }
                 }
 
@@ -390,19 +326,17 @@ public class MatrixElement<E extends Element> extends AbstractMatrixElement<E, M
         return matrix[0][0].toBigInteger();
     }
 
-
     public boolean equals(Object obj) {
         if (obj instanceof MatrixElement)
             return isEqual((Element) obj);
         return super.equals(obj);
     }
 
-    @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < field.n; i++) {
             for (int j = 0; j < field.m; j++) {
-                sb.append(matrix[i][j] + " ");
+                sb.append(String.format("%5s", matrix[i][j])).append(" ");
             }
             sb.append("\n");
         }
@@ -412,8 +346,18 @@ public class MatrixElement<E extends Element> extends AbstractMatrixElement<E, M
                 '}';
     }
 
-    public Element rowAt(int row) {
-        VectorField f = new VectorField(field.getRandom(), field.getTargetField(), field.m);
+
+
+    public int getN() {
+        return field.n;
+    }
+
+    public int getM() {
+        return field.m;
+    }
+
+    public Vector<E> rowAt(int row) {
+        VectorField<Field> f = new VectorField<Field>(field.getRandom(), field.getTargetField(), field.m);
         VectorElement r = f.newElement();
 
         for (int i = 0; i < f.n; i++) {
@@ -423,8 +367,8 @@ public class MatrixElement<E extends Element> extends AbstractMatrixElement<E, M
         return r;
     }
 
-    public Element columnAt(int col) {
-        VectorField f = new VectorField(field.getRandom(), field.getTargetField(), field.n);
+    public Vector<E> columnAt(int col) {
+        VectorField<Field> f = new VectorField<Field>(field.getRandom(), field.getTargetField(), field.n);
         VectorElement r = f.newElement();
 
         for (int i = 0; i < f.n; i++) {
@@ -434,24 +378,104 @@ public class MatrixElement<E extends Element> extends AbstractMatrixElement<E, M
         return r;
     }
 
-
-    public Element setRowAt(int row, Element rowElement) {
-        VectorElement r = (VectorElement) rowElement;
+    public MatrixElement<E> setRowAt(int row, Element rowElement) {
+        Vector r = (Vector) rowElement;
 
         for (int i = 0; i < field.m; i++) {
             matrix[row][i].set(r.getAt(i));
         }
 
-        return r;
+        return this;
     }
 
-    public Element setColAt(int col, Element rowElement) {
-        VectorElement r = (VectorElement) rowElement;
+    public MatrixElement<E> setColAt(int col, Element colElement) {
+        Vector r = (Vector) colElement;
 
         for (int i = 0; i < field.n; i++) {
             matrix[i][col].set(r.getAt(i));
         }
 
-        return r;
+        return this;
     }
+
+    public Matrix<E> setSubMatrixToIdentityAt(int row, int col, int n) {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i == j)
+                    matrix[row + i][col + j].setToOne();
+                else
+                    matrix[row + i][col + j].setToZero();
+            }
+        }
+
+        return this;
+    }
+
+    public Matrix<E> setSubMatrixFromMatrixAt(int row, int col, Element e) {
+        // TODO: check the lengths
+
+        Matrix m = (Matrix) e;
+        for (int i = 0; i < m.getN(); i++) {
+            for (int j = 0; j < m.getM(); j++) {
+                matrix[row + i][col + j].set(m.getAt(i, j));
+            }
+        }
+
+        return this;
+    }
+
+    public Matrix<E> setSubMatrixFromMatrixTransposeAt(int row, int col, Element e) {
+        // TODO: check the lengths
+
+        Matrix m = (Matrix) e;
+        for (int i = 0; i < m.getM(); i++) {
+            for (int j = 0; j < m.getN(); j++) {
+                matrix[row + i][col + j].set(m.getAt(j, i));
+            }
+        }
+
+        return this;
+    }
+
+    public Matrix<E> mulByTranspose() {
+        MatrixField resultField = new MatrixField<Field>(field.getRandom(), field.getTargetField(), field.n);
+        MatrixElement result = resultField.newElement();
+
+        for (int i = 0; i < field.n; i++) {
+
+            for (int j = 0; j < field.n; j++) {
+                Element temp = field.getTargetField().newElement();
+
+                for (int k = 0; k < field.m; k++) {
+                    temp.add(getAt(i, k).duplicate().mul(getAt(j, k)));
+                }
+
+                result.getAt(i, j).set(temp);
+            }
+        }
+
+        return result;
+    }
+
+    public Matrix<E> transform(Transformer transformer) {
+        for (int i = 0; i < field.n; i++)
+            for (int j = 0; j < field.m; j++)
+                transformer.transform(i, j, matrix[i][j]);
+
+        return this;
+    }
+
+    public boolean isSymmetric() {
+        int n = matrix.length;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (!matrix[i][j].equals(matrix[j][i]))
+                    return false;
+            }
+        }
+
+        return true;
+    }
+
 }
