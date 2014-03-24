@@ -250,8 +250,9 @@ public class PBCElement implements Element {
 
     public boolean isEqual(Element e) {
         return this == e || (e instanceof PBCElement && WrapperLibraryProvider.getWrapperLibrary().pbc_element_cmp(value, ((PBCElement) e).value) == 0);
-
     }
+
+
 
     public ElementPowPreProcessing getElementPowPreProcessing() {
         return new PBCElementPowPreProcessing(field, value);
@@ -267,6 +268,10 @@ public class PBCElement implements Element {
     @Override
     public boolean equals(Object obj) {
         return obj instanceof Element && isEqual((Element) obj);
+    }
+
+    public int compareTo(Object o) {
+        throw new IllegalStateException("Not Implemented yet!");
     }
 
     public Pointer getValue() {

@@ -113,6 +113,10 @@ public abstract class AbstractElement<F extends AbstractField> implements Elemen
         return obj instanceof Element && isEqual((Element) obj);
     }
 
+    public int compareTo(Object o) {
+        throw new IllegalStateException("Not Implemented yet!");
+    }
+
 
     protected int optimalPowWindowSize(BigInteger n) {
         int expBits;

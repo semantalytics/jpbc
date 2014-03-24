@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.params;
 
 import it.unisa.dia.gas.plaf.jlbc.sampler.Sampler;
+import it.unisa.dia.gas.plaf.jlbc.sampler.ZGaussianCDTSampler;
 import org.bouncycastle.crypto.KeyGenerationParameters;
 
 import java.math.BigInteger;
@@ -13,18 +14,32 @@ public class MP12PLP2KeyPairGenerationParameters extends KeyGenerationParameters
 
     private MP12Parameters params;
     private int k;
+    private int gaussianParameter;
     private Sampler<BigInteger> sampler;
 
-    public MP12PLP2KeyPairGenerationParameters(SecureRandom random,
-                                               MP12Parameters params,
+    public MP12PLP2KeyPairGenerationParameters(MP12Parameters params,
                                                int k,
-                                               Sampler<BigInteger> sampler) {
-        super(random, 0);
+                                               int gaussianParameter) {
+        super(params.getRandom(), 100);
 
         this.params = params;
         this.k = k;
-        this.sampler = sampler;
+        this.gaussianParameter = gaussianParameter;
+        this.sampler = new ZGaussianCDTSampler(params.getRandom(), gaussianParameter);
     }
+
+    public MP12PLP2KeyPairGenerationParameters(SecureRandom random,
+                                               int n,
+                                               int k,
+                                               int gaussianParameter) {
+        super(random, 100);
+
+        this.params = new MP12Parameters(random, n);
+        this.k = k;
+        this.gaussianParameter = gaussianParameter;
+        this.sampler = new ZGaussianCDTSampler(random, gaussianParameter);
+    }
+
 
     public MP12Parameters getParameters() {
         return params;
@@ -32,6 +47,10 @@ public class MP12PLP2KeyPairGenerationParameters extends KeyGenerationParameters
 
     public int getK() {
         return k;
+    }
+
+    public int getGaussianParameter() {
+        return gaussianParameter;
     }
 
     public Sampler<BigInteger> getSampler() {

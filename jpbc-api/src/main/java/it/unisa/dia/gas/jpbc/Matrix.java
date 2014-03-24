@@ -8,6 +8,8 @@ package it.unisa.dia.gas.jpbc;
  */
 public interface Matrix <E extends Element> extends Element {
 
+    Field getTargetField();
+
     int getN();
 
     int getM();

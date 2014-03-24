@@ -23,6 +23,7 @@ public class MP12PLP2SampleD extends AbstractElementCipher {
 
     public ElementCipher init(CipherParameters param) {
         this.parameters = (MP12PLP2PublicKeyParameters) param;
+
         this.n = parameters.getParameters().getN();
         this.k = parameters.getK();
         this.zero = new ArrayDeque<BigInteger>();

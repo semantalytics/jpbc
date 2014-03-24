@@ -3,9 +3,7 @@ package it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.engines;
 import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.generators.MP12PLP2KeyPairGenerator;
 import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.params.MP12PLP2KeyPairGenerationParameters;
 import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.params.MP12PLP2PublicKeyParameters;
-import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.params.MP12Parameters;
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.plaf.jlbc.sampler.ZGaussianCDTSampler;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,12 +24,7 @@ public class MP12PLP2Test {
         random = new SecureRandom();
 
         gen = new MP12PLP2KeyPairGenerator();
-        gen.init(new MP12PLP2KeyPairGenerationParameters(
-                random,
-                new MP12Parameters(random, 16),
-                24,
-                new ZGaussianCDTSampler(random, 10)
-        ));
+        gen.init(new MP12PLP2KeyPairGenerationParameters(random, 16, 24, 10));
     }
 
     @Test

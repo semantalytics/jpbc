@@ -12,7 +12,7 @@ import java.math.BigInteger;
  * @see ElementPowPreProcessing
  * @since 1.0.0
  */
-public interface Element extends ElementPow {
+public interface Element extends ElementPow, Comparable  {
 
     /**
      * Returns the field to which this element lie.

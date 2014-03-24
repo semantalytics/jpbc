@@ -293,4 +293,8 @@ public class CTL13MMElement implements Element {
     public boolean equals(Object obj) {
         return obj instanceof CTL13MMElement && isEqual((Element) obj);
     }
+
+    public int compareTo(Object o) {
+        throw new IllegalStateException("Not Implemented yet!");
+    }
 }

@@ -1,7 +1,6 @@
 package it.unisa.dia.gas.plaf.jlbc.field.floating;
 
 import it.unisa.dia.gas.plaf.jpbc.field.base.AbstractField;
-import it.unisa.dia.gas.plaf.jpbc.field.z.ZElement;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -54,5 +53,25 @@ public class FloatingField extends AbstractField<FloatingElement> {
 
     public int getRadix() {
         return radix;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        FloatingField that = (FloatingField) o;
+
+        if (precision != that.precision) return false;
+        if (radix != that.radix) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = precision;
+        result = 31 * result + radix;
+        return result;
     }
 }

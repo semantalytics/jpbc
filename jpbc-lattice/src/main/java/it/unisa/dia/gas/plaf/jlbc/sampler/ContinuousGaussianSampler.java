@@ -35,7 +35,7 @@ public class ContinuousGaussianSampler implements Sampler<Apfloat> {
 
 
     public Apfloat sample() {
-        return new Apfloat(Double.toString(random.nextGaussian()), precision);
+        return new Apfloat(Double.toString(random.nextGaussian()), precision, 2);
     }
 
 }

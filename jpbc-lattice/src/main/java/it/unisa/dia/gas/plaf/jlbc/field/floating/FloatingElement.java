@@ -4,6 +4,7 @@ import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.plaf.jpbc.field.base.AbstractElement;
 import org.apfloat.Apfloat;
 import org.apfloat.ApfloatMath;
+import org.apfloat.Apint;
 
 import java.math.BigInteger;
 
@@ -51,7 +52,7 @@ public class FloatingElement extends AbstractElement<FloatingField> {
         if (value instanceof FloatingElement)
             this.value = ((FloatingElement) value).value;
         else
-            this.value = new Apfloat(value.toBigInteger());
+            this.value = new Apfloat(value.toBigInteger(), field.precision, field.radix);
 
 
         return this;
@@ -131,7 +132,10 @@ public class FloatingElement extends AbstractElement<FloatingField> {
     }
 
     public FloatingElement halve() {
-        throw new IllegalStateException("Not implemented yet!!!");
+        // TODO: shit??
+        value = value.divide(new Apint(2, field.radix));
+
+        return this;
     }
 
     public FloatingElement negate() {
@@ -153,7 +157,9 @@ public class FloatingElement extends AbstractElement<FloatingField> {
     }
 
     public FloatingElement div(Element element) {
-        throw new IllegalStateException("Not implemented yet!!!");
+        value = value.divide(((FloatingElement) element).value);
+
+        return this;
     }
 
     public FloatingElement mul(Element element) {
@@ -195,7 +201,14 @@ public class FloatingElement extends AbstractElement<FloatingField> {
 
     public boolean isEqual(Element e) {
         return this == e || (e instanceof FloatingElement && value.compareTo(((FloatingElement) e).value) == 0);
+    }
 
+    @Override
+    public int compareTo(Object o) {
+        if (o instanceof FloatingElement) {
+            return this.value.compareTo(((FloatingElement)o).value);
+        } else
+            throw new IllegalArgumentException("Not a FloatingElement!!!");
     }
 
     public BigInteger toBigInteger() {
@@ -212,7 +225,13 @@ public class FloatingElement extends AbstractElement<FloatingField> {
     }
 
     public String toString() {
-        return value.toString();
+        return value.toRadix(10).toString(true);
     }
 
+    public FloatingElement set(Apfloat value) {
+        // TODO: check compatibility
+        this.value = value;
+
+        return this;
+    }
 }

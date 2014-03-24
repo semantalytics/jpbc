@@ -33,12 +33,11 @@ public class TORGVW13RecKeyGenerator implements CipherParametersGenerator {
         MatrixField<Field> RField = new MatrixField<Field>(
                 latticePk.getParameters().getRandom(),
                 latticePk.getZq(),
-                latticePk.getM(),
                 latticePk.getM()
         );
         MatrixElement R1 = RField.newElement();
-        for (int i = 0; i < latticePk.getM(); i++) {
-            for (int j = 0; j < latticePk.getM(); j++) {
+        for (int i = 0; i < RField.getN(); i++) {
+            for (int j = 0; j < RField.getN(); j++) {
                 R1.getAt(i, j).set(latticePk.getSampler().sample());
             }
         }
@@ -53,7 +52,7 @@ public class TORGVW13RecKeyGenerator implements CipherParametersGenerator {
         sampleD.init(new MP12HLP2SampleParameters(params.getLeftPk().getLatticePublicKey(), params.getLeftSk().getLatticePrivateKey()));
 
         MatrixElement R0 = RField.newElement();
-        for (int i = 0; i < latticePk.getM(); i++) {
+        for (int i = 0; i < RField.getN(); i++) {
             R0.setColAt(i, sampleD.processElements(U.columnAt(i)));
         }
 

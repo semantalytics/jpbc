@@ -164,8 +164,14 @@ public class MatrixElement<E extends Element> extends AbstractMatrixElement<E, M
                 for (int i = 0; i < field.n; i++) {
                     result.add(matrix[i][0]);
                 }
-            } else
-                throw new IllegalArgumentException("Cannot multiply this way.");
+            } else {
+                for (int i = 0; i < field.n; i++) {
+                    for (int j = 0; j < field.m; j++) {
+                        matrix[i][j].mul(e);
+                    }
+                }
+                return this;
+            }
 
             return result;
         } else if (e instanceof Vector) {
@@ -336,7 +342,7 @@ public class MatrixElement<E extends Element> extends AbstractMatrixElement<E, M
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < field.n; i++) {
             for (int j = 0; j < field.m; j++) {
-                sb.append(String.format("%5s", matrix[i][j])).append(" ");
+                sb.append(String.format("%11s", matrix[i][j])).append(" ");
             }
             sb.append("\n");
         }
@@ -346,7 +352,9 @@ public class MatrixElement<E extends Element> extends AbstractMatrixElement<E, M
                 '}';
     }
 
-
+    public Field getTargetField() {
+        return field.getTargetField();
+    }
 
     public int getN() {
         return field.n;
