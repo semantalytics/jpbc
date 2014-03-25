@@ -66,4 +66,11 @@ public abstract class AbstractPointElement<E extends Element, F extends Abstract
         throw new IllegalStateException("Not Implemented yet!");
     }
 
+    public Vector<E> subVectorTo(int end) {
+        throw new IllegalStateException("Not Implemented yet!");
+    }
+
+    public Vector<E> subVectorFrom(int start) {
+        throw new IllegalStateException("Not Implemented yet!");
+    }
 }

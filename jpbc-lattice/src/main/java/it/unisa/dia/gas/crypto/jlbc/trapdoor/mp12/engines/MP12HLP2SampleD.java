@@ -26,7 +26,7 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
     protected MP12HLP2PublicKeyParameters pk;
     protected MP12HLP2PrivateKeyParameters sk;
 
-    protected Element p, w, barW;
+    protected Element p, wMat, barWMat;
 
 
     public ElementCipher init(CipherParameters param) {
@@ -82,16 +82,17 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
         Matrix chol = Cholesky.cholesky(cov);
         System.out.println("chol = " + chol);
 
-        Sampler<Vector> sampler = new ZGaussianCOVSampler(random, chol);
+        Sampler<Vector> sampler = new ZGaussianCOVSampler(random, chol, sk.getR().getTargetField());
         Vector p = sampler.sample();
 
         // Offline phase
 
         // Sample p in \Z^{\bar m + w}
-//        Element p1, p2;
-//
-//        barW = pk.getBarA().mul(p1.duplicate().sub(sk.getR().mul(p2)));
-//        w = pk.getG().mul(p2);
+        Element p1 = p.subVectorTo(barM);
+        Element p2 = p.subVectorFrom(barM);
+
+        barWMat = pk.getBarA().mul(p1.sub(sk.getR().mul(p2)));
+        wMat = pk.getG().mul(p2);
 
         return this;
     }

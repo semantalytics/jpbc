@@ -18,6 +18,7 @@ public class CGSampler implements Sampler<Vector> {
     protected VectorField<FloatingField> vf;
     protected FloatingField ff;
 
+
     public CGSampler(SecureRandom random, int precision, int n) {
         if (random == null)
             random = new SecureRandom();

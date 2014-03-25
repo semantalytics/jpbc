@@ -234,4 +234,8 @@ public class FloatingElement extends AbstractElement<FloatingField> {
 
         return this;
     }
+
+    public Apfloat getValue() {
+        return value;
+    }
 }

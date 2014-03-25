@@ -28,4 +28,7 @@ public interface Vector<E extends Element> extends Element {
      */
     E getAt(int index);
 
+    Vector<E> subVectorTo(int end);
+
+    Vector<E> subVectorFrom(int start);
 }
