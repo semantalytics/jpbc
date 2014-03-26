@@ -15,7 +15,10 @@ public class ApfloatUtils {
     public final static Apfloat TWO = new Apfloat(2, precision, radix);
     public final static Apint ITWO = new Apint(2, radix);
     public final static Apfloat IONE = new Apint(1, radix);
+    public static final Apfloat FIVE = new Apfloat(5, precision, radix);
     public static final Apfloat IFIVE = new Apint(5, radix);
+    public static final Apint ITWELVE = new Apint(12, radix);
+    public static final Apfloat ZERO = new Apfloat(0, precision, radix);;
 
 
     public static Apfloat newApfloat(int n) {
@@ -36,5 +39,9 @@ public class ApfloatUtils {
 
     public static String toString(Apfloat value) {
         return value.toRadix(10).toString(true);
+    }
+
+    public static Apfloat newApint(int value) {
+        return new Apint(value, radix);
     }
 }

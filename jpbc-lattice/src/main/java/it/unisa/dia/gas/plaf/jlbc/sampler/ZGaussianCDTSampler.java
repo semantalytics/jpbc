@@ -1,5 +1,6 @@
 package it.unisa.dia.gas.plaf.jlbc.sampler;
 
+import it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 import org.apfloat.Apfloat;
 import org.apfloat.ApfloatMath;
@@ -111,15 +112,12 @@ public class ZGaussianCDTSampler implements Sampler<BigInteger> {
             BigInteger[] CDT, CDT_inv_min, CDT_inv_max;
             int CDT_length;
 
-            Apfloat zero = new Apfloat(0, 128, 2);
-            Apfloat two = new Apfloat(2, 128, 2);
-
             // f = 2 sigma^2 = 2 k^2 1/(2ln(2)) = k^2/ln(2)
             int k = (int) (sigma_bin_inv_lowprec * gaussianParameter) + 1;
-            Apfloat f = new Apfloat(k * k, 128, 2).divide(ApfloatMath.log(two));
+            Apfloat f = new Apfloat(k * k, 128, 2).divide(ApfloatMath.log(ApfloatUtils.TWO));
 
             // compute normalization constant
-            Apfloat t = zero;
+            Apfloat t = ApfloatUtils.ZERO;
             CDT_length = (int) (k * sigma_bin_lowprec * tau) + 1;
 
             for (int i = 1; i < CDT_length; i++) {
@@ -129,23 +127,23 @@ public class ZGaussianCDTSampler implements Sampler<BigInteger> {
                 z = z.divide(f);            // z = -(i-1)^2/f
                 z = ApfloatMath.exp(z);     // z = exp(-(i-1)^2/f)
                 if (i == 1)
-                    z = z.divide(two);
+                    z = z.divide(ApfloatUtils.TWO);
 
                 t = t.add(z);
             }
 
-            Apfloat ff = ApfloatMath.pow(two, 64);
-            Apfloat y = zero;
+            Apfloat ff = ApfloatMath.pow(ApfloatUtils.TWO, 64);
+            Apfloat y = ApfloatUtils.ZERO;
             CDT = new BigInteger[CDT_length * 2];
 
             for (int i = 1; i < CDT_length; i++) {
-                Apfloat z = new Apfloat(i - 1, 128, 2);
+                Apfloat z = ApfloatUtils.newApfloat(i - 1);
                 z = z.multiply(z);
                 z = z.negate();
                 z = z.divide(f);
                 z = ApfloatMath.exp(z);
                 if (i == 1)
-                    z = z.divide(two);
+                    z = z.divide(ApfloatUtils.TWO);
 
                 z = z.divide(t); // normalize
                 y = y.add(z); // accumulate

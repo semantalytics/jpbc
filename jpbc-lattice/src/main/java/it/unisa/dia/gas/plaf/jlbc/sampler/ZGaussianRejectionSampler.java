@@ -1,5 +1,6 @@
 package it.unisa.dia.gas.plaf.jlbc.sampler;
 
+import it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils;
 import org.apfloat.Apfloat;
 import org.apfloat.ApfloatMath;
 import org.apfloat.Apint;
@@ -20,7 +21,7 @@ public class ZGaussianRejectionSampler implements Sampler<BigInteger> {
     protected Apfloat h, sigmaTau;
     protected int left, interval;
 
-    protected Apint tau = new Apint(12, 2);
+    protected Apint tau = ApfloatUtils.ITWELVE;
 
     public ZGaussianRejectionSampler(SecureRandom random, Apfloat sigma, Apfloat center, int precision) {
         if (random == null)
@@ -31,7 +32,7 @@ public class ZGaussianRejectionSampler implements Sampler<BigInteger> {
         this.precision = precision;
         this.center = center;
 
-        this.h = ApfloatMath.pi(precision, 2).divide(ApfloatMath.pow(sigma, 2)).negate();
+        this.h = ApfloatMath.pi(precision, 2).divide(ApfloatUtils.square(sigma)).negate();
         this.sigmaTau = sigma.multiply(tau);
 
         setCenter(center);
@@ -45,7 +46,7 @@ public class ZGaussianRejectionSampler implements Sampler<BigInteger> {
         this.sigma = sigma;
         this.precision = precision;
 
-        this.h = ApfloatMath.pi(precision, 2).divide(ApfloatMath.pow(sigma, 2)).negate();
+        this.h = ApfloatMath.pi(precision, 2).divide(ApfloatUtils.square(sigma)).negate();
         this.sigmaTau = sigma.multiply(tau);
     }
 
@@ -66,7 +67,7 @@ public class ZGaussianRejectionSampler implements Sampler<BigInteger> {
             int x = left + random.nextInt(interval);
 //            System.out.println("x = " + x);
 
-            Apfloat rhos = ApfloatMath.exp(h.multiply(ApfloatMath.pow(new Apint(x, 2).subtract(center), 2)));
+            Apfloat rhos = ApfloatMath.exp(h.multiply(ApfloatUtils.square(ApfloatUtils.newApint(x).subtract(center))));
             double sample = random.nextDouble();
 
 //            System.out.println("rhos = " + rhos.toRadix(10).toString(true));
