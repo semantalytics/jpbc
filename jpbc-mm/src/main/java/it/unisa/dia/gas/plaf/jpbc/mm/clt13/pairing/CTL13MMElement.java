@@ -78,6 +78,10 @@ public class CTL13MMElement implements Element {
         return this;
     }
 
+    public void setFromObject(Object value) {
+        throw new IllegalStateException("Not implemented yet!!!");
+    }
+
     public Element setFromHash(byte[] source, int offset, int length) {
         throw new IllegalStateException("Not Implemented yet!");
     }

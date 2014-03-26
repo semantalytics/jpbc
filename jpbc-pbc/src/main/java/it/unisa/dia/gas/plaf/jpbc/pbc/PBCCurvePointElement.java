@@ -88,6 +88,10 @@ public class PBCCurvePointElement extends PBCElement implements Point {
         return lengthInBytes;
     }
 
+    public void setFromObject(Object value) {
+        throw new IllegalStateException("Not implemented yet!!!");
+    }
+
     public Vector subVectorTo(int end) {
         throw new IllegalStateException("Not Implemented yet!");
     }

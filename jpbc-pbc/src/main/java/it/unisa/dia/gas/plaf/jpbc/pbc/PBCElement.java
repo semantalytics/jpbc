@@ -94,6 +94,10 @@ public class PBCElement implements Element {
         return this;
     }
 
+    public void setFromObject(Object value) {
+        throw new IllegalStateException("Not implemented yet!!!");
+    }
+
     public int setFromBytes(byte[] source) {
         return setFromBytes(source, 0);
     }

@@ -61,6 +61,10 @@ public class ImmutableField implements Field {
         return field.newRandomElement().getImmutable();
     }
 
+    public Element newElement(Object value) {
+        return field.newElement(value).getImmutable();
+    }
+
     public BigInteger getOrder() {
         return field.getOrder();
     }

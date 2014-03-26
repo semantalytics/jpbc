@@ -81,6 +81,13 @@ public interface Field<E extends Element> {
     E newElementFromBytes(byte[] source, int offset);
 
     /**
+     * TODO
+     * @param value
+     * @return
+     */
+    E newElement(Object value);
+
+    /**
      * Returns a new element whose value is zero.
      *
      * @return a new element whose value is zero.
@@ -191,4 +198,5 @@ public interface Field<E extends Element> {
      * @since 1.2.0
      */
     ElementPowPreProcessing getElementPowPreProcessingFromBytes(byte[] source, int offset);
+
 }

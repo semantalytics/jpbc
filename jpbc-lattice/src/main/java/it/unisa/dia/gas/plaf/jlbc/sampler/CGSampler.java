@@ -34,7 +34,7 @@ public class CGSampler implements Sampler<Vector> {
         Vector<FloatingElement> v = vf.newElement();
 
         for (int i = 0; i < n; i++)
-            v.getAt(i).set(new Apfloat(Double.toString(random.nextGaussian()), precision).toRadix(2));
+            v.getAt(i).setFromObject(new Apfloat(Double.toString(random.nextGaussian()), precision).toRadix(2));
 
         return v;
     }

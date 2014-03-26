@@ -46,6 +46,10 @@ public abstract class AbstractElement<F extends AbstractField> implements Elemen
         throw new IllegalStateException("Not Implemented yet!");
     }
 
+    public void setFromObject(Object value) {
+        throw new IllegalStateException("Not Implemented yet!");
+    }
+
     public Element pow(BigInteger n) {
         if (BigInteger.ZERO.equals(n)) {
             setToOne();

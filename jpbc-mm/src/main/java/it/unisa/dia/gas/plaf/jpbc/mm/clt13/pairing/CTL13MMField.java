@@ -30,7 +30,7 @@ public class CTL13MMField implements Field<CTL13MMElement> {
 
         this.lengthInBytes =
                 ((pairing.getCTL13MMInstance().getSystemParameters().getN() *
-                pairing.getCTL13MMInstance().getSystemParameters().getEta() + 7) / 8) + 8;
+                        pairing.getCTL13MMInstance().getSystemParameters().getEta() + 7) / 8) + 8;
     }
 
 
@@ -96,6 +96,10 @@ public class CTL13MMField implements Field<CTL13MMElement> {
 
     public CTL13MMElement newRandomElement() {
         return new CTL13MMElement(this, instance.encodeAt(instance.sampleAtZero(), 0, index), index);
+    }
+
+    public CTL13MMElement newElement(Object value) {
+        throw new IllegalStateException("Not implemented yet!!!");
     }
 
     public BigInteger getOrder() {

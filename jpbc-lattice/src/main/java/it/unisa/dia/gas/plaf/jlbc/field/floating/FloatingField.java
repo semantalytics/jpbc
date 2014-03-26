@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.plaf.jlbc.field.floating;
 
 import it.unisa.dia.gas.plaf.jpbc.field.base.AbstractField;
+import org.apfloat.Apfloat;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;

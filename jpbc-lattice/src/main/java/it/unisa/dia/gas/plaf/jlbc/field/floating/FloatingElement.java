@@ -235,6 +235,10 @@ public class FloatingElement extends AbstractElement<FloatingField> {
         return this;
     }
 
+    public void setFromObject(Object value) {
+        set((Apfloat) value);
+    }
+
     public Apfloat getValue() {
         return value;
     }

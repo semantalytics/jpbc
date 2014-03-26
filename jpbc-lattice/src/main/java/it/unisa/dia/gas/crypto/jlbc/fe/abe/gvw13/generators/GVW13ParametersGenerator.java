@@ -25,7 +25,7 @@ public class GVW13ParametersGenerator {
 
     public GVW13Parameters generateParameters() {
         TORGVW13Parameters parameters = new TORGVW13Parameters(
-                random, 2, depth
+                random, 4, depth
         );
 
         TORGVW13KeyPairGenerator keyPairGenerator = new TORGVW13KeyPairGenerator();

@@ -8,6 +8,7 @@ import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Matrix;
 import it.unisa.dia.gas.plaf.jlbc.sampler.Sampler;
 import it.unisa.dia.gas.plaf.jlbc.sampler.ZGaussianCDTSampler;
+import it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixElement;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixField;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorField;
@@ -15,6 +16,9 @@ import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.KeyGenerationParameters;
 
 import java.math.BigInteger;
+
+import static it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils.ITWO;
+import static it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils.TWO;
 
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
@@ -39,7 +43,9 @@ public class MP12HLP2KeyPairGenerator extends MP12PLP2KeyPairGenerator {
         this.inputField = new VectorField<Field>(params.getRandom(), Zq, n);
         this.outputField = new VectorField<Field>(params.getRandom(), Zq, m);
 
-        this.lweErrorSampler = new ZGaussianCDTSampler(random, (int) (2 * Math.sqrt(n)));
+        this.lweErrorSampler = new ZGaussianCDTSampler(random,
+                ApfloatUtils.sqrt(n).multiply(ITWO).ceil().intValue()
+        );
     }
 
     public AsymmetricCipherKeyPair generateKeyPair() {
@@ -49,7 +55,7 @@ public class MP12HLP2KeyPairGenerator extends MP12PLP2KeyPairGenerator {
 
         // 1. Choose barA random in Z_q[n x barM]
 
-        MatrixField<Field> hatAField = new MatrixField<Field>(random, Zq, n, n);
+        MatrixField<Field> hatAField = new MatrixField<Field>(random, Zq, n);
         Element In = hatAField.newIdentity();
         Element hatA = hatAField.newRandomElement();
 
@@ -58,10 +64,10 @@ public class MP12HLP2KeyPairGenerator extends MP12PLP2KeyPairGenerator {
 
         // 2. Sample R from Z[barM x w] using distribution D
         Matrix R = sample(barM, w);
-        System.out.println("R = " + R);
+//        System.out.println("R = " + R);
 
         // 3. Compute G - barA R
-        Element A1 = G.duplicate().sub(barA.duplicate().mul(R));
+        Element A1 = G.duplicate().sub(barA.mul(R));
 //        System.out.println("A1 = " + A1);
 
         Element A = hatAField.union(barA, A1);
@@ -103,6 +109,5 @@ public class MP12HLP2KeyPairGenerator extends MP12PLP2KeyPairGenerator {
 
         return R;
     }
-
 
 }

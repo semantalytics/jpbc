@@ -89,6 +89,7 @@ public interface Element extends ElementPow, Comparable  {
      */
     Element set(BigInteger value);
 
+
     /**
      * Converts this to a BigInteger if such operation makes sense.
      *
@@ -96,6 +97,13 @@ public interface Element extends ElementPow, Comparable  {
      * @since 1.0.0
      */
     BigInteger toBigInteger();
+
+    /**
+     * TODO
+     * @param value
+     * @from 2.1.0
+     */
+    void setFromObject(Object value);
 
     /**
      * If this element lies in a finite algebraic structure, assigns a uniformly random element to it.

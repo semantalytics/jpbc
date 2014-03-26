@@ -63,6 +63,13 @@ public abstract class AbstractField<E extends Element> implements Field<E> {
         return e;
     }
 
+    public E newElement(Object value) {
+        E e = newElement();
+        e.setFromObject(value);
+
+        return e;
+    }
+
     public E newZeroElement() {
         E e = newElement();
         e.setToZero();

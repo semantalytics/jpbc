@@ -31,13 +31,14 @@ public class MP12HLP2Test {
 
     @Before
     public void setUp() throws Exception {
-        System.out.println("MP12HLP2Test.setUp.START");
-
         gen = new MP12HLP2KeyPairGenerator();
-        gen.init(new MP12HLP2KeyPairGenerationParameters(random, 2, 2, 10));
+        gen.init(new MP12HLP2KeyPairGenerationParameters(
+                random,
+                4, // n
+                32, // k
+                10 // s
+        ));
         keyPair = gen.generateKeyPair();
-
-        System.out.println("MP12HLP2Test.setUp.END");
     }
 
     @Test

@@ -10,6 +10,7 @@ import it.unisa.dia.gas.jpbc.Vector;
 import it.unisa.dia.gas.plaf.jlbc.field.floating.FloatingField;
 import it.unisa.dia.gas.plaf.jlbc.sampler.Sampler;
 import it.unisa.dia.gas.plaf.jlbc.sampler.ZGaussianCOVSampler;
+import it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixField;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorField;
 import it.unisa.dia.gas.plaf.jpbc.util.math.Cholesky;
@@ -20,6 +21,9 @@ import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
 
 import java.security.SecureRandom;
+
+import static it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils.ITWO;
+import static it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils.newApfloat;
 
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
@@ -52,38 +56,43 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
                 barM + w
         );
 
+        // TODO: fix *10
+//        Apfloat n = newApfloat(pk.getParameters().getN());
+        Apfloat n = newApfloat(pk.getParameters().getN()*10);
+        Apfloat k = newApfloat(pk.getK());
+
+        // Compute s1R = ((2\sqrt(n)) * (\sqrt(2n) + \sqrt(nk)) \ \sqrt(2\pi)
+        Apfloat s1R = ApfloatMath.sqrt(n).multiply(ITWO).multiply(
+                ApfloatMath.sqrt(n.multiply(ITWO)).add(ApfloatMath.sqrt(n.multiply(k)))
+        ).divide(ApfloatMath.sqrt(ApfloatUtils.pi().multiply(ITWO)));
+        System.out.println("s1R = " + ApfloatUtils.toString(s1R));
+
+        Apfloat s1Rsquare = ApfloatUtils.square(s1R);
+        System.out.println("s1Rsquare = " + ApfloatUtils.toString(s1Rsquare));
+
+        Apfloat s = ApfloatMath.sqrt(s1Rsquare.add(ApfloatUtils.IONE)).multiply(
+                ApfloatUtils.sqrt(6)
+        ).multiply(ApfloatUtils.IFIVE);
+
+        System.out.println("s = " + ApfloatUtils.toString(s));
+
         Element rSquare = ff.getTargetField().newElement(pk.getGaussianParameter()).square();
         final Element aSquare = ff.getTargetField().newElement(pk.getGaussianParameter()).halve().square();
-        final Element sSquare = ff.getTargetField().newElement(657);
+        final Element sSquare = ff.getTargetField().newElement(s).square();
 
-        Apfloat n = new Apfloat(pk.getParameters().getN(), 128, 2);
-        Apfloat k = new Apfloat(pk.getK(), 128, 2);
-
-
-        Apfloat e =
-                ApfloatMath.pow(
-
-                ApfloatMath.sqrt(k.multiply(n)).add(
-        ApfloatMath.sqrt(n.multiply(new Apint(2, 2)))).multiply(
-
-        ApfloatMath.sqrt(n)).multiply(new Apint(10, 2)).divide(
-                ApfloatMath.sqrt(ApfloatMath.pi(128, 2).multiply(new Apint(10, 2)))
-        ), 4);
-
-        System.out.println("e.toRadix(10) = " + e.toRadix(10).toString(true));
-
-//        (sqrt( (1/(2pi)*(sqrt(20)+sqrt(4))*sqrt(2)) +1) * sqrt(6) * 5)^2
-//        (sqrt( (1/(sqrt(2pi))*(sqrt(20)+sqrt(4)+1)*sqrt(2)) +1) * sqrt(6) * 5)^2
+        System.out.println("rSquare = " + rSquare);
+        System.out.println("aSquare = " + aSquare);
+        System.out.println("sSquare = " + sSquare);
 
         Matrix cov = ff.newElement()
                 .setSubMatrixFromMatrixAt(0, 0, sk.getR().mulByTranspose())
                 .setSubMatrixFromMatrixAt(0, barM, sk.getR())
                 .setSubMatrixFromMatrixTransposeAt(barM, 0, sk.getR())
                 .setSubMatrixToIdentityAt(barM, barM, w);
-        System.out.println("cov = " + cov);
+//        System.out.println("cov = " + cov);
         // multiply by rSqaure
         cov.mul(rSquare);
-        System.out.println("cov = " + cov);
+//        System.out.println("cov = " + cov);
 
         // Construct \Sigma_P = s^2 I - COV
         cov.transform(new Matrix.Transformer() {
@@ -102,10 +111,10 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
             }
         });
 
-        System.out.println("cov = " + cov);
+//        System.out.println("cov = " + cov);
         // Compute Cholesky decomposition
         Matrix chol = Cholesky.cholesky(cov);
-        System.out.println("chol = " + chol);
+//        System.out.println("chol = " + chol);
 
         Sampler<Vector> sampler = new ZGaussianCOVSampler(random, chol, sk.getR().getTargetField());
         Vector p = sampler.sample();

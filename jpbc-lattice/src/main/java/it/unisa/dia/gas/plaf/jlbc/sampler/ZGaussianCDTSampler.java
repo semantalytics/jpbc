@@ -108,8 +108,6 @@ public class ZGaussianCDTSampler implements Sampler<BigInteger> {
             if (data != null)
                 return data;
 
-            System.out.println("CDTDataBuilder.compute(" + gaussianParameter + ")");
-
             BigInteger[] CDT, CDT_inv_min, CDT_inv_max;
             int CDT_length;
 

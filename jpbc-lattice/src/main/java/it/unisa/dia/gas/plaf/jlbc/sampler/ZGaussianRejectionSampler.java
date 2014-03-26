@@ -55,8 +55,8 @@ public class ZGaussianRejectionSampler implements Sampler<BigInteger> {
         this.interval = center.add(sigmaTau).ceil().subtract(center.subtract(sigmaTau).floor()).intValue();
         this.left = center.subtract(sigmaTau).floor().intValue();
 
-        System.out.println("left = " + left);
-        System.out.println("interval = " + interval);
+//        System.out.println("left = " + left);
+//        System.out.println("interval = " + interval);
 
         return this;
     }
