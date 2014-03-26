@@ -13,6 +13,9 @@ import it.unisa.dia.gas.plaf.jlbc.sampler.ZGaussianCOVSampler;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixField;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorField;
 import it.unisa.dia.gas.plaf.jpbc.util.math.Cholesky;
+import org.apfloat.Apfloat;
+import org.apfloat.ApfloatMath;
+import org.apfloat.Apint;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
 
@@ -51,15 +54,36 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
 
         Element rSquare = ff.getTargetField().newElement(pk.getGaussianParameter()).square();
         final Element aSquare = ff.getTargetField().newElement(pk.getGaussianParameter()).halve().square();
-        final Element sSquare = ff.getTargetField().newElement(830);
+        final Element sSquare = ff.getTargetField().newElement(657);
+
+        Apfloat n = new Apfloat(pk.getParameters().getN(), 128, 2);
+        Apfloat k = new Apfloat(pk.getK(), 128, 2);
+
+
+        Apfloat e =
+                ApfloatMath.pow(
+
+                ApfloatMath.sqrt(k.multiply(n)).add(
+        ApfloatMath.sqrt(n.multiply(new Apint(2, 2)))).multiply(
+
+        ApfloatMath.sqrt(n)).multiply(new Apint(10, 2)).divide(
+                ApfloatMath.sqrt(ApfloatMath.pi(128, 2).multiply(new Apint(10, 2)))
+        ), 4);
+
+        System.out.println("e.toRadix(10) = " + e.toRadix(10).toString(true));
+
+//        (sqrt( (1/(2pi)*(sqrt(20)+sqrt(4))*sqrt(2)) +1) * sqrt(6) * 5)^2
+//        (sqrt( (1/(sqrt(2pi))*(sqrt(20)+sqrt(4)+1)*sqrt(2)) +1) * sqrt(6) * 5)^2
 
         Matrix cov = ff.newElement()
                 .setSubMatrixFromMatrixAt(0, 0, sk.getR().mulByTranspose())
                 .setSubMatrixFromMatrixAt(0, barM, sk.getR())
                 .setSubMatrixFromMatrixTransposeAt(barM, 0, sk.getR())
                 .setSubMatrixToIdentityAt(barM, barM, w);
+        System.out.println("cov = " + cov);
         // multiply by rSqaure
         cov.mul(rSquare);
+        System.out.println("cov = " + cov);
 
         // Construct \Sigma_P = s^2 I - COV
         cov.transform(new Matrix.Transformer() {
@@ -78,6 +102,7 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
             }
         });
 
+        System.out.println("cov = " + cov);
         // Compute Cholesky decomposition
         Matrix chol = Cholesky.cholesky(cov);
         System.out.println("chol = " + chol);
@@ -91,8 +116,9 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
         Element p1 = p.subVectorTo(barM);
         Element p2 = p.subVectorFrom(barM);
 
-        barWMat = pk.getBarA().mul(p1.sub(sk.getR().mul(p2)));
-        wMat = pk.getG().mul(p2);
+        this.p = p;
+        this.barWMat = pk.getBarA().mul(p1.sub(sk.getR().mul(p2)));
+        this.wMat = pk.getG().mul(p2);
 
         return this;
     }
@@ -102,13 +128,13 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
         Element u = input[0];
 
         // Compute syndrom w
-        Element v = u;
+        Element v = u.duplicate().sub(pk.getA().mul(p));
 
         // Compute x
         Element z2 = super.processElements(v);
         Element z1 = sk.getR().mul(z2);
 
-        return VectorField.union(z1, z2);
+        return p.add(VectorField.union(z1, z2));
     }
 
 }

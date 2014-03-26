@@ -340,16 +340,25 @@ public class MatrixElement<E extends Element> extends AbstractMatrixElement<E, M
 
     public String toString() {
         StringBuffer sb = new StringBuffer();
+        sb.append("{");
         for (int i = 0; i < field.n; i++) {
-            for (int j = 0; j < field.m; j++) {
-                sb.append(String.format("%11s", matrix[i][j])).append(" ");
-            }
-            sb.append("\n");
-        }
 
-        return "MatrixElement{" +
+            sb.append("{");
+            for (int j = 0; j < field.m; j++) {
+                sb.append(String.format("%s", matrix[i][j]));
+                if (j != field.m -1)
+                    sb.append(",");
+            }
+            if (i != field.n -1)
+                sb.append("},");
+            else
+                sb.append("}");
+        }
+        sb.append("}");
+
+        return "MatrixElement[" +
                 "matrix=\n" + sb.toString() +
-                '}';
+                ']';
     }
 
     public Field getTargetField() {

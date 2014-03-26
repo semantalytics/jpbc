@@ -80,7 +80,7 @@ public class GVW13KEMEngineTest {
 
 
     protected GVW13Parameters createParameters(int ell) {
-        return new GVW13ParametersGenerator(new SecureRandom(), ell).generateParameters();
+        return new GVW13ParametersGenerator(new SecureRandom(), ell, 5).generateParameters();
     }
 
     protected AsymmetricCipherKeyPair setup(GVW13Parameters parameters) {

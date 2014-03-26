@@ -39,6 +39,8 @@ R            \in       \Z_qˆ{\bar m \times w}
 Gaussian Sampling
 ----------------------------
 
+C             <= 1/sqrt(2*pi)
+t              = 0
 s_1(R)        <= C \cdot (\alpha q) \cdot (sqrt(2n) + \sqrt(nk) + t )
 
 s             >= \sqrt(s_1(R)^2+1) \cdot \sqrt(s_1(\Sigma_G)+2) \cdot r

@@ -15,15 +15,17 @@ import java.security.SecureRandom;
 public class GVW13ParametersGenerator {
     private SecureRandom random;
     private int ell;
+    private int depth;
 
-    public GVW13ParametersGenerator(SecureRandom random, int ell) {
+    public GVW13ParametersGenerator(SecureRandom random, int ell, int depth) {
         this.random = random;
         this.ell = ell;
+        this.depth = depth;
     }
 
     public GVW13Parameters generateParameters() {
         TORGVW13Parameters parameters = new TORGVW13Parameters(
-                random, 4, 5
+                random, 2, depth
         );
 
         TORGVW13KeyPairGenerator keyPairGenerator = new TORGVW13KeyPairGenerator();
@@ -32,7 +34,8 @@ public class GVW13ParametersGenerator {
         ));
 
         return new GVW13Parameters(
-                random, 100,
+                random,
+                100,
                 ell,
                 keyPairGenerator,
                 new TORGVW13RecKeyGenerator(),
