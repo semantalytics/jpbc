@@ -12,12 +12,18 @@ public class ApfloatUtils {
     public final static int precision = 128;
     public final static int radix = 2;
 
-    public final static Apfloat TWO = new Apfloat(2, precision, radix);
+
+    public final static Apint IONE = new Apint(1, radix);
     public final static Apint ITWO = new Apint(2, radix);
-    public final static Apfloat IONE = new Apint(1, radix);
-    public static final Apfloat FIVE = new Apfloat(5, precision, radix);
-    public static final Apfloat IFIVE = new Apint(5, radix);
+    public static final Apint IFOUR = new Apint(4, radix);
+    public static final Apint IFIVE = new Apint(5, radix);
+    public static final Apint ISIX = new Apint(6, radix);
+    public static final Apint IEIGHT = new Apint(8, radix);
     public static final Apint ITWELVE = new Apint(12, radix);
+
+
+    public final static Apfloat TWO = new Apfloat(2, precision, radix);
+    public static final Apfloat FIVE = new Apfloat(5, precision, radix);
     public static final Apfloat ZERO = new Apfloat(0, precision, radix);;
 
 

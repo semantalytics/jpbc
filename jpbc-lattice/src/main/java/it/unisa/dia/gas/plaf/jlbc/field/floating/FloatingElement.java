@@ -19,7 +19,7 @@ public class FloatingElement extends AbstractElement<FloatingField> {
     public FloatingElement(FloatingField field) {
         super(field);
 
-        this.value = Apfloat.ZERO;
+        this.value = new Apfloat(0, field.precision, field.radix);
     }
 
     public FloatingElement(FloatingField field, Apfloat value) {
@@ -92,13 +92,13 @@ public class FloatingElement extends AbstractElement<FloatingField> {
     }
 
     public FloatingElement setToZero() {
-        this.value = Apfloat.ZERO;
+        this.value = new Apfloat(0, field.precision, field.radix);
 
         return this;
     }
 
     public FloatingElement setToOne() {
-        this.value = Apfloat.ONE;
+        this.value = new Apfloat(1, field.precision, field.radix);
 
         return this;
     }

@@ -1,6 +1,10 @@
 package it.unisa.dia.gas.plaf.jlbc.sampler;
 
+import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.jpbc.Matrix;
 import it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils;
+import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixField;
+import it.unisa.dia.gas.plaf.jpbc.field.z.SymmetricZrField;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 import org.apfloat.Apfloat;
 import org.apfloat.ApfloatMath;
@@ -116,6 +120,8 @@ public class ZGaussianCDTSampler implements Sampler<BigInteger> {
             int k = (int) (sigma_bin_inv_lowprec * gaussianParameter) + 1;
             Apfloat f = new Apfloat(k * k, 128, 2).divide(ApfloatMath.log(ApfloatUtils.TWO));
 
+            System.out.println("f = " + ApfloatMath.sqrt(f.divide(ApfloatUtils.TWO)).toRadix(10).toString(true));
+
             // compute normalization constant
             Apfloat t = ApfloatUtils.ZERO;
             CDT_length = (int) (k * sigma_bin_lowprec * tau) + 1;
@@ -207,6 +213,30 @@ public class ZGaussianCDTSampler implements Sampler<BigInteger> {
             }
         }
 
+    }
+
+
+    public static void main(String[] args) {
+        SecureRandom random = new SecureRandom();
+        int n = 4;
+        int k = 16;
+
+
+        int nn = 2 *n;
+        int mm = n * k;
+        BigInteger q = BigInteger.ONE.shiftLeft(k);
+
+        Field Zq = new SymmetricZrField(q);
+        ZGaussianCDTSampler sampler = new ZGaussianCDTSampler(random, 4);
+        MatrixField<Field> RField = new MatrixField<Field>(random, Zq, nn, mm);
+        Matrix R = RField.newElement();
+        for (int i = 0; i < nn; i++) {
+            for (int j = 0; j < mm; j++) {
+                R.getAt(i, j).set(sampler.sample());
+            }
+        }
+
+        System.out.println("R = " + R);
     }
 
 }

@@ -48,6 +48,7 @@ public class ZGaussianRejectionSampler implements Sampler<BigInteger> {
 
         this.h = ApfloatMath.pi(precision, 2).divide(ApfloatUtils.square(sigma)).negate();
         this.sigmaTau = sigma.multiply(tau);
+        setCenter(ApfloatUtils.ZERO);
     }
 
 
@@ -86,7 +87,7 @@ public class ZGaussianRejectionSampler implements Sampler<BigInteger> {
                 128
         );
 
-        System.out.println("sampler.sample() = " + sampler.sample());
+        System.out.println("ZSampler.sample() = " + sampler.sample());
     }
 
 }

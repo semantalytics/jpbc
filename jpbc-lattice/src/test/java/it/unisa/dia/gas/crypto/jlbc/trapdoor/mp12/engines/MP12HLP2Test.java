@@ -35,7 +35,7 @@ public class MP12HLP2Test {
         gen.init(new MP12HLP2KeyPairGenerationParameters(
                 random,
                 4, // n
-                32, // k
+                16, // k
                 10 // s
         ));
         keyPair = gen.generateKeyPair();
@@ -85,7 +85,8 @@ public class MP12HLP2Test {
         MatrixElement R1 = RField.newElement();
         for (int i = 0; i < latticePk.getM(); i++) {
             for (int j = 0; j < latticePk.getM(); j++) {
-                R1.getAt(i, j).set(latticePk.getSampler().sample());
+                //TODO: verify that this is the right ZSampler to use!
+                R1.getAt(i, j).set(latticePk.getZSampler().sample());
             }
         }
 

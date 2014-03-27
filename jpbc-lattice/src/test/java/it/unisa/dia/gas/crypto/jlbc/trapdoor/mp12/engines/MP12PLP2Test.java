@@ -24,7 +24,12 @@ public class MP12PLP2Test {
         random = new SecureRandom();
 
         gen = new MP12PLP2KeyPairGenerator();
-        gen.init(new MP12PLP2KeyPairGenerationParameters(random, 16, 24, 10));
+        gen.init(new MP12PLP2KeyPairGenerationParameters(
+                random,
+                4,  // n
+                32,  // k
+                10   // s
+        ));
     }
 
     @Test

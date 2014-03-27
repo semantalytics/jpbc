@@ -8,6 +8,7 @@ import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Matrix;
 import it.unisa.dia.gas.plaf.jlbc.sampler.Sampler;
 import it.unisa.dia.gas.plaf.jlbc.sampler.ZGaussianCDTSampler;
+import it.unisa.dia.gas.plaf.jlbc.sampler.ZGaussianRejectionSampler;
 import it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixElement;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixField;
@@ -18,7 +19,6 @@ import org.bouncycastle.crypto.KeyGenerationParameters;
 import java.math.BigInteger;
 
 import static it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils.ITWO;
-import static it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils.TWO;
 
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
@@ -28,7 +28,7 @@ public class MP12HLP2KeyPairGenerator extends MP12PLP2KeyPairGenerator {
 
     private int barM, w, m, mInBytes;
     private Field inputField, outputField;
-    private Sampler<BigInteger> lweErrorSampler;
+    private Sampler<BigInteger> hlZSampler;
 
     public void init(KeyGenerationParameters keyGenerationParameters) {
         this.params = (MP12HLP2KeyPairGenerationParameters) keyGenerationParameters;
@@ -43,9 +43,8 @@ public class MP12HLP2KeyPairGenerator extends MP12PLP2KeyPairGenerator {
         this.inputField = new VectorField<Field>(params.getRandom(), Zq, n);
         this.outputField = new VectorField<Field>(params.getRandom(), Zq, m);
 
-        this.lweErrorSampler = new ZGaussianCDTSampler(random,
-                ApfloatUtils.sqrt(n).multiply(ITWO).ceil().intValue()
-        );
+//        this.hlZSampler = new ZGaussianCDTSampler(random, ApfloatUtils.sqrt(n).multiply(ITWO).ceil().intValue());
+        this.hlZSampler = new ZGaussianRejectionSampler(random, ApfloatUtils.sqrt(n).multiply(ITWO), 128);
     }
 
     public AsymmetricCipherKeyPair generateKeyPair() {
@@ -54,7 +53,6 @@ public class MP12HLP2KeyPairGenerator extends MP12PLP2KeyPairGenerator {
         // Construct Parity-check matrix
 
         // 1. Choose barA random in Z_q[n x barM]
-
         MatrixField<Field> hatAField = new MatrixField<Field>(random, Zq, n);
         Element In = hatAField.newIdentity();
         Element hatA = hatAField.newRandomElement();
@@ -64,19 +62,16 @@ public class MP12HLP2KeyPairGenerator extends MP12PLP2KeyPairGenerator {
 
         // 2. Sample R from Z[barM x w] using distribution D
         Matrix R = sample(barM, w);
-//        System.out.println("R = " + R);
+        System.out.println("R = " + R);
 
         // 3. Compute G - barA R
         Element A1 = G.duplicate().sub(barA.mul(R));
-//        System.out.println("A1 = " + A1);
-
         Element A = hatAField.union(barA, A1);
-//        System.out.println("A = " + A);
 
         return new AsymmetricCipherKeyPair(
                 new MP12HLP2PublicKeyParameters(
                         params.getParameters(), k, m,
-                        sampler, params.getGaussianParameter(),
+                        ZSampler, params.getGaussianParameter(),
                         g, G,
                         syndromeField, Zq, preimageField,
                         A, barA
@@ -100,10 +95,11 @@ public class MP12HLP2KeyPairGenerator extends MP12PLP2KeyPairGenerator {
 
     protected Matrix sample(int n, int m) {
         MatrixField<Field> RField = new MatrixField<Field>(random, Zq, n, m);
-        MatrixElement R = RField.newElement();
+        Matrix R = RField.newElement();
+
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                R.getAt(i, j).set(lweErrorSampler.sample());
+                R.getAt(i, j).set(hlZSampler.sample());
             }
         }
 

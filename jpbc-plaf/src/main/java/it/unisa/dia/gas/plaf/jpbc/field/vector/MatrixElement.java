@@ -266,12 +266,13 @@ public class MatrixElement<E extends Element> extends AbstractMatrixElement<E, M
     }
 
     public MatrixElement<E> mul(int z) {
-//        for (int i = 0; i < field.n; i++) {
-//            coefficients.get(i).mul(z);
-//        }
-//
-//        return this;
-        throw new IllegalStateException("Not Implemented yet!!!");
+        for (int i = 0; i < field.n; i++) {
+            for (int j = 0; j < field.m; j++) {
+                matrix[i][j].mul(z);
+            }
+        }
+
+        return this;
     }
 
     public MatrixElement<E> mul(BigInteger n) {
@@ -340,25 +341,22 @@ public class MatrixElement<E extends Element> extends AbstractMatrixElement<E, M
 
     public String toString() {
         StringBuffer sb = new StringBuffer();
-        sb.append("{\n");
+        sb.append("[\n");
         for (int i = 0; i < field.n; i++) {
 
-            sb.append("{");
             for (int j = 0; j < field.m; j++) {
                 sb.append(String.format("%10s", matrix[i][j]));
                 if (j != field.m -1)
                     sb.append(",");
             }
             if (i != field.n -1)
-                sb.append("},\n");
-            else
-                sb.append("}");
+                sb.append(";\n");
         }
-        sb.append("}\n");
+        sb.append("]\n");
 
-        return "MatrixElement[" +
+        return "MatrixElement{" +
                 "matrix=\n" + sb.toString() +
-                ']';
+                '}';
     }
 
     public Field getTargetField() {
@@ -461,7 +459,7 @@ public class MatrixElement<E extends Element> extends AbstractMatrixElement<E, M
         for (int i = 0; i < field.n; i++) {
 
             for (int j = 0; j < field.n; j++) {
-                Element temp = field.getTargetField().newElement();
+                Element temp = field.getTargetField().newZeroElement();
 
                 for (int k = 0; k < field.m; k++) {
                     temp.add(getAt(i, k).duplicate().mul(getAt(j, k)));

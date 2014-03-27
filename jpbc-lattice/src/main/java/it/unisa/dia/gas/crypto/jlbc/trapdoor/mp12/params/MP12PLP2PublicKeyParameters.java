@@ -15,7 +15,7 @@ import java.math.BigInteger;
 public class MP12PLP2PublicKeyParameters extends MP12KeyParameters {
 
     protected int k;
-    protected Sampler<BigInteger> sampler;
+    protected Sampler<BigInteger> ZSampler;
 
     protected VectorElement g; // primitive vector
     protected MatrixElement G; // parity-check matrix
@@ -27,7 +27,8 @@ public class MP12PLP2PublicKeyParameters extends MP12KeyParameters {
 
 
     public MP12PLP2PublicKeyParameters(MP12Parameters parameters,
-                                       int k, Sampler<BigInteger> sampler,
+                                       int k,
+                                       Sampler<BigInteger> ZSampler,
                                        VectorElement g, MatrixElement G,
                                        Field syndromeField,
                                        Field Zq,
@@ -35,7 +36,7 @@ public class MP12PLP2PublicKeyParameters extends MP12KeyParameters {
         super(false, parameters);
 
         this.k = k;
-        this.sampler = sampler;
+        this.ZSampler = ZSampler;
         this.g = g;
         this.G = G;
         this.syndromeField = syndromeField;
@@ -51,8 +52,8 @@ public class MP12PLP2PublicKeyParameters extends MP12KeyParameters {
         return preimageField;
     }
 
-    public Sampler<BigInteger> getSampler() {
-        return sampler;
+    public Sampler<BigInteger> getZSampler() {
+        return ZSampler;
     }
 
     public Field getSyndromeField() {

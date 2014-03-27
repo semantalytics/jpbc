@@ -15,7 +15,7 @@ public class MP12PLP2KeyPairGenerationParameters extends KeyGenerationParameters
     private MP12Parameters params;
     private int k;
     private int gaussianParameter;
-    private Sampler<BigInteger> sampler;
+    private Sampler<BigInteger> ZSampler;
 
     public MP12PLP2KeyPairGenerationParameters(MP12Parameters params,
                                                int k,
@@ -25,7 +25,7 @@ public class MP12PLP2KeyPairGenerationParameters extends KeyGenerationParameters
         this.params = params;
         this.k = k;
         this.gaussianParameter = gaussianParameter;
-        this.sampler = new ZGaussianCDTSampler(params.getRandom(), gaussianParameter);
+        this.ZSampler = new ZGaussianCDTSampler(params.getRandom(), gaussianParameter);
     }
 
     public MP12PLP2KeyPairGenerationParameters(SecureRandom random,
@@ -37,7 +37,7 @@ public class MP12PLP2KeyPairGenerationParameters extends KeyGenerationParameters
         this.params = new MP12Parameters(random, n);
         this.k = k;
         this.gaussianParameter = gaussianParameter;
-        this.sampler = new ZGaussianCDTSampler(random, gaussianParameter);
+        this.ZSampler = new ZGaussianCDTSampler(random, gaussianParameter);
     }
 
 
@@ -53,7 +53,7 @@ public class MP12PLP2KeyPairGenerationParameters extends KeyGenerationParameters
         return gaussianParameter;
     }
 
-    public Sampler<BigInteger> getSampler() {
-        return sampler;
+    public Sampler<BigInteger> getZSampler() {
+        return ZSampler;
     }
 }

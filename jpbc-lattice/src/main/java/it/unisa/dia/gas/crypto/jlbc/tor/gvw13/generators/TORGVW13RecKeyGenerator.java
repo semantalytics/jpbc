@@ -38,7 +38,8 @@ public class TORGVW13RecKeyGenerator implements CipherParametersGenerator {
         MatrixElement R1 = RField.newElement();
         for (int i = 0; i < RField.getN(); i++) {
             for (int j = 0; j < RField.getN(); j++) {
-                R1.getAt(i, j).set(latticePk.getSampler().sample());
+                //TODO: verify that this is the right ZSampler to use!
+                R1.getAt(i, j).set(latticePk.getZSampler().sample());
             }
         }
 
