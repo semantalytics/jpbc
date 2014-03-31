@@ -6,7 +6,6 @@ import it.unisa.dia.gas.jpbc.Vector;
 import it.unisa.dia.gas.plaf.jlbc.field.floating.FloatingElement;
 import it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorField;
-import org.apfloat.Apfloat;
 
 import java.security.SecureRandom;
 
@@ -19,7 +18,7 @@ public class ZGaussianCOVSampler implements Sampler<Vector> {
     protected Matrix cov;
     protected Sampler<Vector> sampler;
     protected Field target;
-    protected ZGaussianRejectionSampler roundingSampler;
+    protected ZGaussianRSSampler roundingSampler;
 
 
     public ZGaussianCOVSampler(SecureRandom random, Matrix cov, Field target) {
@@ -30,7 +29,7 @@ public class ZGaussianCOVSampler implements Sampler<Vector> {
         this.cov = cov;
         this.sampler = new CGSampler(random, 128, cov.getN());
         this.target = new VectorField<Field>(random, target, cov.getN());
-        this.roundingSampler = new ZGaussianRejectionSampler(
+        this.roundingSampler = new ZGaussianRSSampler(
                 random,
                 ApfloatUtils.FIVE,
                 ApfloatUtils.precision);

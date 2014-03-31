@@ -33,7 +33,7 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
     protected MP12HLP2PublicKeyParameters pk;
     protected MP12HLP2PrivateKeyParameters sk;
 
-    protected Element p, wMat, barWMat;
+    protected Sampler<Vector> offlineSampler;
 
 
     public ElementCipher init(CipherParameters param) {
@@ -44,6 +44,9 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
 
         // Init the Primitive Lattice Sampler
         super.init(pk);
+
+
+        // Init offline sampler
 
         // Compute covariance matrix COV
         int barM = 2 * n;
@@ -58,7 +61,7 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
         // Compute s1R = ((2\sqrt(n)) * (\sqrt(2n) + \sqrt(nk) + (t=1)) \ \sqrt(2\pi)
         Apfloat s1R = ApfloatMath.sqrt(n).multiply(ITWO).multiply(
                 ApfloatMath.sqrt(n.multiply(ITWO)).add(ApfloatMath.sqrt(n.multiply(k))).add(ApfloatUtils.IONE)
-        ).divide(ApfloatMath.sqrt(ApfloatUtils.pi().multiply(ITWO)));
+        )/*.divide(ApfloatMath.sqrt(ApfloatUtils.pi().multiply(ITWO)))*/;
 
         Apfloat s1Rsquare = ApfloatUtils.square(s1R);
 
@@ -105,34 +108,34 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
 
 //        System.out.println("chol = " + chol);
 
-        Sampler<Vector> sampler = new ZGaussianCOVSampler(random, chol, sk.getR().getTargetField());
-        Vector p = sampler.sample();
-
-        // Offline phase
-
-        // Sample p in \Z^{\bar m + w}
-        Element p1 = p.subVectorTo(barM);
-        Element p2 = p.subVectorFrom(barM);
-
-        this.p = p;
-        this.barWMat = pk.getBarA().mul(p1.sub(sk.getR().mul(p2)));
-        this.wMat = pk.getG().mul(p2);
-
+        offlineSampler = new ZGaussianCOVSampler(random, chol, sk.getR().getTargetField());
         return this;
+
     }
 
     public Element processElements(Element... input) {
         // Online phase
         Element u = input[0];
 
-        // Compute syndrom w
-        Element v = u.duplicate().sub(pk.getA().mul(p));
+        // sample perturbation
+        Element[] perturbation = samplePerturbation();
+        Element p = perturbation[0];
+        Element offset = perturbation[1];
+
+        // Compute syndrome w
+        Element v = u.duplicate().sub(offset);
 
         // Compute x
         Element z2 = super.processElements(v);
         Element z1 = sk.getR().mul(z2);
 
         return p.add(VectorField.union(z1, z2));
+    }
+
+
+    protected Element[] samplePerturbation() {
+        Vector p = offlineSampler.sample();
+        return new Element[]{p, pk.getA().mul(p)};
     }
 
 }

@@ -22,7 +22,7 @@ public class ZGaussianCDTSampler implements Sampler<BigInteger> {
 
     static final BigInteger long_255 = BigInteger.valueOf(255);
     static final BigInteger mask_init = long_255.shiftLeft(64 - 8);
-    static final int tau = 12;
+    static final int tau = 13;
     static final double sigma_bin_inv_lowprec = 1.17741002251547469101156932645969963; // sqrt(2 ln 2)
     static final double sigma_bin_lowprec = 0.8493218002880190427215028341028896; //  sqrt(1/(2 ln 2))
 
@@ -118,16 +118,32 @@ public class ZGaussianCDTSampler implements Sampler<BigInteger> {
 
             // f = 2 sigma^2 = 2 k^2 1/(2ln(2)) = k^2/ln(2)
             int k = (int) (sigma_bin_inv_lowprec * gaussianParameter) + 1;
-            Apfloat f = new Apfloat(k * k, 128, 2).divide(ApfloatMath.log(ApfloatUtils.TWO));
+            //sqrt(2 ln 2)
+//            int kk = ApfloatMath.sqrt(
+//                    ApfloatUtils.TWO.multiply(
+//                            ApfloatMath.log(ApfloatUtils.TWO)
+//                    )
+//            ).multiply(ApfloatUtils.to_Apfloat(gaussianParameter)).add(ApfloatUtils.IONE).truncate().intValue();
 
-            System.out.println("f = " + ApfloatMath.sqrt(f.divide(ApfloatUtils.TWO)).toRadix(10).toString(true));
+            Apfloat f = ApfloatUtils.newApfloat(k * k).divide(ApfloatMath.log(ApfloatUtils.TWO));
+
+            //sqrt(1/(2 ln 2))
+//            int cdtl = ApfloatMath.sqrt(
+//                    ApfloatUtils.ONE.divide(
+//                        ApfloatUtils.TWO.multiply(
+//                                ApfloatMath.log(ApfloatUtils.TWO)
+//                        )
+//                    )
+//            ).multiply(ApfloatUtils.to_Apfloat(k))
+//                    .multiply(ApfloatUtils.to_Apfloat(tau))
+//                    .add(ApfloatUtils.IONE).truncate().intValue();
 
             // compute normalization constant
             Apfloat t = ApfloatUtils.ZERO;
             CDT_length = (int) (k * sigma_bin_lowprec * tau) + 1;
 
             for (int i = 1; i < CDT_length; i++) {
-                Apfloat z = new Apfloat(i - 1, 128, 2);
+                Apfloat z = ApfloatUtils.newApfloat(i - 1);
                 z = z.multiply(z);          // z =  (i-1)^2
                 z = z.negate();             // z = -(i-1)^2
                 z = z.divide(f);            // z = -(i-1)^2/f
@@ -144,10 +160,10 @@ public class ZGaussianCDTSampler implements Sampler<BigInteger> {
 
             for (int i = 1; i < CDT_length; i++) {
                 Apfloat z = ApfloatUtils.newApfloat(i - 1);
-                z = z.multiply(z);
-                z = z.negate();
-                z = z.divide(f);
-                z = ApfloatMath.exp(z);
+                z = z.multiply(z);          // z =  (i-1)^2
+                z = z.negate();             // z = -(i-1)^2
+                z = z.divide(f);            // z = -(i-1)^2/f
+                z = ApfloatMath.exp(z);     // z = exp(-(i-1)^2/f)
                 if (i == 1)
                     z = z.divide(ApfloatUtils.TWO);
 
@@ -227,7 +243,7 @@ public class ZGaussianCDTSampler implements Sampler<BigInteger> {
         BigInteger q = BigInteger.ONE.shiftLeft(k);
 
         Field Zq = new SymmetricZrField(q);
-        ZGaussianCDTSampler sampler = new ZGaussianCDTSampler(random, 4);
+        ZGaussianCDTSampler sampler = new ZGaussianCDTSampler(random, 9);
         MatrixField<Field> RField = new MatrixField<Field>(random, Zq, nn, mm);
         Matrix R = RField.newElement();
         for (int i = 0; i < nn; i++) {

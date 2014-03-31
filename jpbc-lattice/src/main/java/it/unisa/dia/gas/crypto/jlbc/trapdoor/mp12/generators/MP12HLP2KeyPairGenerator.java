@@ -7,10 +7,9 @@ import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Matrix;
 import it.unisa.dia.gas.plaf.jlbc.sampler.Sampler;
-import it.unisa.dia.gas.plaf.jlbc.sampler.ZGaussianCDTSampler;
-import it.unisa.dia.gas.plaf.jlbc.sampler.ZGaussianRejectionSampler;
+import it.unisa.dia.gas.plaf.jlbc.sampler.ZGaussianRSDoubleSampler;
+import it.unisa.dia.gas.plaf.jlbc.sampler.ZGaussianRSSampler;
 import it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils;
-import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixElement;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixField;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorField;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
@@ -44,7 +43,8 @@ public class MP12HLP2KeyPairGenerator extends MP12PLP2KeyPairGenerator {
         this.outputField = new VectorField<Field>(params.getRandom(), Zq, m);
 
 //        this.hlZSampler = new ZGaussianCDTSampler(random, ApfloatUtils.sqrt(n).multiply(ITWO).ceil().intValue());
-        this.hlZSampler = new ZGaussianRejectionSampler(random, ApfloatUtils.sqrt(n).multiply(ITWO), 128);
+        this.hlZSampler = new ZGaussianRSDoubleSampler(random, ApfloatUtils.sqrt(n).multiply(ITWO));
+//        this.hlZSampler = new ZGaussianRSSampler(random, ApfloatUtils.sqrt(n).multiply(ITWO), 128);
     }
 
     public AsymmetricCipherKeyPair generateKeyPair() {
