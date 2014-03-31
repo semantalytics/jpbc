@@ -3,7 +3,7 @@ package it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.generators;
 import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.params.MP12PLP2KeyPairGenerationParameters;
 import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.params.MP12PLP2PublicKeyParameters;
 import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.plaf.jlbc.sampler.Sampler;
+import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixElement;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixField;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorElement;

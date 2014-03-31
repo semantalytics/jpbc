@@ -8,7 +8,7 @@ import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Matrix;
 import it.unisa.dia.gas.jpbc.Vector;
 import it.unisa.dia.gas.plaf.jlbc.field.floating.FloatingField;
-import it.unisa.dia.gas.plaf.jlbc.sampler.Sampler;
+import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
 import it.unisa.dia.gas.plaf.jlbc.sampler.ZGaussianCOVSampler;
 import it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixField;
@@ -16,7 +16,6 @@ import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorField;
 import it.unisa.dia.gas.plaf.jpbc.util.math.Cholesky;
 import org.apfloat.Apfloat;
 import org.apfloat.ApfloatMath;
-import org.apfloat.Apint;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
 
@@ -73,11 +72,11 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
         final Element aSquare = ff.getTargetField().newElement(pk.getGaussianParameter()).halve().square();
         final Element sSquare = ff.getTargetField().newElement(sQuare);
 
-        System.out.println("s1R = " + ApfloatUtils.toString(s1R));
-        System.out.println("s1Rsquare = " + ApfloatUtils.toString(s1Rsquare));
-        System.out.println("sSquare = " + sSquare);
-        System.out.println("rSquare = " + rSquare);
-        System.out.println("aSquare = " + aSquare);
+//        System.out.println("s1R = " + ApfloatUtils.toString(s1R));
+//        System.out.println("s1Rsquare = " + ApfloatUtils.toString(s1Rsquare));
+//        System.out.println("sSquare = " + sSquare);
+//        System.out.println("rSquare = " + rSquare);
+//        System.out.println("aSquare = " + aSquare);
 
         Matrix cov = ff.newElement()
                 .setSubMatrixFromMatrixAt(0, 0, sk.getR().mulByTranspose())
@@ -133,9 +132,14 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
     }
 
 
+    Element p, o;
     protected Element[] samplePerturbation() {
-        Vector p = offlineSampler.sample();
-        return new Element[]{p, pk.getA().mul(p)};
+        if (p == null) {
+            p = offlineSampler.sample().getImmutable();
+            o = pk.getA().mul(p);
+        }
+
+        return new Element[]{p, o};
     }
 
 }

@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.plaf.jlbc.sampler;
+package it.unisa.dia.gas.plaf.jpbc.sampler;
 
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)

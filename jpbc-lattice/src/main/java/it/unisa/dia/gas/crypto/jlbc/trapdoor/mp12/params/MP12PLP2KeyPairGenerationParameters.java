@@ -1,6 +1,6 @@
 package it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.params;
 
-import it.unisa.dia.gas.plaf.jlbc.sampler.Sampler;
+import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
 import it.unisa.dia.gas.plaf.jlbc.sampler.ZGaussianCDTSampler;
 import org.bouncycastle.crypto.KeyGenerationParameters;
 

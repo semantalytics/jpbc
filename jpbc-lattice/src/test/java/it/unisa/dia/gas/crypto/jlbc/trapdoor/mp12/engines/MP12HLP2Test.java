@@ -43,18 +43,18 @@ public class MP12HLP2Test {
 
     @Test
     public void testSampleD() throws Exception {
-        MP12HLP2SampleD sampler = new MP12HLP2SampleD();
-        sampler.init(new MP12HLP2SampleParameters(keyPair));
-
-        MP12HLP2Decoder decoder = new MP12HLP2Decoder();
-        decoder.init(keyPair.getPublic());
-
+        // Sample
         Element syndrome = ((MP12HLP2PublicKeyParameters) keyPair.getPublic()).getSyndromeField().newRandomElement();
         System.out.println("syndrome = " + syndrome);
 
+        MP12HLP2SampleD sampler = new MP12HLP2SampleD();
+        sampler.init(new MP12HLP2SampleParameters(keyPair));
         Element x = sampler.processElements(syndrome);
         System.out.println("x = " + x);
 
+        // Decode
+        MP12HLP2Decoder decoder = new MP12HLP2Decoder();
+        decoder.init(keyPair.getPublic());
         Element syndromePrime = decoder.processElements(x);
         System.out.println("syndromePrime = " + syndromePrime);
 
@@ -69,28 +69,9 @@ public class MP12HLP2Test {
 
         MP12HLP2PublicKeyParameters latticePk = (MP12HLP2PublicKeyParameters) keyPair.getPublic();
 
-        MP12HLP2SampleD sampler = new MP12HLP2SampleD();
-        sampler.init(new MP12HLP2SampleParameters(keyPair));
-
-        MP12HLP2Decoder decoder = new MP12HLP2Decoder();
-        decoder.init(keyPair.getPublic());
-
         // Sample R1 from D_Z,s
-        MatrixField<Field> RField = new MatrixField<Field>(
-                latticePk.getParameters().getRandom(),
-                latticePk.getZq(),
-                latticePk.getM(),
-                latticePk.getM()
-        );
-        MatrixElement R1 = RField.newElement();
-        for (int i = 0; i < latticePk.getM(); i++) {
-            for (int j = 0; j < latticePk.getM(); j++) {
-                //TODO: verify that this is the right ZSampler to use!
-                R1.getAt(i, j).set(latticePk.getZSampler().sample());
-            }
-        }
-
-        System.out.println("R1 = " + R1);
+        MatrixField<Field> RField = new MatrixField<Field>(latticePk.getParameters().getRandom(), latticePk.getZq(), latticePk.getM());
+        MatrixElement R1 = RField.newElementFromSampler(latticePk.getZSampler());
 
         // Compute U
         MatrixElement U = (MatrixElement) ((MP12HLP2PublicKeyParameters) keyPair2.getPublic()).getA().duplicate().sub(
@@ -100,27 +81,31 @@ public class MP12HLP2Test {
         System.out.println("U = " + U);
 
         // Sample R0
-
         MP12HLP2SampleD sampleD = new MP12HLP2SampleD();
         sampleD.init(new MP12HLP2SampleParameters(keyPair.getPublic(), keyPair.getPrivate()));
         MatrixElement R0 = RField.newElement();
-
         for (int i = 0; i < latticePk.getM(); i++) {
-            R0.setColAt(i, sampleD.processElements(U.columnAt(i)));
+            Element col = U.columnAt(i);
+            System.out.println("u = " + col);
+            Element sample = sampleD.processElements(col);
+            System.out.println("sample = " + sample);
+            R0.setColAt(i, sample);
         }
 
         System.out.println("R0 = " + R0);
 
-
         // Decode
-        MatrixElement U1 = U.getField().newElement();
+        MP12HLP2Decoder decoder = new MP12HLP2Decoder();
+        decoder.init(keyPair.getPublic());
 
+        MatrixElement U1 = U.getField().newElement();
         for (int i = 0; i < latticePk.getM(); i++) {
-            Element u = decoder.processElements(R0.columnAt(i));
+            Element sample = R0.columnAt(i);
+            System.out.println("sample = " + sample);
+            Element u = decoder.processElements(sample);
             System.out.println("u = " + u);
             U1.setColAt(i, u);
         }
-
         System.out.println("U1 = " + U1);
 
         Element U2 = ((MP12HLP2PublicKeyParameters) keyPair.getPublic()).getA().mul(R0);

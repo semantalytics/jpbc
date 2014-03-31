@@ -4,6 +4,7 @@ import it.unisa.dia.gas.jpbc.Vector;
 import it.unisa.dia.gas.plaf.jlbc.field.floating.FloatingElement;
 import it.unisa.dia.gas.plaf.jlbc.field.floating.FloatingField;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorField;
+import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
 import org.apfloat.Apfloat;
 
 import java.security.SecureRandom;

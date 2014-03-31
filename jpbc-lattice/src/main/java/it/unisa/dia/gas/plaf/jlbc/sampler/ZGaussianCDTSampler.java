@@ -5,6 +5,7 @@ import it.unisa.dia.gas.jpbc.Matrix;
 import it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixField;
 import it.unisa.dia.gas.plaf.jpbc.field.z.SymmetricZrField;
+import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 import org.apfloat.Apfloat;
 import org.apfloat.ApfloatMath;
@@ -142,11 +143,15 @@ public class ZGaussianCDTSampler implements Sampler<BigInteger> {
             Apfloat t = ApfloatUtils.ZERO;
             CDT_length = (int) (k * sigma_bin_lowprec * tau) + 1;
 
+            Apfloat pi = ApfloatUtils.pi();
+//            Apfloat pi = ApfloatUtils.ONE;
+
             for (int i = 1; i < CDT_length; i++) {
                 Apfloat z = ApfloatUtils.newApfloat(i - 1);
                 z = z.multiply(z);          // z =  (i-1)^2
                 z = z.negate();             // z = -(i-1)^2
                 z = z.divide(f);            // z = -(i-1)^2/f
+                z = z.multiply(pi);
                 z = ApfloatMath.exp(z);     // z = exp(-(i-1)^2/f)
                 if (i == 1)
                     z = z.divide(ApfloatUtils.TWO);
@@ -163,6 +168,7 @@ public class ZGaussianCDTSampler implements Sampler<BigInteger> {
                 z = z.multiply(z);          // z =  (i-1)^2
                 z = z.negate();             // z = -(i-1)^2
                 z = z.divide(f);            // z = -(i-1)^2/f
+                z = z.multiply(pi);
                 z = ApfloatMath.exp(z);     // z = exp(-(i-1)^2/f)
                 if (i == 1)
                     z = z.divide(ApfloatUtils.TWO);
@@ -238,8 +244,8 @@ public class ZGaussianCDTSampler implements Sampler<BigInteger> {
         int k = 16;
 
 
-        int nn = 2 *n;
-        int mm = n * k;
+        int nn = 10;
+        int mm = 10;
         BigInteger q = BigInteger.ONE.shiftLeft(k);
 
         Field Zq = new SymmetricZrField(q);

@@ -47,7 +47,7 @@ public class SymmetricZrElement<F extends SymmetricZrField> extends AbstractZEle
 
     @Override
     public Element getImmutable() {
-        throw new IllegalArgumentException("Not implemented yet!!!");
+        return new ImmutableSymmetricZrElement(this);
     }
 
     public SymmetricZrElement duplicate() {

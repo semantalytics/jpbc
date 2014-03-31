@@ -6,6 +6,7 @@ import it.unisa.dia.gas.jpbc.Vector;
 import it.unisa.dia.gas.plaf.jlbc.field.floating.FloatingElement;
 import it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorField;
+import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
 
 import java.security.SecureRandom;
 
@@ -39,7 +40,7 @@ public class ZGaussianCOVSampler implements Sampler<Vector> {
     public Vector sample() {
         Vector sample = (Vector) cov.mul(sampler.sample());
 
-        System.out.println("sample = " + sample);
+//        System.out.println("sample = " + sample);
 
         Vector result = (Vector) target.newElement();
         for (int i=0, n = result.getSize(); i < n; i++) {
@@ -50,7 +51,7 @@ public class ZGaussianCOVSampler implements Sampler<Vector> {
             );
         }
 
-        System.out.println("result = " + result);
+//        System.out.println("result = " + result);
 
         return result;
     }

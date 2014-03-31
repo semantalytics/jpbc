@@ -5,6 +5,7 @@ import it.unisa.dia.gas.jpbc.Matrix;
 import it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixField;
 import it.unisa.dia.gas.plaf.jpbc.field.z.SymmetricZrField;
+import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
 import org.apfloat.Apfloat;
 import org.apfloat.Apint;
 import org.apfloat.ApintMath;

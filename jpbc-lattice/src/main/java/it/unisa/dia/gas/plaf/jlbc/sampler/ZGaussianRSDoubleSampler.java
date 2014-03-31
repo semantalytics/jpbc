@@ -4,6 +4,7 @@ import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Matrix;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixField;
 import it.unisa.dia.gas.plaf.jpbc.field.z.SymmetricZrField;
+import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
 import org.apfloat.Apfloat;
 
 import java.math.BigInteger;
@@ -35,8 +36,8 @@ public class ZGaussianRSDoubleSampler implements Sampler<BigInteger> {
         this.h = - (Math.PI / (sigma * sigma));
 //        this.h = - (1 / (2 * (sigma * sigma)));
 //        this.normalization = Math.sqrt(2 * Math.PI) * sigma;
-//        this.normalization = 1;
-        this.normalization = sigma;
+        this.normalization = 1;
+//        this.normalization = sigma;
 
         System.out.println("normalization = " + normalization);
 //        this.normalization = 1.0d;

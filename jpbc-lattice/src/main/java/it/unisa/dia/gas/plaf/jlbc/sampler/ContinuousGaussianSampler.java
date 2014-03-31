@@ -1,5 +1,6 @@
 package it.unisa.dia.gas.plaf.jlbc.sampler;
 
+import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
 import org.apfloat.Apfloat;
 
 import java.security.SecureRandom;

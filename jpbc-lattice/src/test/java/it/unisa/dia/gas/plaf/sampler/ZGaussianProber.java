@@ -1,6 +1,6 @@
 package it.unisa.dia.gas.plaf.sampler;
 
-import it.unisa.dia.gas.plaf.jlbc.sampler.Sampler;
+import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
 import it.unisa.dia.gas.plaf.jlbc.sampler.ZGaussianRSDoubleSampler;
 import it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils;
 import org.apfloat.Apfloat;

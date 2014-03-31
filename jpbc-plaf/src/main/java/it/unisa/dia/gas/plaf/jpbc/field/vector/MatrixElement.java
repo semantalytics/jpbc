@@ -2,6 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.field.vector;
 
 import it.unisa.dia.gas.jpbc.*;
 import it.unisa.dia.gas.plaf.jpbc.field.base.AbstractMatrixElement;
+import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
 
 import java.math.BigInteger;
 
@@ -33,6 +34,16 @@ public class MatrixElement<E extends Element> extends AbstractMatrixElement<E, M
         }
     }
 
+    public MatrixElement(MatrixField field, Sampler<BigInteger> sampler) {
+        super(field);
+
+        this.matrix = new Element[field.n][field.m];
+        for (int i = 0; i < field.n; i++) {
+            for (int j = 0; j < field.m; j++) {
+                matrix[i][j] = field.getTargetField().newElement(sampler.sample());
+            }
+        }
+    }
 
 
     public boolean isSqr() {

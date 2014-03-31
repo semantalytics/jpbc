@@ -4,6 +4,7 @@ package it.unisa.dia.gas.plaf.jpbc.field.vector;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.plaf.jpbc.field.base.AbstractFieldOver;
+import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -134,5 +135,9 @@ public class MatrixField<F extends Field> extends AbstractFieldOver<F, MatrixEle
         }
 
         return r;
+    }
+
+    public MatrixElement newElementFromSampler(Sampler<BigInteger> sampler) {
+        return new MatrixElement(this, sampler);
     }
 }
