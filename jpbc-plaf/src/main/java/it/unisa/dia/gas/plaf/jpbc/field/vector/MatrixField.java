@@ -3,6 +3,7 @@ package it.unisa.dia.gas.plaf.jpbc.field.vector;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.jpbc.Matrix;
 import it.unisa.dia.gas.plaf.jpbc.field.base.AbstractFieldOver;
 import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
 
@@ -13,8 +14,14 @@ import java.security.SecureRandom;
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
 public class MatrixField<F extends Field> extends AbstractFieldOver<F, MatrixElement> {
-    protected int n, m, lenInBytes;
 
+
+    public static Matrix newElementFromSampler(MatrixField field, int n, int m, Sampler<BigInteger> sampler) {
+        return new MatrixField<Field>(field.getRandom(), field.getTargetField(), n, m).newElementFromSampler(sampler);
+    }
+
+
+    protected int n, m, lenInBytes;
 
     public MatrixField(SecureRandom random, F targetField, int n, int m) {
         super(random, targetField);

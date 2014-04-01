@@ -13,15 +13,13 @@ import org.apfloat.Apint;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
-import static it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils.newApfloat;
-import static it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils.newApint;
-import static it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils.square;
+import static it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils.*;
 import static org.apfloat.ApfloatMath.exp;
 
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
-public class ZGaussianRSSampler implements Sampler<BigInteger> {
+public class DiscreteGaussianRSSampler implements Sampler<BigInteger> {
 
     protected SecureRandom random;
     protected Apfloat sigma;
@@ -32,37 +30,48 @@ public class ZGaussianRSSampler implements Sampler<BigInteger> {
     protected int left, interval;
 
     protected Apint tau = ApfloatUtils.ITWELVE;
+//    protected Apfloat normalization;
 
-    public ZGaussianRSSampler(SecureRandom random, Apfloat sigma, Apfloat center, int precision) {
+    protected Sampler<Apfloat> uniform;
+
+    public DiscreteGaussianRSSampler(SecureRandom random, Apfloat gaussianParameter, Apfloat center, int precision) {
         if (random == null)
             random = new SecureRandom();
 
         this.random = random;
-        this.sigma = sigma;
+        this.sigma = gaussianParameter.divide(SQRT2PI);
         this.precision = precision;
         this.center = center;
 
-        this.h = ApfloatMath.pi(precision, 2).divide(square(sigma)).negate();
+        this.h = ApfloatMath.pi(precision, 2).divide(square(gaussianParameter)).negate();
+//        this.h = ONE.divide(TWO.multiply(square(sigma))).negate();
         this.sigmaTau = sigma.multiply(tau);
+        this.uniform = new UniformSampler(random);
 
         setCenter(center);
     }
 
-    public ZGaussianRSSampler(SecureRandom random, Apfloat sigma, int precision) {
-        this(random, sigma, ApfloatUtils.IZERO, precision);
+    public DiscreteGaussianRSSampler(SecureRandom random, Apfloat gaussianParameter, int precision) {
+        this(random, gaussianParameter, IZERO, precision);
     }
 
-    public ZGaussianRSSampler(SecureRandom random, Apfloat sigma) {
-        this(random, sigma, ApfloatUtils.IZERO, ApfloatUtils.precision);
+    public DiscreteGaussianRSSampler(SecureRandom random, Apfloat gaussianParameter) {
+        this(random, gaussianParameter, IZERO, ApfloatUtils.precision);
     }
 
-    public ZGaussianRSSampler setCenter(Apfloat center) {
+
+
+    public DiscreteGaussianRSSampler setCenter(Apfloat center) {
         this.center = center;
         this.interval = center.add(sigmaTau).ceil().subtract(center.subtract(sigmaTau).floor()).intValue() + 1;
         this.left = center.subtract(sigmaTau).floor().intValue();
-
-//        System.out.println("left = " + left);
 //        System.out.println("interval = " + interval);
+
+//        normalization = ZERO;
+//        for (int i = left; i < left + interval; i++) {
+//            normalization = normalization.add(exp(h.multiply(square(newApint(i).subtract(center)))));
+//        }
+//        System.out.println("toString(normalization) = " + ApfloatUtils.toString(normalization));
 
         return this;
     }
@@ -70,33 +79,25 @@ public class ZGaussianRSSampler implements Sampler<BigInteger> {
     public BigInteger sample() {
         while (true) {
             int x = left + random.nextInt(interval);
-//            System.out.println("x = " + x);
 
             Apfloat rhos = exp(h.multiply(square(newApint(x).subtract(center))));
-            // TODO: sample with given precision
-            double sample = random.nextDouble();
-//            System.out.println("sample = " + sample);
-//            System.out.println("rhos.doubleValue() = " + rhos.doubleValue());
+            Apfloat sample = uniform.sample();
 
-            if (sample <= rhos.doubleValue())
+            if (sample.compareTo(rhos) <= 0) {
                 return BigInteger.valueOf(x);
+            }
         }
     }
 
     public static void main(String[] args) {
         SecureRandom random = new SecureRandom();
-        int n = 4;
         int k = 16;
-
-
         int nn = 10;
         int mm = 10;
         BigInteger q = BigInteger.ONE.shiftLeft(k);
 
         Field Zq = new SymmetricZrField(q);
-        ZGaussianRSSampler sampler = new ZGaussianRSSampler(
-                new SecureRandom(), newApfloat(9)
-        );
+        DiscreteGaussianRSSampler sampler = new DiscreteGaussianRSSampler(random, newApfloat(9));
 
         MatrixField<Field> RField = new MatrixField<Field>(random, Zq, nn, mm);
         Matrix R = RField.newElement();

@@ -6,17 +6,14 @@ import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.params.MP12HLP2PublicKeyParame
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Matrix;
+import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.utils.LatticeUtils;
 import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
-import it.unisa.dia.gas.plaf.jlbc.sampler.ZGaussianRSDoubleSampler;
-import it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixField;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorField;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.KeyGenerationParameters;
 
 import java.math.BigInteger;
-
-import static it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils.ITWO;
 
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
@@ -41,9 +38,7 @@ public class MP12HLP2KeyPairGenerator extends MP12PLP2KeyPairGenerator {
         this.inputField = new VectorField<Field>(params.getRandom(), Zq, n);
         this.outputField = new VectorField<Field>(params.getRandom(), Zq, m);
 
-//        this.hlZSampler = new ZGaussianCDTSampler(random, ApfloatUtils.sqrt(n).multiply(ITWO).ceil().intValue());
-        this.hlZSampler = new ZGaussianRSDoubleSampler(random, ApfloatUtils.sqrt(n).multiply(ITWO));
-//        this.hlZSampler = new ZGaussianRSSampler(random, ApfloatUtils.sqrt(n).multiply(ITWO), 128);
+        this.hlZSampler = LatticeUtils.getLWENoiseSampler(random, n);
     }
 
     public AsymmetricCipherKeyPair generateKeyPair() {
@@ -53,14 +48,11 @@ public class MP12HLP2KeyPairGenerator extends MP12PLP2KeyPairGenerator {
 
         // 1. Choose barA random in Z_q[n x barM]
         MatrixField<Field> hatAField = new MatrixField<Field>(random, Zq, n);
-        Element In = hatAField.newIdentity();
         Element hatA = hatAField.newRandomElement();
-
-        // TODO: optimize this...
-        Element barA = hatAField.union(In, hatA);
+        Element barA = hatAField.union(hatAField.newIdentity(), hatA);
 
         // 2. Sample R from Z[barM x w] using distribution D
-        Matrix R = sample(barM, w);
+        Matrix R = MatrixField.newElementFromSampler(hatAField, barM, w, hlZSampler);
         System.out.println("R = " + R);
 
         // 3. Compute G - barA R
@@ -89,20 +81,6 @@ public class MP12HLP2KeyPairGenerator extends MP12PLP2KeyPairGenerator {
 
     public Field getOutputField() {
         return outputField;
-    }
-
-
-    protected Matrix sample(int n, int m) {
-        MatrixField<Field> RField = new MatrixField<Field>(random, Zq, n, m);
-        Matrix R = RField.newElement();
-
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                R.getAt(i, j).set(hlZSampler.sample());
-            }
-        }
-
-        return R;
     }
 
 }

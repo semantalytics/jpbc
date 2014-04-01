@@ -8,21 +8,20 @@ import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Matrix;
 import it.unisa.dia.gas.jpbc.Vector;
 import it.unisa.dia.gas.plaf.jlbc.field.floating.FloatingField;
+import it.unisa.dia.gas.plaf.jlbc.sampler.DiscreteGaussianCOVSampler;
 import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
-import it.unisa.dia.gas.plaf.jlbc.sampler.ZGaussianCOVSampler;
-import it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixField;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorField;
 import it.unisa.dia.gas.plaf.jpbc.util.math.Cholesky;
 import org.apfloat.Apfloat;
-import org.apfloat.ApfloatMath;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
 
 import java.security.SecureRandom;
 
-import static it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils.ITWO;
+import static it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils.*;
 import static it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils.newApfloat;
+import static it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.utils.LatticeUtils.getS1R;
 
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
@@ -44,7 +43,6 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
         // Init the Primitive Lattice Sampler
         super.init(pk);
 
-
         // Init offline sampler
 
         // Compute covariance matrix COV
@@ -58,15 +56,9 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
         Apfloat k = newApfloat(pk.getK());
 
         // Compute s1R = ((2\sqrt(n)) * (\sqrt(2n) + \sqrt(nk) + (t=1)) \ \sqrt(2\pi)
-        Apfloat s1R = ApfloatMath.sqrt(n).multiply(ITWO).multiply(
-                ApfloatMath.sqrt(n.multiply(ITWO)).add(ApfloatMath.sqrt(n.multiply(k))).add(ApfloatUtils.IONE)
-        )/*.divide(ApfloatMath.sqrt(ApfloatUtils.pi().multiply(ITWO)))*/;
-
-        Apfloat s1Rsquare = ApfloatUtils.square(s1R);
-
-        Apfloat sQuare = s1Rsquare.add(ApfloatUtils.IONE)
-                .multiply(ApfloatUtils.ISIX)
-                .multiply(ApfloatUtils.square(ApfloatUtils.IFIVE));
+        Apfloat s1R = getS1R(barM, w);
+        Apfloat s1Rsquare = square(s1R);
+        Apfloat sQuare = s1Rsquare.add(IONE).multiply(ISIX).multiply(square(IFIVE));
 
         Element rSquare = ff.getTargetField().newElement(pk.getGaussianParameter()).square();
         final Element aSquare = ff.getTargetField().newElement(pk.getGaussianParameter()).halve().square();
@@ -74,7 +66,7 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
 
 //        System.out.println("s1R = " + ApfloatUtils.toString(s1R));
 //        System.out.println("s1Rsquare = " + ApfloatUtils.toString(s1Rsquare));
-//        System.out.println("sSquare = " + sSquare);
+        System.out.println("sSquare = " + sSquare);
 //        System.out.println("rSquare = " + rSquare);
 //        System.out.println("aSquare = " + aSquare);
 
@@ -107,7 +99,7 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
 
 //        System.out.println("chol = " + chol);
 
-        offlineSampler = new ZGaussianCOVSampler(random, chol, sk.getR().getTargetField());
+        offlineSampler = new DiscreteGaussianCOVSampler(random, chol, sk.getR().getTargetField());
         return this;
 
     }

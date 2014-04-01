@@ -12,7 +12,7 @@ import static org.apfloat.ApfloatMath.pow;
  */
 public class ApfloatUtils {
 
-    public final static int precision = 160;
+    public final static int precision = 128;
     public final static int radix = 2;
 
 
@@ -29,10 +29,21 @@ public class ApfloatUtils {
     public final static Apfloat ONE = new Apfloat(1, precision, radix);
     public final static Apfloat TWO = new Apfloat(2, precision, radix);
     public static final Apfloat FIVE = new Apfloat(5, precision, radix);
-    public static final Apfloat ZERO = new Apfloat(0, precision, radix);;
+    public static final Apfloat ZERO = new Apfloat(0, precision, radix);
 
+    public static final Apfloat PI = pi();
+    public static final Apfloat SQRT2PI = ApfloatMath.sqrt(PI.multiply(ITWO));
+
+
+    public static Apfloat convert(Apfloat a) {
+        return a.toRadix(radix).precision(precision);
+    }
 
     public static Apfloat newApfloat(int n) {
+        return new Apfloat(n, precision, radix);
+    }
+
+    public static Apfloat newApfloat(double n) {
         return new Apfloat(n, precision, radix);
     }
 
@@ -62,11 +73,4 @@ public class ApfloatUtils {
         return new Apint(value, radix);
     }
 
-    /**
-     * computes e^{-1/2 (x/sigma)^2} *
-     */
-    public static Apfloat rho(Apfloat sigma, Apfloat x) {
-//        return exp(-power(x/sigma, 2)/2.0);
-        return exp(pow(x.divide(sigma), 2).negate().divide(TWO));
-    }
 }

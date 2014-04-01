@@ -21,7 +21,7 @@ import static org.apfloat.ApfloatMath.pow;
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
-public class ZGaussianZigguratSampler implements Sampler<BigInteger> {
+public class DiscreteGaussianZigguratSampler implements Sampler<BigInteger> {
 
     protected SecureRandom random;
     protected int m;                    // number of rectangles
@@ -31,28 +31,20 @@ public class ZGaussianZigguratSampler implements Sampler<BigInteger> {
     protected Apfloat[] rectys;
 
 
-    public ZGaussianZigguratSampler(SecureRandom random, int m, Apfloat sigma) {
+    public DiscreteGaussianZigguratSampler(SecureRandom random, int m, Apfloat gaussianParameter) {
         if (random == null)
             random = new SecureRandom();
 
         this.random = random;
         this.m = m;
-        this.sigma = sigma;
+        this.sigma = gaussianParameter.divide(SQRT2PI);;
         this.omega = ApfloatUtils.precision;
 
         build();
     }
 
-    public ZGaussianZigguratSampler(SecureRandom random, Apfloat sigma) {
-        if (random == null)
-            random = new SecureRandom();
-
-        this.random = random;
-        this.m = 100;
-        this.sigma = sigma;
-        this.omega = ApfloatUtils.precision;
-
-        build();
+    public DiscreteGaussianZigguratSampler(SecureRandom random, Apfloat gaussianParameter) {
+        this(random, 30, gaussianParameter);
     }
 
 
@@ -143,6 +135,14 @@ public class ZGaussianZigguratSampler implements Sampler<BigInteger> {
         return rhos[0];
     }
 
+
+    /**
+     * computes e^{-1/2 (x/sigma)^2} *
+     */
+    public static Apfloat rho(Apfloat sigma, Apfloat x) {
+//        return exp(-power(x/sigma, 2)/2.0);
+        return exp(pow(x.divide(sigma), 2).negate().divide(TWO));
+    }
 
     /**
      * main function to compute a valid partition
@@ -268,12 +268,12 @@ public class ZGaussianZigguratSampler implements Sampler<BigInteger> {
         int k = 16;
 
 
-        int nn = 2 * n;
-        int mm = n * k;
+        int nn = 10;
+        int mm = 10;
         BigInteger q = BigInteger.ONE.shiftLeft(k);
 
         Field Zq = new SymmetricZrField(q);
-        ZGaussianZigguratSampler sampler = new ZGaussianZigguratSampler(
+        DiscreteGaussianZigguratSampler sampler = new DiscreteGaussianZigguratSampler(
                 new SecureRandom(), 30, newApfloat(9)
         );
 

@@ -1,7 +1,7 @@
 package it.unisa.dia.gas.plaf.sampler;
 
+import it.unisa.dia.gas.plaf.jlbc.sampler.DiscreteGaussianRSDoubleSampler;
 import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
-import it.unisa.dia.gas.plaf.jlbc.sampler.ZGaussianRSDoubleSampler;
 import it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils;
 import org.apfloat.Apfloat;
 
@@ -21,7 +21,7 @@ public class ZGaussianProber {
 
         Apfloat sigma = ApfloatUtils.newApfloat(10);
 
-        Sampler<BigInteger> sampler = new ZGaussianRSDoubleSampler(
+        Sampler<BigInteger> sampler = new DiscreteGaussianRSDoubleSampler(
                 random,
                 10
         );

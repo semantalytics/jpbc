@@ -46,7 +46,6 @@ public class MP12PLP2KeyPairGenerator implements AsymmetricCipherKeyPairGenerato
 
         SecureRandom random = params.getRandom();
         this.q = BigInteger.ONE.shiftLeft(params.getK());
-        System.out.println("q = " + q);
 
         this.Zq = new SymmetricZrField(q);
         this.syndromeField = new VectorField<Field>(random, Zq, n);
@@ -63,9 +62,6 @@ public class MP12PLP2KeyPairGenerator implements AsymmetricCipherKeyPairGenerato
 
         MatrixField<Field> GField = new MatrixField<Field>(random, Zq, n, n * k);
         this.G = GField.newDiagonalElement(g);
-
-//        System.out.println("g = " + g);
-//        System.out.println("G = " + G);
 
         this.keyPair = new AsymmetricCipherKeyPair(
                 new MP12PLP2PublicKeyParameters(

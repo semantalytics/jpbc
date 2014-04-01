@@ -47,7 +47,7 @@ public class MP12HLP2ErrorTolerantOneTimePad extends AbstractElementCipher {
 
         BitSet bits = new BitSet(key.getSize());
         for (int i = 0; i < key.getSize(); i++) {
-            bits.set(i, r.getAt(i).toBigInteger().abs().compareTo(oneFourthOrder) >= 0 );
+            bits.set(i, r.getAt(i).toBigInteger().abs().compareTo(oneFourthOrder) >= 0);
         }
 
         return bits.toByteArray();

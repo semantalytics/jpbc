@@ -1,7 +1,8 @@
 package it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.params;
 
+import it.unisa.dia.gas.plaf.jlbc.sampler.DiscreteGaussianCDTSampler;
+import it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils;
 import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
-import it.unisa.dia.gas.plaf.jlbc.sampler.ZGaussianCDTSampler;
 import org.bouncycastle.crypto.KeyGenerationParameters;
 
 import java.math.BigInteger;
@@ -25,7 +26,7 @@ public class MP12PLP2KeyPairGenerationParameters extends KeyGenerationParameters
         this.params = params;
         this.k = k;
         this.gaussianParameter = gaussianParameter;
-        this.ZSampler = new ZGaussianCDTSampler(params.getRandom(), gaussianParameter);
+        this.ZSampler = new DiscreteGaussianCDTSampler(params.getRandom(), ApfloatUtils.to_Apfloat(gaussianParameter));
     }
 
     public MP12PLP2KeyPairGenerationParameters(SecureRandom random,
@@ -37,7 +38,7 @@ public class MP12PLP2KeyPairGenerationParameters extends KeyGenerationParameters
         this.params = new MP12Parameters(random, n);
         this.k = k;
         this.gaussianParameter = gaussianParameter;
-        this.ZSampler = new ZGaussianCDTSampler(random, gaussianParameter);
+        this.ZSampler = new DiscreteGaussianCDTSampler(random, ApfloatUtils.to_Apfloat(gaussianParameter));
     }
 
 
