@@ -71,7 +71,7 @@ public class Cholesky {
         int N = L.getN() - offsetRow;
 
         for (int k = 0; k < N; k++) {
-            System.out.println("L.getAt(k,k) = " + L.getAt(offsetRow + k, offsetCol + k));
+//            System.out.println("L.getAt(k,k) = " + L.getAt(offsetRow + k, offsetCol + k));
             L.getAt(offsetRow + k, offsetCol + k).sqrt();
 
             for (int i = k + 1; i < N; i++) {

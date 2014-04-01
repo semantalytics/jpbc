@@ -149,7 +149,7 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
                 .setSubMatrixFromMatrixAt(m, m, sk.getR().mulByTranspose());
 
 
-        System.out.println("cov = " + cov);
+//        System.out.println("cov = " + cov);
 
         // scale upper left square by sqrtB
         cov.transform(new Matrix.Transformer() {
@@ -182,7 +182,7 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
         // Compute Cholesky decomposition
         cov = Cholesky.cholesky2(cov, m, m);
 
-        System.out.println("cov = " + cov);
+//        System.out.println("cov = " + cov);
 
         return cov;
     }
