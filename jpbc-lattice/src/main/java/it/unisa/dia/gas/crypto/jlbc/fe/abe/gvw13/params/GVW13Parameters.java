@@ -51,7 +51,10 @@ public class GVW13Parameters implements CipherParameters {
         return ell;
     }
 
-    public KeyGenerationParameters getReKeyPairGenerationParameters(CipherParameters leftTorPK, CipherParameters leftTorSK, CipherParameters rightTorPK, CipherParameters targetTorPK) {
+    public KeyGenerationParameters getReKeyPairGenerationParameters(CipherParameters leftTorPK,
+                                                                    CipherParameters leftTorSK,
+                                                                    CipherParameters rightTorPK,
+                                                                    CipherParameters targetTorPK) {
         return new TORGVW13ReKeyGenerationParameters(
                 random, strength,
                 (TORGVW13PublicKeyParameters) leftTorPK,

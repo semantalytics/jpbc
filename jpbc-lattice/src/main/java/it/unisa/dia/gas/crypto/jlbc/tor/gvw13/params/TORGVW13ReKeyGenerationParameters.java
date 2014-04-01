@@ -10,12 +10,11 @@ import java.security.SecureRandom;
 public class TORGVW13ReKeyGenerationParameters extends KeyGenerationParameters {
 
     private TORGVW13PublicKeyParameters leftPk;
-    private TORGVW13SecretKeyParameters leftSk;
-
     private TORGVW13PublicKeyParameters rightPk;
-
     private TORGVW13PublicKeyParameters targetPk;
 
+    private boolean left;
+    private TORGVW13SecretKeyParameters sk;
 
     public TORGVW13ReKeyGenerationParameters(SecureRandom random, int strength,
                                              TORGVW13PublicKeyParameters leftPk,
@@ -25,19 +24,30 @@ public class TORGVW13ReKeyGenerationParameters extends KeyGenerationParameters {
         super(random, strength);
 
         this.leftPk = leftPk;
-        this.leftSk = leftSk;
-
         this.rightPk = rightPk;
-
         this.targetPk = targetPk;
+        this.sk = leftSk;
+        this.left = true;
     }
+
+    public TORGVW13ReKeyGenerationParameters(SecureRandom random, int strength,
+                                             TORGVW13PublicKeyParameters leftPk,
+                                             TORGVW13PublicKeyParameters rightPk,
+                                             TORGVW13SecretKeyParameters rightSk,
+                                             TORGVW13PublicKeyParameters targetPk) {
+        super(random, strength);
+
+        this.leftPk = leftPk;
+        this.rightPk = rightPk;
+        this.targetPk = targetPk;
+        this.sk = rightSk;
+        this.left = false;
+    }
+
+
 
     public TORGVW13PublicKeyParameters getLeftPk() {
         return leftPk;
-    }
-
-    public TORGVW13SecretKeyParameters getLeftSk() {
-        return leftSk;
     }
 
     public TORGVW13PublicKeyParameters getRightPk() {
@@ -47,4 +57,13 @@ public class TORGVW13ReKeyGenerationParameters extends KeyGenerationParameters {
     public TORGVW13PublicKeyParameters getTargetPk() {
         return targetPk;
     }
+
+    public boolean isLeft() {
+        return left;
+    }
+
+    public TORGVW13SecretKeyParameters getSk() {
+        return sk;
+    }
+
 }

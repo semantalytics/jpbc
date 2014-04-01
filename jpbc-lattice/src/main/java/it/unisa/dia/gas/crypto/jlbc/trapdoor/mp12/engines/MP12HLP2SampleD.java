@@ -18,6 +18,8 @@ import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
 
 import java.security.SecureRandom;
+import java.util.HashMap;
+import java.util.Map;
 
 import static it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.utils.LatticeUtils.getSSquare;
 
@@ -30,7 +32,7 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
     protected MP12HLP2PrivateKeyParameters sk;
 
     protected Sampler<Vector> offlineSampler;
-
+    protected static Map<CipherParameters, Matrix> covs = new HashMap<CipherParameters, Matrix>();
 
     public ElementCipher init(CipherParameters param) {
         AsymmetricCipherKeyPair keyPair = ((MP12HLP2SampleParameters) param).getKeyPair();
@@ -42,48 +44,50 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
         super.init(pk);
 
         // Init offline sampler
-
-        // Compute covariance matrix COV
-        int barM = 2 * n;
-        int w = n * k;
-
         SecureRandom random = sk.getParameters().getRandom();
-        MatrixField<FloatingField> ff = new MatrixField<FloatingField>(random, new FloatingField(random), barM + w);
+        Matrix cov = covs.get(sk);
+        if (cov == null) {
+            // Compute covariance matrix COV
+            int barM = 2 * n;
+            int w = n * k;
 
-        final Element sSquare = ff.getTargetField().newElement(getSSquare(barM, w));
-        final Element aSquare = ff.getTargetField().newElement(LatticeUtils.RRP_SQUARE);
-        Element rSquare = ff.getTargetField().newElement(LatticeUtils.TWO_RRP_SQUARE);
+            MatrixField<FloatingField> ff = new MatrixField<FloatingField>(random, new FloatingField(random), barM + w);
 
-        Matrix cov = ff.newElement()
-                .setSubMatrixFromMatrixAt(0, 0, sk.getR().mulByTranspose())
-                .setSubMatrixFromMatrixAt(0, barM, sk.getR())
-                .setSubMatrixFromMatrixTransposeAt(barM, 0, sk.getR())
-                .setSubMatrixToIdentityAt(barM, barM, w);
-        cov.mul(rSquare);
+            final Element sSquare = ff.getTargetField().newElement(getSSquare(barM, w));
+            final Element aSquare = ff.getTargetField().newElement(LatticeUtils.RRP_SQUARE);
+            Element rSquare = ff.getTargetField().newElement(LatticeUtils.TWO_RRP_SQUARE);
 
-        // Construct \Sigma_P = s^2 I - COV
-        cov.transform(new Matrix.Transformer() {
-            public void transform(int row, int col, Element e) {
-                e.negate();
-                if (row == col)
-                    e.add(sSquare);
-            }
-        });
+            cov = ff.newElement()
+                    .setSubMatrixFromMatrixAt(0, 0, sk.getR().mulByTranspose())
+                    .setSubMatrixFromMatrixAt(0, barM, sk.getR())
+                    .setSubMatrixFromMatrixTransposeAt(barM, 0, sk.getR())
+                    .setSubMatrixToIdentityAt(barM, barM, w);
+            cov.mul(rSquare);
 
-        // Construct \Sigma_P - a^2 I
-        cov.transform(new Matrix.Transformer() {
-            public void transform(int row, int col, Element e) {
-                if (row == col)
-                    e.sub(aSquare);
-            }
-        });
+            // Construct \Sigma_P = s^2 I - COV
+            cov.transform(new Matrix.Transformer() {
+                public void transform(int row, int col, Element e) {
+                    e.negate();
+                    if (row == col)
+                        e.add(sSquare);
+                }
+            });
 
-        // Compute Cholesky decomposition
-        Matrix chol = Cholesky.cholesky(cov);
+            // Construct \Sigma_P - a^2 I
+            cov.transform(new Matrix.Transformer() {
+                public void transform(int row, int col, Element e) {
+                    if (row == col)
+                        e.sub(aSquare);
+                }
+            });
 
+            // Compute Cholesky decomposition
+            cov = Cholesky.cholesky(cov);
+            covs.put(sk, cov);
 //        System.out.println("chol = " + chol);
+        }
 
-        offlineSampler = new DiscreteGaussianCOVSampler(random, chol, sk.getR().getTargetField(), LatticeUtils.RRP);
+        offlineSampler = new DiscreteGaussianCOVSampler(random, cov, sk.getR().getTargetField(), LatticeUtils.RRP);
 
         return this;
 

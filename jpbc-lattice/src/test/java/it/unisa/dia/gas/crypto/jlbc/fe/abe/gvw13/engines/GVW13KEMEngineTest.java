@@ -41,6 +41,7 @@ public class GVW13KEMEngineTest {
 //
 //                new DefaultCircuit.DefaultGate(AND, 2, 2, new int[]{0, 1}),
 //        });
+
         int ell = 4;
         int q = 3;
         Circuit circuit = new DefaultCircuit(ell, q, 3, new DefaultCircuit.DefaultGate[]{
@@ -85,10 +86,7 @@ public class GVW13KEMEngineTest {
 
     protected AsymmetricCipherKeyPair setup(GVW13Parameters parameters) {
         GVW13KeyPairGenerator setup = new GVW13KeyPairGenerator();
-        setup.init(new GVW13KeyPairGenerationParameters(
-                new SecureRandom(),
-                parameters
-        ));
+        setup.init(new GVW13KeyPairGenerationParameters(random, parameters));
 
         return setup.generateKeyPair();
     }
@@ -98,7 +96,7 @@ public class GVW13KEMEngineTest {
             KeyEncapsulationMechanism kem = new GVW13KEMEngine();
             kem.init(true, new GVW13EncryptionParameters((GVW13PublicKeyParameters) publicKey, w));
 
-            byte[] ciphertext = kem.processBlock(new byte[0], 0, 0);
+            byte[] ciphertext = kem.process();
 
             assertNotNull(ciphertext);
             assertNotSame(0, ciphertext.length);
@@ -132,7 +130,7 @@ public class GVW13KEMEngineTest {
             KeyEncapsulationMechanism kem = new GVW13KEMEngine();
 
             kem.init(false, secretKey);
-            byte[] key = kem.processBlock(ciphertext, 0, ciphertext.length);
+            byte[] key = kem.processBlock(ciphertext);
 
             assertNotNull(key);
             assertNotSame(0, key.length);

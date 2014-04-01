@@ -27,7 +27,6 @@ public class TORGVW13RecKeyGenerator implements CipherParametersGenerator {
     }
 
     public CipherParameters generateKey() {
-        // Sample R1 from D_Z,s
         MP12HLP2PublicKeyParameters latticePk = (MP12HLP2PublicKeyParameters) params.getLeftPk().getLatticePublicKey();
 
         MatrixField<Field> RField = new MatrixField<Field>(
@@ -35,20 +34,45 @@ public class TORGVW13RecKeyGenerator implements CipherParametersGenerator {
                 latticePk.getZq(),
                 latticePk.getM()
         );
-        MatrixElement R1 = RField.newElementFromSampler(latticePk.getDiscreteGaussianSampler());
 
-        // Compute U
-        MatrixElement U = (MatrixElement) ((MP12HLP2PublicKeyParameters) params.getTargetPk().getLatticePublicKey()).getA().duplicate().sub(
-                ((MP12HLP2PublicKeyParameters) params.getRightPk().getLatticePublicKey()).getA().mul(R1)
-        );
+        MatrixElement R0, R1;
+        if (params.isLeft()) {
+            // b = 0
 
-        // Sample R0
-        MP12HLP2SampleD sampleD = new MP12HLP2SampleD();
-        sampleD.init(new MP12HLP2SampleParameters(params.getLeftPk().getLatticePublicKey(), params.getLeftSk().getLatticePrivateKey()));
+            // Sample R1 from D_Z,s
+            R1 = RField.newElementFromSampler(latticePk.getDiscreteGaussianSampler());
 
-        MatrixElement R0 = RField.newElement();
-        for (int i = 0; i < RField.getN(); i++) {
-            R0.setColAt(i, sampleD.processElements(U.columnAt(i)));
+            // Compute U
+            MatrixElement U = (MatrixElement) ((MP12HLP2PublicKeyParameters) params.getTargetPk().getLatticePublicKey()).getA().duplicate().sub(
+                    ((MP12HLP2PublicKeyParameters) params.getRightPk().getLatticePublicKey()).getA().mul(R1)
+            );
+
+            // Sample R0
+            MP12HLP2SampleD sampleD = new MP12HLP2SampleD();
+            sampleD.init(new MP12HLP2SampleParameters(params.getLeftPk().getLatticePublicKey(), params.getSk().getLatticePrivateKey()));
+
+            R0 = RField.newElement();
+            for (int i = 0; i < RField.getN(); i++) {
+                R0.setColAt(i, sampleD.processElements(U.columnAt(i)));
+            }
+        } else {
+            // b = 1
+            // Sample R0 from D_Z,s
+            R0 = RField.newElementFromSampler(latticePk.getDiscreteGaussianSampler());
+
+            // Compute U
+            MatrixElement U = (MatrixElement) ((MP12HLP2PublicKeyParameters) params.getTargetPk().getLatticePublicKey()).getA().duplicate().sub(
+                    ((MP12HLP2PublicKeyParameters) params.getLeftPk().getLatticePublicKey()).getA().mul(R0)
+            );
+
+            // Sample R0
+            MP12HLP2SampleD sampleD = new MP12HLP2SampleD();
+            sampleD.init(new MP12HLP2SampleParameters(params.getRightPk().getLatticePublicKey(), params.getSk().getLatticePrivateKey()));
+
+            R1 = RField.newElement();
+            for (int i = 0; i < RField.getN(); i++) {
+                R1.setColAt(i, sampleD.processElements(U.columnAt(i)));
+            }
         }
 
         // Compute R
