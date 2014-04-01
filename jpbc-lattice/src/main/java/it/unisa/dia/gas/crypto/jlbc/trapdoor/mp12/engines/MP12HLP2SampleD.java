@@ -4,6 +4,7 @@ import it.unisa.dia.gas.crypto.cipher.ElementCipher;
 import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.params.MP12HLP2PrivateKeyParameters;
 import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.params.MP12HLP2PublicKeyParameters;
 import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.params.MP12HLP2SampleParameters;
+import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.utils.LatticeUtils;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Matrix;
 import it.unisa.dia.gas.jpbc.Vector;
@@ -19,6 +20,7 @@ import org.bouncycastle.crypto.CipherParameters;
 
 import java.security.SecureRandom;
 
+import static it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.utils.LatticeUtils.getSSquare;
 import static it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils.*;
 import static it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils.newApfloat;
 import static it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.utils.LatticeUtils.getS1R;
@@ -52,23 +54,9 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
         SecureRandom random = sk.getParameters().getRandom();
         MatrixField<FloatingField> ff = new MatrixField<FloatingField>(random, new FloatingField(random), barM + w);
 
-        Apfloat n = newApfloat(pk.getParameters().getN());
-        Apfloat k = newApfloat(pk.getK());
-
-        // Compute s1R = ((2\sqrt(n)) * (\sqrt(2n) + \sqrt(nk) + (t=1)) \ \sqrt(2\pi)
-        Apfloat s1R = getS1R(barM, w);
-        Apfloat s1Rsquare = square(s1R);
-        Apfloat sQuare = s1Rsquare.add(IONE).multiply(ISIX).multiply(square(IFIVE));
-
-        Element rSquare = ff.getTargetField().newElement(pk.getGaussianParameter()).square();
-        final Element aSquare = ff.getTargetField().newElement(pk.getGaussianParameter()).halve().square();
-        final Element sSquare = ff.getTargetField().newElement(sQuare);
-
-//        System.out.println("s1R = " + ApfloatUtils.toString(s1R));
-//        System.out.println("s1Rsquare = " + ApfloatUtils.toString(s1Rsquare));
-        System.out.println("sSquare = " + sSquare);
-//        System.out.println("rSquare = " + rSquare);
-//        System.out.println("aSquare = " + aSquare);
+        final Element sSquare = ff.getTargetField().newElement(getSSquare(barM, w));
+        final Element aSquare = ff.getTargetField().newElement(LatticeUtils.RRP_SQUARE);
+        Element rSquare = ff.getTargetField().newElement(LatticeUtils.TWO_RRP_SQUARE);
 
         Matrix cov = ff.newElement()
                 .setSubMatrixFromMatrixAt(0, 0, sk.getR().mulByTranspose())

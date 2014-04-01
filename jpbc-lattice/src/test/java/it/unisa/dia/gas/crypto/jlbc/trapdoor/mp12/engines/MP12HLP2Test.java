@@ -35,8 +35,8 @@ public class MP12HLP2Test {
         gen.init(new MP12HLP2KeyPairGenerationParameters(
                 random,
                 4, // n
-                16, // k
-                10 // s
+                16 // k
+                // s
         ));
         keyPair = gen.generateKeyPair();
     }
@@ -71,7 +71,7 @@ public class MP12HLP2Test {
 
         // Sample R1 from D_Z,s
         MatrixField<Field> RField = new MatrixField<Field>(latticePk.getParameters().getRandom(), latticePk.getZq(), latticePk.getM());
-        MatrixElement R1 = RField.newElementFromSampler(latticePk.getZSampler());
+        MatrixElement R1 = RField.newElementFromSampler(latticePk.getDiscreteGaussianSampler());
 
         // Compute U
         MatrixElement U = (MatrixElement) ((MP12HLP2PublicKeyParameters) keyPair2.getPublic()).getA().duplicate().sub(

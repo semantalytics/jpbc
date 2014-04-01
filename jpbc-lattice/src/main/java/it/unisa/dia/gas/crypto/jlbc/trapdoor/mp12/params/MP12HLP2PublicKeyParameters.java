@@ -16,11 +16,10 @@ public class MP12HLP2PublicKeyParameters extends MP12PLP2PublicKeyParameters {
 
     protected Element A;
     protected Element barA;
-    protected int gaussianParameter;
     private int m;
 
     public MP12HLP2PublicKeyParameters(MP12Parameters parameters, int k, int m,
-                                       Sampler<BigInteger> sampler, int gaussianParameter,
+                                       Sampler<BigInteger> sampler,
                                        VectorElement g, MatrixElement G,
                                        Field syndromeField, Field Zq,
                                        VectorField<Field> preimageField,
@@ -29,7 +28,6 @@ public class MP12HLP2PublicKeyParameters extends MP12PLP2PublicKeyParameters {
 
         this.A = A;
         this.barA = barA;
-        this.gaussianParameter = gaussianParameter;
         this.m = m;
     }
 
@@ -45,7 +43,4 @@ public class MP12HLP2PublicKeyParameters extends MP12PLP2PublicKeyParameters {
         return m;
     }
 
-    public int getGaussianParameter() {
-        return gaussianParameter;
-    }
 }

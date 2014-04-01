@@ -62,7 +62,7 @@ public class MP12HLP2KeyPairGenerator extends MP12PLP2KeyPairGenerator {
         return new AsymmetricCipherKeyPair(
                 new MP12HLP2PublicKeyParameters(
                         params.getParameters(), k, m,
-                        ZSampler, params.getGaussianParameter(),
+                        ZSampler,
                         g, G,
                         syndromeField, Zq, preimageField,
                         A, barA

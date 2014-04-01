@@ -27,8 +27,8 @@ public class MP12PLP2Test {
         gen.init(new MP12PLP2KeyPairGenerationParameters(
                 random,
                 4,  // n
-                32,  // k
-                10   // s
+                32  // k
+                // s
         ));
     }
 

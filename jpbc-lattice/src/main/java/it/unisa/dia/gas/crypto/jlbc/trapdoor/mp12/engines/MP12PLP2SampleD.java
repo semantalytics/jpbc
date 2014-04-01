@@ -65,7 +65,7 @@ public class MP12PLP2SampleD extends AbstractElementCipher {
             return zero.poll();
         else {
             while (true) {
-                BigInteger x = parameters.getZSampler().sample();
+                BigInteger x = parameters.getDiscreteGaussianSampler().sample();
                 boolean xLSB = x.testBit(0);
                 if (xLSB == uLSB)
                     return x;

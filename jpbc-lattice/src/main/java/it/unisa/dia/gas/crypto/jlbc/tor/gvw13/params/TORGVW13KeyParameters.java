@@ -12,6 +12,7 @@ public class TORGVW13KeyParameters extends AsymmetricKeyParameter {
 
     public TORGVW13KeyParameters(boolean isPrivate, TORGVW13Parameters parameters) {
         super(isPrivate);
+
         this.parameters = parameters;
     }
 

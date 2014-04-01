@@ -7,15 +7,8 @@ import java.security.SecureRandom;
  */
 public class MP12HLP2KeyPairGenerationParameters extends MP12PLP2KeyPairGenerationParameters {
 
-    public MP12HLP2KeyPairGenerationParameters(SecureRandom random,
-                                               int n,
-                                               int k,
-                                               int gaussianParameter) {
-        super(random, n, k, gaussianParameter);
-    }
-
-    public MP12HLP2KeyPairGenerationParameters(MP12Parameters params, int k, int gaussianParameter) {
-        super(params, k, gaussianParameter);
+    public MP12HLP2KeyPairGenerationParameters(SecureRandom random, int n, int k) {
+        super(random, n, k);
     }
 
 }

@@ -29,12 +29,12 @@ public class TORGVW13KeyPairGenerator implements AsymmetricCipherKeyPairGenerato
         this.params = (TORGVW13KeyPairGenerationParameters) keyGenerationParameters;
 
         // Init Lattice generator
+        // TODO: k must be chosen differently
         gen = new MP12HLP2KeyPairGenerator();
         gen.init(new MP12HLP2KeyPairGenerationParameters(
                 params.getRandom(),
                 params.getParameters().getN(),
-                32,
-                10
+                32
         ));
     }
 

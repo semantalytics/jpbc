@@ -42,7 +42,7 @@ public class MP12PLP2KeyPairGenerator implements AsymmetricCipherKeyPairGenerato
 
         this.n = params.getParameters().getN();
         this.k = params.getK();
-        this.ZSampler = params.getZSampler();
+        this.ZSampler = params.getDiscreteGaussianSampler();
 
         SecureRandom random = params.getRandom();
         this.q = BigInteger.ONE.shiftLeft(params.getK());

@@ -1,6 +1,6 @@
 package it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.params;
 
-import it.unisa.dia.gas.plaf.jlbc.sampler.SamplerFactory;
+import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.utils.LatticeUtils;
 import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
 import org.bouncycastle.crypto.KeyGenerationParameters;
 
@@ -14,30 +14,22 @@ public class MP12PLP2KeyPairGenerationParameters extends KeyGenerationParameters
 
     private MP12Parameters params;
     private int k;
-    private int gaussianParameter;
-    private Sampler<BigInteger> ZSampler;
+    private Sampler<BigInteger> discreteGaussianSampler;
 
-    public MP12PLP2KeyPairGenerationParameters(MP12Parameters params,
-                                               int k,
-                                               int gaussianParameter) {
+    public MP12PLP2KeyPairGenerationParameters(MP12Parameters params, int k) {
         super(params.getRandom(), 100);
 
         this.params = params;
         this.k = k;
-        this.gaussianParameter = gaussianParameter;
-        this.ZSampler = SamplerFactory.getInstance().getDiscreteGaussianSampler(params.getRandom(), gaussianParameter);
+        this.discreteGaussianSampler = LatticeUtils.getPrimitiveDiscreteGaussianSampler(params.getRandom());
     }
 
-    public MP12PLP2KeyPairGenerationParameters(SecureRandom random,
-                                               int n,
-                                               int k,
-                                               int gaussianParameter) {
+    public MP12PLP2KeyPairGenerationParameters(SecureRandom random, int n, int k) {
         super(random, 100);
 
         this.params = new MP12Parameters(random, n);
         this.k = k;
-        this.gaussianParameter = gaussianParameter;
-        this.ZSampler = SamplerFactory.getInstance().getDiscreteGaussianSampler(params.getRandom(), gaussianParameter);
+        this.discreteGaussianSampler = LatticeUtils.getPrimitiveDiscreteGaussianSampler(params.getRandom());
     }
 
 
@@ -49,11 +41,7 @@ public class MP12PLP2KeyPairGenerationParameters extends KeyGenerationParameters
         return k;
     }
 
-    public int getGaussianParameter() {
-        return gaussianParameter;
-    }
-
-    public Sampler<BigInteger> getZSampler() {
-        return ZSampler;
+    public Sampler<BigInteger> getDiscreteGaussianSampler() {
+        return discreteGaussianSampler;
     }
 }
