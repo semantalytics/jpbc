@@ -47,44 +47,8 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
         SecureRandom random = sk.getParameters().getRandom();
         Matrix cov = covs.get(sk);
         if (cov == null) {
-            // Compute covariance matrix COV
-            int barM = 2 * n;
-            int w = n * k;
-
-            MatrixField<FloatingField> ff = new MatrixField<FloatingField>(random, new FloatingField(random), barM + w);
-
-            final Element sSquare = ff.getTargetField().newElement(getSSquare(barM, w));
-            final Element aSquare = ff.getTargetField().newElement(LatticeUtils.RRP_SQUARE);
-            Element rSquare = ff.getTargetField().newElement(LatticeUtils.TWO_RRP_SQUARE);
-
-            cov = ff.newElement()
-                    .setSubMatrixFromMatrixAt(0, 0, sk.getR().mulByTranspose())
-                    .setSubMatrixFromMatrixAt(0, barM, sk.getR())
-                    .setSubMatrixFromMatrixTransposeAt(barM, 0, sk.getR())
-                    .setSubMatrixToIdentityAt(barM, barM, w);
-            cov.mul(rSquare);
-
-            // Construct \Sigma_P = s^2 I - COV
-            cov.transform(new Matrix.Transformer() {
-                public void transform(int row, int col, Element e) {
-                    e.negate();
-                    if (row == col)
-                        e.add(sSquare);
-                }
-            });
-
-            // Construct \Sigma_P - a^2 I
-            cov.transform(new Matrix.Transformer() {
-                public void transform(int row, int col, Element e) {
-                    if (row == col)
-                        e.sub(aSquare);
-                }
-            });
-
-            // Compute Cholesky decomposition
-            cov = Cholesky.cholesky(cov);
+            cov = computeCOV2(random, 2 * n, n * k);
             covs.put(sk, cov);
-//        System.out.println("chol = " + chol);
         }
 
         offlineSampler = new DiscreteGaussianCOVSampler(random, cov, sk.getR().getTargetField(), LatticeUtils.RRP);
@@ -116,6 +80,7 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
 
 
     Element p, o;
+
     protected Element[] samplePerturbation() {
         // TODO: must be new every time!
         if (p == null) {
@@ -125,5 +90,102 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
 
         return new Element[]{p, o};
     }
+
+    protected Matrix computeCOV(SecureRandom random, int n, int m) {
+        // Compute covariance matrix COV
+        MatrixField<FloatingField> ff = new MatrixField<FloatingField>(random, new FloatingField(random), n + m);
+
+        final Element sSquare = ff.getTargetField().newElement(getSSquare(n, m));
+        final Element aSquare = ff.getTargetField().newElement(LatticeUtils.RRP_SQUARE);
+        Element rSquare = ff.getTargetField().newElement(LatticeUtils.TWO_RRP_SQUARE);
+
+        Matrix cov = ff.newElement()
+                .setSubMatrixFromMatrixAt(0, 0, sk.getR().mulByTranspose())
+                .setSubMatrixFromMatrixAt(0, n, sk.getR())
+                .setSubMatrixFromMatrixTransposeAt(n, 0, sk.getR())
+                .setSubMatrixToIdentityAt(n, n, m);
+        cov.mul(rSquare);
+
+        // Construct \Sigma_P = s^2 I - COV
+        cov.transform(new Matrix.Transformer() {
+            public void transform(int row, int col, Element e) {
+                e.negate();
+                if (row == col)
+                    e.add(sSquare);
+            }
+        });
+
+        // Construct \Sigma_P - a^2 I
+        cov.transform(new Matrix.Transformer() {
+            public void transform(int row, int col, Element e) {
+                if (row == col)
+                    e.sub(aSquare);
+            }
+        });
+
+        // Compute Cholesky decomposition
+        cov = Cholesky.cholesky(cov);
+//        System.out.println("cov = " + cov);
+
+        return cov;
+    }
+
+    protected Matrix computeCOV2(SecureRandom random, int n, final int m) {
+        // Compute covariance matrix COV
+        MatrixField<FloatingField> ff = new MatrixField<FloatingField>(random, new FloatingField(random), n + m);
+
+        Element sSquare = ff.getTargetField().newElement(getSSquare(n, m));
+        Element rSquare = ff.getTargetField().newElement(LatticeUtils.TWO_RRP_SQUARE);
+        Element aSquare = ff.getTargetField().newElement(LatticeUtils.RRP_SQUARE);
+
+        Element b = sSquare.duplicate().sub(rSquare).sub(aSquare);
+        final Element sqrtB = b.duplicate().sqrt();
+        final Element rSquarePlusOneOverB = rSquare.duplicate().add(b.duplicate().invert());
+        final Element sSquareMinusASquare = sSquare.duplicate().sub(aSquare);
+
+        Matrix cov = ff.newElement()
+                .setSubMatrixToIdentityAt(0, 0, m)
+                .setSubMatrixFromMatrixAt(m, 0, sk.getR())
+                .setSubMatrixFromMatrixAt(m, m, sk.getR().mulByTranspose());
+
+
+        System.out.println("cov = " + cov);
+
+        // scale upper left square by sqrtB
+        cov.transform(new Matrix.Transformer() {
+            public void transform(int row, int col, Element e) {
+                if (row == col && row < m)
+                    e.div(sqrtB);
+            }
+        });
+
+        // scale bottom left square by sqrtB
+        cov.transform(new Matrix.Transformer() {
+            public void transform(int row, int col, Element e) {
+                if (row >= m && col < m)
+                    e.div(sqrtB);
+            }
+        });
+
+        // Construct \Sigma_P = s^2 I - COV
+        cov.transform(new Matrix.Transformer() {
+            public void transform(int row, int col, Element e) {
+                e.mul(rSquarePlusOneOverB);
+
+                e.negate();
+                if (row == col && row >= m)
+                    e.add(sSquareMinusASquare);
+            }
+        });
+
+
+        // Compute Cholesky decomposition
+        cov = Cholesky.cholesky2(cov, m, m);
+
+        System.out.println("cov = " + cov);
+
+        return cov;
+    }
+
 
 }

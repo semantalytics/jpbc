@@ -164,6 +164,19 @@ public class MatrixElement<E extends Element> extends AbstractMatrixElement<E, M
         return this;
     }
 
+    public Element div(Element e) {
+        if (field.getTargetField().equals(e.getField())) {
+            for (int i = 0; i < field.n; i++) {
+                for (int j = 0; j < field.m; j++) {
+                    matrix[i][j].div(e);
+                }
+            }
+
+            return this;
+        } else
+            throw new IllegalArgumentException("Not implemented yet!!!");
+    }
+
     public Element mul(Element e) {
         if (field.getTargetField().equals(e.getField())) {
             Element result = e.duplicate();

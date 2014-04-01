@@ -67,6 +67,31 @@ public class Cholesky {
 
         return L;
     }
+    public static Matrix cholesky2(Matrix L, int offsetRow, int offsetCol) {
+        int N = L.getN() - offsetRow;
+
+        for (int k = 0; k < N; k++) {
+            System.out.println("L.getAt(k,k) = " + L.getAt(offsetRow + k, offsetCol + k));
+            L.getAt(offsetRow + k, offsetCol + k).sqrt();
+
+            for (int i = k + 1; i < N; i++) {
+                L.getAt(offsetRow + i, offsetCol + k).div(L.getAt(offsetRow + k, offsetCol + k));
+            }
+
+            for (int j = k + 1; j < N; j++) {
+                for (int i = j; i < N; i++) {
+                    L.getAt(offsetRow + i, offsetCol + j).sub(
+                            L.getAt(offsetRow + i, offsetCol + k).duplicate().mul(L.getAt(offsetRow + j, offsetCol + k))
+                    );
+                }
+            }
+        }
+        return L;
+    }
+
+
+
+
 
 
     // is symmetric
