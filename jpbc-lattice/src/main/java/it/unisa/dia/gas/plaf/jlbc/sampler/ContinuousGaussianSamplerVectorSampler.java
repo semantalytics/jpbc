@@ -12,7 +12,7 @@ import java.security.SecureRandom;
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
-public class CGSampler implements Sampler<Vector> {
+public class ContinuousGaussianSamplerVectorSampler implements Sampler<Vector> {
 
     protected SecureRandom random;
     protected int precision, n;
@@ -20,7 +20,7 @@ public class CGSampler implements Sampler<Vector> {
     protected FloatingField ff;
 
 
-    public CGSampler(SecureRandom random, int precision, int n) {
+    public ContinuousGaussianSamplerVectorSampler(SecureRandom random, int precision, int n) {
         if (random == null)
             random = new SecureRandom();
 

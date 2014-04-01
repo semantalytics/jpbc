@@ -28,7 +28,7 @@ public class DiscreteGaussianCOVSampler implements Sampler<Vector> {
 
         this.random = random;
         this.cov = cov;
-        this.sampler = new CGSampler(random, 128, cov.getN());
+        this.sampler = new ContinuousGaussianSamplerVectorSampler(random, 128, cov.getN());
         this.target = new VectorField<Field>(random, target, cov.getN());
         this.roundingSampler = new DiscreteGaussianRSSampler(random, LatticeUtils.RRP);
     }
