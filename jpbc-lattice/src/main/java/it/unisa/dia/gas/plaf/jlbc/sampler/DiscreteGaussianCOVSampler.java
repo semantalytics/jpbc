@@ -1,12 +1,12 @@
 package it.unisa.dia.gas.plaf.jlbc.sampler;
 
-import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.utils.LatticeUtils;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Matrix;
 import it.unisa.dia.gas.jpbc.Vector;
 import it.unisa.dia.gas.plaf.jlbc.field.floating.FloatingElement;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorField;
 import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
+import org.apfloat.Apfloat;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -23,7 +23,7 @@ public class DiscreteGaussianCOVSampler implements Sampler<Vector> {
     protected GaussianSampler<BigInteger> roundingSampler;
 
 
-    public DiscreteGaussianCOVSampler(SecureRandom random, Matrix cov, Field target) {
+    public DiscreteGaussianCOVSampler(SecureRandom random, Matrix cov, Field target, Apfloat roundingGaussianParameter) {
         if (random == null)
             random = new SecureRandom();
 
@@ -31,7 +31,7 @@ public class DiscreteGaussianCOVSampler implements Sampler<Vector> {
         this.cov = cov;
         this.sampler = new ContinuousGaussianSamplerVectorSampler(random, 128, cov.getN());
         this.target = new VectorField<Field>(random, target, cov.getN());
-        this.roundingSampler = new DiscreteGaussianRSSampler(random, LatticeUtils.RRP);
+        this.roundingSampler = new DiscreteGaussianRSSampler(random, roundingGaussianParameter);
     }
 
 

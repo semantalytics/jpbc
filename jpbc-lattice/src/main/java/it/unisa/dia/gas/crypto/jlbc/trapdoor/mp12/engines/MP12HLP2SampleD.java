@@ -14,16 +14,12 @@ import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixField;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorField;
 import it.unisa.dia.gas.plaf.jpbc.util.math.Cholesky;
-import org.apfloat.Apfloat;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
 
 import java.security.SecureRandom;
 
 import static it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.utils.LatticeUtils.getSSquare;
-import static it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils.*;
-import static it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils.newApfloat;
-import static it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.utils.LatticeUtils.getS1R;
 
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
@@ -87,7 +83,8 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
 
 //        System.out.println("chol = " + chol);
 
-        offlineSampler = new DiscreteGaussianCOVSampler(random, chol, sk.getR().getTargetField());
+        offlineSampler = new DiscreteGaussianCOVSampler(random, chol, sk.getR().getTargetField(), LatticeUtils.RRP);
+
         return this;
 
     }
@@ -116,6 +113,7 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
 
     Element p, o;
     protected Element[] samplePerturbation() {
+        // TODO: must be new every time!
         if (p == null) {
             p = offlineSampler.sample().getImmutable();
             o = pk.getA().mul(p);
