@@ -24,9 +24,11 @@ public class SamplerFactory {
 
     public Sampler<BigInteger> getDiscreteGaussianSampler(SecureRandom random, Apfloat gaussianParameter) {
         return new DiscreteGaussianCDTSampler(random, gaussianParameter);
+//        return new DiscreteGaussianRSDoubleSampler(random, gaussianParameter);
     }
 
     public Sampler<BigInteger> getDiscreteGaussianSampler(SecureRandom random, int gaussianParameter) {
         return new DiscreteGaussianCDTSampler(random, ApfloatUtils.newApfloat(gaussianParameter));
+//        return new DiscreteGaussianRSDoubleSampler(random, ApfloatUtils.newApfloat(gaussianParameter));
     }
 }

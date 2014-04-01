@@ -2,6 +2,7 @@ package it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.params;
 
 import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.utils.LatticeUtils;
 import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.plaf.jlbc.sampler.SamplerFactory;
 import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorField;
 import org.bouncycastle.crypto.params.AsymmetricKeyParameter;
@@ -17,22 +18,6 @@ public class MP12HLP2OneWayFunctionParameters extends AsymmetricKeyParameter {
     protected Sampler<BigInteger> sampler;
     protected Field inputField, outputField;
 
-    public MP12HLP2OneWayFunctionParameters(MP12HLP2PublicKeyParameters pk, Sampler<BigInteger> sampler) {
-        super(false);
-
-        this.pk = pk;
-        this.sampler = sampler;
-        this.inputField = new VectorField<Field>(
-                pk.getParameters().getRandom(),
-                pk.getZq(),
-                pk.getParameters().getN()
-        );
-        this.outputField = new VectorField<Field>(
-                pk.getParameters().getRandom(),
-                pk.getZq(),
-                pk.getM()
-        );
-    }
 
     public MP12HLP2OneWayFunctionParameters(MP12HLP2PublicKeyParameters pk) {
         super(false);
@@ -50,6 +35,7 @@ public class MP12HLP2OneWayFunctionParameters extends AsymmetricKeyParameter {
                 pk.getM()
         );
     }
+
 
     public MP12HLP2PublicKeyParameters getPk() {
         return pk;

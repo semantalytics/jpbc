@@ -115,12 +115,14 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
 
         // Compute syndrome w
         Element v = u.duplicate().sub(offset);
+//        Element v = u;
 
         // Compute x
         Element z2 = super.processElements(v);
         Element z1 = sk.getR().mul(z2);
 
         return p.add(VectorField.union(z1, z2));
+//        return VectorField.union(z1, z2);
     }
 
 

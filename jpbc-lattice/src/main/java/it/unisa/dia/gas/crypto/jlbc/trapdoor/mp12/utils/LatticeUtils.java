@@ -35,7 +35,7 @@ public class LatticeUtils {
     public static Apfloat getLWENoiseParameter(int n) {
         return SQRT_TWO.multiply(
                 ITWO.multiply(sqrt(newApfloat(n)))
-        ).multiply(RRP_SQUARE);
+        )/*.multiply(RRP_SQUARE)*/;
     }
 
     public static Sampler<BigInteger> getLWENoiseSampler(SecureRandom random, int n) {
