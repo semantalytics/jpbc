@@ -8,6 +8,7 @@ import it.unisa.dia.gas.plaf.jlbc.field.floating.FloatingElement;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorField;
 import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
 
+import java.math.BigInteger;
 import java.security.SecureRandom;
 
 /**
@@ -19,7 +20,7 @@ public class DiscreteGaussianCOVSampler implements Sampler<Vector> {
     protected Matrix cov;
     protected Sampler<Vector> sampler;
     protected Field target;
-    protected DiscreteGaussianRSSampler roundingSampler;
+    protected GaussianSampler<BigInteger> roundingSampler;
 
 
     public DiscreteGaussianCOVSampler(SecureRandom random, Matrix cov, Field target) {

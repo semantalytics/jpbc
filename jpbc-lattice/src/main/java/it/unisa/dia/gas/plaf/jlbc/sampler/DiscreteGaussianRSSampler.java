@@ -19,7 +19,7 @@ import static org.apfloat.ApfloatMath.exp;
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
-public class DiscreteGaussianRSSampler implements Sampler<BigInteger> {
+public class DiscreteGaussianRSSampler implements GaussianSampler<BigInteger> {
 
     protected SecureRandom random;
     protected Apfloat sigma;
@@ -87,27 +87,6 @@ public class DiscreteGaussianRSSampler implements Sampler<BigInteger> {
                 return BigInteger.valueOf(x);
             }
         }
-    }
-
-    public static void main(String[] args) {
-        SecureRandom random = new SecureRandom();
-        int k = 16;
-        int nn = 10;
-        int mm = 10;
-        BigInteger q = BigInteger.ONE.shiftLeft(k);
-
-        Field Zq = new SymmetricZrField(q);
-        DiscreteGaussianRSSampler sampler = new DiscreteGaussianRSSampler(random, newApfloat(9));
-
-        MatrixField<Field> RField = new MatrixField<Field>(random, Zq, nn, mm);
-        Matrix R = RField.newElement();
-        for (int i = 0; i < nn; i++) {
-            for (int j = 0; j < mm; j++) {
-                R.getAt(i, j).set(sampler.sample());
-            }
-        }
-
-        System.out.println("R = " + R);
     }
 
 }

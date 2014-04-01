@@ -1,6 +1,6 @@
 package it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.utils;
 
-import it.unisa.dia.gas.plaf.jlbc.sampler.DiscreteGaussianCDTSampler;
+import it.unisa.dia.gas.plaf.jlbc.sampler.SamplerFactory;
 import it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils;
 import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
 import org.apfloat.Apfloat;
@@ -39,7 +39,7 @@ public class LatticeUtils {
     }
 
     public static Sampler<BigInteger> getLWENoiseSampler(SecureRandom random, int n) {
-        return new DiscreteGaussianCDTSampler(random, getLWENoiseParameter(n));
+        return SamplerFactory.getInstance().getDiscreteGaussianSampler(random, getLWENoiseParameter(n));
     }
 
     /**

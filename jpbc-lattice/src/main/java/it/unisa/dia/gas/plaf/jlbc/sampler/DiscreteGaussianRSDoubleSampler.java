@@ -70,31 +70,4 @@ public class DiscreteGaussianRSDoubleSampler implements Sampler<BigInteger> {
                 return BigInteger.valueOf(x);
         }
     }
-
-    public static void main(String[] args) {
-        SecureRandom random = new SecureRandom();
-        int n = 4;
-        int k = 16;
-
-
-        int nn = 10;
-        int mm = 10;
-        BigInteger q = BigInteger.ONE.shiftLeft(k);
-
-        Field Zq = new SymmetricZrField(q);
-        DiscreteGaussianRSDoubleSampler sampler = new DiscreteGaussianRSDoubleSampler(
-                new SecureRandom(), 9.0d
-        );
-
-        MatrixField<Field> RField = new MatrixField<Field>(random, Zq, nn, mm);
-        Matrix R = RField.newElement();
-        for (int i = 0; i < nn; i++) {
-            for (int j = 0; j < mm; j++) {
-                R.getAt(i, j).set(sampler.sample());
-            }
-        }
-
-        System.out.println("R = " + R);
-    }
-
 }

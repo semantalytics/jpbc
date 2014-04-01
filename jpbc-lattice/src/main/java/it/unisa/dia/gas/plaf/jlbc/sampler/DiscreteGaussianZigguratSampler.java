@@ -257,37 +257,7 @@ public class DiscreteGaussianZigguratSampler implements Sampler<BigInteger> {
 
         }
 
-        System.out.println("FAILURE");
+        throw new IllegalStateException("FAILURE");
     }
-
-
-    public static void main(String[] args) {
-
-        SecureRandom random = new SecureRandom();
-        int n = 4;
-        int k = 16;
-
-
-        int nn = 10;
-        int mm = 10;
-        BigInteger q = BigInteger.ONE.shiftLeft(k);
-
-        Field Zq = new SymmetricZrField(q);
-        DiscreteGaussianZigguratSampler sampler = new DiscreteGaussianZigguratSampler(
-                new SecureRandom(), 30, newApfloat(9)
-        );
-
-        MatrixField<Field> RField = new MatrixField<Field>(random, Zq, nn, mm);
-        Matrix R = RField.newElement();
-        for (int i = 0; i < nn; i++) {
-            for (int j = 0; j < mm; j++) {
-                R.getAt(i, j).set(sampler.sample());
-            }
-        }
-
-        System.out.println("R = " + R);
-    }
-
 
 }
-
