@@ -10,9 +10,9 @@ import it.unisa.dia.gas.jpbc.Matrix;
 import it.unisa.dia.gas.jpbc.Vector;
 import it.unisa.dia.gas.plaf.jlbc.field.floating.FloatingField;
 import it.unisa.dia.gas.plaf.jlbc.sampler.DiscreteGaussianCOVSampler;
-import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixField;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorField;
+import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
 import it.unisa.dia.gas.plaf.jpbc.util.math.Cholesky;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
@@ -83,6 +83,7 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
 
 
     Element p, o;
+
     protected Element[] samplePerturbation() {
         // TODO: must be new every time!
 //        if (p == null) {
@@ -148,46 +149,30 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
         Matrix cov = ff.newElement()
                 .setSubMatrixToIdentityAt(0, 0, m)
                 .setSubMatrixFromMatrixAt(m, 0, sk.getR())
-                .setSubMatrixFromMatrixAt(m, m, sk.getR().mulByTranspose());
+                .setSubMatrixFromMatrixAt(m, m, sk.getR().mulByTranspose())
+                .transform(new Matrix.Transformer() {
+                    public void transform(int row, int col, Element e) {
+                        // scale upper left square by sqrtB
+                        if (row == col && row < m)
+                            e.div(sqrtB);
 
+                        // scale bottom left square by sqrtB
+                        if (row >= m && col < m)
+                            e.div(sqrtB);
 
-//        System.out.println("cov = " + cov);
-
-        // scale upper left square by sqrtB
-        cov.transform(new Matrix.Transformer() {
-            public void transform(int row, int col, Element e) {
-                if (row == col && row < m)
-                    e.div(sqrtB);
-            }
-        });
-
-        // scale bottom left square by sqrtB
-        cov.transform(new Matrix.Transformer() {
-            public void transform(int row, int col, Element e) {
-                if (row >= m && col < m)
-                    e.div(sqrtB);
-            }
-        });
-
-        // Construct \Sigma_P = s^2 I - COV
-        cov.transform(new Matrix.Transformer() {
-            public void transform(int row, int col, Element e) {
-                e.mul(rSquarePlusOneOverB);
-
-                e.negate();
-                if (row == col && row >= m)
-                    e.add(sSquareMinusASquare);
-            }
-        });
-
+                        // Construct \Sigma_P = s^2 I - COV
+                        e.mul(rSquarePlusOneOverB);
+                        e.negate();
+                        if (row == col && row >= m)
+                            e.add(sSquareMinusASquare);
+                    }
+                });
 
         // Compute Cholesky decomposition
         cov = Cholesky.cholesky2(cov, m, m);
 
 //        System.out.println("cov = " + cov.toStringSubMatrix(m, m));
-
-
-//        System.out.println("cov = " + cov);
+        System.out.println("cov = " + cov);
 
         return cov;
     }
