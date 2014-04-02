@@ -3,10 +3,7 @@ package it.unisa.dia.gas.plaf.sampler;
 import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.utils.LatticeUtils;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Matrix;
-import it.unisa.dia.gas.plaf.jlbc.sampler.DiscreteGaussianRSDoubleSampler;
-import it.unisa.dia.gas.plaf.jlbc.sampler.DiscreteGaussianRSSampler;
-import it.unisa.dia.gas.plaf.jlbc.sampler.DiscreteGaussianZigguratSampler;
-import it.unisa.dia.gas.plaf.jlbc.sampler.GaussianSampler;
+import it.unisa.dia.gas.plaf.jlbc.sampler.*;
 import it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixField;
 import it.unisa.dia.gas.plaf.jpbc.field.z.SymmetricZrField;
@@ -31,7 +28,7 @@ public class ZGaussianTester {
         BigInteger q = BigInteger.ONE.shiftLeft(k);
 
         Apfloat gaussianParameter = LatticeUtils.RRP;
-        GaussianSampler<BigInteger> sampler = new DiscreteGaussianRSDoubleSampler(random, gaussianParameter);
+        GaussianSampler<BigInteger> sampler = new DiscreteGaussianLazyRSSampler(random, gaussianParameter);
         sampler.setCenter(newApfloat("0.000002456"));
         MatrixField<Field> RField = new MatrixField<Field>(random, new SymmetricZrField(q), nn, mm);
 
