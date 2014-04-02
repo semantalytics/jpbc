@@ -5,8 +5,6 @@ import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Matrix;
 import it.unisa.dia.gas.jpbc.Vector;
 import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
-import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixElement;
-import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorElement;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorField;
 
 import java.math.BigInteger;

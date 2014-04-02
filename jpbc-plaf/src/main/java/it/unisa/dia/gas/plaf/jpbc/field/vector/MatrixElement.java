@@ -1,7 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.field.vector;
 
 import it.unisa.dia.gas.jpbc.*;
-import it.unisa.dia.gas.plaf.jpbc.field.base.AbstractMatrixElement;
 import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
 
 import java.math.BigInteger;
@@ -9,7 +8,7 @@ import java.math.BigInteger;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class MatrixElement<E extends Element> extends AbstractMatrixElement<E, MatrixField> implements Matrix<E> {
+public class MatrixElement<E extends Element> extends AbstracArraytMatrixElement<E, MatrixField> implements Matrix<E> {
 
 
     public MatrixElement(MatrixField field) {

@@ -13,7 +13,7 @@ import java.security.SecureRandom;
 /**
  * @author Angelo De Caro (angelo.decaro@gmail.com)
  */
-public class MatrixField<F extends Field> extends AbstractFieldOver<F, MatrixElement> {
+public class MatrixField<F extends Field> extends AbstractMatrixField<F, MatrixElement> {
 
 
     public static Matrix newElementFromSampler(MatrixField field, int n, int m, Sampler<BigInteger> sampler) {
@@ -21,21 +21,17 @@ public class MatrixField<F extends Field> extends AbstractFieldOver<F, MatrixEle
     }
 
 
-    protected int n, m, lenInBytes;
+    protected int lenInBytes;
 
     public MatrixField(SecureRandom random, F targetField, int n, int m) {
-        super(random, targetField);
+        super(random, targetField, n, m);
 
-        this.n = n;
-        this.m = m;
         this.lenInBytes = n * m * targetField.getLengthInBytes();
     }
 
     public MatrixField(SecureRandom random, F targetField, int n) {
-        super(random, targetField);
+        super(random, targetField, n, n);
 
-        this.n = n;
-        this.m = n;
         this.lenInBytes = n * n * targetField.getLengthInBytes();
     }
 
