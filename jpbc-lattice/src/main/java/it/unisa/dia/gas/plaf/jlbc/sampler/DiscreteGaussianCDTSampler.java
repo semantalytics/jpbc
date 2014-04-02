@@ -130,7 +130,7 @@ public class DiscreteGaussianCDTSampler implements Sampler<BigInteger> {
 //                    ApfloatUtils.TWO.multiply(
 //                            ApfloatMath.log(ApfloatUtils.TWO)
 //                    )
-//            ).multiply(ApfloatUtils.to_Apfloat(gaussianParameter)).add(ApfloatUtils.IONE).truncate().intValue();
+//            ).multiply(ApfloatUtils.newApint(gaussianParameter)).add(ApfloatUtils.IONE).truncate().intValue();
 
             Apfloat f = square(k).divide(ApfloatMath.log(ApfloatUtils.TWO));
 
@@ -141,8 +141,8 @@ public class DiscreteGaussianCDTSampler implements Sampler<BigInteger> {
 //                                ApfloatMath.log(ApfloatUtils.TWO)
 //                        )
 //                    )
-//            ).multiply(ApfloatUtils.to_Apfloat(k))
-//                    .multiply(ApfloatUtils.to_Apfloat(tau))
+//            ).multiply(ApfloatUtils.newApint(k))
+//                    .multiply(ApfloatUtils.newApint(tau))
 //                    .add(ApfloatUtils.IONE).truncate().intValue();
 
             // compute normalization constant

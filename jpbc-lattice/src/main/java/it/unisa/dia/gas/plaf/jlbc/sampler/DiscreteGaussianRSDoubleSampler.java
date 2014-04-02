@@ -1,11 +1,7 @@
 package it.unisa.dia.gas.plaf.jlbc.sampler;
 
-import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.jpbc.Matrix;
+import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.utils.LatticeUtils;
 import it.unisa.dia.gas.plaf.jlbc.util.DoubleUtils;
-import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixField;
-import it.unisa.dia.gas.plaf.jpbc.field.z.SymmetricZrField;
-import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
 import org.apfloat.Apfloat;
 
 import java.math.BigInteger;
@@ -20,23 +16,24 @@ import static it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils.newApfloat;
 public class DiscreteGaussianRSDoubleSampler implements GaussianSampler<BigInteger> {
 
     protected SecureRandom random;
+    protected double gaussianParameter;
     protected double sigma;
     protected double center;
 
     protected double h, sigmaTau;
     protected int left, interval;
 
-    protected int tau = 13;
 
     public DiscreteGaussianRSDoubleSampler(SecureRandom random, double gaussianParameter, double center) {
         if (random == null)
             random = new SecureRandom();
 
         this.random = random;
+        this.gaussianParameter = gaussianParameter;
         this.sigma = gaussianParameter / DoubleUtils.SQRT_TWO_PI;
         this.center = center;
-        this.h = - (Math.PI / (sigma * sigma));
-        this.sigmaTau = sigma * tau;
+        this.h = - (1.0d / (sigma * sigma));
+        this.sigmaTau = sigma * LatticeUtils.TAU;
 
         setCenter(newApfloat(center));
     }
@@ -61,8 +58,9 @@ public class DiscreteGaussianRSDoubleSampler implements GaussianSampler<BigInteg
     public BigInteger sample() {
         while (true) {
             int x = left + random.nextInt(interval);
+            double z = x - center;
 
-            double rhos = Math.exp(h * Math.pow(x - center, 2));
+            double rhos = Math.exp(h * z * z);
             double sample = random.nextDouble();
 
             if (sample <= rhos)

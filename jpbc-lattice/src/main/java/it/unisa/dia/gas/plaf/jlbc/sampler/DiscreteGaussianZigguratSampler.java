@@ -1,10 +1,6 @@
 package it.unisa.dia.gas.plaf.jlbc.sampler;
 
-import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.jpbc.Matrix;
 import it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils;
-import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixField;
-import it.unisa.dia.gas.plaf.jpbc.field.z.SymmetricZrField;
 import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
 import org.apfloat.Apfloat;
 import org.apfloat.Apint;
@@ -53,7 +49,7 @@ public class DiscreteGaussianZigguratSampler implements Sampler<BigInteger> {
         while (true) {
             int i = 1 + random.nextInt(m);  //< sample rectangle uniformly, rectangle i <- {1,...,m}
             Apint xurb = rectxs[i].add(IONE).truncate();
-            res = to_Apfloat(random.nextInt(xurb.intValue())); //< res <- [0, \floor{x_{i}}]
+            res = newApint(random.nextInt(xurb.intValue())); //< res <- [0, \floor{x_{i}}]
 
             if (res.compareTo(IZERO) != 0 && res.compareTo(rectxs[i - 1]) <= 0)
                 break;
@@ -66,7 +62,7 @@ public class DiscreteGaussianZigguratSampler implements Sampler<BigInteger> {
                         break;
                 } else {
                     Apint yfactor = ApintMath.pow(ITWO, omega);
-                    Apint yprime = to_Apfloat(random.nextInt(yfactor.intValue()));
+                    Apint yprime = newApint(random.nextInt(yfactor.intValue()));
 
                     Apint y = yprime.multiply(rectys[i - 1].subtract(rectys[i])).truncate();
 
@@ -78,7 +74,7 @@ public class DiscreteGaussianZigguratSampler implements Sampler<BigInteger> {
         }
 
         int s = 1 - 2 * random.nextInt(2); //< sign <- +/- 1
-        return res.multiply(to_Apfloat(s)).truncate().toBigInteger();
+        return res.multiply(newApint(s)).truncate().toBigInteger();
     }
 
 
@@ -98,7 +94,7 @@ public class DiscreteGaussianZigguratSampler implements Sampler<BigInteger> {
         int em = m.intValue() + 1;
 
         //< helping variables for computation
-        Apfloat om = IONE.divide(m), m2 = to_Apfloat(-2), o2 = to_Apfloat(1).divide(to_Apfloat(2));
+        Apfloat om = IONE.divide(m), m2 = newApint(-2), o2 = newApint(1).divide(newApint(2));
 
         //< area of each rectangle
         Apfloat area = sigma
@@ -107,14 +103,14 @@ public class DiscreteGaussianZigguratSampler implements Sampler<BigInteger> {
                 .multiply(c);
 
         //< set the largest x-value to 13*sigma
-        xis[em - 1] = sigma.multiply(to_Apfloat(13));
+        xis[em - 1] = sigma.multiply(newApint(13));
 
         //< rhos = coApfloatesponding y-values to the x_i's
         //< manually set y-value for largest x-value (rounded to the next-largest integer)
         rhos[em - 1] = rho(sigma, xis[em - 1].truncate().add(IONE));
         Apfloat sqrtv = m2.multiply(log(area.divide(xis[em - 1].truncate().add(IONE))));
         if (sqrtv.compareTo(ZERO) < 0)
-            return to_Apfloat(-1);
+            return newApint(-1);
 
         //< manually compute 2nd largest x-value (and coApfloatesponding y-value)
         xis[em - 2] = sigma.multiply(sqrt(sqrtv));
@@ -124,7 +120,7 @@ public class DiscreteGaussianZigguratSampler implements Sampler<BigInteger> {
         for (int i = em - 3; i > 0; i--) {
             sqrtv = m2.multiply(log(area.divide(xis[i + 1].truncate().add(IONE)).add(rho(sigma, xis[i + 1]))));
             if (sqrtv.compareTo(ZERO) < 0)
-                return to_Apfloat(-1);
+                return newApint(-1);
 
             xis[i] = sigma.multiply(sqrt(sqrtv));
             rhos[i] = exp(o2.negate().multiply(pow(xis[i].divide(sigma), 2)));
@@ -162,12 +158,12 @@ public class DiscreteGaussianZigguratSampler implements Sampler<BigInteger> {
         Apfloat[] xis = new Apfloat[m + 1];
         Apfloat[] bestxis = new Apfloat[m + 1];
         for (int i = 0; i <= m; i++)
-            bestxis[i] = to_Apfloat(-1);
+            bestxis[i] = newApint(-1);
 
         Apfloat[] rhos = new Apfloat[m + 1];
         Apfloat mm = newApfloat(m);
         Apfloat c = IONE.add(IONE.divide(mm));
-        Apfloat tailcut = sigma.multiply(to_Apfloat(13));
+        Apfloat tailcut = sigma.multiply(newApint(13));
 
         /***\
          start program
@@ -178,13 +174,13 @@ public class DiscreteGaussianZigguratSampler implements Sampler<BigInteger> {
         }
 
         //< mm != 1
-        Apfloat bestdiff = to_Apfloat(3);
+        Apfloat bestdiff = newApint(3);
 
         //< increase right bound until reaching 14*sigma and compute possible partition(s)
-        while (tailcut.compareTo(sigma.multiply(to_Apfloat(14))) < 0) {
+        while (tailcut.compareTo(sigma.multiply(newApint(14))) < 0) {
             xis[m] = tailcut;
-            Apfloat cu = to_Apfloat(0), cl = to_Apfloat(1), cc;
-            Apfloat difference = to_Apfloat(-1), lastdiff = to_Apfloat(-2);
+            Apfloat cu = newApint(0), cl = newApint(1), cc;
+            Apfloat difference = newApint(-1), lastdiff = newApint(-2);
 
             System.out.println("tailcut = " + ApfloatUtils.toString(tailcut));
 
@@ -192,11 +188,11 @@ public class DiscreteGaussianZigguratSampler implements Sampler<BigInteger> {
             while (difference.compareTo(ZERO) < 0 || (abs(difference).compareTo(prec) > 0 && abs(difference.subtract(lastdiff)).compareTo(prec) > 0)) {
                 cc = c;
                 lastdiff = difference;
-                difference = compute(xis, rhos, c, mm, sigma).subtract(to_Apfloat(1));
+                difference = compute(xis, rhos, c, mm, sigma).subtract(newApint(1));
 
                 System.out.println("difference = " + ApfloatUtils.toString(difference));
 
-                if (difference.compareTo(to_Apfloat(-2)) == 0)
+                if (difference.compareTo(newApint(-2)) == 0)
                     break; //< in case of any failure in partition-computation
                 if (difference.compareTo(ZERO) >= 0) //< if possible partition found, renew best solution,
                 //< since difference to 1 is smaller than before
@@ -211,11 +207,11 @@ public class DiscreteGaussianZigguratSampler implements Sampler<BigInteger> {
                     cl = c;
                 }
                 if (cu.compareTo(cl) < 0) {
-                    c = c.add(to_Apfloat(1).divide(mm));
+                    c = c.add(newApint(1).divide(mm));
                 } else {
-                    c = (cu.add(cl)).divide(to_Apfloat(2));
+                    c = (cu.add(cl)).divide(newApint(2));
                 }
-                if (c.compareTo(to_Apfloat(11)) >= 0) break;
+                if (c.compareTo(newApint(11)) >= 0) break;
                 if (difference.compareTo(lastdiff) == 0) break;
 
                 System.out.println("c = " + ApfloatUtils.toString(c));
@@ -235,7 +231,7 @@ public class DiscreteGaussianZigguratSampler implements Sampler<BigInteger> {
         rectys = new Apfloat[m + 1];
 
         //< if valid solution exists, output it to terminal and return 0 (success)
-        if (bestxis[m].compareTo(to_Apfloat(-1)) != 0) {
+        if (bestxis[m].compareTo(newApint(-1)) != 0) {
             // output precision, number of rectangles mm, (std. deviation) sigma, and y0>=1 (the value for x=0)
             System.out.println("precision = " + ApfloatUtils.toString(mm));
             System.out.println("sigma = " + ApfloatUtils.toString((newApfloat(1).add(bestdiff))));

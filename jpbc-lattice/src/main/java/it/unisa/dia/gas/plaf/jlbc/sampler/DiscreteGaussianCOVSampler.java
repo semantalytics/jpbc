@@ -31,7 +31,9 @@ public class DiscreteGaussianCOVSampler implements Sampler<Vector> {
         this.cov = cov;
         this.sampler = new ContinuousGaussianSamplerVectorSampler(random, 128, cov.getN());
         this.target = new VectorField<Field>(random, target, cov.getN());
+
         this.roundingSampler = new DiscreteGaussianRSDoubleSampler(random, roundingGaussianParameter);
+//        this.roundingSampler = new DiscreteGaussianRSSampler(random, roundingGaussianParameter);
     }
 
 
@@ -42,7 +44,7 @@ public class DiscreteGaussianCOVSampler implements Sampler<Vector> {
         for (int i = 0, n = result.getSize(); i < n; i++) {
             result.getAt(i).set(
                     roundingSampler.setCenter(
-                            ((FloatingElement) sample.getAt(i)).getValue().negate()
+                            ((FloatingElement) sample.getAt(i)).getValue()
                     ).sample()
             );
         }

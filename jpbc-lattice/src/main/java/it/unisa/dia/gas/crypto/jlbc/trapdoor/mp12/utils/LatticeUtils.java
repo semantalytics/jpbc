@@ -4,6 +4,7 @@ import it.unisa.dia.gas.plaf.jlbc.sampler.SamplerFactory;
 import it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils;
 import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
 import org.apfloat.Apfloat;
+import org.apfloat.Apint;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -19,6 +20,10 @@ import static org.apfloat.ApfloatMath.sqrt;
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class LatticeUtils {
+
+
+    public static int TAU = 13;
+    public static Apint iTAU = newApint(TAU);
 
     /**
      * Randomized-rounding parameter

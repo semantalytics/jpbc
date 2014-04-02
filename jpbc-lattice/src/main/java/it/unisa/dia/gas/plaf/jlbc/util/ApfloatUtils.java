@@ -43,13 +43,18 @@ public class ApfloatUtils {
         return new Apfloat(n, precision, radix);
     }
 
+    public static Apfloat newApfloat(String n) {
+        return convert(new Apfloat(n));
+    }
+
     public static Apfloat newApfloat(double n) {
         return new Apfloat(n, precision, radix);
     }
 
-    public static Apint to_Apfloat(int n) {
+    public static Apint newApint(int n) {
         return new Apint(n, radix);
     }
+
 
     public static Apfloat sqrt(int n) {
         return ApfloatMath.sqrt(new Apfloat(n, precision, radix));
@@ -67,10 +72,6 @@ public class ApfloatUtils {
         if (value == null)
             return "null";
         return value.toRadix(10).toString(true);
-    }
-
-    public static Apfloat newApint(int value) {
-        return new Apint(value, radix);
     }
 
 }
