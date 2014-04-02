@@ -71,11 +71,11 @@ public class FloatingElement extends AbstractElement<FloatingField> {
     }
 
     public boolean isZero() {
-        return Apfloat.ZERO.equals(value);
+        return field.zero.equals(value);
     }
 
     public boolean isOne() {
-        return Apfloat.ONE.equals(value);
+        return field.one.equals(value);
     }
 
     public FloatingElement twice() {
@@ -92,13 +92,13 @@ public class FloatingElement extends AbstractElement<FloatingField> {
     }
 
     public FloatingElement setToZero() {
-        this.value = new Apfloat(0, field.precision, field.radix);
+        this.value = field.zero;
 
         return this;
     }
 
     public FloatingElement setToOne() {
-        this.value = new Apfloat(1, field.precision, field.radix);
+        this.value = field.one;
 
         return this;
     }

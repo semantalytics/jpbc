@@ -41,8 +41,11 @@ public interface Matrix <E extends Element> extends Element {
 
     public boolean isSquare();
 
+    public boolean isZeroAt(int row, int col);
+
 
     String toStringSubMatrix(int startRow, int startCol);
+
 
 
     public static interface Transformer {

@@ -48,21 +48,29 @@ public class MP12HLP2KeyPairGenerator extends MP12PLP2KeyPairGenerator {
 
         // 1. Choose barA random in Z_q[n x barM]
         MatrixField<Field> hatAField = new MatrixField<Field>(random, Zq, n);
-        Element hatA = hatAField.newRandomElement();
-        Element barA = hatAField.union(hatAField.newIdentity(), hatA);
+        Matrix hatA = hatAField.newRandomElement();
+        Matrix barA = hatAField.union(hatAField.newIdentity(), hatA);
 
         // 2. Sample R from Z[barM x w] using distribution D
         Matrix R = MatrixField.newElementFromSampler(hatAField, barM, w, hlZSampler);
 //        System.out.println("R = " + R);
 
         // 3. Compute G - barA R
-        Element A1 = G.duplicate().sub(barA.mul(R));
+//        Element A1 = G.duplicate().sub(barA.mul(R));
+        Element A1 = ((Matrix)barA.mul(R)).transform(new Matrix.Transformer() {
+            public void transform(int row, int col, Element e) {
+                e.negate();
+                if (!G.isZeroAt(row, col))
+                    e.add(G.getAt(row, col));
+            }
+        });
+
         Element A = hatAField.union(barA, A1);
 
         return new AsymmetricCipherKeyPair(
                 new MP12HLP2PublicKeyParameters(
                         params.getParameters(), k, m,
-                        ZSampler,
+                        discreteGaussianSampler,
                         g, G,
                         syndromeField, Zq, preimageField,
                         A, barA

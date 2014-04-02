@@ -230,6 +230,9 @@ public class MatrixElement<E extends Element> extends AbstractMatrixElement<E, M
                             for (int j = 0; j < 1; j++) {
                                 Element temp = field.getTargetField().newElement();
                                 for (int k = 0; k < field.m; k++) {
+                                    if (getAt(i, k).isZero())
+                                        continue;
+
                                     temp.add(
                                             getAt(i, k).duplicate().mul(ve.getAt(k))
                                     );
@@ -251,6 +254,9 @@ public class MatrixElement<E extends Element> extends AbstractMatrixElement<E, M
                             // column \times row
                             Element temp = field.getTargetField().newElement();
                             for (int k = 0; k < field.n; k++) {
+                                if (getAt(k, i).isZero())
+                                    continue;
+
                                 temp.add(
                                         getAt(k, i).duplicate().mul(ve.getAt(k))
                                 );
@@ -276,6 +282,8 @@ public class MatrixElement<E extends Element> extends AbstractMatrixElement<E, M
                         Element temp = field.getTargetField().newElement();
 
                         for (int k = 0; k < field.m; k++) {
+                            if (getAt(i, k).isZero())
+                                continue;
                             temp.add(getAt(i, k).duplicate().mul(me.getAt(k, j)));
                         }
                         r.getAt(i, j).set(temp);
@@ -544,6 +552,9 @@ public class MatrixElement<E extends Element> extends AbstractMatrixElement<E, M
         return field.n ==  field.m;
     }
 
+    public boolean isZeroAt(int row, int col) {
+        return matrix[row][col].isZero();
+    }
 
 
 }

@@ -2,6 +2,8 @@ package it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.params;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.jpbc.Matrix;
+import it.unisa.dia.gas.jpbc.Vector;
 import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixElement;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorElement;
@@ -16,11 +18,11 @@ public class MP12HLP2PublicKeyParameters extends MP12PLP2PublicKeyParameters {
 
     protected Element A;
     protected Element barA;
-    private int m;
+    protected int m;
 
     public MP12HLP2PublicKeyParameters(MP12Parameters parameters, int k, int m,
                                        Sampler<BigInteger> sampler,
-                                       VectorElement g, MatrixElement G,
+                                       Vector g, Matrix G,
                                        Field syndromeField, Field Zq,
                                        VectorField<Field> preimageField,
                                        Element A, Element barA) {

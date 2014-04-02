@@ -11,6 +11,7 @@ import java.security.SecureRandom;
 
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
+ * TODO: fix precision usage
  */
 public class ContinuousGaussianSamplerVectorSampler implements Sampler<Vector> {
 

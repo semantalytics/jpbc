@@ -64,6 +64,21 @@ public class MatrixField<F extends Field> extends AbstractFieldOver<F, MatrixEle
         return m;
     }
 
+    public MatrixElement newElementFromSampler(Sampler<BigInteger> sampler) {
+        return new MatrixElement(this, sampler);
+    }
+
+
+    public MatrixField<F> getNewMatrixField(int newN, int newM) {
+        return new MatrixField<F>(random, targetField, newN, newM);
+    }
+
+    public MatrixField<F> getNewMatrixField(int newN) {
+        return new MatrixField<F>(random, targetField, newN);
+    }
+
+
+
     public Element newIdentity() {
         MatrixElement m = new MatrixElement(this);
 
@@ -74,7 +89,7 @@ public class MatrixField<F extends Field> extends AbstractFieldOver<F, MatrixEle
     }
 
 
-    public Element union(Element a, Element b) {
+    public Matrix union(Element a, Element b) {
         MatrixElement a1 = (MatrixElement) a;
         MatrixElement b1 = (MatrixElement) b;
 
@@ -144,7 +159,4 @@ public class MatrixField<F extends Field> extends AbstractFieldOver<F, MatrixEle
         return r;
     }
 
-    public MatrixElement newElementFromSampler(Sampler<BigInteger> sampler) {
-        return new MatrixElement(this, sampler);
-    }
 }

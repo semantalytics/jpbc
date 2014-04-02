@@ -12,17 +12,10 @@ import java.security.SecureRandom;
 public class FloatingField extends AbstractField<FloatingElement> {
 
     protected int precision, radix;
-
-
-    public FloatingField() {
-        this(new SecureRandom());
-    }
+    protected Apfloat zero, one;
 
     public FloatingField(SecureRandom random) {
-        super(random);
-
-        this.precision = 128;
-        this.radix = 2;
+        this(random, 128, 2);
     }
 
     public FloatingField(SecureRandom random, int precision, int radix) {
@@ -30,6 +23,8 @@ public class FloatingField extends AbstractField<FloatingElement> {
 
         this.precision = precision;
         this.radix = radix;
+        this.zero = new Apfloat(0, precision, radix);
+        this.one = new Apfloat(1, precision, radix);
     }
 
     public FloatingElement newElement() {
@@ -75,4 +70,5 @@ public class FloatingField extends AbstractField<FloatingElement> {
         result = 31 * result + radix;
         return result;
     }
+
 }
