@@ -31,19 +31,21 @@ public class MP12HLP2Test {
 
     @Before
     public void setUp() throws Exception {
-        long start = System.currentTimeMillis();
+        if (gen == null) {
+            long start = System.currentTimeMillis();
 
-        gen = new MP12HLP2KeyPairGenerator();
-        gen.init(new MP12HLP2KeyPairGenerationParameters(
-                random,
-                128, // n
-                24 // k
-        ));
-        keyPair = gen.generateKeyPair();
+            gen = new MP12HLP2KeyPairGenerator();
+            gen.init(new MP12HLP2KeyPairGenerationParameters(
+                    random,
+                    128, // n
+                    24 // k
+            ));
+            keyPair = gen.generateKeyPair();
 
-        long end = System.currentTimeMillis();
+            long end = System.currentTimeMillis();
 
-        System.out.println("+ (end-start) = " + (end - start));
+            System.out.println("+ (end-start) = " + (end - start));
+        }
     }
 
     @Test

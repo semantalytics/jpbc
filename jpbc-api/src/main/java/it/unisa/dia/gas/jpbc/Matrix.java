@@ -28,11 +28,17 @@ public interface Matrix <E extends Element> extends Element {
 
     Matrix<E> setSubMatrixToIdentityAt(int row, int col, int n);
 
+    Matrix<E> setSubMatrixToIdentityAt(int row, int col, int n, Element e);
+
     Matrix<E> setSubMatrixFromMatrixAt(int row, int col, Element e);
+
+    Matrix<E> setSubMatrixFromMatrixAt(int row, int col, Element e, Transformer transformer);
 
     Matrix<E> setSubMatrixFromMatrixTransposeAt(int row, int col, Element e);
 
     Matrix<E> mulByTranspose();
+
+    Matrix<E> mulByTransposeTo(Matrix matrix, int offsetRow, int offsetCol, Transformer transformer);
 
     Matrix<E> transform(Transformer transformer);
 

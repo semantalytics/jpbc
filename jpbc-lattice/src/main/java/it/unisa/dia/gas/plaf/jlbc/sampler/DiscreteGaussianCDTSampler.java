@@ -7,6 +7,7 @@ import org.apfloat.Apfloat;
 import org.apfloat.ApfloatMath;
 import org.apfloat.Apint;
 
+import java.io.*;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.HashMap;
@@ -112,6 +113,10 @@ public class DiscreteGaussianCDTSampler implements Sampler<BigInteger> {
             if (data != null)
                 return data;
 
+            data = new CDTData(gaussianParameter);
+            if (data.load())
+                return data;
+
             BigInteger[] CDT, CDT_inv_min, CDT_inv_max;
             int CDT_length;
 
@@ -212,7 +217,7 @@ public class DiscreteGaussianCDTSampler implements Sampler<BigInteger> {
                 CDT_inv_max[i] = BigInteger.valueOf(max);
             }
 
-            data = new CDTData(CDT, CDT_inv_min, CDT_inv_max, CDT_length);
+            data = new CDTData(gaussianParameter, CDT, CDT_inv_min, CDT_inv_max, CDT_length);
             this.dataMap.put(gaussianParameter, data);
 
 //            System.out.println("CDT");
@@ -226,15 +231,91 @@ public class DiscreteGaussianCDTSampler implements Sampler<BigInteger> {
 
 
         public class CDTData {
+            Apfloat gaussianParameter;
             BigInteger[] CDT, CDT_inv_min, CDT_inv_max;
             int CDT_length;
 
-            public CDTData(BigInteger[] CDT, BigInteger[] CDT_inv_min, BigInteger[] CDT_inv_max, int CDT_length) {
+            public CDTData(Apfloat gaussianParameter,
+                           BigInteger[] CDT,
+                           BigInteger[] CDT_inv_min,
+                           BigInteger[] CDT_inv_max,
+                           int CDT_length) {
+                this.gaussianParameter = gaussianParameter;
                 this.CDT = CDT;
                 this.CDT_inv_min = CDT_inv_min;
                 this.CDT_inv_max = CDT_inv_max;
                 this.CDT_length = CDT_length;
+
+                store();
             }
+
+            public CDTData(Apfloat gaussianParameter) {
+                this.gaussianParameter = gaussianParameter;
+            }
+
+            public boolean load() {
+                try {
+                    if (!new File(gaussianParameter.toRadix(10).toString(true)).exists())
+                        return false;
+
+                    System.out.println("HIT!");
+
+                    BufferedReader reader = new BufferedReader(
+                            new FileReader(gaussianParameter.toRadix(10).toString(true))
+                    );
+
+                    CDT_length = Integer.valueOf(reader.readLine());
+                    CDT = new BigInteger[CDT_length*2];
+                    for (int i = 0; i < CDT.length; i++) {
+                        CDT[i] = new BigInteger(reader.readLine());
+                    }
+
+                    int length = Integer.valueOf(reader.readLine());
+                    CDT_inv_min = new BigInteger[length];
+                    for (int i = 0; i < length; i++) {
+                        CDT_inv_min[i] = new BigInteger(reader.readLine());
+                    }
+
+                    CDT_inv_max = new BigInteger[length];
+                    for (int i = 0; i < length; i++) {
+                        CDT_inv_max[i] = new BigInteger(reader.readLine());
+                    }
+
+                    reader.close();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+
+                return true;
+            }
+
+            public void store() {
+                try {
+
+                    PrintStream stream = new PrintStream(new FileOutputStream(
+                            gaussianParameter.toRadix(10).toString(true)
+                    ));
+
+                    stream.println(CDT_length);
+                    for (BigInteger aCDT : CDT) {
+                        stream.println(aCDT);
+                    }
+
+                    stream.println(CDT_inv_min.length);
+                    for (BigInteger v : CDT_inv_min) {
+                        stream.println(v);
+                    }
+                    for (BigInteger v : CDT_inv_max) {
+                        stream.println(v);
+                    }
+
+                    stream.flush();
+                    stream.close();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
         }
 
     }

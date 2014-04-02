@@ -43,7 +43,7 @@ public class DiscreteGaussianCOVSampler implements Sampler<Vector> {
         for (int i = 0, n = result.getSize(); i < n; i++) {
             result.getAt(i).set(
                     roundingSampler.setCenter(
-                            ((FloatingElement) sample.getAt(i)).getValue().negate()
+                            ((FloatingElement) sample.getAt(i)).getValue()
                     ).sample()
             );
         }

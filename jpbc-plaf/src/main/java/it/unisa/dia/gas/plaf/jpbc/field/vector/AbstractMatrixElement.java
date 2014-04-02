@@ -2,6 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.field.vector;
 
 import it.unisa.dia.gas.jpbc.*;
 import it.unisa.dia.gas.plaf.jpbc.field.base.AbstractElement;
+import it.unisa.dia.gas.plaf.jpbc.util.concurrent.PoolExecutor;
 
 import java.math.BigInteger;
 
@@ -15,6 +16,29 @@ public abstract class AbstractMatrixElement<E extends Element, F extends Abstrac
         super(field);
     }
 
+
+    public Matrix<E> mulByTransposeTo(final Matrix matrix, final int offsetRow, final int offsetCol, final Transformer transformer) {
+        PoolExecutor executor = new PoolExecutor();
+
+        for (int i = 0; i < field.n; i++) {
+            final int finalI = i;
+            executor.submit(new Runnable() {
+                public void run() {
+                    for (int j = 0; j < field.n; j++) {
+                        Element temp = matrix.getAt(offsetRow + finalI, offsetCol + j).setToZero();
+                        for (int k = 0; k < field.m; k++)
+                            temp.add(getAt(finalI, k).duplicate().mul(getAt(j, k)));
+
+                        transformer.transform(offsetRow + finalI, offsetCol + j, temp);
+                    }
+                }
+            });
+        }
+
+        executor.awaitTermination();
+
+        return this;
+    }
 
     public Matrix<E> mulByTranspose() {
         MatrixField resultField = new MatrixField<Field>(field.getRandom(), field.getTargetField(), field.n);
@@ -36,6 +60,8 @@ public abstract class AbstractMatrixElement<E extends Element, F extends Abstrac
 
         return result;
     }
+
+
 
     public Field getTargetField() {
         return field.getTargetField();
@@ -81,7 +107,15 @@ public abstract class AbstractMatrixElement<E extends Element, F extends Abstrac
         throw new IllegalStateException("Not implemented yet!!!");
     }
 
+    public Matrix<E> setSubMatrixFromMatrixAt(int row, int col, Element e, Transformer transformer) {
+        throw new IllegalStateException("Not implemented yet!!!");
+    }
+
     public Matrix<E> setSubMatrixFromMatrixTransposeAt(int row, int col, Element e) {
+        throw new IllegalStateException("Not implemented yet!!!");
+    }
+
+    public Matrix<E> setSubMatrixToIdentityAt(int row, int col, int n, Element e) {
         throw new IllegalStateException("Not implemented yet!!!");
     }
 

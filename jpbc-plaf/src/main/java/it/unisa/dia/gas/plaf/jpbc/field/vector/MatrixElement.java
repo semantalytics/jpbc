@@ -240,6 +240,20 @@ public class MatrixElement<E extends Element> extends AbstracArraytMatrixElement
         return this;
     }
 
+    public Matrix<E> setSubMatrixToIdentityAt(int row, int col, int n, Element e) {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i == j)
+                    matrix[row + i][col + j].set(e);
+                else
+                    matrix[row + i][col + j].setToZero();
+            }
+        }
+
+        return this;
+    }
+
+
     public Matrix<E> setSubMatrixFromMatrixAt(int row, int col, Element e) {
         // TODO: check the lengths
 
@@ -252,6 +266,21 @@ public class MatrixElement<E extends Element> extends AbstracArraytMatrixElement
 
         return this;
     }
+
+    public Matrix<E> setSubMatrixFromMatrixAt(int row, int col, Element e, Transformer transformer) {
+        // TODO: check the lengths
+
+        Matrix m = (Matrix) e;
+        for (int i = 0; i < m.getN(); i++) {
+            for (int j = 0; j < m.getM(); j++) {
+                matrix[row + i][col + j].set(m.getAt(i, j));
+                transformer.transform(row + i, col + j, matrix[row + i][col + j]);
+            }
+        }
+
+        return this;
+    }
+
 
     public Matrix<E> setSubMatrixFromMatrixTransposeAt(int row, int col, Element e) {
         // TODO: check the lengths
