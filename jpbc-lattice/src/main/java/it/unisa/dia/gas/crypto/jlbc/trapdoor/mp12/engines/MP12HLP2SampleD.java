@@ -172,7 +172,7 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
         cov = Cholesky.cholesky2(cov, m, m);
 
 //        System.out.println("cov = " + cov.toStringSubMatrix(m, m));
-        System.out.println("cov = " + cov);
+//        System.out.println("cov = " + cov);
 
         return cov;
     }

@@ -79,7 +79,6 @@ public class HVEIP08SecretKeyGenerator {
                 }
             }
             executor.awaitTermination();
-
         } else {
             Pool executor = new PoolExecutor();
             for (int i = 0, j = 0; i < n; i++) {

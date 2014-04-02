@@ -2,6 +2,9 @@ package it.unisa.dia.gas.plaf.jpbc.field.vector;
 
 import it.unisa.dia.gas.jpbc.*;
 import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
+import it.unisa.dia.gas.plaf.jpbc.util.concurrent.ExecutorServiceUtils;
+import it.unisa.dia.gas.plaf.jpbc.util.concurrent.Pool;
+import it.unisa.dia.gas.plaf.jpbc.util.concurrent.PoolExecutor;
 
 import java.math.BigInteger;
 
