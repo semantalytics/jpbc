@@ -36,9 +36,13 @@ public interface Matrix <E extends Element> extends Element {
 
     Matrix<E> transform(Transformer transformer);
 
+
     public boolean isSymmetric();
 
     public boolean isSquare();
+
+
+    String toStringSubMatrix(int startRow, int startCol);
 
 
     public static interface Transformer {

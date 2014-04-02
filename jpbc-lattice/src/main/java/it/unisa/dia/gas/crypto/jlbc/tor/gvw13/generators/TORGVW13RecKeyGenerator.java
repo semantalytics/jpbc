@@ -52,9 +52,8 @@ public class TORGVW13RecKeyGenerator implements CipherParametersGenerator {
             sampleD.init(new MP12HLP2SampleParameters(params.getLeftPk().getLatticePublicKey(), params.getSk().getLatticePrivateKey()));
 
             R0 = RField.newElement();
-            for (int i = 0; i < RField.getN(); i++) {
+            for (int i = 0; i < RField.getN(); i++)
                 R0.setColAt(i, sampleD.processElements(U.columnAt(i)));
-            }
         } else {
             // b = 1
             // Sample R0 from D_Z,s

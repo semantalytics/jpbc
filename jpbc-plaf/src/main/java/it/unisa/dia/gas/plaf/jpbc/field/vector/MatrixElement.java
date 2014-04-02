@@ -373,6 +373,7 @@ public class MatrixElement<E extends Element> extends AbstractMatrixElement<E, M
                 if (j != field.m -1)
                     sb.append(",");
             }
+
             if (i != field.n -1)
                 sb.append(";\n");
         }
@@ -382,6 +383,28 @@ public class MatrixElement<E extends Element> extends AbstractMatrixElement<E, M
                 "matrix=\n" + sb.toString() +
                 '}';
     }
+
+    public String toStringSubMatrix(int startRow, int startCol) {
+        StringBuffer sb = new StringBuffer();
+        sb.append("[\n");
+        for (int i = startRow; i < field.n; i++) {
+
+            for (int j = startCol; j < field.m; j++) {
+                sb.append(String.format("%10s", matrix[i][j]));
+                if (j != field.m -1)
+                    sb.append(",");
+            }
+
+            if (i != field.n -1)
+                sb.append(";\n");
+        }
+        sb.append("]\n");
+
+        return "MatrixElement{" +
+                "matrix=\n" + sb.toString() +
+                '}';
+    }
+
 
     public Field getTargetField() {
         return field.getTargetField();

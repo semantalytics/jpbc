@@ -67,6 +67,7 @@ public class Cholesky {
 
         return L;
     }
+
     public static Matrix cholesky2(Matrix L, int offsetRow, int offsetCol) {
         int N = L.getN() - offsetRow;
 
@@ -86,12 +87,18 @@ public class Cholesky {
                 }
             }
         }
+
+        // cleanup
+
+        for (int i = offsetRow; i < offsetRow + N; i++) {
+            for (int j = offsetCol; j < offsetCol + N; j++) {
+                if (j > i)
+                    L.getAt(i, j).setToZero();
+            }
+        }
+
         return L;
     }
-
-
-
-
 
 
     // is symmetric
@@ -124,10 +131,10 @@ public class Cholesky {
             throw new RuntimeException("Matrix is not symmetric");
         }
 
-        int N  = A.length;
+        int N = A.length;
         double[][] L = new double[N][N];
 
-        for (int i = 0; i < N; i++)  {
+        for (int i = 0; i < N; i++) {
             for (int j = 0; j <= i; j++) {
                 double sum = 0.0;
                 for (int k = 0; k < j; k++) {
@@ -150,9 +157,9 @@ public class Cholesky {
     public static void main(String[] args) {
         int N = 3;
         double[][] A = {
-                { 10, 0,  1 },
-                { 0, 5,  3 },
-                { 1, 3, 15 }
+                {10, 0, 1},
+                {0, 5, 3},
+                {1, 3, 15}
         };
         double[][] L = cholesky(A);
         for (int i = 0; i < N; i++) {

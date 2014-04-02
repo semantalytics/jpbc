@@ -53,7 +53,7 @@ public class MP12HLP2KeyPairGenerator extends MP12PLP2KeyPairGenerator {
 
         // 2. Sample R from Z[barM x w] using distribution D
         Matrix R = MatrixField.newElementFromSampler(hatAField, barM, w, hlZSampler);
-        System.out.println("R = " + R);
+//        System.out.println("R = " + R);
 
         // 3. Compute G - barA R
         Element A1 = G.duplicate().sub(barA.mul(R));

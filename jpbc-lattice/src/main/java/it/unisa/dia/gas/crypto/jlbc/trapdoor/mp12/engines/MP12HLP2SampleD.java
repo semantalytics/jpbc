@@ -28,11 +28,14 @@ import static it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.utils.LatticeUtils.getS
  */
 public class MP12HLP2SampleD extends MP12PLP2SampleD {
 
+    protected static Map<CipherParameters, Matrix> covs = new HashMap<CipherParameters, Matrix>();
+
+
     protected MP12HLP2PublicKeyParameters pk;
     protected MP12HLP2PrivateKeyParameters sk;
 
     protected Sampler<Vector> offlineSampler;
-    protected static Map<CipherParameters, Matrix> covs = new HashMap<CipherParameters, Matrix>();
+
 
     public ElementCipher init(CipherParameters param) {
         AsymmetricCipherKeyPair keyPair = ((MP12HLP2SampleParameters) param).getKeyPair();
@@ -83,10 +86,10 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
 
     protected Element[] samplePerturbation() {
         // TODO: must be new every time!
-        if (p == null) {
-            p = offlineSampler.sample().getImmutable();
-            o = pk.getA().mul(p);
-        }
+//        if (p == null) {
+        Element p = offlineSampler.sample();
+        Element o = pk.getA().mul(p);
+//        }
 
         return new Element[]{p, o};
     }
@@ -181,6 +184,9 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
 
         // Compute Cholesky decomposition
         cov = Cholesky.cholesky2(cov, m, m);
+
+//        System.out.println("cov = " + cov.toStringSubMatrix(m, m));
+
 
 //        System.out.println("cov = " + cov);
 

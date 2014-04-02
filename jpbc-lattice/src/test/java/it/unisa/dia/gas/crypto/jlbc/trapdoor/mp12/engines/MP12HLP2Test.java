@@ -35,8 +35,7 @@ public class MP12HLP2Test {
         gen.init(new MP12HLP2KeyPairGenerationParameters(
                 random,
                 4, // n
-                16 // k
-                // s
+                32 // k
         ));
         keyPair = gen.generateKeyPair();
     }
@@ -63,20 +62,12 @@ public class MP12HLP2Test {
 
     @Test
     public void testSampleDMatrix() throws Exception {
-        AsymmetricCipherKeyPair keyPair1, keyPair2;
-        keyPair1 = gen.generateKeyPair();
-        keyPair2 = gen.generateKeyPair();
-
         MP12HLP2PublicKeyParameters latticePk = (MP12HLP2PublicKeyParameters) keyPair.getPublic();
 
-        // Sample R1 from D_Z,s
         MatrixField<Field> RField = new MatrixField<Field>(latticePk.getParameters().getRandom(), latticePk.getZq(), latticePk.getM());
-        MatrixElement R1 = RField.newElementFromSampler(latticePk.getDiscreteGaussianSampler());
-
         // Compute U
-        MatrixElement U = (MatrixElement) ((MP12HLP2PublicKeyParameters) keyPair2.getPublic()).getA().duplicate().sub(
-                ((MP12HLP2PublicKeyParameters) keyPair1.getPublic()).getA().mul(R1)
-        );
+        MatrixElement U = (MatrixElement) latticePk.getA().getField().newRandomElement();
+
 
         System.out.println("U = " + U);
 
