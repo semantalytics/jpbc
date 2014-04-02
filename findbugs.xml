@@ -1656,7 +1656,7 @@
         </PackageStats>
         <PackageStats package="it.unisa.dia.gas.plaf.jpbc.field.z" total_bugs="4" total_types="8" total_size="708"
                       priority_2="1" priority_1="3">
-            <ClassStats class="it.unisa.dia.gas.plaf.jpbc.field.z.AbstractZElement" sourceFile="AbstractZElement.java"
+            <ClassStats class="it.unisa.dia.gas.plaf.jpbc.field.z.AbstractLongZElement" sourceFile="AbstractZElement.java"
                         interface="false" size="5" bugs="0"/>
             <ClassStats class="it.unisa.dia.gas.plaf.jpbc.field.z.ImmutableZrElement"
                         sourceFile="ImmutableZrElement.java" interface="false" size="76" bugs="0"/>

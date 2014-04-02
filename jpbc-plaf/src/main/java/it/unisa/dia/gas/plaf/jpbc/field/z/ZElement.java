@@ -8,7 +8,7 @@ import java.math.BigInteger;
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
-public class ZElement extends AbstractZElement<ZField> {
+public class ZElement extends AbstractBigIntegerZElement<ZField> {
 
 
     public ZElement(ZField field) {
@@ -44,7 +44,7 @@ public class ZElement extends AbstractZElement<ZField> {
     }
 
     public ZElement set(Element value) {
-        this.value = ((AbstractZElement) value).value;
+        this.value = ((AbstractBigIntegerZElement) value).value;
 
         return this;
     }
@@ -135,13 +135,13 @@ public class ZElement extends AbstractZElement<ZField> {
     }
 
     public ZElement add(Element element) {
-        value = value.add(((AbstractZElement)element).value);
+        value = value.add(((AbstractBigIntegerZElement)element).value);
 
         return this;
     }
 
     public ZElement sub(Element element) {
-        value = value.subtract(((AbstractZElement)element).value);
+        value = value.subtract(((AbstractBigIntegerZElement)element).value);
 
         return this;
     }
@@ -151,7 +151,7 @@ public class ZElement extends AbstractZElement<ZField> {
     }
 
     public ZElement mul(Element element) {
-        value = value.multiply(((AbstractZElement)element).value);
+        value = value.multiply(((AbstractBigIntegerZElement)element).value);
 
         return this;
     }

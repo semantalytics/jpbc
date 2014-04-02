@@ -9,7 +9,7 @@ import java.math.BigInteger;
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
-public class SymmetricZrElement<F extends SymmetricZrField> extends AbstractZElement<F> {
+public class SymmetricZrElement<F extends SymmetricZrField> extends AbstractBigIntegerZElement<F> {
 
     protected BigInteger order;
     protected BigInteger halfOrder;
@@ -55,7 +55,7 @@ public class SymmetricZrElement<F extends SymmetricZrField> extends AbstractZEle
     }
 
     public SymmetricZrElement set(Element value) {
-        this.value = ((AbstractZElement) value).value.mod(order);
+        this.value = ((AbstractBigIntegerZElement) value).value.mod(order);
 
         return mod();
     }
@@ -196,7 +196,7 @@ public class SymmetricZrElement<F extends SymmetricZrField> extends AbstractZEle
     }
 
     public SymmetricZrElement add(Element element) {
-        value = value.add(((AbstractZElement) element).value).mod(order);
+        value = value.add(((AbstractBigIntegerZElement) element).value).mod(order);
 
         return mod();
     }
@@ -214,7 +214,7 @@ public class SymmetricZrElement<F extends SymmetricZrField> extends AbstractZEle
     }
 
     public SymmetricZrElement mul(Element element) {
-        value = value.multiply(((AbstractZElement) element).value).mod(order);
+        value = value.multiply(((AbstractBigIntegerZElement) element).value).mod(order);
 
         return mod();
     }

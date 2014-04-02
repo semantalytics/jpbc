@@ -9,7 +9,7 @@ import java.math.BigInteger;
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
-public class ZrElement<F extends ZrField> extends AbstractZElement<F> {
+public class ZrElement<F extends ZrField> extends AbstractBigIntegerZElement<F> {
 
     protected BigInteger order;
 
@@ -194,7 +194,7 @@ public class ZrElement<F extends ZrField> extends AbstractZElement<F> {
     }
 
     public ZrElement add(Element element) {
-        value = value.add(((AbstractZElement)element).value).mod(order);
+        value = value.add(((AbstractBigIntegerZElement)element).value).mod(order);
 
         return this;
     }
@@ -212,7 +212,7 @@ public class ZrElement<F extends ZrField> extends AbstractZElement<F> {
     }
 
     public ZrElement mul(Element element) {
-        value = value.multiply(((AbstractZElement)element).value).mod(order);
+        value = value.multiply(((AbstractBigIntegerZElement)element).value).mod(order);
 
         return this;
     }

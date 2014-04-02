@@ -8,11 +8,11 @@ import java.math.BigInteger;
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
-public abstract class AbstractZElement<F extends AbstractField> extends AbstractElement<F> {
+public abstract class AbstractLongZElement<F extends AbstractField> extends AbstractElement<F> {
 
-    public BigInteger value;
+    public long value;
 
-    protected AbstractZElement(F field) {
+    protected AbstractLongZElement(F field) {
         super(field);
     }
 }
