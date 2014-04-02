@@ -83,7 +83,6 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
 
 
     Element p, o;
-
     protected Element[] samplePerturbation() {
         // TODO: must be new every time!
 //        if (p == null) {

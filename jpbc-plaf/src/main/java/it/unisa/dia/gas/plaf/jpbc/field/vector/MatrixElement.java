@@ -62,39 +62,6 @@ public class MatrixElement<E extends Element> extends AbstracArraytMatrixElement
         throw new IllegalStateException("Not Implemented yet!!!");
     }
 
-    public MatrixElement<E> set(Element e) {
-//        MatrixElement<E> element = (MatrixElement<E>) e;
-//
-//        for (int i = 0; i < coefficients.size(); i++) {
-//            coefficients.get(i).set(element.coefficients.get(i));
-//        }
-//
-//        return this;
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
-    public MatrixElement<E> set(int value) {
-//        coefficients.get(0).set(value);
-//
-//        for (int i = 1; i < field.n; i++) {
-//            coefficients.get(i).setToZero();
-//        }
-//
-//        return this;
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
-    public MatrixElement<E> set(BigInteger value) {
-//        coefficients.get(0).set(value);
-//
-//        for (int i = 1; i < field.n; i++) {
-//            coefficients.get(i).setToZero();
-//        }
-//
-//        return this;
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
     public MatrixElement<E> setToRandom() {
         for (int i = 0; i < field.n; i++)
             for (int j = 0; j < field.m; j++)
@@ -103,52 +70,12 @@ public class MatrixElement<E extends Element> extends AbstracArraytMatrixElement
         return this;
     }
 
-    public MatrixElement<E> setFromHash(byte[] source, int offset, int length) {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
-    public MatrixElement<E> setToZero() {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
-    public boolean isZero() {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
-    public MatrixElement<E> setToOne() {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
-    public boolean isOne() {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
-    public MatrixElement<E> map(Element e) {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
-    public MatrixElement<E> twice() {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
-    public MatrixElement<E> square() {
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
-    public MatrixElement<E> invert() {
-        throw new IllegalStateException("Not implemented yet!!!");
-    }
-
     public MatrixElement<E> negate() {
         for (int i = 0; i < field.n; i++)
             for (int j = 0; j < field.m; j++)
                 matrix[i][j].negate();
 
         return this;
-    }
-
-    public MatrixElement<E> add(Element e) {
-        throw new IllegalStateException("Not implemented yet!!!");
     }
 
     public MatrixElement<E> sub(Element e) {
@@ -176,126 +103,6 @@ public class MatrixElement<E extends Element> extends AbstracArraytMatrixElement
             throw new IllegalArgumentException("Not implemented yet!!!");
     }
 
-    public Element mul(Element e) {
-        if (field.getTargetField().equals(e.getField())) {
-            Element result = e.duplicate();
-            if (field.n == 1) {
-                for (int j = 0; j < field.m; j++) {
-                    result.add(matrix[0][j]);
-                }
-            } else if (field.m == 1) {
-                for (int i = 0; i < field.n; i++) {
-                    result.add(matrix[i][0]);
-                }
-            } else {
-                for (int i = 0; i < field.n; i++) {
-                    for (int j = 0; j < field.m; j++) {
-                        matrix[i][j].mul(e);
-                    }
-                }
-                return this;
-            }
-
-            return result;
-        } else if (e instanceof Vector) {
-            Vector ve = (Vector) e;
-
-            if (field.getTargetField().equals(((FieldOver) ve.getField()).getTargetField())) {
-                if (ve.getSize() == 1) {
-                    Element result = ve.getAt(0).duplicate();
-                    if (field.n == 1) {
-                        for (int j = 0; j < field.m; j++) {
-                            result.add(matrix[0][j]);
-                        }
-                    } else if (field.m == 1) {
-                        for (int i = 0; i < field.n; i++) {
-                            result.add(matrix[i][0]);
-                        }
-                    } else
-                        throw new IllegalArgumentException("Cannot multiply this way.");
-
-                    return result;
-                } else {
-                    // Check dimensions
-
-                    if (ve.getSize() == field.m) {
-                        VectorField f = new VectorField(field.getRandom(), field.getTargetField(), field.n);
-                        VectorElement r = f.newElement();
-
-                        for (int i = 0; i < f.n; i++) {
-
-                            // row \times column
-
-                            for (int j = 0; j < 1; j++) {
-                                Element temp = field.getTargetField().newElement();
-                                for (int k = 0; k < field.m; k++) {
-                                    if (getAt(i, k).isZero())
-                                        continue;
-
-                                    temp.add(
-                                            getAt(i, k).duplicate().mul(ve.getAt(k))
-                                    );
-                                }
-                                r.getAt(i).set(temp);
-
-                            }
-                        }
-
-                        return r;
-                    } else if (ve.getSize() == field.n) {
-                        // Consider transpose
-
-                        VectorField f = new VectorField(field.getRandom(), field.getTargetField(), field.m);
-                        VectorElement r = f.newElement();
-
-                        for (int i = 0; i < f.n; i++) {
-
-                            // column \times row
-                            Element temp = field.getTargetField().newElement();
-                            for (int k = 0; k < field.n; k++) {
-                                if (getAt(k, i).isZero())
-                                    continue;
-
-                                temp.add(
-                                        getAt(k, i).duplicate().mul(ve.getAt(k))
-                                );
-                            }
-                            r.getAt(i).set(temp);
-                        }
-
-                        return r;
-                    }
-                }
-            }
-            throw new IllegalStateException("Not Implemented yet!!!");
-        } else if (e instanceof MatrixElement) {
-            MatrixElement me = (MatrixElement) e;
-
-            if (field.getTargetField().equals(me.getField().getTargetField())) {
-                MatrixField f = new MatrixField<Field>(field.getRandom(), field.getTargetField(), field.n, me.getField().m);
-                MatrixElement r = f.newElement();
-
-                for (int i = 0; i < f.n; i++) {
-                    // row \times column
-                    for (int j = 0; j < f.m; j++) {
-                        Element temp = field.getTargetField().newElement();
-
-                        for (int k = 0; k < field.m; k++) {
-                            if (getAt(i, k).isZero())
-                                continue;
-                            temp.add(getAt(i, k).duplicate().mul(me.getAt(k, j)));
-                        }
-                        r.getAt(i, j).set(temp);
-                    }
-                }
-
-                return r;
-            }
-        }
-
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
     public MatrixElement<E> mul(int z) {
         for (int i = 0; i < field.n; i++) {
             for (int j = 0; j < field.m; j++) {
@@ -304,19 +111,6 @@ public class MatrixElement<E extends Element> extends AbstracArraytMatrixElement
         }
 
         return this;
-    }
-
-    public MatrixElement<E> mul(BigInteger n) {
-//        for (int i = 0; i < field.n; i++) {
-//            coefficients.get(i).mul(n);
-//        }
-//
-//        return this;
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
-    public int sign() {
-        throw new IllegalStateException("Not implemented yet!!!");
     }
 
     public boolean isEqual(Element e) {
@@ -337,31 +131,6 @@ public class MatrixElement<E extends Element> extends AbstracArraytMatrixElement
 
     public int setFromBytes(byte[] source) {
         return setFromBytes(source, 0);
-    }
-
-    public int setFromBytes(byte[] source, int offset) {
-//        int len = offset;
-//        for (int i = 0, size = coefficients.size(); i < size; i++) {
-//            len+=coefficients.get(i).setFromBytes(source, len);
-//        }
-//        return len-offset;
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
-    public byte[] toBytes() {
-//        byte[] buffer = new byte[field.getLengthInBytes()];
-//        int targetLB = field.getTargetField().getLengthInBytes();
-//
-//        for (int len = 0, i = 0, size = coefficients.size(); i < size; i++, len += targetLB) {
-//            byte[] temp = coefficients.get(i).toBytes();
-//            System.arraycopy(temp, 0, buffer, len, targetLB);
-//        }
-//        return buffer;
-        throw new IllegalStateException("Not Implemented yet!!!");
-    }
-
-    public BigInteger toBigInteger() {
-        return matrix[0][0].toBigInteger();
     }
 
     public boolean equals(Object obj) {
@@ -412,18 +181,6 @@ public class MatrixElement<E extends Element> extends AbstracArraytMatrixElement
                 '}';
     }
 
-
-    public Field getTargetField() {
-        return field.getTargetField();
-    }
-
-    public int getN() {
-        return field.n;
-    }
-
-    public int getM() {
-        return field.m;
-    }
 
     public Vector<E> rowAt(int row) {
         VectorField<Field> f = new VectorField<Field>(field.getRandom(), field.getTargetField(), field.m);
@@ -504,26 +261,6 @@ public class MatrixElement<E extends Element> extends AbstracArraytMatrixElement
         }
 
         return this;
-    }
-
-    public Matrix<E> mulByTranspose() {
-        MatrixField resultField = new MatrixField<Field>(field.getRandom(), field.getTargetField(), field.n);
-        MatrixElement result = resultField.newElement();
-
-        for (int i = 0; i < field.n; i++) {
-
-            for (int j = 0; j < field.n; j++) {
-                Element temp = field.getTargetField().newZeroElement();
-
-                for (int k = 0; k < field.m; k++) {
-                    temp.add(getAt(i, k).duplicate().mul(getAt(j, k)));
-                }
-
-                result.getAt(i, j).set(temp);
-            }
-        }
-
-        return result;
     }
 
     public Matrix<E> transform(Transformer transformer) {

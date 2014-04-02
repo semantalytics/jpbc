@@ -4,6 +4,7 @@ package it.unisa.dia.gas.plaf.jpbc.field.vector;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Matrix;
+import it.unisa.dia.gas.jpbc.Vector;
 import it.unisa.dia.gas.plaf.jpbc.field.base.AbstractFieldOver;
 import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
 
@@ -135,11 +136,11 @@ public class MatrixField<F extends Field> extends AbstractMatrixField<F, MatrixE
     }
 
 
-    public MatrixElement newDiagonalElement(Element g) {
-        MatrixElement r = newElement();
+    public Matrix newDiagonalElement(Element g) {
+        if (g instanceof Vector) {
+            return new DiagonalMatrixElement(this, (Vector) g);
 
-        if (g instanceof VectorElement) {
-            VectorElement vg = (VectorElement) g;
+            /*VectorElement vg = (VectorElement) g;
 
             int col = 0;
             for (int row = 0; row < n; row++) {
@@ -148,11 +149,10 @@ public class MatrixField<F extends Field> extends AbstractMatrixField<F, MatrixE
                     r.getAt(row, col).set(vg.getAt(k));
                     col += 1;
                 }
-            }
-
+            }*/
         }
 
-        return r;
+        throw new IllegalArgumentException("Not implemented yet!!!");
     }
 
 }
