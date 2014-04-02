@@ -31,6 +31,8 @@ public class MP12HLP2Test {
 
     @Before
     public void setUp() throws Exception {
+        long start = System.currentTimeMillis();
+
         gen = new MP12HLP2KeyPairGenerator();
         gen.init(new MP12HLP2KeyPairGenerationParameters(
                 random,
@@ -38,6 +40,10 @@ public class MP12HLP2Test {
                 24 // k
         ));
         keyPair = gen.generateKeyPair();
+
+        long end = System.currentTimeMillis();
+
+        System.out.println("+ (end-start) = " + (end - start));
     }
 
     @Test
