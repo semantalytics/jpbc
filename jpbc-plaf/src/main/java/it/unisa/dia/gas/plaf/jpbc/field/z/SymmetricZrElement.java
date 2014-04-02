@@ -20,14 +20,14 @@ public class SymmetricZrElement<F extends SymmetricZrField> extends AbstractBigI
 
         this.value = BigInteger.ZERO;
 
-        this.order = field.getOrder();
+        this.order = field.order;
         this.halfOrder = field.halfOrder;
     }
 
     public SymmetricZrElement(F field, BigInteger value) {
         super(field);
 
-        this.order = field.getOrder();
+        this.order = field.order;
         this.halfOrder = field.halfOrder;
         set(value);
     }
@@ -35,7 +35,7 @@ public class SymmetricZrElement<F extends SymmetricZrField> extends AbstractBigI
     public SymmetricZrElement(SymmetricZrElement<F> zrElement) {
         super(zrElement.getField());
 
-        this.order = zrElement.field.getOrder();
+        this.order = zrElement.field.order;
         this.halfOrder = zrElement.field.halfOrder;
         this.value = zrElement.value.mod(order);
     }
