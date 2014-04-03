@@ -149,41 +149,46 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
 
         final Element sqrtBInverse = sqrtB.duplicate().invert();
 
+        long start = System.currentTimeMillis();
         final Matrix cov = ff.newElement();
         PoolExecutor executor = new PoolExecutor();
         executor.submit(new Runnable() {
             public void run() {
+                long start = System.currentTimeMillis();
                 cov.setSubMatrixToIdentityAt(0, 0, m, sqrtB);
+                long end = System.currentTimeMillis();
+                System.out.println("1.(end-start) = " + (end - start));
             }
         }).submit(new Runnable() {
                       public void run() {
+                          long start = System.currentTimeMillis();
                           cov.setSubMatrixFromMatrixAt(m, 0, sk.getR(), new Matrix.Transformer() {
                               public void transform(int row, int col, Element e) {
                                   e.mul(sqrtBInverse);
                               }
                           });
+                          long end = System.currentTimeMillis();
+                          System.out.println("2.(end-start) = " + (end - start));
                       }
                   }
         ).submit(new Runnable() {
-            public void run() {
-                sk.getR().mulByTransposeTo(cov, m, m, new Matrix.Transformer() {
-                    public void transform(int row, int col, Element e) {
-                        e.mul(rSquarePlusOneOverB).negate();
-                        if (row == col)
-                            e.add(sSquareMinusASquare);
-                    }
-                });
+                     public void run() {
+                         long start = System.currentTimeMillis();
 
-//                cov.setSubMatrixFromMatrixAt(m, m, sk.getR().mulByTranspose(), new Matrix.Transformer() {
-//                            public void transform(int row, int col, Element e) {
-//                                e.mul(rSquarePlusOneOverB).negate();
-//                                if (row == col)
-//                                    e.add(sSquareMinusASquare);
-                            }
-//                        }
-//                );
-            }
+                         sk.getR().mulByTransposeTo(cov, m, m, new Matrix.Transformer() {
+                             public void transform(int row, int col, Element e) {
+                                 e.mul(rSquarePlusOneOverB).negate();
+                                 if (row == col)
+                                     e.add(sSquareMinusASquare);
+                             }
+                         });
+                         long end = System.currentTimeMillis();
+                         System.out.println("3.(end-start) = " + (end - start));
+                     }
+                 }
         ).awaitTermination();
+        long end = System.currentTimeMillis();
+        System.out.println("(end-start) = " + (end - start));
 
         // Compute Cholesky decomposition
         return Cholesky.cholesky2(cov, m, m);

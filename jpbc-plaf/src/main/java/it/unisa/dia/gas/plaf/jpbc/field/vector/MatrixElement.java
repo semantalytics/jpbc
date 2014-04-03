@@ -2,8 +2,6 @@ package it.unisa.dia.gas.plaf.jpbc.field.vector;
 
 import it.unisa.dia.gas.jpbc.*;
 import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
-import it.unisa.dia.gas.plaf.jpbc.util.concurrent.ExecutorServiceUtils;
-import it.unisa.dia.gas.plaf.jpbc.util.concurrent.Pool;
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.PoolExecutor;
 
 import java.math.BigInteger;
@@ -267,16 +265,26 @@ public class MatrixElement<E extends Element> extends AbstracArraytMatrixElement
         return this;
     }
 
-    public Matrix<E> setSubMatrixFromMatrixAt(int row, int col, Element e, Transformer transformer) {
+    public Matrix<E> setSubMatrixFromMatrixAt(final int row, final int col, Element e, final Transformer transformer) {
         // TODO: check the lengths
 
-        Matrix m = (Matrix) e;
+        final Matrix m = (Matrix) e;
+
+        PoolExecutor pool = new PoolExecutor();
         for (int i = 0; i < m.getN(); i++) {
-            for (int j = 0; j < m.getM(); j++) {
-                matrix[row + i][col + j].set(m.getAt(i, j));
-                transformer.transform(row + i, col + j, matrix[row + i][col + j]);
-            }
+
+            final int finalI = i;
+            pool.submit(new Runnable() {
+                public void run() {
+                    for (int j = 0; j < m.getM(); j++) {
+                        matrix[row + finalI][col + j].set(m.getAt(finalI, j));
+                        transformer.transform(row + finalI, col + j, matrix[row + finalI][col + j]);
+                    }
+                }
+            });
+
         }
+        pool.awaitTermination();
 
         return this;
     }

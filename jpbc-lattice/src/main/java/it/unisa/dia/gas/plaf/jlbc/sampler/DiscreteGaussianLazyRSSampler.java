@@ -54,6 +54,10 @@ public class DiscreteGaussianLazyRSSampler implements GaussianSampler<BigInteger
         this.interval = (int) (Math.ceil(this.center + sigmaTau) -  Math.floor(this.center - sigmaTau)) + 1;
         this.left = (int) Math.floor(this.center - sigmaTau);
 
+        if (interval < 0) {
+            System.out.println("BOOOOOOOOOO");
+        }
+
         return this;
     }
 
@@ -72,4 +76,25 @@ public class DiscreteGaussianLazyRSSampler implements GaussianSampler<BigInteger
                 return BigInteger.valueOf(x);
         }
     }
+
+    public BigInteger sample(Apfloat c) {
+        double center = c.doubleValue();
+        int interval = (int) (Math.ceil(center + sigmaTau) -  Math.floor(center - sigmaTau)) + 1;
+        int left = (int) Math.floor(center - sigmaTau);
+
+        while (true) {
+            int x = left + random.nextInt(interval);
+            double z = x - center;
+
+            double rhos = Math.exp(h * z * z);
+            double sample = random.nextDouble();
+
+            if (Math.abs(sample - rhos) < bound)
+                System.out.println("NOOOOO");
+
+            if (sample <= rhos)
+                return BigInteger.valueOf(x);
+        }
+    }
+
 }

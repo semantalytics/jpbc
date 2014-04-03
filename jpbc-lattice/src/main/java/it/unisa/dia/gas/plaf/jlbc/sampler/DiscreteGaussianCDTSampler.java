@@ -258,7 +258,7 @@ public class DiscreteGaussianCDTSampler implements Sampler<BigInteger> {
                     if (!new File(gaussianParameter.toRadix(10).toString(true)).exists())
                         return false;
 
-                    System.out.println("HIT!");
+//                    System.out.println("HIT!");
 
                     BufferedReader reader = new BufferedReader(
                             new FileReader(gaussianParameter.toRadix(10).toString(true))

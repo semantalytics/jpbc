@@ -8,6 +8,7 @@ import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.params.MP12HLP2PublicKeyParame
 import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.params.MP12HLP2SampleParameters;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.jpbc.Matrix;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixElement;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixField;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
@@ -31,21 +32,19 @@ public class MP12HLP2Test {
 
     @Before
     public void setUp() throws Exception {
-        if (gen == null) {
-            long start = System.currentTimeMillis();
+        long start = System.currentTimeMillis();
 
-            gen = new MP12HLP2KeyPairGenerator();
-            gen.init(new MP12HLP2KeyPairGenerationParameters(
-                    random,
-                    128, // n
-                    24 // k
-            ));
-            keyPair = gen.generateKeyPair();
+        gen = new MP12HLP2KeyPairGenerator();
+        gen.init(new MP12HLP2KeyPairGenerationParameters(
+                random,
+                4, // n
+                24 // k
+        ));
+        keyPair = gen.generateKeyPair();
 
-            long end = System.currentTimeMillis();
+        long end = System.currentTimeMillis();
 
-            System.out.println("+ (end-start) = " + (end - start));
-        }
+        System.out.println("+ (end-start) = " + (end - start));
     }
 
     @Test
@@ -56,7 +55,11 @@ public class MP12HLP2Test {
 
         MP12HLP2SampleD sampler = new MP12HLP2SampleD();
         sampler.init(new MP12HLP2SampleParameters(keyPair));
+
+        long start = System.currentTimeMillis();
         Element x = sampler.processElements(syndrome);
+        long end = System.currentTimeMillis();
+        System.out.println("(end-start) = " + (end - start));
         System.out.println("x = " + x);
 
         // Decode
@@ -76,22 +79,15 @@ public class MP12HLP2Test {
         // Compute U
         MatrixElement U = (MatrixElement) latticePk.getA().getField().newRandomElement();
 
-
-        System.out.println("U = " + U);
+//        System.out.println("U = " + U);
 
         // Sample R0
-        MP12HLP2SampleD sampleD = new MP12HLP2SampleD();
+        MP12HLP2SampleD sampleD = new MP12HLP2MatrixSampleD(RField);
         sampleD.init(new MP12HLP2SampleParameters(keyPair.getPublic(), keyPair.getPrivate()));
-        MatrixElement R0 = RField.newElement();
-        for (int i = 0; i < latticePk.getM(); i++) {
-            Element col = U.columnAt(i);
-            System.out.println("u = " + col);
-            Element sample = sampleD.processElements(col);
-            System.out.println("sample = " + sample);
-            R0.setColAt(i, sample);
-        }
 
-        System.out.println("R0 = " + R0);
+        Matrix R0 = (Matrix) sampleD.processElements(U);
+
+//        System.out.println("R0 = " + R0);
 
         // Decode
         MP12HLP2Decoder decoder = new MP12HLP2Decoder();
@@ -100,15 +96,15 @@ public class MP12HLP2Test {
         MatrixElement U1 = U.getField().newElement();
         for (int i = 0; i < latticePk.getM(); i++) {
             Element sample = R0.columnAt(i);
-            System.out.println("sample = " + sample);
+//            System.out.println("sample = " + sample);
             Element u = decoder.processElements(sample);
-            System.out.println("u = " + u);
+//            System.out.println("u = " + u);
             U1.setColAt(i, u);
         }
-        System.out.println("U1 = " + U1);
+//        System.out.println("U1 = " + U1);
 
         Element U2 = ((MP12HLP2PublicKeyParameters) keyPair.getPublic()).getA().mul(R0);
-        System.out.println("U2 = " + U2);
+//        System.out.println("U2 = " + U2);
 
         assertEquals(U, U1);
         assertEquals(U, U2);

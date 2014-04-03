@@ -13,9 +13,9 @@ public class ExecutorServiceUtils {
 
     private static ExecutorService fixedThreadPool;
     private static ExecutorService cachedThreadPool;
+    private static DaemonThreadFactory threadFactory = new DaemonThreadFactory();
 
     static {
-        DaemonThreadFactory threadFactory = new DaemonThreadFactory();
         fixedThreadPool = Executors.newFixedThreadPool(
                 Runtime.getRuntime().availableProcessors() * 4,
                 threadFactory
@@ -32,6 +32,20 @@ public class ExecutorServiceUtils {
 
     public static ExecutorService getFixedThreadPool() {
         return fixedThreadPool;
+    }
+
+    public static ExecutorService getNewFixedThreadPool() {
+        return Executors.newFixedThreadPool(
+                Runtime.getRuntime().availableProcessors() * 4,
+                threadFactory
+        );
+    }
+
+    public static ExecutorService getNewFixedThreadPool(int numThread) {
+        return Executors.newFixedThreadPool(
+                numThread,
+                threadFactory
+        );
     }
 
     public static ExecutorService getCachedThreadPool() {

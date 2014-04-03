@@ -10,4 +10,6 @@ public interface GaussianSampler<E> extends Sampler<E> {
 
     GaussianSampler<E> setCenter(Apfloat center);
 
+    E sample(Apfloat center);
+
 }

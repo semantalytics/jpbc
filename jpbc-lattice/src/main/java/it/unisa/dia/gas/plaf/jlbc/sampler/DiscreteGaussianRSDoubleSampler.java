@@ -55,6 +55,23 @@ public class DiscreteGaussianRSDoubleSampler implements GaussianSampler<BigInteg
         return this;
     }
 
+    public BigInteger sample(Apfloat c) {
+        double center = c.doubleValue();
+        int interval = (int) (Math.ceil(center + sigmaTau) -  Math.floor(center - sigmaTau)) + 1;
+        int left = (int) Math.floor(center - sigmaTau);
+
+        while (true) {
+            int x = left + random.nextInt(interval);
+            double z = x - center;
+
+            double rhos = Math.exp(h * z * z);
+            double sample = random.nextDouble();
+
+            if (sample <= rhos)
+                return BigInteger.valueOf(x);
+        }
+    }
+
     public BigInteger sample() {
         while (true) {
             int x = left + random.nextInt(interval);

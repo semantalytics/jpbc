@@ -25,11 +25,14 @@ public abstract class AbstractMatrixElement<E extends Element, F extends Abstrac
             executor.submit(new Runnable() {
                 public void run() {
                     for (int j = 0; j < field.n; j++) {
-                        Element temp = matrix.getAt(offsetRow + finalI, offsetCol + j).setToZero();
+                        Element temp = field.getTargetField().newZeroElement();
+
                         for (int k = 0; k < field.m; k++)
                             temp.add(getAt(finalI, k).duplicate().mul(getAt(j, k)));
 
-                        transformer.transform(offsetRow + finalI, offsetCol + j, temp);
+                        Element target =  matrix.getAt(offsetRow + finalI, offsetCol + j);
+                        target.set(temp);
+                        transformer.transform(offsetRow + finalI, offsetCol + j, target);
                     }
                 }
             });
@@ -229,7 +232,7 @@ public abstract class AbstractMatrixElement<E extends Element, F extends Abstrac
 
             return result;
         } else if (e instanceof Vector) {
-            Vector ve = (Vector) e;
+            final Vector ve = (Vector) e;
 
             if (field.getTargetField().equals(((FieldOver) ve.getField()).getTargetField())) {
                 if (ve.getSize() == 1) {
@@ -251,26 +254,31 @@ public abstract class AbstractMatrixElement<E extends Element, F extends Abstrac
 
                     if (ve.getSize() == field.m) {
                         VectorField f = new VectorField(field.getRandom(), field.getTargetField(), field.n);
-                        VectorElement r = f.newElement();
+                        final VectorElement r = f.newElement();
+
+                        PoolExecutor executor = new PoolExecutor();
 
                         for (int i = 0; i < f.n; i++) {
 
                             // row \times column
 
-                            for (int j = 0; j < 1; j++) {
-                                Element temp = field.getTargetField().newElement();
-                                for (int k = 0; k < field.m; k++) {
-                                    if (getAt(i, k).isZero())
-                                        continue;
+                            final int finalI = i;
+                            executor.submit(new Runnable() {
+                                public void run() {
+                                    for (int j = 0; j < 1; j++) {
+                                        Element temp = field.getTargetField().newElement();
+                                        for (int k = 0; k < field.m; k++) {
+                                            if (getAt(finalI, k).isZero())
+                                                continue;
 
-                                    temp.add(
-                                            getAt(i, k).duplicate().mul(ve.getAt(k))
-                                    );
+                                            temp.add(getAt(finalI, k).duplicate().mul(ve.getAt(k)));
+                                        }
+                                        r.getAt(finalI).set(temp);
+                                    }
                                 }
-                                r.getAt(i).set(temp);
-
-                            }
+                            });
                         }
+                        executor.awaitTermination();
 
                         return r;
                     } else if (ve.getSize() == field.n) {
@@ -300,25 +308,33 @@ public abstract class AbstractMatrixElement<E extends Element, F extends Abstrac
             }
             throw new IllegalStateException("Not Implemented yet!!!");
         } else if (e instanceof MatrixElement) {
-            MatrixElement me = (MatrixElement) e;
+            final MatrixElement me = (MatrixElement) e;
 
             if (field.getTargetField().equals(me.getField().getTargetField())) {
-                MatrixField f = new MatrixField<Field>(field.getRandom(), field.getTargetField(), field.n, me.getField().m);
-                MatrixElement r = f.newElement();
+                final MatrixField f = new MatrixField<Field>(field.getRandom(), field.getTargetField(), field.n, me.getField().m);
+                final MatrixElement r = f.newElement();
 
+                PoolExecutor executor = new PoolExecutor();
                 for (int i = 0; i < f.n; i++) {
-                    // row \times column
-                    for (int j = 0; j < f.m; j++) {
-                        Element temp = field.getTargetField().newElement();
 
-                        for (int k = 0; k < field.m; k++) {
-                            if (getAt(i, k).isZero())
-                                continue;
-                            temp.add(getAt(i, k).duplicate().mul(me.getAt(k, j)));
+                    final int finalI = i;
+                    executor.submit(new Runnable() {
+                        public void run() {
+                            // row \times column
+                            for (int j = 0; j < f.m; j++) {
+                                Element temp = field.getTargetField().newElement();
+
+                                for (int k = 0; k < field.m; k++) {
+                                    if (getAt(finalI, k).isZero())
+                                        continue;
+                                    temp.add(getAt(finalI, k).duplicate().mul(me.getAt(k, j)));
+                                }
+                                r.getAt(finalI, j).set(temp);
+                            }
                         }
-                        r.getAt(i, j).set(temp);
-                    }
+                    });
                 }
+                executor.awaitTermination();
 
                 return r;
             }

@@ -67,4 +67,7 @@ public class DiscreteGaussianRSSampler implements GaussianSampler<BigInteger> {
         }
     }
 
+    public BigInteger sample(Apfloat center) {
+        throw new IllegalStateException("Not implemented yet!!!");
+    }
 }
