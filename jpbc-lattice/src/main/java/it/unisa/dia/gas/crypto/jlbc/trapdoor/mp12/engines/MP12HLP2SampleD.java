@@ -51,7 +51,7 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
         SecureRandom random = sk.getParameters().getRandom();
         Matrix cov = covs.get(sk);
         if (cov == null) {
-            cov = computeCOV2(random, 2 * n, n * k);
+            cov = computeCovarianceMatrix(random, 2 * n, n * k);
             covs.put(sk, cov);
         }
 
@@ -72,69 +72,22 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
 
         // Compute syndrome w
         Element v = u.duplicate().sub(offset);
-//        Element v = u;
 
         // Compute x
         Element z2 = super.processElements(v);
         Element z1 = sk.getR().mul(z2);
 
         return p.add(VectorField.union(z1, z2));
-//        return VectorField.union(z1, z2);
     }
 
-
-    Element p, o;
-
     protected Element[] samplePerturbation() {
-        // TODO: must be new every time!
-//        if (p == null) {
         Element p = offlineSampler.sample();
         Element o = pk.getA().mul(p);
-//        }
 
         return new Element[]{p, o};
     }
 
-    protected Matrix computeCOV(SecureRandom random, int n, int m) {
-        // Compute covariance matrix COV
-        MatrixField<FloatingField> ff = new MatrixField<FloatingField>(random, new FloatingField(random), n + m);
-
-        final Element sSquare = ff.getTargetField().newElement(getSSquare(n, m));
-        final Element aSquare = ff.getTargetField().newElement(LatticeUtils.RRP_SQUARE);
-        Element rSquare = ff.getTargetField().newElement(LatticeUtils.TWO_RRP_SQUARE);
-
-        Matrix cov = ff.newElement()
-                .setSubMatrixFromMatrixAt(0, 0, sk.getR().mulByTranspose())
-                .setSubMatrixFromMatrixAt(0, n, sk.getR())
-                .setSubMatrixFromMatrixTransposeAt(n, 0, sk.getR())
-                .setSubMatrixToIdentityAt(n, n, m);
-        cov.mul(rSquare);
-
-        // Construct \Sigma_P = s^2 I - COV
-        cov.transform(new Matrix.Transformer() {
-            public void transform(int row, int col, Element e) {
-                e.negate();
-                if (row == col)
-                    e.add(sSquare);
-            }
-        });
-
-        // Construct \Sigma_P - a^2 I
-        cov.transform(new Matrix.Transformer() {
-            public void transform(int row, int col, Element e) {
-                if (row == col)
-                    e.sub(aSquare);
-            }
-        });
-
-        // Compute Cholesky decomposition
-        cov = Cholesky.cholesky(cov);
-//        System.out.println("cov = " + cov);
-
-        return cov;
-    }
-
-    protected Matrix computeCOV2(SecureRandom random, int n, final int m) {
+    protected Matrix computeCovarianceMatrix(SecureRandom random, int n, final int m) {
         // Compute covariance matrix COV
         MatrixField<FloatingField> ff = new MatrixField<FloatingField>(random, new FloatingField(random), n + m);
 
@@ -149,32 +102,23 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
 
         final Element sqrtBInverse = sqrtB.duplicate().invert();
 
-        long start = System.currentTimeMillis();
         final Matrix cov = ff.newElement();
         PoolExecutor executor = new PoolExecutor();
         executor.submit(new Runnable() {
             public void run() {
-                long start = System.currentTimeMillis();
                 cov.setSubMatrixToIdentityAt(0, 0, m, sqrtB);
-                long end = System.currentTimeMillis();
-                System.out.println("1.(end-start) = " + (end - start));
             }
         }).submit(new Runnable() {
                       public void run() {
-                          long start = System.currentTimeMillis();
                           cov.setSubMatrixFromMatrixAt(m, 0, sk.getR(), new Matrix.Transformer() {
                               public void transform(int row, int col, Element e) {
                                   e.mul(sqrtBInverse);
                               }
                           });
-                          long end = System.currentTimeMillis();
-                          System.out.println("2.(end-start) = " + (end - start));
                       }
                   }
         ).submit(new Runnable() {
                      public void run() {
-                         long start = System.currentTimeMillis();
-
                          sk.getR().mulByTransposeTo(cov, m, m, new Matrix.Transformer() {
                              public void transform(int row, int col, Element e) {
                                  e.mul(rSquarePlusOneOverB).negate();
@@ -182,17 +126,12 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
                                      e.add(sSquareMinusASquare);
                              }
                          });
-                         long end = System.currentTimeMillis();
-                         System.out.println("3.(end-start) = " + (end - start));
                      }
                  }
         ).awaitTermination();
-        long end = System.currentTimeMillis();
-        System.out.println("(end-start) = " + (end - start));
 
         // Compute Cholesky decomposition
-        return Cholesky.cholesky2(cov, m, m);
+        return Cholesky.choleskyAt(cov, m, m);
     }
-
 
 }

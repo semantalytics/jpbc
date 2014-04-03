@@ -81,9 +81,11 @@ public interface Field<E extends Element> {
     E newElementFromBytes(byte[] source, int offset);
 
     /**
-     * TODO
-     * @param value
-     * @return
+     * Returns a new element whose value is copied from the passed object.
+     *
+     * @param value the value of the new element.
+     * @return a new element whose value is passed as parameter.
+     * @since 2.1.0
      */
     E newElement(Object value);
 

@@ -2,6 +2,7 @@ package it.unisa.dia.gas.plaf.jlbc.field.floating;
 
 import it.unisa.dia.gas.plaf.jpbc.field.base.AbstractField;
 import org.apfloat.Apfloat;
+import org.apfloat.Apint;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -12,7 +13,7 @@ import java.security.SecureRandom;
 public class FloatingField extends AbstractField<FloatingElement> {
 
     protected int precision, radix;
-    protected Apfloat zero, one;
+    protected Apfloat zero, one, two;
 
     public FloatingField(SecureRandom random) {
         this(random, 128, 2);
@@ -25,6 +26,7 @@ public class FloatingField extends AbstractField<FloatingElement> {
         this.radix = radix;
         this.zero = new Apfloat(0, precision, radix);
         this.one = new Apfloat(1, precision, radix);
+        this.two =  new Apint(2, radix);
     }
 
     public FloatingElement newElement() {

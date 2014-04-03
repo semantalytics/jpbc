@@ -1,7 +1,8 @@
 package it.unisa.dia.gas.jpbc;
 
 /**
- * TODO: 
+ * TODO:
+ *
  * @author Angelo De Caro (jpbclib@gmail.com)
  * @see Element
  * @since 2.1.0
@@ -51,7 +52,6 @@ public interface Matrix <E extends Element> extends Element {
 
 
     String toStringSubMatrix(int startRow, int startCol);
-
 
 
     public static interface Transformer {

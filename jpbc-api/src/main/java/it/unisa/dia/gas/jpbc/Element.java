@@ -99,11 +99,13 @@ public interface Element extends ElementPow, Comparable  {
     BigInteger toBigInteger();
 
     /**
-     * TODO
-     * @param value
-     * @from 2.1.0
+     * Sets this element to value.
+     *
+     * @param value the new value of this element.
+     * @return this element set to value.
+     * @since 2.1.0
      */
-    void setFromObject(Object value);
+    Element setFromObject(Object value);
 
     /**
      * If this element lies in a finite algebraic structure, assigns a uniformly random element to it.

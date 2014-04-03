@@ -94,7 +94,7 @@ public class PBCElement implements Element {
         return this;
     }
 
-    public void setFromObject(Object value) {
+    public Element setFromObject(Object value) {
         throw new IllegalStateException("Not implemented yet!!!");
     }
 

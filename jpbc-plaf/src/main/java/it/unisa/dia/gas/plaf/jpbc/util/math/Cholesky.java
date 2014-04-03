@@ -68,7 +68,7 @@ public class Cholesky {
         return L;
     }
 
-    public static Matrix cholesky2(Matrix L, int offsetRow, int offsetCol) {
+    public static Matrix choleskyAt(Matrix L, int offsetRow, int offsetCol) {
         int N = L.getN() - offsetRow;
 
         for (int k = 0; k < N; k++) {

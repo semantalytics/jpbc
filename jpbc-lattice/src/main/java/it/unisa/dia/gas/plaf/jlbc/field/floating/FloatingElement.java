@@ -132,8 +132,7 @@ public class FloatingElement extends AbstractElement<FloatingField> {
     }
 
     public FloatingElement halve() {
-        // TODO: shit??
-        value = value.divide(new Apint(2, field.radix));
+        value = value.divide(field.two);
 
         return this;
     }
@@ -228,15 +227,11 @@ public class FloatingElement extends AbstractElement<FloatingField> {
         return value.toRadix(10).toString(true);
     }
 
-    public FloatingElement set(Apfloat value) {
+    public FloatingElement setFromObject(Object value) {
         // TODO: check compatibility
-        this.value = value;
+        this.value = (Apfloat) value;
 
         return this;
-    }
-
-    public void setFromObject(Object value) {
-        set((Apfloat) value);
     }
 
     public Apfloat getValue() {
