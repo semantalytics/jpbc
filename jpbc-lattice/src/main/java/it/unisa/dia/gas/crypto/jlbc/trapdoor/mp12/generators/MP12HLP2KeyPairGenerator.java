@@ -71,9 +71,9 @@ public class MP12HLP2KeyPairGenerator extends MP12PLP2KeyPairGenerator {
                 new MP12HLP2PublicKeyParameters(
                         params.getParameters(), k, m,
                         discreteGaussianSampler,
-                        g, G,
+                        G,
                         syndromeField, Zq, preimageField,
-                        A, barA
+                        A
                 ),
                 new MP12HLP2PrivateKeyParameters(params.getParameters(), R)
         );

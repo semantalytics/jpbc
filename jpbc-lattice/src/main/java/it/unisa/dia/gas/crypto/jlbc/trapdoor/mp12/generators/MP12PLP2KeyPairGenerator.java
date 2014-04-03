@@ -66,7 +66,7 @@ public class MP12PLP2KeyPairGenerator implements AsymmetricCipherKeyPairGenerato
                 new MP12PLP2PublicKeyParameters(
                         params.getParameters(),
                         k, discreteGaussianSampler,
-                        g, G,
+                        G,
                         syndromeField, Zq, preimageField
                 ),
                 null

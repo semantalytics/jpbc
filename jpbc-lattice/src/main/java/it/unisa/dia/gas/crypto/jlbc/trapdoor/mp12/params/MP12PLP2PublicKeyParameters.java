@@ -16,7 +16,6 @@ public class MP12PLP2PublicKeyParameters extends MP12KeyParameters {
     protected int k;
     protected Sampler<BigInteger> discreteGaussianSampler;
 
-    protected Vector g; // primitive vector
     protected Matrix G; // parity-check matrix
 
     protected Field syndromeField;
@@ -28,7 +27,7 @@ public class MP12PLP2PublicKeyParameters extends MP12KeyParameters {
     public MP12PLP2PublicKeyParameters(MP12Parameters parameters,
                                        int k,
                                        Sampler<BigInteger> discreteGaussianSampler,
-                                       Vector g, Matrix G,
+                                       Matrix G,
                                        Field syndromeField,
                                        Field Zq,
                                        VectorField<Field> preimageField) {
@@ -36,7 +35,6 @@ public class MP12PLP2PublicKeyParameters extends MP12KeyParameters {
 
         this.k = k;
         this.discreteGaussianSampler = discreteGaussianSampler;
-        this.g = g;
         this.G = G;
         this.syndromeField = syndromeField;
         this.Zq = Zq;
@@ -47,20 +45,20 @@ public class MP12PLP2PublicKeyParameters extends MP12KeyParameters {
         return k;
     }
 
-    public VectorField<Field> getPreimageField() {
-        return preimageField;
-    }
-
     public Sampler<BigInteger> getDiscreteGaussianSampler() {
         return discreteGaussianSampler;
     }
 
-    public Field getSyndromeField() {
-        return syndromeField;
-    }
-
     public Matrix getG() {
         return G;
+    }
+
+    public VectorField<Field> getPreimageField() {
+        return preimageField;
+    }
+
+    public Field getSyndromeField() {
+        return syndromeField;
     }
 
     public Field getZq() {

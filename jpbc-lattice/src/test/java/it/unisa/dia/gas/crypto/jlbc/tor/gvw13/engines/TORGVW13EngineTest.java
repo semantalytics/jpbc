@@ -25,7 +25,7 @@ public class TORGVW13EngineTest {
         SecureRandom random = new SecureRandom();
 
         TORGVW13Parameters parameters = new TORGVW13Parameters(
-                random, 10, 5
+                random, 4, 5
         );
 
         TORGVW13KeyPairGenerator keyPairGenerator = new TORGVW13KeyPairGenerator();

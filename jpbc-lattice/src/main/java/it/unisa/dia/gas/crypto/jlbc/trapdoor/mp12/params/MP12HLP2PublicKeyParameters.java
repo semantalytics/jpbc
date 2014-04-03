@@ -15,28 +15,22 @@ import java.math.BigInteger;
 public class MP12HLP2PublicKeyParameters extends MP12PLP2PublicKeyParameters {
 
     protected Element A;
-    protected Element barA;
     protected int m;
 
     public MP12HLP2PublicKeyParameters(MP12Parameters parameters, int k, int m,
                                        Sampler<BigInteger> sampler,
-                                       Vector g, Matrix G,
+                                       Matrix G,
                                        Field syndromeField, Field Zq,
                                        VectorField<Field> preimageField,
-                                       Element A, Element barA) {
-        super(parameters, k, sampler, g, G, syndromeField, Zq, preimageField);
+                                       Element A) {
+        super(parameters, k, sampler, G, syndromeField, Zq, preimageField);
 
         this.A = A;
-        this.barA = barA;
         this.m = m;
     }
 
     public Element getA() {
         return A;
-    }
-
-    public Element getBarA() {
-        return barA;
     }
 
     public int getM() {
