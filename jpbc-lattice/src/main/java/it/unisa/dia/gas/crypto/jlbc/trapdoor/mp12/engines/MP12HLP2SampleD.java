@@ -77,7 +77,10 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
         Element z2 = super.processElements(v);
         Element z1 = sk.getR().mul(z2);
 
-        return p.add(VectorField.union(z1, z2));
+        p.add(z1);
+        ((Vector)p).add(z2, ((Vector) z1).getSize());
+
+        return p;
     }
 
     protected Element[] samplePerturbation() {

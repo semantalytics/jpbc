@@ -172,8 +172,18 @@ public class VectorElement<E extends Element> extends AbstractVectorElement<E, V
     public VectorElement<E> add(Element e) {
         VectorElement<E> element = (VectorElement<E>) e;
 
-        for (int i = 0; i < field.n; i++) {
-            coeff.get(i).add(element.coeff.get(i));
+        for (int i = 0; i < element.getSize(); i++) {
+            coeff.get(i).add(element.getAt(i));
+        }
+
+        return this;
+    }
+
+    public VectorElement<E> add(Element e, int offset) {
+        VectorElement<E> element = (VectorElement<E>) e;
+
+        for (int i = 0; i < element.getSize(); i++) {
+            coeff.get(offset + i).add(element.getAt(i));
         }
 
         return this;

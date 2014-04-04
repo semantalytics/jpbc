@@ -37,7 +37,7 @@ public class MP12HLP2Test {
         gen = new MP12HLP2KeyPairGenerator();
         gen.init(new MP12HLP2KeyPairGenerationParameters(
                 random,
-                4, // n
+                32, // n
                 24 // k
         ));
         keyPair = gen.generateKeyPair();
@@ -59,7 +59,7 @@ public class MP12HLP2Test {
         long start = System.currentTimeMillis();
         Element x = sampler.processElements(syndrome);
         long end = System.currentTimeMillis();
-        System.out.println("(end-start) = " + (end - start));
+        System.out.println("processElements (end-start) = " + (end - start));
         System.out.println("x = " + x);
 
         // Decode

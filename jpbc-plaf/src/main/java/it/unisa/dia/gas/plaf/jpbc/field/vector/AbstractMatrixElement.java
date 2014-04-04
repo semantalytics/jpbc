@@ -86,6 +86,18 @@ public abstract class AbstractMatrixElement<E extends Element, F extends Abstrac
         throw new IllegalStateException("Not implemented yet!!!");
     }
 
+    public Matrix<E> setAt(int row, int col, E e) {
+        throw new IllegalStateException("Not implemented yet!!!");
+    }
+
+    public Matrix<E> setZeroAt(int row, int col) {
+        throw new IllegalStateException("Not implemented yet!!!");
+    }
+
+    public Matrix<E> setOneAt(int row, int col) {
+        throw new IllegalStateException("Not implemented yet!!!");
+    }
+
     public Vector<E> rowAt(int row) {
         throw new IllegalStateException("Not implemented yet!!!");
     }

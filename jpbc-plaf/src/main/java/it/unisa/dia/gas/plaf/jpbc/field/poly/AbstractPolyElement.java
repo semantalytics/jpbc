@@ -45,6 +45,10 @@ public abstract class AbstractPolyElement<E extends Element, F extends AbstractF
         return coefficients.size();
     }
 
+    public Vector add(Element e, int offset) {
+        throw new IllegalStateException("Not Implemented yet!");
+    }
+
     public Vector<E> subVectorTo(int end) {
         throw new IllegalStateException("Not Implemented yet!");
     }

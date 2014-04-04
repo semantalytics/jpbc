@@ -50,6 +50,10 @@ public abstract class AbstractPointElement<E extends Element, F extends Abstract
         throw new IllegalStateException("Not Implemented yet!");
     }
 
+    public Vector<E> add(Element e, int offset) {
+        throw new IllegalStateException("Not Implemented yet!");
+    }
+
     public int getLengthInBytesX() {
         throw new IllegalStateException("Not Implemented yet!");
     }

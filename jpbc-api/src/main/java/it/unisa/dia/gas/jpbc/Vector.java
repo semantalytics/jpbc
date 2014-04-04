@@ -2,6 +2,7 @@ package it.unisa.dia.gas.jpbc;
 
 /**
  * This element represents a vector through its coordinates.
+ * TODO: finish javadocs.
  *
  * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 1.2.0
@@ -27,6 +28,9 @@ public interface Vector<E extends Element> extends Element {
      * @since 1.2.0
      */
     E getAt(int index);
+
+    Vector<E> add(Element e, int offset);
+
 
     Vector<E> subVectorTo(int end);
 

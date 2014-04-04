@@ -11,7 +11,6 @@ import java.math.BigInteger;
  */
 public class MatrixElement<E extends Element> extends AbstracArraytMatrixElement<E, MatrixField> implements Matrix<E> {
 
-
     public MatrixElement(MatrixField field) {
         super(field);
 

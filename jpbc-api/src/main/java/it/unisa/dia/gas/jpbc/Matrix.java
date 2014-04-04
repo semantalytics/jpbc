@@ -17,6 +17,12 @@ public interface Matrix <E extends Element> extends Element {
 
     E getAt(int row, int col);
 
+    Matrix<E> setAt(int row, int col, E e);
+
+    Matrix<E> setZeroAt(int row, int col);
+
+    Matrix<E> setOneAt(int row, int col);
+
 
     Vector<E> rowAt(int row);
 

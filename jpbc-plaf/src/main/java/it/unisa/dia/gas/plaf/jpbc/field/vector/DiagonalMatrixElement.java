@@ -6,7 +6,7 @@ import it.unisa.dia.gas.jpbc.Vector;
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
-public class DiagonalMatrixElement<E extends Element> extends AbstractMatrixElement<E, MatrixField>{
+public class DiagonalMatrixElement<E extends Element> extends AbstractMatrixElement<E, MatrixField> {
 
     protected Vector base;
     protected int baseLength;
