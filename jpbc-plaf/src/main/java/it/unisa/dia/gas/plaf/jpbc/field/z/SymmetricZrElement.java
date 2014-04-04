@@ -196,9 +196,14 @@ public class SymmetricZrElement<F extends SymmetricZrField> extends AbstractBigI
     }
 
     public SymmetricZrElement add(Element element) {
-        value = value.add(((AbstractBigIntegerZElement) element).value).mod(order);
+        // TODO: should run mod?
+        value = value.add(((AbstractBigIntegerZElement) element).value);
 
-        return mod();
+        return this;
+
+//        value = value.add(((AbstractBigIntegerZElement) element).value).mod(order);
+
+//        return mod();
     }
 
     public SymmetricZrElement sub(Element element) {

@@ -179,11 +179,15 @@ public class VectorElement<E extends Element> extends AbstractVectorElement<E, V
         return this;
     }
 
-    public VectorElement<E> add(Element e, int offset) {
-        VectorElement<E> element = (VectorElement<E>) e;
+    public VectorElement<E> add(Element... es) {
+        int cursor = 0;
+        for (Element e : es) {
+            VectorElement<E> element = (VectorElement<E>) e;
 
-        for (int i = 0; i < element.getSize(); i++) {
-            coeff.get(offset + i).add(element.getAt(i));
+            for (int i = 0; i < element.getSize(); i++, cursor++) {
+                coeff.get(cursor).add(element.getAt(i));
+            }
+
         }
 
         return this;

@@ -100,7 +100,7 @@ public class PBCCurvePointElement extends PBCElement implements Point {
         throw new IllegalStateException("Not Implemented yet!");
     }
 
-    public Vector add(Element e, int offset) {
+    public Vector add(Element... es) {
         throw new IllegalStateException("Not Implemented yet!");
     }
 }

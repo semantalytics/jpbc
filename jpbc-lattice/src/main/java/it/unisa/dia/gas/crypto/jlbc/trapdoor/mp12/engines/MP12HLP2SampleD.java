@@ -11,7 +11,6 @@ import it.unisa.dia.gas.jpbc.Vector;
 import it.unisa.dia.gas.plaf.jlbc.field.floating.FloatingField;
 import it.unisa.dia.gas.plaf.jlbc.sampler.DiscreteGaussianCOVSampler;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixField;
-import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorField;
 import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.PoolExecutor;
 import it.unisa.dia.gas.plaf.jpbc.util.math.Cholesky;
@@ -77,10 +76,7 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
         Element z2 = super.processElements(v);
         Element z1 = sk.getR().mul(z2);
 
-        p.add(z1);
-        ((Vector)p).add(z2, ((Vector) z1).getSize());
-
-        return p;
+        return ((Vector) p).add(z1, z2);
     }
 
     protected Element[] samplePerturbation() {
@@ -106,31 +102,29 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
         final Element sqrtBInverse = sqrtB.duplicate().invert();
 
         final Matrix cov = ff.newElement();
-        PoolExecutor executor = new PoolExecutor();
-        executor.submit(new Runnable() {
+        new PoolExecutor().submit(new Runnable() {
             public void run() {
                 cov.setSubMatrixToIdentityAt(0, 0, m, sqrtB);
             }
         }).submit(new Runnable() {
+            public void run() {
+                cov.setSubMatrixFromMatrixAt(m, 0, sk.getR(), new Matrix.Transformer() {
+                    public void transform(int row, int col, Element e) {
+                        e.mul(sqrtBInverse);
+                    }
+                });
+            }
+        }).submit(new Runnable() {
                       public void run() {
-                          cov.setSubMatrixFromMatrixAt(m, 0, sk.getR(), new Matrix.Transformer() {
+                          sk.getR().mulByTransposeTo(cov, m, m, new Matrix.Transformer() {
                               public void transform(int row, int col, Element e) {
-                                  e.mul(sqrtBInverse);
+                                  e.mul(rSquarePlusOneOverB).negate();
+                                  if (row == col)
+                                      e.add(sSquareMinusASquare);
                               }
                           });
                       }
                   }
-        ).submit(new Runnable() {
-                     public void run() {
-                         sk.getR().mulByTransposeTo(cov, m, m, new Matrix.Transformer() {
-                             public void transform(int row, int col, Element e) {
-                                 e.mul(rSquarePlusOneOverB).negate();
-                                 if (row == col)
-                                     e.add(sSquareMinusASquare);
-                             }
-                         });
-                     }
-                 }
         ).awaitTermination();
 
         // Compute Cholesky decomposition

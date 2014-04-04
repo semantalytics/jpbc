@@ -29,7 +29,7 @@ public interface Vector<E extends Element> extends Element {
      */
     E getAt(int index);
 
-    Vector<E> add(Element e, int offset);
+    Vector<E> add(Element... es);
 
 
     Vector<E> subVectorTo(int end);

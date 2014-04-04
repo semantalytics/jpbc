@@ -91,4 +91,17 @@ public class MP12HLP2KeyPairGenerator extends MP12PLP2KeyPairGenerator {
         return outputField;
     }
 
+
+
+    public void store(AsymmetricCipherKeyPair keyPair) {
+        MP12HLP2PublicKeyParameters pk = (MP12HLP2PublicKeyParameters) keyPair.getPublic();
+        MP12HLP2PrivateKeyParameters sk = (MP12HLP2PrivateKeyParameters) keyPair.getPrivate();
+
+        // Store A and R
+
+        pk.getA().toBytes();
+        sk.getR().toBytes();
+    }
+
+
 }

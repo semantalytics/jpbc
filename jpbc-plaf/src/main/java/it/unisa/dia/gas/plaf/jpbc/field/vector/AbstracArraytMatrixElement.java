@@ -16,6 +16,23 @@ public abstract class AbstracArraytMatrixElement<E extends Element, F extends Ab
     }
 
 
+    @Override
+    public byte[] toBytes() {
+        byte[] buffer = new byte[field.getLengthInBytes()];
+
+        int counter = 0;
+        for (int i = 0; i < field.n; i++) {
+            for (int j = 0; j < field.m; j++) {
+                byte[] bytes = matrix[i][j].toBytes();
+
+                System.arraycopy(bytes, 0, buffer, counter, bytes.length);
+                counter += bytes.length;
+            }
+        }
+
+        return buffer;
+    }
+
     public E getAt(int row, int col) {
         return (E) matrix[row][col];
     }
