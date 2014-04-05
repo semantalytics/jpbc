@@ -2,10 +2,7 @@ package it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.engines;
 
 import it.unisa.dia.gas.crypto.cipher.ElementCipher;
 import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.generators.MP12HLP2KeyPairGenerator;
-import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.params.MP12HLP2KeyPairGenerationParameters;
-import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.params.MP12HLP2OneWayFunctionParameters;
-import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.params.MP12HLP2PublicKeyParameters;
-import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.params.MP12HLP2SampleParameters;
+import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.params.*;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Matrix;
@@ -37,8 +34,8 @@ public class MP12HLP2Test {
         gen = new MP12HLP2KeyPairGenerator();
         gen.init(new MP12HLP2KeyPairGenerationParameters(
                 random,
-                4, // n
-                24 // k
+                128, // n
+                32 // k
         ));
         keyPair = gen.generateKeyPair();
         gen.store(keyPair);
@@ -54,7 +51,7 @@ public class MP12HLP2Test {
         Element syndrome = ((MP12HLP2PublicKeyParameters) keyPair.getPublic()).getSyndromeField().newRandomElement();
         System.out.println("syndrome = " + syndrome);
 
-        MP12HLP2SampleD sampler = new MP12HLP2SampleD();
+        MP12HLP2Sampler sampler = new MP12HLP2Sampler();
         sampler.init(new MP12HLP2SampleParameters(keyPair));
 
         long start = System.currentTimeMillis();
@@ -83,7 +80,7 @@ public class MP12HLP2Test {
 //        System.out.println("U = " + U);
 
         // Sample R0
-        MP12HLP2SampleD sampleD = new MP12HLP2MatrixSampleD(RField);
+        MP12HLP2Sampler sampleD = new MP12HLP2MatrixSampler(RField);
         sampleD.init(new MP12HLP2SampleParameters(keyPair.getPublic(), keyPair.getPrivate()));
 
         Matrix R0 = (Matrix) sampleD.processElements(U);
@@ -113,7 +110,36 @@ public class MP12HLP2Test {
 
 
     @Test
-    public void testOWF() throws Exception {
+    public void testInverter() throws Exception {
+        // b=OWF(s)
+        ElementCipher owf = new MP12HLP2OneWayFunction();
+        MP12HLP2OneWayFunctionParameters owfParams = new MP12HLP2OneWayFunctionParameters(
+                (MP12HLP2PublicKeyParameters) keyPair.getPublic()
+        );
+        owf.init(owfParams);
+
+        Element s = owfParams.getInputField().newRandomElement();
+        Element b = owf.processElements(s);
+
+        System.out.println("s = " + s);
+        System.out.println("b = " + b);
+
+        // s'=Invert(b)
+        MP12HLP2Inverter inverter = new MP12HLP2Inverter();
+        inverter.init(new MP12HLP2InverterParameters(
+                (MP12HLP2PublicKeyParameters) keyPair.getPublic(),
+                (MP12HLP2PrivateKeyParameters) keyPair.getPrivate()
+        ));
+        Element sPrime = inverter.processElements(b);
+        System.out.println("sPrime = " + sPrime);
+
+        // Check for equality
+        Assert.assertEquals(s, sPrime);
+    }
+
+
+    @Test
+    public void testErrorTolerantOneTimePad() throws Exception {
         // Init OWF
         ElementCipher owf = new MP12HLP2OneWayFunction();
         MP12HLP2OneWayFunctionParameters owfParams = new MP12HLP2OneWayFunctionParameters(

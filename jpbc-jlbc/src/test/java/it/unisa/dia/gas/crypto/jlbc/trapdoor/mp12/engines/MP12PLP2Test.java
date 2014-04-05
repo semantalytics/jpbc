@@ -36,7 +36,7 @@ public class MP12PLP2Test {
     public void test1() throws Exception {
         MP12PLP2PublicKeyParameters pk = (MP12PLP2PublicKeyParameters) gen.generateKeyPair().getPublic();
 
-        MP12PLP2SampleD sampler = new MP12PLP2SampleD();
+        MP12PLP2Sampler sampler = new MP12PLP2Sampler();
         sampler.init(pk);
 
         MP12PLP2Decoder decoder = new MP12PLP2Decoder();

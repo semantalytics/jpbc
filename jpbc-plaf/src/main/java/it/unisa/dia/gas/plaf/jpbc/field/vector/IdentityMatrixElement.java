@@ -1,7 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.field.vector;
 
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.jpbc.Vector;
 
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)

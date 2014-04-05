@@ -10,9 +10,9 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 
 import static it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils.*;
+import static it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils.pi;
 import static org.apfloat.ApfloatMath.*;
-import static org.apfloat.ApfloatMath.abs;
-import static org.apfloat.ApfloatMath.pow;
+import static org.apfloat.ApfloatMath.sqrt;
 
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)

@@ -3,7 +3,7 @@ package it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.generators;
 import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.params.MP12HLP2KeyPairGenerationParameters;
 import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.params.MP12HLP2PrivateKeyParameters;
 import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.params.MP12HLP2PublicKeyParameters;
-import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.utils.LatticeUtils;
+import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.utils.MP12P2Utils;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Matrix;
@@ -38,7 +38,7 @@ public class MP12HLP2KeyPairGenerator extends MP12PLP2KeyPairGenerator {
         this.inputField = new VectorField<Field>(params.getRandom(), Zq, n);
         this.outputField = new VectorField<Field>(params.getRandom(), Zq, m);
 
-        this.hlZSampler = LatticeUtils.getLWENoiseSampler(random, n);
+        this.hlZSampler = MP12P2Utils.getLWENoiseSampler(random, n);
     }
 
     public AsymmetricCipherKeyPair generateKeyPair() {

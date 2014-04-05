@@ -5,25 +5,24 @@ import it.unisa.dia.gas.jpbc.Matrix;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixField;
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.ExecutorServiceUtils;
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.PoolExecutor;
-import sun.nio.ch.ThreadPool;
 
 import java.util.concurrent.ExecutorService;
 
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
-public class MP12HLP2MatrixSampleD extends MP12HLP2SampleD {
+public class MP12HLP2MatrixSampler extends MP12HLP2Sampler {
 
     protected static ExecutorService tp = ExecutorServiceUtils.getNewFixedThreadPool();
 
 
     protected MatrixField outputField;
 
-    public MP12HLP2MatrixSampleD(MatrixField outputField) {
+    public MP12HLP2MatrixSampler(MatrixField outputField) {
         this.outputField = outputField;
     }
 
-    public MP12HLP2MatrixSampleD() {
+    public MP12HLP2MatrixSampler() {
         this.outputField = null;
     }
 
@@ -44,7 +43,7 @@ public class MP12HLP2MatrixSampleD extends MP12HLP2SampleD {
             pool.submit(new Runnable() {
                 public void run() {
 //            System.out.println("i = " + finalI);
-                    result.setColAt(finalI, MP12HLP2MatrixSampleD.super.processElements(U.columnAt(finalI)));
+                    result.setColAt(finalI, MP12HLP2MatrixSampler.super.processElements(U.columnAt(finalI)));
                 }
             });
         }

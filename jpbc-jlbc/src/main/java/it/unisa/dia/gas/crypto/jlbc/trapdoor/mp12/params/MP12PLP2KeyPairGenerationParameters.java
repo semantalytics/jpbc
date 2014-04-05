@@ -1,6 +1,6 @@
 package it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.params;
 
-import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.utils.LatticeUtils;
+import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.utils.MP12P2Utils;
 import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
 import org.bouncycastle.crypto.KeyGenerationParameters;
 
@@ -21,7 +21,7 @@ public class MP12PLP2KeyPairGenerationParameters extends KeyGenerationParameters
 
         this.params = params;
         this.k = k;
-        this.discreteGaussianSampler = LatticeUtils.getPrimitiveDiscreteGaussianSampler(params.getRandom());
+        this.discreteGaussianSampler = MP12P2Utils.getPrimitiveDiscreteGaussianSampler(params.getRandom());
     }
 
     public MP12PLP2KeyPairGenerationParameters(SecureRandom random, int n, int k) {
@@ -29,7 +29,7 @@ public class MP12PLP2KeyPairGenerationParameters extends KeyGenerationParameters
 
         this.params = new MP12Parameters(random, n);
         this.k = k;
-        this.discreteGaussianSampler = LatticeUtils.getPrimitiveDiscreteGaussianSampler(params.getRandom());
+        this.discreteGaussianSampler = MP12P2Utils.getPrimitiveDiscreteGaussianSampler(params.getRandom());
     }
 
 

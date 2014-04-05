@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
-public class MP12PLP2SampleD extends AbstractElementCipher {
+public class MP12PLP2Sampler extends AbstractElementCipher {
 
     protected MP12PLP2PublicKeyParameters parameters;
     protected int n, k;

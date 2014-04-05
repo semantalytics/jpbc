@@ -1,6 +1,6 @@
 package it.unisa.dia.gas.plaf.jlbc.sampler;
 
-import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.utils.LatticeUtils;
+import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.utils.MP12P2Utils;
 import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
 import org.apfloat.Apfloat;
 
@@ -34,7 +34,7 @@ public class DiscreteGaussianRSSampler implements GaussianSampler<BigInteger> {
         this.center = center;
 
         this.h = ONE.divide(TWO.multiply(square(sigma))).negate();
-        this.sigmaTau = sigma.multiply(LatticeUtils.iTAU);
+        this.sigmaTau = sigma.multiply(MP12P2Utils.iTAU);
         this.uniform = new UniformSampler(random);
 
         setCenter(center);

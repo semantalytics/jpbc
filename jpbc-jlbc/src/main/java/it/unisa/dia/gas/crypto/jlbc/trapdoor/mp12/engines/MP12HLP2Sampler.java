@@ -4,7 +4,7 @@ import it.unisa.dia.gas.crypto.cipher.ElementCipher;
 import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.params.MP12HLP2PrivateKeyParameters;
 import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.params.MP12HLP2PublicKeyParameters;
 import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.params.MP12HLP2SampleParameters;
-import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.utils.LatticeUtils;
+import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.utils.MP12P2Utils;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Matrix;
 import it.unisa.dia.gas.jpbc.Vector;
@@ -21,12 +21,12 @@ import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
 
-import static it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.utils.LatticeUtils.getSSquare;
+import static it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.utils.MP12P2Utils.getSSquare;
 
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
-public class MP12HLP2SampleD extends MP12PLP2SampleD {
+public class MP12HLP2Sampler extends MP12PLP2Sampler {
 
     protected static Map<CipherParameters, Matrix> covs = new HashMap<CipherParameters, Matrix>();
 
@@ -54,7 +54,7 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
             covs.put(sk, cov);
         }
 
-        offlineSampler = new DiscreteGaussianCOVSampler(random, cov, sk.getR().getTargetField(), LatticeUtils.RRP);
+        offlineSampler = new DiscreteGaussianCOVSampler(random, cov, sk.getR().getTargetField(), MP12P2Utils.RRP);
 
         return this;
 
@@ -91,8 +91,8 @@ public class MP12HLP2SampleD extends MP12PLP2SampleD {
         MatrixField<FloatingField> ff = new MatrixField<FloatingField>(random, new FloatingField(random), n + m);
 
         Element sSquare = ff.getTargetField().newElement(getSSquare(n, m));
-        Element rSquare = ff.getTargetField().newElement(LatticeUtils.TWO_RRP_SQUARE);
-        Element aSquare = ff.getTargetField().newElement(LatticeUtils.RRP_SQUARE);
+        Element rSquare = ff.getTargetField().newElement(MP12P2Utils.TWO_RRP_SQUARE);
+        Element aSquare = ff.getTargetField().newElement(MP12P2Utils.RRP_SQUARE);
 
         Element b = sSquare.duplicate().sub(rSquare).sub(aSquare);
         final Element sqrtB = b.duplicate().sqrt();

@@ -307,9 +307,7 @@ public abstract class AbstractMatrixElement<E extends Element, F extends Abstrac
                                 if (getAt(k, i).isZero())
                                     continue;
 
-                                temp.add(
-                                        getAt(k, i).duplicate().mul(ve.getAt(k))
-                                );
+                                temp.add(getAt(k, i).duplicate().mul(ve.getAt(k)));
                             }
                             r.getAt(i).set(temp);
                         }

@@ -2,9 +2,8 @@ package it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.params;
 
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Matrix;
-import it.unisa.dia.gas.jpbc.Vector;
-import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorField;
+import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
 
 import java.math.BigInteger;
 

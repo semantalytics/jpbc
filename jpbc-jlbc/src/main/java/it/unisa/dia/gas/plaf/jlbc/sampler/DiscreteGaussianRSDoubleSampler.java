@@ -1,6 +1,6 @@
 package it.unisa.dia.gas.plaf.jlbc.sampler;
 
-import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.utils.LatticeUtils;
+import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.utils.MP12P2Utils;
 import it.unisa.dia.gas.plaf.jlbc.util.DoubleUtils;
 import org.apfloat.Apfloat;
 
@@ -33,7 +33,7 @@ public class DiscreteGaussianRSDoubleSampler implements GaussianSampler<BigInteg
         this.sigma = gaussianParameter / DoubleUtils.SQRT_TWO_PI;
         this.center = center;
         this.h = - (1.0d / (sigma * sigma));
-        this.sigmaTau = sigma * LatticeUtils.TAU;
+        this.sigmaTau = sigma * MP12P2Utils.TAU;
 
         setCenter(newApfloat(center));
     }

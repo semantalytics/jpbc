@@ -3,8 +3,8 @@ package it.unisa.dia.gas.crypto.jlbc.tor.gvw13.generators;
 import it.unisa.dia.gas.crypto.cipher.CipherParametersGenerator;
 import it.unisa.dia.gas.crypto.jlbc.tor.gvw13.params.TORGVW13ReKeyGenerationParameters;
 import it.unisa.dia.gas.crypto.jlbc.tor.gvw13.params.TORGVW13RecodeParameters;
-import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.engines.MP12HLP2MatrixSampleD;
-import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.engines.MP12HLP2SampleD;
+import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.engines.MP12HLP2MatrixSampler;
+import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.engines.MP12HLP2Sampler;
 import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.params.MP12HLP2PublicKeyParameters;
 import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.params.MP12HLP2SampleParameters;
 import it.unisa.dia.gas.jpbc.Element;
@@ -49,7 +49,7 @@ public class TORGVW13RecKeyGenerator implements CipherParametersGenerator {
             );
 
             // Sample R0
-            MP12HLP2SampleD sampleD = new MP12HLP2MatrixSampleD(RField);
+            MP12HLP2Sampler sampleD = new MP12HLP2MatrixSampler(RField);
             sampleD.init(new MP12HLP2SampleParameters(params.getLeftPk().getLatticePublicKey(), params.getSk().getLatticePrivateKey()));
             R0 = sampleD.processElements(U);
         } else {
@@ -63,7 +63,7 @@ public class TORGVW13RecKeyGenerator implements CipherParametersGenerator {
             );
 
             // Sample R1
-            MP12HLP2SampleD sampleD = new MP12HLP2MatrixSampleD(RField);
+            MP12HLP2Sampler sampleD = new MP12HLP2MatrixSampler(RField);
             sampleD.init(new MP12HLP2SampleParameters(params.getLeftPk().getLatticePublicKey(), params.getSk().getLatticePrivateKey()));
             R1 = sampleD.processElements(U);
         }

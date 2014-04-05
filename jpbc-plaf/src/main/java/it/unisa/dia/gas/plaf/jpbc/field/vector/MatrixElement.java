@@ -1,6 +1,9 @@
 package it.unisa.dia.gas.plaf.jpbc.field.vector;
 
-import it.unisa.dia.gas.jpbc.*;
+import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.jpbc.Matrix;
+import it.unisa.dia.gas.jpbc.Vector;
 import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.PoolExecutor;
 

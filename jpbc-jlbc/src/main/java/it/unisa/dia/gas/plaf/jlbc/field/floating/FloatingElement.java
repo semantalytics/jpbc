@@ -4,7 +4,6 @@ import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.plaf.jpbc.field.base.AbstractElement;
 import org.apfloat.Apfloat;
 import org.apfloat.ApfloatMath;
-import org.apfloat.Apint;
 
 import java.math.BigInteger;
 

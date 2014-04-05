@@ -4,9 +4,6 @@ import org.apfloat.Apfloat;
 import org.apfloat.ApfloatMath;
 import org.apfloat.Apint;
 
-import static org.apfloat.ApfloatMath.exp;
-import static org.apfloat.ApfloatMath.pow;
-
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
