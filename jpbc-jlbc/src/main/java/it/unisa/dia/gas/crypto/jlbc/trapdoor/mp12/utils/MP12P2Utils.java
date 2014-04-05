@@ -141,7 +141,7 @@ public class MP12P2Utils {
 
     public static Apfloat getS1R(Apfloat gaussianParamenter, int n, int m) {
         return gaussianParamenter.multiply(
-                sqrt(n).add(sqrt(m)).add(ApfloatUtils.IONE)
+                ApfloatUtils.sqrt(n).add(ApfloatUtils.sqrt(m)).add(ApfloatUtils.IONE)
         ).divide(SQRT_TWO_PI);
     }
 
