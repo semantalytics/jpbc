@@ -3,13 +3,13 @@ package it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.generators;
 import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.params.MP12HLP2KeyPairGenerationParameters;
 import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.params.MP12HLP2PrivateKeyParameters;
 import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.params.MP12HLP2PublicKeyParameters;
+import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.utils.LatticeUtils;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Matrix;
-import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.utils.LatticeUtils;
-import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixField;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorField;
+import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.KeyGenerationParameters;
 
@@ -57,7 +57,7 @@ public class MP12HLP2KeyPairGenerator extends MP12PLP2KeyPairGenerator {
 
         // 3. Compute G - barA R
 //        Element A1 = G.duplicate().sub(barA.mul(R));
-        Element A1 = ((Matrix)barA.mul(R)).transform(new Matrix.Transformer() {
+        Element A1 = ((Matrix) barA.mul(R)).transform(new Matrix.Transformer() {
             public void transform(int row, int col, Element e) {
                 e.negate();
                 if (!G.isZeroAt(row, col))
@@ -79,6 +79,28 @@ public class MP12HLP2KeyPairGenerator extends MP12PLP2KeyPairGenerator {
         );
     }
 
+    public AsymmetricCipherKeyPair loadKeyPair() {
+        super.generateKeyPair();
+
+        // Load PK
+        Element A = new MatrixField<Field>(random, Zq, n, w + barM).newElementFromBytes(null);
+
+        // Load SK
+        Matrix R = new MatrixField<Field>(random, Zq, barM, w).newElementFromBytes(null);
+
+        return new AsymmetricCipherKeyPair(
+                new MP12HLP2PublicKeyParameters(
+                        params.getParameters(), k, m,
+                        discreteGaussianSampler,
+                        G,
+                        syndromeField, Zq, preimageField,
+                        A
+                ),
+                new MP12HLP2PrivateKeyParameters(params.getParameters(), R)
+        );
+    }
+
+
     public int getMInBytes() {
         return mInBytes;
     }
@@ -90,7 +112,6 @@ public class MP12HLP2KeyPairGenerator extends MP12PLP2KeyPairGenerator {
     public Field getOutputField() {
         return outputField;
     }
-
 
 
     public void store(AsymmetricCipherKeyPair keyPair) {
