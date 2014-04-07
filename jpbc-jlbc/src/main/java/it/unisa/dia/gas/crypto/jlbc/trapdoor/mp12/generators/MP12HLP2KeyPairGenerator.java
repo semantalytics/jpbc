@@ -120,8 +120,8 @@ public class MP12HLP2KeyPairGenerator extends MP12PLP2KeyPairGenerator {
 
         // Store A and R
 
-        pk.getA().toBytes();
-        sk.getR().toBytes();
+//        pk.getA().toBytes();
+//        sk.getR().toBytes();
     }
 
 

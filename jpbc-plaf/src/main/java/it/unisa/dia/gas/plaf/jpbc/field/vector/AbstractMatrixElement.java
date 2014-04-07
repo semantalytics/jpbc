@@ -297,20 +297,28 @@ public abstract class AbstractMatrixElement<E extends Element, F extends Abstrac
                         // Consider transpose
 
                         VectorField f = new VectorField(field.getRandom(), field.getTargetField(), field.m);
-                        VectorElement r = f.newElement();
+                        final VectorElement r = f.newElement();
+
+                        PoolExecutor executor = new PoolExecutor();
 
                         for (int i = 0; i < f.n; i++) {
 
-                            // column \times row
-                            Element temp = field.getTargetField().newElement();
-                            for (int k = 0; k < field.n; k++) {
-                                if (getAt(k, i).isZero())
-                                    continue;
+                            final int finalI = i;
+                            executor.submit(new Runnable() {
+                                public void run() {
+                                    // column \times row
+                                    Element temp = field.getTargetField().newElement();
+                                    for (int k = 0; k < field.n; k++) {
+                                        if (getAt(k, finalI).isZero())
+                                            continue;
 
-                                temp.add(getAt(k, i).duplicate().mul(ve.getAt(k)));
-                            }
-                            r.getAt(i).set(temp);
+                                        temp.add(getAt(k, finalI).duplicate().mul(ve.getAt(k)));
+                                    }
+                                    r.getAt(finalI).set(temp);
+                                }
+                            });
                         }
+                        executor.awaitTermination();
 
                         return r;
                     }

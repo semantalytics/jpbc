@@ -5,9 +5,9 @@ import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.params.MP12PLP2PublicKeyParame
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Matrix;
 import it.unisa.dia.gas.jpbc.Vector;
+import it.unisa.dia.gas.plaf.jlbc.field.z.ZFieldSelector;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixField;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorField;
-import it.unisa.dia.gas.plaf.jpbc.field.z.SymmetricZrField;
 import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPairGenerator;
@@ -45,9 +45,8 @@ public class MP12PLP2KeyPairGenerator implements AsymmetricCipherKeyPairGenerato
         this.discreteGaussianSampler = params.getDiscreteGaussianSampler();
 
         SecureRandom random = params.getRandom();
-        this.q = BigInteger.ONE.shiftLeft(params.getK());
 
-        this.Zq = new SymmetricZrField(q);
+        this.Zq = ZFieldSelector.getInstance().getSymmetricZrFieldPowerOfTwo(random, k);
         this.syndromeField = new VectorField<Field>(random, Zq, n);
         this.preimageField = new VectorField<Field>(random, Zq, n * k);
 

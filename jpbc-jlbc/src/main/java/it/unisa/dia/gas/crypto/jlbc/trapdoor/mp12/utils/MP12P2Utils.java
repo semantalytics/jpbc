@@ -107,20 +107,29 @@ public class MP12P2Utils {
     }
 
     public static void testLWENoiseSampler(int n, int k) {
+        int barM = 2 * n;
+        int w = n * k;
+        int m = barM + w;
+
         // 2 sqrt(n) / q
         Apfloat q = pow(ITWO, k);
         Apfloat oneOverQ = ONE.divide(q);
         Apfloat alpha = ITWO.multiply(sqrt(newApfloat(n))).divide(q);
+        Apfloat oneOverAlpha = ONE.divide(alpha);
         Apfloat oneOverRRP = ONE.divide(RRP);
 
         System.out.println(ApfloatUtils.toString(oneOverQ));
         System.out.println(ApfloatUtils.toString(alpha));
         System.out.println(ApfloatUtils.toString(oneOverRRP));
+        System.out.println(ApfloatUtils.toString(oneOverAlpha));
 
         System.out.println(oneOverQ.compareTo(alpha));
         System.out.println(alpha.compareTo(oneOverRRP));
 
-//        where 1/α ≥ 2 ∥B∥ s · ω(√log n)
+        System.out.println(oneOverAlpha.compareTo(
+                IFOUR.multiply(getSqrtS1RSquarePlusOne(barM, w)).multiply(RRP)
+        ));
+//        where 1/α ≥ 2 ∥B∥ s · ω(√log n) = 4 s ω(√log n)
 //        getS1R()
 //        ONE.divide(alpha)
     }
@@ -130,14 +139,14 @@ public class MP12P2Utils {
         return SamplerFactory.getInstance().getDiscreteGaussianSampler(random, TWO_RRP);
     }
 
-    /**
-     * @param n
-     * @param m
-     * @return
-     */
     public static Apfloat getS1R(int n, int m) {
         return getS1R(getLWENoiseParameter(n), n, m);
     }
+
+    public static Apfloat getSqrtS1RSquarePlusOne(int n, int m) {
+        return sqrt(square(getS1R(getLWENoiseParameter(n), n, m)).add(IONE));
+    }
+
 
     public static Apfloat getS1R(Apfloat gaussianParamenter, int n, int m) {
         return gaussianParamenter.multiply(
