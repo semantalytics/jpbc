@@ -1,14 +1,14 @@
-package it.unisa.dia.gas.plaf.sampler;
+package it.unisa.dia.gas.plaf.jlbc.sampler;
 
-import it.unisa.dia.gas.plaf.jlbc.sampler.DiscreteGaussianRSDoubleSampler;
-import it.unisa.dia.gas.plaf.jlbc.sampler.DiscreteGaussianRSSampler;
-import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
 import it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils;
+import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
 import org.apfloat.Apfloat;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
