@@ -22,16 +22,12 @@ public class TORGVW13EngineTest {
 
     @Before
     public void setUp() throws Exception {
-        SecureRandom random = new SecureRandom();
+        random = new SecureRandom();
 
-        TORGVW13Parameters parameters = new TORGVW13Parameters(
-                random, 4, 5
-        );
+        TORGVW13Parameters parameters = new TORGVW13Parameters(random, 4, 5);
 
         TORGVW13KeyPairGenerator keyPairGenerator = new TORGVW13KeyPairGenerator();
-        keyPairGenerator.init(new TORGVW13KeyPairGenerationParameters(
-                random, 100, parameters
-        ));
+        keyPairGenerator.init(new TORGVW13KeyPairGenerationParameters(random, 100, parameters));
         keyPair0 = keyPairGenerator.generateKeyPair();
         keyPair1 = keyPairGenerator.generateKeyPair();
         keyPair2 = keyPairGenerator.generateKeyPair();

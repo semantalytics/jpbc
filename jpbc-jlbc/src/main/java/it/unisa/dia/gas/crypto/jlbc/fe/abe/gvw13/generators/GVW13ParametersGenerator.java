@@ -31,9 +31,7 @@ public class GVW13ParametersGenerator {
         );
 
         TORGVW13KeyPairGenerator keyPairGenerator = new TORGVW13KeyPairGenerator();
-        keyPairGenerator.init(new TORGVW13KeyPairGenerationParameters(
-                random, 100, parameters
-        ));
+        keyPairGenerator.init(new TORGVW13KeyPairGenerationParameters(random, 100, parameters));
 
         return new GVW13Parameters(
                 random,

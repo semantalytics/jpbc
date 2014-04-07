@@ -24,7 +24,7 @@ public class MP12HLP2OneWayFunctionParameters extends AsymmetricKeyParameter {
         this.pk = pk;
         this.sampler = MP12P2Utils.getLWENoiseSampler(pk.getParameters().getRandom(), pk.getParameters().getN());
 
-        MP12P2Utils.testLWENoiseSampler(pk.getParameters().getN(), pk.getK());
+//        MP12P2Utils.testLWENoiseSampler(pk.getParameters().getN(), pk.getK());
 
         this.inputField = new VectorField<Field>(
                 pk.getParameters().getRandom(),
