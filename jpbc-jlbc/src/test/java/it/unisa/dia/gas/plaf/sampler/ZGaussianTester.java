@@ -3,11 +3,11 @@ package it.unisa.dia.gas.plaf.sampler;
 import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.utils.MP12P2Utils;
 import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Matrix;
+import it.unisa.dia.gas.plaf.jlbc.field.z.SymmetricZrField;
 import it.unisa.dia.gas.plaf.jlbc.sampler.DiscreteGaussianLazyRSSampler;
 import it.unisa.dia.gas.plaf.jlbc.sampler.GaussianSampler;
 import it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixField;
-import it.unisa.dia.gas.plaf.jpbc.field.z.SymmetricZrField;
 import org.apfloat.Apfloat;
 
 import java.math.BigInteger;

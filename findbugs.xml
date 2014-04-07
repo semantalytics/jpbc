@@ -212,31 +212,31 @@
         </Method>
     </BugInstance>
     <BugInstance type="HE_EQUALS_USE_HASHCODE" priority="1" abbrev="HE" category="BAD_PRACTICE">
-        <Class classname="it.unisa.dia.gas.plaf.jpbc.field.z.SymmetricZrElement">
-            <SourceLine classname="it.unisa.dia.gas.plaf.jpbc.field.z.SymmetricZrElement"
+        <Class classname="it.unisa.dia.gas.plaf.jlbc.field.z.SymmetricZrElement">
+            <SourceLine classname="it.unisa.dia.gas.plaf.jlbc.field.z.SymmetricZrElement"
                         sourcefile="SymmetricZrElement.java"
                         sourcepath="it/unisa/dia/gas/plaf/jpbc/field/z/SymmetricZrElement.java"/>
         </Class>
-        <Method classname="it.unisa.dia.gas.plaf.jpbc.field.z.SymmetricZrElement" name="equals"
+        <Method classname="it.unisa.dia.gas.plaf.jlbc.field.z.SymmetricZrElement" name="equals"
                 signature="(Ljava/lang/Object;)Z" isStatic="false">
-            <SourceLine classname="it.unisa.dia.gas.plaf.jpbc.field.z.SymmetricZrElement" start="327" end="329"
+            <SourceLine classname="it.unisa.dia.gas.plaf.jlbc.field.z.SymmetricZrElement" start="327" end="329"
                         startBytecode="0" endBytecode="84" sourcefile="SymmetricZrElement.java"
                         sourcepath="it/unisa/dia/gas/plaf/jpbc/field/z/SymmetricZrElement.java"/>
         </Method>
     </BugInstance>
     <BugInstance type="URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD" priority="2" abbrev="UrF" category="STYLE">
-        <Class classname="it.unisa.dia.gas.plaf.jpbc.field.z.SymmetricZrField">
-            <SourceLine classname="it.unisa.dia.gas.plaf.jpbc.field.z.SymmetricZrField"
+        <Class classname="it.unisa.dia.gas.plaf.jlbc.field.z.SymmetricZrField">
+            <SourceLine classname="it.unisa.dia.gas.plaf.jlbc.field.z.SymmetricZrField"
                         sourcefile="SymmetricZrField.java"
                         sourcepath="it/unisa/dia/gas/plaf/jpbc/field/z/SymmetricZrField.java"/>
         </Class>
-        <Field classname="it.unisa.dia.gas.plaf.jpbc.field.z.SymmetricZrField" name="twoInverse"
+        <Field classname="it.unisa.dia.gas.plaf.jlbc.field.z.SymmetricZrField" name="twoInverse"
                signature="Ljava/math/BigInteger;" isStatic="false">
-            <SourceLine classname="it.unisa.dia.gas.plaf.jpbc.field.z.SymmetricZrField"
+            <SourceLine classname="it.unisa.dia.gas.plaf.jlbc.field.z.SymmetricZrField"
                         sourcefile="SymmetricZrField.java"
                         sourcepath="it/unisa/dia/gas/plaf/jpbc/field/z/SymmetricZrField.java"/>
         </Field>
-        <SourceLine classname="it.unisa.dia.gas.plaf.jpbc.field.z.SymmetricZrField" start="40" end="40"
+        <SourceLine classname="it.unisa.dia.gas.plaf.jlbc.field.z.SymmetricZrField" start="40" end="40"
                     startBytecode="40" endBytecode="40" sourcefile="SymmetricZrField.java"
                     sourcepath="it/unisa/dia/gas/plaf/jpbc/field/z/SymmetricZrField.java"/>
     </BugInstance>
@@ -1660,9 +1660,9 @@
                         interface="false" size="5" bugs="0"/>
             <ClassStats class="it.unisa.dia.gas.plaf.jpbc.field.z.ImmutableZrElement"
                         sourceFile="ImmutableZrElement.java" interface="false" size="76" bugs="0"/>
-            <ClassStats class="it.unisa.dia.gas.plaf.jpbc.field.z.SymmetricZrElement"
+            <ClassStats class="it.unisa.dia.gas.plaf.jlbc.field.z.SymmetricZrElement"
                         sourceFile="SymmetricZrElement.java" interface="false" size="202" bugs="1" priority_1="1"/>
-            <ClassStats class="it.unisa.dia.gas.plaf.jpbc.field.z.SymmetricZrField" sourceFile="SymmetricZrField.java"
+            <ClassStats class="it.unisa.dia.gas.plaf.jlbc.field.z.SymmetricZrField" sourceFile="SymmetricZrField.java"
                         interface="false" size="40" bugs="1" priority_2="1"/>
             <ClassStats class="it.unisa.dia.gas.plaf.jpbc.field.z.ZElement" sourceFile="ZElement.java" interface="false"
                         size="127" bugs="1" priority_1="1"/>

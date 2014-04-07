@@ -1,7 +1,6 @@
 package it.unisa.dia.gas.plaf.jlbc.field.z;
 
 import it.unisa.dia.gas.jpbc.Field;
-import it.unisa.dia.gas.plaf.jpbc.field.z.SymmetricZrField;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;

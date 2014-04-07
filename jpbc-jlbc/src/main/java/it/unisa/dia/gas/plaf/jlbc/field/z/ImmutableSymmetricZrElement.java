@@ -1,4 +1,4 @@
-package it.unisa.dia.gas.plaf.jpbc.field.z;
+package it.unisa.dia.gas.plaf.jlbc.field.z;
 
 import it.unisa.dia.gas.jpbc.Element;
 

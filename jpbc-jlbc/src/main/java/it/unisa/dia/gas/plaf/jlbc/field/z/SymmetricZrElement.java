@@ -1,6 +1,7 @@
-package it.unisa.dia.gas.plaf.jpbc.field.z;
+package it.unisa.dia.gas.plaf.jlbc.field.z;
 
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.plaf.jpbc.field.z.AbstractBigIntegerZElement;
 import it.unisa.dia.gas.plaf.jpbc.util.Arrays;
 import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
 
