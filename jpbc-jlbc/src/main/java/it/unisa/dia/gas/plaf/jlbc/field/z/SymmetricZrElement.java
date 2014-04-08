@@ -38,7 +38,8 @@ public class SymmetricZrElement<F extends SymmetricZrField> extends AbstractBigI
 
         this.order = zrElement.field.order;
         this.halfOrder = zrElement.field.halfOrder;
-        this.value = zrElement.value.mod(order);
+        // TODO: try to save this mod!
+        this.value = zrElement.value/*.mod(order)*/;
     }
 
 

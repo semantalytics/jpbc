@@ -19,7 +19,7 @@ public class ContinuousGaussianSamplerVectorSampler implements Sampler<Vector> {
     protected int precision, n;
     protected VectorField<FloatingField> vf;
     protected FloatingField ff;
-
+//    ZigguratGaussianSampler s = new ZigguratGaussianSampler();
 
     public ContinuousGaussianSamplerVectorSampler(SecureRandom random, int precision, int n) {
         if (random == null)
@@ -36,7 +36,7 @@ public class ContinuousGaussianSamplerVectorSampler implements Sampler<Vector> {
         Vector<FloatingElement> v = vf.newElement();
 
         for (int i = 0; i < n; i++)
-            v.getAt(i).setFromObject(new Apfloat(Double.toString(random.nextGaussian()), precision).toRadix(2));
+            v.getAt(i).setFromObject(new Apfloat(random.nextGaussian(), precision, 2));
 
         return v;
     }

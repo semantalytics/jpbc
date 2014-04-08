@@ -25,17 +25,18 @@ public class MP12HLP2Test {
 
     private MP12HLP2KeyPairGenerator gen;
     private AsymmetricCipherKeyPair keyPair;
-    private SecureRandom random = new SecureRandom();
+    private SecureRandom random;
 
     @Before
     public void setUp() throws Exception {
         long start = System.currentTimeMillis();
 
+        this.random = SecureRandom.getInstance("SHA1PRNG");
         gen = new MP12HLP2KeyPairGenerator();
         gen.init(new MP12HLP2KeyPairGenerationParameters(
                 random,
                 4, // n
-                32 // k
+                64 // k
         ));
         keyPair = gen.generateKeyPair();
         gen.store(keyPair);

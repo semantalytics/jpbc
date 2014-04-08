@@ -22,7 +22,7 @@ public class TORGVW13EngineTest {
 
     @Before
     public void setUp() throws Exception {
-        random = new SecureRandom();
+        random = SecureRandom.getInstance("SHA1PRNG");
 
         TORGVW13Parameters parameters = new TORGVW13Parameters(random, 4, 5);
 

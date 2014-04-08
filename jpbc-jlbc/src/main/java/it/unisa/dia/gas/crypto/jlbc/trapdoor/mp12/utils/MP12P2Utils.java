@@ -95,11 +95,11 @@ public class MP12P2Utils {
     public static Apfloat SQRT_TWO_PI = sqrt(pi().multiply(ITWO));
 
     public static Apfloat getLWENoiseParameter(int n) {
-//        return SQRT_TWO.multiply(
-//                ITWO.multiply(sqrt(newApfloat(n)))
-//        ).multiply(RRP_SQUARE);
+        return SQRT_TWO.multiply(
+                ITWO.multiply(sqrt(newApfloat(n)))
+        ).multiply(RRP_SQUARE);
 
-        return ITWO.multiply(sqrt(newApfloat(n))).multiply(RRP_SQUARE);
+//        return ITWO.multiply(sqrt(newApfloat(n))).multiply(RRP_SQUARE);
     }
 
     public static Sampler<BigInteger> getLWENoiseSampler(SecureRandom random, int n) {

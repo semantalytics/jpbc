@@ -28,7 +28,7 @@ public class GVW13KEMEngineTest {
 
     @Before
     public void setUp() throws Exception {
-        random = new SecureRandom();
+        random = SecureRandom.getInstance("SHA1PRNG");
     }
 
     @Test
@@ -81,7 +81,7 @@ public class GVW13KEMEngineTest {
 
 
     protected GVW13Parameters createParameters(int ell) {
-        return new GVW13ParametersGenerator(new SecureRandom(), ell, 5).generateParameters();
+        return new GVW13ParametersGenerator(random, ell, 5).generateParameters();
     }
 
     protected AsymmetricCipherKeyPair setup(GVW13Parameters parameters) {

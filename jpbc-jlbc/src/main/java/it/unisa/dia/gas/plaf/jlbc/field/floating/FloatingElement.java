@@ -18,7 +18,7 @@ public class FloatingElement extends AbstractElement<FloatingField> {
     public FloatingElement(FloatingField field) {
         super(field);
 
-        this.value = new Apfloat(0, field.precision, field.radix);
+        this.value = field.zero;
     }
 
     public FloatingElement(FloatingField field, Apfloat value) {
