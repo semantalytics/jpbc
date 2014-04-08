@@ -3,6 +3,7 @@ package it.unisa.dia.gas.plaf.jpbc.field.vector;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
 import it.unisa.dia.gas.plaf.jpbc.field.base.AbstractVectorElement;
+import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -30,9 +31,15 @@ public class VectorElement<E extends Element> extends AbstractVectorElement<E, V
 
     public VectorElement(VectorField field, List<E> coeff) {
         super(field);
-        this.field = field;
 
         this.coeff = coeff;
+    }
+
+    public VectorElement(VectorField field, Sampler<BigInteger> sampler) {
+        this(field);
+
+        for (int i = 0; i < field.n; i++)
+            coeff.get(i).set(sampler.sample());
     }
 
 
