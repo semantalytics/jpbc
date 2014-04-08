@@ -57,9 +57,13 @@ public class SymmetricZrElement<F extends SymmetricZrField> extends AbstractBigI
     }
 
     public SymmetricZrElement set(Element value) {
-        this.value = ((AbstractBigIntegerZElement) value).value.mod(order);
+//        TODO: find a good solution
+//        this.value = ((AbstractBigIntegerZElement) value).value.mod(order);
 
-        return mod();
+//        return mod();
+        this.value = ((AbstractBigIntegerZElement) value).value;
+
+        return this;
     }
 
     public SymmetricZrElement set(int value) {

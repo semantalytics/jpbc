@@ -44,6 +44,7 @@ public class DiscreteGaussianCDTSampler implements Sampler<BigInteger> {
     }
 
     public BigInteger sample() {
+        // Avoid use BigInteger?
         int r0 = random.nextInt(256);
 
         BigInteger min = CDT_inv_min[r0];

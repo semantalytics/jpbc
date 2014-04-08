@@ -26,7 +26,7 @@ public class GVW13ParametersGenerator {
     public GVW13Parameters generateParameters() {
         TORGVW13Parameters parameters = new TORGVW13Parameters(
                 random,
-                4,          // n
+                8,          // n
                 depth       // depth
         );
 
