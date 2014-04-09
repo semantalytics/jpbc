@@ -128,7 +128,9 @@ public class MP12HLP2Sampler extends MP12PLP2Sampler {
         ).awaitTermination();
 
         // Compute Cholesky decomposition
-        return Cholesky.choleskyAt(cov, m, m);
+        Cholesky.choleskyAt(cov, m, m);
+
+        return cov;
     }
 
 }

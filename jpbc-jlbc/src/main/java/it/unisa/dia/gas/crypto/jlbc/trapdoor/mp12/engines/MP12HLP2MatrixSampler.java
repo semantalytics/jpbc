@@ -22,9 +22,6 @@ public class MP12HLP2MatrixSampler extends MP12HLP2Sampler {
         this.outputField = outputField;
     }
 
-    public MP12HLP2MatrixSampler() {
-        this.outputField = null;
-    }
 
 
     @Override
@@ -36,6 +33,8 @@ public class MP12HLP2MatrixSampler extends MP12HLP2Sampler {
             result = outputField.newElement();
         } else
             throw new IllegalStateException();
+
+        System.out.println("result.getN() = " + result.getN());
 
         PoolExecutor pool = new PoolExecutor(tp);
         for (int i = 0, length = result.getN(); i < length; i++) {
@@ -50,8 +49,7 @@ public class MP12HLP2MatrixSampler extends MP12HLP2Sampler {
         pool.awaitTermination();
 
 //        for (int i = 0, length = result.getN(); i < length; i++) {
-//            System.out.println("i = " + i);
-//                    result.setColAt(i, MP12HLP2MatrixSampleD.super.processElements(U.columnAt(i)));
+//            result.setColAt(i, super.processElements(U.columnAt(i)));
 //        }
 
 

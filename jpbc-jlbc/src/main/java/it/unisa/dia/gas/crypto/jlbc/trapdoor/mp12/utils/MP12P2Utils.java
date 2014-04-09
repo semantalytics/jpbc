@@ -114,7 +114,7 @@ public class MP12P2Utils {
         // 2 sqrt(n) / q
         Apfloat q = pow(ITWO, k);
         Apfloat oneOverQ = ONE.divide(q);
-        Apfloat alpha = ITWO.multiply(sqrt(newApfloat(n))).divide(q);
+        Apfloat alpha = getLWENoiseParameter(n).divide(q);
         Apfloat oneOverAlpha = ONE.divide(alpha);
         Apfloat oneOverRRP = ONE.divide(RRP);
 

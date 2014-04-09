@@ -35,7 +35,7 @@ public class MP12HLP2Test {
         gen = new MP12HLP2KeyPairGenerator();
         gen.init(new MP12HLP2KeyPairGenerationParameters(
                 random,
-                4, // n
+                16, // n
                 64 // k
         ));
         keyPair = gen.generateKeyPair();
@@ -81,7 +81,7 @@ public class MP12HLP2Test {
 //        System.out.println("U = " + U);
 
         // Sample R0
-        MP12HLP2Sampler sampleD = new MP12HLP2MatrixSampler(RField);
+        MP12HLP2MatrixSampler sampleD = new MP12HLP2MatrixSampler(RField);
         sampleD.init(new MP12HLP2SampleParameters(keyPair.getPublic(), keyPair.getPrivate()));
 
         Matrix R0 = (Matrix) sampleD.processElements(U);
