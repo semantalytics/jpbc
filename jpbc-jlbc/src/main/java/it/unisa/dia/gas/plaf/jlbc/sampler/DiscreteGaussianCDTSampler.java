@@ -20,15 +20,16 @@ import static it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils.*;
  */
 public class DiscreteGaussianCDTSampler implements Sampler<BigInteger> {
 
-    static final BigInteger long_255 = BigInteger.valueOf(255);
-    static final BigInteger mask_init = long_255.shiftLeft(64 - 8);
-    static final int tau = 13;
-    static final double sigma_bin_inv_lowprec = 1.17741002251547469101156932645969963; // sqrt(2 ln 2)
-    static final double sigma_bin_lowprec = 0.8493218002880190427215028341028896; //  sqrt(1/(2 ln 2))
+    static final BigInteger L255 = BigInteger.valueOf(255);
+    static final BigInteger MASK_INIT = L255.shiftLeft(64 - 8);
+    static final int TAU = 13;
+
+    static final double SIGMA_BIN_INV_LOWPREC = 1.17741002251547469101156932645969963; // sqrt(2 ln 2)
+    static final double SIGMA_BIN_LOWPREC = 0.8493218002880190427215028341028896; //  sqrt(1/(2 ln 2))
 
     protected SecureRandom random;
-    protected BigInteger[] CDT, CDT_inv_min, CDT_inv_max;
-    protected int CDT_length;
+    protected BigInteger[] cdt, cdtInvMin, cdtInvMax;
+    protected int cdtLength;
 
 
     public DiscreteGaussianCDTSampler(SecureRandom random, Apfloat gaussianParameter) {
@@ -37,38 +38,38 @@ public class DiscreteGaussianCDTSampler implements Sampler<BigInteger> {
         this.random = random;
 
         CDTDataBuilder.CDTData data = CDTDataBuilder.getInstance().compute(gaussianParameter);
-        this.CDT = data.CDT;
-        this.CDT_inv_min = data.CDT_inv_min;
-        this.CDT_inv_max = data.CDT_inv_max;
-        this.CDT_length = data.CDT_length;
+        this.cdt = data.cdt;
+        this.cdtInvMin = data.cdtInvMin;
+        this.cdtInvMax = data.cdtInvMax;
+        this.cdtLength = data.cdtLength;
     }
 
     public BigInteger sample() {
-        // Avoid use BigInteger?
+        // TODO: avoid to use nextBoolean
         int r0 = random.nextInt(256);
 
-        BigInteger min = CDT_inv_min[r0];
-        BigInteger max = CDT_inv_max[r0];
+        BigInteger min = cdtInvMin[r0];
+        BigInteger max = cdtInvMax[r0];
         if (max.subtract(min).compareTo(BigIntegerUtils.TWO) < 0) {
             return (random.nextBoolean()) ? min : min.negate();
         }
 
         int mask_index = 56;
         BigInteger r1 = BigInteger.valueOf(r0).shiftLeft(mask_index);
-        BigInteger r2 = mask_init;
+        BigInteger r2 = MASK_INIT;
         int cur = min.add(max).divide(BigIntegerUtils.TWO).intValue();
 
         while (true) {
-            if (r1.compareTo(CDT[cur]) > 0)
+            if (r1.compareTo(cdt[cur]) > 0)
                 min = BigInteger.valueOf(cur);
-            else if (r1.compareTo(CDT[cur].and(r2)) < 0)
+            else if (r1.compareTo(cdt[cur].and(r2)) < 0)
                 max = BigInteger.valueOf(cur);
             else {
                 if (mask_index <= 0)
                     break;
                 mask_index -= 8;
 
-                r2 = r2.or(long_255.shiftLeft(mask_index));
+                r2 = r2.or(L255.shiftLeft(mask_index));
                 r1 = r2.or(BigInteger.valueOf(random.nextInt(256)).shiftLeft(mask_index));
             }
 
@@ -81,7 +82,7 @@ public class DiscreteGaussianCDTSampler implements Sampler<BigInteger> {
 
         r2 = new BigInteger(64, random);
         while (true) {
-            if (r1.compareTo(CDT[cur]) < 0 || ((r1.compareTo(CDT[cur]) == 0) && (r2.compareTo(CDT[cur + CDT_length])) < 0))
+            if (r1.compareTo(cdt[cur]) < 0 || ((r1.compareTo(cdt[cur]) == 0) && (r2.compareTo(cdt[cur + cdtLength])) < 0))
                 max = BigInteger.valueOf(cur);
             else
                 max = BigInteger.valueOf(cur); // TODO: this is strange!!!
@@ -118,14 +119,14 @@ public class DiscreteGaussianCDTSampler implements Sampler<BigInteger> {
             if (data.load())
                 return data;
 
-            BigInteger[] CDT, CDT_inv_min, CDT_inv_max;
-            int CDT_length;
+            BigInteger[] cdt, cdtInvMin, cdtInvMax;
+            int cdtLength;
 
             Apfloat sigma = gaussianParameter.divide(SQRT2PI);
-            Apint k = gaussianParameter.multiply(newApfloat(sigma_bin_inv_lowprec)).add(ApfloatUtils.IONE).truncate();
+            Apint k = gaussianParameter.multiply(newApfloat(SIGMA_BIN_INV_LOWPREC)).add(ApfloatUtils.IONE).truncate();
 
             // f = 2 sigma^2 = 2 k^2 1/(2ln(2)) = k^2/ln(2)
-//            int k = (int) (sigma_bin_inv_lowprec * gaussianParameter) + 1;
+//            int k = (int) (SIGMA_BIN_INV_LOWPREC * gaussianParameter) + 1;
 
             //sqrt(2 ln 2)
 //            int kk = ApfloatMath.sqrt(
@@ -144,22 +145,18 @@ public class DiscreteGaussianCDTSampler implements Sampler<BigInteger> {
 //                        )
 //                    )
 //            ).multiply(ApfloatUtils.newApint(k))
-//                    .multiply(ApfloatUtils.newApint(tau))
+//                    .multiply(ApfloatUtils.newApint(TAU))
 //                    .add(ApfloatUtils.IONE).truncate().intValue();
 
             // compute normalization constant
             Apfloat t = ApfloatUtils.ZERO;
-            CDT_length = k.multiply(newApfloat(sigma_bin_lowprec)).add(IONE).truncate().intValue();
+            cdtLength = k.multiply(newApfloat(SIGMA_BIN_LOWPREC)).add(IONE).truncate().intValue();
 
-//            Apfloat pi = ApfloatUtils.pi();
-            Apfloat pi = ApfloatUtils.ONE;
-
-            for (int i = 1; i < CDT_length; i++) {
+            for (int i = 1; i < cdtLength; i++) {
                 Apfloat z = ApfloatUtils.newApfloat(i - 1);
                 z = z.multiply(z);          // z =  (i-1)^2
                 z = z.negate();             // z = -(i-1)^2
                 z = z.divide(f);            // z = -(i-1)^2/f
-//                z = z.multiply(pi);
                 z = ApfloatMath.exp(z);     // z = exp(-(i-1)^2/f)
                 if (i == 1)
                     z = z.divide(ApfloatUtils.TWO);
@@ -169,14 +166,13 @@ public class DiscreteGaussianCDTSampler implements Sampler<BigInteger> {
 
             Apfloat ff = ApfloatMath.pow(ApfloatUtils.TWO, 64);
             Apfloat y = ApfloatUtils.ZERO;
-            CDT = new BigInteger[CDT_length * 2];
+            cdt = new BigInteger[cdtLength * 2];
 
-            for (int i = 1; i < CDT_length; i++) {
+            for (int i = 1; i < cdtLength; i++) {
                 Apfloat z = ApfloatUtils.newApfloat(i - 1);
                 z = z.multiply(z);          // z =  (i-1)^2
                 z = z.negate();             // z = -(i-1)^2
                 z = z.divide(f);            // z = -(i-1)^2/f
-//                z = z.multiply(pi);
                 z = ApfloatMath.exp(z);     // z = exp(-(i-1)^2/f)
                 if (i == 1)
                     z = z.divide(ApfloatUtils.TWO);
@@ -190,42 +186,35 @@ public class DiscreteGaussianCDTSampler implements Sampler<BigInteger> {
                     z = z.multiply(ff);
 
                     Apint zTruncate = z.truncate();
-                    CDT[i + j * CDT_length] = zTruncate.toRadix(10).toBigInteger();
+                    cdt[i + j * cdtLength] = zTruncate.toRadix(10).toBigInteger();
 
                     z = z.subtract(zTruncate);
                 }
             }
 
             for (int j = 0; j < 2; j++)
-                CDT[j * CDT_length] = BigInteger.ZERO;
+                cdt[j * cdtLength] = BigInteger.ZERO;
 
-
-            CDT_inv_min = new BigInteger[256];
-            CDT_inv_max = new BigInteger[256];
+            cdtInvMin = new BigInteger[256];
+            cdtInvMax = new BigInteger[256];
 
             int min = 0, max = 0;
             BigInteger mask = BigInteger.valueOf(255).shiftLeft(56);
             for (int i = 0; i < 256; i++) {
                 BigInteger val = BigInteger.valueOf(i).shiftLeft(56);
 
-                while (CDT[min + 1].compareTo(val) < 0)
+                while (cdt[min + 1].compareTo(val) < 0)
                     min++;
 
-                while ((max + 1 < CDT_length) && (CDT[max].and(mask).compareTo(val) <= 0))
+                while ((max + 1 < cdtLength) && (cdt[max].and(mask).compareTo(val) <= 0))
                     max++;
 
-                CDT_inv_min[i] = BigInteger.valueOf(min);
-                CDT_inv_max[i] = BigInteger.valueOf(max);
+                cdtInvMin[i] = BigInteger.valueOf(min);
+                cdtInvMax[i] = BigInteger.valueOf(max);
             }
 
-            data = new CDTData(gaussianParameter, CDT, CDT_inv_min, CDT_inv_max, CDT_length);
+            data = new CDTData(gaussianParameter, cdt, cdtInvMin, cdtInvMax, cdtLength);
             this.dataMap.put(gaussianParameter, data);
-
-//            System.out.println("CDT");
-//            for (int i = 0; i < CDT.length; i++) {
-//                BigInteger bigInteger = CDT[i];
-//                System.out.println(bigInteger);
-//            }
 
             return data;
         }
@@ -233,19 +222,19 @@ public class DiscreteGaussianCDTSampler implements Sampler<BigInteger> {
 
         public class CDTData {
             Apfloat gaussianParameter;
-            BigInteger[] CDT, CDT_inv_min, CDT_inv_max;
-            int CDT_length;
+            BigInteger[] cdt, cdtInvMin, cdtInvMax;
+            int cdtLength;
 
             public CDTData(Apfloat gaussianParameter,
-                           BigInteger[] CDT,
-                           BigInteger[] CDT_inv_min,
-                           BigInteger[] CDT_inv_max,
-                           int CDT_length) {
+                           BigInteger[] cdt,
+                           BigInteger[] cdtInvMin,
+                           BigInteger[] cdtInvMax,
+                           int cdtLength) {
                 this.gaussianParameter = gaussianParameter;
-                this.CDT = CDT;
-                this.CDT_inv_min = CDT_inv_min;
-                this.CDT_inv_max = CDT_inv_max;
-                this.CDT_length = CDT_length;
+                this.cdt = cdt;
+                this.cdtInvMin = cdtInvMin;
+                this.cdtInvMax = cdtInvMax;
+                this.cdtLength = cdtLength;
 
                 store();
             }
@@ -259,27 +248,25 @@ public class DiscreteGaussianCDTSampler implements Sampler<BigInteger> {
                     if (!new File(gaussianParameter.toRadix(10).toString(true)).exists())
                         return false;
 
-//                    System.out.println("HIT!");
-
                     BufferedReader reader = new BufferedReader(
                             new FileReader(gaussianParameter.toRadix(10).toString(true))
                     );
 
-                    CDT_length = Integer.valueOf(reader.readLine());
-                    CDT = new BigInteger[CDT_length*2];
-                    for (int i = 0; i < CDT.length; i++) {
-                        CDT[i] = new BigInteger(reader.readLine());
+                    cdtLength = Integer.valueOf(reader.readLine());
+                    cdt = new BigInteger[cdtLength *2];
+                    for (int i = 0; i < cdt.length; i++) {
+                        cdt[i] = new BigInteger(reader.readLine());
                     }
 
                     int length = Integer.valueOf(reader.readLine());
-                    CDT_inv_min = new BigInteger[length];
+                    cdtInvMin = new BigInteger[length];
                     for (int i = 0; i < length; i++) {
-                        CDT_inv_min[i] = new BigInteger(reader.readLine());
+                        cdtInvMin[i] = new BigInteger(reader.readLine());
                     }
 
-                    CDT_inv_max = new BigInteger[length];
+                    cdtInvMax = new BigInteger[length];
                     for (int i = 0; i < length; i++) {
-                        CDT_inv_max[i] = new BigInteger(reader.readLine());
+                        cdtInvMax[i] = new BigInteger(reader.readLine());
                     }
 
                     reader.close();
@@ -297,16 +284,16 @@ public class DiscreteGaussianCDTSampler implements Sampler<BigInteger> {
                             gaussianParameter.toRadix(10).toString(true)
                     ));
 
-                    stream.println(CDT_length);
-                    for (BigInteger aCDT : CDT) {
+                    stream.println(cdtLength);
+                    for (BigInteger aCDT : cdt) {
                         stream.println(aCDT);
                     }
 
-                    stream.println(CDT_inv_min.length);
-                    for (BigInteger v : CDT_inv_min) {
+                    stream.println(cdtInvMin.length);
+                    for (BigInteger v : cdtInvMin) {
                         stream.println(v);
                     }
-                    for (BigInteger v : CDT_inv_max) {
+                    for (BigInteger v : cdtInvMax) {
                         stream.println(v);
                     }
 

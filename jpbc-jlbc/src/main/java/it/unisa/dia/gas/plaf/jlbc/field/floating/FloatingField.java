@@ -1,5 +1,6 @@
 package it.unisa.dia.gas.plaf.jlbc.field.floating;
 
+import it.unisa.dia.gas.plaf.jlbc.util.ApfloatUtils;
 import it.unisa.dia.gas.plaf.jpbc.field.base.AbstractField;
 import org.apfloat.Apfloat;
 import org.apfloat.Apint;
@@ -16,7 +17,7 @@ public class FloatingField extends AbstractField<FloatingElement> {
     protected Apfloat zero, one, two;
 
     public FloatingField(SecureRandom random) {
-        this(random, 128, 2);
+        this(random, ApfloatUtils.precision, ApfloatUtils.radix);
     }
 
     public FloatingField(SecureRandom random, int precision, int radix) {

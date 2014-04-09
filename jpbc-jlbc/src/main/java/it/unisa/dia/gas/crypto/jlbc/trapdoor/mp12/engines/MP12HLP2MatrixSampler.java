@@ -13,7 +13,7 @@ import java.util.concurrent.ExecutorService;
  */
 public class MP12HLP2MatrixSampler extends MP12HLP2Sampler {
 
-    protected static ExecutorService tp = ExecutorServiceUtils.getNewFixedThreadPool();
+    protected static final ExecutorService EXECUTOR_SERVICE = ExecutorServiceUtils.getNewFixedThreadPool();
 
 
     protected MatrixField outputField;
@@ -21,7 +21,6 @@ public class MP12HLP2MatrixSampler extends MP12HLP2Sampler {
     public MP12HLP2MatrixSampler(MatrixField outputField) {
         this.outputField = outputField;
     }
-
 
 
     @Override
@@ -34,14 +33,11 @@ public class MP12HLP2MatrixSampler extends MP12HLP2Sampler {
         } else
             throw new IllegalStateException();
 
-        System.out.println("result.getN() = " + result.getN());
-
-        PoolExecutor pool = new PoolExecutor(tp);
+        PoolExecutor pool = new PoolExecutor(EXECUTOR_SERVICE);
         for (int i = 0, length = result.getN(); i < length; i++) {
             final int finalI = i;
             pool.submit(new Runnable() {
                 public void run() {
-//            System.out.println("i = " + finalI);
                     result.setColAt(finalI, MP12HLP2MatrixSampler.super.processElements(U.columnAt(finalI)));
                 }
             });

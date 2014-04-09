@@ -35,8 +35,8 @@ public class MP12HLP2Test {
         gen = new MP12HLP2KeyPairGenerator();
         gen.init(new MP12HLP2KeyPairGenerationParameters(
                 random,
-                16, // n
-                64 // k
+                4, // n
+                256 // k
         ));
         keyPair = gen.generateKeyPair();
         gen.store(keyPair);

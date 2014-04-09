@@ -76,7 +76,6 @@ import static org.apfloat.ApfloatMath.sqrt;
  */
 public class MP12P2Utils {
 
-
     public static int TAU = 13;
     public static Apint iTAU = newApint(TAU);
 
@@ -94,10 +93,11 @@ public class MP12P2Utils {
     public static Apfloat SQRT_TWO = sqrt(TWO);
     public static Apfloat SQRT_TWO_PI = sqrt(pi().multiply(ITWO));
 
+
     public static Apfloat getLWENoiseParameter(int n) {
         return SQRT_TWO.multiply(
                 ITWO.multiply(sqrt(newApfloat(n)))
-        ).multiply(RRP_SQUARE);
+        ).multiply(RRP_SQUARE).multiply(RRP);
 
 //        return ITWO.multiply(sqrt(newApfloat(n))).multiply(RRP_SQUARE);
     }
@@ -105,6 +105,32 @@ public class MP12P2Utils {
     public static Sampler<BigInteger> getLWENoiseSampler(SecureRandom random, int n) {
         return SamplerFactory.getInstance().getDiscreteGaussianSampler(random, getLWENoiseParameter(n));
     }
+
+    public static Sampler<BigInteger> getPrimitiveDiscreteGaussianSampler(SecureRandom random) {
+        return SamplerFactory.getInstance().getDiscreteGaussianSampler(random, TWO_RRP);
+    }
+
+
+    public static Apfloat getS1R(int n, int m) {
+        return getS1R(getLWENoiseParameter(n), n, m);
+    }
+
+    public static Apfloat getS1R(Apfloat gaussianParamenter, int n, int m) {
+        return gaussianParamenter.multiply(
+                ApfloatUtils.sqrt(n).add(ApfloatUtils.sqrt(m)).add(ApfloatUtils.IONE)
+        ).divide(SQRT_TWO_PI);
+    }
+
+    public static Apfloat getSSquare(int n, int m) {
+        Apfloat s1R = getS1R(n, m);
+        Apfloat s1Rsquare = square(s1R);
+        return s1Rsquare.add(IONE).multiply(ISIX).multiply(RRP_SQUARE);
+    }
+
+    public static Apfloat getSqrtS1RSquarePlusOne(int n, int m) {
+        return sqrt(square(getS1R(getLWENoiseParameter(n), n, m)).add(IONE));
+    }
+
 
     public static void testLWENoiseSampler(int n, int k) {
         int barM = 2 * n;
@@ -132,32 +158,6 @@ public class MP12P2Utils {
 //        where 1/α ≥ 2 ∥B∥ s · ω(√log n) = 4 s ω(√log n)
 //        getS1R()
 //        ONE.divide(alpha)
-    }
-
-
-    public static Sampler<BigInteger> getPrimitiveDiscreteGaussianSampler(SecureRandom random) {
-        return SamplerFactory.getInstance().getDiscreteGaussianSampler(random, TWO_RRP);
-    }
-
-    public static Apfloat getS1R(int n, int m) {
-        return getS1R(getLWENoiseParameter(n), n, m);
-    }
-
-    public static Apfloat getSqrtS1RSquarePlusOne(int n, int m) {
-        return sqrt(square(getS1R(getLWENoiseParameter(n), n, m)).add(IONE));
-    }
-
-
-    public static Apfloat getS1R(Apfloat gaussianParamenter, int n, int m) {
-        return gaussianParamenter.multiply(
-                ApfloatUtils.sqrt(n).add(ApfloatUtils.sqrt(m)).add(ApfloatUtils.IONE)
-        ).divide(SQRT_TWO_PI);
-    }
-
-    public static Apfloat getSSquare(int n, int m) {
-        Apfloat s1R = getS1R(n, m);
-        Apfloat s1Rsquare = square(s1R);
-        return s1Rsquare.add(IONE).multiply(ISIX).multiply(RRP_SQUARE);
     }
 
 }
