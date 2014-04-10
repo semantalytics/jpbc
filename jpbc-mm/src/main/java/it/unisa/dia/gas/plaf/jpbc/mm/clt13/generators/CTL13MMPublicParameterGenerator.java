@@ -194,10 +194,14 @@ public class CTL13MMPublicParameterGenerator implements PairingParametersGenerat
 
 
     public static void main(String[] args) {
-        CTL13MMPublicParameterGenerator gen = new CTL13MMPublicParameterGenerator(
-                new SecureRandom(), CTL13MMSystemParameters.TOY
-        );
-        gen.generate();
+        try {
+            CTL13MMPublicParameterGenerator gen = new CTL13MMPublicParameterGenerator(
+                    SecureRandom.getInstance("SHA1PRNG"), CTL13MMSystemParameters.TOY
+            );
+            gen.generate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

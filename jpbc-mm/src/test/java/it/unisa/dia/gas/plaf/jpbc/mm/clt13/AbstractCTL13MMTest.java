@@ -24,7 +24,11 @@ public abstract class AbstractCTL13MMTest {
     static protected SecureRandom random;
 
     static {
-        random = new SecureRandom();
+        try {
+            random = SecureRandom.getInstance("SHA1PRNG");
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     @Parameterized.Parameters

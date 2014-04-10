@@ -40,6 +40,7 @@ public class GGHVV13KEMEngineTest extends AbstractJPBCCryptoTest {
     }
 
     protected Pairing pairing;
+    protected SecureRandom random;
 
     public GGHVV13KEMEngineTest(boolean usePBC, String curvePath) {
         super(usePBC, curvePath);
@@ -49,12 +50,12 @@ public class GGHVV13KEMEngineTest extends AbstractJPBCCryptoTest {
     public void before() throws Exception {
         super.before();
 
+        this.random = SecureRandom.getInstance("SHA1PRNG");
         this.pairing = PairingFactory.getPairing(parameters);
     }
 
     @Test
     public void testGGHVV13KEMEngine() {
-        SecureRandom random = new SecureRandom();
         int n = 4;
         int q = 3;
         Circuit circuit = new DefaultCircuit(n, q, 3, new DefaultGate[]{
@@ -89,7 +90,7 @@ public class GGHVV13KEMEngineTest extends AbstractJPBCCryptoTest {
     protected AsymmetricCipherKeyPair setup(GGHVV13Parameters parameters) {
         GGHVV13KeyPairGenerator setup = new GGHVV13KeyPairGenerator();
         setup.init(new GGHVV13KeyPairGenerationParameters(
-                new SecureRandom(),
+                random,
                 parameters
         ));
 

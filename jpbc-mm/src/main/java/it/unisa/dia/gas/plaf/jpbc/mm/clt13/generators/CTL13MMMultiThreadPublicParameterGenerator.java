@@ -260,11 +260,15 @@ public class CTL13MMMultiThreadPublicParameterGenerator extends CTL13MMPublicPar
         if (args.length > 0)
             params = args[0];
 
-        CTL13MMMultiThreadPublicParameterGenerator gen = new CTL13MMMultiThreadPublicParameterGenerator(
-                new SecureRandom(),
-                PairingFactory.getInstance().loadParameters(params)
-        );
-        gen.generate();
+        try {
+            CTL13MMMultiThreadPublicParameterGenerator gen = new CTL13MMMultiThreadPublicParameterGenerator(
+                    SecureRandom.getInstance("SHA1PRNG"),
+                    PairingFactory.getInstance().loadParameters(params)
+            );
+            gen.generate();
+        } catch (Exception e ) {
+            e.printStackTrace();
+        }
     }
 
 }
