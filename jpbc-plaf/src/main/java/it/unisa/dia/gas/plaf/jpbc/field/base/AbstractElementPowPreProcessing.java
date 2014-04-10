@@ -15,10 +15,10 @@ import java.math.BigInteger;
 public class AbstractElementPowPreProcessing implements ElementPowPreProcessing {
     public static final int DEFAULT_K = 5;
 
-    protected Field field;
+    protected final Field field;
 
-    protected int k;
-    protected int bits;
+    protected final int k;
+    protected final int bits;
     protected int numLookups;
     protected Element table[][];
 

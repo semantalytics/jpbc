@@ -30,7 +30,7 @@ public abstract class AbstractVectorElement<E extends Element, F extends Abstrac
         VectorField vf = new VectorField(field.getRandom(), field.getTargetField(), getSize() - start);
         Vector v = vf.newElement();
 
-        for (int i = 0; i < vf.getN(); i++)
+        for (int i = 0, n = vf.getN(); i < n; i++)
             v.getAt(i).set(getAt(start + i));
 
         return v;

@@ -28,7 +28,11 @@ public class ContinuousGaussianSamplerVectorSampler implements Sampler<Vector> {
         this.random = random;
         this.precision = precision;
         this.n = n;
-        this.vf = new VectorField<FloatingField>(random, (ff = new FloatingField(random, precision, 2)), n);
+        this.vf = new VectorField<FloatingField>(
+                random,
+                (ff = new FloatingField(random, precision, 2)),
+                n
+        );
     }
 
 

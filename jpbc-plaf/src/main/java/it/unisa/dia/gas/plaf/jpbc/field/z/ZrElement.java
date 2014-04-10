@@ -11,28 +11,22 @@ import java.math.BigInteger;
  */
 public class ZrElement<F extends ZrField> extends AbstractBigIntegerZElement<F> {
 
-    protected BigInteger order;
-
-
     public ZrElement(F field) {
         super(field);
 
         this.value = BigInteger.ZERO;
-        this.order = field.getOrder();
     }
 
     public ZrElement(F field, BigInteger value) {
         super(field);
 
         this.value = value;
-        this.order = field.getOrder();
     }
 
     public ZrElement(ZrElement<F> zrElement) {
         super(zrElement.getField());
 
         this.value = zrElement.value;
-        this.order = zrElement.field.getOrder();
     }
 
 
@@ -50,19 +44,19 @@ public class ZrElement<F extends ZrField> extends AbstractBigIntegerZElement<F> 
     }
 
     public ZrElement set(Element value) {
-        this.value = value.toBigInteger().mod(order);
+        this.value = value.toBigInteger().mod(field.order);
 
         return this;
     }
 
     public ZrElement set(int value) {
-        this.value = BigInteger.valueOf(value).mod(order);
+        this.value = BigInteger.valueOf(value).mod(field.order);
 
         return this;
     }
 
     public ZrElement set(BigInteger value) {
-        this.value = value.mod(order);
+        this.value = value.mod(field.order);
 
         return this;
     }
@@ -76,14 +70,14 @@ public class ZrElement<F extends ZrField> extends AbstractBigIntegerZElement<F> 
     }
 
     public ZrElement twice() {
-//        this.value = value.multiply(BigIntegerUtils.TWO).mod(order);
-        this.value = value.add(value).mod(order);
+//        this.value = value.multiply(BigIntegerUtils.TWO).mod(field.order);
+        this.value = value.add(value).mod(field.order);
 
         return this;
     }
 
     public ZrElement mul(int z) {
-        this.value = this.value.multiply(BigInteger.valueOf(z)).mod(order);
+        this.value = this.value.multiply(BigInteger.valueOf(z)).mod(field.order);
 
         return this;
     }
@@ -101,13 +95,13 @@ public class ZrElement<F extends ZrField> extends AbstractBigIntegerZElement<F> 
     }
 
     public ZrElement setToRandom() {
-        this.value = BigIntegerUtils.getRandom(order, field.getRandom());
+        this.value = BigIntegerUtils.getRandom(field.order, field.getRandom());
 
         return this;
     }
 
     public ZrElement setFromHash(byte[] source, int offset, int length) {
-        int i = 0, n, count = (order.bitLength() + 7) / 8;
+        int i = 0, n, count = (field.order.bitLength() + 7) / 8;
         byte[] buf = new byte[count];
 
         byte counter = 0;
@@ -136,7 +130,7 @@ public class ZrElement<F extends ZrField> extends AbstractBigIntegerZElement<F> 
         //mpz_import(z, count, 1, 1, 1, 0, buf);
         BigInteger z = new BigInteger(1, buf);
 
-        while (z.compareTo(order) > 0) {
+        while (z.compareTo(field.order) > 0) {
             z = z.divide(BigIntegerUtils.TWO);
         }
 
@@ -151,21 +145,21 @@ public class ZrElement<F extends ZrField> extends AbstractBigIntegerZElement<F> 
 
     public int setFromBytes(byte[] source, int offset) {
         byte[] buffer = Arrays.copyOf(source, offset, field.getLengthInBytes());
-        value = new BigInteger(1, buffer).mod(order);
+        value = new BigInteger(1, buffer).mod(field.order);
 
         return buffer.length;
     }
 
     public ZrElement square() {
-//        value = value.modPow(BigIntegerUtils.TWO, order);
-        value = value.multiply(value).mod(order);
+//        value = value.modPow(BigIntegerUtils.TWO, field.order);
+        value = value.multiply(value).mod(field.order);
 
         return this;
     }
 
     public ZrElement invert() {
         try {
-            value = value.modInverse(order);
+            value = value.modInverse(field.order);
         } catch (Exception e) {
             e.printStackTrace();
             throw (RuntimeException) e;
@@ -176,8 +170,8 @@ public class ZrElement<F extends ZrField> extends AbstractBigIntegerZElement<F> 
 
     public ZrElement halve() {
         if (field.twoInverse == null)
-            throw new IllegalStateException("Cannot halve. Check order!");
-        value = value.multiply(field.twoInverse).mod(order);
+            throw new IllegalStateException("Cannot halve. Check field.order!");
+        value = value.multiply(field.twoInverse).mod(field.order);
 
         return this;
     }
@@ -188,49 +182,49 @@ public class ZrElement<F extends ZrField> extends AbstractBigIntegerZElement<F> 
             return this;
         }
 
-        value = order.subtract(value);
+        value = field.order.subtract(value);
 
         return this;
     }
 
     public ZrElement add(Element element) {
-        value = value.add(((AbstractBigIntegerZElement)element).value).mod(order);
+        value = value.add(((AbstractBigIntegerZElement)element).value).mod(field.order);
 
         return this;
     }
 
     public ZrElement sub(Element element) {
-        value = value.subtract(((ZrElement)element).value).mod(order);
+        value = value.subtract(((ZrElement)element).value).mod(field.order);
 
         return this;
     }
 
     public ZrElement div(Element element) {
-        value = value.multiply(((ZrElement)element).value.modInverse(order)).mod(order);
+        value = value.multiply(((ZrElement)element).value.modInverse(field.order)).mod(field.order);
 
         return this;
     }
 
     public ZrElement mul(Element element) {
-        value = value.multiply(((AbstractBigIntegerZElement)element).value).mod(order);
+        value = value.multiply(((AbstractBigIntegerZElement)element).value).mod(field.order);
 
         return this;
     }
 
     public ZrElement mul(BigInteger n) {
-        this.value = this.value.multiply(n).mod(order);
+        this.value = this.value.multiply(n).mod(field.order);
 
         return this;
     }
 
     public ZrElement mulZn(Element z) {
-        this.value = this.value.multiply(z.toBigInteger()).mod(order);
+        this.value = this.value.multiply(z.toBigInteger()).mod(field.order);
 
         return this;
     }
 
     public boolean isSqr() {
-        return BigInteger.ZERO.equals(value) || BigIntegerUtils.legendre(value, order) == 1;
+        return BigInteger.ZERO.equals(value) || BigIntegerUtils.legendre(value, field.order) == 1;
     }
 
     public ZrElement sqrt() {
@@ -240,14 +234,14 @@ public class ZrElement<F extends ZrField> extends AbstractBigIntegerZElement<F> 
         Element nqr = field.getNqr();
         Element gInv = nqr.duplicate().invert();
 
-        // let q be the order of the field
+        // let q be the field.order of the field
         // q - 1 = 2^s t, for some t odd
-        BigInteger t = order.subtract(BigInteger.ONE);
+        BigInteger t = field.order.subtract(BigInteger.ONE);
         int s = BigIntegerUtils.scanOne(t, 0);
         t = t.divide(BigInteger.valueOf(2 << (s - 1)));
 
         BigInteger e = BigInteger.ZERO;
-        BigInteger orderMinusOne = order.subtract(BigInteger.ONE);
+        BigInteger orderMinusOne = field.order.subtract(BigInteger.ONE);
 
         for (int i = 2; i <= s; i++) {
             e0.set(gInv).pow(e);
@@ -275,7 +269,7 @@ public class ZrElement<F extends ZrField> extends AbstractBigIntegerZElement<F> 
 
 
     public ZrElement pow(BigInteger n) {
-        this.value = this.value.modPow(n, order);
+        this.value = this.value.modPow(n, field.order);
 
         return this;
     }
@@ -319,7 +313,7 @@ public class ZrElement<F extends ZrField> extends AbstractBigIntegerZElement<F> 
         if (field.isOrderOdd()) {
             return BigIntegerUtils.isOdd(value) ? 1 : -1;
         } else {
-            return value.add(value).compareTo(order);
+            return value.add(value).compareTo(field.order);
         }
     }
 

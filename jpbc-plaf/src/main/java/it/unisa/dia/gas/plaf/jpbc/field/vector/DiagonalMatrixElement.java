@@ -8,8 +8,8 @@ import it.unisa.dia.gas.jpbc.Vector;
  */
 public class DiagonalMatrixElement<E extends Element> extends AbstractMatrixElement<E, MatrixField> {
 
-    protected Vector base;
-    protected int baseLength;
+    protected final Vector base;
+    protected final int baseLength;
 
     public DiagonalMatrixElement(MatrixField field, Vector row) {
         super(field);

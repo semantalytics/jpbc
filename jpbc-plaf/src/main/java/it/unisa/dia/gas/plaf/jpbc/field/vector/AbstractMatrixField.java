@@ -10,7 +10,7 @@ import java.security.SecureRandom;
  */
 public abstract class AbstractMatrixField<F extends Field, E extends AbstractMatrixElement> extends AbstractFieldOver<F, E> {
 
-    protected int n, m;
+    protected final int n, m;
 
     protected AbstractMatrixField(SecureRandom random, F targetField, int n, int m) {
         super(random, targetField);

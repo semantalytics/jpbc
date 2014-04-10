@@ -13,7 +13,7 @@ import java.security.SecureRandom;
 public abstract class AbstractField<E extends Element> implements Field<E> {
 
     protected boolean orderIsOdd = false;
-    protected SecureRandom random;
+    protected final SecureRandom random;
 
 
     protected AbstractField(SecureRandom random) {

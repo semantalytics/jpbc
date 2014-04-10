@@ -7,11 +7,12 @@ import it.unisa.dia.gas.jpbc.Element;
  */
 public class IdentityMatrixElement<E extends Element> extends AbstractMatrixElement<E, MatrixField>{
 
-    protected E value;
+    protected final E value;
 
     public IdentityMatrixElement(MatrixField field, E value) {
         super(field);
 
+        this.value = value;
     }
 
     @Override

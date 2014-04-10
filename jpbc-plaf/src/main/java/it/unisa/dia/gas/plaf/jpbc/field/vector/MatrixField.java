@@ -21,7 +21,7 @@ public class MatrixField<F extends Field> extends AbstractMatrixField<F, MatrixE
     }
 
 
-    protected int lenInBytes;
+    protected final int lenInBytes;
 
     public MatrixField(SecureRandom random, F targetField, int n, int m) {
         super(random, targetField, n, m);

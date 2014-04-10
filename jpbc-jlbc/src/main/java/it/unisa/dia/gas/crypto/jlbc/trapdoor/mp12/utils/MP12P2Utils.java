@@ -98,8 +98,6 @@ public class MP12P2Utils {
         return SQRT_TWO.multiply(
                 ITWO.multiply(sqrt(newApfloat(n)))
         ).multiply(RRP_SQUARE).multiply(RRP);
-
-//        return ITWO.multiply(sqrt(newApfloat(n))).multiply(RRP_SQUARE);
     }
 
     public static Sampler<BigInteger> getLWENoiseSampler(SecureRandom random, int n) {

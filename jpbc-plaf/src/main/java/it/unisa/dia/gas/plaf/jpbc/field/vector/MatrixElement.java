@@ -257,10 +257,10 @@ public class MatrixElement<E extends Element> extends AbstracArraytMatrixElement
     public Matrix<E> setSubMatrixFromMatrixAt(int row, int col, Element e) {
         // TODO: check the lengths
 
-        Matrix m = (Matrix) e;
-        for (int i = 0; i < m.getN(); i++) {
-            for (int j = 0; j < m.getM(); j++) {
-                matrix[row + i][col + j].set(m.getAt(i, j));
+        Matrix eMatrix = (Matrix) e;
+        for (int i = 0, n = eMatrix.getN(); i < n; i++) {
+            for (int j = 0, m = eMatrix.getM(); j < m; j++) {
+                matrix[row + i][col + j].set(eMatrix.getAt(i, j));
             }
         }
 
@@ -270,16 +270,16 @@ public class MatrixElement<E extends Element> extends AbstracArraytMatrixElement
     public Matrix<E> setSubMatrixFromMatrixAt(final int row, final int col, Element e, final Transformer transformer) {
         // TODO: check the lengths
 
-        final Matrix m = (Matrix) e;
+        final Matrix eMatrix = (Matrix) e;
 
         PoolExecutor pool = new PoolExecutor();
-        for (int i = 0; i < m.getN(); i++) {
+        for (int i = 0, n = eMatrix.getN(); i < n; i++) {
 
             final int finalI = i;
             pool.submit(new Runnable() {
                 public void run() {
-                    for (int j = 0; j < m.getM(); j++) {
-                        matrix[row + finalI][col + j].set(m.getAt(finalI, j));
+                    for (int j = 0, m = eMatrix.getM(); j < m; j++) {
+                        matrix[row + finalI][col + j].set(eMatrix.getAt(finalI, j));
                         transformer.transform(row + finalI, col + j, matrix[row + finalI][col + j]);
                     }
                 }
@@ -295,10 +295,10 @@ public class MatrixElement<E extends Element> extends AbstracArraytMatrixElement
     public Matrix<E> setSubMatrixFromMatrixTransposeAt(int row, int col, Element e) {
         // TODO: check the lengths
 
-        Matrix m = (Matrix) e;
-        for (int i = 0; i < m.getM(); i++) {
-            for (int j = 0; j < m.getN(); j++) {
-                matrix[row + i][col + j].set(m.getAt(j, i));
+        Matrix eMatrix = (Matrix) e;
+        for (int i = 0, n = eMatrix.getN(); i < n; i++) {
+            for (int j = 0, m = eMatrix.getM(); j < m; j++) {
+                matrix[row + i][col + j].set(eMatrix.getAt(j, i));
             }
         }
 

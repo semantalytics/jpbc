@@ -16,7 +16,7 @@ public class CurveField<F extends Field> extends AbstractFieldOver<F, CurveEleme
     public static <F extends Field> CurveField<F> newCurveFieldJ(SecureRandom random, Element j, BigInteger order, BigInteger cofac) {
         // Assumes j != 0, 1728
 
-        Element a, b;
+        final Element a, b;
 
         a = j.getField().newElement();
         b = j.getField().newElement();
@@ -31,10 +31,11 @@ public class CurveField<F extends Field> extends AbstractFieldOver<F, CurveEleme
         return new CurveField<F>(random, a, b, order, cofac);
     }
 
-    protected Element a, b;
+    protected final Element a, b;
     protected Element gen, genNoCofac;
     protected ElementPow genPow;
-    protected BigInteger order, cofac;
+    protected final BigInteger order;
+    protected BigInteger cofac;
 
     // A non-NULL quotientCmp means we are working with the quotient group of
     // order #E / quotientCmp, and the points are actually coset
@@ -70,7 +71,6 @@ public class CurveField<F extends Field> extends AbstractFieldOver<F, CurveEleme
     public CurveField(SecureRandom random, Element a, Element b, BigInteger order, BigInteger cofac, byte[] genNoCofac) {
         super(random, (F) a.getField());
 
-        this.random = random;
         this.a = a;
         this.b = b;
         this.order = order;

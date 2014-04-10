@@ -4,6 +4,7 @@ import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.plaf.jpbc.field.base.AbstractElement;
 import org.apfloat.Apfloat;
 import org.apfloat.ApfloatMath;
+import org.apfloat.Apint;
 
 import java.math.BigInteger;
 
@@ -51,7 +52,7 @@ public class FloatingElement extends AbstractElement<FloatingField> {
         if (value instanceof FloatingElement)
             this.value = ((FloatingElement) value).value;
         else
-            this.value = new Apfloat(value.toBigInteger(), field.precision, field.radix);
+            this.value = new Apint(value.toBigInteger(), field.radix);
 
 
         return this;

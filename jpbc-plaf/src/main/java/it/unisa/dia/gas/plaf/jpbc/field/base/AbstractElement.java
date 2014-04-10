@@ -13,7 +13,7 @@ import java.util.StringTokenizer;
  */
 public abstract class AbstractElement<F extends AbstractField> implements Element {
 
-    protected F field;
+    protected final F field;
     protected boolean immutable = false;
 
 
