@@ -191,6 +191,10 @@ public class CTL13MMElement implements Element {
         return this;
     }
 
+    public Element add(BigInteger element) {
+        throw new IllegalStateException("Not implemented yet!!!");
+    }
+
     public Element add(Element element) {
         CTL13MMElement e = ((CTL13MMElement) element);
 

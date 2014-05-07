@@ -36,7 +36,9 @@ public class SymmetricLongZrElement<F extends SymmetricLongZrField> extends Abst
     }
 
     public Element set(int value) {
-        throw new IllegalStateException("Not implemented yet!!!");
+        this.value = value % field.order;
+
+        return mod();
     }
 
     public Element set(BigInteger value) {
@@ -102,6 +104,13 @@ public class SymmetricLongZrElement<F extends SymmetricLongZrField> extends Abst
 
     public Element add(Element element) {
         this.value = (this.value + ((SymmetricLongZrElement) element).value) % field.order;
+
+        return mod();
+    }
+
+    @Override
+    public Element add(BigInteger element) {
+        this.value = (this.value + element.longValue()) % field.order;
 
         return mod();
     }

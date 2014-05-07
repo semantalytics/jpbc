@@ -10,7 +10,6 @@ import org.junit.runners.Parameterized;
 
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigInteger;
-import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -57,7 +56,6 @@ public class ImmutablePairingTest extends AbstractJPBCTest {
 
     @Test
     public void testImmutablePairing() throws Exception {
-        SecureRandom random = new SecureRandom();
         int n = pairing.getDegree();
         if (n == 2)
             n = 4;

@@ -85,11 +85,13 @@ public class MatrixField<F extends Field> extends AbstractMatrixField<F, MatrixE
     }
 
 
-    public Matrix union(Element a, Element b) {
+    public static Matrix unionByCol(Element a, Element b) {
         MatrixElement a1 = (MatrixElement) a;
         MatrixElement b1 = (MatrixElement) b;
 
-        MatrixField f = new MatrixField(random, targetField, a1.getField().n,
+        MatrixField f = new MatrixField<Field>(
+                a1.getField().getRandom(), a1.getTargetField(),
+                a1.getField().n,
                 a1.getField().m + b1.getField().m);
 
         MatrixElement c = f.newElement();
@@ -108,12 +110,13 @@ public class MatrixField<F extends Field> extends AbstractMatrixField<F, MatrixE
 
     }
 
-    public Element unionByRow(Element a, Element b) {
+    public static Matrix unionByRow(Element a, Element b) {
         MatrixElement a1 = (MatrixElement) a;
         MatrixElement b1 = (MatrixElement) b;
 
-        MatrixField f = new MatrixField(
-                random, targetField, a1.getField().n + b1.getField().n,
+        MatrixField f = new MatrixField<Field>(
+                a1.getField().getRandom(), a1.getTargetField(),
+                a1.getField().n + b1.getField().n,
                 a1.getField().m
         );
 

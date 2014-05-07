@@ -93,6 +93,18 @@ public class MatrixElement<E extends Element> extends AbstracArraytMatrixElement
         return this;
     }
 
+    public MatrixElement<E> add(Element e) {
+        MatrixElement m = (MatrixElement) e;
+
+        for (int i = 0; i < field.n; i++) {
+            for (int j = 0; j < field.m; j++) {
+                matrix[i][j].add(m.getAt(i, j));
+            }
+        }
+
+        return this;
+    }
+
     public Element div(Element e) {
         if (field.getTargetField().equals(e.getField())) {
             for (int i = 0; i < field.n; i++) {
@@ -117,7 +129,7 @@ public class MatrixElement<E extends Element> extends AbstracArraytMatrixElement
     }
 
     public boolean isEqual(Element e) {
-        MatrixElement<E> element = (MatrixElement<E>) e;
+        AbstractMatrixElement element = (AbstractMatrixElement) e;
 
         if (field.n != element.getField().n)
             return false;
@@ -126,8 +138,12 @@ public class MatrixElement<E extends Element> extends AbstracArraytMatrixElement
 
         for (int i = 0; i < field.n; i++)
             for (int j = 0; j < field.m; j++)
-                if (!matrix[i][j].isEqual(element.matrix[i][j]))
-                    return false;
+                if (element.isZeroAt(i, j)) {
+                    if (!matrix[i][j].isZero())
+                        return false;
+                } else
+                    if (!matrix[i][j].isEqual(element.getAt(i,j)))
+                        return false;
 
         return true;
     }

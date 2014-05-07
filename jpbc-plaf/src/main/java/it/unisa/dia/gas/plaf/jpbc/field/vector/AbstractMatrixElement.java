@@ -17,6 +17,10 @@ public abstract class AbstractMatrixElement<E extends Element, F extends Abstrac
     }
 
 
+    public F getField() {
+        return field;
+    }
+
     public Matrix<E> mulByTransposeTo(final Matrix matrix, final int offsetRow, final int offsetCol, final Transformer transformer) {
         PoolExecutor executor = new PoolExecutor();
 
@@ -30,7 +34,7 @@ public abstract class AbstractMatrixElement<E extends Element, F extends Abstrac
                         for (int k = 0; k < field.m; k++)
                             temp.add(getAt(finalI, k).duplicate().mul(getAt(j, k)));
 
-                        Element target =  matrix.getAt(offsetRow + finalI, offsetCol + j);
+                        Element target = matrix.getAt(offsetRow + finalI, offsetCol + j);
                         target.set(temp);
                         transformer.transform(offsetRow + finalI, offsetCol + j, target);
                     }
@@ -41,6 +45,45 @@ public abstract class AbstractMatrixElement<E extends Element, F extends Abstrac
         executor.awaitTermination();
 
         return this;
+    }
+
+    public Element mulFromTranspose(Element e) {
+        if (e instanceof Vector) {
+            final Vector ve = (Vector) e;
+
+
+            // Check dimensions
+
+                // Consider transpose
+
+                VectorField f = new VectorField(field.getRandom(), field.getTargetField(), field.m);
+                final VectorElement r = f.newElement();
+
+                PoolExecutor executor = new PoolExecutor();
+
+                for (int i = 0; i < f.n; i++) {
+
+                    final int finalI = i;
+                    executor.submit(new Runnable() {
+                        public void run() {
+                            // column \times row
+                            Element temp = field.getTargetField().newElement();
+                            for (int k = 0; k < field.n; k++) {
+                                if (isZeroAt(k, finalI))
+                                    continue;
+
+                                temp.add(getAt(k, finalI).duplicate().mul(ve.getAt(k)));
+                            }
+                            r.getAt(finalI).set(temp);
+                        }
+                    });
+                }
+                executor.awaitTermination();
+
+                return r;
+        }
+
+        throw new IllegalStateException("Not Implemented yet!!!");
     }
 
     public Matrix<E> mulByTranspose() {
@@ -63,7 +106,6 @@ public abstract class AbstractMatrixElement<E extends Element, F extends Abstrac
 
         return result;
     }
-
 
 
     public Field getTargetField() {
@@ -103,7 +145,14 @@ public abstract class AbstractMatrixElement<E extends Element, F extends Abstrac
     }
 
     public Vector<E> columnAt(int col) {
-        throw new IllegalStateException("Not implemented yet!!!");
+        VectorField<Field> f = new VectorField<Field>(field.getRandom(), field.getTargetField(), field.n);
+        VectorElement r = f.newElement();
+
+        for (int i = 0; i < f.n; i++)
+            if (!isZeroAt(i, col))
+                r.getAt(i).set(getAt(i, col));
+
+        return r;
     }
 
     public Matrix<E> setRowAt(int row, Element rowElement) {
@@ -280,7 +329,7 @@ public abstract class AbstractMatrixElement<E extends Element, F extends Abstrac
                                     for (int j = 0; j < 1; j++) {
                                         Element temp = field.getTargetField().newElement();
                                         for (int k = 0; k < field.m; k++) {
-                                            if (getAt(finalI, k).isZero())
+                                            if (isZeroAt(finalI, k))
                                                 continue;
 
                                             temp.add(getAt(finalI, k).duplicate().mul(ve.getAt(k)));
@@ -309,7 +358,7 @@ public abstract class AbstractMatrixElement<E extends Element, F extends Abstrac
                                     // column \times row
                                     Element temp = field.getTargetField().newElement();
                                     for (int k = 0; k < field.n; k++) {
-                                        if (getAt(k, finalI).isZero())
+                                        if (isZeroAt(k, finalI))
                                             continue;
 
                                         temp.add(getAt(k, finalI).duplicate().mul(ve.getAt(k)));
@@ -343,7 +392,7 @@ public abstract class AbstractMatrixElement<E extends Element, F extends Abstrac
                                 Element temp = field.getTargetField().newElement();
 
                                 for (int k = 0; k < field.m; k++) {
-                                    if (getAt(finalI, k).isZero())
+                                    if (isZeroAt(finalI, k))
                                         continue;
                                     temp.add(getAt(finalI, k).duplicate().mul(me.getAt(k, j)));
                                 }

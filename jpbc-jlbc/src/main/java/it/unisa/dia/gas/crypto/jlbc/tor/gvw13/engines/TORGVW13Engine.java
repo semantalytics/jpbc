@@ -6,7 +6,7 @@ import it.unisa.dia.gas.crypto.jlbc.tor.gvw13.params.TORGVW13EncryptParameters;
 import it.unisa.dia.gas.crypto.jlbc.tor.gvw13.params.TORGVW13PublicKeyParameters;
 import it.unisa.dia.gas.crypto.jlbc.tor.gvw13.params.TORGVW13RecodeParameters;
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorField;
+import it.unisa.dia.gas.plaf.jpbc.util.ElementUtils;
 import org.bouncycastle.crypto.CipherParameters;
 
 /**
@@ -59,7 +59,7 @@ public class TORGVW13Engine extends AbstractElementCipher {
         } else if (param instanceof TORGVW13RecodeParameters) {
             TORGVW13RecodeParameters keyParameters = (TORGVW13RecodeParameters) param;
 
-            return VectorField.union(input[0], input[1]).mul(keyParameters.getR());
+            return ElementUtils.union(input[0], input[1]).mul(keyParameters.getR());
         } else
             throw new IllegalArgumentException("Invalid params!!!");
     }

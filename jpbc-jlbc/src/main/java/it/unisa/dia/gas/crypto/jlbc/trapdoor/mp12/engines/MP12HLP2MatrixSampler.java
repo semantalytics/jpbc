@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.engines;
 
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Matrix;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixField;
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.ExecutorServiceUtils;
@@ -22,6 +23,8 @@ public class MP12HLP2MatrixSampler extends MP12HLP2Sampler {
         this.outputField = outputField;
     }
 
+    public MP12HLP2MatrixSampler() {
+    }
 
     @Override
     public Element processElements(Element... input) {
@@ -30,11 +33,16 @@ public class MP12HLP2MatrixSampler extends MP12HLP2Sampler {
         final Matrix result;
         if (outputField != null) {
             result = outputField.newElement();
-        } else
-            throw new IllegalStateException();
+        } else {
+            result = new MatrixField<Field>(
+                        pk.getParameters().getRandom(),
+                        pk.getZq(),
+                        pk.getM(), U.getM()
+            ).newElement();
+        }
 
         PoolExecutor pool = new PoolExecutor(EXECUTOR_SERVICE);
-        for (int i = 0, length = result.getN(); i < length; i++) {
+        for (int i = 0, length = U.getM(); i < length; i++) {
             final int finalI = i;
             pool.submit(new Runnable() {
                 public void run() {

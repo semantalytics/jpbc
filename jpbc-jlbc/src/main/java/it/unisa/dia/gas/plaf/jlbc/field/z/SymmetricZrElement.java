@@ -151,7 +151,7 @@ public class SymmetricZrElement<F extends SymmetricZrField> extends AbstractBigI
 
     public int setFromBytes(byte[] source, int offset) {
         byte[] buffer = Arrays.copyOf(source, offset, field.getLengthInBytes());
-        value = new BigInteger(buffer);
+        value = new BigInteger(1, buffer);
         mod();
 
         return buffer.length;
@@ -188,6 +188,15 @@ public class SymmetricZrElement<F extends SymmetricZrField> extends AbstractBigI
         value = field.order.subtract(value);
 
         return mod();
+    }
+
+    @Override
+    public Element add(BigInteger element) {
+        // TODO: should run mod?
+        value = value.add(element);
+
+        return mod();
+//        return this;
     }
 
     public SymmetricZrElement add(Element element) {
@@ -297,7 +306,9 @@ public class SymmetricZrElement<F extends SymmetricZrField> extends AbstractBigI
     @Override
     public byte[] toBytes() {
         mod();
-        byte[] bytes = value.add(field.order).toByteArray();
+        byte[] bytes = (value.signum() == -1)
+                ? value.add(field.order).toByteArray()
+                : value.toByteArray();
 
         if (bytes.length > field.getLengthInBytes()) {
             // strip the zero prefix
@@ -311,6 +322,7 @@ public class SymmetricZrElement<F extends SymmetricZrField> extends AbstractBigI
             System.arraycopy(bytes, 0, result, field.getLengthInBytes() - bytes.length, bytes.length);
             return result;
         }
+
         return bytes;
     }
 

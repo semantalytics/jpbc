@@ -1,8 +1,12 @@
 package it.unisa.dia.gas.plaf.jpbc.util;
 
 import it.unisa.dia.gas.jpbc.*;
+import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixField;
+import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorElement;
+import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorField;
 
 import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -93,7 +97,7 @@ public class ElementUtils {
         int n = matrix.length;
         for (int i = 0; i < n; i++) {
 
-            for (int j = i+1; j < n; j++) {
+            for (int j = i + 1; j < n; j++) {
 
                 Element temp = matrix[i][j];
                 matrix[i][j] = matrix[j][i];
@@ -129,4 +133,69 @@ public class ElementUtils {
             }
         }
     }
+
+    public static VectorElement union(Element a, Element b) {
+        VectorElement va = (VectorElement) a;
+        VectorElement vb = (VectorElement) b;
+
+        VectorField f = new VectorField(
+                va.getField().getRandom(),
+                va.getField().getTargetField(),
+                va.getSize() + vb.getSize()
+        );
+        VectorElement r = f.newElement();
+        int counter = 0;
+
+        for (int i = 0; i < va.getSize(); i++)
+            r.getAt(counter++).set(va.getAt(i));
+
+        for (int i = 0; i < vb.getSize(); i++)
+            r.getAt(counter++).set(vb.getAt(i));
+
+        return r;
+    }
+
+    public static Element bd(Element a, int k) {
+        Matrix A = (Matrix) a;
+
+        MatrixField field = new MatrixField(null, A.getTargetField(), A.getN() * k, A.getM());
+        Matrix R = field.newElement();
+
+
+        for (int i = 0, n = A.getN(); i < n; i++) {
+
+            for (int j = 0, m = A.getM(); j < m; j++) {
+
+                // TODO: introduce a toCanonicalBigInteger
+
+                BigInteger b = A.getAt(i, j).toBigInteger();
+                if (b.signum()== -1)
+                    b = b.add(A.getTargetField().getOrder());
+
+                String value = b.toString(2);
+//                System.out.println("value.length() = " + value.length());
+
+                for (int s = 0, t = value.length() - 1; s < k; s++, t--) {
+
+                    if (t < 0)
+                        R.setZeroAt((i * k) + s, j);
+                    else if (value.charAt(t) == '1')
+                        R.setOneAt((i * k) + s, j);
+                    else
+                        R.setZeroAt((i * k) + s, j);
+                }
+            }
+        }
+
+
+        return R;
+    }
+
+    public static Element newDiagonalPrimitiveMatrix(SecureRandom random, Field targetField, int n, int k) {
+        return new MatrixField<Field>(random, targetField, n, n * k).newDiagonalElement(
+                new VectorField<Field>(random, targetField, k).newPrimitiveElement()
+        );
+    }
+
+
 }

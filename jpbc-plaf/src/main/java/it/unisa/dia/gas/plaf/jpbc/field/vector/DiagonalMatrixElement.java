@@ -32,4 +32,30 @@ public class DiagonalMatrixElement<E extends Element> extends AbstractMatrixElem
 
         return (E) base.getAt(col % base.getSize());
     }
+
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("[\n");
+        for (int i = 0; i < field.n; i++) {
+
+            for (int j = 0; j < field.m; j++) {
+                if (isZeroAt(i, j))
+                    sb.append(String.format("%10s", "0"));
+                else
+                    sb.append(String.format("%10s", getAt(i, j)));
+                if (j != field.m -1)
+                    sb.append(",");
+            }
+
+            if (i != field.n -1)
+                sb.append(";\n");
+        }
+        sb.append("]\n");
+
+        return "DiagonalMatrixElement{" +
+                "matrix=\n" + sb.toString() +
+                '}';
+    }
+
+
 }

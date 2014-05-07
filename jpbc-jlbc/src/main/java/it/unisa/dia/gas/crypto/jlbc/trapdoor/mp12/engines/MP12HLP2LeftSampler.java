@@ -7,6 +7,7 @@ import it.unisa.dia.gas.jpbc.Matrix;
 import it.unisa.dia.gas.plaf.jlbc.sampler.SamplerFactory;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorField;
 import it.unisa.dia.gas.plaf.jpbc.sampler.Sampler;
+import it.unisa.dia.gas.plaf.jpbc.util.ElementUtils;
 import org.bouncycastle.crypto.CipherParameters;
 
 import java.math.BigInteger;
@@ -41,7 +42,7 @@ public class MP12HLP2LeftSampler extends MP12HLP2Sampler {
 
 //        3. output e ← (e1, e2) ∈ Zm+m1
 
-        return VectorField.union(e1, e2);
+        return ElementUtils.union(e1, e2);
     }
 
 

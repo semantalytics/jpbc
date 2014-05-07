@@ -12,6 +12,7 @@ public interface ElementCipher {
 
     public ElementCipher init(Element key);
 
+
     public Element processBytes(byte[] buffer);
 
     public Element processElements(Element... input);

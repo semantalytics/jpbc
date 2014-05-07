@@ -2,6 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.field;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.plaf.jlbc.field.z.SymmetricZrField;
 import it.unisa.dia.gas.plaf.jpbc.field.z.ZrField;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +27,9 @@ public class ElementTest {
         SecureRandom secureRandom = new SecureRandom();
 
         Object[][] data = {
-                {new ZrField(new BigInteger(1024, 12, secureRandom))}
+                {new ZrField(new BigInteger(1024, 12, secureRandom))},
+//                {new SymmetricZrField(new BigInteger(1024, 12, secureRandom))}
+                {new SymmetricZrField(new BigInteger(16, 12, secureRandom))}
         };
 
         return Arrays.asList(data);
@@ -67,6 +70,10 @@ public class ElementTest {
         Element c = field.newElement();
         int length = c.setFromBytes(a.toBytes());
 
+        System.out.println("field.getOrder() = " + field.getOrder());
+        System.out.println("a = " + a);
+        System.out.println("c = " + c);
+
         assertTrue(c.isEqual(a));
         assertEquals(length, field.getLengthInBytes(c));
     }
@@ -75,6 +82,9 @@ public class ElementTest {
     public void testToFromBytes2() {
         Element a = field.newRandomElement();
         Element c = field.newElementFromBytes(a.toBytes());
+
+        System.out.println("a = " + a);
+        System.out.println("c = " + c);
 
         assertTrue(c.isEqual(a));
     }

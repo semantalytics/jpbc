@@ -89,7 +89,6 @@ public interface Element extends ElementPow, Comparable  {
      */
     Element set(BigInteger value);
 
-
     /**
      * Converts this to a BigInteger if such operation makes sense.
      *
@@ -243,6 +242,16 @@ public interface Element extends ElementPow, Comparable  {
      * @since 1.0.0
      */
     Element negate();
+
+
+    /**
+     * Sets this = this + element.
+     *
+     * @param element the value to be added.
+     * @return this + element.
+     * @since 1.0.0
+     */
+    Element add(BigInteger element);
 
     /**
      * Sets this = this + element.

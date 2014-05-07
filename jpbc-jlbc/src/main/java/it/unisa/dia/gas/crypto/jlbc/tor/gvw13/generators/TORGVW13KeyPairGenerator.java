@@ -34,7 +34,7 @@ public class TORGVW13KeyPairGenerator implements AsymmetricCipherKeyPairGenerato
         gen.init(new MP12HLP2KeyPairGenerationParameters(
                 params.getRandom(),
                 params.getParameters().getN(),  // n
-                256                              // k
+                64                             // k
         ));
     }
 

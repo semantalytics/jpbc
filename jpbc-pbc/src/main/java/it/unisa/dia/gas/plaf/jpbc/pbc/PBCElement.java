@@ -160,6 +160,10 @@ public class PBCElement implements Element {
         return this;
     }
 
+    public Element add(BigInteger element) {
+        throw new IllegalStateException("Not implemented yet!!!");
+    }
+
     public PBCElement add(Element element) {
         WrapperLibraryProvider.getWrapperLibrary().pbc_element_add(value, value, ((PBCElement) element).value);
 

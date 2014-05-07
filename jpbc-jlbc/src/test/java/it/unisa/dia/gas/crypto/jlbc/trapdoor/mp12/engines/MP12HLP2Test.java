@@ -8,6 +8,7 @@ import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Matrix;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixElement;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixField;
+import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorField;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.junit.Assert;
 import org.junit.Before;
@@ -17,6 +18,7 @@ import java.security.SecureRandom;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
@@ -25,6 +27,8 @@ public class MP12HLP2Test {
 
     private MP12HLP2KeyPairGenerator gen;
     private AsymmetricCipherKeyPair keyPair;
+    private MP12HLP2PublicKeyParameters pk;
+    private MP12HLP2PrivateKeyParameters sk;
     private SecureRandom random;
 
     @Before
@@ -36,9 +40,11 @@ public class MP12HLP2Test {
         gen.init(new MP12HLP2KeyPairGenerationParameters(
                 random,
                 4, // n
-                256 // k
+                32 // k
         ));
         keyPair = gen.generateKeyPair();
+        pk = (MP12HLP2PublicKeyParameters) keyPair.getPublic();
+        sk = (MP12HLP2PrivateKeyParameters) keyPair.getPrivate();
         gen.store(keyPair);
 
         long end = System.currentTimeMillis();
@@ -109,7 +115,6 @@ public class MP12HLP2Test {
         assertEquals(U, U2);
     }
 
-
     @Test
     public void testInverter() throws Exception {
         // b=OWF(s)
@@ -138,7 +143,6 @@ public class MP12HLP2Test {
         Assert.assertEquals(s, sPrime);
     }
 
-
     @Test
     public void testErrorTolerantOneTimePad() throws Exception {
         // Init OWF
@@ -163,6 +167,22 @@ public class MP12HLP2Test {
         System.out.println("bytesPrime = " + Arrays.toString(bytesPrime));
 
         Assert.assertArrayEquals(bytes, bytesPrime);
+    }
+
+    @Test
+    public void testLeftSampler() throws Exception {
+        MP12HLP2LeftSampler sampler = new MP12HLP2LeftSampler();
+        sampler.init(new MP12HLP2SampleLeftParameters(keyPair));
+
+        Element A1 = pk.getA().getField().newRandomElement();
+        Element u = VectorField.newRandomElement(pk.getZq(), pk.getParameters().getN());
+
+        Element F = MatrixField.unionByCol(pk.getA(), A1);
+
+        Element rOut = sampler.processElements(A1, u);
+        Element uPrime = F.mul(rOut);
+
+        assertTrue(u.equals(uPrime));
     }
 
 }

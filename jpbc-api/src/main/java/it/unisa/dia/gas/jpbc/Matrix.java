@@ -47,6 +47,8 @@ public interface Matrix <E extends Element> extends Element {
 
     Matrix<E> mulByTransposeTo(Matrix matrix, int offsetRow, int offsetCol, Transformer transformer);
 
+    Element mulFromTranspose(Element e);
+
     Matrix<E> transform(Transformer transformer);
 
 

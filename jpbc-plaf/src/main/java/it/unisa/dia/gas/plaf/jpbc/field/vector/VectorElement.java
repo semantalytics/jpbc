@@ -210,7 +210,7 @@ public class VectorElement<E extends Element> extends AbstractVectorElement<E, V
         return this;
     }
 
-    public VectorElement<E> mul(Element e) {
+    public Element mul(Element e) {
         if (e instanceof MatrixElement) {
             MatrixElement me = (MatrixElement) e;
 
@@ -241,6 +241,25 @@ public class VectorElement<E extends Element> extends AbstractVectorElement<E, V
                     return r;
                 }
             }
+        } else if (e instanceof VectorElement) {
+            VectorElement me = (VectorElement) e;
+
+            if (field.getTargetField().equals(me.getField().getTargetField())) {
+
+                if (this.getSize() == me.getField().n) {
+
+                    Element temp = field.getTargetField().newElement();
+                    for (int k = 0; k < getSize(); k++) {
+                        temp.add(
+                                getAt(k).duplicate().mul(me.getAt(k))
+                        );
+                    }
+
+                    return temp;
+                }
+
+            }
+
         }
 
         throw new IllegalStateException("Not Implemented yet!!!");

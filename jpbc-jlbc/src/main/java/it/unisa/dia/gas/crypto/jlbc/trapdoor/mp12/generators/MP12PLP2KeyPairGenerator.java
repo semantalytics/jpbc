@@ -27,7 +27,7 @@ public class MP12PLP2KeyPairGenerator implements AsymmetricCipherKeyPairGenerato
     protected BigInteger q;
     protected Sampler<BigInteger> discreteGaussianSampler;
 
-    protected Vector g; // primitiv vector
+    protected Vector g; // primitive vector
     protected Matrix G; // parity-check matrix
 
     protected Field syndromeField;

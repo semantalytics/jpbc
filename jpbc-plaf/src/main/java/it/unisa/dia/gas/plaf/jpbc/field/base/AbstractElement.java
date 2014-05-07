@@ -73,6 +73,10 @@ public abstract class AbstractElement<F extends AbstractField> implements Elemen
         return mul(field.newElement().set(2).invert());
     }
 
+    public Element add(BigInteger element) {
+        throw new IllegalStateException("Not Implemented yet!");
+    }
+
     public Element sub(Element element) {
         add(element.duplicate().negate());
         return this;
