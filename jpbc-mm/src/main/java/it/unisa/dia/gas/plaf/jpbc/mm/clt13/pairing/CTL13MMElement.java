@@ -72,6 +72,10 @@ public class CTL13MMElement implements Element {
         return value;
     }
 
+    public BigInteger toCanonicalBigInteger() {
+        return new BigInteger(toCanonicalRepresentation());
+    }
+
     public Element setToRandom() {
         this.value = field.getInstance().sampleAtLevel(index);
 

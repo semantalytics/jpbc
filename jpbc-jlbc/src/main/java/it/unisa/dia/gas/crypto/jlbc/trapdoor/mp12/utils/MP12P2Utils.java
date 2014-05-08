@@ -86,6 +86,7 @@ public class MP12P2Utils {
      */
     public static Apfloat RRP = convert(new Apfloat("4.5"));
     public static Apfloat RRP_SQUARE = square(RRP);
+    public static Apfloat TWICE_RRP = convert(new Apfloat("9"));
 
     public static Apfloat TWO_RRP = convert(new Apfloat("4.5")).multiply(ITWO);
     public static Apfloat TWO_RRP_SQUARE = square(TWO_RRP);

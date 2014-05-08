@@ -15,4 +15,9 @@ public abstract class AbstractBigIntegerZElement<F extends AbstractField> extend
     protected AbstractBigIntegerZElement(F field) {
         super(field);
     }
+
+    public BigInteger toBigInteger() {
+        return value;
+    }
+
 }

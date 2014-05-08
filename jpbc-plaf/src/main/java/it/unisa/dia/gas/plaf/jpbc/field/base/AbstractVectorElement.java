@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.field.base;
 
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.Field;
 import it.unisa.dia.gas.jpbc.Vector;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorField;
 
@@ -27,18 +28,16 @@ public abstract class AbstractVectorElement<E extends Element, F extends Abstrac
     }
 
     public Vector<E> subVectorFrom(int start) {
-        VectorField vf = new VectorField(field.getRandom(), field.getTargetField(), getSize() - start);
-        Vector v = vf.newElement();
+        Vector v = new VectorField<Field>(field.getRandom(), field.getTargetField(), getSize() - start).newElement();
 
-        for (int i = 0, n = vf.getN(); i < n; i++)
+        for (int i = 0, n = v.getSize(); i < n; i++)
             v.getAt(i).set(getAt(start + i));
 
         return v;
     }
 
     public Vector<E> subVectorTo(int end) {
-        VectorField vf = new VectorField(field.getRandom(), field.getTargetField(), end);
-        Vector v = vf.newElement();
+        Vector v = new VectorField<Field>(field.getRandom(), field.getTargetField(), end).newElement();
 
         for (int i = 0; i < end; i++)
             v.getAt(i).set(getAt(i));

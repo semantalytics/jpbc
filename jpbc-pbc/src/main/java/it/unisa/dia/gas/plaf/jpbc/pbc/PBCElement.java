@@ -243,6 +243,10 @@ public class PBCElement implements Element {
         return new BigInteger(mpzElement.toString(10));
     }
 
+    public BigInteger toCanonicalBigInteger() {
+        return toBigInteger();
+    }
+
     public byte[] toBytes() {
         int numBytes = WrapperLibraryProvider.getWrapperLibrary().pbc_element_length_in_bytes(value);
         byte[] bytes = new byte[numBytes];

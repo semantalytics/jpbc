@@ -191,7 +191,7 @@ public class SymmetricZrElement<F extends SymmetricZrField> extends AbstractBigI
     }
 
     @Override
-    public Element add(BigInteger element) {
+    public SymmetricZrElement add(BigInteger element) {
         // TODO: should run mod?
         value = value.add(element);
 
@@ -299,10 +299,6 @@ public class SymmetricZrElement<F extends SymmetricZrField> extends AbstractBigI
         return this == e || (e instanceof SymmetricZrElement && value.compareTo(((SymmetricZrElement) e).value) == 0);
     }
 
-    public BigInteger toBigInteger() {
-        return value;
-    }
-
     @Override
     public byte[] toBytes() {
         mod();
@@ -335,6 +331,15 @@ public class SymmetricZrElement<F extends SymmetricZrField> extends AbstractBigI
         } else {
             return value.add(value).compareTo(field.order);
         }
+    }
+
+    @Override
+    public BigInteger toCanonicalBigInteger() {
+        BigInteger res = value;
+        if (res.signum() == -1)
+            res = res.add(field.order);
+
+        return res;
     }
 
     public String toString() {

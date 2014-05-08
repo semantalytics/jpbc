@@ -34,6 +34,10 @@ public abstract class AbstractElement<F extends AbstractField> implements Elemen
         throw new IllegalStateException("Not Implemented yet!");
     }
 
+    public BigInteger toCanonicalBigInteger() {
+        return toBigInteger();
+    }
+
     public int getLengthInBytes() {
         return field.getLengthInBytes();
     }

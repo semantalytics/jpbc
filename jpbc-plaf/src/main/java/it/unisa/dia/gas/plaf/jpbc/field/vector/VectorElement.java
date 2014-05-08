@@ -188,6 +188,7 @@ public class VectorElement<E extends Element> extends AbstractVectorElement<E, V
 
     public VectorElement<E> add(Element... es) {
         int cursor = 0;
+
         for (Element e : es) {
             VectorElement<E> element = (VectorElement<E>) e;
 

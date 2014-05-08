@@ -98,6 +98,14 @@ public interface Element extends ElementPow, Comparable  {
     BigInteger toBigInteger();
 
     /**
+     * Converts this to a BigInteger if such operation makes sense.
+     *
+     * @return a BigInteger which represents this element.
+     * @since 2.2.0
+     */
+    BigInteger toCanonicalBigInteger();
+
+    /**
      * Sets this element to value.
      *
      * @param value the new value of this element.

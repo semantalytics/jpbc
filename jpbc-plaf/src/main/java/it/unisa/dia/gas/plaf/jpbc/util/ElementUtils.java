@@ -138,7 +138,7 @@ public class ElementUtils {
         VectorElement va = (VectorElement) a;
         VectorElement vb = (VectorElement) b;
 
-        VectorField f = new VectorField(
+        VectorField f = new VectorField<Field>(
                 va.getField().getRandom(),
                 va.getField().getTargetField(),
                 va.getSize() + vb.getSize()
@@ -157,26 +157,14 @@ public class ElementUtils {
 
     public static Element bd(Element a, int k) {
         Matrix A = (Matrix) a;
-
-        MatrixField field = new MatrixField(null, A.getTargetField(), A.getN() * k, A.getM());
-        Matrix R = field.newElement();
-
+        Matrix R = new MatrixField<Field>(null, A.getTargetField(), A.getN() * k, A.getM()).newElement();
 
         for (int i = 0, n = A.getN(); i < n; i++) {
 
             for (int j = 0, m = A.getM(); j < m; j++) {
-
-                // TODO: introduce a toCanonicalBigInteger
-
-                BigInteger b = A.getAt(i, j).toBigInteger();
-                if (b.signum()== -1)
-                    b = b.add(A.getTargetField().getOrder());
-
-                String value = b.toString(2);
-//                System.out.println("value.length() = " + value.length());
+                String value = A.getAt(i, j).toCanonicalBigInteger().toString(2);
 
                 for (int s = 0, t = value.length() - 1; s < k; s++, t--) {
-
                     if (t < 0)
                         R.setZeroAt((i * k) + s, j);
                     else if (value.charAt(t) == '1')
@@ -186,7 +174,6 @@ public class ElementUtils {
                 }
             }
         }
-
 
         return R;
     }

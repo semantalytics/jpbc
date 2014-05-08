@@ -19,7 +19,6 @@ public class ContinuousGaussianSamplerVectorSampler implements Sampler<Vector> {
     protected int precision, n;
     protected VectorField<FloatingField> vf;
     protected FloatingField ff;
-//    ZigguratGaussianSampler s = new ZigguratGaussianSampler();
 
     public ContinuousGaussianSamplerVectorSampler(SecureRandom random, int precision, int n) {
         if (random == null)

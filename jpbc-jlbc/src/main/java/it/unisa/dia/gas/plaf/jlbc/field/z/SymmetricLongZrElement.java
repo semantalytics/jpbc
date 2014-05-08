@@ -51,6 +51,14 @@ public class SymmetricLongZrElement<F extends SymmetricLongZrField> extends Abst
         return BigInteger.valueOf(value);
     }
 
+    public BigInteger toCanonicalBigInteger() {
+        long res = value;
+        if (res < 0)
+            res += field.order;
+
+        return BigInteger.valueOf(res);
+    }
+
     public Element setToRandom() {
         // TODO: fix this.
         this.value = Math.abs(field.getRandom().nextLong()) % field.order;
