@@ -116,6 +116,10 @@ public class DefaultCircuit implements Circuit {
                     this.value = getInputAt(0).isSet() || getInputAt(1).isSet();
                     break;
 
+                case NAND:
+                    this.value = !(getInputAt(0).isSet() && getInputAt(1).isSet());
+                    break;
+
                 default:
                     throw new IllegalStateException("Invalid type");
             }

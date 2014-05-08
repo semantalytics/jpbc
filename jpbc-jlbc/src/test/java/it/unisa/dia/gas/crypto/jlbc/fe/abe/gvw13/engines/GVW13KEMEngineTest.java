@@ -33,18 +33,15 @@ public class GVW13KEMEngineTest {
 
     @Test
     public void testGVW13KEMEngine() {
-//        int ell = 2;
-//        int q = 1;
-//        Circuit circuit = new DefaultCircuit(ell, q, 2, new DefaultCircuit.DefaultGate[]{
-//                new DefaultCircuit.DefaultGate(INPUT, 0, 1),
-//                new DefaultCircuit.DefaultGate(INPUT, 1, 1),
-//
-//                new DefaultCircuit.DefaultGate(AND, 2, 2, new int[]{0, 1}),
-//        });
-
         int ell = 4;
+        int depth = 3;
+
+        // Setup
+        AsymmetricCipherKeyPair keyPair = setup(ell, depth);
+
+        // Key Gen
         int q = 3;
-        Circuit circuit = new DefaultCircuit(ell, q, 3, new DefaultCircuit.DefaultGate[]{
+        Circuit circuit = new DefaultCircuit(ell, q, depth, new DefaultCircuit.DefaultGate[]{
                 new DefaultCircuit.DefaultGate(INPUT, 0, 1),
                 new DefaultCircuit.DefaultGate(INPUT, 1, 1),
                 new DefaultCircuit.DefaultGate(INPUT, 2, 1),
@@ -55,11 +52,9 @@ public class GVW13KEMEngineTest {
 
                 new DefaultCircuit.DefaultGate(AND, 6, 3, new int[]{4, 5}),
         });
-
-
-        AsymmetricCipherKeyPair keyPair = setup(createParameters(ell));
         GVW13SecretKeyParameters secretKey = (GVW13SecretKeyParameters) keyGen(keyPair.getPublic(), keyPair.getPrivate(), circuit);
 
+        // Encaps/Decaps for a satisfying assignment
         String assignment = "1111";
         byte[][] ct = encaps(keyPair.getPublic(), assignment);
         byte[] key = ct[0];
@@ -69,6 +64,7 @@ public class GVW13KEMEngineTest {
         System.out.println("keyPrime = " + Arrays.toString(keyPrime));
         assertEquals(true, Arrays.equals(key, keyPrime));
 
+        // Encaps/Decaps for a non-satisfying assignment
         assignment = "0001";
         ct = encaps(keyPair.getPublic(), assignment);
         key = ct[0];
@@ -80,13 +76,12 @@ public class GVW13KEMEngineTest {
     }
 
 
-    protected GVW13Parameters createParameters(int ell) {
-        return new GVW13ParametersGenerator(random, ell, 5).generateParameters();
-    }
-
-    protected AsymmetricCipherKeyPair setup(GVW13Parameters parameters) {
+    protected AsymmetricCipherKeyPair setup(int ell, int depth) {
         GVW13KeyPairGenerator setup = new GVW13KeyPairGenerator();
-        setup.init(new GVW13KeyPairGenerationParameters(random, parameters));
+        setup.init(new GVW13KeyPairGenerationParameters(
+            random,
+            new GVW13ParametersGenerator(random, ell, depth).generateParameters())
+        );
 
         return setup.generateKeyPair();
     }

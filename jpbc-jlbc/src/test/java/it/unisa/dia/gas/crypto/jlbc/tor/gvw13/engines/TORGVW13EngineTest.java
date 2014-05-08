@@ -13,10 +13,11 @@ import java.security.SecureRandom;
 
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
+ * TODO: add asserts
  */
 public class TORGVW13EngineTest {
 
-    private AsymmetricCipherKeyPair keyPair0, keyPair1, keyPair2, keyPair3;
+    private AsymmetricCipherKeyPair keyPair0, keyPair1, keyPair2;
     private TORGVW13PublicKeyParameters pk0, pk1, pk2, pk3;
     private SecureRandom random;
 
@@ -24,19 +25,21 @@ public class TORGVW13EngineTest {
     public void setUp() throws Exception {
         random = SecureRandom.getInstance("SHA1PRNG");
 
-        TORGVW13Parameters parameters = new TORGVW13Parameters(random, 4, 5);
+        TORGVW13Parameters parameters = new TORGVW13Parameters(
+                random,
+                4,  // n
+                5   // depth
+        );
 
         TORGVW13KeyPairGenerator keyPairGenerator = new TORGVW13KeyPairGenerator();
         keyPairGenerator.init(new TORGVW13KeyPairGenerationParameters(random, 100, parameters));
         keyPair0 = keyPairGenerator.generateKeyPair();
         keyPair1 = keyPairGenerator.generateKeyPair();
         keyPair2 = keyPairGenerator.generateKeyPair();
-        keyPair3 = keyPairGenerator.generateKeyPair();
 
         pk0 =  (TORGVW13PublicKeyParameters) keyPair0.getPublic();
         pk1 =  (TORGVW13PublicKeyParameters) keyPair1.getPublic();
         pk2 =  (TORGVW13PublicKeyParameters) keyPair2.getPublic();
-        pk3 =  (TORGVW13PublicKeyParameters) keyPair3.getPublic();
     }
 
     @Test

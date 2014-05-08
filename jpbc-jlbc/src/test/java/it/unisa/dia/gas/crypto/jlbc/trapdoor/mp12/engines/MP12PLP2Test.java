@@ -21,14 +21,13 @@ public class MP12PLP2Test {
 
     @Before
     public void setUp() throws Exception {
-        random = new SecureRandom();
+        this.random = SecureRandom.getInstance("SHA1PRNG");
 
-        gen = new MP12PLP2KeyPairGenerator();
-        gen.init(new MP12PLP2KeyPairGenerationParameters(
+        this.gen = new MP12PLP2KeyPairGenerator();
+        this.gen.init(new MP12PLP2KeyPairGenerationParameters(
                 random,
                 4,  // n
                 32  // k
-                // s
         ));
     }
 

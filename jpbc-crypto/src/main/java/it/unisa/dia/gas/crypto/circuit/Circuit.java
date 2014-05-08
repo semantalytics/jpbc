@@ -23,7 +23,7 @@ public interface Circuit extends Iterable<Circuit.Gate> {
 
     interface Gate {
 
-        public static enum Type {INPUT, AND, OR}
+        public static enum Type {INPUT, AND, OR, NAND}
 
         Type getType();
 

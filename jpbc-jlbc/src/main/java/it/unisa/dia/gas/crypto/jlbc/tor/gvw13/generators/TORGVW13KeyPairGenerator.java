@@ -63,7 +63,8 @@ public class TORGVW13KeyPairGenerator implements AsymmetricCipherKeyPairGenerato
                 new TORGVW13SecretKeyParameters(
                         params.getParameters(),
                         keyPair.getPrivate(),
-                        gen.getOutputField())
+                        gen.getOutputField()
+                )
         );
     }
 
