@@ -35,7 +35,7 @@ public class MP12HLP2LeftSampler extends MP12HLP2Sampler {
         Matrix M = (Matrix) input[0];
         Element u = input[1].duplicate();
 
-        //  1. sample a random vector e2 ∈ Zm1 distributed statistically close to DZm1 ,σ ,
+        //  1. sample a random vector e2 ∈ Zm1 distributed statistically close to DZm1,σ ,
         Element e2 = new VectorField<Field>(
                 parameters.getParameters().getRandom(),
                 M.getTargetField(),

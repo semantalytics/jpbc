@@ -128,26 +128,6 @@ public class MatrixElement<E extends Element> extends AbstracArraytMatrixElement
         return this;
     }
 
-    public boolean isEqual(Element e) {
-        AbstractMatrixElement element = (AbstractMatrixElement) e;
-
-        if (field.n != element.getField().n)
-            return false;
-        if (field.m != element.getField().m)
-            return false;
-
-        for (int i = 0; i < field.n; i++)
-            for (int j = 0; j < field.m; j++)
-                if (element.isZeroAt(i, j)) {
-                    if (!matrix[i][j].isZero())
-                        return false;
-                } else
-                    if (!matrix[i][j].isEqual(element.getAt(i,j)))
-                        return false;
-
-        return true;
-    }
-
     public int setFromBytes(byte[] source) {
         return setFromBytes(source, 0);
     }

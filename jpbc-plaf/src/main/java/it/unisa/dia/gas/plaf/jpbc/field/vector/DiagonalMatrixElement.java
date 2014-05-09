@@ -3,6 +3,8 @@ package it.unisa.dia.gas.plaf.jpbc.field.vector;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Vector;
 
+import java.math.BigInteger;
+
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
@@ -19,9 +21,18 @@ public class DiagonalMatrixElement<E extends Element> extends AbstractMatrixElem
     }
 
     @Override
+    public Element duplicate() {
+        return new DiagonalMatrixElement<E>(field, (Vector) base.duplicate());
+    }
+
+    @Override
     public boolean isZeroAt(int row, int col) {
         int colOffset = row * base.getSize();
-        return !(col >= colOffset && col < colOffset + baseLength);
+
+        if (col >= colOffset && col < colOffset + baseLength) {
+            return base.getAt(col % baseLength).isZero();
+        } else
+            return true;
     }
 
     @Override
@@ -30,7 +41,7 @@ public class DiagonalMatrixElement<E extends Element> extends AbstractMatrixElem
         if (isZeroAt(row, col))
             throw new IllegalStateException("Invalid Position");
 
-        return (E) base.getAt(col % base.getSize());
+        return (E) base.getAt(col % baseLength);
     }
 
     public String toString() {
@@ -57,5 +68,9 @@ public class DiagonalMatrixElement<E extends Element> extends AbstractMatrixElem
                 '}';
     }
 
-
+    @Override
+    public Element mul(BigInteger n) {
+        base.mul(n);
+        return this;
+    }
 }

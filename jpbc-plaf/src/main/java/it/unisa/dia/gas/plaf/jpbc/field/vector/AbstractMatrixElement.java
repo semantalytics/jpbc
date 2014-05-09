@@ -243,8 +243,24 @@ public abstract class AbstractMatrixElement<E extends Element, F extends Abstrac
         throw new IllegalStateException("Not implemented yet!!!");
     }
 
-    public boolean isEqual(Element value) {
-        throw new IllegalStateException("Not implemented yet!!!");
+    public boolean isEqual(Element e) {
+        AbstractMatrixElement element = (AbstractMatrixElement) e;
+
+        if (field.n != element.getField().n)
+            return false;
+        if (field.m != element.getField().m)
+            return false;
+
+        for (int i = 0; i < field.n; i++)
+            for (int j = 0; j < field.m; j++)
+                if (element.isZeroAt(i, j)) {
+                    if (!isZeroAt(i,j))
+                        return false;
+                } else
+                if (!getAt(i,j).isEqual(element.getAt(i,j)))
+                    return false;
+
+        return true;
     }
 
     public boolean isOne() {
@@ -264,7 +280,14 @@ public abstract class AbstractMatrixElement<E extends Element, F extends Abstrac
     }
 
     public Element mul(BigInteger n) {
-        throw new IllegalStateException("Not implemented yet!!!");
+        for (int i = 0; i < field.n; i++) {
+            for (int j = 0; j < field.m; j++) {
+                if (!isZeroAt(i, j))
+                    getAt(i, j).mul(n);
+            }
+        }
+
+        return this;
     }
 
     public boolean isSqr() {

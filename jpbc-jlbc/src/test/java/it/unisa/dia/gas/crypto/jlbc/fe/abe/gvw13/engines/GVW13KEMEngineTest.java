@@ -33,10 +33,10 @@ public class GVW13KEMEngineTest {
 
     @Test
     public void testGVW13KEMEngine() {
+        // Setup
         int ell = 4;
         int depth = 3;
 
-        // Setup
         AsymmetricCipherKeyPair keyPair = setup(ell, depth);
 
         // Key Gen
