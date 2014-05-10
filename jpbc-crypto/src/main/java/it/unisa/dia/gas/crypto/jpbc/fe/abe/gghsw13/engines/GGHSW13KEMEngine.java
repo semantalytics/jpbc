@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.engines;
 
-import it.unisa.dia.gas.crypto.circuit.Circuit;
+import it.unisa.dia.gas.crypto.circuit.BooleanCircuit;
+import it.unisa.dia.gas.crypto.circuit.BooleanGate;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.params.GGHSW13EncryptionParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.params.GGHSW13KeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.params.GGHSW13PublicKeyParameters;
@@ -52,19 +53,19 @@ public class GGHSW13KEMEngine extends PairingKeyEncapsulationMechanism {
                     cs[i] = reader.readG1Element();
 
             // Evaluate the circuit against the ciphertext
-            Circuit circuit = sk.getCircuit();
+            BooleanCircuit circuit = sk.getCircuit();
             Element root = pairing.pairing(sk.getKeyElementsAt(-1)[0], gs);
 
             // evaluate the circuit
             Map<Integer, Element> evaluations = new HashMap<Integer, Element>();
-            for (Circuit.Gate gate : sk.getCircuit()) {
+            for (BooleanGate gate : sk.getCircuit()) {
                 int index = gate.getIndex();
 
                 switch (gate.getType()) {
                     case INPUT:
                         gate.set(assignment.charAt(index) == '1');
 
-                        if (gate.isSet()) {
+                        if (gate.get()) {
                             Element[] keys = sk.getKeyElementsAt(index);
                             Element t1 = pairing.pairing(keys[0], gs);
                             Element t2 = pairing.pairing(keys[1], cs[index]);
@@ -77,7 +78,7 @@ public class GGHSW13KEMEngine extends PairingKeyEncapsulationMechanism {
                     case OR:
                         gate.evaluate();
 
-                        if (gate.getInputAt(0).isSet()) {
+                        if (gate.getInputAt(0).get()) {
                             Element[] keys = sk.getKeyElementsAt(index);
                             Element t1 = pairing.pairing(
                                     evaluations.get(gate.getInputAt(0).getIndex()),
@@ -90,7 +91,7 @@ public class GGHSW13KEMEngine extends PairingKeyEncapsulationMechanism {
                             );
 
                             evaluations.put(index, t1.mul(t2));
-                        } else if (gate.getInputAt(1).isSet()) {
+                        } else if (gate.getInputAt(1).get()) {
                             Element[] keys = sk.getKeyElementsAt(index);
                             Element t1 = pairing.pairing(
                                     evaluations.get(gate.getInputAt(1).getIndex()),
@@ -110,7 +111,7 @@ public class GGHSW13KEMEngine extends PairingKeyEncapsulationMechanism {
                     case AND:
                         gate.evaluate();
 
-                        if (gate.isSet()) {
+                        if (gate.get()) {
                             Element[] keys = sk.getKeyElementsAt(index);
                             Element t1 = pairing.pairing(
                                     evaluations.get(gate.getInputAt(0).getIndex()),
@@ -134,7 +135,7 @@ public class GGHSW13KEMEngine extends PairingKeyEncapsulationMechanism {
                 }
             }
 
-            if (circuit.getOutputGate().isSet()) {
+            if (circuit.getOutputGate().get()) {
                 Element result = root.mul(evaluations.get(circuit.getOutputGate().getIndex()));
 
                 return result.toCanonicalRepresentation();

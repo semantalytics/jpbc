@@ -94,11 +94,12 @@ public class MatrixElement<E extends Element> extends AbstracArraytMatrixElement
     }
 
     public MatrixElement<E> add(Element e) {
-        MatrixElement m = (MatrixElement) e;
+        AbstractMatrixElement m = (AbstractMatrixElement) e;
 
         for (int i = 0; i < field.n; i++) {
             for (int j = 0; j < field.m; j++) {
-                matrix[i][j].add(m.getAt(i, j));
+                if (!m.isZeroAt(i, j))
+                    matrix[i][j].add(m.getAt(i, j));
             }
         }
 
@@ -137,49 +138,6 @@ public class MatrixElement<E extends Element> extends AbstracArraytMatrixElement
             return isEqual((Element) obj);
         return super.equals(obj);
     }
-
-    public String toString() {
-        StringBuffer sb = new StringBuffer();
-        sb.append("[\n");
-        for (int i = 0; i < field.n; i++) {
-
-            for (int j = 0; j < field.m; j++) {
-                sb.append(String.format("%10s", matrix[i][j]));
-                if (j != field.m -1)
-                    sb.append(",");
-            }
-
-            if (i != field.n -1)
-                sb.append(";\n");
-        }
-        sb.append("]\n");
-
-        return "MatrixElement{" +
-                "matrix=\n" + sb.toString() +
-                '}';
-    }
-
-    public String toStringSubMatrix(int startRow, int startCol) {
-        StringBuffer sb = new StringBuffer();
-        sb.append("[\n");
-        for (int i = startRow; i < field.n; i++) {
-
-            for (int j = startCol; j < field.m; j++) {
-                sb.append(String.format("%10s", matrix[i][j]));
-                if (j != field.m -1)
-                    sb.append(",");
-            }
-
-            if (i != field.n -1)
-                sb.append(";\n");
-        }
-        sb.append("]\n");
-
-        return "MatrixElement{" +
-                "matrix=\n" + sb.toString() +
-                '}';
-    }
-
 
     public Vector<E> rowAt(int row) {
         VectorField<Field> f = new VectorField<Field>(field.getRandom(), field.getTargetField(), field.m);

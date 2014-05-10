@@ -1,7 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13;
 
-import it.unisa.dia.gas.crypto.circuit.Circuit;
-import it.unisa.dia.gas.crypto.circuit.DefaultCircuit;
+import it.unisa.dia.gas.crypto.circuit.BooleanCircuit;
 import it.unisa.dia.gas.crypto.jpbc.AbstractJPBCCryptoTest;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.engines.GGHSW13KEMEngine;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.generators.GGHSW13KeyPairGenerator;
@@ -21,8 +20,8 @@ import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Collection;
 
-import static it.unisa.dia.gas.crypto.circuit.Circuit.Gate.Type.*;
-import static it.unisa.dia.gas.crypto.circuit.DefaultCircuit.DefaultGate;
+import static it.unisa.dia.gas.crypto.circuit.BooleanCircuit.BooleanCircuitGate;
+import static it.unisa.dia.gas.crypto.circuit.Gate.Type.*;
 import static org.junit.Assert.*;
 
 /**
@@ -56,16 +55,16 @@ public class GGHSW13KEMEngineTest extends AbstractJPBCCryptoTest {
     public void testGGHSW13KEMEngine() {
         int n = 4;
         int q = 3;
-        Circuit circuit = new DefaultCircuit(n, q, 3, new DefaultGate[]{
-                new DefaultGate(INPUT, 0, 1),
-                new DefaultGate(INPUT, 1, 1),
-                new DefaultGate(INPUT, 2, 1),
-                new DefaultGate(INPUT, 3, 1),
+        BooleanCircuit circuit = new BooleanCircuit(n, q, 3, new BooleanCircuitGate[]{
+                new BooleanCircuitGate(INPUT, 0, 1),
+                new BooleanCircuitGate(INPUT, 1, 1),
+                new BooleanCircuitGate(INPUT, 2, 1),
+                new BooleanCircuitGate(INPUT, 3, 1),
 
-                new DefaultGate(AND, 4, 2, new int[]{0, 1}),
-                new DefaultGate(OR, 5, 2, new int[]{2, 3}),
+                new BooleanCircuitGate(AND, 4, 2, new int[]{0, 1}),
+                new BooleanCircuitGate(OR, 5, 2, new int[]{2, 3}),
 
-                new DefaultGate(AND, 6, 3, new int[]{4, 5}),
+                new BooleanCircuitGate(AND, 6, 3, new int[]{4, 5}),
         });
 
         AsymmetricCipherKeyPair keyPair = setup(createParameters(n));
@@ -116,7 +115,7 @@ public class GGHSW13KEMEngineTest extends AbstractJPBCCryptoTest {
         return null;
     }
 
-    protected CipherParameters keyGen(CipherParameters publicKey, CipherParameters masterSecretKey, Circuit circuit) {
+    protected CipherParameters keyGen(CipherParameters publicKey, CipherParameters masterSecretKey, BooleanCircuit circuit) {
         // Init the Generator
         GGHSW13SecretKeyGenerator keyGen = new GGHSW13SecretKeyGenerator();
         keyGen.init(new GGHSW13SecretKeyGenerationParameters(

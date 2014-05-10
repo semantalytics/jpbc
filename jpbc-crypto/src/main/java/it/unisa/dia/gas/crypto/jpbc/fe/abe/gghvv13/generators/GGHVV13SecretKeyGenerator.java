@@ -1,6 +1,7 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.abe.gghvv13.generators;
 
-import it.unisa.dia.gas.crypto.circuit.Circuit;
+import it.unisa.dia.gas.crypto.circuit.BooleanCircuit;
+import it.unisa.dia.gas.crypto.circuit.BooleanGate;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghvv13.params.GGHVV13MasterSecretKeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghvv13.params.GGHVV13PublicKeyParameters;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghvv13.params.GGHVV13SecretKeyGenerationParameters;
@@ -20,7 +21,7 @@ public class GGHVV13SecretKeyGenerator {
     private GGHVV13SecretKeyGenerationParameters param;
 
     private Pairing pairing;
-    private Circuit circuit;
+    private BooleanCircuit circuit;
 
     public void init(KeyGenerationParameters param) {
         this.param = (GGHVV13SecretKeyGenerationParameters) param;
@@ -33,7 +34,7 @@ public class GGHVV13SecretKeyGenerator {
         GGHVV13MasterSecretKeyParameters msk = param.getMasterSecretKeyParameters();
         GGHVV13PublicKeyParameters pk = param.getPublicKeyParameters();
 
-        Circuit circuit = this.circuit;
+        BooleanCircuit circuit = this.circuit;
         int n = circuit.getN();
 
         // sample the randomness
@@ -70,7 +71,7 @@ public class GGHVV13SecretKeyGenerator {
         Element ePrime = pairing.getFieldAt(circuit.getDepth()).newElement().powZn(msk.getAlpha().sub(rs[rs.length - 1]));
         keys.put(-1, new Element[]{ePrime});
 
-        for (Circuit.Gate gate : circuit) {
+        for (BooleanGate gate : circuit) {
             int index = gate.getIndex();
             int depth = gate.getDepth();
 

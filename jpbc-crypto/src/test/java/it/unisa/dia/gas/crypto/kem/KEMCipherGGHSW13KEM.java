@@ -1,7 +1,6 @@
 package it.unisa.dia.gas.crypto.kem;
 
-import it.unisa.dia.gas.crypto.circuit.Circuit;
-import it.unisa.dia.gas.crypto.circuit.DefaultCircuit;
+import it.unisa.dia.gas.crypto.circuit.BooleanCircuit;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.engines.GGHSW13KEMEngine;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.generators.GGHSW13KeyPairGenerator;
 import it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.generators.GGHSW13ParametersGenerator;
@@ -23,7 +22,8 @@ import java.security.SecureRandom;
 import java.security.Security;
 import java.security.spec.AlgorithmParameterSpec;
 
-import static it.unisa.dia.gas.crypto.circuit.Circuit.Gate.Type.*;
+import static it.unisa.dia.gas.crypto.circuit.BooleanCircuit.BooleanCircuitGate;
+import static it.unisa.dia.gas.crypto.circuit.Gate.Type.*;
 import static org.junit.Assert.assertEquals;
 
 
@@ -89,7 +89,7 @@ public class KEMCipherGGHSW13KEM {
     }
 
 
-    public CipherParameters keyGen(Circuit circuit) {
+    public CipherParameters keyGen(BooleanCircuit circuit) {
         GGHSW13SecretKeyGenerator keyGen = new GGHSW13SecretKeyGenerator();
         keyGen.init(new GGHSW13SecretKeyGenerationParameters(
                 (GGHSW13PublicKeyParameters) keyPair.getPublic(),
@@ -131,16 +131,16 @@ public class KEMCipherGGHSW13KEM {
 
             // Decrypt
             int q = 3;
-            Circuit circuit = new DefaultCircuit(n, q, 3, new DefaultCircuit.DefaultGate[]{
-                    new DefaultCircuit.DefaultGate(INPUT, 0, 1),
-                    new DefaultCircuit.DefaultGate(INPUT, 1, 1),
-                    new DefaultCircuit.DefaultGate(INPUT, 2, 1),
-                    new DefaultCircuit.DefaultGate(INPUT, 3, 1),
+            BooleanCircuit circuit = new BooleanCircuit(n, q, 3, new BooleanCircuitGate[]{
+                    new BooleanCircuitGate(INPUT, 0, 1),
+                    new BooleanCircuitGate(INPUT, 1, 1),
+                    new BooleanCircuitGate(INPUT, 2, 1),
+                    new BooleanCircuitGate(INPUT, 3, 1),
 
-                    new DefaultCircuit.DefaultGate(AND, 4, 2, new int[]{0, 1}),
-                    new DefaultCircuit.DefaultGate(OR, 5, 2, new int[]{2, 3}),
+                    new BooleanCircuitGate(AND, 4, 2, new int[]{0, 1}),
+                    new BooleanCircuitGate(OR, 5, 2, new int[]{2, 3}),
 
-                    new DefaultCircuit.DefaultGate(AND, 6, 3, new int[]{4, 5}),
+                    new BooleanCircuitGate(AND, 6, 3, new int[]{4, 5}),
             });
             byte[] plaintext = engine.decrypt(engine.keyGen(circuit), encapsulation, ciphertext);
 

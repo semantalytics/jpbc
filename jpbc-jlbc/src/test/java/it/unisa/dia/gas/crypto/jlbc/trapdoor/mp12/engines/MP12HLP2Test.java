@@ -55,7 +55,7 @@ public class MP12HLP2Test {
     @Test
     public void testSampleD() throws Exception {
         // Sample
-        Element syndrome = ((MP12HLP2PublicKeyParameters) keyPair.getPublic()).getSyndromeField().newRandomElement();
+        Element syndrome = pk.getSyndromeField().newRandomElement();
         System.out.println("syndrome = " + syndrome);
 
         MP12HLP2Sampler sampler = new MP12HLP2Sampler();
@@ -78,11 +78,9 @@ public class MP12HLP2Test {
 
     @Test
     public void testSampleDMatrix() throws Exception {
-        MP12HLP2PublicKeyParameters latticePk = (MP12HLP2PublicKeyParameters) keyPair.getPublic();
-
-        MatrixField<Field> RField = new MatrixField<Field>(latticePk.getParameters().getRandom(), latticePk.getZq(), latticePk.getM());
+        MatrixField<Field> RField = new MatrixField<Field>(pk.getParameters().getRandom(), pk.getZq(), pk.getM());
         // Compute U
-        MatrixElement U = (MatrixElement) latticePk.getA().getField().newRandomElement();
+        MatrixElement U = (MatrixElement) pk.getA().getField().newRandomElement();
 
 //        System.out.println("U = " + U);
 
@@ -99,7 +97,7 @@ public class MP12HLP2Test {
         decoder.init(keyPair.getPublic());
 
         MatrixElement U1 = U.getField().newElement();
-        for (int i = 0; i < latticePk.getM(); i++) {
+        for (int i = 0; i < pk.getM(); i++) {
             Element sample = R0.columnAt(i);
 //            System.out.println("sample = " + sample);
             Element u = decoder.processElements(sample);
@@ -108,7 +106,7 @@ public class MP12HLP2Test {
         }
 //        System.out.println("U1 = " + U1);
 
-        Element U2 = ((MP12HLP2PublicKeyParameters) keyPair.getPublic()).getA().mul(R0);
+        Element U2 = pk.getA().mul(R0);
 //        System.out.println("U2 = " + U2);
 
         assertEquals(U, U1);
@@ -119,9 +117,7 @@ public class MP12HLP2Test {
     public void testInverter() throws Exception {
         // b=OWF(s)
         ElementCipher owf = new MP12HLP2OneWayFunction();
-        MP12HLP2OneWayFunctionParameters owfParams = new MP12HLP2OneWayFunctionParameters(
-                (MP12HLP2PublicKeyParameters) keyPair.getPublic()
-        );
+        MP12HLP2OneWayFunctionParameters owfParams = new MP12HLP2OneWayFunctionParameters(pk);
         owf.init(owfParams);
 
         Element s = owfParams.getInputField().newRandomElement();
@@ -147,9 +143,7 @@ public class MP12HLP2Test {
     public void testErrorTolerantOneTimePad() throws Exception {
         // Init OWF
         ElementCipher owf = new MP12HLP2OneWayFunction();
-        MP12HLP2OneWayFunctionParameters owfParams = new MP12HLP2OneWayFunctionParameters(
-                (MP12HLP2PublicKeyParameters) keyPair.getPublic()
-        );
+        MP12HLP2OneWayFunctionParameters owfParams = new MP12HLP2OneWayFunctionParameters(pk);
         owf.init(owfParams);
         Element key = owf.processElements(owfParams.getInputField().newRandomElement());
 
@@ -185,4 +179,18 @@ public class MP12HLP2Test {
         assertTrue(u.equals(uPrime));
     }
 
+    @Test
+    public void testMatrixLeftSampler() throws Exception {
+        MP12HLP2MatrixLeftSampler sampler = new MP12HLP2MatrixLeftSampler();
+        sampler.init(new MP12HLP2SampleLeftParameters(keyPair));
+
+        Element A1 = pk.getA().getField().newRandomElement();
+        Element U = new MatrixField<Field>(pk.getParameters().getRandom(), pk.getZq(), pk.getParameters().getN(), pk.getM()).newRandomElement();
+        Element R = sampler.processElements(A1, U);
+
+        Element F = MatrixField.unionByCol(pk.getA(), A1);
+        Element UPrime = F.mul(R);
+
+        assertTrue(U.equals(UPrime));
+    }
 }

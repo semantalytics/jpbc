@@ -1,7 +1,8 @@
 package it.unisa.dia.gas.crypto.jlbc.fe.abe.gvw13.engines;
 
 import it.unisa.dia.gas.crypto.cipher.ElementCipher;
-import it.unisa.dia.gas.crypto.circuit.Circuit;
+import it.unisa.dia.gas.crypto.circuit.BooleanCircuit;
+import it.unisa.dia.gas.crypto.circuit.BooleanGate;
 import it.unisa.dia.gas.crypto.jlbc.fe.abe.gvw13.params.GVW13EncryptionParameters;
 import it.unisa.dia.gas.crypto.jlbc.fe.abe.gvw13.params.GVW13PublicKeyParameters;
 import it.unisa.dia.gas.crypto.jlbc.fe.abe.gvw13.params.GVW13SecretKeyParameters;
@@ -47,13 +48,13 @@ public class GVW13KEMEngine extends AbstractKeyEncapsulationMechanism {
             String assignment = reader.readString();
 
             // Evaluate the circuit against the ciphertext
-            Circuit circuit = sk.getCircuit();
+            BooleanCircuit circuit = sk.getCircuit();
 
             Element e = reader.readElement(sk.getCiphertextElementField());
 
             // evaluate the circuit
             Map<Integer, Element> evaluations = new HashMap<Integer, Element>();
-            for (Circuit.Gate gate : sk.getCircuit()) {
+            for (BooleanGate gate : sk.getCircuit()) {
                 int index = gate.getIndex();
 
                 switch (gate.getType()) {
@@ -71,7 +72,7 @@ public class GVW13KEMEngine extends AbstractKeyEncapsulationMechanism {
 
                         // Init TOR for recoding
                         ElementCipher tor = sk.getParameters().getTor();
-                        tor.init(sk.getCipherParametersAt(index, gate.getInputAt(0).isSet() ? 1 : 0, gate.getInputAt(1).isSet() ? 1 : 0));
+                        tor.init(sk.getCipherParametersAt(index, gate.getInputAt(0).get() ? 1 : 0, gate.getInputAt(1).get() ? 1 : 0));
 
                         evaluations.put(
                                 index,

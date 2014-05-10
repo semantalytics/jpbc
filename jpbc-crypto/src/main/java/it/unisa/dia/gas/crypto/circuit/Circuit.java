@@ -6,7 +6,7 @@ import java.util.Iterator;
  * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 2.0.0
  */
-public interface Circuit extends Iterable<Circuit.Gate> {
+public interface Circuit<C extends Gate> extends Iterable<C> {
 
     int getN();
 
@@ -14,33 +14,10 @@ public interface Circuit extends Iterable<Circuit.Gate> {
 
     int getDepth();
 
-    Iterator<Gate> iterator();
+    Iterator<C> iterator();
 
     Gate getGateAt(int index);
 
     Gate getOutputGate();
-
-
-    interface Gate {
-
-        public static enum Type {INPUT, AND, OR, NAND}
-
-        Type getType();
-
-        int getIndex();
-
-        int getDepth();
-
-        int getInputIndexAt(int index);
-
-        Gate getInputAt(int index);
-
-        void set(boolean value);
-
-        boolean isSet();
-
-        Gate evaluate();
-    }
-
 
 }

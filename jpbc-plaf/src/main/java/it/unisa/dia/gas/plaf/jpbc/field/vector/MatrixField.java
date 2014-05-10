@@ -20,8 +20,73 @@ public class MatrixField<F extends Field> extends AbstractMatrixField<F, MatrixE
         return new MatrixField<Field>(field.getRandom(), field.getTargetField(), n, m).newElementFromSampler(sampler);
     }
 
+    public static Matrix unionByCol(Element a, Element b) {
+        AbstractMatrixElement a1 = (AbstractMatrixElement) a;
+        AbstractMatrixElement b1 = (AbstractMatrixElement) b;
+
+        MatrixField f = new MatrixField<Field>(
+                a1.getField().getRandom(), a1.getTargetField(),
+                a1.getField().n,
+                a1.getField().m + b1.getField().m);
+
+        MatrixElement c = f.newElement();
+        for (int i = 0; i < f.n; i++) {
+            for (int j = 0; j < a1.getField().m; j++) {
+                if (a1.isZeroAt(i, j))
+                    c.setZeroAt(i, j);
+                else
+                    c.getAt(i, j).set(a1.getAt(i, j));
+            }
+
+            for (int j = 0; j < b1.getField().m; j++) {
+                if (b1.isZeroAt(i, j))
+                    c.setZeroAt(i, a1.getField().m + j);
+                else
+                    c.getAt(i, a1.getField().m + j).set(b1.getAt(i, j));
+            }
+        }
+
+
+        return c;
+
+    }
+
+    public static Matrix unionByRow(Element a, Element b) {
+        AbstractMatrixElement a1 = (AbstractMatrixElement) a;
+        AbstractMatrixElement b1 = (AbstractMatrixElement) b;
+
+        MatrixField f = new MatrixField<Field>(
+                a1.getField().getRandom(), a1.getTargetField(),
+                a1.getField().n + b1.getField().n,
+                a1.getField().m
+        );
+
+        MatrixElement c = f.newElement();
+        for (int i = 0; i < f.m; i++) {
+
+            for (int j = 0; j < a1.getField().n; j++) {
+                if (a1.isZeroAt(j, i))
+                    c.setZeroAt(j, i);
+                else
+                    c.getAt(j, i).set(a1.getAt(j, i));
+            }
+
+            for (int j = 0; j < b1.getField().n; j++) {
+                if (b1.isZeroAt(j, i))
+                    c.setZeroAt(a1.getField().n + j, i);
+                else
+                    c.getAt(a1.getField().n + j, i).set(b1.getAt(j, i));
+            }
+        }
+
+
+        return c;
+
+    }
+
 
     protected final int lenInBytes;
+
 
     public MatrixField(SecureRandom random, F targetField, int n, int m) {
         super(random, targetField, n, m);
@@ -34,6 +99,7 @@ public class MatrixField<F extends Field> extends AbstractMatrixField<F, MatrixE
 
         this.lenInBytes = n * n * targetField.getLengthInBytes();
     }
+
 
     public MatrixElement newElement() {
         return new MatrixElement(this);
@@ -51,92 +117,16 @@ public class MatrixField<F extends Field> extends AbstractMatrixField<F, MatrixE
         throw new IllegalStateException("Not implemented yet!!!");
     }
 
-
-    public int getN() {
-        return n;
-    }
-
-    public int getM() {
-        return m;
-    }
-
     public MatrixElement newElementFromSampler(Sampler<BigInteger> sampler) {
         return new MatrixElement(this, sampler);
     }
 
-
-    public MatrixField<F> getNewMatrixField(int newN, int newM) {
-        return new MatrixField<F>(random, targetField, newN, newM);
-    }
-
-    public MatrixField<F> getNewMatrixField(int newN) {
-        return new MatrixField<F>(random, targetField, newN);
-    }
-
-
-
-    public Element newIdentity() {
-        MatrixElement m = new MatrixElement(this);
-
-        for (int i = 0; i < n; i++) {
+    public MatrixElement newIdentity() {
+        MatrixElement m = newElement();
+        for (int i = 0; i < n; i++)
             m.getAt(i, i).setToOne();
-        }
         return m;
     }
-
-
-    public static Matrix unionByCol(Element a, Element b) {
-        MatrixElement a1 = (MatrixElement) a;
-        MatrixElement b1 = (MatrixElement) b;
-
-        MatrixField f = new MatrixField<Field>(
-                a1.getField().getRandom(), a1.getTargetField(),
-                a1.getField().n,
-                a1.getField().m + b1.getField().m);
-
-        MatrixElement c = f.newElement();
-        for (int i = 0; i < f.n; i++) {
-            for (int j = 0; j < a1.getField().m; j++) {
-                c.getAt(i, j).set(a1.getAt(i, j));
-            }
-
-            for (int j = 0; j < b1.getField().m; j++) {
-                c.getAt(i, a1.getField().m + j).set(b1.getAt(i, j));
-            }
-        }
-
-
-        return c;
-
-    }
-
-    public static Matrix unionByRow(Element a, Element b) {
-        MatrixElement a1 = (MatrixElement) a;
-        MatrixElement b1 = (MatrixElement) b;
-
-        MatrixField f = new MatrixField<Field>(
-                a1.getField().getRandom(), a1.getTargetField(),
-                a1.getField().n + b1.getField().n,
-                a1.getField().m
-        );
-
-        MatrixElement c = f.newElement();
-        for (int i = 0; i < f.m; i++) {
-
-            for (int j = 0; j < a1.getField().n; j++) {
-                c.getAt(j, i).set(a1.getAt(j,i));
-            }
-
-            for (int j = 0; j < b1.getField().n; j++) {
-                c.getAt(a1.getField().n + j,i).set(b1.getAt(j,i));
-            }
-        }
-
-
-        return c;
-
-    }
-
 
     public Matrix newDiagonalElement(Element g) {
         if (g instanceof Vector) {

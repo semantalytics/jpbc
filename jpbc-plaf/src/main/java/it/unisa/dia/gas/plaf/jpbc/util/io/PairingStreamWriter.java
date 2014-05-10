@@ -27,6 +27,7 @@ public class PairingStreamWriter {
     }
 
     public void write(Element element) throws IOException {
+//        System.out.println("WRITE e = " + element);
         dos.write(element.toBytes());
     }
 

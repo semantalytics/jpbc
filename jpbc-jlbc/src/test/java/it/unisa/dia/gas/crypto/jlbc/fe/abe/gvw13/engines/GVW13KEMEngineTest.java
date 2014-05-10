@@ -1,7 +1,6 @@
 package it.unisa.dia.gas.crypto.jlbc.fe.abe.gvw13.engines;
 
-import it.unisa.dia.gas.crypto.circuit.Circuit;
-import it.unisa.dia.gas.crypto.circuit.DefaultCircuit;
+import it.unisa.dia.gas.crypto.circuit.BooleanCircuit;
 import it.unisa.dia.gas.crypto.jlbc.fe.abe.gvw13.generators.GVW13KeyPairGenerator;
 import it.unisa.dia.gas.crypto.jlbc.fe.abe.gvw13.generators.GVW13ParametersGenerator;
 import it.unisa.dia.gas.crypto.jlbc.fe.abe.gvw13.generators.GVW13SecretKeyGenerator;
@@ -16,7 +15,8 @@ import org.junit.Test;
 import java.security.SecureRandom;
 import java.util.Arrays;
 
-import static it.unisa.dia.gas.crypto.circuit.Circuit.Gate.Type.*;
+import static it.unisa.dia.gas.crypto.circuit.BooleanCircuit.BooleanCircuitGate;
+import static it.unisa.dia.gas.crypto.circuit.Gate.Type.*;
 import static org.junit.Assert.*;
 
 /**
@@ -41,16 +41,16 @@ public class GVW13KEMEngineTest {
 
         // Key Gen
         int q = 3;
-        Circuit circuit = new DefaultCircuit(ell, q, depth, new DefaultCircuit.DefaultGate[]{
-                new DefaultCircuit.DefaultGate(INPUT, 0, 1),
-                new DefaultCircuit.DefaultGate(INPUT, 1, 1),
-                new DefaultCircuit.DefaultGate(INPUT, 2, 1),
-                new DefaultCircuit.DefaultGate(INPUT, 3, 1),
+        BooleanCircuit circuit = new BooleanCircuit(ell, q, depth, new BooleanCircuitGate[]{
+                new BooleanCircuitGate(INPUT, 0, 1),
+                new BooleanCircuitGate(INPUT, 1, 1),
+                new BooleanCircuitGate(INPUT, 2, 1),
+                new BooleanCircuitGate(INPUT, 3, 1),
 
-                new DefaultCircuit.DefaultGate(AND, 4, 2, new int[]{0, 1}),
-                new DefaultCircuit.DefaultGate(OR, 5, 2, new int[]{2, 3}),
+                new BooleanCircuitGate(AND, 4, 2, new int[]{0, 1}),
+                new BooleanCircuitGate(OR, 5, 2, new int[]{2, 3}),
 
-                new DefaultCircuit.DefaultGate(AND, 6, 3, new int[]{4, 5}),
+                new BooleanCircuitGate(AND, 6, 3, new int[]{4, 5}),
         });
         GVW13SecretKeyParameters secretKey = (GVW13SecretKeyParameters) keyGen(keyPair.getPublic(), keyPair.getPrivate(), circuit);
 
@@ -107,7 +107,7 @@ public class GVW13KEMEngineTest {
         return null;
     }
 
-    protected CipherParameters keyGen(CipherParameters publicKey, CipherParameters masterSecretKey, Circuit circuit) {
+    protected CipherParameters keyGen(CipherParameters publicKey, CipherParameters masterSecretKey, BooleanCircuit circuit) {
         // Init the Generator
         GVW13SecretKeyGenerator keyGen = new GVW13SecretKeyGenerator();
         keyGen.init(new GVW13SecretKeyGenerationParameters(

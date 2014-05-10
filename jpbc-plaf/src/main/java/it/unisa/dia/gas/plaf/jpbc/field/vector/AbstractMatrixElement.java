@@ -200,7 +200,51 @@ public abstract class AbstractMatrixElement<E extends Element, F extends Abstrac
     }
 
     public String toStringSubMatrix(int startRow, int startCol) {
-        throw new IllegalStateException("Not implemented yet!!!");
+        StringBuffer sb = new StringBuffer();
+        sb.append("[\n");
+        for (int i = startRow; i < field.n; i++) {
+
+            for (int j = startCol; j < field.m; j++) {
+                if (isZeroAt(i, j))
+                    sb.append(String.format("%10s", "0"));
+                else
+                    sb.append(String.format("%10s", getAt(i, j)));
+                if (j != field.m -1)
+                    sb.append(",");
+            }
+
+            if (i != field.n -1)
+                sb.append(";\n");
+        }
+        sb.append("]\n");
+
+        return "MatrixElement{" +
+                "matrix=\n" + sb.toString() +
+                '}';
+    }
+
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("[\n");
+        for (int i = 0; i < field.n; i++) {
+
+            for (int j = 0; j < field.m; j++) {
+                if (isZeroAt(i, j))
+                    sb.append(String.format("%10s", "0"));
+                else
+                    sb.append(String.format("%10s", getAt(i, j)));
+                if (j != field.m -1)
+                    sb.append(",");
+            }
+
+            if (i != field.n -1)
+                sb.append(";\n");
+        }
+        sb.append("]\n");
+
+        return "DiagonalMatrixElement{" +
+                "matrix=\n" + sb.toString() +
+                '}';
     }
 
     public Element duplicate() {
@@ -232,7 +276,15 @@ public abstract class AbstractMatrixElement<E extends Element, F extends Abstrac
     }
 
     public Element setToZero() {
-        throw new IllegalStateException("Not implemented yet!!!");
+        for (int i = 0; i < field.n; i++) {
+
+            for (int j = 0; j < field.m; j++) {
+                if (!isZeroAt(i, j))
+                    setZeroAt(i, j);
+            }
+        }
+
+        return this;
     }
 
     public boolean isZero() {
@@ -308,7 +360,8 @@ public abstract class AbstractMatrixElement<E extends Element, F extends Abstrac
             } else {
                 for (int i = 0; i < field.n; i++) {
                     for (int j = 0; j < field.m; j++) {
-                        getAt(i, j).mul(e);
+                        if (!isZeroAt(i, j))
+                            getAt(i, j).mul(e);
                     }
                 }
                 return this;

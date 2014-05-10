@@ -7,20 +7,20 @@ import java.util.Iterator;
  * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 2.0.0
  */
-public class DefaultCircuit implements Circuit {
+public class BooleanCircuit implements Circuit<BooleanGate> {
 
     private int n, q;
     private int depth;
-    private Gate[] gates;
+    private BooleanGate[] gates;
 
 
-    public DefaultCircuit(int n, int q, int depth, DefaultGate[] gates) {
+    public BooleanCircuit(int n, int q, int depth, BooleanCircuitGate[] gates) {
         this.n = n;
         this.q = q;
         this.depth = depth;
 
         this.gates = gates;
-        for (DefaultGate gate : gates)
+        for (BooleanCircuitGate gate : gates)
             gate.setCircuit(this);
     }
 
@@ -38,22 +38,22 @@ public class DefaultCircuit implements Circuit {
     }
 
 
-    public Iterator<Gate> iterator() {
+    public Iterator<BooleanGate> iterator() {
         return Arrays.asList(gates).iterator();
     }
 
-    public Gate getGateAt(int index) {
+    public BooleanGate getGateAt(int index) {
         return gates[index];
     }
 
-    public Gate getOutputGate() {
+    public BooleanGate getOutputGate() {
         return gates[n + q - 1];
     }
 
 
-    public static class DefaultGate implements Circuit.Gate {
+    public static class BooleanCircuitGate implements BooleanGate {
 
-        private Circuit circuit;
+        private BooleanCircuit circuit;
 
         private Type type;
         private int index;
@@ -62,20 +62,22 @@ public class DefaultCircuit implements Circuit {
 
         private boolean value;
 
-
-        public DefaultGate(Type type, int index, int depth) {
+        public BooleanCircuitGate(Type type, int index, int depth) {
             this.type = type;
             this.index = index;
             this.depth = depth;
         }
 
-        public DefaultGate(Type type, int index, int depth, int[] inputs) {
+        public BooleanCircuitGate(Type type, int index, int depth, int[] inputs) {
             this.type = type;
             this.index = index;
             this.depth = depth;
             this.inputs = Arrays.copyOf(inputs, inputs.length);
         }
 
+        public int getInputNum() {
+            return inputs.length;
+        }
 
         public Type getType() {
             return type;
@@ -93,31 +95,31 @@ public class DefaultCircuit implements Circuit {
             return inputs[index];
         }
 
-        public Gate getInputAt(int index) {
+        public BooleanGate getInputAt(int index) {
             return circuit.getGateAt(getInputIndexAt(index));
         }
 
-
-        public void set(boolean value) {
+        public BooleanGate set(Boolean value) {
             this.value = value;
+            return this;
         }
 
-        public boolean isSet() {
+        public Boolean get() {
             return value;
         }
 
-        public Circuit.Gate evaluate() {
+        public BooleanGate evaluate() {
             switch (type) {
                 case AND:
-                    this.value = getInputAt(0).isSet() && getInputAt(1).isSet();
+                    this.value = getInputAt(0).get() && getInputAt(1).get();
                     break;
 
                 case OR:
-                    this.value = getInputAt(0).isSet() || getInputAt(1).isSet();
+                    this.value = getInputAt(0).get() || getInputAt(1).get();
                     break;
 
                 case NAND:
-                    this.value = !(getInputAt(0).isSet() && getInputAt(1).isSet());
+                    this.value = !(getInputAt(0).get() && getInputAt(1).get());
                     break;
 
                 default:
@@ -129,7 +131,7 @@ public class DefaultCircuit implements Circuit {
 
         @Override
         public String toString() {
-            return "Gate{" +
+            return "BooleanGate{" +
                     "type=" + type +
                     ", index=" + index +
                     ", depth=" + depth +
@@ -139,7 +141,7 @@ public class DefaultCircuit implements Circuit {
         }
 
 
-        protected void setCircuit(Circuit circuit) {
+        protected void setCircuit(BooleanCircuit circuit) {
             this.circuit = circuit;
         }
 

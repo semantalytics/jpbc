@@ -38,7 +38,7 @@ public class ElementStreamReader {
     public Element readElement(Field field) {
         Element e = field.newElementFromBytes(buffer, cursor);
         jump(field.getLengthInBytes(e));
-
+//        System.out.println("READ e = " + e);
         return e;
     }
 

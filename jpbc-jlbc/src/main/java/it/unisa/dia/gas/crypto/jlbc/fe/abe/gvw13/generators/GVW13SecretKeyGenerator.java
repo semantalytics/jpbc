@@ -1,7 +1,8 @@
 package it.unisa.dia.gas.crypto.jlbc.fe.abe.gvw13.generators;
 
 import it.unisa.dia.gas.crypto.cipher.CipherParametersGenerator;
-import it.unisa.dia.gas.crypto.circuit.Circuit;
+import it.unisa.dia.gas.crypto.circuit.BooleanCircuit;
+import it.unisa.dia.gas.crypto.circuit.BooleanGate;
 import it.unisa.dia.gas.crypto.jlbc.fe.abe.gvw13.params.GVW13MasterSecretKeyParameters;
 import it.unisa.dia.gas.crypto.jlbc.fe.abe.gvw13.params.GVW13PublicKeyParameters;
 import it.unisa.dia.gas.crypto.jlbc.fe.abe.gvw13.params.GVW13SecretKeyGenerationParameters;
@@ -21,7 +22,7 @@ import java.util.Map;
 public class GVW13SecretKeyGenerator {
     private GVW13SecretKeyGenerationParameters param;
 
-    private Circuit circuit;
+    private BooleanCircuit circuit;
 
     public void init(KeyGenerationParameters param) {
         this.param = (GVW13SecretKeyGenerationParameters) param;
@@ -33,7 +34,7 @@ public class GVW13SecretKeyGenerator {
         GVW13MasterSecretKeyParameters msk = param.getMasterSecretKeyParameters();
         GVW13PublicKeyParameters pk = param.getPublicKeyParameters();
 
-        Circuit circuit = this.circuit;
+        BooleanCircuit circuit = this.circuit;
         int n = circuit.getN();
         int q = circuit.getQ();
         int qMinus1 = q - 1;
@@ -60,7 +61,7 @@ public class GVW13SecretKeyGenerator {
         // encode the circuit
         Map<Integer, CipherParameters[]> keys = new HashMap<Integer, CipherParameters[]>();
 
-        for (Circuit.Gate gate : circuit) {
+        for (BooleanGate gate : circuit) {
             int index = gate.getIndex();
 
             switch (gate.getType()) {

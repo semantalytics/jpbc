@@ -1,6 +1,6 @@
 package it.unisa.dia.gas.crypto.jlbc.fe.abe.gvw13.params;
 
-import it.unisa.dia.gas.crypto.circuit.Circuit;
+import it.unisa.dia.gas.crypto.circuit.BooleanCircuit;
 import org.bouncycastle.crypto.KeyGenerationParameters;
 
 /**
@@ -10,13 +10,13 @@ public class GVW13SecretKeyGenerationParameters extends KeyGenerationParameters 
 
     private GVW13PublicKeyParameters publicKeyParameters;
     private GVW13MasterSecretKeyParameters masterSecretKeyParameters;
-    private Circuit circuit;
+    private BooleanCircuit circuit;
 
 
     public GVW13SecretKeyGenerationParameters(
             GVW13PublicKeyParameters publicKeyParameters,
             GVW13MasterSecretKeyParameters masterSecretKeyParameters,
-            Circuit circuit) {
+            BooleanCircuit circuit) {
         super(null, 0);
 
         this.publicKeyParameters = publicKeyParameters;
@@ -33,7 +33,7 @@ public class GVW13SecretKeyGenerationParameters extends KeyGenerationParameters 
         return masterSecretKeyParameters;
     }
 
-    public Circuit getCircuit() {
+    public BooleanCircuit getCircuit() {
         return circuit;
     }
 }

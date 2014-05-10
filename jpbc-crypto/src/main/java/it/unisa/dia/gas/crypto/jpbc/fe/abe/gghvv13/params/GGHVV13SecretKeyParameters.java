@@ -1,6 +1,6 @@
 package it.unisa.dia.gas.crypto.jpbc.fe.abe.gghvv13.params;
 
-import it.unisa.dia.gas.crypto.circuit.Circuit;
+import it.unisa.dia.gas.crypto.circuit.BooleanCircuit;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.plaf.jpbc.util.ElementUtils;
 
@@ -11,13 +11,13 @@ import java.util.Map;
  */
 public class GGHVV13SecretKeyParameters extends GGHVV13KeyParameters {
 
-    private Circuit circuit;
+    private BooleanCircuit circuit;
     private Element[][] M;
     private Map<Integer, Element[]> keys;
 
 
     public GGHVV13SecretKeyParameters(GGHVV13Parameters parameters,
-                                      Circuit circuit,
+                                      BooleanCircuit circuit,
                                       Map<Integer, Element[]> keys,
                                       Element[][] M) {
         super(true, parameters);
@@ -27,7 +27,7 @@ public class GGHVV13SecretKeyParameters extends GGHVV13KeyParameters {
         this.M = M;
     }
 
-    public Circuit getCircuit() {
+    public BooleanCircuit getCircuit() {
         return circuit;
     }
 
