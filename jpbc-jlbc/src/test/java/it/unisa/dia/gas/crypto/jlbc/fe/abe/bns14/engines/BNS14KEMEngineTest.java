@@ -19,8 +19,8 @@ import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
+import static it.unisa.dia.gas.crypto.circuit.Gate.Type.AND;
 import static it.unisa.dia.gas.crypto.circuit.Gate.Type.INPUT;
-import static it.unisa.dia.gas.crypto.circuit.Gate.Type.OR;
 import static org.junit.Assert.*;
 
 /**
@@ -49,13 +49,14 @@ public class BNS14KEMEngineTest {
         ArithmeticCircuit circuit = new ArithmeticCircuit(ell, q, depth, new ArithmeticCircuit.ArithmeticCircuitGate[]{
                 new ArithmeticCircuit.ArithmeticCircuitGate(INPUT, 0, 1),
                 new ArithmeticCircuit.ArithmeticCircuitGate(INPUT, 1, 1),
-                new ArithmeticCircuit.ArithmeticCircuitGate(OR, 3, 2, new int[]{0, 1}, Zq.newOneElement(), Zq.newOneElement()),
+//                new ArithmeticCircuit.ArithmeticCircuitGate(OR, 3, 2, new int[]{0, 1}, Zq.newOneElement(), Zq.newOneElement()),
+                new ArithmeticCircuit.ArithmeticCircuitGate(AND, 3, 2, new int[]{0, 1}, Zq.newOneElement()),
         });
 
         BNS14SecretKeyParameters secretKey = (BNS14SecretKeyParameters) keyGen(keyPair.getPublic(), keyPair.getPrivate(), circuit);
 
         // Encaps/Decaps for a satisfying assignment
-        byte[][] ct = encaps(keyPair.getPublic(), toElement(Zq, "1 1", ell));
+        byte[][] ct = encaps(keyPair.getPublic(), toElement(Zq, "1 0", ell));
         byte[] key = ct[0];
         byte[] keyPrime = decaps(secretKey, ct[1]);
 
@@ -63,8 +64,8 @@ public class BNS14KEMEngineTest {
         System.out.println("keyPrime = " + Arrays.toString(keyPrime));
         assertEquals(true, Arrays.equals(key, keyPrime));
 
-        // Encaps/Decaps for a non-satisfying assignmen-
-        ct = encaps(keyPair.getPublic(), toElement(Zq, "1 0", ell));
+        // Encaps/Decaps for a non-satisfying assignment
+        ct = encaps(keyPair.getPublic(), toElement(Zq, "1 1", ell));
         key = ct[0];
         keyPrime = decaps(secretKey, ct[1]);
 

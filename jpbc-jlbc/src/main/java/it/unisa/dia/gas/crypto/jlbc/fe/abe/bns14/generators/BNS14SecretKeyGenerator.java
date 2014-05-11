@@ -10,6 +10,7 @@ import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.engines.MP12HLP2MatrixLeftSamp
 import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.engines.MP12PLP2MatrixSolver;
 import it.unisa.dia.gas.crypto.jlbc.trapdoor.mp12.params.MP12HLP2SampleLeftParameters;
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.plaf.jpbc.field.vector.MatrixField;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.KeyGenerationParameters;
 
@@ -58,12 +59,7 @@ public class BNS14SecretKeyGenerator {
                                 // \alpha_i G
                                 pk.getPrimitiveLatticePk().getG().duplicate().mulZn(gate.getAlphaAt(j))
                         );
-//                        System.out.println(
-//                        pk.getPrimitiveLatticePk().getG().mul(R).equals(
-//                                pk.getPrimitiveLatticePk().getG().duplicate().mulZn(gate.getAlphaAt(j))
-//                        )
-//                        );
-//                        System.out.println("R = " + R);
+                        gate.putAt(j, R);
                         B.add(keys.get(gate.getInputIndexAt(j)).mul(R));
                     }
 
@@ -72,21 +68,23 @@ public class BNS14SecretKeyGenerator {
 
                 case AND:
                     // multiplication
+
+                    // Compute R_0 = SolveR(G, T_G, \alpha G)
                     Element R = sampleD.processElements(
-                            // \alpha_0 G
                             pk.getPrimitiveLatticePk().getG().duplicate().mulZn(gate.getAlphaAt(0))
                     );
                     for (int j = 1, k = gate.getInputNum(); j < k; j++) {
-                        R = sampleD.processElements(
-                                // - B_{j-1} R_{j-1}
-                                pk.getBAt(j - 1).mul(R).negate()
-                        );
+                        // R_j = SolveR(G, T_G, - B_{j-1} R_{j-1})
+                        R = sampleD.processElements(pk.getBAt(j - 1).mul(R).negate());
                     }
 
+                    // Compute B_g = B_{k-1} R_{k-1}
                     keys.put(index, pk.getBAt(gate.getInputNum() - 1).mul(R));
                     break;
             }
         }
+
+        circuit.getOutputGate().putAt(-1, keys.get(circuit.getOutputGate().getIndex()));
 
         // SampleLeft
 
@@ -98,9 +96,9 @@ public class BNS14SecretKeyGenerator {
                 pk.getD()
         );
 
-//        Element F = MatrixField.unionByCol(pk.getLatticePk().getA(), keys.get(circuit.getOutputGate().getIndex()));
-//        Element DPrime = F.mul(skC);
-//        System.out.println(DPrime.equals(pk.getD()));
+        Element F = MatrixField.unionByCol(pk.getLatticePk().getA(), keys.get(circuit.getOutputGate().getIndex()));
+        Element DPrime = F.mul(skC);
+        System.out.println(DPrime.equals(pk.getD()));
 
         return new BNS14SecretKeyParameters(pk, circuit, skC);
     }

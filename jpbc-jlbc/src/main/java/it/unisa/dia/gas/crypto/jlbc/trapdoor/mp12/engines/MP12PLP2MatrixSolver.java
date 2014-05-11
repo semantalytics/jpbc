@@ -29,7 +29,6 @@ public class MP12PLP2MatrixSolver extends MP12PLP2Solver {
     @Override
     public Element processElements(Element... input) {
         final Matrix U = (Matrix) input[0];
-        System.out.println("U = " + U);
 
         final Matrix result;
         if (outputField != null) {

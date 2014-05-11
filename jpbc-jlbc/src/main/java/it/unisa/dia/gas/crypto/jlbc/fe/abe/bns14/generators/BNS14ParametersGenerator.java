@@ -27,7 +27,7 @@ public class BNS14ParametersGenerator {
                 random,
                 ell,
                 4,
-                32,
+                64,
                 MP12P2Utils.getLWENoiseSampler(random, 4),
                 new UniformOneMinusOneSampler(random)
         );

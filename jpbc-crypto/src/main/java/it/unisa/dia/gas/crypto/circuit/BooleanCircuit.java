@@ -140,6 +140,13 @@ public class BooleanCircuit implements Circuit<BooleanGate> {
                     '}';
         }
 
+        public Gate<Boolean> putAt(int index, Boolean value) {
+            throw new IllegalStateException("Not implemented yet!!!");
+        }
+
+        public Boolean getAt(int index) {
+            throw new IllegalStateException("Not implemented yet!!!");
+        }
 
         protected void setCircuit(BooleanCircuit circuit) {
             this.circuit = circuit;

@@ -25,4 +25,8 @@ public interface Gate<V> {
 
     Gate<V> set(V value);
 
+    Gate<V> putAt(int index, V value);
+
+    V getAt(int index);
+
 }

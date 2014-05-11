@@ -15,17 +15,20 @@ import java.util.BitSet;
 public class MP12HLP2ErrorTolerantOneTimePad extends AbstractElementCipher {
 
     protected VectorElement key;
+    protected BigInteger order;
+    protected BigInteger oneFourthOrder;
 
     @Override
     public ElementCipher init(Element key) {
         this.key = (VectorElement) key;
+        this.order = this.key.getField().getTargetField().getOrder();
+        this.oneFourthOrder = order.divide(BigIntegerUtils.FOUR);
 
         return this;
     }
 
     @Override
     public Element processBytes(byte[] buffer) {
-        BigInteger order = key.getField().getTargetField().getOrder();
         Element halfOrder = key.getField().getTargetField().newElement(order.divide(BigIntegerUtils.TWO));
         VectorElement r = key.duplicate();
 
@@ -40,9 +43,6 @@ public class MP12HLP2ErrorTolerantOneTimePad extends AbstractElementCipher {
 
     @Override
     public byte[] processElementsToBytes(Element... input) {
-        BigInteger order = key.getField().getTargetField().getOrder();
-        BigInteger oneFourthOrder = order.divide(BigIntegerUtils.FOUR);
-
         VectorElement r = (VectorElement) input[0].duplicate().sub(key);
 
         BitSet bits = new BitSet(key.getSize());

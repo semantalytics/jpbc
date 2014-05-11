@@ -4,7 +4,9 @@ import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.plaf.jpbc.util.ElementUtils;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
@@ -80,11 +82,13 @@ public class ArithmeticCircuit implements Circuit<ArithmeticGate> {
 
         private Element value;
         private Element[] alphas;
+        private Map<Integer, Element> values;
 
         public ArithmeticCircuitGate(Type type, int index, int depth) {
             this.type = type;
             this.index = index;
             this.depth = depth;
+            this.values = new HashMap<Integer, Element>();
         }
 
         public ArithmeticCircuitGate(Type type, int index, int depth, int[] inputs, Element... alphas) {
@@ -93,6 +97,7 @@ public class ArithmeticCircuit implements Circuit<ArithmeticGate> {
             this.depth = depth;
             this.inputs = Arrays.copyOf(inputs, inputs.length);
             this.alphas = ElementUtils.cloneImmutable(alphas);
+            this.values = new HashMap<Integer, Element>();
         }
 
         public int getInputNum() {
@@ -167,6 +172,15 @@ public class ArithmeticCircuit implements Circuit<ArithmeticGate> {
                     '}';
         }
 
+
+        public Gate<Element> putAt(int index, Element value) {
+            values.put(index, value);
+            return this;
+        }
+
+        public Element getAt(int index) {
+            return values.get(index);
+        }
 
         protected void setCircuit(ArithmeticCircuit circuit) {
             this.circuit = circuit;

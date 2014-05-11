@@ -63,9 +63,10 @@ public class BNS14PublicKeyParameters extends BNS14KeyParameters {
     }
 
     public Element sampleError() {
-        return randomnessField.newElementFromSampler(
-                getParameters().getChi()
-        );
+//        return randomnessField.newElementFromSampler(
+//                getParameters().getChi()
+//        );
+        return randomnessField.newZeroElement();
     }
 
     public Element sampleUniformOneMinusOneMarix() {
