@@ -79,11 +79,10 @@ public class BNS14KEMEngine extends AbstractKeyEncapsulationMechanism {
 
                         Element cg = evaluations.get(gate.getInputIndexAt(0)).getField().newZeroElement();
                         for (int i = 0, k = gate.getInputNum(); i < k; i++) {
-                            Matrix R = (Matrix) sampleD.processElements(
-                                    //alpha_i G
-                                    pk.getPrimitiveLatticePk().getG().duplicate().mulZn(gate.getAlphaAt(i))
-                            );
-//                            Matrix R = (Matrix) gate.getAt(i);
+//                            Matrix R = (Matrix) sampleD.processElements(
+//                                    pk.getPrimitiveLatticePk().getG().duplicate().mulZn(gate.getAlphaAt(i))
+//                            );
+                            Matrix R = (Matrix) gate.getAt(i);
 
                             cg.add(R.mulFromTranspose(evaluations.get(gate.getInputIndexAt(i))));
                         }
@@ -98,9 +97,10 @@ public class BNS14KEMEngine extends AbstractKeyEncapsulationMechanism {
                         cg = evaluations.get(gate.getInputIndexAt(0)).getField().newZeroElement();
 
                         // Compute R_0 = SolveR(G, T_G, \alpha G)
-                        Element R = sampleD.processElements(
-                                pk.getPrimitiveLatticePk().getG().duplicate().mulZn(gate.getAlphaAt(0))
-                        );
+//                        Element R = sampleD.processElements(
+//                                pk.getPrimitiveLatticePk().getG().duplicate().mulZn(gate.getAlphaAt(0))
+//                        );
+                        Element R = gate.getAt(0);
                         for (int j = 1, k = gate.getInputNum(); j < k; j++) {
 
                             Element x = gate.get().getField().newOneElement();
@@ -109,14 +109,15 @@ public class BNS14KEMEngine extends AbstractKeyEncapsulationMechanism {
                             }
 
                             // R_j = SolveR(G, T_G, - B_{j-1} R_{j-1})
-                            Element Rnext = sampleD.processElements(pk.getBAt(j - 1).mul(R).negate());
+//                            Element Rnext = sampleD.processElements(pk.getBAt(j - 1).mul(R).negate());
 
-                            cg.add(((Matrix)R.mul(x)).mulFromTranspose(evaluations.get(gate.getInputIndexAt(j - 1))));
+                            cg.add(((Matrix) R.mul(x)).mulFromTranspose(evaluations.get(gate.getInputIndexAt(j - 1))));
 
-                            R = Rnext;
+//                            R = Rnext;
+                            R = gate.getAt(j);
                         }
 
-                        cg.add(((Matrix)pk.getBAt(gate.getInputNum() - 1).mul(R)).mulFromTranspose(evaluations.get(gate.getInputIndexAt(gate.getInputNum() - 1))));
+                        cg.add(((Matrix) R).mulFromTranspose(evaluations.get(gate.getInputIndexAt(gate.getInputNum() - 1))));
 
                         evaluations.put(index, cg);
                         break;
@@ -132,6 +133,7 @@ public class BNS14KEMEngine extends AbstractKeyEncapsulationMechanism {
             System.out.println("Bfs = " + Bfs);
             System.out.println("cf = " + cf);
             System.out.println(Bfs.equals(cf));
+//            cf = Bfs;
 
             Element cfPrime = ElementUtils.union(cin, cf);
 

@@ -9,6 +9,7 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.StringTokenizer;
 
+import static it.unisa.dia.gas.crypto.circuit.ArithmeticCircuit.ArithmeticCircuitGate;
 import static it.unisa.dia.gas.crypto.circuit.Gate.Type.*;
 import static org.junit.Assert.assertEquals;
 
@@ -22,10 +23,10 @@ public class ArithmeticCircuitTest {
         int ell = 2;
         int q = 1;
         int depth = 2;
-        ArithmeticCircuit circuit = new ArithmeticCircuit(ell, q, depth, new ArithmeticCircuit.ArithmeticCircuitGate[]{
-                new ArithmeticCircuit.ArithmeticCircuitGate(INPUT, 0, 1),
-                new ArithmeticCircuit.ArithmeticCircuitGate(INPUT, 1, 1),
-                new ArithmeticCircuit.ArithmeticCircuitGate(AND, 3, 2, new int[]{0, 1}, Zq.newOneElement()),
+        ArithmeticCircuit circuit = new ArithmeticCircuit(ell, q, depth, new ArithmeticCircuitGate[]{
+                new ArithmeticCircuitGate(INPUT, 0, 1),
+                new ArithmeticCircuitGate(INPUT, 1, 1),
+                new ArithmeticCircuitGate(AND, 3, 2, new int[]{0, 1}, Zq.newOneElement()),
         });
 
         assertEquals(circuit.evaluate(toElement(Zq, "1 1", 2)), Zq.newOneElement());
@@ -40,10 +41,10 @@ public class ArithmeticCircuitTest {
         int ell = 2;
         int q = 1;
         int depth = 2;
-        ArithmeticCircuit circuit = new ArithmeticCircuit(ell, q, depth, new ArithmeticCircuit.ArithmeticCircuitGate[]{
-                new ArithmeticCircuit.ArithmeticCircuitGate(INPUT, 0, 1),
-                new ArithmeticCircuit.ArithmeticCircuitGate(INPUT, 1, 1),
-                new ArithmeticCircuit.ArithmeticCircuitGate(OR, 3, 2, new int[]{0, 1}, Zq.newOneElement(), Zq.newOneElement()),
+        ArithmeticCircuit circuit = new ArithmeticCircuit(ell, q, depth, new ArithmeticCircuitGate[]{
+                new ArithmeticCircuitGate(INPUT, 0, 1),
+                new ArithmeticCircuitGate(INPUT, 1, 1),
+                new ArithmeticCircuitGate(OR, 3, 2, new int[]{0, 1}, Zq.newOneElement(), Zq.newOneElement()),
         });
 
         assertEquals(circuit.evaluate(toElement(Zq, "1 1", 2)), Zq.newElement(2));
@@ -51,6 +52,78 @@ public class ArithmeticCircuitTest {
         assertEquals(circuit.evaluate(toElement(Zq, "1 -1", 2)), Zq.newZeroElement());
     }
 
+
+    @Test
+    public void testCircuit() throws Exception {
+        Field Zq = new ZrField(new SecureRandom(), BigInteger.valueOf(17));
+
+        int ell = 4;
+        int depth = 3;
+        int q = 3;
+
+        ArithmeticCircuit circuit = new ArithmeticCircuit(ell, q, depth, new ArithmeticCircuitGate[]{
+                new ArithmeticCircuitGate(INPUT, 0, 1),
+                new ArithmeticCircuitGate(INPUT, 1, 1),
+                new ArithmeticCircuitGate(INPUT, 2, 1),
+                new ArithmeticCircuitGate(INPUT, 3, 1),
+
+                new ArithmeticCircuitGate(AND, 4, 2, new int[]{0, 1}, Zq.newOneElement()),
+                new ArithmeticCircuitGate(OR, 5, 2, new int[]{2, 3}, Zq.newOneElement(), Zq.newOneElement()),
+
+                new ArithmeticCircuitGate(AND, 6, 3, new int[]{4, 5}, Zq.newOneElement()),
+        });
+
+        assertEquals(circuit.evaluate(toElement(Zq, "1 0 1 1", 4)), Zq.newZeroElement());
+        assertEquals(circuit.evaluate(toElement(Zq, "1 2 1 1", 4)), Zq.newElement(4));
+    }
+
+    @Test
+    public void testCircuitAllOR() throws Exception {
+        Field Zq = new ZrField(new SecureRandom(), BigInteger.valueOf(17));
+
+        int ell = 4;
+        int depth = 3;
+        int q = 3;
+
+        ArithmeticCircuit circuit = new ArithmeticCircuit(ell, q, depth, new ArithmeticCircuitGate[]{
+                new ArithmeticCircuitGate(INPUT, 0, 1),
+                new ArithmeticCircuitGate(INPUT, 1, 1),
+                new ArithmeticCircuitGate(INPUT, 2, 1),
+                new ArithmeticCircuitGate(INPUT, 3, 1),
+
+                new ArithmeticCircuitGate(OR, 5, 2, new int[]{2, 3}, Zq.newOneElement(), Zq.newOneElement()),
+                new ArithmeticCircuitGate(OR, 4, 2, new int[]{0, 1}, Zq.newOneElement(), Zq.newOneElement()),
+
+                new ArithmeticCircuitGate(OR, 6, 3, new int[]{4, 5}, Zq.newOneElement(), Zq.newOneElement()),
+        });
+
+        assertEquals(circuit.evaluate(toElement(Zq, "1 -1 1 -1", 4)), Zq.newZeroElement());
+        assertEquals(circuit.evaluate(toElement(Zq, "1 2 1 1", 4)), Zq.newElement(5));
+    }
+
+    @Test
+    public void testCircuitAllAND() throws Exception {
+        Field Zq = new ZrField(new SecureRandom(), BigInteger.valueOf(17));
+
+        int ell = 4;
+        int depth = 3;
+        int q = 3;
+
+        ArithmeticCircuit circuit = new ArithmeticCircuit(ell, q, depth, new ArithmeticCircuitGate[]{
+                new ArithmeticCircuitGate(INPUT, 0, 1),
+                new ArithmeticCircuitGate(INPUT, 1, 1),
+                new ArithmeticCircuitGate(INPUT, 2, 1),
+                new ArithmeticCircuitGate(INPUT, 3, 1),
+
+                new ArithmeticCircuitGate(AND, 5, 2, new int[]{2, 3}, Zq.newOneElement()),
+                new ArithmeticCircuitGate(AND, 4, 2, new int[]{0, 1}, Zq.newOneElement()),
+
+                new ArithmeticCircuitGate(AND, 6, 3, new int[]{4, 5}, Zq.newOneElement()),
+        });
+
+        assertEquals(circuit.evaluate(toElement(Zq, "1 0 1 0", 4)), Zq.newZeroElement());
+        assertEquals(circuit.evaluate(toElement(Zq, "1 2 1 1", 4)), Zq.newElement(2));
+    }
 
     protected Element[] toElement(Field Zq, String assignment, int ell) {
         Element[] elements = new Element[ell];

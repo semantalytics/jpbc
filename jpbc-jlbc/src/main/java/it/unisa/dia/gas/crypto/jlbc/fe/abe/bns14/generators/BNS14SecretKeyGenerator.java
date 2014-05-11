@@ -73,9 +73,11 @@ public class BNS14SecretKeyGenerator {
                     Element R = sampleD.processElements(
                             pk.getPrimitiveLatticePk().getG().duplicate().mulZn(gate.getAlphaAt(0))
                     );
+                    gate.putAt(0, R);
                     for (int j = 1, k = gate.getInputNum(); j < k; j++) {
                         // R_j = SolveR(G, T_G, - B_{j-1} R_{j-1})
                         R = sampleD.processElements(pk.getBAt(j - 1).mul(R).negate());
+                        gate.putAt(j, R);
                     }
 
                     // Compute B_g = B_{k-1} R_{k-1}

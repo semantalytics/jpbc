@@ -19,6 +19,7 @@ import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
+import static it.unisa.dia.gas.crypto.circuit.ArithmeticCircuit.ArithmeticCircuitGate;
 import static it.unisa.dia.gas.crypto.circuit.Gate.Type.AND;
 import static it.unisa.dia.gas.crypto.circuit.Gate.Type.INPUT;
 import static org.junit.Assert.*;
@@ -38,25 +39,31 @@ public class BNS14KEMEngineTest {
     @Test
     public void testBNS14KEMEngine() {
         // Setup
-        int ell = 2;
-        int depth = 2;
+        int ell = 4;
+        int depth = 3;
+        int q = 3;
 
         AsymmetricCipherKeyPair keyPair = setup(ell, depth);
         Field Zq = ((BNS14PublicKeyParameters)keyPair.getPublic()).getLatticePk().getZq();
 
         // Key Gen
-        int q = 1;
-        ArithmeticCircuit circuit = new ArithmeticCircuit(ell, q, depth, new ArithmeticCircuit.ArithmeticCircuitGate[]{
-                new ArithmeticCircuit.ArithmeticCircuitGate(INPUT, 0, 1),
-                new ArithmeticCircuit.ArithmeticCircuitGate(INPUT, 1, 1),
-//                new ArithmeticCircuit.ArithmeticCircuitGate(OR, 3, 2, new int[]{0, 1}, Zq.newOneElement(), Zq.newOneElement()),
-                new ArithmeticCircuit.ArithmeticCircuitGate(AND, 3, 2, new int[]{0, 1}, Zq.newOneElement()),
+
+        ArithmeticCircuit circuit = new ArithmeticCircuit(ell, q, depth, new ArithmeticCircuitGate[]{
+                new ArithmeticCircuitGate(INPUT, 0, 1),
+                new ArithmeticCircuitGate(INPUT, 1, 1),
+                new ArithmeticCircuitGate(INPUT, 2, 1),
+                new ArithmeticCircuitGate(INPUT, 3, 1),
+
+                new ArithmeticCircuitGate(AND, 4, 2, new int[]{0, 1}, Zq.newOneElement(), Zq.newOneElement()),
+                new ArithmeticCircuitGate(AND, 5, 2, new int[]{2, 3}, Zq.newOneElement(), Zq.newOneElement()),
+
+                new ArithmeticCircuitGate(AND, 6, 3, new int[]{4, 5}, Zq.newOneElement(), Zq.newOneElement()),
         });
 
         BNS14SecretKeyParameters secretKey = (BNS14SecretKeyParameters) keyGen(keyPair.getPublic(), keyPair.getPrivate(), circuit);
 
         // Encaps/Decaps for a satisfying assignment
-        byte[][] ct = encaps(keyPair.getPublic(), toElement(Zq, "1 0", ell));
+        byte[][] ct = encaps(keyPair.getPublic(), toElement(Zq, "1 0 1 0", ell));
         byte[] key = ct[0];
         byte[] keyPrime = decaps(secretKey, ct[1]);
 
@@ -65,7 +72,7 @@ public class BNS14KEMEngineTest {
         assertEquals(true, Arrays.equals(key, keyPrime));
 
         // Encaps/Decaps for a non-satisfying assignment
-        ct = encaps(keyPair.getPublic(), toElement(Zq, "1 1", ell));
+        ct = encaps(keyPair.getPublic(), toElement(Zq, "1 1 1 1", ell));
         key = ct[0];
         keyPrime = decaps(secretKey, ct[1]);
 
