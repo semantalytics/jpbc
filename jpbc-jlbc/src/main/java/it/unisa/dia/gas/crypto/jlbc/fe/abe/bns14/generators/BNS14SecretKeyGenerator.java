@@ -56,7 +56,9 @@ public class BNS14SecretKeyGenerator {
                     for (int j = 0, k = gate.getInputNum(); j < k; j++) {
                         // \alpha_i G
                         Element R = solver.processElements(
-                                pk.getPrimitiveLatticePk().getG().duplicate().mulZn(gate.getAlphaAt(j))
+                                (gate.getAlphaAt(j).isOne()) ?
+                                        pk.getPrimitiveLatticePk().getG() :
+                                        pk.getPrimitiveLatticePk().getG().duplicate().mulZn(gate.getAlphaAt(j))
                         );
                         B.add(keys.get(gate.getInputIndexAt(j)).mul(R));
                     }
@@ -69,7 +71,9 @@ public class BNS14SecretKeyGenerator {
 
                     // Compute R_0 = SolveR(G, T_G, \alpha G)
                     Element R = solver.processElements(
-                            pk.getPrimitiveLatticePk().getG().duplicate().mulZn(gate.getAlphaAt(0))
+                            (gate.getAlphaAt(0).isOne()) ?
+                                    pk.getPrimitiveLatticePk().getG() :
+                                    pk.getPrimitiveLatticePk().getG().duplicate().mulZn(gate.getAlphaAt(0))
                     );
                     for (int j = 1, k = gate.getInputNum(); j < k; j++) {
                         // R_j = SolveR(G, T_G, - B_{j-1} R_{j-1})

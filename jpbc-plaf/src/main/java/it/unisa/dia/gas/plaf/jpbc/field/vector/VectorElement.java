@@ -275,9 +275,14 @@ public class VectorElement<E extends Element> extends AbstractVectorElement<E, V
     }
 
     public VectorElement<E> mul(BigInteger n) {
-        for (int i = 0; i < field.n; i++) {
+        if (BigInteger.ONE.equals(n))
+            return this;
+
+        if (BigInteger.ZERO.equals(n))
+            return setToZero();
+
+        for (int i = 0; i < field.n; i++)
             coeff.get(i).mul(n);
-        }
 
         return this;
     }
