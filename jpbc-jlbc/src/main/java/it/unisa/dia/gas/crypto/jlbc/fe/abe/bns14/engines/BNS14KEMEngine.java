@@ -14,7 +14,6 @@ import it.unisa.dia.gas.plaf.jpbc.util.ElementUtils;
 import it.unisa.dia.gas.plaf.jpbc.util.io.ElementStreamReader;
 import it.unisa.dia.gas.plaf.jpbc.util.io.PairingStreamWriter;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,17 +51,16 @@ public class BNS14KEMEngine extends AbstractKeyEncapsulationMechanism {
             // Evaluate the circuit against the ciphertext
             ArithmeticCircuit circuit = sk.getCircuit();
 
-//            Element e = reader.readElement(sk.getCiphertextElementField());
-
             // Read cin, cout;
-            Element s = reader.readElement(pk.getSecretField());
             Element cin = reader.readElement(pk.getRandomnessField());
             Element cout = reader.readElement(pk.getRandomnessField());
 
             // evaluate the circuit
             Map<Integer, Element> evaluations = new HashMap<Integer, Element>();
-            MP12PLP2MatrixSolver sampleD = new MP12PLP2MatrixSolver();
-            sampleD.init(pk.getPrimitiveLatticePk());
+            Map<Integer, Element> keys = new HashMap<Integer, Element>();
+
+            MP12PLP2MatrixSolver solver = new MP12PLP2MatrixSolver();
+            solver.init(pk.getPrimitiveLatticePk());
 
             for (ArithmeticGate gate : sk.getCircuit()) {
                 int index = gate.getIndex();
@@ -71,36 +69,39 @@ public class BNS14KEMEngine extends AbstractKeyEncapsulationMechanism {
                     case INPUT:
                         gate.set(reader.readElement(pk.getLatticePk().getZq()));
                         evaluations.put(index, reader.readElement(pk.getRandomnessField()));
+                        keys.put(index, pk.getBAt(index));
 
                         break;
                     case OR:
                         // addition
                         gate.evaluate();
 
-                        Element cg = evaluations.get(gate.getInputIndexAt(0)).getField().newZeroElement();
-                        for (int i = 0, k = gate.getInputNum(); i < k; i++) {
-//                            Matrix R = (Matrix) sampleD.processElements(
-//                                    pk.getPrimitiveLatticePk().getG().duplicate().mulZn(gate.getAlphaAt(i))
-//                            );
-                            Matrix R = (Matrix) gate.getAt(i);
+                        Element cGate = evaluations.get(gate.getInputIndexAt(0)).getField().newZeroElement();
+                        Element B = pk.getBAt(0).getField().newZeroElement();
 
-                            cg.add(R.mulFromTranspose(evaluations.get(gate.getInputIndexAt(i))));
+                        for (int i = 0, k = gate.getInputNum(); i < k; i++) {
+                            Matrix R = (Matrix) solver.processElements(
+                                    pk.getPrimitiveLatticePk().getG().duplicate().mulZn(gate.getAlphaAt(i))
+                            );
+
+                            B.add(keys.get(gate.getInputIndexAt(i)).mul(R));
+                            cGate.add(R.mulFromTranspose(evaluations.get(gate.getInputIndexAt(i))));
                         }
 
-                        evaluations.put(index, cg);
+                        evaluations.put(index, cGate);
+                        keys.put(index, B);
                         break;
 
                     case AND:
                         // multiplication
                         gate.evaluate();
 
-                        cg = evaluations.get(gate.getInputIndexAt(0)).getField().newZeroElement();
+                        cGate = evaluations.get(gate.getInputIndexAt(0)).getField().newZeroElement();
 
                         // Compute R_0 = SolveR(G, T_G, \alpha G)
-//                        Element R = sampleD.processElements(
-//                                pk.getPrimitiveLatticePk().getG().duplicate().mulZn(gate.getAlphaAt(0))
-//                        );
-                        Element R = gate.getAt(0);
+                        Element R = solver.processElements(
+                                pk.getPrimitiveLatticePk().getG().duplicate().mulZn(gate.getAlphaAt(0))
+                        );
                         for (int j = 1, k = gate.getInputNum(); j < k; j++) {
 
                             Element x = gate.get().getField().newOneElement();
@@ -108,38 +109,29 @@ public class BNS14KEMEngine extends AbstractKeyEncapsulationMechanism {
                                 x.mul(gate.getInputAt(i).get());
                             }
 
+
                             // R_j = SolveR(G, T_G, - B_{j-1} R_{j-1})
-//                            Element Rnext = sampleD.processElements(pk.getBAt(j - 1).mul(R).negate());
+                            Element symdrome = keys.get(gate.getInputIndexAt(j - 1)).mul(R).negate();
+                            Element Rnext = solver.processElements(symdrome);
 
-                            cg.add(((Matrix) R.mul(x)).mulFromTranspose(evaluations.get(gate.getInputIndexAt(j - 1))));
+                            cGate.add(((Matrix) R.duplicate().mul(x)).mulFromTranspose(evaluations.get(gate.getInputIndexAt(j))));
 
-//                            R = Rnext;
-                            R = gate.getAt(j);
+                            R = Rnext;
                         }
 
-                        cg.add(((Matrix) R).mulFromTranspose(evaluations.get(gate.getInputIndexAt(gate.getInputNum() - 1))));
+                        cGate.add(((Matrix) R).mulFromTranspose(evaluations.get(gate.getInputIndexAt(gate.getInputNum() - 1))));
 
-                        evaluations.put(index, cg);
+                        evaluations.put(index, cGate);
+                        keys.put(index, keys.get(gate.getInputIndexAt(gate.getInputNum() - 1)).mul(R));
                         break;
                 }
             }
-            System.out.println(circuit.getOutputGate().get());
-
-            Element Bf = circuit.getOutputGate().getAt(-1);
-            Element Bfs = Bf.mul(s);
-
             Element cf = evaluations.get(circuit.getOutputGate().getIndex());
-
-            System.out.println("Bfs = " + Bfs);
-            System.out.println("cf = " + cf);
-            System.out.println(Bfs.equals(cf));
-//            cf = Bfs;
 
             Element cfPrime = ElementUtils.union(cin, cf);
 
             MP12HLP2ErrorTolerantOneTimePad otp = new MP12HLP2ErrorTolerantOneTimePad();
             Element key = sk.getSkC().mul(cfPrime);
-            System.out.println("key = " + key);
 
             otp.init(key);
 
@@ -154,22 +146,17 @@ public class BNS14KEMEngine extends AbstractKeyEncapsulationMechanism {
                 byte[] bytes = new byte[publicKey.getKeyLengthInBytes()];
                 publicKey.getParameters().getRandom().nextBytes(bytes);
                 writer.write(bytes);
-                System.out.println("bytes = " + Arrays.toString(bytes));
 
                 Element s = publicKey.getSecretField().newRandomElement();
                 Element e0 = publicKey.sampleError();
                 Element e1 = publicKey.sampleError();
-
-                writer.write(s);
 
                 // cin
                 writer.write(publicKey.getLatticePk().getA().mul(s).add(e0));
 
                 // cout
                 MP12HLP2ErrorTolerantOneTimePad otp = new MP12HLP2ErrorTolerantOneTimePad();
-                Element key = publicKey.getD().mul(s).add(e1);
-                System.out.println("key = " + key);
-                otp.init(key);
+                otp.init(publicKey.getD().mul(s).add(e1));
                 writer.write(otp.processBytes(bytes));
 
                 // c_i's

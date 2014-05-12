@@ -184,5 +184,9 @@ public class ElementUtils {
         );
     }
 
+    public static void assertTrue(boolean value) {
+        if (!value)
+            throw new IllegalStateException("Expected true, was false!");
+    }
 
 }

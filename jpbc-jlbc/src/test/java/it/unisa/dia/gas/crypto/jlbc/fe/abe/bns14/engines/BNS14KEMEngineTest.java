@@ -20,8 +20,7 @@ import java.util.Arrays;
 import java.util.StringTokenizer;
 
 import static it.unisa.dia.gas.crypto.circuit.ArithmeticCircuit.ArithmeticCircuitGate;
-import static it.unisa.dia.gas.crypto.circuit.Gate.Type.AND;
-import static it.unisa.dia.gas.crypto.circuit.Gate.Type.INPUT;
+import static it.unisa.dia.gas.crypto.circuit.Gate.Type.*;
 import static org.junit.Assert.*;
 
 /**
@@ -47,23 +46,22 @@ public class BNS14KEMEngineTest {
         Field Zq = ((BNS14PublicKeyParameters)keyPair.getPublic()).getLatticePk().getZq();
 
         // Key Gen
-
         ArithmeticCircuit circuit = new ArithmeticCircuit(ell, q, depth, new ArithmeticCircuitGate[]{
                 new ArithmeticCircuitGate(INPUT, 0, 1),
                 new ArithmeticCircuitGate(INPUT, 1, 1),
                 new ArithmeticCircuitGate(INPUT, 2, 1),
                 new ArithmeticCircuitGate(INPUT, 3, 1),
 
-                new ArithmeticCircuitGate(AND, 4, 2, new int[]{0, 1}, Zq.newOneElement(), Zq.newOneElement()),
-                new ArithmeticCircuitGate(AND, 5, 2, new int[]{2, 3}, Zq.newOneElement(), Zq.newOneElement()),
+                new ArithmeticCircuitGate(AND, 4, 2, new int[]{0, 1}, Zq.newOneElement(),Zq.newOneElement()),
+                new ArithmeticCircuitGate(OR, 5, 2, new int[]{2, 3}, Zq.newOneElement(),Zq.newOneElement()),
 
-                new ArithmeticCircuitGate(AND, 6, 3, new int[]{4, 5}, Zq.newOneElement(), Zq.newOneElement()),
+                new ArithmeticCircuitGate(OR, 6, 3, new int[]{4, 5}, Zq.newOneElement(),Zq.newOneElement()),
         });
 
         BNS14SecretKeyParameters secretKey = (BNS14SecretKeyParameters) keyGen(keyPair.getPublic(), keyPair.getPrivate(), circuit);
 
         // Encaps/Decaps for a satisfying assignment
-        byte[][] ct = encaps(keyPair.getPublic(), toElement(Zq, "1 0 1 0", ell));
+        byte[][] ct = encaps(keyPair.getPublic(), toElement(Zq, "1 0 1 -1", ell));
         byte[] key = ct[0];
         byte[] keyPrime = decaps(secretKey, ct[1]);
 
@@ -96,7 +94,7 @@ public class BNS14KEMEngineTest {
         Element[] elements = new Element[ell];
         StringTokenizer st = new StringTokenizer(assignment, " ");
         int i = 0;
-        while (st.hasMoreTokens()) {
+        while (st.hasMoreTokens() && i < ell) {
             elements[i++] = Zq.newElement(new BigInteger(st.nextToken()));
         }
 
