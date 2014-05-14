@@ -28,10 +28,19 @@ public class MP12PLP2Test {
         this.gen = new MP12PLP2KeyPairGenerator();
         this.gen.init(new MP12PLP2KeyPairGenerationParameters(
                 random,
-                4,  // n
-                32  // k
+                3,  // n
+                2  // k
         ));
         this.pk = (MP12PLP2PublicKeyParameters) gen.generateKeyPair().getPublic();
+    }
+
+
+    @Test
+    public void testName() throws Exception {
+        Element GG = pk.getG().mulFromTranspose(pk.getG());
+
+        System.out.println("GG = " + GG);
+
     }
 
     @Test

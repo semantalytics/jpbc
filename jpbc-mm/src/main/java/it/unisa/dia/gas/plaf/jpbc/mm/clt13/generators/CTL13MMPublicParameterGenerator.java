@@ -1,205 +1,272 @@
 package it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators;
 
 import it.unisa.dia.gas.jpbc.PairingParameters;
-import it.unisa.dia.gas.jpbc.PairingParametersGenerator;
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMMapParameters;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMSystemParameters;
+import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.MutablePairingParameters;
-import it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils;
+import it.unisa.dia.gas.plaf.jpbc.util.concurrent.ExecutorServiceUtils;
+import it.unisa.dia.gas.plaf.jpbc.util.concurrent.Pool;
+import it.unisa.dia.gas.plaf.jpbc.util.concurrent.PoolExecutor;
+import it.unisa.dia.gas.plaf.jpbc.util.concurrent.accumultor.Accumulator;
+import it.unisa.dia.gas.plaf.jpbc.util.concurrent.accumultor.BigIntegerAddAccumulator;
+import it.unisa.dia.gas.plaf.jpbc.util.concurrent.accumultor.BigIntegerMulAccumulator;
+import it.unisa.dia.gas.plaf.jpbc.util.concurrent.context.ContextExecutor;
+import it.unisa.dia.gas.plaf.jpbc.util.concurrent.context.ContextRunnable;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
+import static it.unisa.dia.gas.plaf.jpbc.util.concurrent.ExecutorServiceUtils.IndexCallable;
 import static it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils.getRandom;
 
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 2.0.0
  */
-public class CTL13MMPublicParameterGenerator implements PairingParametersGenerator {
-
-    protected SecureRandom random;
-    protected CTL13MMSystemParameters parameters;
-    protected boolean storeGeneratedInstance;
+public class CTL13MMPublicParameterGenerator extends CTL13MMAbstractPublicParameterGenerator {
 
 
     public CTL13MMPublicParameterGenerator(SecureRandom random, CTL13MMSystemParameters parameters) {
-        this(random, parameters, true);
+        super(random, parameters);
     }
 
     public CTL13MMPublicParameterGenerator(SecureRandom random, PairingParameters parameters) {
-        this(random, new CTL13MMSystemParameters(parameters), true);
+        super(random, parameters);
     }
 
     public CTL13MMPublicParameterGenerator(SecureRandom random, CTL13MMSystemParameters parameters, boolean storeGeneratedInstance) {
-        this.random = random;
-        this.parameters = parameters;
-        this.storeGeneratedInstance = storeGeneratedInstance;
+        super(random, parameters, storeGeneratedInstance);
     }
 
     public CTL13MMPublicParameterGenerator(SecureRandom random, PairingParameters parameters, boolean storeGeneratedInstance) {
-        this(random, new CTL13MMSystemParameters(parameters), storeGeneratedInstance);
+        super(random, parameters, storeGeneratedInstance);
     }
 
-
-    public PairingParameters generate() {
-        CTL13MMMapParameters mapParameters = newCTL13MMMapParameters();
-        if (storeGeneratedInstance) {
-            if (mapParameters.load())
-                return mapParameters;
-        }
-
-        mapParameters.init();
-        generateInternal(mapParameters);
-
-        if (storeGeneratedInstance)
-            mapParameters.store();
-
-        return mapParameters;
-    }
-
-
-    protected CTL13MMMapParameters newCTL13MMMapParameters() {
-        return new CTL13MMMapParameters(parameters);
-    }
 
     protected void generateInternal(MutablePairingParameters mapParameters) {
-        long start = System.currentTimeMillis();
+        ContextExecutor executor = new ContextExecutor(mapParameters);
+        executor.submit(new ContextRunnable("x0+ps") {
+            public void run() {
+                // Generate CRT modulo x0
+                Accumulator<BigInteger> x0 = new BigIntegerMulAccumulator();
+                for (int i = 0; i < parameters.getN(); i++) {
+                    x0.accumulate(new IndexCallable<BigInteger>(i) {
+                        public BigInteger call() throws Exception {
+                            BigInteger value = BigInteger.probablePrime(parameters.getEta(), random);
+                            putBigIntegerAt("ps", i, value);
 
-        // Generate CRT modulo x0
-        BigInteger x0 = BigInteger.ONE;
-        for (int i = 0; i < parameters.getN(); i++) {
-            BigInteger ps = BigInteger.probablePrime(parameters.getEta(), random);
-            mapParameters.putBigIntegerAt("ps", i, ps);
-            x0 = x0.multiply(ps);
-        }
-        mapParameters.putBigInteger("x0", x0);
+                            return value;
+                        }
 
-        // Generate CRT Coefficients
-        for (int i = 0; i < parameters.getN(); i++) {
-            BigInteger temp = x0.divide(mapParameters.getBigIntegerAt("ps", i));
-            temp = temp.modInverse(mapParameters.getBigIntegerAt("ps", i)).multiply(temp);
-            mapParameters.putBigIntegerAt("crtCoefficients", i, temp);
-        }
-
-        // Generate g_i's
-        for (int i = 0; i < parameters.getN(); i++) {
-            BigInteger gs = BigInteger.probablePrime(parameters.getAlpha(), random);
-            mapParameters.putBigIntegerAt("gs", i, gs);
-        }
-
-        // Generate z
-        BigInteger z, zInv;
-        do {
-            z = BigIntegerUtils.getRandom(x0, random);
-            zInv = z.modInverse(x0);
-        } while (zInv.equals(BigInteger.ZERO));
-        mapParameters.putBigInteger("z", z);
-        mapParameters.putBigInteger("zInv", zInv);
-
-        BigInteger temp = BigInteger.ONE;
-        for (int i = 0; i < parameters.getKappa(); i++) {
-            temp = temp.multiply(zInv).mod(x0);
-            mapParameters.putBigIntegerAt("zInvPow", i, temp);
-        }
-
-        // Generate xp_i's
-        for (int i = 0; i < parameters.getEll(); i++) {
-            // xsp[i] = encodeAt(0);
-            BigInteger xsp = BigInteger.ZERO;
-            for (int j = 0; j < parameters.getN(); j++) {
-                xsp = xsp.add(
-                        mapParameters.getBigIntegerAt("gs", j)
-                                .multiply(getRandom(parameters.getRho(), random))
-                                .add(getRandom(parameters.getAlpha(), random))
-                                .multiply(mapParameters.getBigIntegerAt("crtCoefficients", j))
-                );
-            }
-            xsp = xsp.mod(x0);
-            mapParameters.putBigIntegerAt("xsp", i, xsp);
-        }
-
-        // Generate y = encodeOneAt(1)
-        BigInteger y = BigInteger.ZERO;
-        for (int i = 0; i < parameters.getN(); i++) {
-            y = y.add(
-                    mapParameters.getBigIntegerAt("gs", i).multiply(getRandom(parameters.getRho(), random))
-                            .add(BigInteger.ONE)
-                            .multiply(mapParameters.getBigIntegerAt("crtCoefficients", i))
-            );
-        }
-        y = y.multiply(zInv).mod(x0);
-        mapParameters.putBigInteger("y", y);
-
-        BigInteger yPow = BigInteger.ONE;
-        mapParameters.putBigIntegerAt("yPow", 0, yPow);
-        for (int i = 1; i <= parameters.getKappa(); i++) {
-            yPow = yPow.multiply(y).mod(x0);
-            mapParameters.putBigIntegerAt("yPow", i, yPow);
-        }
-
-        // Generate zero-tester pzt
-        BigInteger zPowKappa = z.modPow(BigInteger.valueOf(parameters.getKappa()), x0);
-        BigInteger pzt = BigInteger.ZERO;
-        for (int i = 0; i < parameters.getN(); i++) {
-            BigInteger psi = mapParameters.getBigIntegerAt("ps", i);
-            pzt = pzt.add(
-                    getRandom(parameters.getBeta(), random)
-                            .multiply(mapParameters.getBigIntegerAt("gs", i).modInverse(psi).multiply(zPowKappa).mod(psi))
-                            .multiply(x0.divide(psi))
-            );
-        }
-        pzt = pzt.mod(x0);
-        mapParameters.putBigInteger("pzt", pzt);
-
-        for (int level = 1; level <= parameters.getKappa(); level++) {
-
-            String xsLevel = "xs" + level;
-
-            // Quadratic re-randomization stuff
-            for (int i = 0; i < parameters.getDelta(); i++) {
-                //            xs[i] = encodeZero();
-                BigInteger xs = BigInteger.ZERO;
-                for (int j = 0; j < parameters.getN(); j++)
-                    xs = xs.add(
-                            mapParameters.getBigIntegerAt("gs", j).multiply(getRandom(parameters.getRho(), random))
-                                    .multiply(mapParameters.getBigIntegerAt("crtCoefficients", j))
-                    );
-                xs = xs.mod(x0);
-                mapParameters.putBigIntegerAt(xsLevel, i, xs);
-
-                //            xs[parameters.getDelta() + i] = encodeAt(1);
-                int index = parameters.getDelta() + i;
-                xs = BigInteger.ZERO;
-                for (int j = 0; j < parameters.getN(); j++) {
-                    xs = xs.add(
-                            mapParameters.getBigIntegerAt("gs", j).multiply(getRandom(parameters.getRho(), random))
-                                    .add(getRandom(parameters.getAlpha(), random))
-                                    .multiply(mapParameters.getBigIntegerAt("crtCoefficients", j))
-                    );
+                    });
                 }
-                xs = xs.mod(x0);
-                for (int j = level; j > 0; j--)
-                    xs = xs.multiply(zInv).mod(x0);
+                x0.awaitTermination();
 
-                mapParameters.putBigIntegerAt(xsLevel, index, xs);
+                putBoolean("ps", true);
+                putBigInteger("x0", x0.getResult());
             }
 
-        }
+        }).submit(new ContextRunnable("gs") {
+            public void run() {
+                // Generate g_i's
+                Pool executor = new PoolExecutor();
+                for (int i = 0; i < parameters.getN(); i++) {
+                    executor.submit(new ExecutorServiceUtils.IndexRunnable(i) {
+                        public void run() {
+                            putBigIntegerAt("gs", i, BigInteger.probablePrime(parameters.getAlpha(), random));
+                        }
+                    });
+                }
+                executor.awaitTermination();
 
+                putBoolean("gs", true);
+            }
+        }).submit(new ContextRunnable("crtCoefficients") {
+            public void run() {
+                // Generate CRT Coefficients
+                final BigInteger x0 = getBigInteger("x0");
+                getObject("ps");
+
+                Pool executor = new PoolExecutor();
+                for (int i = 0; i < parameters.getN(); i++) {
+                    executor.submit(new ExecutorServiceUtils.IndexRunnable(i) {
+                        public void run() {
+                            BigInteger temp = x0.divide(getBigIntegerAt("ps", i));
+                            temp = temp.modInverse(getBigIntegerAt("ps", i)).multiply(temp);
+
+                            putBigIntegerAt("crtCoefficients", i, temp);
+                        }
+                    });
+                }
+                executor.awaitTermination();
+
+                putBoolean("crtCoefficients", true);
+            }
+        }).submit(new ContextRunnable("z+zInv") {
+            public void run() {
+                BigInteger x0 = getBigInteger("x0");
+
+                // Generate z
+                BigInteger z, zInv;
+                do {
+                    z = getRandom(x0, random);
+                    zInv = z.modInverse(x0);
+                } while (zInv.equals(BigInteger.ZERO));
+
+                putBigInteger("z", z);
+                putBigInteger("zInv", zInv);
+
+                BigInteger temp = BigInteger.ONE;
+                for (int i = 0; i < parameters.getKappa(); i++) {
+                    temp = temp.multiply(zInv).mod(x0);
+                    putBigIntegerAt("zInvPow", i, temp);
+                }
+            }
+        }).submit(new ContextRunnable("xsp") {
+            public void run() {
+                BigInteger x0 = getBigInteger("x0");
+                getObject("crtCoefficients");
+                getObject("gs");
+
+                // Generate xp_i's
+                for (int i = 0; i < parameters.getEll(); i++) {
+
+                    Accumulator<BigInteger> xsp = new BigIntegerAddAccumulator();
+                    for (int j = 0; j < parameters.getN(); j++) {
+                        xsp.accumulate(new IndexCallable<BigInteger>(i) {
+                            public BigInteger call() throws Exception {
+                                return getBigIntegerAt("gs", i)
+                                        .multiply(getRandom(parameters.getRho(), random))
+                                        .add(getRandom(parameters.getAlpha(), random))
+                                        .multiply(getBigIntegerAt("crtCoefficients", i));
+                            }
+
+                        });
+                    }
+                    putBigIntegerAt("xsp", i, xsp.awaitResult().mod(x0));
+
+                }
+
+                putBoolean("xsp", true);
+            }
+        }).submit(new ContextRunnable("y") {
+            public void run() {
+                BigInteger x0 = getBigInteger("x0");
+                BigInteger zInv = getBigInteger("zInv");
+                getObject("crtCoefficients");
+                getObject("gs");
+
+                // Generate y = encodeOneAt(1)
+                Accumulator<BigInteger> y = new BigIntegerAddAccumulator();
+                for (int i = 0; i < parameters.getN(); i++) {
+                    y.accumulate(new IndexCallable<BigInteger>(i) {
+                        public BigInteger call() throws Exception {
+                            return getBigIntegerAt("gs", i).multiply(getRandom(parameters.getRho(), random))
+                                    .add(BigInteger.ONE)
+                                    .multiply(getBigIntegerAt("crtCoefficients", i));
+                        }
+                    });
+                }
+
+                BigInteger finalY = y.awaitResult().multiply(zInv).mod(x0);
+                putBigInteger("y", finalY);
+
+                BigInteger yPow = BigInteger.ONE;
+                putBigIntegerAt("yPow", 0, yPow);
+                for (int i = 1; i <= parameters.getKappa(); i++) {
+                    yPow = yPow.multiply(finalY).mod(x0);
+                    putBigIntegerAt("yPow", i, yPow);
+                }
+            }
+        }).submit(new ContextRunnable("pzt") {
+            public void run() {
+                final BigInteger x0 = getBigInteger("x0");
+                BigInteger z = getBigInteger("z");
+                getObject("gs");
+                getObject("ps");
+
+                // Generate zero-tester pzt
+                final BigInteger zPowKappa = z.modPow(BigInteger.valueOf(parameters.getKappa()), x0);
+
+                Accumulator<BigInteger> pzt = new BigIntegerAddAccumulator();
+                for (int i = 0; i < parameters.getN(); i++) {
+                    pzt.accumulate(new IndexCallable<BigInteger>(i) {
+                        public BigInteger call() throws Exception {
+                            return getRandom(parameters.getBeta(), random)
+                                    .multiply(getBigIntegerAt("gs", i).modInverse(getBigIntegerAt("ps", i)).multiply(zPowKappa).mod(getBigIntegerAt("ps", i)))
+                                    .multiply(x0.divide(getBigIntegerAt("ps", i)));
+                        }
+                    });
+                }
+
+                putBigInteger("pzt", pzt.awaitResult().mod(x0));
+            }
+        }).submit(new ContextRunnable("xs") {
+            public void run() {
+                BigInteger x0 = getBigInteger("x0");
+                getObject("crtCoefficients");
+                getObject("gs");
+
+                for (int level = 1; level <= parameters.getKappa(); level++) {
+                    String xsLevel = "xs" + level;
+
+                    // Quadratic re-randomization stuff
+                    for (int i = 0; i < parameters.getDelta(); i++) {
+                        // xs[i] = encodeZero();
+                        Accumulator<BigInteger> xs = new BigIntegerAddAccumulator();
+                        for (int j = 0; j < parameters.getN(); j++) {
+                            xs.accumulate(new IndexCallable<BigInteger>(j) {
+                                public BigInteger call() throws Exception {
+                                    return getBigIntegerAt("gs", i).multiply(getRandom(parameters.getRho(), random))
+                                            .multiply(getBigIntegerAt("crtCoefficients", i));
+                                }
+                            });
+                        }
+                        putBigIntegerAt(xsLevel, i, xs.awaitResult().mod(x0));
+
+                        // xs[parameters.getDelta() + i] = encodeAt(1);
+                        xs = new BigIntegerAddAccumulator();
+                        for (int j = 0; j < parameters.getN(); j++) {
+                            xs.accumulate(new IndexCallable<BigInteger>(j) {
+                                public BigInteger call() throws Exception {
+                                    return getBigIntegerAt("gs", i).multiply(getRandom(parameters.getRho(), random))
+                                            .add(getRandom(parameters.getAlpha(), random))
+                                            .multiply(getBigIntegerAt("crtCoefficients", i));
+                                }
+                            });
+                        }
+                        putBigIntegerAt(
+                                xsLevel,
+                                parameters.getDelta() + i,
+                                xs.awaitResult().multiply(getBigIntegerAt("zInvPow", level - 1)).mod(x0)
+                        );
+                    }
+
+                }
+
+                putBoolean("xs", true);
+            }
+        });
+
+        long start = System.currentTimeMillis();
+        executor.awaitTermination();
         long end = System.currentTimeMillis();
-
         System.out.println("end = " + (end - start));
     }
 
 
     public static void main(String[] args) {
+        String params = "./params/mm/ctl13/toy.properties";
+        if (args.length > 0)
+            params = args[0];
+
         try {
             CTL13MMPublicParameterGenerator gen = new CTL13MMPublicParameterGenerator(
-                    SecureRandom.getInstance("SHA1PRNG"), CTL13MMSystemParameters.TOY
+                    SecureRandom.getInstance("SHA1PRNG"),
+                    PairingFactory.getInstance().loadParameters(params)
             );
             gen.generate();
-        } catch (Exception e) {
+        } catch (Exception e ) {
             e.printStackTrace();
         }
     }

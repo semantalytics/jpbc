@@ -71,7 +71,7 @@ public class FloatingElement extends AbstractElement<FloatingField> {
     }
 
     public boolean isZero() {
-        return field.zero.equals(value);
+        return value.signum() == 0;
     }
 
     public boolean isOne() {

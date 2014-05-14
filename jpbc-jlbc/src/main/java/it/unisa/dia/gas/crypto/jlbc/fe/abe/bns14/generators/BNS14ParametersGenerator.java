@@ -23,12 +23,13 @@ public class BNS14ParametersGenerator {
 
 
     public BNS14Parameters generateParameters() {
+        int n = 16;
         return new BNS14Parameters(
                 random,
                 ell,
-                4,
+                n,
                 64,
-                MP12P2Utils.getLWENoiseSampler(random, 4),
+                MP12P2Utils.getLWENoiseSampler(random, n),
                 new UniformOneMinusOneSampler(random)
         );
     }

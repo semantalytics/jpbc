@@ -42,6 +42,10 @@ public class BNS14KEMEngineTest {
         int depth = 3;
         int q = 3;
 
+//        int ell = 2;
+//        int q = 1;
+//        int depth = 2;
+
         AsymmetricCipherKeyPair keyPair = setup(ell, depth);
         Field Zq = ((BNS14PublicKeyParameters)keyPair.getPublic()).getLatticePk().getZq();
 
@@ -57,6 +61,13 @@ public class BNS14KEMEngineTest {
 
                 new ArithmeticCircuitGate(OR, 6, 3, new int[]{4, 5}, Zq.newOneElement(),Zq.newOneElement()),
         });
+
+//        ArithmeticCircuit circuit = new ArithmeticCircuit(ell, q, depth, new ArithmeticCircuitGate[]{
+//                new ArithmeticCircuitGate(INPUT, 0, 1),
+//                new ArithmeticCircuitGate(INPUT, 1, 1),
+//                new ArithmeticCircuitGate(OR, 3, 2, new int[]{0, 1}, Zq.newOneElement(), Zq.newOneElement()),
+//        });
+
 
         BNS14SecretKeyParameters secretKey = (BNS14SecretKeyParameters) keyGen(keyPair.getPublic(), keyPair.getPrivate(), circuit);
 

@@ -2,9 +2,7 @@ package it.unisa.dia.gas.plaf.jpbc.mm.clt13.pairing;
 
 import it.unisa.dia.gas.jpbc.*;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine.CTL13MMInstance;
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine.DefaultCTL13MMInstance;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.engine.MultiThreadCTL13MMInstance;
-import it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators.CTL13MMMultiThreadPublicParameterGenerator;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators.CTL13MMPublicParameterGenerator;
 import it.unisa.dia.gas.plaf.jpbc.pairing.accumulator.PairingAccumulator;
 import it.unisa.dia.gas.plaf.jpbc.pairing.accumulator.PairingAccumulatorFactory;
@@ -88,7 +86,7 @@ public class CTL13MMPairing implements Pairing {
             throw new IllegalArgumentException("Array lengths mismatch.");
 
         PairingAccumulator combiner = PairingAccumulatorFactory.getInstance().getPairingMultiplier(this);
-        for(int i = 0; i < in1.length; i++)
+        for (int i = 0; i < in1.length; i++)
             combiner.addPairing(in1[i], in2[i]);
         return combiner.awaitResult();
     }
@@ -123,17 +121,7 @@ public class CTL13MMPairing implements Pairing {
 
 
     protected CTL13MMInstance initInstance(PairingParameters parameters) {
-        String instanceType = parameters.getString("instanceType", "mt");
-
-        if ("mt".equals(instanceType))
-            return new MultiThreadCTL13MMInstance(random,
-                    new CTL13MMMultiThreadPublicParameterGenerator(
-                            random,
-                            parameters
-                    ).generate()
-            );
-
-        return new DefaultCTL13MMInstance(random,
+        return new MultiThreadCTL13MMInstance(random,
                 new CTL13MMPublicParameterGenerator(
                         random,
                         parameters

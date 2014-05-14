@@ -50,37 +50,65 @@ public abstract class AbstractMatrixElement<E extends Element, F extends Abstrac
     public Element mulFromTranspose(Element e) {
         if (e instanceof Vector) {
             final Vector ve = (Vector) e;
+            // Consider transpose
 
+            VectorField f = new VectorField<Field>(field.getRandom(), field.getTargetField(), field.m);
+            final VectorElement r = f.newElement();
 
-            // Check dimensions
+            PoolExecutor executor = new PoolExecutor();
 
-                // Consider transpose
+            for (int i = 0; i < f.n; i++) {
 
-                VectorField f = new VectorField(field.getRandom(), field.getTargetField(), field.m);
-                final VectorElement r = f.newElement();
+                final int finalI = i;
+                executor.submit(new Runnable() {
+                    public void run() {
+                        // column \times row
+                        Element temp = field.getTargetField().newElement();
+                        for (int k = 0; k < field.n; k++) {
+                            if (isZeroAt(k, finalI))
+                                continue;
+
+                            temp.add(getAt(k, finalI).duplicate().mul(ve.getAt(k)));
+                        }
+                        r.getAt(finalI).set(temp);
+                    }
+                });
+            }
+            executor.awaitTermination();
+
+            return r;
+        }  else if (e instanceof AbstractMatrixElement) {
+/*            final AbstractMatrixElement me = (AbstractMatrixElement) e;
+
+            if (field.getTargetField().equals(me.getField().getTargetField())) {
+                final MatrixField f = new MatrixField<Field>(field.getRandom(), field.getTargetField(), field.m, me.getField().n);
+                final MatrixElement r = f.newElement();
 
                 PoolExecutor executor = new PoolExecutor();
-
-                for (int i = 0; i < f.n; i++) {
+                for (int i = 0; i < field.m; i++) {
 
                     final int finalI = i;
                     executor.submit(new Runnable() {
                         public void run() {
-                            // column \times row
-                            Element temp = field.getTargetField().newElement();
-                            for (int k = 0; k < field.n; k++) {
-                                if (isZeroAt(k, finalI))
-                                    continue;
+                            // row \times column
+                            for (int j = 0; j < field.n; j++) {
+                                Element temp = field.getTargetField().newElement();
 
-                                temp.add(getAt(k, finalI).duplicate().mul(ve.getAt(k)));
+                                for (int k = 0; k < field.m; k++) {
+                                    if (isZeroAt(finalI, k))
+                                        continue;
+                                    temp.add(getAt(finalI, k).duplicate().mul(me.getAt(k, j)));
+                                }
+
+                                r.getAt(finalI, j).set(temp);
                             }
-                            r.getAt(finalI).set(temp);
                         }
                     });
                 }
                 executor.awaitTermination();
 
                 return r;
+            }*/
         }
 
         throw new IllegalStateException("Not Implemented yet!!!");
@@ -209,11 +237,11 @@ public abstract class AbstractMatrixElement<E extends Element, F extends Abstrac
                     sb.append(String.format("%10s", "0"));
                 else
                     sb.append(String.format("%10s", getAt(i, j)));
-                if (j != field.m -1)
+                if (j != field.m - 1)
                     sb.append(",");
             }
 
-            if (i != field.n -1)
+            if (i != field.n - 1)
                 sb.append(";\n");
         }
         sb.append("]\n");
@@ -233,11 +261,11 @@ public abstract class AbstractMatrixElement<E extends Element, F extends Abstrac
                     sb.append(String.format("%10s", "0"));
                 else
                     sb.append(String.format("%10s", getAt(i, j)));
-                if (j != field.m -1)
+                if (j != field.m - 1)
                     sb.append(",");
             }
 
-            if (i != field.n -1)
+            if (i != field.n - 1)
                 sb.append(";\n");
         }
         sb.append("]\n");
@@ -306,10 +334,9 @@ public abstract class AbstractMatrixElement<E extends Element, F extends Abstrac
         for (int i = 0; i < field.n; i++)
             for (int j = 0; j < field.m; j++)
                 if (element.isZeroAt(i, j)) {
-                    if (!isZeroAt(i,j))
+                    if (!isZeroAt(i, j))
                         return false;
-                } else
-                if (!getAt(i,j).isEqual(element.getAt(i,j)))
+                } else if (!getAt(i, j).isEqual(element.getAt(i, j)))
                     return false;
 
         return true;
