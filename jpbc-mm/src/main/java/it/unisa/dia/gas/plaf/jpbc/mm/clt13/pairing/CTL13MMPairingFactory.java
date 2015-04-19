@@ -8,7 +8,7 @@ import java.security.SecureRandom;
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
-public class CTL13PairingFactory {
+public class CTL13MMPairingFactory {
 
     public static Pairing getPairing(SecureRandom random, PairingParameters parameters) {
         return new CTL13MMPairing(random, parameters);

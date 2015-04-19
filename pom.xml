@@ -48,7 +48,6 @@
         <module>jpbc-benchmark</module>
         <module>jpbc-site-skin</module>
         <module>jpbc-android</module>
-        <module>jpbc-jlbc</module>
     </modules>
 
     <repositories>

@@ -58,7 +58,7 @@
                     <sdk><!-- platform or api level (api level 16 = platform 4.1)-->
                         <!--<path>${env.ANDROID_HOME}</path>-->
                         <path>./../sdks/android</path>
-                        <platform>18</platform>
+                        <platform>19</platform>
                     </sdk>
                 </configuration>
             </plugin>

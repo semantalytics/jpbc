@@ -45,6 +45,26 @@ public class PairingTest extends AbstractJPBCTest {
     }
 
     @Test
+    public void testProd() throws Exception {
+        // pairing(g,h)^(a*b)=pairing(g^a,h^b).
+
+        Element g, h;
+        Element a, b;
+
+        g = pairing.getG1().newElement().setToRandom();
+        h = pairing.getG2().newElement().setToRandom();
+
+        a = pairing.getZr().newElement().setToRandom();
+        b = pairing.getZr().newElement().setToRandom();
+
+
+        Element r1 = pairing.pairing(g, h).powZn(a.duplicate().mul(b));
+        Element r2 = pairing.pairing(g.powZn(a), h.powZn(b));
+
+        assertTrue(r1.isEqual(r2));
+    }
+
+    @Test
     public void testPairingPreProcessing() {
         Element g, h;
         Element x1, x2;

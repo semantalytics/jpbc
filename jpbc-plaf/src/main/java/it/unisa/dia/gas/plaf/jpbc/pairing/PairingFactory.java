@@ -175,7 +175,7 @@ public class PairingFactory {
 
         public CTL13MultilinearPairingCreator() {
             try {
-                Class pbcPairingFactoryClass = Class.forName("it.unisa.dia.gas.plaf.jpbc.mm.clt13.pairing.CTL13PairingFactory");
+                Class pbcPairingFactoryClass = Class.forName("it.unisa.dia.gas.plaf.jpbc.mm.clt13.pairing.CTL13MMPairingFactory");
                 getPairingMethod = pbcPairingFactoryClass.getMethod("getPairing", SecureRandom.class, PairingParameters.class);
             } catch (Exception e) {
                 throwable = e;

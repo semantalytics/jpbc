@@ -6,7 +6,6 @@ import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
@@ -55,11 +54,6 @@ public abstract class AbstractElement<F extends AbstractField> implements Elemen
     }
 
     public Element pow(BigInteger n) {
-        if (BigInteger.ZERO.equals(n)) {
-            setToOne();
-            return this;
-        }
-
         elementPowWind(n);
 
         return this;
@@ -225,15 +219,4 @@ public abstract class AbstractElement<F extends AbstractField> implements Elemen
         set(result);
     }
 
-
-    protected String[] tokenize(String value) {
-        StringTokenizer tokenizer = new StringTokenizer(value,",");
-        int n = tokenizer.countTokens();
-
-        String[] tokens = new String[n];
-        for (int i = 0; i < n; i++) {
-            tokens[i] = tokenizer.nextToken();
-        }
-        return tokens;
-    }
 }

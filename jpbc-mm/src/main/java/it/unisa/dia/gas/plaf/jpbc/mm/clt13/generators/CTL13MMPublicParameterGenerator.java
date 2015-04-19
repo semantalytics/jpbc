@@ -1,8 +1,9 @@
 package it.unisa.dia.gas.plaf.jpbc.mm.clt13.generators;
 
 import it.unisa.dia.gas.jpbc.PairingParameters;
+import it.unisa.dia.gas.jpbc.PairingParametersGenerator;
+import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMMapParameters;
 import it.unisa.dia.gas.plaf.jpbc.mm.clt13.parameters.CTL13MMSystemParameters;
-import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import it.unisa.dia.gas.plaf.jpbc.pairing.parameters.MutablePairingParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.ExecutorServiceUtils;
 import it.unisa.dia.gas.plaf.jpbc.util.concurrent.Pool;
@@ -23,25 +24,52 @@ import static it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils.getRandom;
  * @author Angelo De Caro (jpbclib@gmail.com)
  * @since 2.0.0
  */
-public class CTL13MMPublicParameterGenerator extends CTL13MMAbstractPublicParameterGenerator {
+public class CTL13MMPublicParameterGenerator implements PairingParametersGenerator {
+
+    protected SecureRandom random;
+    protected CTL13MMSystemParameters parameters;
+    protected boolean storeGeneratedInstance;
 
 
     public CTL13MMPublicParameterGenerator(SecureRandom random, CTL13MMSystemParameters parameters) {
-        super(random, parameters);
+        this(random, parameters, true);
     }
 
     public CTL13MMPublicParameterGenerator(SecureRandom random, PairingParameters parameters) {
-        super(random, parameters);
-    }
-
-    public CTL13MMPublicParameterGenerator(SecureRandom random, CTL13MMSystemParameters parameters, boolean storeGeneratedInstance) {
-        super(random, parameters, storeGeneratedInstance);
+        this(random, new CTL13MMSystemParameters(parameters), true);
     }
 
     public CTL13MMPublicParameterGenerator(SecureRandom random, PairingParameters parameters, boolean storeGeneratedInstance) {
-        super(random, parameters, storeGeneratedInstance);
+        this(random, new CTL13MMSystemParameters(parameters), storeGeneratedInstance);
     }
 
+    public CTL13MMPublicParameterGenerator(SecureRandom random, CTL13MMSystemParameters parameters, boolean storeGeneratedInstance) {
+        this.random = random;
+        this.parameters = parameters;
+        this.storeGeneratedInstance = storeGeneratedInstance;
+    }
+
+
+    public PairingParameters generate() {
+        CTL13MMMapParameters mapParameters = newCTL13MMMapParameters();
+        if (storeGeneratedInstance) {
+            if (mapParameters.load())
+                return mapParameters;
+        }
+
+        mapParameters.init();
+        generateInternal(mapParameters);
+
+        if (storeGeneratedInstance)
+            mapParameters.store();
+
+        return mapParameters;
+    }
+
+
+    protected CTL13MMMapParameters newCTL13MMMapParameters() {
+        return new CTL13MMMapParameters(parameters);
+    }
 
     protected void generateInternal(MutablePairingParameters mapParameters) {
         ContextExecutor executor = new ContextExecutor(mapParameters);
@@ -252,23 +280,6 @@ public class CTL13MMPublicParameterGenerator extends CTL13MMAbstractPublicParame
         executor.awaitTermination();
         long end = System.currentTimeMillis();
         System.out.println("end = " + (end - start));
-    }
-
-
-    public static void main(String[] args) {
-        String params = "./params/mm/ctl13/toy.properties";
-        if (args.length > 0)
-            params = args[0];
-
-        try {
-            CTL13MMPublicParameterGenerator gen = new CTL13MMPublicParameterGenerator(
-                    SecureRandom.getInstance("SHA1PRNG"),
-                    PairingFactory.getInstance().loadParameters(params)
-            );
-            gen.generate();
-        } catch (Exception e ) {
-            e.printStackTrace();
-        }
     }
 
 }
