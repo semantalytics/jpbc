@@ -55,10 +55,6 @@
             <id>central</id>
             <url>https://repo.maven.apache.org/maven2/</url>
         </repository>
-        <repository>
-            <id>java.net</id>
-            <url>https://maven.java.net/content/groups/public/</url>
-        </repository>
     </repositories>
 
     <pluginRepositories>
