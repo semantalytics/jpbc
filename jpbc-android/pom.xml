@@ -35,6 +35,7 @@
             <version>4.1.1.4</version>
             <scope>provided</scope>
         </dependency>
+
     </dependencies>
 
     <build>
@@ -43,21 +44,22 @@
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>com.jayway.maven.plugins.android.generation2</groupId>
+                    <groupId>com.simpligility.maven.plugins</groupId>
                     <artifactId>android-maven-plugin</artifactId>
-                    <version>3.7.0</version>
+                    <version>4.6.0</version>
                     <extensions>true</extensions>
                 </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
             <plugin>
-                <groupId>com.jayway.maven.plugins.android.generation2</groupId>
+                <groupId>com.simpligility.maven.plugins</groupId>
                 <artifactId>android-maven-plugin</artifactId>
+                <version>4.6.0</version>
                 <configuration>
                     <sdk><!-- platform or api level (api level 16 = platform 4.1)-->
                         <!--<path>${env.ANDROID_HOME}</path>-->
-                        <path>./../sdks/android</path>
+                        <path>${env.ANDROID_HOME}</path>
                         <platform>19</platform>
                     </sdk>
                 </configuration>
