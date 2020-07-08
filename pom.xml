@@ -53,7 +53,7 @@
     <repositories>
         <repository>
             <id>central</id>
-            <url>http://repo.maven.apache.org/maven2/</url>
+            <url>https://repo.maven.apache.org/maven2/</url>
         </repository>
         <repository>
             <id>java.net</id>
@@ -88,7 +88,7 @@
                 <plugins>
                     <plugin>
                         <artifactId>maven-assembly-plugin</artifactId>
-                        <version>2.2-beta-1</version>
+                        <version>3.2.0</version>
                         <configuration>
                             <descriptors>
                                 <descriptor>src/main/assembly/jpbc-distro.xml</descriptor>
@@ -117,7 +117,7 @@
                 <plugins>
                     <plugin>
                         <artifactId>maven-assembly-plugin</artifactId>
-                        <version>2.2-beta-1</version>
+                        <version>3.2.0</version>
                         <configuration>
                             <descriptors>
                                 <descriptor>src/main/assembly/jpbc-site.xml</descriptor>
@@ -127,7 +127,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-site-plugin</artifactId>
-                        <version>3.3</version>
+                        <version>3.7.1</version>
                         <configuration>
                             <outputEncoding>UTF-8</outputEncoding>
                             <locales>en</locales>
@@ -156,7 +156,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3</version>
+                <version>3.8.1</version>
                 <configuration>
                     <source>1.5</source>
                     <target>1.5</target>
@@ -164,7 +164,7 @@
             </plugin>
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>2.0.4</version>
+                <version>3.2.1</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -177,7 +177,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>2.2</version>
+                <version>3.2.0</version>
                 <executions>
                     <execution>
                         <goals>
@@ -194,7 +194,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>2.6</version>
+                <version>3.1.0</version>
                 <reportSets>
                     <reportSet>
                         <reports>
