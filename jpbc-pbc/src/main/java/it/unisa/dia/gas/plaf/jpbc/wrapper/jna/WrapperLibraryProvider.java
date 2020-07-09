@@ -11,9 +11,9 @@ public class WrapperLibraryProvider {
 
     static {
         try {
-            wrapperLibrary = (WrapperLibrary) Native.loadLibrary("jpbc-pbc", WrapperLibrary.class);
+            wrapperLibrary = Native.load("jpbc-pbc", WrapperLibrary.class);
         } catch (Throwable e) {
-//            e.printStackTrace();
+            e.printStackTrace();
         }
     }
 

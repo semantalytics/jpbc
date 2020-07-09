@@ -53,13 +53,13 @@ public abstract class AbstractElement<F extends AbstractField> implements Elemen
         throw new IllegalStateException("Not Implemented yet!");
     }
 
-    public Element pow(BigInteger n) {
+    public Element pow(final BigInteger n) {
         elementPowWind(n);
 
         return this;
     }
 
-    public Element powZn(Element n) {
+    public Element powZn(final Element n) {
         return pow(n.toBigInteger());
     }
 

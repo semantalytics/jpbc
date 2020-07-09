@@ -8,10 +8,10 @@ import it.unisa.dia.gas.plaf.jpbc.util.ElementUtils;
  */
 public class GGHSW13PublicKeyParameters extends GGHSW13KeyParameters {
 
-    private Element H;
-    private Element[] hs;
+    private final Element H;
+    private final Element[] hs;
 
-    public GGHSW13PublicKeyParameters(GGHSW13Parameters parameters, Element H, Element[] hs) {
+    public GGHSW13PublicKeyParameters(final GGHSW13Parameters parameters, final Element H, final Element[] hs) {
         super(false, parameters);
 
         this.H = H.getImmutable();

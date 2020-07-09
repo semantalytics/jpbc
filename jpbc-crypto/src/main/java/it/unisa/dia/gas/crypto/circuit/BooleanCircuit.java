@@ -9,18 +9,21 @@ import java.util.Iterator;
  */
 public class BooleanCircuit implements Circuit<BooleanGate> {
 
-    private int n, q;
-    private int depth;
-    private BooleanGate[] gates;
+    private final int n;
+    private final int q;
+    private final int depth;
+    private final BooleanGate[] gates;
 
-
-    public BooleanCircuit(int n, int q, int depth, BooleanCircuitGate[] gates) {
+    public BooleanCircuit(final int n,
+                          final int q,
+                          final int depth,
+                          final BooleanCircuitGate[] gates) {
         this.n = n;
         this.q = q;
         this.depth = depth;
-
         this.gates = gates;
-        for (BooleanCircuitGate gate : gates)
+
+        for (final BooleanCircuitGate gate : gates)
             gate.setCircuit(this);
     }
 
@@ -42,7 +45,7 @@ public class BooleanCircuit implements Circuit<BooleanGate> {
         return Arrays.asList(gates).iterator();
     }
 
-    public BooleanGate getGateAt(int index) {
+    public BooleanGate getGateAt(final int index) {
         return gates[index];
     }
 
@@ -50,19 +53,18 @@ public class BooleanCircuit implements Circuit<BooleanGate> {
         return gates[n + q - 1];
     }
 
-
     public static class BooleanCircuitGate implements BooleanGate {
 
         private BooleanCircuit circuit;
 
-        private Type type;
-        private int index;
-        private int depth;
-        private int[] inputs;
+        private final Type type;
+        private final int index;
+        private final int depth;
 
+        private int[] inputs;
         private boolean value;
 
-        public BooleanCircuitGate(Type type, int index, int depth) {
+        public BooleanCircuitGate(final Type type, final int index, final int depth) {
             this.type = type;
             this.index = index;
             this.depth = depth;
@@ -91,15 +93,15 @@ public class BooleanCircuit implements Circuit<BooleanGate> {
             return depth;
         }
 
-        public int getInputIndexAt(int index) {
+        public int getInputIndexAt(final int index) {
             return inputs[index];
         }
 
-        public BooleanGate getInputAt(int index) {
+        public BooleanGate getInputAt(final int index) {
             return circuit.getGateAt(getInputIndexAt(index));
         }
 
-        public BooleanGate set(Boolean value) {
+        public BooleanGate set(final Boolean value) {
             this.value = value;
             return this;
         }
@@ -140,7 +142,7 @@ public class BooleanCircuit implements Circuit<BooleanGate> {
                     '}';
         }
 
-        public Gate<Boolean> putAt(int index, Boolean value) {
+        public Gate<Boolean> putAt(final int index, final Boolean value) {
             throw new IllegalStateException("Not implemented yet!!!");
         }
 

@@ -1,3 +1,7 @@
 target
 *.iml
 .idea
+jpbc-crypto/CTL13MM_eta_757_n_165_alpha_10_ell_160_rho_27_delta_12_kappa_5_beta_80_theta_16_bound_160.dat
+jpbc-mm/CTL13MM_eta_757_n_165_alpha_10_ell_160_rho_27_delta_12_kappa_5_beta_80_theta_16_bound_160.dat
+jpbc-test/CTL13MM_eta_757_n_165_alpha_10_ell_160_rho_27_delta_12_kappa_5_beta_80_theta_16_bound_160.dat
+

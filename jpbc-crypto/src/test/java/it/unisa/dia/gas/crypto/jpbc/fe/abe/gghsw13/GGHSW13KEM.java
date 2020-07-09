@@ -32,9 +32,9 @@ public class GGHSW13KEM {
         GGHSW13KeyPairGenerator setup = new GGHSW13KeyPairGenerator();
         setup.init(new GGHSW13KeyPairGenerationParameters(
                 new SecureRandom(),
-                new GGHSW13ParametersGenerator().init(
+                GGHSW13ParametersGenerator.generate(
                         PairingFactory.getPairing("params/mm/ctl13/toy.properties"),
-                        n).generateParameters()
+                        n)
         ));
 
         return setup.generateKeyPair();
@@ -62,11 +62,10 @@ public class GGHSW13KEM {
     }
 
     public CipherParameters keyGen(CipherParameters publicKey, CipherParameters masterSecretKey, BooleanCircuit circuit) {
-        GGHSW13SecretKeyGenerator keyGen = new GGHSW13SecretKeyGenerator();
-        keyGen.init(new GGHSW13SecretKeyGenerationParameters(
-                (GGHSW13PublicKeyParameters) publicKey,
-                (GGHSW13MasterSecretKeyParameters) masterSecretKey,
-                circuit
+        GGHSW13SecretKeyGenerator keyGen = new GGHSW13SecretKeyGenerator(new GGHSW13SecretKeyGenerationParameters(
+                                                                                (GGHSW13PublicKeyParameters) publicKey,
+                                                                                (GGHSW13MasterSecretKeyParameters) masterSecretKey,
+                                                                        circuit
         ));
 
         return keyGen.generateKey();

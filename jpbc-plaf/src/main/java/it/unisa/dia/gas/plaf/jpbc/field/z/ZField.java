@@ -18,7 +18,6 @@ public class ZField extends AbstractField<ZElement> {
         super(random);
     }
 
-
     public ZElement newElement() {
         return new ZElement(this);
     }

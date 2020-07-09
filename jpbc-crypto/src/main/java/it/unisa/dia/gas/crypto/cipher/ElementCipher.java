@@ -8,15 +8,14 @@ import org.bouncycastle.crypto.CipherParameters;
  */
 public interface ElementCipher {
 
-    public ElementCipher init(CipherParameters param);
+    ElementCipher init(CipherParameters param);
 
-    public ElementCipher init(Element key);
+    ElementCipher init(Element key);
 
+    Element processBytes(byte[] buffer);
 
-    public Element processBytes(byte[] buffer);
+    Element processElements(Element... input);
 
-    public Element processElements(Element... input);
-
-    public byte[] processElementsToBytes(Element... input);
+    byte[] processElementsToBytes(Element... input);
 
 }

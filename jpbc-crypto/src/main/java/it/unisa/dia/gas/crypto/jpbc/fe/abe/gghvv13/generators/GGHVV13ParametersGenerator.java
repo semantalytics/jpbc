@@ -13,7 +13,7 @@ public class GGHVV13ParametersGenerator {
     private int n;
 
 
-    public GGHVV13ParametersGenerator init(Pairing pairing, int n) {
+    public GGHVV13ParametersGenerator init(final Pairing pairing, final int n) {
         this.pairing = pairing;
         this.n = n;
 

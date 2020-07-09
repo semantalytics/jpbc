@@ -81,7 +81,7 @@ public class GGHSW13KEMEngineTest extends AbstractJPBCCryptoTest {
 
 
     protected GGHSW13Parameters createParameters(int n) {
-        return new GGHSW13ParametersGenerator().init(pairing, n).generateParameters();
+        return GGHSW13ParametersGenerator.generate(pairing, n);
     }
 
     protected AsymmetricCipherKeyPair setup(GGHSW13Parameters parameters) {
@@ -117,8 +117,7 @@ public class GGHSW13KEMEngineTest extends AbstractJPBCCryptoTest {
 
     protected CipherParameters keyGen(CipherParameters publicKey, CipherParameters masterSecretKey, BooleanCircuit circuit) {
         // Init the Generator
-        GGHSW13SecretKeyGenerator keyGen = new GGHSW13SecretKeyGenerator();
-        keyGen.init(new GGHSW13SecretKeyGenerationParameters(
+        GGHSW13SecretKeyGenerator keyGen = new GGHSW13SecretKeyGenerator(new GGHSW13SecretKeyGenerationParameters(
                 (GGHSW13PublicKeyParameters) publicKey,
                 (GGHSW13MasterSecretKeyParameters) masterSecretKey,
                 circuit

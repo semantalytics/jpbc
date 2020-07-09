@@ -53,9 +53,9 @@ public class KEMCipherGGHSW13KEM {
         GGHSW13KeyPairGenerator setup = new GGHSW13KeyPairGenerator();
         setup.init(new GGHSW13KeyPairGenerationParameters(
                 new SecureRandom(),
-                new GGHSW13ParametersGenerator().init(
+                GGHSW13ParametersGenerator.generate(
                         PairingFactory.getPairing("params/mm/ctl13/toy.properties"),
-                        n).generateParameters()
+                        n)
         ));
 
         return (keyPair = setup.generateKeyPair());
@@ -90,8 +90,7 @@ public class KEMCipherGGHSW13KEM {
 
 
     public CipherParameters keyGen(BooleanCircuit circuit) {
-        GGHSW13SecretKeyGenerator keyGen = new GGHSW13SecretKeyGenerator();
-        keyGen.init(new GGHSW13SecretKeyGenerationParameters(
+        GGHSW13SecretKeyGenerator keyGen = new GGHSW13SecretKeyGenerator(new GGHSW13SecretKeyGenerationParameters(
                 (GGHSW13PublicKeyParameters) keyPair.getPublic(),
                 (GGHSW13MasterSecretKeyParameters) keyPair.getPrivate(),
                 circuit
@@ -112,8 +111,6 @@ public class KEMCipherGGHSW13KEM {
             throw new RuntimeException(e);
         }
     }
-
-
 
     public static void main(String[] args) {
         Security.addProvider(new BouncyCastleProvider());

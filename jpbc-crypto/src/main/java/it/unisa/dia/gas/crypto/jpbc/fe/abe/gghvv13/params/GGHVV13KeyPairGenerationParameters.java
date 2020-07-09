@@ -9,9 +9,9 @@ import java.security.SecureRandom;
  */
 public class GGHVV13KeyPairGenerationParameters extends KeyGenerationParameters {
 
-    private GGHVV13Parameters params;
+    private final GGHVV13Parameters params;
 
-    public GGHVV13KeyPairGenerationParameters(SecureRandom random, GGHVV13Parameters params) {
+    public GGHVV13KeyPairGenerationParameters(final SecureRandom random, final GGHVV13Parameters params) {
         super(random, 0);
 
         this.params = params;

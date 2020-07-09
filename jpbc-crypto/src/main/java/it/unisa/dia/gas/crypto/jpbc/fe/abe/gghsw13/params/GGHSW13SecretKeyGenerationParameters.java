@@ -14,9 +14,10 @@ public class GGHSW13SecretKeyGenerationParameters extends KeyGenerationParameter
 
 
     public GGHSW13SecretKeyGenerationParameters(
-            GGHSW13PublicKeyParameters publicKeyParameters,
-            GGHSW13MasterSecretKeyParameters masterSecretKeyParameters,
-            BooleanCircuit circuit) {
+            final GGHSW13PublicKeyParameters publicKeyParameters,
+            final GGHSW13MasterSecretKeyParameters masterSecretKeyParameters,
+            final BooleanCircuit circuit) {
+
         super(null, 0);
 
         this.publicKeyParameters = publicKeyParameters;

@@ -10,25 +10,18 @@ import java.math.BigInteger;
  */
 public class ZElement extends AbstractBigIntegerZElement<ZField> {
 
-
-    public ZElement(ZField field) {
+    public ZElement(final ZField field, final BigInteger value) {
         super(field);
-
-        this.value = BigInteger.ZERO;
-    }
-
-    public ZElement(ZField field, BigInteger value) {
-        super(field);
-
         this.value = value;
     }
 
-    public ZElement(ZElement zrElement) {
-        super(zrElement.getField());
-
-        this.value = zrElement.value;
+    public ZElement(final ZField field) {
+        this(field, BigInteger.ZERO);
     }
 
+    public ZElement(final ZElement zrElement) {
+        this(zrElement.getField(), zrElement.value);
+    }
 
     public ZField getField() {
         return field;
@@ -43,19 +36,19 @@ public class ZElement extends AbstractBigIntegerZElement<ZField> {
         return new ZElement(this);
     }
 
-    public ZElement set(Element value) {
+    public ZElement set(final Element value) {
         this.value = ((AbstractBigIntegerZElement) value).value;
 
         return this;
     }
 
-    public ZElement set(int value) {
+    public ZElement set(final int value) {
         this.value = BigInteger.valueOf(value);
 
         return this;
     }
 
-    public ZElement set(BigInteger value) {
+    public ZElement set(final BigInteger value) {
         this.value = value;
 
         return this;

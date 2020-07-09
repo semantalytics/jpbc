@@ -6,8 +6,7 @@ import org.bouncycastle.crypto.InvalidCipherTextException;
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
-public abstract class PredicateOnlyPairingAsymmetricBlockCipher extends PairingAsymmetricBlockCipher
-        implements PredicateOnlyEncryptionScheme {
+public abstract class PredicateOnlyPairingAsymmetricBlockCipher extends PairingAsymmetricBlockCipher implements PredicateOnlyEncryptionScheme {
 
     /**
      * Return the maximum size for an input block to this engine.
@@ -15,10 +14,7 @@ public abstract class PredicateOnlyPairingAsymmetricBlockCipher extends PairingA
      * @return maximum size for an input block.
      */
     public int getInputBlockSize() {
-        if (forEncryption)
-            return 0;
-
-        return outBytes;
+    	return forEncryption ? 0 : outBytes;
     }
 
     /**
@@ -27,21 +23,18 @@ public abstract class PredicateOnlyPairingAsymmetricBlockCipher extends PairingA
      * @return maximum size for an output block.
      */
     public int getOutputBlockSize() {
-        if (forEncryption)
-            return outBytes;
-
-        return 1;
+    	return forEncryption ? outBytes : 1;
     }
 
     public byte[] process() throws InvalidCipherTextException {
         return processBlock(new byte[0], 0, 0);
     }
 
-    public boolean evaluate(byte[] in, int inOff, int len) throws InvalidCipherTextException {
+    public boolean evaluate(final byte[] in, final int inOff, final int len) throws InvalidCipherTextException {
         return processBlock(in, 0, len)[0] == 1;
     }
 
-    public boolean evaluate(byte[] in) throws InvalidCipherTextException {
+    public boolean evaluate(final byte[] in) throws InvalidCipherTextException {
         return processBlock(in, 0, in.length)[0] == 1;
     }
 }

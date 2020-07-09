@@ -20,16 +20,16 @@ import static it.unisa.dia.gas.plaf.jpbc.util.math.BigIntegerUtils.modNear;
  */
 public class MultiThreadCTL13MMInstance implements CTL13MMInstance {
 
-    protected SecureRandom random;
-    protected CTL13MMPublicParameters values;
-    protected CTL13MMSystemParameters parameters;
+    protected final SecureRandom random;
+    protected final CTL13MMPublicParameters values;
+    protected final CTL13MMSystemParameters parameters;
 
-    protected BigInteger x0;
-    protected BigInteger pzt;
+    protected final BigInteger x0;
+    protected final BigInteger pzt;
 
-    protected long isZeroBound;
+    protected final long isZeroBound;
 
-    public MultiThreadCTL13MMInstance(SecureRandom random, PairingParameters parameters) {
+    public MultiThreadCTL13MMInstance(final SecureRandom random, final PairingParameters parameters) {
         this.random = random;
         this.values = new CTL13MMPublicParameters(parameters);
 
@@ -46,18 +46,18 @@ public class MultiThreadCTL13MMInstance implements CTL13MMInstance {
     }
 
 
-    public BigInteger reduce(BigInteger value) {
+    public BigInteger reduce(final BigInteger value) {
         return value.mod(x0);
     }
 
-    public boolean isZero(BigInteger value, int index) {
+    public boolean isZero(BigInteger value, final int index) {
         value = modNear(value.multiply(pzt).multiply(values.getYPowAt(parameters.getKappa() - index)), x0);
 
         return (value.bitLength() < isZeroBound);
     }
 
 
-    public BigInteger sampleAtLevel(int index) {
+    public BigInteger sampleAtLevel(final int index) {
         return encodeAt(sampleAtZero(), 0, index);
     }
 
@@ -73,11 +73,11 @@ public class MultiThreadCTL13MMInstance implements CTL13MMInstance {
     }
 
 
-    public BigInteger encodeAt(BigInteger value, int startIndex, int endIndex) {
+    public BigInteger encodeAt(final BigInteger value, final int startIndex, final int endIndex) {
         return modNear(value.multiply(values.getYPowAt(endIndex - startIndex)), x0);
     }
 
-    public BigInteger encodeAt(int degree) {
+    public BigInteger encodeAt(final int degree) {
         Accumulator<BigInteger> accumulator = new BigIntegerAddAccumulator();
         for (int i = 0; i < parameters.getN(); i++) {
             accumulator.accumulate(new IndexCallable<BigInteger>(i) {
@@ -100,7 +100,7 @@ public class MultiThreadCTL13MMInstance implements CTL13MMInstance {
         return encodeZeroAt(0);
     }
 
-    public BigInteger encodeZeroAt(int index) {
+    public BigInteger encodeZeroAt(final int index) {
         Accumulator<BigInteger> accumulator = new BigIntegerAddAccumulator();
         for (int i = 0; i < parameters.getN(); i++) {
             accumulator.accumulate(new IndexCallable<BigInteger>(i) {
@@ -122,7 +122,7 @@ public class MultiThreadCTL13MMInstance implements CTL13MMInstance {
         return encodeOneAt(0);
     }
 
-    public BigInteger encodeOneAt(int index) {
+    public BigInteger encodeOneAt(final int index) {
         Accumulator<BigInteger> accumulator = new BigIntegerAddAccumulator();
         for (int i = 0; i < parameters.getN(); i++) {
             accumulator.accumulate(new IndexCallable<BigInteger>(i) {
@@ -141,7 +141,7 @@ public class MultiThreadCTL13MMInstance implements CTL13MMInstance {
         return res;
     }
 
-    public BigInteger reRandomize(BigInteger value, final int index) {
+    public BigInteger reRandomize(final BigInteger value, final int index) {
         // Re-randomize.
         Accumulator<BigInteger> accumulator = new BigIntegerAddAccumulator();
         for (int i = 0; i < parameters.getTheta(); i++) {
@@ -158,7 +158,7 @@ public class MultiThreadCTL13MMInstance implements CTL13MMInstance {
     }
 
 
-    public BigInteger extract(BigInteger value, int index) {
+    public BigInteger extract(BigInteger value, final int index) {
         value = modNear(value.multiply(pzt).multiply(values.getYPowAt(parameters.getKappa() - index)), x0);
 //
         return value.shiftRight(

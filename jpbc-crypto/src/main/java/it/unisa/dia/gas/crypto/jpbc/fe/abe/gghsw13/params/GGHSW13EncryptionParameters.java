@@ -6,12 +6,12 @@ package it.unisa.dia.gas.crypto.jpbc.fe.abe.gghsw13.params;
  */
 public class GGHSW13EncryptionParameters extends GGHSW13KeyParameters {
 
-    private GGHSW13PublicKeyParameters publicKey;
-    private String assignment;
+    private final GGHSW13PublicKeyParameters publicKey;
+    private final String assignment;
 
 
-    public GGHSW13EncryptionParameters(GGHSW13PublicKeyParameters publicKey,
-                                       String assignment) {
+    public GGHSW13EncryptionParameters(final GGHSW13PublicKeyParameters publicKey,
+                                       final String assignment) {
         super(false, publicKey.getParameters());
 
         this.publicKey = publicKey;

@@ -10,11 +10,13 @@ import java.util.Map;
  */
 public class GGHSW13SecretKeyParameters extends GGHSW13KeyParameters {
 
-    private BooleanCircuit circuit;
-    private Map<Integer, Element[]> keys;
+    private final BooleanCircuit circuit;
+    private final Map<Integer, Element[]> keys;
 
 
-    public GGHSW13SecretKeyParameters(GGHSW13Parameters parameters, BooleanCircuit circuit, Map<Integer, Element[]> keys) {
+    public GGHSW13SecretKeyParameters(final GGHSW13Parameters parameters,
+                                      final BooleanCircuit circuit,
+                                      final Map<Integer, Element[]> keys) {
         super(true, parameters);
 
         this.circuit = circuit;
@@ -25,7 +27,7 @@ public class GGHSW13SecretKeyParameters extends GGHSW13KeyParameters {
         return circuit;
     }
 
-    public Element[] getKeyElementsAt(int index) {
+    public Element[] getKeyElementsAt(final int index) {
         return keys.get(index);
     }
 }

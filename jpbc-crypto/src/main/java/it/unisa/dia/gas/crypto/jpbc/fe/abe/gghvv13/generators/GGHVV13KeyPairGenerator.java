@@ -14,8 +14,8 @@ import org.bouncycastle.crypto.KeyGenerationParameters;
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class GGHVV13KeyPairGenerator implements AsymmetricCipherKeyPairGenerator {
-    private GGHVV13KeyPairGenerationParameters params;
 
+    private GGHVV13KeyPairGenerationParameters params;
 
     public void init(KeyGenerationParameters keyGenerationParameters) {
         this.params = (GGHVV13KeyPairGenerationParameters) keyGenerationParameters;

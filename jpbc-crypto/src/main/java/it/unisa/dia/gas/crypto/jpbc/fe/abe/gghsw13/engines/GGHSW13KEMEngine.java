@@ -22,20 +22,23 @@ public class GGHSW13KEMEngine extends PairingKeyEncapsulationMechanism {
 
     public void initialize() {
         if (forEncryption) {
-            if (!(key instanceof GGHSW13EncryptionParameters))
+            if (!(key instanceof GGHSW13EncryptionParameters)) {
                 throw new IllegalArgumentException("GGHSW13EncryptionParameters are required for encryption.");
+            }
         } else {
-            if (!(key instanceof GGHSW13SecretKeyParameters))
+            if (!(key instanceof GGHSW13SecretKeyParameters)) {
                 throw new IllegalArgumentException("GGHSW13SecretKeyParameters are required for decryption.");
+            }
         }
 
-        GGHSW13KeyParameters gghswKey = (GGHSW13KeyParameters) key;
+        final GGHSW13KeyParameters gghswKey = (GGHSW13KeyParameters) key;
 
         this.pairing = gghswKey.getParameters().getPairing();
         this.keyBytes = pairing.getFieldAt(pairing.getDegree()).getCanonicalRepresentationLengthInBytes();
     }
 
-    public byte[] process(byte[] in, int inOff, int inLen) {
+    public byte[] process(final byte[] in, final int inOff, final int inLen) {
+
         if (key instanceof GGHSW13SecretKeyParameters) {
             // Decrypt
             GGHSW13SecretKeyParameters sk = (GGHSW13SecretKeyParameters) key;

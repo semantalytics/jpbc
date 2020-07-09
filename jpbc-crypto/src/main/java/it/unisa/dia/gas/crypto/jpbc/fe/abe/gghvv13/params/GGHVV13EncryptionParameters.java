@@ -6,12 +6,12 @@ package it.unisa.dia.gas.crypto.jpbc.fe.abe.gghvv13.params;
  */
 public class GGHVV13EncryptionParameters extends GGHVV13KeyParameters {
 
-    private GGHVV13PublicKeyParameters publicKey;
-    private String assignment;
+    private final GGHVV13PublicKeyParameters publicKey;
+    private final String assignment;
 
 
-    public GGHVV13EncryptionParameters(GGHVV13PublicKeyParameters publicKey,
-                                       String assignment) {
+    public GGHVV13EncryptionParameters(final GGHVV13PublicKeyParameters publicKey,
+                                       final String assignment) {
         super(false, publicKey.getParameters());
 
         this.publicKey = publicKey;

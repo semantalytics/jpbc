@@ -14,11 +14,16 @@ import java.security.SecureRandom;
  */
 public class DPVS {
 
-    public static Element[][] sampleRandomDualOrthonormalBases(SecureRandom random, Pairing pairing, Element g, int N) {
-        Pairing vectorPairing = new ProductPairing(random, pairing, N);
+    public static Element[][] sampleRandomDualOrthonormalBases(final SecureRandom random,
+                                                               final Pairing pairing,
+                                                               final Element g,
+                                                               final int N) {
+
+        final Pairing vectorPairing = new ProductPairing(random, pairing, N);
 
         // Generate canonical base
-        Vector[] canonicalBase = new Vector[N];
+        final Vector[] canonicalBase = new Vector[N];
+
         for (int i = 0; i < N; i++) {
             canonicalBase[i] = (Vector) vectorPairing.getG1().newZeroElement();
             canonicalBase[i].getAt(i).set(g);
@@ -51,7 +56,8 @@ public class DPVS {
     }
 
 
-    public static Element[][] sampleUniformTransformation(Field field, int n) {
+    public static Element[][] sampleUniformTransformation(final Field field, final int n) {
+
         Element[][] matrix = new Element[n][n];
 
         for (int i = 0; i < n; i++) {
@@ -77,7 +83,7 @@ public class DPVS {
         return result;
     }
 
-    public static Element[][] invertArray(Element[][] D, int n) {
+    public static Element[][] invertArray(final Element[][] D, final int n) {
         Field field = D[0][0].getField();
 
         // init the reduction matrix

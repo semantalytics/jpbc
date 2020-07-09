@@ -26,9 +26,9 @@ public abstract class AbstractAsymmetricBlockCipher implements AsymmetricBlockCi
     public int getInputBlockSize() {
         if (forEncryption) {
             return inBytes;
+        } else {
+            return outBytes;
         }
-
-        return outBytes;
     }
 
     /**
@@ -39,9 +39,9 @@ public abstract class AbstractAsymmetricBlockCipher implements AsymmetricBlockCi
     public int getOutputBlockSize() {
         if (forEncryption) {
             return outBytes;
+        } else {
+            return inBytes;
         }
-
-        return inBytes;
     }
 
     /**
@@ -50,7 +50,7 @@ public abstract class AbstractAsymmetricBlockCipher implements AsymmetricBlockCi
      * @param forEncryption true if we are encrypting, false otherwise.
      * @param param         the necessary cipher key parameters.
      */
-    public void init(boolean forEncryption, CipherParameters param) {
+    public void init(final boolean forEncryption, final CipherParameters param) {
         if (param instanceof ParametersWithRandom) {
             ParametersWithRandom p = (ParametersWithRandom) param;
 
@@ -73,18 +73,21 @@ public abstract class AbstractAsymmetricBlockCipher implements AsymmetricBlockCi
      * @return the result of the cipher process.
      * @throws org.bouncycastle.crypto.DataLengthException the input block is too large.
      */
-    public byte[] processBlock(byte[] in, int inOff, int inLen) throws InvalidCipherTextException {
-        if (key == null)
+    public byte[] processBlock(final byte[] in,
+                               final int inOff,
+                               final int inLen) throws InvalidCipherTextException {
+        if (key == null) {
             throw new IllegalStateException("Engine not initialized");
+        }
 
         int maxLength = getInputBlockSize();
 
-        if (inLen < maxLength)
+        if (inLen < maxLength) {
             throw new DataLengthException("Input too small for the cipher.");
+        }
 
         return process(in, inOff, inLen);
     }
-
 
     public abstract void initialize();
 

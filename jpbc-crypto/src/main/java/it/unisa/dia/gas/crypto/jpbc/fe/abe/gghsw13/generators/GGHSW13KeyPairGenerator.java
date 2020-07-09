@@ -14,33 +14,35 @@ import org.bouncycastle.crypto.KeyGenerationParameters;
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class GGHSW13KeyPairGenerator implements AsymmetricCipherKeyPairGenerator {
+
     private GGHSW13KeyPairGenerationParameters params;
 
-
-    public void init(KeyGenerationParameters keyGenerationParameters) {
+    public void init(final KeyGenerationParameters keyGenerationParameters) {
         this.params = (GGHSW13KeyPairGenerationParameters) keyGenerationParameters;
     }
 
     public AsymmetricCipherKeyPair generateKeyPair() {
-        GGHSW13Parameters parameters = params.getParameters();
 
-        Pairing pairing = parameters.getPairing();
+        final GGHSW13Parameters parameters = params.getParameters();
+
+        final Pairing pairing = parameters.getPairing();
 
         // Sample secret key
-        Element alpha = pairing.getZr().newRandomElement().getImmutable();
+        final Element alpha = pairing.getZr().newRandomElement().getImmutable();
 
         // Sample public key
-        int n = parameters.getN();
-        Element[] hs = new Element[n];
-        for (int i = 0; i < hs.length; i++)
-            hs[i] = pairing.getFieldAt(1).newRandomElement().getImmutable();
+        final int n = parameters.getN();
+        final Element[] hs = new Element[n];
 
-        Element H = pairing.getFieldAt(pairing.getDegree()).newElement().powZn(alpha).getImmutable();
+        for (int i = 0; i < hs.length; i++) {
+            hs[i] = pairing.getFieldAt(1).newRandomElement().getImmutable();
+        }
+
+        final Element H = pairing.getFieldAt(pairing.getDegree()).newElement().powZn(alpha).getImmutable();
 
         // Return the keypair
-        return new AsymmetricCipherKeyPair(
-                new GGHSW13PublicKeyParameters(parameters, H, hs),
-                new GGHSW13MasterSecretKeyParameters(parameters, alpha)
+        return new AsymmetricCipherKeyPair(new GGHSW13PublicKeyParameters(parameters, H, hs),
+                                           new GGHSW13MasterSecretKeyParameters(parameters, alpha)
         );
     }
 

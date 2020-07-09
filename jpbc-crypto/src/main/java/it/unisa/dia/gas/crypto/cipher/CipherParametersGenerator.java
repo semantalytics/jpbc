@@ -8,8 +8,8 @@ import org.bouncycastle.crypto.KeyGenerationParameters;
  */
 public interface CipherParametersGenerator {
 
-    public CipherParametersGenerator init(KeyGenerationParameters keyGenerationParameters);
+    CipherParametersGenerator init(KeyGenerationParameters keyGenerationParameters);
 
-    public CipherParameters generateKey();
+    CipherParameters generateKey();
 
 }

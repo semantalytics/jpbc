@@ -18,12 +18,14 @@ import java.util.Map;
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class GGHVV13SecretKeyGenerator {
+
     private GGHVV13SecretKeyGenerationParameters param;
 
     private Pairing pairing;
     private BooleanCircuit circuit;
 
     public void init(KeyGenerationParameters param) {
+
         this.param = (GGHVV13SecretKeyGenerationParameters) param;
 
         this.pairing = this.param.getMasterSecretKeyParameters().getParameters().getPairing();

@@ -39,7 +39,7 @@ public class HVEIP08KEMEngine extends PairingKeyEncapsulationMechanism {
         this.outBytes = ((2 * n + 1) * pairing.getG1().getLengthInBytes()) + (2 * pairing.getGT().getLengthInBytes());
     }
 
-    public byte[] process(byte[] in, int inOff, int inLen) {
+    public byte[] process(final byte[] in, final int inOff, final int inLen) {
         if (key instanceof HVEIP08SecretKeyParameters) {
             // decaps
 
@@ -124,8 +124,9 @@ public class HVEIP08KEMEngine extends PairingKeyEncapsulationMechanism {
                 outputStream.write(Omega.toBytes());
                 outputStream.write(C0.toBytes());
 
-                for (Element element : elements)
+                for (final Element element : elements) {
                     outputStream.write(element.toBytes());
+                }
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

@@ -9,20 +9,7 @@ import it.unisa.dia.gas.jpbc.Pairing;
  */
 public class GGHSW13ParametersGenerator {
 
-    private Pairing pairing;
-    private int n;
-
-
-    public GGHSW13ParametersGenerator init(Pairing pairing, int n) {
-        this.pairing = pairing;
-        this.n = n;
-
-        return this;
-    }
-
-
-    public GGHSW13Parameters generateParameters() {
+    public static GGHSW13Parameters generate(final Pairing pairing, final int n) {
         return new GGHSW13Parameters(pairing, n);
     }
-
 }

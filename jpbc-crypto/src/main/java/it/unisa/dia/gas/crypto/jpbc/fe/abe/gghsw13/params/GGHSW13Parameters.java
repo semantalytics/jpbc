@@ -8,10 +8,10 @@ import org.bouncycastle.crypto.CipherParameters;
  */
 public class GGHSW13Parameters implements CipherParameters {
 
-    private Pairing pairing;
-    private int n;
+    private final Pairing pairing;
+    private final int n;
 
-    public GGHSW13Parameters(Pairing pairing, int n) {
+    public GGHSW13Parameters(final Pairing pairing, final int n) {
         this.pairing = pairing;
         this.n = n;
     }

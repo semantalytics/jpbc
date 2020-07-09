@@ -18,11 +18,11 @@ public class DefaultDFA implements DFA {
     private List<Integer> finalStates;
 
 
-    public DefaultDFA(int numStates) {
+    public DefaultDFA(final int numStates) {
         this(numStates, null);
     }
 
-    public DefaultDFA(int numStates, Alphabet alphabet) {
+    public DefaultDFA(final int numStates, final Alphabet alphabet) {
         this.numStates = numStates;
         this.alphabet = alphabet;
 
@@ -31,17 +31,16 @@ public class DefaultDFA implements DFA {
         this.finalStates = new ArrayList<Integer>();
     }
 
-
-
-    public void addFinalState(int state) {
+    public void addFinalState(final int state) {
         finalStates.add(state);
     }
 
-    public void addTransition(int from, Character reading, int to) {
-        if (alphabet != null && alphabet.getIndex(reading) == -1)
+    public void addTransition(final int from, final Character reading, final int to) {
+        if (alphabet != null && alphabet.getIndex(reading) == -1) {
             return;
+        }
 
-        Transition transition = new DefaultTransition(from, reading, to);
+        final Transition transition = new DefaultTransition(from, reading, to);
 
         this.transitions.add(transition);
         this.index.put(String.format("%d_%s", from, reading), transition);
@@ -98,8 +97,6 @@ public class DefaultDFA implements DFA {
         }
         return false;
     }
-
-
 
     public static class DefaultTransition implements Transition {
         private int from;

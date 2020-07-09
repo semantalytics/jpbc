@@ -9,10 +9,9 @@ import org.bouncycastle.crypto.InvalidCipherTextException;
  */
 public interface PredicateOnlyEncryptionScheme extends AsymmetricBlockCipher {
 
-    public byte[] process() throws InvalidCipherTextException;
+    byte[] process() throws InvalidCipherTextException;
 
+    boolean evaluate(byte[] in, int inOff, int len) throws InvalidCipherTextException;
 
-    public boolean evaluate(byte[] in, int inOff, int len) throws InvalidCipherTextException;
-
-    public boolean evaluate(byte[] in) throws InvalidCipherTextException;
+    boolean evaluate(byte[] in) throws InvalidCipherTextException;
 }

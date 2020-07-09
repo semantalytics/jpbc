@@ -14,18 +14,21 @@ import java.util.Map;
  */
 public class ArithmeticCircuit implements Circuit<ArithmeticGate> {
 
-    private int n, q;
+    private int n;
+    private int q;
     private int depth;
     private ArithmeticGate[] gates;
 
-
-    public ArithmeticCircuit(int n, int q, int depth, ArithmeticCircuitGate[] gates) {
+    public ArithmeticCircuit(final int n,
+                             final int q,
+                             final int depth,
+                             final ArithmeticCircuitGate[] gates) {
         this.n = n;
         this.q = q;
         this.depth = depth;
-
         this.gates = gates;
-        for (ArithmeticCircuitGate gate : gates)
+
+        for (final ArithmeticCircuitGate gate : gates)
             gate.setCircuit(this);
     }
 
@@ -46,7 +49,7 @@ public class ArithmeticCircuit implements Circuit<ArithmeticGate> {
         return Arrays.asList(gates).iterator();
     }
 
-    public ArithmeticGate getGateAt(int index) {
+    public ArithmeticGate getGateAt(final int index) {
         return gates[index];
     }
 
@@ -54,8 +57,8 @@ public class ArithmeticCircuit implements Circuit<ArithmeticGate> {
         return gates[n + q - 1];
     }
 
-    public Element evaluate(Element... inputs) {
-        for (ArithmeticGate gate : gates) {
+    public Element evaluate(final Element... inputs) {
+        for (final ArithmeticGate gate : gates) {
             switch (gate.getType()) {
                 case INPUT:
                     gate.set(inputs[gate.getIndex()]);
@@ -74,30 +77,38 @@ public class ArithmeticCircuit implements Circuit<ArithmeticGate> {
     public static class ArithmeticCircuitGate implements ArithmeticGate {
 
         private ArithmeticCircuit circuit;
-
-        private Type type;
-        private int index;
-        private int depth;
-        private int[] inputs;
+        private final Type type;
+        private final int index;
+        private final int depth;
+        private final Map<Integer, Element> values;
 
         private Element value;
         private Element[] alphas;
-        private Map<Integer, Element> values;
+        private int[] inputs;
 
-        public ArithmeticCircuitGate(Type type, int index, int depth) {
+        public ArithmeticCircuitGate(final Type type,
+                                     final int index,
+                                     final int depth) {
             this.type = type;
             this.index = index;
             this.depth = depth;
+
             this.values = new HashMap<Integer, Element>();
         }
 
-        public ArithmeticCircuitGate(Type type, int index, int depth, int[] inputs, Element... alphas) {
+        public ArithmeticCircuitGate(final Type type,
+                                     final int index,
+                                     final int depth,
+                                     final int[] inputs,
+                                     final Element... alphas) {
             this.type = type;
             this.index = index;
             this.depth = depth;
+
+            this.values = new HashMap<Integer, Element>();
+
             this.inputs = Arrays.copyOf(inputs, inputs.length);
             this.alphas = ElementUtils.cloneImmutable(alphas);
-            this.values = new HashMap<Integer, Element>();
         }
 
         public int getInputNum() {
@@ -133,7 +144,7 @@ public class ArithmeticCircuit implements Circuit<ArithmeticGate> {
         }
 
 
-        public ArithmeticGate set(Element value) {
+        public ArithmeticGate set(final Element value) {
             this.value = value;
             return this;
         }
@@ -173,16 +184,16 @@ public class ArithmeticCircuit implements Circuit<ArithmeticGate> {
         }
 
 
-        public Gate<Element> putAt(int index, Element value) {
+        public Gate<Element> putAt(final int index, final Element value) {
             values.put(index, value);
             return this;
         }
 
-        public Element getAt(int index) {
+        public Element getAt(final int index) {
             return values.get(index);
         }
 
-        protected void setCircuit(ArithmeticCircuit circuit) {
+        protected void setCircuit(final ArithmeticCircuit circuit) {
             this.circuit = circuit;
         }
 

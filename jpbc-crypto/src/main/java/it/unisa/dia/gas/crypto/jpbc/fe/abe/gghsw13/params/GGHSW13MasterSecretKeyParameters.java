@@ -7,15 +7,13 @@ import it.unisa.dia.gas.jpbc.Element;
  */
 public class GGHSW13MasterSecretKeyParameters extends GGHSW13KeyParameters {
 
-    private Element alpha;
+    private final Element alpha;
 
 
-    public GGHSW13MasterSecretKeyParameters(GGHSW13Parameters parameters, Element alpha) {
+    public GGHSW13MasterSecretKeyParameters(final GGHSW13Parameters parameters, final Element alpha) {
         super(true, parameters);
-
         this.alpha = alpha.getImmutable();
     }
-
 
     public Element getAlpha() {
         return alpha;

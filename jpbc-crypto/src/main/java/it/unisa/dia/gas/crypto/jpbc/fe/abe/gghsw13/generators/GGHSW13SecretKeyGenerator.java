@@ -18,12 +18,13 @@ import java.util.Map;
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class GGHSW13SecretKeyGenerator {
-    private GGHSW13SecretKeyGenerationParameters param;
 
+    private final GGHSW13SecretKeyGenerationParameters param;
     private Pairing pairing;
     private BooleanCircuit circuit;
 
-    public void init(KeyGenerationParameters param) {
+    public GGHSW13SecretKeyGenerator(final KeyGenerationParameters param) {
+
         this.param = (GGHSW13SecretKeyGenerationParameters) param;
 
         this.pairing = this.param.getMasterSecretKeyParameters().getParameters().getPairing();
@@ -31,10 +32,11 @@ public class GGHSW13SecretKeyGenerator {
     }
 
     public CipherParameters generateKey() {
-        GGHSW13MasterSecretKeyParameters msk = param.getMasterSecretKeyParameters();
-        GGHSW13PublicKeyParameters pk = param.getPublicKeyParameters();
 
-        BooleanCircuit circuit = this.circuit;
+        final GGHSW13MasterSecretKeyParameters msk = param.getMasterSecretKeyParameters();
+        final GGHSW13PublicKeyParameters pk = param.getPublicKeyParameters();
+
+        final BooleanCircuit circuit = this.circuit;
 
         // sample the randomness
         Element[] rs = new Element[circuit.getN() + circuit.getQ()];
@@ -48,7 +50,8 @@ public class GGHSW13SecretKeyGenerator {
         Element ePrime = pairing.getFieldAt(circuit.getDepth()).newElement().powZn(msk.getAlpha().sub(rs[rs.length - 1]));
         keys.put(-1, new Element[]{ePrime});
 
-        for (BooleanGate gate : circuit) {
+        for (final BooleanGate gate : circuit) {
+
             int index = gate.getIndex();
             int depth = gate.getDepth();
 
