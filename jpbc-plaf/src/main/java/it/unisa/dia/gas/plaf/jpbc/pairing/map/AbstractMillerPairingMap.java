@@ -161,12 +161,18 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
     }
 
     protected abstract void millerStep(Point<E> out,
-                                       Element a, Element b, Element c,
-                                       E Qx, E Qy);
+                                       Element a,
+                                       Element b,
+                                       Element c,
+                                       E Qx,
+                                       E Qy);
 
 
-    protected final void computeTangent(final Element a, final Element b, final Element c,
-                                        final Element Vx, final Element Vy,
+    protected final void computeTangent(final Element a,
+                                        final Element b,
+                                        final Element c,
+                                        final Element Vx,
+                                        final Element Vy,
                                         final Element curveA,
                                         final Element temp) {
         //a = -slope_tangent(V.x, V.y);
@@ -183,8 +189,11 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
     }
 
     protected final void computeTangent(final MillerPreProcessingInfo info,
-                                        final Element a, final Element b, final Element c,
-                                        final Element Vx, final Element Vy,
+                                        final Element a,
+                                        final Element b,
+                                        final Element c,
+                                        final Element Vx,
+                                        final Element Vy,
                                         final Element curveA,
                                         final Element temp) {
         //a = -slope_tangent(Z.x, Z.y);
@@ -225,9 +234,13 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
      * @param V1y  V1's y.
      * @param temp temp element.
      */
-    protected final void computeLine(final Element a, final Element b, final Element c,
-                                     final Element Vx, final Element Vy,
-                                     final Element V1x, final Element V1y,
+    protected final void computeLine(final Element a,
+                                     final Element b,
+                                     final Element c,
+                                     final Element Vx,
+                                     final Element Vy,
+                                     final Element V1x,
+                                     final Element V1y,
                                      final Element temp) {
 
         // a = -(V1y - Vy) / (V1x - Vx);
@@ -246,9 +259,13 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
     }
 
     protected final void computeLine(final MillerPreProcessingInfo info,
-                                     final Element a, final Element b, final Element c,
-                                     final Element Vx, final Element Vy,
-                                     final Element V1x, final Element V1y,
+                                     final Element a,
+                                     final Element b,
+                                     final Element c,
+                                     final Element Vx,
+                                     final Element Vy,
+                                     final Element V1x,
+                                     final Element V1y,
                                      final Element temp) {
         // a = -(V1y - Vy) / (V1x - Vx);
         // b = 1;

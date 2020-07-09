@@ -19,7 +19,7 @@ public class WTORGVW13Engine extends AbstractElementCipher {
     private CipherParameters param;
     private Pairing pairing;
 
-    public ElementCipher init(CipherParameters param) {
+    public ElementCipher init(final CipherParameters param) {
         this.param = param;
 
         WTORGVW13KeyParameters keyParameters = (WTORGVW13KeyParameters) param;
@@ -29,15 +29,16 @@ public class WTORGVW13Engine extends AbstractElementCipher {
     }
 
 
-    public Element processElements(Element... input) {
+    public Element processElements(final Element... input) {
         if (param instanceof WTORGVW13PublicKeyParameters) {
-            WTORGVW13PublicKeyParameters keyParameters = (WTORGVW13PublicKeyParameters) param;
+            final WTORGVW13PublicKeyParameters keyParameters = (WTORGVW13PublicKeyParameters) param;
 
             // Read Input
-            Element s = input[0];
+            //TODO better hope there's one here
+            final Element s = input[0];
 
             // Encode
-            Element result;
+            final Element result;
             if (keyParameters.getLevel() == 0) {
                 result = keyParameters.getLeft().powZn(s);
             } else {
@@ -51,9 +52,10 @@ public class WTORGVW13Engine extends AbstractElementCipher {
         } else {
             WTORGVW13RecodeParameters keyParameters = (WTORGVW13RecodeParameters) param;
 
+            //TODO better hope there are actually two here
             // Read Input
-            Element c0 = input[0];
-            Element c1 = input[1];
+            final Element c0 = input[0];
+            final Element c1 = input[1];
 
             // Recode
             return pairing.pairing(c0, keyParameters.getRk()).mul(c1);

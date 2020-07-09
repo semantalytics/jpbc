@@ -20,22 +20,31 @@ import java.util.Map;
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class PairingFactory {
-    private static final PairingFactory INSTANCE = new PairingFactory();
 
+    private boolean usePBCWhenPossible = false;
+    private boolean reuseInstance = true;
+    private boolean pbcAvailable = false;
+    private boolean immutable = false;
+
+    private final Map<PairingParameters, Pairing> instances;
+    private final Map<String, PairingCreator> creators;
+    private final SecureRandomCreator secureRandomCreator;
+
+    private static final PairingFactory INSTANCE = new PairingFactory();
 
     public static PairingFactory getInstance() {
         return INSTANCE;
     }
 
-    public static Pairing getPairing(PairingParameters parameters) {
+    public static Pairing getPairing(final PairingParameters parameters) {
         return getInstance().initPairing(parameters);
     }
 
-    public static Pairing getPairing(String parametersPath) {
+    public static Pairing getPairing(final String parametersPath) {
         return getInstance().initPairing(parametersPath);
     }
 
-    public static Pairing getPairing(PairingParameters parameters, SecureRandom random) {
+    public static Pairing getPairing(final PairingParameters parameters, final SecureRandom random) {
         return getInstance().initPairing(parameters, random);
     }
 
@@ -47,18 +56,8 @@ public class PairingFactory {
         return getInstance().loadParameters(parametersPath);
     }
 
-
-    private boolean usePBCWhenPossible = false;
-    private boolean reuseInstance = true;
-    private boolean pbcAvailable = false;
-    private boolean immutable = false;
-
-    private Map<PairingParameters, Pairing> instances;
-    private Map<String, PairingCreator> creators;
-    private SecureRandomCreator secureRandomCreator;
-
-
     private PairingFactory() {
+
         this.instances = new HashMap<PairingParameters, Pairing>();
         this.creators = new HashMap<String, PairingCreator>();
         this.secureRandomCreator = new DefaultSecureRandomCreator();
@@ -88,13 +87,17 @@ public class PairingFactory {
     }
 
     public Pairing initPairing(PairingParameters parameters, SecureRandom random) {
-        if (parameters == null)
+
+        if (parameters == null) {
             throw new IllegalArgumentException("parameters cannot be null.");
+        }
 
-        if (random == null)
+        if (random == null) {
             random = secureRandomCreator.newSecureRandom();
+        }
 
-        Pairing pairing = null;
+        Pairing pairing;
+
         if (reuseInstance) {
             pairing = instances.get(parameters);
             if (pairing != null)
@@ -103,24 +106,30 @@ public class PairingFactory {
 
         String type = parameters.getString("type");
         PairingCreator creator = creators.get(type);
-        if (creator == null)
+
+        if (creator == null) {
             throw new IllegalArgumentException("Type not supported. Type = " + type);
+        }
 
         pairing = creator.create(type, random, parameters);
-        if (pairing == null)
+
+        if (pairing == null) {
             throw new IllegalArgumentException("Cannot create pairing instance. Type = " + type);
+        }
 
-        if (immutable)
+        if (immutable) {
             pairing = new ImmutableParing(pairing);
+        }
 
-        if (reuseInstance)
+        if (reuseInstance) {
             instances.put(parameters, pairing);
+        }
 
         return pairing;
     }
 
 
-    public PairingParameters loadParameters(String path) {
+    public PairingParameters loadParameters(final String path) {
         PropertiesParameters curveParams = new PropertiesParameters();
         curveParams.load(path);
 
@@ -136,7 +145,7 @@ public class PairingFactory {
         return usePBCWhenPossible;
     }
 
-    public void setUsePBCWhenPossible(boolean usePBCWhenPossible) {
+    public void setUsePBCWhenPossible(final boolean usePBCWhenPossible) {
         this.usePBCWhenPossible = usePBCWhenPossible;
     }
 
@@ -144,7 +153,7 @@ public class PairingFactory {
         return reuseInstance;
     }
 
-    public void setReuseInstance(boolean reuseInstance) {
+    public void setReuseInstance(final boolean reuseInstance) {
         this.reuseInstance = reuseInstance;
     }
 
@@ -152,20 +161,18 @@ public class PairingFactory {
         return immutable;
     }
 
-    public void setImmutable(boolean immutable) {
+    public void setImmutable(final boolean immutable) {
         this.immutable = immutable;
     }
 
-
-    public void addPairingCreator(String type, PairingCreator creator) {
+    public void addPairingCreator(final String type, final PairingCreator creator) {
         creators.put(type, creator);
     }
 
 
-    public static interface PairingCreator {
+    public interface PairingCreator {
 
         Pairing create(String type, SecureRandom random, PairingParameters pairingParameters);
-
     }
 
     public static class CTL13MultilinearPairingCreator implements PairingCreator {
@@ -183,7 +190,7 @@ public class PairingFactory {
 
         }
 
-        public Pairing create(String type, SecureRandom random, PairingParameters parameters) {
+        public Pairing create(final String type, final SecureRandom random, final PairingParameters parameters) {
             try {
                 return (Pairing) getPairingMethod.invoke(null, random, parameters);
             } catch (Exception e) {
@@ -210,21 +217,23 @@ public class PairingFactory {
                 Method isPBCAvailable = pbcPairingFactoryClass.getMethod("isPBCAvailable", null);
 
                 pbcAvailable = ((Boolean) isPBCAvailable.invoke(null));
-                if (pbcAvailable)
+                if (pbcAvailable) {
                     getPairingMethod = pbcPairingFactoryClass.getMethod("getPairing", PairingParameters.class);
+                }
             } catch (Exception e) {
                 pbcAvailable = false;
                 pbcPairingFailure = e;
             }
-
         }
 
-        public Pairing create(String type, SecureRandom random, PairingParameters parameters) {
+        public Pairing create(final String type, final SecureRandom random, final PairingParameters parameters) {
+
             Pairing pairing = null;
 
             // Handle bilinear maps parameters
-            if (usePBCWhenPossible && pbcAvailable)
+            if (usePBCWhenPossible && pbcAvailable) {
                 pairing = getPBCPairing(parameters);
+            }
 
             if (pairing == null) {
                 if ("a".equalsIgnoreCase(type))

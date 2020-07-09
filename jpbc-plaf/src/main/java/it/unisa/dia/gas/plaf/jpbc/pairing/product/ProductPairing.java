@@ -13,16 +13,18 @@ import java.security.SecureRandom;
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class ProductPairing implements Pairing {
-    protected Pairing basePairing;
-    protected Field G1, G2;
 
-    public ProductPairing(SecureRandom random, Pairing basePairing, int n) {
+    protected Pairing basePairing;
+    protected Field G1;
+    protected Field G2;
+
+    public ProductPairing(final SecureRandom random, final Pairing basePairing, final int n) {
+
         this.basePairing = basePairing;
 
         this.G1 = new VectorField(random, basePairing.getG1(), n);
         this.G2 = new VectorField(random, basePairing.getG2(), n);
     }
-
 
     public boolean isSymmetric() {
         return basePairing.isSymmetric();
@@ -48,7 +50,7 @@ public class ProductPairing implements Pairing {
         return 2;
     }
 
-    public Field getFieldAt(int index) {
+    public Field getFieldAt(final int index) {
         switch (index) {
             case 0:
                 return basePairing.getZr();
@@ -63,7 +65,7 @@ public class ProductPairing implements Pairing {
         }
     }
 
-    public Element pairing(Element in1, Element in2) {
+    public Element pairing(final Element in1, final Element in2) {
         Vector v1 = (Vector) in1;
         Vector v2 = (Vector) in2;
 

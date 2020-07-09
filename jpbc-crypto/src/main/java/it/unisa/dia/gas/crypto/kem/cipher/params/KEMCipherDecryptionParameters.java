@@ -9,19 +9,25 @@ import java.util.Arrays;
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class KEMCipherDecryptionParameters extends KEMCipherParameters {
-    private CipherParameters kemCipherParameters;
-    private byte[] encapsulation;
-    private int cipherKeyStrength;
+
+    private final CipherParameters kemCipherParameters;
+    private final byte[] encapsulation;
+    private final int cipherKeyStrength;
 
 
-    public KEMCipherDecryptionParameters(CipherParameters kemCipherParameters, byte[] encapsulation, int cipherKeyStrength) {
+    public KEMCipherDecryptionParameters(final CipherParameters kemCipherParameters,
+                                         final byte[] encapsulation,
+                                         final int cipherKeyStrength) {
         super(null);
         this.kemCipherParameters = kemCipherParameters;
         this.encapsulation = Arrays.copyOf(encapsulation, encapsulation.length);
         this.cipherKeyStrength = cipherKeyStrength;
     }
 
-    public KEMCipherDecryptionParameters(AlgorithmParameters algorithmParameters, CipherParameters kemCipherParameters, byte[] encapsulation, int cipherKeyStrength) {
+    public KEMCipherDecryptionParameters(final AlgorithmParameters algorithmParameters,
+                                         final CipherParameters kemCipherParameters,
+                                         final byte[] encapsulation,
+                                         final int cipherKeyStrength) {
         super(algorithmParameters);
         this.kemCipherParameters = kemCipherParameters;
         this.encapsulation = Arrays.copyOf(encapsulation, encapsulation.length);

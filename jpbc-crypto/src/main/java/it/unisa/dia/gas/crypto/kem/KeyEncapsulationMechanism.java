@@ -10,7 +10,7 @@ public interface KeyEncapsulationMechanism extends AsymmetricBlockCipher {
 
     int getKeyBlockSize();
 
-    public byte[] processBlock(byte[] in) throws InvalidCipherTextException;
+    byte[] processBlock(byte[] in) throws InvalidCipherTextException;
 
     byte[] process() throws InvalidCipherTextException;
 

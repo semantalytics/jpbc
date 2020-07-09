@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public class ElementUtils {
 
-    public static Element[] duplicate(Element[] source) {
+    public static Element[] duplicate(final Element[] source) {
         Element[] target = new Element[source.length];
         for (int i = 0; i < target.length; i++)
             target[i] = source[i].duplicate();

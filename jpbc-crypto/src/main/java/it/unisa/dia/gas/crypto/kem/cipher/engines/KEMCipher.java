@@ -21,14 +21,14 @@ import java.util.Arrays;
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class KEMCipher {
-    protected Cipher cipher;
-    protected KeyEncapsulationMechanism kem;
 
-    public KEMCipher(Cipher cipher, KeyEncapsulationMechanism kem) {
+    protected final Cipher cipher;
+    protected final KeyEncapsulationMechanism kem;
+
+    public KEMCipher(final Cipher cipher, final KeyEncapsulationMechanism kem) {
         this.cipher = cipher;
         this.kem = kem;
     }
-
 
     public byte[] init(boolean forEncryption, CipherParameters cipherParameters) throws GeneralSecurityException, CryptoException {
         // Init the KEM

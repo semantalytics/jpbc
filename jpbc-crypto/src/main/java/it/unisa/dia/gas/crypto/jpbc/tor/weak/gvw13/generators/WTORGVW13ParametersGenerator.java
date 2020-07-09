@@ -11,12 +11,12 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class WTORGVW13ParametersGenerator {
-    private PairingParameters parameters;
 
+    private PairingParameters parameters;
     private Pairing pairing;
 
 
-    public WTORGVW13ParametersGenerator init(PairingParameters parameters) {
+    public WTORGVW13ParametersGenerator init(final PairingParameters parameters) {
         this.parameters = parameters;
         this.pairing = PairingFactory.getPairing(this.parameters);
 
@@ -25,13 +25,13 @@ public class WTORGVW13ParametersGenerator {
 
 
     public WTORGVW13Parameters generateParameters() {
-        Element a = pairing.getZr().newElement().setToRandom();
+        final Element a = pairing.getZr().newElement().setToRandom();
 
-        Element g1 = pairing.getG1().newElement().setToRandom().getImmutable();
-        Element g2 = pairing.getG2().newElement().setToRandom().getImmutable();
+        final Element g1 = pairing.getG1().newElement().setToRandom().getImmutable();
+        final Element g2 = pairing.getG2().newElement().setToRandom().getImmutable();
 
-        Element g1a = g1.powZn(a).getImmutable();
-        Element g2a = g2.powZn(a).getImmutable();
+        final Element g1a = g1.powZn(a).getImmutable();
+        final Element g2a = g2.powZn(a).getImmutable();
 
         return new WTORGVW13Parameters(parameters, g1, g2, g1a, g2a);
     }

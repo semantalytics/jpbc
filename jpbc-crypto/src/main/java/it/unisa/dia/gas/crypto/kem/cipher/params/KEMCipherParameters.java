@@ -9,10 +9,10 @@ import java.security.AlgorithmParameters;
  */
 public class KEMCipherParameters implements CipherParameters {
 
-    private AlgorithmParameters algorithmParameters;
+    private final AlgorithmParameters algorithmParameters;
 
 
-    public KEMCipherParameters(AlgorithmParameters algorithmParameters) {
+    public KEMCipherParameters(final AlgorithmParameters algorithmParameters) {
         this.algorithmParameters = algorithmParameters;
     }
 

@@ -15,6 +15,7 @@ import org.bouncycastle.crypto.KeyGenerationParameters;
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class WTORGVW13KeyPairGenerator implements AsymmetricCipherKeyPairGenerator {
+
     private WTORGVW13KeyPairGenerationParameters params;
 
 
@@ -24,7 +25,7 @@ public class WTORGVW13KeyPairGenerator implements AsymmetricCipherKeyPairGenerat
 
     public AsymmetricCipherKeyPair generateKeyPair() {
         WTORGVW13Parameters parameters = params.getParameters();
-        int level = params.getLevel();
+        final int level = params.getLevel();
 
         Pairing pairing = PairingFactory.getPairing(parameters.getParameters());
 

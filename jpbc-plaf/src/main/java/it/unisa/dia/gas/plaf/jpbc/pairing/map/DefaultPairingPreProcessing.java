@@ -14,7 +14,7 @@ public class DefaultPairingPreProcessing implements PairingPreProcessing {
     protected Pairing pairing;
     protected Element in1;
 
-    public DefaultPairingPreProcessing(Pairing pairing, Element in1) {
+    public DefaultPairingPreProcessing(final Pairing pairing, final Element in1) {
         this.pairing = pairing;
         this.in1 = in1;
     }
