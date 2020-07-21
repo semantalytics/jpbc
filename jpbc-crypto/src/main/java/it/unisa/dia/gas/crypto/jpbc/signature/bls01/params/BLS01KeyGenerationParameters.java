@@ -9,9 +9,9 @@ import java.security.SecureRandom;
  */
 public class BLS01KeyGenerationParameters extends KeyGenerationParameters {
 
-    private BLS01Parameters params;
+    private final BLS01Parameters params;
 
-    public BLS01KeyGenerationParameters(SecureRandom random, BLS01Parameters params) {
+    public BLS01KeyGenerationParameters(final SecureRandom random, final BLS01Parameters params) {
         super(random, params.getG().getField().getLengthInBytes());
 
         this.params = params;

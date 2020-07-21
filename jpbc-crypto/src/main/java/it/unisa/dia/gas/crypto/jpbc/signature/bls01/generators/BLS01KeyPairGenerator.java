@@ -16,29 +16,30 @@ import org.bouncycastle.crypto.KeyGenerationParameters;
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class BLS01KeyPairGenerator implements AsymmetricCipherKeyPairGenerator {
+
     private BLS01KeyGenerationParameters param;
 
-
-    public void init(KeyGenerationParameters param) {
+    @Override
+    public void init(final KeyGenerationParameters param) {
         this.param = (BLS01KeyGenerationParameters) param;
     }
 
+    @Override
     public AsymmetricCipherKeyPair generateKeyPair() {
-        BLS01Parameters parameters = param.getParameters();
+        final BLS01Parameters parameters = param.getParameters();
 
-        Pairing pairing = PairingFactory.getPairing(parameters.getParameters());
-        Element g = parameters.getG();
+        final Pairing pairing = PairingFactory.getPairing(parameters.getParameters());
+        final Element g = parameters.getG();
 
         // Generate the secret key
-        Element sk = pairing.getZr().newRandomElement();
+        final Element sk = pairing.getZr().newRandomElement();
 
         // Generate the corresponding public key
-        Element pk = g.powZn(sk);
+        final Element pk = g.powZn(sk);
 
         return new AsymmetricCipherKeyPair(
             new BLS01PublicKeyParameters(parameters, pk.getImmutable()),
             new BLS01PrivateKeyParameters(parameters, sk.getImmutable())
         );
     }
-
 }

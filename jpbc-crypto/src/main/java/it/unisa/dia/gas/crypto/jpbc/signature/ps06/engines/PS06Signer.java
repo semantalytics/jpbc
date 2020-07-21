@@ -14,34 +14,37 @@ import java.math.BigInteger;
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class PS06Signer implements Signer {
+
     private PS06KeyParameters params;
     private Digest digest;
-
     private Pairing pairing;
-
 
     public PS06Signer(Digest digest) {
         this.digest = digest;
     }
 
-    
+
+    @Override
     public void init(boolean forSigning, CipherParameters param) {
-        if (!(param instanceof PS06KeyParameters))
+        if (!(param instanceof PS06KeyParameters)) {
             throw new IllegalArgumentException("Invalid parameters. Expected an instance of PS06KeyParameters.");
+        }
 
         params = (PS06KeyParameters) param;
 
-        if (forSigning && !params.isPrivate())
+        if (forSigning && !params.isPrivate()) {
             throw new IllegalArgumentException("signing requires private key");
-        if (!forSigning && params.isPrivate())
+        }
+        if (!forSigning && params.isPrivate()) {
             throw new IllegalArgumentException("verification requires public key");
+        }
 
         this.pairing = PairingFactory.getPairing(params.getParameters().getCurveParams());
 
-        // Reset the digest
         digest.reset();
     }
 
+    @Override
     public boolean verifySignature(byte[] signature) {
         if (params == null)
             throw new IllegalStateException("PS06 engine not initialised");
@@ -91,6 +94,7 @@ public class PS06Signer implements Signer {
         return left.isEqual(r1.mul(r2).mul(r3));
     }
 
+    @Override
     public byte[] generateSignature() throws CryptoException, DataLengthException {
         if (params == null)
             throw new IllegalStateException("PS06 engine not initialised");
@@ -131,14 +135,17 @@ public class PS06Signer implements Signer {
         return bytes.toByteArray();
     }
 
+    @Override
     public void reset() {
         digest.reset();
     }
 
+    @Override
     public void update(byte b) {
         digest.update(b);
     }
 
+    @Override
     public void update(byte[] in, int off, int len) {
         digest.update(in, off, len);
     }

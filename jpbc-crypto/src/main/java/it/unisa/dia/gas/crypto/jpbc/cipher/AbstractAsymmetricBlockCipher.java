@@ -13,10 +13,8 @@ public abstract class AbstractAsymmetricBlockCipher implements AsymmetricBlockCi
     
     protected CipherParameters key;
     protected boolean forEncryption;
-
     protected int inBytes = 0;
     protected int outBytes = 0;
-
 
     /**
      * Return the maximum size for an input block to this engine.

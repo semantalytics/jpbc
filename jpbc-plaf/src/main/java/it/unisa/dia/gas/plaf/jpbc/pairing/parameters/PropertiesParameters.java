@@ -172,7 +172,7 @@ public class PropertiesParameters implements PairingParameters, Externalizable {
         return this;
     }
 
-    public PropertiesParameters load(String path) {
+    public PropertiesParameters load(final String path) {
         InputStream inputStream;
 
         File file = new File(path);

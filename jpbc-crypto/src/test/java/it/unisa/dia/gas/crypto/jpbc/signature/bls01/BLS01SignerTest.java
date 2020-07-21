@@ -20,7 +20,6 @@ import static org.junit.Assert.fail;
  */
 public class BLS01SignerTest extends AbstractJPBCCryptoTest {
 
-
     public BLS01SignerTest(boolean usePBC, String curvePath) {
         super(usePBC, curvePath);
     }
@@ -29,32 +28,32 @@ public class BLS01SignerTest extends AbstractJPBCCryptoTest {
     @Test
     public void testSignerEngine() {
         // Setup
-        AsymmetricCipherKeyPair keyPair = keyGen(setup());
+        final AsymmetricCipherKeyPair keyPair = keyGen(setup());
 
         // Test
-        String message = "Hello World!";
+        final String message = "Hello World!";
         assertTrue(verify(sign(message, keyPair.getPrivate()), message, keyPair.getPublic()));
     }
 
 
     protected BLS01Parameters setup() {
-        BLS01ParametersGenerator setup = new BLS01ParametersGenerator();
+        final BLS01ParametersGenerator setup = new BLS01ParametersGenerator();
         setup.init(parameters);
 
         return setup.generateParameters();
     }
 
-    protected AsymmetricCipherKeyPair keyGen(BLS01Parameters parameters) {
-        BLS01KeyPairGenerator keyGen = new BLS01KeyPairGenerator();
+    protected AsymmetricCipherKeyPair keyGen(final BLS01Parameters parameters) {
+        final BLS01KeyPairGenerator keyGen = new BLS01KeyPairGenerator();
         keyGen.init(new BLS01KeyGenerationParameters(null, parameters));
 
         return keyGen.generateKeyPair();
     }
 
-    protected byte[] sign(String message, CipherParameters privateKey) {
-        byte[] bytes = message.getBytes();
+    protected byte[] sign(final String message, final CipherParameters privateKey) {
+        final byte[] bytes = message.getBytes();
 
-        BLS01Signer signer = new BLS01Signer(new SHA256Digest());
+        final BLS01Signer signer = new BLS01Signer(new SHA256Digest());
         signer.init(true, privateKey);
         signer.update(bytes, 0, bytes.length);
 
@@ -67,10 +66,10 @@ public class BLS01SignerTest extends AbstractJPBCCryptoTest {
         return signature;
     }
 
-    protected boolean verify(byte[] signature, String message, CipherParameters publicKey) {
-        byte[] bytes = message.getBytes();
+    protected boolean verify(final byte[] signature, final String message, final CipherParameters publicKey) {
+        final byte[] bytes = message.getBytes();
 
-        BLS01Signer signer = new BLS01Signer(new SHA256Digest());
+        final BLS01Signer signer = new BLS01Signer(new SHA256Digest());
         signer.init(false, publicKey);
         signer.update(bytes, 0, bytes.length);
 

@@ -12,37 +12,42 @@ import org.bouncycastle.crypto.*;
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class BLS01Signer implements Signer {
+
     private BLS01KeyParameters keyParameters;
     private Digest digest;
-
     private Pairing pairing;
 
-
-    public BLS01Signer(Digest digest) {
+    public BLS01Signer(final Digest digest) {
         this.digest = digest;
     }
 
-    
+    @Override
     public void init(boolean forSigning, CipherParameters param) {
-        if (!(param instanceof BLS01KeyParameters))
+        if (!(param instanceof BLS01KeyParameters)) {
             throw new IllegalArgumentException("Invalid parameters. Expected an instance of BLS01KeyParameters.");
+        }
 
         keyParameters = (BLS01KeyParameters) param;
 
-        if (forSigning && !keyParameters.isPrivate())
+        if (forSigning && !keyParameters.isPrivate()) {
             throw new IllegalArgumentException("signing requires private key");
-        if (!forSigning && keyParameters.isPrivate())
+        }
+        if (!forSigning && keyParameters.isPrivate()) {
             throw new IllegalArgumentException("verification requires public key");
+        }
 
+        //TODO getParameters().getParameters() code smell
         this.pairing = PairingFactory.getPairing(keyParameters.getParameters().getParameters());
 
         // Reset the digest
         digest.reset();
     }
 
+    @Override
     public boolean verifySignature(byte[] signature) {
-        if (keyParameters == null)
+        if (keyParameters == null) {
             throw new IllegalStateException("BLS engine not initialised");
+        }
 
         BLS01PublicKeyParameters publicKey = (BLS01PublicKeyParameters) keyParameters;
 
@@ -62,9 +67,11 @@ public class BLS01Signer implements Signer {
         return temp1.isEqual(temp2);
     }
 
+    @Override
     public byte[] generateSignature() throws CryptoException, DataLengthException {
-        if (keyParameters == null)
+        if (keyParameters == null) {
             throw new IllegalStateException("BLS engine not initialised");
+        }
 
         BLS01PrivateKeyParameters privateKey = (BLS01PrivateKeyParameters) keyParameters;
 
@@ -82,14 +89,17 @@ public class BLS01Signer implements Signer {
         return sig.toBytes();
     }
 
+    @Override
     public void reset() {
         digest.reset();
     }
 
+    @Override
     public void update(byte b) {
         digest.update(b);
     }
 
+    @Override
     public void update(byte[] in, int off, int len) {
         digest.update(in, off, len);
     }

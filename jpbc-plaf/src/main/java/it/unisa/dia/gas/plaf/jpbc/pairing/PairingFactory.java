@@ -52,7 +52,7 @@ public class PairingFactory {
         return getInstance().initPairing(parametersPath, random);
     }
 
-    public static PairingParameters getPairingParameters(String parametersPath) {
+    public static PairingParameters getPairingParameters(final String parametersPath) {
         return getInstance().loadParameters(parametersPath);
     }
 

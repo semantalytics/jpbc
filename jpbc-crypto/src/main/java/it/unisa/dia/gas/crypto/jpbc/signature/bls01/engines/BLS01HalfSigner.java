@@ -13,85 +13,94 @@ import org.bouncycastle.crypto.*;
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class BLS01HalfSigner implements Signer {
-    private BLS01KeyParameters keyParameters;
-    private Digest digest;
 
+    private BLS01KeyParameters keyParameters;
+    private final Digest digest;
     private Pairing pairing;
 
-
-    public BLS01HalfSigner(Digest digest) {
+    public BLS01HalfSigner(final Digest digest) {
         this.digest = digest;
     }
 
-
-    public void init(boolean forSigning, CipherParameters param) {
-        if (!(param instanceof BLS01KeyParameters))
+    @Override
+    public void init(final boolean forSigning, final CipherParameters param) {
+        if (!(param instanceof BLS01KeyParameters)) {
             throw new IllegalArgumentException("Invalid parameters. Expected an instance of BLS01KeyParameters.");
+        }
 
         keyParameters = (BLS01KeyParameters) param;
 
-        if (forSigning && !keyParameters.isPrivate())
+        if (forSigning && !keyParameters.isPrivate()) {
             throw new IllegalArgumentException("signing requires private key");
-        if (!forSigning && keyParameters.isPrivate())
+        }
+        if (!forSigning && keyParameters.isPrivate()) {
             throw new IllegalArgumentException("verification requires public key");
+        }
 
         this.pairing = PairingFactory.getPairing(keyParameters.getParameters().getParameters());
 
-        // Reset the digest
         digest.reset();
     }
 
+    @Override
     public boolean verifySignature(byte[] signature) {
-        if (keyParameters == null)
+        if (keyParameters == null) {
             throw new IllegalStateException("BLS engine not initialised");
+        }
 
-        BLS01PublicKeyParameters publicKey = (BLS01PublicKeyParameters) keyParameters;
+        final BLS01PublicKeyParameters publicKey = (BLS01PublicKeyParameters) keyParameters;
 
-        Point sig = (Point) pairing.getG1().newElement();
+        final Point sig = (Point) pairing.getG1().newElement();
         sig.setFromBytesX(signature);
 
         // Generate the digest
-        int digestSize = digest.getDigestSize();
-        byte[] hash = new byte[digestSize];
-        digest.doFinal(hash, 0);
+        final int digestSize = digest.getDigestSize();
+        final byte[] hash = new byte[digestSize];
+        final int OUT_OFFSET = 0;
+        digest.doFinal(hash, OUT_OFFSET);
 
         // Map the hash of the message m to some element of G1
-        Element h = pairing.getG1().newElementFromHash(hash, 0, hash.length);
+        final Element h = pairing.getG1().newElementFromHash(hash, 0, hash.length);
 
-        Element temp1 = pairing.pairing(sig, publicKey.getParameters().getG());
-        Element temp2 = pairing.pairing(h, publicKey.getPk());
+        final Element temp1 = pairing.pairing(sig, publicKey.getParameters().getG());
+        final Element temp2 = pairing.pairing(h, publicKey.getPk());
 
         return temp1.isEqual(temp2) || temp1.invert().isEqual(temp2);
     }
 
+    @Override
     public byte[] generateSignature() throws CryptoException, DataLengthException {
-        if (keyParameters == null)
+        if (keyParameters == null) {
             throw new IllegalStateException("BLS engine not initialised");
+        }
 
-        BLS01PrivateKeyParameters privateKey = (BLS01PrivateKeyParameters) keyParameters;
+        final BLS01PrivateKeyParameters privateKey = (BLS01PrivateKeyParameters) keyParameters;
 
         // Generate the digest
-        int digestSize = digest.getDigestSize();
-        byte[] hash = new byte[digestSize];
+        final int digestSize = digest.getDigestSize();
+        final byte[] hash = new byte[digestSize];
         digest.doFinal(hash, 0);
 
         // Map the hash of the message m to some element of G1
-        Element h = pairing.getG1().newElementFromHash(hash, 0, hash.length);
+        final Element h = pairing.getG1().newElementFromHash(hash, 0, hash.length);
 
         // Generate the signature
-        Point sig = (Point) h.powZn(privateKey.getSk());
+        final Point sig = (Point) h.powZn(privateKey.getSk());
 
         return sig.toBytesX();
     }
 
+    @Override
     public void reset() {
         digest.reset();
     }
 
+    @Override
     public void update(byte b) {
         digest.update(b);
     }
 
+    @Override
     public void update(byte[] in, int off, int len) {
         digest.update(in, off, len);
     }
