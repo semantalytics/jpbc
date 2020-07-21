@@ -23,14 +23,17 @@ public class IPLOSTW10KEMEngine extends PairingKeyEncapsulationMechanism {
 
     public void initialize() {
         if (forEncryption) {
-            if (!(key instanceof IPLOSTW10EncryptionParameters))
+            if (!(key instanceof IPLOSTW10EncryptionParameters)) {
                 throw new IllegalArgumentException("IPLOSTW10EncryptionParameters are required for encryption.");
+            }
         } else {
-            if (!(key instanceof IPLOSTW10SecretKeyParameters))
+            if (!(key instanceof IPLOSTW10SecretKeyParameters)) {
                 throw new IllegalArgumentException("IPLOSTW10SecretKeyParameters are required for decryption.");
+            }
         }
 
-        IPLOSTW10KeyParameters ipKey = (IPLOSTW10KeyParameters) key;
+        final IPLOSTW10KeyParameters ipKey = (IPLOSTW10KeyParameters) key;
+
         this.n = ipKey.getParameters().getN();
         int N = (2 * n + 3);
         this.pairing = PairingFactory.getPairing(ipKey.getParameters().getParameters());
@@ -40,7 +43,7 @@ public class IPLOSTW10KEMEngine extends PairingKeyEncapsulationMechanism {
         this.outBytes = 2 * pairing.getGT().getLengthInBytes() + N * pairing.getG1().getLengthInBytes();
     }
 
-    public byte[] process(byte[] in, int inOff, int inLen) {
+    public byte[] process(final byte[] in, int inOff, final int inLen) {
         if (key instanceof IPLOSTW10SecretKeyParameters) {
             // Decrypt
 
@@ -56,7 +59,9 @@ public class IPLOSTW10KEMEngine extends PairingKeyEncapsulationMechanism {
             Element result = c2.div(productPairing.pairing(c1, secretKey.getK()));
 
             return result.toBytes();
+
         } else {
+
             Element M = pairing.getGT().newRandomElement();
 
             // Encrypt the massage under the specified attributes

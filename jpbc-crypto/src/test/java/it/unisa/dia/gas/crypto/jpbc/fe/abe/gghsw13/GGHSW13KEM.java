@@ -17,7 +17,8 @@ import java.util.Arrays;
 
 import static it.unisa.dia.gas.crypto.circuit.BooleanCircuit.BooleanCircuitGate;
 import static it.unisa.dia.gas.crypto.circuit.Gate.Type.*;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Fail.fail;
 
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
@@ -47,8 +48,8 @@ public class GGHSW13KEM {
 
             byte[] ciphertext = kem.process();
 
-            assertNotNull(ciphertext);
-            assertNotSame(0, ciphertext.length);
+            assertThat(ciphertext).isNotNull();
+            assertThat(ciphertext.length).isNotSameAs(0);
 
             byte[] key = Arrays.copyOfRange(ciphertext, 0, kem.getKeyBlockSize());
             byte[] ct = Arrays.copyOfRange(ciphertext, kem.getKeyBlockSize(), ciphertext.length);
@@ -78,8 +79,8 @@ public class GGHSW13KEM {
             kem.init(false, secretKey);
             byte[] key = kem.processBlock(ciphertext);
 
-            assertNotNull(key);
-            assertNotSame(0, key.length);
+            assertThat(key).isNotNull();
+            assertThat(key.length).isNotSameAs(0);
 
             return key;
         } catch (InvalidCipherTextException e) {
@@ -117,12 +118,12 @@ public class GGHSW13KEM {
         // Encaps/Decaps for satisfying assignment
         String assignment = "1101";
         byte[][] ct = kem.encaps(keyPair.getPublic(), assignment);
-        assertEquals(true, Arrays.equals(ct[0], kem.decaps(secretKey, ct[1])));
+        assertThat(Arrays.equals(ct[0], kem.decaps(secretKey, ct[1]))).isTrue();
 
         // Encaps/Decaps for not-satisfying assignment
         assignment = "1001";
         ct = kem.encaps(keyPair.getPublic(), assignment);
-        assertEquals(false, Arrays.equals(ct[0], kem.decaps(secretKey, ct[1])));
+        assertThat(Arrays.equals(ct[0], kem.decaps(secretKey, ct[1]))).isFalse();
     }
 
 }
