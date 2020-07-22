@@ -21,6 +21,7 @@ public abstract class AbstractAsymmetricBlockCipher implements AsymmetricBlockCi
      *
      * @return maximum size for an input block.
      */
+    @Override
     public int getInputBlockSize() {
         if (forEncryption) {
             return inBytes;
@@ -34,6 +35,7 @@ public abstract class AbstractAsymmetricBlockCipher implements AsymmetricBlockCi
      *
      * @return maximum size for an output block.
      */
+    @Override
     public int getOutputBlockSize() {
         if (forEncryption) {
             return outBytes;
@@ -48,6 +50,7 @@ public abstract class AbstractAsymmetricBlockCipher implements AsymmetricBlockCi
      * @param forEncryption true if we are encrypting, false otherwise.
      * @param param         the necessary cipher key parameters.
      */
+    @Override
     public void init(final boolean forEncryption, final CipherParameters param) {
         if (param instanceof ParametersWithRandom) {
             ParametersWithRandom p = (ParametersWithRandom) param;
@@ -71,6 +74,7 @@ public abstract class AbstractAsymmetricBlockCipher implements AsymmetricBlockCi
      * @return the result of the cipher process.
      * @throws org.bouncycastle.crypto.DataLengthException the input block is too large.
      */
+    @Override
     public byte[] processBlock(final byte[] in,
                                final int inOff,
                                final int inLen) throws InvalidCipherTextException {

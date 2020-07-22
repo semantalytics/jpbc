@@ -7,14 +7,13 @@ import org.bouncycastle.crypto.params.AsymmetricKeyParameter;
  */
 public class GGHVV13KeyParameters extends AsymmetricKeyParameter {
 
-    private GGHVV13Parameters parameters;
+    private final GGHVV13Parameters parameters;
 
 
-    public GGHVV13KeyParameters(boolean isPrivate, GGHVV13Parameters parameters) {
+    public GGHVV13KeyParameters(final boolean isPrivate, final GGHVV13Parameters parameters) {
         super(isPrivate);
         this.parameters = parameters;
     }
-
 
     public GGHVV13Parameters getParameters() {
         return parameters;

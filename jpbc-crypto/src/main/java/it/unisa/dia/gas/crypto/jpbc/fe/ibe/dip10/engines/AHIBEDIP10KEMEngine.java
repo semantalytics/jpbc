@@ -31,7 +31,7 @@ public class AHIBEDIP10KEMEngine extends PairingKeyEncapsulationMechanism {
         this.outBytes = 2 * pairing.getGT().getLengthInBytes() + 2 * pairing.getG1().getLengthInBytes();
     }
 
-    public byte[] process(byte[] in, int inOff, int inLen) {
+    public byte[] process(final byte[] in, final int inOff, final int inLen) {
         if (key instanceof AHIBEDIP10SecretKeyParameters) {
             // decaps
 
@@ -88,6 +88,4 @@ public class AHIBEDIP10KEMEngine extends PairingKeyEncapsulationMechanism {
             return bytes.toByteArray();
         }
     }
-
-
 }

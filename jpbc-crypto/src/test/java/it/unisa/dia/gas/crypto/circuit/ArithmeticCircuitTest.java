@@ -11,13 +11,14 @@ import java.util.StringTokenizer;
 
 import static it.unisa.dia.gas.crypto.circuit.ArithmeticCircuit.ArithmeticCircuitGate;
 import static it.unisa.dia.gas.crypto.circuit.Gate.Type.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
 public class ArithmeticCircuitTest {
 
 
     @Test
-    public void testMultiplication() throws Exception {
+    public void testMultiplication() {
         Field Zq = new ZrField(new SecureRandom(), BigInteger.valueOf(17));
 
         int ell = 2;
@@ -29,13 +30,13 @@ public class ArithmeticCircuitTest {
                 new ArithmeticCircuitGate(AND, 3, 2, new int[]{0, 1}, Zq.newOneElement()),
         });
 
-        assertEquals(circuit.evaluate(toElement(Zq, "1 1", 2)), Zq.newOneElement());
-        assertEquals(circuit.evaluate(toElement(Zq, "2 2", 2)), Zq.newElement(4));
-        assertEquals(circuit.evaluate(toElement(Zq, "1 0", 2)), Zq.newZeroElement());
+        assertThat(circuit.evaluate(toElement(Zq, "1 1", 2))).isEqualTo(Zq.newOneElement());
+        assertThat(circuit.evaluate(toElement(Zq, "2 2", 2))).isEqualTo(Zq.newElement(4));
+        assertThat(circuit.evaluate(toElement(Zq, "1 0", 2))).isEqualTo(Zq.newZeroElement());
     }
 
     @Test
-    public void testAddition() throws Exception {
+    public void testAddition() {
         Field Zq = new ZrField(new SecureRandom(), BigInteger.valueOf(17));
 
         int ell = 2;
@@ -47,14 +48,14 @@ public class ArithmeticCircuitTest {
                 new ArithmeticCircuitGate(OR, 3, 2, new int[]{0, 1}, Zq.newOneElement(), Zq.newOneElement()),
         });
 
-        assertEquals(circuit.evaluate(toElement(Zq, "1 1", 2)), Zq.newElement(2));
-        assertEquals(circuit.evaluate(toElement(Zq, "1 0", 2)), Zq.newOneElement());
-        assertEquals(circuit.evaluate(toElement(Zq, "1 -1", 2)), Zq.newZeroElement());
+        assertThat(circuit.evaluate(toElement(Zq, "1 1", 2))).isEqualTo(Zq.newElement(2));
+        assertThat(circuit.evaluate(toElement(Zq, "1 0", 2))).isEqualTo(Zq.newOneElement());
+        assertThat(circuit.evaluate(toElement(Zq, "1 -1", 2))).isEqualTo(Zq.newZeroElement());
     }
 
 
     @Test
-    public void testCircuit() throws Exception {
+    public void testCircuit() {
         Field Zq = new ZrField(new SecureRandom(), BigInteger.valueOf(17));
 
         int ell = 4;
@@ -78,7 +79,7 @@ public class ArithmeticCircuitTest {
     }
 
     @Test
-    public void testCircuitAllOR() throws Exception {
+    public void testCircuitAllOR() {
         Field Zq = new ZrField(new SecureRandom(), BigInteger.valueOf(17));
 
         int ell = 4;
@@ -102,12 +103,12 @@ public class ArithmeticCircuitTest {
     }
 
     @Test
-    public void testCircuitAllAND() throws Exception {
-        Field Zq = new ZrField(new SecureRandom(), BigInteger.valueOf(17));
+    public void testCircuitAllAND() {
+        final Field Zq = new ZrField(new SecureRandom(), BigInteger.valueOf(17));
 
-        int ell = 4;
-        int depth = 3;
-        int q = 3;
+        final int ell = 4;
+        final int depth = 3;
+        final int q = 3;
 
         ArithmeticCircuit circuit = new ArithmeticCircuit(ell, q, depth, new ArithmeticCircuitGate[]{
                 new ArithmeticCircuitGate(INPUT, 0, 1),
@@ -135,5 +136,4 @@ public class ArithmeticCircuitTest {
 
         return elements;
     }
-
 }

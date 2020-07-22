@@ -40,7 +40,7 @@ public class GGHVV13KEM {
         return setup.generateKeyPair();
     }
 
-    public byte[][] encaps(CipherParameters publicKey, String w) {
+    public byte[][] encaps(final CipherParameters publicKey, final String w) {
         try {
             KeyEncapsulationMechanism kem = new GGHVV13KEMEngine();
             kem.init(true, new GGHVV13EncryptionParameters((GGHVV13PublicKeyParameters) publicKey, w));
