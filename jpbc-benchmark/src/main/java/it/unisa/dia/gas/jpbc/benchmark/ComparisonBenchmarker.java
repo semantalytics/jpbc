@@ -35,7 +35,13 @@ public class ComparisonBenchmarker implements Benchmarker {
     }
 
     public static void main(String[] args) {
-        int iterations = Integer.parseInt(args[0]);
+        final int iterations;
+        if(args.length == 1) {
+            iterations = Integer.parseInt(args[0]);
+        } else {
+            iterations = 10;
+        }
+        //TODO Curves???
         String[] curves = Arrays.copyOfRange(args, 1, args.length);
 
         System.out.printf("JPBC Benchmark.%n");

@@ -27,28 +27,32 @@ public class BooleanCircuit implements Circuit<BooleanGate> {
             gate.setCircuit(this);
     }
 
-
+    @Override
     public int getN() {
         return n;
     }
 
+    @Override
     public int getQ() {
         return q;
     }
 
+    @Override
     public int getDepth() {
         return depth;
     }
 
-
+    @Override
     public Iterator<BooleanGate> iterator() {
         return Arrays.asList(gates).iterator();
     }
 
+    @Override
     public BooleanGate getGateAt(final int index) {
         return gates[index];
     }
 
+    @Override
     public BooleanGate getOutputGate() {
         return gates[n + q - 1];
     }
@@ -81,51 +85,60 @@ public class BooleanCircuit implements Circuit<BooleanGate> {
             return inputs.length;
         }
 
+        @Override
         public Type getType() {
             return type;
         }
 
+        @Override
         public int getIndex() {
             return index;
         }
 
+        @Override
         public int getDepth() {
             return depth;
         }
 
+        @Override
         public int getInputIndexAt(final int index) {
             return inputs[index];
         }
 
+        @Override
         public BooleanGate getInputAt(final int index) {
             return circuit.getGateAt(getInputIndexAt(index));
         }
 
+        @Override
         public BooleanGate set(final Boolean value) {
             this.value = value;
             return this;
         }
 
+        @Override
         public Boolean get() {
             return value;
         }
 
+        @Override
         public BooleanGate evaluate() {
             switch (type) {
-                case AND:
+                case AND: {
                     this.value = getInputAt(0).get() && getInputAt(1).get();
                     break;
-
-                case OR:
+                }
+                case OR: {
                     this.value = getInputAt(0).get() || getInputAt(1).get();
                     break;
-
-                case NAND:
+                }
+                case NAND: {
                     this.value = !(getInputAt(0).get() && getInputAt(1).get());
                     break;
-
-                default:
+                }
+                default: {
                     throw new IllegalStateException("Invalid type");
+                }
             }
 
             return this;
@@ -142,15 +155,17 @@ public class BooleanCircuit implements Circuit<BooleanGate> {
                     '}';
         }
 
+        @Override
         public Gate<Boolean> putAt(final int index, final Boolean value) {
             throw new IllegalStateException("Not implemented yet!!!");
         }
 
+        @Override
         public Boolean getAt(int index) {
             throw new IllegalStateException("Not implemented yet!!!");
         }
 
-        protected void setCircuit(BooleanCircuit circuit) {
+        protected void setCircuit(final BooleanCircuit circuit) {
             this.circuit = circuit;
         }
 

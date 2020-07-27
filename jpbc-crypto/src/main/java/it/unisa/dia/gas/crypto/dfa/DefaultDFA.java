@@ -10,12 +10,12 @@ import java.util.Map;
  */
 public class DefaultDFA implements DFA {
 
-    private int numStates;
-    private Alphabet alphabet;
+    private final int numStates;
+    private final Alphabet alphabet;
 
-    private Map<String, Transition> index;
-    private List<Transition> transitions;
-    private List<Integer> finalStates;
+    private final Map<String, Transition> index;
+    private final List<Transition> transitions;
+    private final List<Integer> finalStates;
 
 
     public DefaultDFA(final int numStates) {
@@ -23,9 +23,9 @@ public class DefaultDFA implements DFA {
     }
 
     public DefaultDFA(final int numStates, final Alphabet alphabet) {
+
         this.numStates = numStates;
         this.alphabet = alphabet;
-
         this.transitions = new ArrayList<Transition>();
         this.index = new HashMap<String, Transition>();
         this.finalStates = new ArrayList<Integer>();
@@ -46,13 +46,13 @@ public class DefaultDFA implements DFA {
         this.index.put(String.format("%d_%s", from, reading), transition);
     }
 
-    public void addTransition(int from, Character start, Character end, int to) {
-        for (Character c = start; c <= end; c++)
+    public void addTransition(final int from, final Character start, final Character end, final int to) {
+        for (Character c = start; c <= end; c++) {
             addTransition(from, c, to);
+        }
     }
 
-
-    public Transition getTransitionAt(int index) {
+    public Transition getTransitionAt(final int index) {
         return transitions.get(index);
     }
 
@@ -60,7 +60,7 @@ public class DefaultDFA implements DFA {
         return transitions.size();
     }
 
-    public boolean accept(String w) {
+    public boolean accept(final String w) {
         int currentState = 0; // Initial state
 
         for (int i = 0; i < w.length(); i++) {
@@ -86,24 +86,27 @@ public class DefaultDFA implements DFA {
         return 0;
     }
 
-    public Transition getTransition(int from, Character reading) {
+    public Transition getTransition(final int from, final Character reading) {
         return index.get(String.format("%d_%s", from, reading));
     }
 
-    public boolean isFinalState(int state) {
-        for (Integer finalState : finalStates) {
-            if (finalState == state)
+    public boolean isFinalState(final int state) {
+        for (final Integer finalState : finalStates) {
+            if (finalState == state) {
                 return true;
+            }
         }
         return false;
     }
 
     public static class DefaultTransition implements Transition {
-        private int from;
-        private Character reading;
-        private int to;
 
-        public DefaultTransition(int from, Character reading, int to) {
+        private final int from;
+        private final Character reading;
+        private final int to;
+
+        public DefaultTransition(final int from, final Character reading, final int to) {
+
             this.from = from;
             this.reading = reading;
             this.to = to;
@@ -124,16 +127,17 @@ public class DefaultDFA implements DFA {
     }
 
     public static class DefaultAlphabet implements Alphabet {
+
         private int size;
-        private Map<Character, Integer> map;
+        private final Map<Character, Integer> map;
 
         public DefaultAlphabet() {
             this.size = 0;
             this.map = new HashMap<Character, Integer>();
         }
 
-        public void addLetter(Character... characters) {
-            for (Character character : characters) {
+        public void addLetter(final Character... characters) {
+            for (final Character character : characters) {
                 map.put(character, size++);
             }
         }
@@ -142,11 +146,12 @@ public class DefaultDFA implements DFA {
             return size;
         }
 
-        public int getIndex(Character character) {
-            if (map.containsKey(character))
+        public int getIndex(final Character character) {
+            if (map.containsKey(character)) {
                 return map.get(character);
-
-            return -1;
+            } else {
+                return -1;
+            }
         }
     }
 }

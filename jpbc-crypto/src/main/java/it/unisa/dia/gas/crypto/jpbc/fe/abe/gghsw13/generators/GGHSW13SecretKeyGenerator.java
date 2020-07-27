@@ -56,23 +56,23 @@ public class GGHSW13SecretKeyGenerator {
             int depth = gate.getDepth();
 
             switch (gate.getType()) {
-                case INPUT:
+                case INPUT: {
 
                     Element z = pairing.getZr().newRandomElement();
 
                     Element e1 = pairing.getG1().newElement().powZn(rs[index]).mul(pk.getHAt(index).powZn(z));
                     Element e2 = pairing.getG1().newElement().powZn(z.negate());
 
-                    keys.put(index, new Element[]{e1, e2});
+                    keys.put(index, new Element[] { e1, e2 });
 
                     break;
-
-                case OR:
+                }
+                case OR: {
                     Element a = pairing.getZr().newRandomElement();
                     Element b = pairing.getZr().newRandomElement();
 
-                    e1 = pairing.getG1().newElement().powZn(a);
-                    e2 = pairing.getG1().newElement().powZn(b);
+                    Element e1 = pairing.getG1().newElement().powZn(a);
+                    Element e2 = pairing.getG1().newElement().powZn(b);
 
                     Element e3 = pairing.getFieldAt(depth).newElement().powZn(
                             rs[index].sub(a.mul(rs[gate.getInputIndexAt(0)]))
@@ -81,29 +81,29 @@ public class GGHSW13SecretKeyGenerator {
                             rs[index].sub(b.mul(rs[gate.getInputIndexAt(1)]))
                     );
 
-                    keys.put(index, new Element[]{e1, e2, e3, e4});
+                    keys.put(index, new Element[] { e1, e2, e3, e4 });
+
                     break;
+                }
+                case AND: {
+                    Element a = pairing.getZr().newRandomElement();
+                    Element b = pairing.getZr().newRandomElement();
 
-                case AND:
-                    a = pairing.getZr().newRandomElement();
-                    b = pairing.getZr().newRandomElement();
+                    Element e1 = pairing.getG1().newElement().powZn(a);
+                    Element e2 = pairing.getG1().newElement().powZn(b);
 
-                    e1 = pairing.getG1().newElement().powZn(a);
-                    e2 = pairing.getG1().newElement().powZn(b);
-
-                    e3 = pairing.getFieldAt(depth).newElement().powZn(
+                    Element e3 = pairing.getFieldAt(depth).newElement().powZn(
                             rs[index].sub(a.mul(rs[gate.getInputIndexAt(0)]))
-                                    .sub(b.mul(rs[gate.getInputIndexAt(1)]))
+                                     .sub(b.mul(rs[gate.getInputIndexAt(1)]))
                     );
 
-                    keys.put(index, new Element[]{e1, e2, e3});
+                    keys.put(index, new Element[] { e1, e2, e3 });
+
                     break;
+                }
             }
         }
 
-        return new GGHSW13SecretKeyParameters(
-                param.getPublicKeyParameters().getParameters(), circuit, keys
-        );
+        return new GGHSW13SecretKeyParameters(param.getPublicKeyParameters().getParameters(), circuit, keys);
     }
-
 }

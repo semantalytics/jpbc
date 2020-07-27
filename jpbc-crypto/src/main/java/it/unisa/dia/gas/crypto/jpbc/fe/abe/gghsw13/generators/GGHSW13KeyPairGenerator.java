@@ -17,14 +17,15 @@ public class GGHSW13KeyPairGenerator implements AsymmetricCipherKeyPairGenerator
 
     private GGHSW13KeyPairGenerationParameters params;
 
+    @Override
     public void init(final KeyGenerationParameters keyGenerationParameters) {
         this.params = (GGHSW13KeyPairGenerationParameters) keyGenerationParameters;
     }
 
+    @Override
     public AsymmetricCipherKeyPair generateKeyPair() {
 
         final GGHSW13Parameters parameters = params.getParameters();
-
         final Pairing pairing = parameters.getPairing();
 
         // Sample secret key
@@ -45,6 +46,4 @@ public class GGHSW13KeyPairGenerator implements AsymmetricCipherKeyPairGenerator
                                            new GGHSW13MasterSecretKeyParameters(parameters, alpha)
         );
     }
-
-
 }

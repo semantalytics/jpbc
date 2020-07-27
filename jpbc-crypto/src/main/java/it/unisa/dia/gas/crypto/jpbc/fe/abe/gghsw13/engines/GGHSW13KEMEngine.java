@@ -20,6 +20,7 @@ import java.util.Map;
  */
 public class GGHSW13KEMEngine extends PairingKeyEncapsulationMechanism {
 
+    @Override
     public void initialize() {
         if (forEncryption) {
             if (!(key instanceof GGHSW13EncryptionParameters)) {
@@ -37,6 +38,7 @@ public class GGHSW13KEMEngine extends PairingKeyEncapsulationMechanism {
         this.keyBytes = pairing.getFieldAt(pairing.getDegree()).getCanonicalRepresentationLengthInBytes();
     }
 
+    @Override
     public byte[] process(final byte[] in, final int inOff, final int inLen) {
 
         if (key instanceof GGHSW13SecretKeyParameters) {
@@ -83,6 +85,7 @@ public class GGHSW13KEMEngine extends PairingKeyEncapsulationMechanism {
 
                         if (gate.getInputAt(0).get()) {
                             Element[] keys = sk.getKeyElementsAt(index);
+
                             Element t1 = pairing.pairing(
                                     evaluations.get(gate.getInputAt(0).getIndex()),
                                     keys[0]
@@ -94,8 +97,10 @@ public class GGHSW13KEMEngine extends PairingKeyEncapsulationMechanism {
                             );
 
                             evaluations.put(index, t1.mul(t2));
+
                         } else if (gate.getInputAt(1).get()) {
                             Element[] keys = sk.getKeyElementsAt(index);
+
                             Element t1 = pairing.pairing(
                                     evaluations.get(gate.getInputAt(1).getIndex()),
                                     keys[1]
@@ -139,11 +144,12 @@ public class GGHSW13KEMEngine extends PairingKeyEncapsulationMechanism {
             }
 
             if (circuit.getOutputGate().get()) {
-                Element result = root.mul(evaluations.get(circuit.getOutputGate().getIndex()));
+                final Element result = root.mul(evaluations.get(circuit.getOutputGate().getIndex()));
 
                 return result.toCanonicalRepresentation();
-            } else
-                return new byte[]{-1};
+            } else {
+                return new byte[] { -1 };
+            }
         } else {
             // Encrypt the massage under the specified attributes
             GGHSW13EncryptionParameters encKey = (GGHSW13EncryptionParameters) key;
@@ -162,8 +168,9 @@ public class GGHSW13KEMEngine extends PairingKeyEncapsulationMechanism {
                 writer.write(pairing.getFieldAt(1).newElement().powZn(s));
                 int n = publicKey.getParameters().getN();
                 for (int i = 0; i < n; i++) {
-                    if (assignment.charAt(i) == '1')
+                    if (assignment.charAt(i) == '1') {
                         writer.write(publicKey.getHAt(i).powZn(s));
+                    }
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);

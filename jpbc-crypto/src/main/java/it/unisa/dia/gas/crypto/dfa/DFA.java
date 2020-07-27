@@ -5,7 +5,7 @@ package it.unisa.dia.gas.crypto.dfa;
  */
 public interface DFA {
 
-    static interface Alphabet {
+    interface Alphabet {
 
         int getSize();
 
@@ -13,7 +13,7 @@ public interface DFA {
 
     }
 
-    static interface Transition {
+    interface Transition {
 
         int getFrom();
 
@@ -22,7 +22,6 @@ public interface DFA {
         int getTo();
 
     }
-
 
     int getInitialState();
 
@@ -39,6 +38,4 @@ public interface DFA {
     int getNumFinalStates();
 
     int getFinalStateAt(int index);
-
-
 }

@@ -8,10 +8,9 @@ import org.bouncycastle.crypto.KeyGenerationParameters;
  */
 public class GGHSW13SecretKeyGenerationParameters extends KeyGenerationParameters {
 
-    private GGHSW13PublicKeyParameters publicKeyParameters;
-    private GGHSW13MasterSecretKeyParameters masterSecretKeyParameters;
-    private BooleanCircuit circuit;
-
+    private final GGHSW13PublicKeyParameters publicKeyParameters;
+    private final GGHSW13MasterSecretKeyParameters masterSecretKeyParameters;
+    private final BooleanCircuit circuit;
 
     public GGHSW13SecretKeyGenerationParameters(
             final GGHSW13PublicKeyParameters publicKeyParameters,

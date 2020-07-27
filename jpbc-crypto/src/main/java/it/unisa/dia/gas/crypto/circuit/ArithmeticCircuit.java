@@ -14,10 +14,10 @@ import java.util.Map;
  */
 public class ArithmeticCircuit implements Circuit<ArithmeticGate> {
 
-    private int n;
-    private int q;
-    private int depth;
-    private ArithmeticGate[] gates;
+    private final int n;
+    private final int q;
+    private final int depth;
+    private final ArithmeticGate[] gates;
 
     public ArithmeticCircuit(final int n,
                              final int q,
@@ -32,27 +32,32 @@ public class ArithmeticCircuit implements Circuit<ArithmeticGate> {
             gate.setCircuit(this);
     }
 
-
+    @Override
     public int getN() {
         return n;
     }
 
+    @Override
     public int getQ() {
         return q;
     }
 
+    @Override
     public int getDepth() {
         return depth;
     }
 
+    @Override
     public Iterator<ArithmeticGate> iterator() {
         return Arrays.asList(gates).iterator();
     }
 
+    @Override
     public ArithmeticGate getGateAt(final int index) {
         return gates[index];
     }
 
+    @Override
     public ArithmeticGate getOutputGate() {
         return gates[n + q - 1];
     }
@@ -60,13 +65,15 @@ public class ArithmeticCircuit implements Circuit<ArithmeticGate> {
     public Element evaluate(final Element... inputs) {
         for (final ArithmeticGate gate : gates) {
             switch (gate.getType()) {
-                case INPUT:
+                case INPUT: {
                     gate.set(inputs[gate.getIndex()]);
                     break;
+                }
                 case OR:
-                case AND:
+                case AND: {
                     gate.evaluate();
                     break;
+                }
             }
         }
 
@@ -101,74 +108,79 @@ public class ArithmeticCircuit implements Circuit<ArithmeticGate> {
                                      final int depth,
                                      final int[] inputs,
                                      final Element... alphas) {
-            this.type = type;
-            this.index = index;
-            this.depth = depth;
-
-            this.values = new HashMap<Integer, Element>();
+        	this(type, index, depth);
 
             this.inputs = Arrays.copyOf(inputs, inputs.length);
             this.alphas = ElementUtils.cloneImmutable(alphas);
         }
 
+        @Override
         public int getInputNum() {
             return inputs.length;
         }
 
+        @Override
         public Element get() {
             return value;
         }
 
+        @Override
         public Element getAlphaAt(int index) {
             return alphas[index];
         }
 
+        @Override
         public Type getType() {
             return type;
         }
 
+        @Override
         public int getIndex() {
             return index;
         }
 
+        @Override
         public int getDepth() {
             return depth;
         }
 
+        @Override
         public int getInputIndexAt(int index) {
             return inputs[index];
         }
 
+        @Override
         public ArithmeticGate getInputAt(int index) {
             return circuit.getGateAt(getInputIndexAt(index));
         }
 
-
+        @Override
         public ArithmeticGate set(final Element value) {
             this.value = value;
             return this;
         }
 
+        @Override
         public ArithmeticGate evaluate() {
             switch (type) {
-                case AND:
+                case AND: {
                     value = getInputAt(0).get().duplicate().mul(getAlphaAt(0));
                     for (int i = 1; i < inputs.length; i++) {
                         value.mul(getInputAt(i).get());
                     }
                     break;
-
-                case OR:
+                }
+                case OR: {
                     value = getInputAt(0).get().duplicate().mul(getAlphaAt(0));
                     for (int i = 1; i < inputs.length; i++) {
                         value.add(getInputAt(i).get().duplicate().mul(getAlphaAt(i)));
                     }
                     break;
-
-                default:
+                }
+                default: {
                     throw new IllegalStateException("Invalid type");
+                }
             }
-
             return this;
         }
 
@@ -183,7 +195,6 @@ public class ArithmeticCircuit implements Circuit<ArithmeticGate> {
                     '}';
         }
 
-
         public Gate<Element> putAt(final int index, final Element value) {
             values.put(index, value);
             return this;
@@ -196,7 +207,5 @@ public class ArithmeticCircuit implements Circuit<ArithmeticGate> {
         protected void setCircuit(final ArithmeticCircuit circuit) {
             this.circuit = circuit;
         }
-
     }
-
 }

@@ -17,9 +17,10 @@ import java.util.Map;
 public class ElementUtils {
 
     public static Element[] duplicate(final Element[] source) {
-        Element[] target = new Element[source.length];
-        for (int i = 0; i < target.length; i++)
+        final Element[] target = new Element[source.length];
+        for (int i = 0; i < target.length; i++) {
             target[i] = source[i].duplicate();
+        }
 
         return target;
     }
@@ -28,9 +29,10 @@ public class ElementUtils {
         Element[] target = Arrays.copyOf(source, source.length);
 
         for (int i = 0; i < target.length; i++) {
-            Element uElement = target[i];
-            if (uElement != null && !uElement.isImmutable())
+            final Element uElement = target[i];
+            if (uElement != null && !uElement.isImmutable()) {
                 target[i] = target[i].getImmutable();
+            }
         }
 
         return target;
@@ -39,8 +41,9 @@ public class ElementUtils {
     public static <K> Map<K, Element[]> cloneImmutable(Map<K, Element[]> source) {
         Map<K, Element[]> dest = new HashMap<K, Element[]>(source.size());
 
-        for (Map.Entry<K, Element[]> kEntry : source.entrySet())
+        for (Map.Entry<K, Element[]> kEntry : source.entrySet()) {
             dest.put(kEntry.getKey(), cloneImmutable(kEntry.getValue()));
+        }
 
         return dest;
     }
@@ -48,8 +51,9 @@ public class ElementUtils {
     public static <K> Map<K, Element> cloneImmutable2(Map<K, Element> source) {
         Map<K, Element> dest = new HashMap<K, Element>(source.size());
 
-        for (Map.Entry<K, Element> kEntry : source.entrySet())
+        for (Map.Entry<K, Element> kEntry : source.entrySet()) {
             dest.put(kEntry.getKey(), kEntry.getValue().getImmutable());
+        }
 
         return dest;
     }
@@ -71,8 +75,9 @@ public class ElementUtils {
     public static Element getGenerator(Pairing pairing, Element generator, PairingParameters parameters, int subgroupIndex, int numPrimes) {
         BigInteger prod = BigInteger.ONE;
         for (int j = 0; j < numPrimes; j++) {
-            if (j != subgroupIndex)
+            if (j != subgroupIndex) {
                 prod = prod.multiply(parameters.getBigIntegerAt("n", j));
+            }
         }
 
         return generator.pow(prod);
@@ -85,7 +90,6 @@ public class ElementUtils {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
                 System.out.print(matrix[i][j] + ", ");
-
             }
             System.out.println();
         }
@@ -96,9 +100,7 @@ public class ElementUtils {
     public static Element[][] transpose(Element[][] matrix) {
         int n = matrix.length;
         for (int i = 0; i < n; i++) {
-
             for (int j = i + 1; j < n; j++) {
-
                 Element temp = matrix[i][j];
                 matrix[i][j] = matrix[j][i];
                 matrix[j][i] = temp;
@@ -118,8 +120,9 @@ public class ElementUtils {
             for (int j = 0; j < n; j++) {
 
                 res[i][j] = field.newZeroElement();
-                for (int k = 0; k < n; k++)
+                for (int k = 0; k < n; k++) {
                     res[i][j].add(a[i][k].duplicate().mul(b[k][j]));
+                }
             }
         }
 
